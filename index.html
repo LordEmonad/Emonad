@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #101025;
+      --bg-gradient: radial-gradient(ellipse at 50% 0%, #2e2e56 0%, transparent 70%),
+        radial-gradient(ellipse at 50% 100%, #2a1a36 0%, transparent 70%),
+        radial-gradient(ellipse at 80% 30%, #ffd58033 0%, transparent 80%),
+        #101025;
+      --text-color: #f5f5fa;
+      --accent-color: #c7a8ff;
+      --accent-gradient: linear-gradient(90deg, #ffd580 0%, #c7a8ff 60%, #44ffe2 100%);
+      --secondary-color: #44ffe2;
+      --gold: #ffd580;
+      --violet: #c7a8ff;
+      --teal: #44ffe2;
+      --card-bg: rgba(22,24,40,0.84);
+      --card-hover: rgba(40,30,60,0.97);
+      --border-color: #c7a8ff;
+      --info-color: #ffd580;
+      --button-bg: rgba(22,24,40,0.92);
+      --button-text: #ffd580;
+      --button-border: #c7a8ff;
+      --button-glow: 0 0 12px 2px #c7a8ff66;
+      --modal-bg: #18183a;
+      --modal-border: #ffd580;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: var(--bg-gradient);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      height: 100vh;
+      width: 100vw;
+      -webkit-font-smoothing: antialiased;
+      font-smooth: always;
+    }
+    
+    .background-glow {
+      display: none;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    
+    header {
+      padding: 56px 0 36px 0;
+      text-align: center;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .collection-title {
+      font-weight: 900;
+      font-size: 4.2rem;
+      letter-spacing: 0.07em;
+      background: linear-gradient(92deg, #ffd580 0%, #c7a8ff 70%, #44ffe2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+      padding: 0;
+      margin-bottom: 0.1em;
+      display: inline-block;
+      line-height: 1.07;
+      border-radius: 12px;
+      filter: drop-shadow(0 2px 18px #c7a8ff44);
+    }
+    .collection-subtitle {
+      font-size: 1.6rem;
+      margin-bottom: 1.1em;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      background: linear-gradient(90deg, #c7a8ff 0%, #44ffe2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 2px 14px #44ffe233);
+    }
+    
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 30px;
+      padding: 0 8px;
+      margin-bottom: 36px;
+      flex: 1 1 auto;
+      height: 0;
+      min-height: 0;
+      max-height: calc(100vh - 320px);
+      align-items: stretch;
+    }
+    
+    .gallery-item {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--card-bg);
+      transition: box-shadow 0.18s, border-color 0.18s, transform 0.18s, background 0.18s;
+      box-shadow: 0 6px 32px 0 #000a, 0 0 0 1px #44ffe222;
+      cursor: pointer;
+      height: 100%;
+      border: 2.5px solid var(--border-color);
+      margin: 10px;
+      backdrop-filter: blur(2.5px) saturate(1.2);
+    }
+    
+    .gallery-item:hover {
+      transform: translateY(-10px) scale(1.035);
+      box-shadow: 0 0 44px 12px #ffd58077, 0 12px 32px #000c;
+      background: rgba(68,255,226,0.10);
+      border-color: #ffd580;
+    }
+    
+    .gallery-item iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      pointer-events: none;
+    }
+    
+    .gallery-item-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 14px 17px 10px 17px;
+      background: linear-gradient(to top, rgba(10,10,12,0.88), rgba(10,10,12,0.0));
+      color: var(--info-color);
+      font-weight: 700;
+      font-size: 1.09rem;
+      letter-spacing: 0.05em;
+      text-align: left;
+      text-shadow: 0 2px 8px #ffb34722;
+      transition: all 0.3s ease;
+      opacity: 0;
+      border-bottom-left-radius: 18px;
+      border-bottom-right-radius: 18px;
+      backdrop-filter: blur(1.5px) saturate(1.1);
+    }
+    
+    .gallery-item:hover .gallery-item-info {
+      opacity: 1;
+    }
+    
+    .gallery-item-info span {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+    
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin: 36px 0 20px 0;
+      gap: 20px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 10;
+    }
+    
+    .page {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--button-bg);
+      border: 2.5px solid var(--button-border);
+      color: var(--button-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.18s;
+      font-size: 1.18rem;
+      font-weight: 700;
+      outline: none;
+      box-shadow: none;
+      box-shadow: var(--button-glow);
+      backdrop-filter: blur(1.5px) saturate(1.1);
+    }
+    
+    .page:hover {
+      background: #22224c;
+      border-color: #44ffe2;
+      color: #44ffe2;
+      box-shadow: 0 0 0 4px #44ffe244, var(--button-glow);
+    }
+    
+    .page.active {
+      background: #22224c;
+      border: 3px solid #ffd580;
+      color: #ffd580;
+      box-shadow: 0 0 0 7px #ffd58033, var(--button-glow);
+    }
+    
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(16, 16, 20, 0.98);
+      z-index: 100;
+      transition: opacity 0.2s;
+    }
+    
+    .modal.active {
+      display: flex;
+      opacity: 1;
+    }
+    
+    .modal-content {
+      background: var(--modal-bg);
+      border-radius: 24px;
+      box-shadow: 0 12px 48px #000e;
+      padding: 0;
+      max-width: 96vw;
+      max-height: 88vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3.5px solid var(--modal-border);
+    }
+
+    .modal-close, .modal-nav-button {
+      background: var(--button-bg);
+      border: 2.5px solid var(--button-border);
+      color: var(--button-text);
+      font-size: 2.3rem;
+      cursor: pointer;
+      padding: 0 18px;
+      transition: color 0.18s, border-color 0.18s, background 0.18s;
+      border-radius: 50%;
+      outline: none;
+      box-shadow: var(--button-glow);
+      margin: 0 6px;
+    }
+
+    .modal-close:hover, .modal-nav-button:hover {
+      color: var(--button-text);
+      border-color: var(--button-border);
+      background: var(--button-bg);
+      box-shadow: 0 0 0 4px var(--button-glow);
+    }
+
+    .modal-nav-button {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .modal-nav-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .modal-info {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: white;
+      font-size: 16px;
+      z-index: 1100;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px 15px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="background-glow"></div>
+  
+  <div class="container">
+    <header>
+      <h1 class="collection-title">ORDTISM</h1>
+    </header>
+    
+    <div class="gallery">
+      <!-- Gallery items will be dynamically generated -->
+    </div>
+    
+    <div class="pagination">
+      <!-- Pagination will be dynamically generated -->
+    </div>
+  </div>
+  
+  <!-- Modal for viewing individual pieces -->
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose">×</button>
+    <div class="modal-info" id="modalInfo">ORDTISM 1</div>
+    <div class="modal-content">
+      <div class="modal-iframe-container">
+        <iframe id="modalIframe" class="modal-iframe" tabindex="0"></iframe>
+      </div>
+    </div>
+    <div class="modal-navigation">
+      <button class="modal-nav-button" id="prevButton">←</button>
+      <button class="modal-nav-button" id="nextButton">→</button>
+    </div>
+  </div>
+  
+  <script src="inscription_ids.js"></script>
+<script>
+    // Current page and piece index
+    let currentPage = 1;
+    let currentIndex = 1;
+    const MAX_PIECES = INSCRIPTION_IDS.length - 1; // 101 if all present
+    
+    // Function to render gallery
+    function renderGallery(page = 1) {
+      const galleryEl = document.querySelector('.gallery');
+      // Remove all previous iframes and gallery items
+      galleryEl.innerHTML = '';
+
+      const itemsPerPage = 6;
+      const startIndex = (page - 1) * itemsPerPage + 1;
+      const endIndex = Math.min(startIndex + itemsPerPage - 1, MAX_PIECES);
+
+      // Create animated thumbnails for each piece
+      for (let i = startIndex; i <= endIndex; i++) {
+        let src = `https://ordinals.com/content/${INSCRIPTION_IDS[i]}`;
+
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.setAttribute('data-index', i);
+
+        // Create an iframe showing the actual ORDTISM piece (paused by default)
+        const iframe = document.createElement('iframe');
+        iframe.src = src;
+        iframe.loading = 'eager';
+        iframe.allowTransparency = true;
+        iframe.scrolling = 'no';
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.display = 'block';
+        
+        // Add loading indicator
+        const loadingSpinner = document.createElement('div');
+        loadingSpinner.className = 'gallery-loading-spinner';
+        loadingSpinner.innerHTML = '<div class="lds-dual-ring"></div>';
+        item.appendChild(loadingSpinner);
+        
+        // Remove spinner and PAUSE animation when iframe loads
+        iframe.onload = () => {
+          if (loadingSpinner.parentNode === item) {
+            item.removeChild(loadingSpinner);
+          }
+          // Send pause message to keep the piece static
+          try {
+            iframe.contentWindow.postMessage({type: 'pause'}, '*');
+          } catch(e) {}
+        };
+        
+        item.appendChild(iframe);
+
+        const info = document.createElement('div');
+        info.className = 'gallery-item-info';
+        info.innerHTML = `<span>ORDTISM ${i}</span>`;
+        item.appendChild(info);
+
+        item.addEventListener('click', () => {
+          openModal(i);
+        });
+
+        galleryEl.appendChild(item);
+      }
+      // No hidden iframes remain in the DOM. Only 6 are ever loaded at a time.
+
+      
+      currentPage = page;
+      
+      // Update pagination
+      const totalPages = Math.ceil(MAX_PIECES / itemsPerPage);
+      const pagination = document.querySelector('.pagination');
+      pagination.innerHTML = '';
+      
+      // Previous button
+      if (page > 1) {
+        const prevPage = document.createElement('button');
+        prevPage.className = 'page';
+        prevPage.textContent = '←';
+        prevPage.addEventListener('click', () => renderGallery(page - 1));
+        pagination.appendChild(prevPage);
+      }
+      
+      // Page numbers
+      const pageCount = Math.min(5, totalPages);
+      let startPage = Math.max(1, page - 2);
+      const endPage = Math.min(startPage + pageCount - 1, totalPages);
+      
+      if (endPage - startPage < pageCount - 1) {
+        startPage = Math.max(1, endPage - pageCount + 1);
+      }
+      
+      for (let i = startPage; i <= endPage; i++) {
+        const pageButton = document.createElement('button');
+        pageButton.className = 'page' + (i === page ? ' active' : '');
+        pageButton.textContent = i;
+        pageButton.addEventListener('click', () => renderGallery(i));
+        pagination.appendChild(pageButton);
+      }
+      
+      // Next button
+      if (page < totalPages) {
+        const nextPage = document.createElement('button');
+        nextPage.className = 'page';
+        nextPage.textContent = '→';
+        nextPage.addEventListener('click', () => renderGallery(page + 1));
+        pagination.appendChild(nextPage);
+      }
+    }
+    
+    // Function to open the modal
+    function openModal(index) {
+      const src = `https://ordinals.com/content/${INSCRIPTION_IDS[index]}`;
+      currentIndex = index;
+      
+      const modalIframe = document.getElementById('modalIframe');
+      modalIframe.src = src;
+      document.getElementById('modalInfo').textContent = `ORDTISM ${index}`;
+      document.getElementById('modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+      // Focus iframe and play after it loads
+      modalIframe.onload = () => {
+        modalIframe.focus();
+        if (modalIframe.contentWindow) {
+          modalIframe.contentWindow.postMessage({type: 'play'}, '*');
+        }
+      };
+
+
+    }
+    
+    // Function to close the modal
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+      document.body.style.overflow = 'auto';
+      // Pause modal animation before removing
+      const modalIframe = document.getElementById('modalIframe');
+      if (modalIframe && modalIframe.contentWindow) {
+        modalIframe.contentWindow.postMessage({type: 'pause'}, '*');
+      }
+      document.getElementById('modalIframe').src = 'about:blank';
+    }
+    
+    // Function to show previous piece
+    function showPrevious() {
+      if (currentIndex > 1) {
+        openModal(currentIndex - 1);
+      }
+    }
+    
+    // Function to show next piece
+    function showNext() {
+      if (currentIndex < MAX_PIECES) {
+        openModal(currentIndex + 1);
+      }
+    }
+    
+    // Event listeners
+    document.getElementById('modalClose').addEventListener('click', closeModal);
+    document.getElementById('prevButton').addEventListener('click', showPrevious);
+    document.getElementById('nextButton').addEventListener('click', showNext);
+    
+    // Initialize the gallery
+    window.addEventListener('load', () => renderGallery(1));
+  </script>
+</body>
+</html>
