@@ -115,6 +115,24 @@
       max-height: calc(100vh - 320px);
       align-items: stretch;
     }
+    @media (max-width: 700px) {
+      .gallery {
+        grid-template-columns: repeat(2, 1fr) !important;
+        grid-template-rows: repeat(2, 1fr) !important;
+        gap: 16px;
+        padding: 0 2vw;
+        margin-bottom: 22px;
+        min-height: 0;
+        max-height: none;
+      }
+      .gallery-item {
+        min-width: 0;
+        min-height: 0;
+        height: 36vw;
+        max-height: 36vw;
+        border-radius: 13px;
+      }
+    }
     
     .gallery-item {
       position: relative;
@@ -132,15 +150,15 @@
     .modal-iframe-container {
       width: 100%;
       height: 100%;
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
-      border-radius: 20px;
-      background: var(--card-bg);
-      border: 2.5px solid var(--border-color);
-      box-shadow: 0 6px 32px 0 #000a, 0 0 0 1px #44ffe222;
-      backdrop-filter: blur(2.5px) saturate(1.2);
+      position: relative;
+      padding: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
     }
     
     .gallery-item:hover {
@@ -243,35 +261,74 @@
       background: rgba(16, 16, 20, 0.98);
       z-index: 100;
       transition: opacity 0.2s;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
     }
     
     .modal.active {
       display: flex;
       opacity: 1;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    @media (min-width: 701px) {
+      .modal.active .modal-controls {
+        display: block !important;
+      }
     }
     
     .modal-content {
       background: var(--modal-bg);
       border-radius: 24px;
       box-shadow: 0 16px 64px #000f, 0 0 0 3px #ffd58044;
-      padding: 0;
-      max-width: 96vw;
+      max-width: 90vw;
       max-height: 90vh;
       width: 90vw;
-      height: 80vh;
+      height: 85vh;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: space-between;
+      border: 3.5px solid var(--modal-border);
+      position: absolute;
+      overflow: hidden;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px 10px 20px;
+      border-bottom: 1px solid rgba(255, 213, 128, 0.3);
+    }
+    
+    .modal-main {
+      position: relative;
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 3.5px solid var(--modal-border);
+      padding: 0;
+      overflow: hidden;
+    }
+    
+    .modal-footer {
+      padding: 10px 20px;
+      border-top: 1px solid rgba(255, 213, 128, 0.3);
     }
 
     .modal-close {
       position: absolute;
-      top: 20px;
-      right: 20px;
+      top: 15px;
+      right: 15px;
       z-index: 1200;
-      width: 48px;
-      height: 48px;
+      width: 40px;
+      height: 40px;
       background: var(--button-bg);
       border: 2.5px solid var(--button-border);
       color: var(--button-text);
@@ -324,40 +381,143 @@
       z-index: 1200;
       display: flex;
       align-items: center;
+      padding: 0 5px;
     }
     .modal-nav-arrow-left {
-      left: 18px;
+      left: 5px;
     }
     .modal-nav-arrow-right {
-      right: 18px;
+      right: 5px;
     }
     @media (max-width: 700px) {
-      .modal-nav-arrow-left { left: 4px; }
-      .modal-nav-arrow-right { right: 4px; }
-      .modal-close { top: 8px; right: 8px; width: 40px; height: 40px; font-size: 1.5rem; }
+      .modal-content {
+        width: 96vw;
+        height: 90vh;
+        max-width: 96vw;
+        max-height: 90vh;
+        border-radius: 12px;
+        box-shadow: 0 6px 32px #000a, 0 0 0 1px #44ffe222;
+        margin: auto;
+      }
+      .modal-iframe-container {
+        border-radius: 12px;
+        min-height: 120px;
+        padding: 0;
+      }
+      .modal-info {
+        top: 7px;
+        left: 7px;
+        font-size: 1rem;
+        padding: 5px 10px 4px 10px;
+        border-radius: 7px;
+        max-width: 75vw;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .modal-mobile-controls {
+        display: flex !important;
+        justify-content: center;
+        gap: 7px;
+        flex-wrap: wrap;
+        margin: 0;
+        padding: 0;
+        z-index: 1202;
+        width: 100%;
+      }
+      .modal-controls {
+        display: none !important;
+      }
+      .mobile-ctrl-btn {
+        font-size: 1.01rem;
+        font-weight: 700;
+        padding: 8px 13px;
+        border-radius: 10px;
+        background: #18183a;
+        color: #ffd580;
+        border: 2px solid #ffd58066;
+        box-shadow: 0 1px 8px #0007;
+        margin: 2px 0;
+        flex: 1 0 28%;
+        min-width: 70px;
+        max-width: 110px;
+        outline: none;
+        transition: background 0.18s, color 0.18s, border 0.18s;
+      }
+      .mobile-ctrl-btn:active {
+        background: #ffd580;
+        color: #18183a;
+        border-color: #ffd580;
+      }
+      .modal-close {
+        top: 6px;
+        right: 6px;
+        width: 34px;
+        height: 34px;
+        font-size: 1.2rem;
+      }
+      .modal-nav-arrow-left { left: 2px; }
+      .modal-nav-arrow-right { right: 2px; }
+      .modal-nav-button {
+        width: 38px;
+        height: 38px;
+        font-size: 1.2rem;
+      }
+      .ordinal-link-btn {
+        top: 7px;
+        padding: 8px 16px 8px 13px;
+        font-size: 0.93rem;
+        border-radius: 999px;
+        max-width: 84vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+    @media (min-width: 701px) {
+      .modal-mobile-controls {
+        display: none !important;
+      }
+      .modal-controls {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        margin: 10px 0 0 0;
+        padding: 10px 22px;
+        border-radius: 16px;
+        background: rgba(24, 24, 58, 0.73);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+        border: 1.5px solid rgba(199, 168, 255, 0.3);
+        max-width: 90%;
+      }
+    }
+    .modal-mobile-controls {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    
+    @media (min-width: 701px) {
+      .modal-mobile-controls { display: none !important; }
     }
     .ordinal-link-btn {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      margin: 0 auto 24px auto;
-      padding: 14px 36px 14px 32px;
+      z-index: 1050;
+      padding: 9px 16px 7px 16px;
       border-radius: 999px;
-      font-size: 1.17rem;
-      font-weight: 800;
-      letter-spacing: 0.045em;
-      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%) padding-box, linear-gradient(90deg, #ffd580 0%, #c7a8ff 60%, #44ffe2 100%) border-box;
-      color: var(--gold);
-      border: 2.5px solid transparent;
-      box-shadow: 0 2px 22px #44ffe244, 0 0 0 2px #c7a8ff33, 0 0 18px 2px #ffd58055 inset;
-      text-shadow: 0 2px 8px #44ffe233, 0 1px 2px #000a;
-      text-decoration: none;
-      transition: background 0.18s, color 0.18s, box-shadow 0.18s, border-color 0.18s;
+      font-size: 1rem;
+      font-weight: 700;
+      background: rgba(16, 20, 40, 0.84);
+      color: var(--button-text);
+      border: 2px solid var(--button-border);
+      box-shadow: var(--button-glow);
       cursor: pointer;
-      position: absolute;
-      top: 18px;
-      left: 50%;
-      transform: translateX(-50%);
+      transition: all 0.18s ease;
+      text-decoration: none;
       z-index: 1201;
       backdrop-filter: blur(2px) saturate(1.2);
       outline: none;
@@ -381,10 +541,6 @@
     }
     
     .modal-controls {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
       background: rgba(24, 24, 58, 0.73);
       padding: 10px 22px;
       border-radius: 16px;
@@ -392,6 +548,8 @@
       box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
       border: 1.5px solid rgba(199, 168, 255, 0.3);
       max-width: 90%;
+      margin: 10px auto 5px auto;
+      display: none;
     }
     
     .controls-text {
@@ -433,20 +591,10 @@
     }
     
     .modal-info {
-      position: absolute;
-      top: 18px;
-      left: 18px;
       color: #ffd580;
       font-size: 1.15rem;
-      z-index: 1100;
-      background: rgba(24, 24, 58, 0.73);
-      padding: 8px 16px 7px 16px;
-      border-radius: 10px;
-      pointer-events: none;
       font-weight: 700;
       letter-spacing: 0.04em;
-      box-shadow: 0 2px 8px #0008;
-      border: 1.5px solid #ffd58066;
     }
   </style>
 </head>
@@ -468,27 +616,48 @@
   </div>
   
   <!-- Modal for viewing individual pieces -->
-  <div class="modal" id="modal">
-    <div class="modal-nav-arrow modal-nav-arrow-left">
-      <button class="modal-nav-button" id="prevButton" aria-label="Previous">&#8592;</button>
-    </div>
+  <div class="modal" id="modal" style="display:none;">
     <button class="modal-close" id="modalClose" aria-label="Close">&#10005;</button>
-    <a id="ordinalLink" class="ordinal-link-btn" href="#" target="_blank" rel="noopener noreferrer">
-      <span>View on Ordinals</span>
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-left:7px;"><path d="M7 15L15 7M15 7H8M15 7V14" stroke="#ffd580" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
+    
     <div class="modal-content">
-      <div class="modal-info" id="modalInfo">ORDTISM 1</div>
-      <div class="modal-iframe-container">
-
-        <iframe id="modalIframe" class="modal-iframe" tabindex="0" style="width:100%;height:100%;min-height:0;min-width:0;max-width:100%;max-height:100%;border:none;display:block;border-radius:0;background:transparent;"></iframe>
+      <div class="modal-header">
+        <div class="modal-info" id="modalInfo">ORDTISM 1</div>
+        <a id="ordinalLink" class="ordinal-link-btn" href="#" target="_blank" rel="noopener noreferrer">
+          <span>View on Ordinals</span>
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-left:7px;"><path d="M7 15L15 7M15 7H8M15 7V14" stroke="#ffd580" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
       </div>
-    </div>
-    <div class="modal-controls">
-      <div class="controls-text">Controls: 1/2 petals | 4/5 turbulence | 7/8 ribbons | +/- spin speed | 0 3 6 9 stop rotation</div>
-    </div>
-    <div class="modal-nav-arrow modal-nav-arrow-right">
-      <button class="modal-nav-button" id="nextButton" aria-label="Next">&#8594;</button>
+      
+      <div class="modal-main">
+        <div class="modal-nav-arrow modal-nav-arrow-left">
+          <button class="modal-nav-button" id="prevButton" aria-label="Previous">&#8592;</button>
+        </div>
+        
+        <div class="modal-iframe-container">
+          <iframe id="modalIframe" class="modal-iframe" tabindex="0" style="width:100%;height:100%;min-height:0;min-width:0;max-width:100%;max-height:100%;border:none;display:block;border-radius:0;background:transparent;"></iframe>
+        </div>
+        
+        <div class="modal-nav-arrow modal-nav-arrow-right">
+          <button class="modal-nav-button" id="nextButton" aria-label="Next">&#8594;</button>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <div class="modal-mobile-controls" id="modalMobileControls">
+          <button class="mobile-ctrl-btn" data-key="1">Petals -</button>
+          <button class="mobile-ctrl-btn" data-key="2">Petals +</button>
+          <button class="mobile-ctrl-btn" data-key="4">Turb -</button>
+          <button class="mobile-ctrl-btn" data-key="5">Turb +</button>
+          <button class="mobile-ctrl-btn" data-key="7">Ribbons -</button>
+          <button class="mobile-ctrl-btn" data-key="8">Ribbons +</button>
+          <button class="mobile-ctrl-btn" data-key="-">Spin -</button>
+          <button class="mobile-ctrl-btn" data-key="+">Spin +</button>
+          <button class="mobile-ctrl-btn" data-key="0">Stop</button>
+        </div>
+        <div class="modal-controls">
+          <div class="controls-text">Desktop Controls: 1/2 petals | 4/5 turbulence | 7/8 ribbons | +/- spin speed | 0 3 6 9 stop rotation</div>
+        </div>
+      </div>
     </div>
   </div>
   
@@ -505,7 +674,9 @@
       // Remove all previous iframes and gallery items
       galleryEl.innerHTML = '';
 
-      const itemsPerPage = 6;
+      // Responsive: 4 per page on mobile, 6 on desktop
+      let itemsPerPage = 6;
+      if (window.innerWidth <= 700) itemsPerPage = 4;
       const startIndex = (page - 1) * itemsPerPage + 1;
       const endIndex = Math.min(startIndex + itemsPerPage - 1, MAX_PIECES);
 
@@ -614,7 +785,9 @@
       modalIframe.src = contentSrc;
       document.getElementById('modalInfo').textContent = `ORDTISM ${index}`;
       document.getElementById('ordinalLink').href = inscriptionUrl;
-      document.getElementById('modal').classList.add('active');
+      const modal = document.getElementById('modal');
+      modal.classList.add('active');
+      modal.style.display = 'block';
       document.body.style.overflow = 'hidden';
       // Focus iframe and play after it loads
       modalIframe.onload = () => {
@@ -627,7 +800,9 @@
     
     // Function to close the modal
     function closeModal() {
-      document.getElementById('modal').classList.remove('active');
+      const modal = document.getElementById('modal');
+      modal.classList.remove('active');
+      modal.style.display = 'none';
       document.body.style.overflow = 'auto';
       // Pause modal animation before removing
       const modalIframe = document.getElementById('modalIframe');
@@ -655,9 +830,94 @@
     document.getElementById('modalClose').addEventListener('click', closeModal);
     document.getElementById('prevButton').addEventListener('click', showPrevious);
     document.getElementById('nextButton').addEventListener('click', showNext);
-    
-    // Initialize the gallery
+
+    // Ordinals-optimized mobile controls implementation
+    const mobileControls = document.getElementById('modalMobileControls');
+    if (mobileControls) {
+      // Ensure we're ready to receive any responses from the iframe
+      window.addEventListener('message', function(event) {
+        // Log any messages from the iframe for debugging
+        console.log('Received from iframe:', event.data);
+        
+        // Handle specific responses if needed
+        if (event.data && event.data.type === 'control-response') {
+          console.log('Control response received:', event.data.success);
+        }
+      });
+      
+      // Special function for handling mobile button clicks
+      function handleMobileButtonClick(key) {
+        const modalIframe = document.getElementById('modalIframe');
+        if (!modalIframe || !modalIframe.contentWindow) return;
+        
+        console.log('Sending key to Ordinal:', key);
+        
+        // Create a structured message with all needed info
+        const message = {
+          type: 'mobile-control',
+          key: key,
+          timestamp: Date.now(),
+          source: 'parent-page'
+        };
+        
+        // Send the message with a retry strategy
+        // Multiple retries help with mobile timing issues
+        const sendMessageWithRetry = () => {
+          try {
+            modalIframe.contentWindow.postMessage(message, '*');
+          } catch (err) {
+            console.error('Error sending message:', err);
+          }
+        };
+        
+        // Initial send
+        sendMessageWithRetry();
+        
+        // Retry a few times with increasing delays
+        // This ensures the message is received even if iframe is loading
+        setTimeout(sendMessageWithRetry, 100);
+        setTimeout(sendMessageWithRetry, 300);
+        setTimeout(sendMessageWithRetry, 600);
+      }
+      
+      // Add touch events specifically for mobile
+      mobileControls.addEventListener('touchstart', function(e) {
+        if (e.target.classList.contains('mobile-ctrl-btn')) {
+          // Prevent default to avoid zoom/scroll behaviors on touch
+          e.preventDefault();
+          
+          const key = e.target.getAttribute('data-key');
+          
+          // Visual feedback
+          e.target.classList.add('active');
+          setTimeout(() => e.target.classList.remove('active'), 150);
+          
+          // Process the click
+          handleMobileButtonClick(key);
+        }
+      }, { passive: false });
+      
+      // Standard click event as fallback
+      mobileControls.addEventListener('click', function(e) {
+        if (e.target.classList.contains('mobile-ctrl-btn')) {
+          const key = e.target.getAttribute('data-key');
+          
+          // Visual feedback
+          e.target.classList.add('active');
+          setTimeout(() => e.target.classList.remove('active'), 150);
+          
+          // Process the click
+          handleMobileButtonClick(key);
+        }
+      });
+    }
+
+    // Responsive: Re-render gallery on resize for dynamic itemsPerPage
     window.addEventListener('load', () => renderGallery(1));
+    window.addEventListener('resize', () => {
+      // Keep current page, but re-render for new itemsPerPage
+      renderGallery(currentPage);
+    });
   </script>
 </body>
 </html>
