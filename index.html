@@ -116,21 +116,51 @@
       align-items: stretch;
     }
     @media (max-width: 700px) {
+      .container {
+        padding: 0 0vw;
+        min-height: 100vh;
+        height: 100vh;
+        max-width: 100vw;
+        overflow: hidden;
+      }
+      header {
+        padding: 28px 0 12px 0;
+      }
+      .collection-title {
+        font-size: 2.2rem;
+        margin-bottom: 0.1em;
+      }
+      .collection-subtitle {
+        font-size: 1.02rem;
+        margin-bottom: 0.4em;
+      }
       .gallery {
         grid-template-columns: repeat(2, 1fr) !important;
         grid-template-rows: repeat(2, 1fr) !important;
-        gap: 16px;
+        gap: 7vw;
         padding: 0 2vw;
-        margin-bottom: 22px;
+        margin-bottom: 10px;
         min-height: 0;
         max-height: none;
+        height: calc(100vh - 130px - 68px - 46px); /* header+footer+pagination approx */
+        max-height: calc(100vh - 130px - 68px - 46px);
+        align-items: center;
+        justify-items: center;
       }
       .gallery-item {
         min-width: 0;
         min-height: 0;
-        height: 36vw;
-        max-height: 36vw;
+        width: 41vw;
+        height: 41vw;
+        max-width: 44vw;
+        max-height: 44vw;
         border-radius: 13px;
+        margin: 0;
+      }
+      .pagination {
+        margin: 12px 0 5px 0;
+        gap: 10px;
+        padding: 0 6vw;
       }
     }
     
@@ -213,6 +243,17 @@
       flex-shrink: 0;
       position: relative;
       z-index: 10;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding: 0 12px;
+      scrollbar-width: none;
+    }
+    .pagination::-webkit-scrollbar { display: none; }
+    .page {
+      scroll-snap-align: center;
+      margin: 0 6px;
     }
     
     .page {
