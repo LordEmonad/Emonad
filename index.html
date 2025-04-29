@@ -382,12 +382,45 @@
       display: flex;
       align-items: center;
       padding: 0 5px;
+      pointer-events: none;
+      width: 54px;
+      height: 100%;
     }
     .modal-nav-arrow-left {
-      left: 5px;
+      left: 0;
+      justify-content: flex-start;
     }
     .modal-nav-arrow-right {
-      right: 5px;
+      right: 0;
+      justify-content: flex-end;
+    }
+    .modal-nav-button {
+      pointer-events: auto;
+      width: 48px;
+      height: 48px;
+      min-width: 44px;
+      min-height: 44px;
+      max-width: 54px;
+      max-height: 54px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px #0006;
+      margin: 0 4px;
+      z-index: 1201;
+      outline: none;
+      overflow: hidden;
+    }
+    .modal-nav-button:focus {
+      outline: 2px solid #ffd580;
+      outline-offset: 2px;
     }
     @media (max-width: 700px) {
       .modal-content {
@@ -456,12 +489,19 @@
         height: 34px;
         font-size: 1.2rem;
       }
-      .modal-nav-arrow-left { left: 2px; }
-      .modal-nav-arrow-right { right: 2px; }
+      .modal-nav-arrow-left { left: 0; }
+      .modal-nav-arrow-right { right: 0; }
       .modal-nav-button {
-        width: 38px;
-        height: 38px;
-        font-size: 1.2rem;
+        width: 44px;
+        height: 44px;
+        min-width: 40px;
+        min-height: 40px;
+        max-width: 48px;
+        max-height: 48px;
+        font-size: 1.1rem;
+        margin: 0 2px;
+        z-index: 1201;
+        box-shadow: 0 1px 6px #0006;
       }
       .ordinal-link-btn {
         top: 7px;
@@ -643,17 +683,12 @@
       </div>
       
       <div class="modal-footer">
-         <!-- Mobile keyboard helper: visible only on mobile -->
-         <div id="keyboard-helper-container" class="keyboard-helper-mobile">
-           <button id="showKeyboardBtn" class="keyboard-btn-mobile">Show Keyboard</button>
-           <input id="keyboardHelperInput" type="text" style="position:absolute; left:-9999px; opacity:0;" autocomplete="off" autocorrect="off" spellcheck="false">
-           <div class="keyboard-helper-tip">
-             After the keyboard appears, tap the art to send keys.<br>Use the controls below:
-           </div>
-         </div>
-         <div class="modal-controls modal-controls-mobile">
-           <div class="controls-text">Controls: 1/2 petals | 4/5 turbulence | 7/8 ribbons | +/- spin speed | 0 3 6 9 stop rotation</div>
-         </div>
+        <div class="modal-desktop-controls">
+          <div class="controls-text">Controls: 1/2 petals | 4/5 turbulence | 7/8 ribbons | +/- spin speed | 0 3 6 9 stop rotation</div>
+        </div>
+        <div class="modal-mobile-message">
+          To interact with this piece, please open it on a desktop computer.
+        </div>
       </div>
 
       <style>
@@ -663,52 +698,38 @@
             bottom: 0;
             background: var(--modal-bg, #18183a);
             z-index: 2000;
-            padding-bottom: 18px;
-            padding-top: 8px;
+            padding-bottom: 20px;
+            padding-top: 18px;
             border-radius: 0 0 18px 18px;
             box-shadow: 0 -2px 16px 0 #000c;
             margin-top: 0;
-            min-height: 120px;
+            min-height: 110px;
             display: flex;
             flex-direction: column;
             align-items: center;
-          }
-          .keyboard-helper-mobile {
-            display: flex !important;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 6px;
-          }
-          .keyboard-btn-mobile {
-            padding: 13px 22px;
-            font-size: 1.1rem;
-            background: var(--button-bg, #18183a);
-            color: var(--button-text, #ffd580);
-            border: 2px solid var(--accent-color, #c7a8ff);
-            border-radius: 10px;
-            box-shadow: 0 0 10px 2px #c7a8ff33;
-            font-weight: 600;
-            margin-bottom: 0;
-            margin-top: 0;
-          }
-          .keyboard-helper-tip {
-            font-size: 1em;
-            color: #ffd580;
-            margin-top: 6px;
-            text-align: center;
-            max-width: 320px;
-          }
-          .modal-controls-mobile {
-            margin-top: 4px;
-            margin-bottom: 0;
             width: 100%;
-            text-align: center;
           }
-          .controls-text {
-            font-size: 1.07em;
+          .modal-desktop-controls {
+            display: none !important;
+          }
+          .modal-mobile-message {
+            display: block;
+            font-size: 1.13em;
             color: #ffd580;
+            background: none;
+            padding: 16px 18px 0 18px;
+            text-align: center;
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto;
+            font-weight: 500;
+            line-height: 1.5;
+            word-break: break-word;
+          }
+        }
+        @media (min-width: 701px) {
+          .modal-mobile-message {
+            display: none !important;
           }
         }
       </style>
