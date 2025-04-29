@@ -643,21 +643,75 @@
       </div>
       
       <div class="modal-footer">
-        <div class="modal-mobile-controls" id="modalMobileControls">
-          <button class="mobile-ctrl-btn" data-key="1">Petals -</button>
-          <button class="mobile-ctrl-btn" data-key="2">Petals +</button>
-          <button class="mobile-ctrl-btn" data-key="4">Turb -</button>
-          <button class="mobile-ctrl-btn" data-key="5">Turb +</button>
-          <button class="mobile-ctrl-btn" data-key="7">Ribbons -</button>
-          <button class="mobile-ctrl-btn" data-key="8">Ribbons +</button>
-          <button class="mobile-ctrl-btn" data-key="-">Spin -</button>
-          <button class="mobile-ctrl-btn" data-key="+">Spin +</button>
-          <button class="mobile-ctrl-btn" data-key="0">Stop</button>
-        </div>
-        <div class="modal-controls">
-          <div class="controls-text">Desktop Controls: 1/2 petals | 4/5 turbulence | 7/8 ribbons | +/- spin speed | 0 3 6 9 stop rotation</div>
-        </div>
+         <!-- Mobile keyboard helper: visible only on mobile -->
+         <div id="keyboard-helper-container" class="keyboard-helper-mobile">
+           <button id="showKeyboardBtn" class="keyboard-btn-mobile">Show Keyboard</button>
+           <input id="keyboardHelperInput" type="text" style="position:absolute; left:-9999px; opacity:0;" autocomplete="off" autocorrect="off" spellcheck="false">
+           <div class="keyboard-helper-tip">
+             After the keyboard appears, tap the art to send keys.<br>Use the controls below:
+           </div>
+         </div>
+         <div class="modal-controls modal-controls-mobile">
+           <div class="controls-text">Controls: 1/2 petals | 4/5 turbulence | 7/8 ribbons | +/- spin speed | 0 3 6 9 stop rotation</div>
+         </div>
       </div>
+
+      <style>
+        @media (max-width: 700px) {
+          .modal-footer {
+            position: sticky;
+            bottom: 0;
+            background: var(--modal-bg, #18183a);
+            z-index: 2000;
+            padding-bottom: 18px;
+            padding-top: 8px;
+            border-radius: 0 0 18px 18px;
+            box-shadow: 0 -2px 16px 0 #000c;
+            margin-top: 0;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+          .keyboard-helper-mobile {
+            display: flex !important;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 6px;
+          }
+          .keyboard-btn-mobile {
+            padding: 13px 22px;
+            font-size: 1.1rem;
+            background: var(--button-bg, #18183a);
+            color: var(--button-text, #ffd580);
+            border: 2px solid var(--accent-color, #c7a8ff);
+            border-radius: 10px;
+            box-shadow: 0 0 10px 2px #c7a8ff33;
+            font-weight: 600;
+            margin-bottom: 0;
+            margin-top: 0;
+          }
+          .keyboard-helper-tip {
+            font-size: 1em;
+            color: #ffd580;
+            margin-top: 6px;
+            text-align: center;
+            max-width: 320px;
+          }
+          .modal-controls-mobile {
+            margin-top: 4px;
+            margin-bottom: 0;
+            width: 100%;
+            text-align: center;
+          }
+          .controls-text {
+            font-size: 1.07em;
+            color: #ffd580;
+          }
+        }
+      </style>
     </div>
   </div>
   
@@ -880,36 +934,29 @@
         setTimeout(sendMessageWithRetry, 600);
       }
       
-      // Add touch events specifically for mobile
-      mobileControls.addEventListener('touchstart', function(e) {
-        if (e.target.classList.contains('mobile-ctrl-btn')) {
-          // Prevent default to avoid zoom/scroll behaviors on touch
-          e.preventDefault();
-          
-          const key = e.target.getAttribute('data-key');
-          
-          // Visual feedback
-          e.target.classList.add('active');
-          setTimeout(() => e.target.classList.remove('active'), 150);
-          
-          // Process the click
-          handleMobileButtonClick(key);
+      // Remove mobile modal controls logic; add keyboard helper for mobile
+      const showKeyboardBtn = document.getElementById('showKeyboardBtn');
+      const keyboardHelperInput = document.getElementById('keyboardHelperInput');
+      function showKeyboardHelper() {
+        keyboardHelperInput.value = '';
+        keyboardHelperInput.focus();
+        keyboardHelperInput.select();
+      }
+      if (showKeyboardBtn && keyboardHelperInput) {
+        showKeyboardBtn.addEventListener('click', showKeyboardHelper);
+      }
+      // Show keyboard helper only on mobile
+      function updateKeyboardHelperVisibility() {
+        const helper = document.getElementById('keyboard-helper-container');
+        if (window.innerWidth <= 700 && helper) {
+          helper.style.display = 'flex';
+        } else if (helper) {
+          helper.style.display = 'none';
         }
-      }, { passive: false });
-      
-      // Standard click event as fallback
-      mobileControls.addEventListener('click', function(e) {
-        if (e.target.classList.contains('mobile-ctrl-btn')) {
-          const key = e.target.getAttribute('data-key');
-          
-          // Visual feedback
-          e.target.classList.add('active');
-          setTimeout(() => e.target.classList.remove('active'), 150);
-          
-          // Process the click
-          handleMobileButtonClick(key);
-        }
-      });
+      }
+      window.addEventListener('resize', updateKeyboardHelperVisibility);
+      window.addEventListener('load', updateKeyboardHelperVisibility);
+
     }
 
     // Responsive: Re-render gallery on resize for dynamic itemsPerPage
