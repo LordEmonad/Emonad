@@ -240,28 +240,124 @@
     .modal-content {
       background: var(--modal-bg);
       border-radius: 24px;
-      box-shadow: 0 12px 48px #000e;
+      box-shadow: 0 16px 64px #000f, 0 0 0 3px #ffd58044;
       padding: 0;
       max-width: 96vw;
-      max-height: 88vh;
+      max-height: 90vh;
+      width: 90vw;
+      height: 80vh;
       display: flex;
       align-items: center;
       justify-content: center;
       border: 3.5px solid var(--modal-border);
     }
 
-    .modal-close, .modal-nav-button {
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 1200;
+      width: 48px;
+      height: 48px;
+      background: var(--button-bg);
+      border: 2.5px solid var(--button-border);
+      color: var(--button-text);
+      font-size: 2.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 50%;
+      outline: none;
+      box-shadow: var(--button-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.18s, border-color 0.18s, background 0.18s;
+      margin: 0;
+      padding: 0;
+    }
+    .modal-close:hover {
+      color: #ffd580;
+      border-color: #ffd580;
+      background: #18183a;
+    }
+    .modal-nav-button {
+      width: 54px;
+      height: 54px;
       background: var(--button-bg);
       border: 2.5px solid var(--button-border);
       color: var(--button-text);
       font-size: 2.3rem;
+      font-weight: bold;
       cursor: pointer;
-      padding: 0 18px;
-      transition: color 0.18s, border-color 0.18s, background 0.18s;
       border-radius: 50%;
       outline: none;
       box-shadow: var(--button-glow);
-      margin: 0 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.18s, border-color 0.18s, background 0.18s;
+      margin: 0;
+      padding: 0;
+    }
+    .modal-nav-button:hover {
+      color: #44ffe2;
+      border-color: #44ffe2;
+      background: #22224c;
+    }
+    .modal-nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1200;
+      display: flex;
+      align-items: center;
+    }
+    .modal-nav-arrow-left {
+      left: 18px;
+    }
+    .modal-nav-arrow-right {
+      right: 18px;
+    }
+    @media (max-width: 700px) {
+      .modal-nav-arrow-left { left: 4px; }
+      .modal-nav-arrow-right { right: 4px; }
+      .modal-close { top: 8px; right: 8px; width: 40px; height: 40px; font-size: 1.5rem; }
+    }
+    .ordinal-link-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px auto;
+      padding: 14px 36px 14px 32px;
+      border-radius: 999px;
+      font-size: 1.17rem;
+      font-weight: 800;
+      letter-spacing: 0.045em;
+      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%) padding-box, linear-gradient(90deg, #ffd580 0%, #c7a8ff 60%, #44ffe2 100%) border-box;
+      color: var(--gold);
+      border: 2.5px solid transparent;
+      box-shadow: 0 2px 22px #44ffe244, 0 0 0 2px #c7a8ff33, 0 0 18px 2px #ffd58055 inset;
+      text-shadow: 0 2px 8px #44ffe233, 0 1px 2px #000a;
+      text-decoration: none;
+      transition: background 0.18s, color 0.18s, box-shadow 0.18s, border-color 0.18s;
+      cursor: pointer;
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1201;
+      backdrop-filter: blur(2px) saturate(1.2);
+      outline: none;
+    }
+    .ordinal-link-btn:hover {
+      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%);
+      color: #44ffe2;
+      border: 2.5px solid transparent;
+      box-shadow: 0 8px 32px #44ffe277, 0 0 0 4px #ffd58044;
+      text-decoration: underline;
+    }
+    .ordinal-link-btn svg {
+      filter: drop-shadow(0 1px 4px #44ffe244);
     }
 
     .modal-close:hover, .modal-nav-button:hover {
@@ -269,6 +365,39 @@
       border-color: var(--button-border);
       background: var(--button-bg);
       box-shadow: 0 0 0 4px var(--button-glow);
+    }
+    
+    .modal-controls {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(24, 24, 58, 0.73);
+      padding: 10px 22px;
+      border-radius: 16px;
+      backdrop-filter: blur(3px);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+      border: 1.5px solid rgba(199, 168, 255, 0.3);
+      max-width: 90%;
+    }
+    
+    .controls-text {
+      color: var(--gold);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-align: center;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+    
+    @media (max-width: 700px) {
+      .controls-text {
+        font-size: 0.8rem;
+      }
+      .modal-controls {
+        padding: 8px 15px;
+        bottom: 10px;
+      }
     }
 
     .modal-nav-button {
@@ -292,14 +421,19 @@
     
     .modal-info {
       position: absolute;
-      top: 20px;
-      left: 20px;
-      color: white;
-      font-size: 16px;
+      top: 18px;
+      left: 18px;
+      color: #ffd580;
+      font-size: 1.15rem;
       z-index: 1100;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 10px 15px;
-      border-radius: 8px;
+      background: rgba(24, 24, 58, 0.73);
+      padding: 8px 16px 7px 16px;
+      border-radius: 10px;
+      pointer-events: none;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      box-shadow: 0 2px 8px #0008;
+      border: 1.5px solid #ffd58066;
     }
   </style>
 </head>
@@ -308,7 +442,7 @@
   
   <div class="container">
     <header>
-      <h1 class="collection-title">ORDTISM</h1>
+      <h1 class="collection-title">I Have Ordtism</h1>
     </header>
     
     <div class="gallery">
@@ -322,16 +456,25 @@
   
   <!-- Modal for viewing individual pieces -->
   <div class="modal" id="modal">
-    <button class="modal-close" id="modalClose">×</button>
-    <div class="modal-info" id="modalInfo">ORDTISM 1</div>
+    <div class="modal-nav-arrow modal-nav-arrow-left">
+      <button class="modal-nav-button" id="prevButton" aria-label="Previous">&#8592;</button>
+    </div>
+    <button class="modal-close" id="modalClose" aria-label="Close">&#10005;</button>
+    <a id="ordinalLink" class="ordinal-link-btn" href="#" target="_blank" rel="noopener noreferrer">
+      <span>View on Ordinals</span>
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-left:7px;"><path d="M7 15L15 7M15 7H8M15 7V14" stroke="#ffd580" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
     <div class="modal-content">
-      <div class="modal-iframe-container">
-        <iframe id="modalIframe" class="modal-iframe" tabindex="0"></iframe>
+      <div class="modal-info" id="modalInfo">ORDTISM 1</div>
+      <div class="modal-iframe-container" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:24px;box-shadow:0 2px 12px #0005;border:2.5px solid var(--modal-border);">
+        <iframe id="modalIframe" class="modal-iframe" tabindex="0" style="width:100%;height:100%;min-height:0;min-width:0;max-width:100%;max-height:100%;border:none;display:block;border-radius:24px;background:none;"></iframe>
       </div>
     </div>
-    <div class="modal-navigation">
-      <button class="modal-nav-button" id="prevButton">←</button>
-      <button class="modal-nav-button" id="nextButton">→</button>
+    <div class="modal-controls">
+      <div class="controls-text">Controls: 1/2 petals | 4/5 turbulence | 7/8 ribbons | +/- spin speed | 0 3 6 9 stop rotation</div>
+    </div>
+    <div class="modal-nav-arrow modal-nav-arrow-right">
+      <button class="modal-nav-button" id="nextButton" aria-label="Next">&#8594;</button>
     </div>
   </div>
   
@@ -448,12 +591,15 @@
     
     // Function to open the modal
     function openModal(index) {
-      const src = `https://ordinals.com/content/${INSCRIPTION_IDS[index]}`;
+      const inscriptionId = INSCRIPTION_IDS[index];
+      const contentSrc = `https://ordinals.com/content/${inscriptionId}`;
+      const inscriptionUrl = `https://ordinals.com/inscription/${inscriptionId}`;
       currentIndex = index;
       
       const modalIframe = document.getElementById('modalIframe');
-      modalIframe.src = src;
+      modalIframe.src = contentSrc;
       document.getElementById('modalInfo').textContent = `ORDTISM ${index}`;
+      document.getElementById('ordinalLink').href = inscriptionUrl;
       document.getElementById('modal').classList.add('active');
       document.body.style.overflow = 'hidden';
       // Focus iframe and play after it loads
@@ -463,8 +609,6 @@
           modalIframe.contentWindow.postMessage({type: 'play'}, '*');
         }
       };
-
-
     }
     
     // Function to close the modal
