@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rare Tisms - Ordtism Cards</title>
+  <meta name="description" content="View rare Ordtism pieces in a themed card collection">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ordinals.com">
+  <link rel="dns-prefetch" href="https://ordinals.com">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    /* Dynamic variables will be set via JavaScript based on the current card */
+    :root {
+      --card-width: 350px;
+      --card-height: 600px;
+      --card-border-color: #00ff41;
+      --card-text-color: #00ff41;
+      --card-dark-color: #003b00;
+      --card-glow-color: rgba(0, 255, 65, 0.2);
+      --terminal-black: #0c0c0c;
+      --terminal-border: #333333;
+      --rain-color: #00ff41;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background-color: black;
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--card-text-color);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    .nav-container {
+      position: fixed;
+      top: 40px;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+      background: rgba(0, 20, 0, 0.7);
+      border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+      border-top: 1px solid rgba(0, 255, 65, 0.3);
+    }
+    
+    .nav-buttons {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .nav-button {
+      background: rgba(0, 30, 0, 0.8);
+      color: var(--card-text-color);
+      border: 1px solid var(--card-border-color);
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 0 10px var(--card-glow-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .nav-button:hover {
+      background: rgba(0, 60, 0, 0.9);
+      box-shadow: 0 0 15px var(--card-glow-color);
+      transform: translateY(-2px);
+    }
+    
+    .content-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-grow: 1;
+      margin-top: 110px;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    .matrix-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    
+    .card-container {
+      width: var(--card-width);
+      height: var(--card-height);
+      perspective: 1000px;
+      margin: 30px auto;
+      max-width: 90vw;
+      position: relative;
+    }
+    
+    @media (max-width: 400px) {
+      :root {
+        --card-width: 300px;
+        --card-height: 520px;
+      }
+      .move-description {
+        font-size: 12px;
+      }
+      .card-name {
+        font-size: 20px;
+      }
+      .stat {
+        font-size: 12px;
+      }
+      .card-image {
+        height: 270px;
+      }
+    }
+    
+    @media (max-height: 600px) {
+      :root {
+        --card-height: 520px;
+      }
+      .card-image {
+        height: 270px;
+      }
+    }
+    
+    .card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background: var(--terminal-black);
+      border: 2px solid var(--card-border-color);
+      border-radius: 15px;
+      box-shadow: 0 0 20px var(--card-glow-color), inset 0 0 10px var(--card-glow-color);
+      padding: 15px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 30px;
+      background: linear-gradient(to bottom, var(--card-dark-color), transparent);
+      opacity: 0.3;
+      z-index: 1;
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--card-border-color);
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .card-name {
+      font-size: 24px;
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-shadow: 0 0 5px var(--card-text-color);
+      font-family: 'VT323', monospace;
+    }
+    
+    .card-hp {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    
+    .card-image {
+      width: 100%;
+      height: 320px;
+      background: var(--card-dark-color);
+      border: 1px solid var(--card-border-color);
+      margin: 10px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      z-index: 2;
+    }
+    
+    .card-image iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    .card-type {
+      text-align: center;
+      font-style: italic;
+      padding: 5px 0;
+      font-size: 14px;
+      border-bottom: 1px solid var(--card-border-color);
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .card-moves {
+      padding: 10px 0;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .move {
+      margin-bottom: 10px;
+    }
+    
+    .move-name {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      border-bottom: 1px dashed var(--card-border-color);
+      margin-bottom: 5px;
+      padding-bottom: 3px;
+    }
+    
+    .move-description {
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    
+    .card-stats {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--card-border-color);
+      padding-top: 10px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 14px;
+    }
+    
+    .stat-label {
+      font-weight: bold;
+      margin-bottom: 3px;
+      opacity: 0.9;
+    }
+    
+    .stat-value {
+      background: var(--card-dark-color);
+      padding: 3px 8px;
+      border-radius: 3px;
+      border: 1px solid var(--card-border-color);
+      min-width: 40px;
+      text-align: center;
+    }
+    
+    .navigation-arrows {
+      position: absolute;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 0 20px;
+      z-index: 10;
+      pointer-events: none;
+    }
+    
+    .nav-arrow {
+      background: rgba(0, 10, 0, 0.8);
+      color: var(--card-text-color);
+      border: 1px solid var(--card-border-color);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px var(--card-glow-color);
+    }
+    
+    .nav-arrow:hover {
+      background: rgba(0, 30, 0, 0.9);
+      transform: scale(1.1);
+      box-shadow: 0 0 15px var(--card-glow-color);
+    }
+    
+    /* Loading indicator removed as requested */
+    
+    /* Card counter removed as requested */
+  </style>
+</head>
+<body>
+  <!-- Matrix Rain Background -->
+  <div class="matrix-bg" id="matrix-canvas"></div>
+  
+  <!-- Navigation Bar -->
+  <div class="nav-container">
+    <div class="nav-buttons">
+      <a href="index.html" class="nav-button">Home</a>
+      <a href="https://magiceden.us/ordinals/marketplace/mtrx" class="nav-button" target="_blank">Escape</a>
+      <a href="https://magiceden.us/ordinals/marketplace/ordtism" class="nav-button" target="_blank">Ordtisms</a>
+      <a href="ordtism-cards.html" class="nav-button">Rare Tisms</a>
+    </div>
+  </div>
+  
+  <div class="content-container">
+    <div class="card-container">
+      <div class="card">
+        <!-- Card content will be dynamically generated -->
+        <div class="card-header">
+          <div class="card-name">Ordtism <span id="card-number">1</span></div>
+          <div class="card-hp">HP <span id="card-hp">101</span></div>
+        </div>
+        
+        <div class="card-image">
+          <!-- Piece will be displayed here -->
+          <iframe id="card-iframe" allowfullscreen allow="fullscreen" importance="high" scrolling="no" style="width: 100%; height: 100%; border: none; display: block;" src="https://ordinals.com/content/8b6303cc8139819825820ca34414544d75b6a78eda138606415999b771239325i0"></iframe>
+        </div>
+        
+        <div class="card-type">
+          <span id="card-type">Ordistic Type • Rare</span>
+        </div>
+        
+        <div class="card-moves">
+          <div class="move">
+            <div class="move-name">
+              <span>Has Autism</span>
+              <span>101×</span>
+            </div>
+            <div class="move-description">Special attention to details and patterns. Can hyper-focus on problems for extended time.</div>
+          </div>
+          
+          <div class="move">
+            <div class="move-name">
+              <span>Terminally On Chain</span>
+              <span>101×</span>
+            </div>
+            <div class="move-description">Never leaves the blockchain. Attack multiplier increases with confirmation count.</div>
+          </div>
+        </div>
+        
+        <div class="card-stats">
+          <div class="stat">
+            <span class="stat-label">ATK</span>
+            <span class="stat-value">101</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">DEF</span>
+            <span class="stat-value">101</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">BTC</span>
+            <span class="stat-value">101</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">SAT</span>
+            <span class="stat-value">101</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Card counter removed as requested -->
+    </div>
+    
+    <div class="navigation-arrows">
+      <div class="nav-arrow" id="prev-card">←</div>
+      <div class="nav-arrow" id="next-card">→</div>
+    </div>
+    
+    <!-- Loading indicator removed as requested -->
+  </div>
+
+  <script src="inscription_ids.js"></script>
+  <script>
+    // Ensure we have access to the INSCRIPTION_IDS array
+    let inscriptionData = [];
+    
+    // Variables to store current card data
+    let currentCardIndex = 0;
+    let colorData = [];
+    
+    // Hardcoded inscriptions to ensure we have all 101 pieces
+    const INSCRIPTIONS = [
+      // We'll keep this array and rely on inscription_ids.js or the csv file
+    ];
+    
+    // Load inscription IDs if not available globally
+    async function loadInscriptionIds() {
+      try {
+        // Try to fetch from the CSV file as backup
+        const csvResponse = await fetch('inscription ids.csv');
+        const csvText = await csvResponse.text();
+        
+        // Parse CSV
+        const lines = csvText.split('\n');
+        const headers = lines[0].split(',');
+        const result = [];
+        
+        for (let i = 1; i < lines.length; i++) {
+          if (lines[i].trim() === '') continue;
+          
+          const values = lines[i].split(',');
+          const obj = {};
+          
+          for (let j = 0; j < headers.length; j++) {
+            obj[headers[j].trim()] = values[j] ? values[j].trim() : '';
+          }
+          
+          result.push(obj);
+        }
+        
+        return result;
+      } catch (error) {
+        return [];
+      }
+    }
+    
+    // Calculate color information directly based on the piece number
+    // This ensures consistent color theming without loading the HTML files
+    function calculateColorInfo(ordtismNumber) {
+      // Calculate the root hue based on the same formula used in the ORDTISM files
+      const rootHue = (ordtismNumber * 37) % 360;
+      
+      // Calculate other hues for the background and additional theming
+      const bgHue = rootHue;
+      const bgHue2 = (bgHue + 120) % 360;
+      const bgHue3 = (bgHue + 240) % 360;
+      
+      return {
+        rootHue,
+        bgHue,
+        bgHue2,
+        bgHue3,
+        ribbonCount: 9
+      };
+    }
+    
+    // Update CSS variables for current card theme
+    function updateCardTheme(colorInfo) {
+      const root = document.documentElement;
+      
+      // Calculate colors based on rootHue directly in HSL
+      const hue = colorInfo.rootHue;
+      
+      // Set CSS variables using HSL colors to match exactly with the pieces
+      root.style.setProperty('--card-border-color', `hsl(${hue}, 70%, 60%)`);
+      root.style.setProperty('--card-text-color', `hsl(${hue}, 70%, 60%)`);
+      root.style.setProperty('--card-dark-color', `hsl(${hue}, 80%, 15%)`);
+      root.style.setProperty('--card-glow-color', `hsla(${hue}, 70%, 60%, 0.2)`);
+      root.style.setProperty('--rain-color', `hsl(${hue}, 70%, 60%)`);
+      
+      // Update matrix rain color
+      updateMatrixRainColor(`hsl(${hue}, 70%, 60%)`);
+    }
+    
+    // Load card data based on how the main gallery loads pieces
+    function loadCardData(index) {
+      // Make sure index is within bounds (0-100)
+      index = Math.max(0, Math.min(index, 100));
+      currentCardIndex = index;
+      
+      // Get the card number (1-based, 1-101)
+      const cardNumber = index + 1;
+      
+      // Get color info based on the card number
+      const colorInfo = calculateColorInfo(cardNumber);
+      
+      // Update the theme colors
+      updateCardTheme(colorInfo);
+      
+      // Get the inscription ID from the global array
+      // Get inscription ID from the global INSCRIPTION_IDS array
+      // This array is declared in inscription_ids.js and follows the same format as the main gallery
+      let inscriptionId;
+      if (typeof INSCRIPTION_IDS !== 'undefined' && INSCRIPTION_IDS.length > cardNumber) {
+        // The INSCRIPTION_IDS array is 1-indexed (with null at index 0)
+        inscriptionId = INSCRIPTION_IDS[cardNumber];
+      }
+      
+      // If we couldn't get the ID (possibly the script didn't load),
+      // Try using the inscriptionData we might have loaded
+      if (!inscriptionId && inscriptionData && inscriptionData.length > index) {
+        if (typeof inscriptionData[index] === 'string') {
+          inscriptionId = inscriptionData[index];
+        } else if (inscriptionData[index] && inscriptionData[index].id) {
+          inscriptionId = inscriptionData[index].id;
+        }
+      }
+      
+      // If we got an inscription ID, load it from ordinals.com like the main gallery does
+      if (inscriptionId) {
+        document.getElementById('card-iframe').src = `https://ordinals.com/content/${inscriptionId}`;
+      }
+      
+      // Update the UI
+      document.getElementById('card-number').textContent = cardNumber;
+      // Card counter update removed as requested
+    }
+    
+    // Navigation functions
+    function goToPreviousCard() {
+      if (currentCardIndex > 0) {
+        loadCardData(currentCardIndex - 1);
+      } else {
+        // Wrap around to the last card
+        loadCardData(100);
+      }
+    }
+    
+    function goToNextCard() {
+      if (currentCardIndex < 100) {
+        loadCardData(currentCardIndex + 1);
+      } else {
+        // Wrap around to the first card
+        loadCardData(0);
+      }
+    }
+    
+    // Loading indicators removed as requested
+    
+    // Matrix rain animation
+    let canvas, context, drops = [], characters, columns;
+    
+    function setupMatrixRain() {
+      canvas = document.createElement('canvas');
+      context = canvas.getContext('2d');
+      document.getElementById('matrix-canvas').appendChild(canvas);
+      
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      
+      characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789$+-*/=%"~#&()[]{}@<>!?|\\^_';
+      columns = Math.floor(canvas.width / 20);
+      drops = [];
+      
+      for (let i = 0; i < columns; i++) {
+        drops[i] = Math.floor(Math.random() * -100);
+      }
+    }
+    
+    function drawMatrixRain() {
+      context.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Use the dynamic rain color
+      context.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--rain-color');
+      context.font = '15px monospace';
+      
+      for (let i = 0; i < drops.length; i++) {
+        const text = characters[Math.floor(Math.random() * characters.length)];
+        context.fillText(text, i * 20, drops[i] * 20);
+        
+        if (drops[i] * 20 > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        
+        drops[i]++;
+      }
+    }
+    
+    function updateMatrixRainColor(color) {
+      if (context) {
+        context.fillStyle = color;
+      }
+    }
+    
+    // Keyboard navigation
+    function setupKeyboardNavigation() {
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+          goToPreviousCard();
+        } else if (e.key === 'ArrowRight') {
+          goToNextCard();
+        }
+      });
+    }
+    
+    // Initialize everything after the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check if INSCRIPTION_IDS is available from the script tag
+      if (typeof INSCRIPTION_IDS !== 'undefined') {
+        // We have the IDs from the script tag, so initialize directly
+        initializeApp();
+      } else {
+        // Try to load inscription IDs manually if the script didn't work
+        loadInscriptionIds().then(ids => {
+          inscriptionData = ids;
+          initializeApp();
+        }).catch(error => {
+          console.error('Error loading inscription IDs:', error);
+          // Still initialize the app even if we couldn't load the IDs
+          initializeApp();
+        });
+      }
+    });
+    
+    function initializeApp() {
+      setupMatrixRain();
+      setInterval(drawMatrixRain, 50);
+      setupKeyboardNavigation();
+      
+      // Set up navigation buttons
+      document.getElementById('prev-card').addEventListener('click', goToPreviousCard);
+      document.getElementById('next-card').addEventListener('click', goToNextCard);
+      
+      // Resize handler
+      window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        columns = Math.floor(canvas.width / 20);
+        
+        // Adjust drops array if needed
+        if (drops.length < columns) {
+          for (let i = drops.length; i < columns; i++) {
+            drops[i] = Math.floor(Math.random() * -100);
+          }
+        } else if (drops.length > columns) {
+          drops = drops.slice(0, columns);
+        }
+      });
+      
+      // Load the first card right away
+      loadCardData(0);
+    }
+  </script>
+</body>
+</html>
