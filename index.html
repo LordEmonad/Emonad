@@ -4,10 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ordtism — Escapist Art Gallery</title>
+  <!-- Preload critical resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ordinals.com">
+  <link rel="dns-prefetch" href="https://ordinals.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
+    /* Critical CSS first for better performance */
     :root {
       --bg-color: #101025;
       --bg-gradient: radial-gradient(ellipse at 50% 0%, #2e2e56 0%, transparent 70%),
@@ -181,15 +185,19 @@
     .modal-iframe-container {
       width: 100%;
       height: 100%;
+      position: relative;
+      overflow: hidden;
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
-      padding: 0;
-      background: transparent;
-      border: none;
-      box-shadow: none;
+      padding: 0 50px; /* Make space for nav buttons */
+    }
+    
+    @media (max-width: 700px) {
+      .modal-iframe-container {
+        padding: 0 35px; /* Smaller padding on mobile */
+      }
     }
     
     .gallery-item:hover {
@@ -352,6 +360,62 @@
       align-items: center;
     }
     
+    /* Loading spinner styles */
+    .gallery-loading,
+    .gallery-loading-spinner,
+    .modal-loading-spinner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(16, 16, 37, 0.7);
+      z-index: 10;
+      border-radius: 16px;
+    }
+    
+    .modal-loading-spinner {
+      border-radius: 0;
+    }
+    
+    .lds-dual-ring {
+      display: inline-block;
+      width: 64px;
+      height: 64px;
+    }
+    
+    .lds-dual-ring:after {
+      content: "";
+      display: block;
+      width: 46px;
+      height: 46px;
+      margin: 8px;
+      border-radius: 50%;
+      border: 5px solid #ffd580;
+      border-color: #ffd580 transparent #44ffe2 transparent;
+      animation: lds-dual-ring 1.2s linear infinite;
+    }
+    
+    .loading-text {
+      color: #ffd580;
+      font-size: 1.2rem;
+      margin-top: 15px;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(255, 213, 128, 0.5);
+    }
+    
+    @keyframes lds-dual-ring {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    
     @media (min-width: 701px) {
       .modal.active .modal-controls {
         display: block !important;
@@ -430,29 +494,41 @@
       background: #18183a;
     }
     .modal-nav-button {
-      width: 54px;
-      height: 54px;
+      /* Copied exactly from .page class */
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
       background: var(--button-bg);
       border: 2.5px solid var(--button-border);
       color: var(--button-text);
-      font-size: 2rem;
-      font-weight: bold;
-      cursor: pointer;
-      outline: none;
-      box-shadow: var(--button-glow);
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
+      transition: all 0.18s;
+      font-size: 1.18rem;
+      font-weight: 700;
+      outline: none;
+      box-shadow: var(--button-glow);
+      backdrop-filter: blur(1.5px) saturate(1.1);
+      pointer-events: auto;
       margin: 0;
       padding: 0;
-      pointer-events: auto;
-      transition: color 0.18s, border-color 0.18s, background 0.18s;
     }
+    
+    /* The modal nav buttons now inherit directly from .page class */
     .modal-nav-button:hover {
-      color: #44ffe2;
-      border-color: #44ffe2;
       background: #22224c;
+      border-color: #44ffe2;
+      color: #44ffe2;
+      box-shadow: 0 0 0 4px #44ffe244, var(--button-glow);
+    }
+    
+    .modal-nav-button.active {
+      background: #22224c;
+      border: 3px solid #ffd580;
+      color: #ffd580;
+      box-shadow: 0 0 0 7px #ffd58033, var(--button-glow);
     }
     .modal-nav-arrow {
       position: absolute;
@@ -462,15 +538,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 54px;
-      height: 54px;
+      width: 50px;
+      height: 50px;
       pointer-events: none; /* Only the button is clickable */
     }
     .modal-nav-arrow-left {
-      left: 0;
+      left: 10px;
     }
     .modal-nav-arrow-right {
-      right: 0;
+      right: 10px;
     }
     @media (max-width: 700px) {
       .modal-content {
@@ -479,12 +555,6 @@
         max-width: 96vw;
         max-height: 90vh;
         border-radius: 12px;
-        box-shadow: 0 6px 32px #000a, 0 0 0 1px #44ffe222;
-        margin: auto;
-        box-sizing: border-box;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
       }
       @media (max-width: 700px) {
         .modal-content {
@@ -560,8 +630,9 @@
         background: var(--button-bg);
         border: 2.5px solid var(--button-border);
         color: var(--button-text);
-        font-size: 1.4rem;
-        font-weight: bold;
+        font-size: 1rem;
+        font-weight: 700;
+        padding: 0;
         cursor: pointer;
         outline: none;
         box-shadow: var(--button-glow);
@@ -757,12 +828,116 @@
         display: none !important;
       }
     }
+    
+    /* Navigation Bar Styles */
+    .nav-bar {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0 15px 0;
+      padding: 10px 0;
+    }
+    
+    .nav-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .nav-button {
+      background: var(--button-bg);
+      color: var(--button-text);
+      border: 2px solid var(--button-border);
+      border-radius: 999px;
+      padding: 8px 22px;
+      font-size: 0.96rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      box-shadow: var(--button-glow);
+    }
+    
+    .nav-button:hover {
+      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%);
+      color: #44ffe2;
+      border-color: #44ffe2;
+      box-shadow: 0 0 15px rgba(199, 168, 255, 0.6);
+      transform: translateY(-2px);
+    }
+    
+    @media (max-width: 700px) {
+      .nav-buttons {
+        gap: 8px;
+      }
+      
+      .nav-button {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+      }
+      
+      .collection-title {
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+      }
+      
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 15px;
+      }
+      
+      .gallery-item {
+        height: 140px;
+      }
+      
+      .gallery-item-info {
+        font-size: 0.8rem;
+        padding: 6px 8px;
+      }
+      
+      .container {
+        padding: 10px;
+      }
+    }
+    
+    @media (max-width: 400px) {
+      .nav-buttons {
+        gap: 6px;
+      }
+      
+      .nav-button {
+        padding: 5px 8px;
+        font-size: 0.7rem;
+      }
+      
+      .collection-title {
+        font-size: 1.8rem;
+      }
+      
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 10px;
+      }
+      
+      .gallery-item {
+        height: 130px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="background-glow"></div>
   
   <div class="container">
+    <nav class="nav-bar">
+      <div class="nav-buttons">
+        <a href="index.html" class="nav-button">Home</a>
+        <a href="https://magiceden.us/ordinals/marketplace/mtrx" class="nav-button" target="_blank">Escape</a>
+        <a href="https://magiceden.us/ordinals/marketplace/ordtism" class="nav-button" target="_blank">Ordtisms</a>
+        <a href="terminalcard.html" class="nav-button">Rare Tisms</a>
+      </div>
+    </nav>
+    
     <header>
       <h1 class="collection-title">Ordtisms</h1>
     </header>
@@ -793,7 +968,7 @@
       
       <div class="modal-main">
         <div class="modal-nav-arrow modal-nav-arrow-left">
-          <button class="modal-nav-button" id="prevButton" aria-label="Previous">&#8592;</button>
+          <button class="page modal-nav-button" id="prevButton" aria-label="Previous">&#8592;</button>
         </div>
         
         <div class="modal-iframe-container">
@@ -801,7 +976,7 @@
         </div>
         
         <div class="modal-nav-arrow modal-nav-arrow-right">
-          <button class="modal-nav-button" id="nextButton" aria-label="Next">&#8594;</button>
+          <button class="page modal-nav-button" id="nextButton" aria-label="Next">&#8594;</button>
         </div>
       </div>
       
@@ -823,10 +998,28 @@
     let currentIndex = 1;
     const MAX_PIECES = INSCRIPTION_IDS.length - 1; // 101 if all present
     
-    // Function to render gallery
+    // Function to render gallery with optimized loading
     function renderGallery(page = 1) {
       const galleryEl = document.querySelector('.gallery');
-      // Remove all previous iframes and gallery items
+      // Show loading indicator for the gallery
+      const loadingIndicator = document.createElement('div');
+      loadingIndicator.className = 'gallery-loading';
+      loadingIndicator.innerHTML = '<div class="lds-dual-ring"></div><div class="loading-text">Loading Pieces...</div>';
+      galleryEl.innerHTML = '';
+      galleryEl.appendChild(loadingIndicator);
+      
+      // Use setTimeout to allow the browser to render the loading indicator first
+      setTimeout(() => {
+        // Now remove the loading indicator and continue rendering
+        galleryEl.removeChild(loadingIndicator);
+        renderGalleryItems(page);
+      }, 50);
+    }
+    
+    // Actual function to render gallery items
+    function renderGalleryItems(page = 1) {
+      const galleryEl = document.querySelector('.gallery');
+      // Remove all previous iframes and gallery items if any remain
       galleryEl.innerHTML = '';
 
       // Responsive: 4 per page on mobile, 6 on desktop
@@ -835,20 +1028,32 @@
       const startIndex = (page - 1) * itemsPerPage + 1;
       const endIndex = Math.min(startIndex + itemsPerPage - 1, MAX_PIECES);
 
-      // Create animated thumbnails for each piece
-      for (let i = startIndex; i <= endIndex; i++) {
+      // Create gallery items progressively to prevent lag
+      let itemsCreated = 0;
+      
+      function createNextItem() {
+        if (itemsCreated >= (endIndex - startIndex + 1)) return;
+        
+        const i = startIndex + itemsCreated;
         let src = `https://ordinals.com/content/${INSCRIPTION_IDS[i]}`;
-
+        
         const item = document.createElement('div');
         item.className = 'gallery-item';
         item.setAttribute('data-index', i);
+        itemsCreated++;
 
         // Create an iframe showing the actual ORDTISM piece (paused by default)
         const iframe = document.createElement('iframe');
-        iframe.src = src;
-        iframe.loading = 'eager';
+        iframe.setAttribute('importance', 'high'); // Signal high importance to browser
         iframe.allowTransparency = true;
         iframe.scrolling = 'no';
+        
+        // Add a tiny random delay to prevent all iframes from loading simultaneously
+        // This helps distribute the load and prevent lag
+        const randomDelay = Math.floor(Math.random() * 50);
+        setTimeout(() => {
+          iframe.src = src;
+        }, randomDelay);
         iframe.style.width = '100%';
         iframe.style.height = '100%';
         iframe.style.display = 'block';
@@ -882,15 +1087,28 @@
         });
 
         galleryEl.appendChild(item);
+        
+        // Schedule next item creation with a tiny delay to prevent UI blocking
+        setTimeout(createNextItem, 20);
       }
+      
+      // Start the progressive loading process
+      createNextItem();
+      
       // No hidden iframes remain in the DOM. Only 6 are ever loaded at a time.
 
       
       currentPage = page;
       
-      // Update pagination
+      // Update pagination immediately before starting progressive loading
+      updatePagination(page);
+    }
+    
+    // Separate pagination function to improve performance
+    function updatePagination(page) {
+      const itemsPerPage = window.innerWidth <= 700 ? 4 : 6;
       const totalPages = Math.ceil(MAX_PIECES / itemsPerPage);
-      const pagination = document.querySelector('.pagination');
+      const pagination = document.querySelector('.pagination-inner');
       pagination.innerHTML = '';
       
       // Previous button
@@ -936,21 +1154,42 @@
       const inscriptionUrl = `https://ordinals.com/inscription/${inscriptionId}`;
       currentIndex = index;
       
-      const modalIframe = document.getElementById('modalIframe');
-      modalIframe.src = contentSrc;
+      const modal = document.getElementById('modal');
       document.getElementById('modalInfo').textContent = `ORDTISM ${index}`;
       document.getElementById('ordinalLink').href = inscriptionUrl;
-      const modal = document.getElementById('modal');
+      
+      // Show loading indicator first
       modal.classList.add('active');
       modal.style.display = 'block';
       document.body.style.overflow = 'hidden';
-      // Focus iframe and play after it loads
-      modalIframe.onload = () => {
-        modalIframe.focus();
-        if (modalIframe.contentWindow) {
-          modalIframe.contentWindow.postMessage({type: 'play'}, '*');
-        }
-      };
+      
+      // Add loading indicator
+      const modalContainer = document.querySelector('.modal-iframe-container');
+      const loadingSpinner = document.createElement('div');
+      loadingSpinner.className = 'modal-loading-spinner';
+      loadingSpinner.innerHTML = '<div class="lds-dual-ring"></div>';
+      modalContainer.appendChild(loadingSpinner);
+      
+      // Clear any existing content and set src immediately for better responsiveness
+      const modalIframe = document.getElementById('modalIframe');
+      modalIframe.src = 'about:blank'; // Clear first
+      
+      // Add a brief delay to ensure the clearing happens
+      setTimeout(() => {
+        modalIframe.src = contentSrc;
+        // Focus iframe and play after it loads
+        modalIframe.onload = () => {
+          // Remove loading spinner
+          if (loadingSpinner.parentNode === modalContainer) {
+            modalContainer.removeChild(loadingSpinner);
+          }
+          
+          modalIframe.focus();
+          if (modalIframe.contentWindow) {
+            modalIframe.contentWindow.postMessage({type: 'play'}, '*');
+          }
+        };
+      }, 100);
     }
     
     // Function to close the modal
@@ -981,10 +1220,21 @@
       }
     }
     
+    // Initialize the gallery rendering immediately
+    renderGallery(1);
+    
     // Event listeners
     document.getElementById('modalClose').addEventListener('click', closeModal);
     document.getElementById('prevButton').addEventListener('click', showPrevious);
     document.getElementById('nextButton').addEventListener('click', showNext);
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (!document.getElementById('modal').classList.contains('active')) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowLeft') showPrevious();
+      if (e.key === 'ArrowRight') showNext();
+    });
 
     // Ordinals-optimized mobile controls implementation
     const mobileControls = document.getElementById('modalMobileControls');
