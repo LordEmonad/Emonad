@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
   <title>Ordtism — Escapist Art Gallery</title>
   <!-- Preload critical resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,6 +37,7 @@
       --button-glow: 0 0 12px 2px #c7a8ff66;
       --modal-bg: #18183a;
       --modal-border: #ffd580;
+      --vh: 1vh; /* Custom property for mobile viewport height */
     }
     
     * {
@@ -196,7 +199,17 @@
     
     @media (max-width: 700px) {
       .modal-iframe-container {
-        padding: 0 35px; /* Smaller padding on mobile */
+        padding: 0 32px; /* Smaller padding on mobile */
+        height: auto;
+        max-height: calc(100% - 110px); /* Account for controls */
+      }
+      
+      .modal-iframe-container iframe {
+        width: 100%;
+        height: 100%;
+        max-height: 100%;
+        border: none;
+        display: block;
       }
     }
     
@@ -424,22 +437,20 @@
     
     .modal-content {
       background: var(--modal-bg);
-      border-radius: 24px;
-      box-shadow: 0 16px 64px #000f, 0 0 0 3px #ffd58044;
-      max-width: 90vw;
-      max-height: 90vh;
-      width: 90vw;
+      padding: 20px;
+      position: relative;
+      width: 85vw;
       height: 85vh;
+      max-width: 1200px;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
-      align-items: stretch;
       justify-content: space-between;
-      border: 3.5px solid var(--modal-border);
-      position: absolute;
+      align-items: center;
+      border-radius: 25px;
       overflow: hidden;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      border: 3px solid var(--modal-border);
+      box-shadow: 0 5px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 213, 128, 0.27);
     }
     
     .modal-header {
@@ -550,27 +561,50 @@
     }
     @media (max-width: 700px) {
       .modal-content {
-        width: 96vw;
-        height: 90vh;
-        max-width: 96vw;
-        max-height: 90vh;
-        border-radius: 12px;
+        width: 94vw;
+        height: calc(var(--vh, 1vh) * 88);
+        max-width: 94vw;
+        padding: 10px;
+        border-radius: 16px;
       }
-      @media (max-width: 700px) {
-        .modal-content {
-          width: 100vw;
-          height: 100vh;
-          max-width: 100vw;
-          max-height: 100vh;
-          border-radius: 0;
-          margin: 0;
-        }
+      
+      body.modal-open {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
       }
+      
+      .modal {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(5px);
+      }
+      
+      .modal-content {
+        width: 100vw;
+        height: calc(var(--vh, 1vh) * 100);
+        max-width: 100vw;
+        max-height: calc(var(--vh, 1vh) * 100);
+        border-radius: 0;
+        margin: 0;
+      }
+      
       .modal-iframe-container {
         border-radius: 12px;
         min-height: 120px;
         padding: 0;
       }
+      
       .modal-info {
         top: 7px;
         left: 7px;
@@ -582,6 +616,8 @@
         overflow: hidden;
         text-overflow: ellipsis;
       }
+    }
+    @media (max-width: 700px) {
       .modal-mobile-controls {
         display: flex !important;
         justify-content: center;
@@ -611,6 +647,8 @@
         outline: none;
         transition: background 0.18s, color 0.18s, border 0.18s;
       }
+    }
+    @media (max-width: 700px) {
       .mobile-ctrl-btn:active {
         background: #ffd580;
         color: #18183a;
@@ -658,6 +696,7 @@
         text-overflow: ellipsis;
       }
     }
+    
     @media (min-width: 701px) {
       .modal-mobile-controls {
         display: none !important;
@@ -1222,6 +1261,45 @@
     
     // Initialize the gallery rendering immediately
     renderGallery(1);
+    
+    // Mobile viewport height fix
+    function setMobileViewportHeight() {
+      // First we get the viewport height and we multiply it by 1% to get a value for a vh unit
+      let vh = window.innerHeight * 0.01;
+      // Then we set the value in the --vh custom property to the root of the document
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    
+    // Set the height initially
+    setMobileViewportHeight();
+    
+    // Reset on resize and orientation change
+    window.addEventListener('resize', setMobileViewportHeight);
+    window.addEventListener('orientationchange', () => {
+      setTimeout(setMobileViewportHeight, 200);
+    });
+    
+    // Optimize modal for mobile
+    const optimizeModalForMobile = () => {
+      const modal = document.querySelector('.modal');
+      if (!modal) return;
+      
+      const toggleModalClass = () => {
+        if (modal.classList.contains('active')) {
+          document.body.classList.add('modal-open');
+          setMobileViewportHeight();
+        } else {
+          document.body.classList.remove('modal-open');
+        }
+      };
+      
+      // Watch for modal state changes
+      const observer = new MutationObserver(toggleModalClass);
+      observer.observe(modal, { attributes: true, attributeFilter: ['class'] });
+    };
+    
+    // Initialize modal optimization
+    optimizeModalForMobile();
     
     // Event listeners
     document.getElementById('modalClose').addEventListener('click', closeModal);
