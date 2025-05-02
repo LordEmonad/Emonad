@@ -1310,8 +1310,8 @@
 
     }
 
-    // Responsive: Re-render gallery on resize for dynamic itemsPerPage
-    window.addEventListener('load', () => renderGallery(1));
+    // Only re-render gallery on resize for dynamic itemsPerPage
+    // (We already call renderGallery(1) directly to initialize the page)
     window.addEventListener('resize', () => {
       // Keep current page, but re-render for new itemsPerPage
       renderGallery(currentPage);
