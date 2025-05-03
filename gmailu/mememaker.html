@@ -442,7 +442,7 @@
   <div class="container">
     <header>
       <h1 class="collection-title">Meme Maker</h1>
-      <p class="collection-subtitle">Create your masterpiece</p>
+      <p class="collection-subtitle"></p>
     </header>
 
     <main>
@@ -725,8 +725,6 @@
         if (!canvas || !ctx) return;
         // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#FFFFFF'; // Set background for transparency handling if needed
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         // Draw base image if loaded
         if (baseImage) {
@@ -874,7 +872,7 @@
             let wordWidth = wordMetrics.width;
 
             // Check if the word itself is too long
-            if (wordWidth > maxWidth) {
+            if (wordWidth > maxWidth && n > 0) {
                 // If there's content on the current line, push it first
                 if (line) {
                     lines.push(line.trim());

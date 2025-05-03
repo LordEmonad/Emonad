@@ -221,15 +221,19 @@
       backdrop-filter: blur(2.5px) saturate(1.2);
     }
     .modal-iframe-container {
-      width: 100%;
-      height: 100%;
       position: relative;
       overflow: hidden;
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0 50px; /* Make space for nav buttons */
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      width: 100%;
+      min-height: 0;
+      flex: 1;
     }
     
     @media (max-width: 700px) {
@@ -393,13 +397,30 @@
       align-items: center;
       justify-content: center;
       background: rgba(16, 16, 20, 0.98);
-      z-index: 100;
-      transition: opacity 0.2s;
+      z-index: 1000;
+      transition: all 0.25s ease-in-out;
       padding: 0;
       margin: 0;
       overflow: hidden;
+      backdrop-filter: blur(5px);
     }
-    
+    .modal-iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 300px;
+      min-width: 300px;
+      max-width: 100%;
+      max-height: 100%;
+      border: none;
+      display: block;
+      border-radius: 0;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      background-color: transparent;
+      aspect-ratio: 1/1;
+      object-fit: contain;
+    }
     .modal.active {
       display: flex;
       opacity: 1;
@@ -484,7 +505,17 @@
       border-radius: 25px;
       overflow: hidden;
       border: 3px solid var(--modal-border);
-      box-shadow: 0 5px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 213, 128, 0.27);
+      box-shadow: 0 5px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 213, 128, 0.37);
+      animation: modal-glow 4s infinite alternate ease-in-out;
+    }
+    
+    @keyframes modal-glow {
+      0% {
+        box-shadow: 0 5px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 213, 128, 0.37);
+      }
+      100% {
+        box-shadow: 0 5px 50px rgba(0, 0, 0, 0.7), 0 0 40px rgba(255, 213, 128, 0.47);
+      }
     }
     
     .modal-header {
@@ -503,6 +534,9 @@
       justify-content: center;
       padding: 0;
       overflow: hidden;
+      width: 100%;
+      max-width: 100%;
+      min-height: 300px;
     }
     
     .modal-footer {
@@ -529,9 +563,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: color 0.18s, border-color 0.18s, background 0.18s;
+      transition: all 0.2s ease-in-out;
       margin: 0;
       padding: 0;
+      text-align: center;
+      line-height: 36px;
     }
     .modal-close:hover {
       color: #ffd580;
@@ -550,7 +586,7 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.18s;
+      transition: all 0.2s ease-in-out;
       font-size: 1.18rem;
       font-weight: 700;
       outline: none;
@@ -559,6 +595,7 @@
       pointer-events: auto;
       margin: 0;
       padding: 0;
+      text-shadow: 0 0 5px rgba(255, 213, 128, 0.5);
     }
     
     /* The modal nav buttons now inherit directly from .page class */
@@ -811,12 +848,10 @@
     }
     
     .controls-text {
-      color: var(--gold);
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.9);
       text-align: center;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+      letter-spacing: 0.03em;
     }
     
     @media (max-width: 700px) {
@@ -854,10 +889,12 @@
     }
     
     .modal-info {
-      color: #ffd580;
-      font-size: 1.15rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
+      color: var(--info-color);
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-right: 20px;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 10px rgba(255, 213, 128, 0.3);
     }
 
     /* Moved from modal/footer <style> block */
@@ -1029,7 +1066,7 @@
   </div>
   
   <!-- Modal for viewing individual pieces -->
-  <div class="modal" id="modal" style="display:none;">
+  <div class="modal" id="modal">
     <button class="modal-close" id="modalClose" aria-label="Close">&#10005;</button>
     
     <div class="modal-content">
@@ -1046,9 +1083,15 @@
           <button class="page modal-nav-button" id="prevButton" aria-label="Previous">&#8592;</button>
         </div>
         
-        <div class="modal-iframe-container">
-          <iframe id="modalIframe" class="modal-iframe" tabindex="0" style="width:100%;height:100%;min-height:0;min-width:0;max-width:100%;max-height:100%;border:none;display:block;border-radius:0;background:transparent;"></iframe>
+        <!-- New Wrapper -->
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; overflow: hidden; width: 100%; height: 100%; padding: 0 50px;"> 
+          <div class="decorative-line decorative-line-top" style="width: 100%; height: 3px; background: linear-gradient(90deg, transparent 5%, #ffd580 30%, #ffd580 70%, transparent 95%); margin-bottom: 10px; opacity: 0.6; flex-shrink: 0;"></div>
+          <div class="modal-iframe-container"> 
+            <iframe id="modalIframe" class="modal-iframe" tabindex="0" allowtransparency="true" frameborder="0" scrolling="no"></iframe>
+          </div>
+          <div class="decorative-line decorative-line-bottom" style="width: 100%; height: 3px; background: linear-gradient(90deg, transparent 5%, #ffd580 30%, #ffd580 70%, transparent 95%); margin-top: 10px; opacity: 0.6; flex-shrink: 0;"></div>
         </div>
+        <!-- End New Wrapper -->
         
         <div class="modal-nav-arrow modal-nav-arrow-right">
           <button class="page modal-nav-button" id="nextButton" aria-label="Next">&#8594;</button>
@@ -1235,7 +1278,7 @@
       
       // Show loading indicator first
       modal.classList.add('active');
-      modal.style.display = 'block';
+      modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
       
       // Add loading indicator
@@ -1245,8 +1288,36 @@
       loadingSpinner.innerHTML = '<div class="lds-dual-ring"></div>';
       modalContainer.appendChild(loadingSpinner);
       
+      // Reset the container size to ensure proper proportions
+      modalContainer.style.width = '100%';
+      modalContainer.style.height = '100%';
+      modalContainer.style.maxWidth = '100%';
+      modalContainer.style.maxHeight = '100%';
+      modalContainer.style.display = 'flex';
+      modalContainer.style.alignItems = 'center';
+      modalContainer.style.justifyContent = 'center';
+      modalContainer.style.borderRadius = '16px'; 
+      modalContainer.style.overflow = 'hidden';   
+      
       // Clear any existing content and set src immediately for better responsiveness
       const modalIframe = document.getElementById('modalIframe');
+      
+      // Set iframe size to match the container
+      modalIframe.style.width = '100%';
+      modalIframe.style.height = '100%';
+      modalIframe.style.minHeight = '300px';
+      modalIframe.style.minWidth = '300px';
+      modalIframe.style.maxWidth = '100%';
+      modalIframe.style.maxHeight = '100%';
+      modalIframe.style.border = 'none';
+      modalIframe.style.display = 'block';
+      modalIframe.style.borderRadius = '0';
+      modalIframe.style.background = 'transparent';
+      modalIframe.style.padding = '0';
+      modalIframe.style.margin = '0';
+      modalIframe.style.aspectRatio = '1/1';
+      modalIframe.style.objectFit = 'contain';
+      modalIframe.sandbox = 'allow-scripts allow-same-origin';
       modalIframe.src = 'about:blank'; // Clear first
       
       // Add a brief delay to ensure the clearing happens
