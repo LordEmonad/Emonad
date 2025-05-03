@@ -1045,7 +1045,6 @@
         <a href="https://magiceden.us/ordinals/marketplace/mtrx" class="nav-button" target="_blank">Escape</a>
         <a href="https://magiceden.us/ordinals/marketplace/ordtism" class="nav-button" target="_blank">Ordtisms</a>
         <a href="ordtism-cards.html" class="nav-button">Rare Tisms</a>
-        <a href="gmailu/mememaker.html" class="nav-button">Make Memes</a>
       </div>
     </nav>
     
@@ -1066,7 +1065,7 @@
   </div>
   
   <!-- Modal for viewing individual pieces -->
-  <div class="modal" id="modal">
+  <div class="modal" id="modal" style="display:none;">
     <button class="modal-close" id="modalClose" aria-label="Close">&#10005;</button>
     
     <div class="modal-content">
@@ -1500,6 +1499,14 @@
     window.addEventListener('resize', () => {
       // Keep current page, but re-render for new itemsPerPage
       renderGallery(currentPage);
+    });
+    
+    // Secret feature: Ctrl+6 to access the meme maker
+    document.addEventListener('keydown', (e) => {
+      // Check if Ctrl+6 is pressed (keyCode 54 is '6')
+      if (e.ctrlKey && e.keyCode === 54) {
+        window.location.href = 'gmailu/mememaker.html';
+      }
     });
   </script>
 </body>
