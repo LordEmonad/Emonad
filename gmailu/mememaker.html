@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Meme Maker - Ordtism</title>
+  <!-- Preload critical resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #101025;
+      --bg-gradient: radial-gradient(ellipse at 50% 0%, #2e2e56 0%, transparent 70%),
+        radial-gradient(ellipse at 50% 100%, #2a1a36 0%, transparent 70%),
+        radial-gradient(ellipse at 80% 30%, #ffd58033 0%, transparent 80%),
+        #101025;
+      --text-color: #f5f5fa;
+      --accent-color: #c7a8ff;
+      --accent-gradient: linear-gradient(90deg, #ffd580 0%, #c7a8ff 60%, #44ffe2 100%);
+      --secondary-color: #44ffe2;
+      --gold: #ffd580;
+      --violet: #c7a8ff;
+      --teal: #44ffe2;
+      --card-bg: rgba(22,24,40,0.84);
+      --card-hover: rgba(40,30,60,0.97);
+      --border-color: #c7a8ff;
+      --info-color: #ffd580;
+      --button-bg: rgba(22,24,40,0.92);
+      --button-text: #ffd580;
+      --button-border: #c7a8ff;
+      --button-glow: 0 0 12px 2px #c7a8ff66;
+      --input-bg: rgba(255, 255, 255, 0.1);
+      --input-border: #44ffe2;
+      --input-focus-border: #ffd580;
+      --input-text: var(--text-color);
+      --modal-bg: #18183a;
+      --modal-border: #ffd580;
+      --vh: 1vh; /* Custom property for mobile viewport height */
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      padding: 40px 0 30px 0;
+      text-align: center;
+      flex-shrink: 0;
+      width: 100%;
+    }
+
+    .collection-title {
+      font-weight: 700; /* Adjusted from 900 */
+      font-size: 3.5rem; /* Adjusted from 4.2rem */
+      letter-spacing: 0.05em; /* Adjusted from 0.07em */
+      background: linear-gradient(92deg, #ffd580 0%, #c7a8ff 70%, #44ffe2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+      padding: 0;
+      margin-bottom: 0.1em;
+      display: inline-block;
+      line-height: 1.1;
+      filter: drop-shadow(0 2px 14px #c7a8ff33); /* Adjusted shadow */
+    }
+
+    .collection-subtitle {
+        font-size: 1.4rem; /* Adjusted from 1.6rem */
+        margin-bottom: 1em;
+        text-align: center;
+        font-weight: 500; /* Adjusted from 700 */
+        letter-spacing: 0.06em; /* Adjusted from 0.08em */
+        background: linear-gradient(90deg, #c7a8ff 0%, #44ffe2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+        filter: drop-shadow(0 2px 10px #44ffe222); /* Adjusted shadow */
+    }
+
+    main {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .canvas-container {
+        display: flex; /* Enable flexbox */
+        flex-direction: column; /* Stack canvas and buttons vertically */
+        justify-content: center; /* Center vertically */
+        align-items: center; /* Center horizontally */
+        padding: 20px;
+        border-radius: 15px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        backdrop-filter: blur(3px);
+        min-width: 300px;
+    }
+
+    #memeCanvas {
+        max-width: 100%;
+        height: auto;
+        border: 1px dashed var(--secondary-color);
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .controls {
+        flex: 1 1 300px; /* Flexible controls */
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        background: var(--card-bg);
+        padding: 20px;
+        border-radius: 15px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        backdrop-filter: blur(3px);
+        min-width: 280px;
+    }
+
+    .control-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    label {
+        font-weight: 500;
+        color: var(--accent-color);
+        font-size: 0.95rem;
+        letter-spacing: 0.03em;
+    }
+
+    input[type="text"],
+    input[type="file"],
+    select,
+    button {
+        padding: 10px 15px;
+        border-radius: 8px;
+        border: 1px solid var(--input-border);
+        background-color: var(--input-bg);
+        color: var(--input-text);
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1rem;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        width: 100%;
+    }
+
+    input[type="text"]:focus,
+    select:focus {
+        outline: none;
+        border-color: var(--input-focus-border);
+        box-shadow: 0 0 8px var(--input-focus-border);
+    }
+
+    input[type="file"]::-webkit-file-upload-button {
+        visibility: hidden;
+    }
+    input[type="file"]::before {
+        content: 'Upload Image';
+        display: inline-block;
+        background: var(--button-bg);
+        color: var(--button-text);
+        border: 1px solid var(--button-border);
+        padding: 8px 12px;
+        border-radius: 6px;
+        outline: none;
+        white-space: nowrap;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: background 0.2s, box-shadow 0.2s;
+        text-align: center;
+    }
+    input[type="file"]:hover::before {
+        background: var(--card-hover);
+        box-shadow: var(--button-glow);
+    }
+    input[type="file"]:active::before {
+        background: var(--accent-color);
+        color: var(--bg-color);
+    }
+
+    button {
+        background: var(--button-bg);
+        color: var(--button-text);
+        border: 1px solid var(--button-border);
+        cursor: pointer;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    button:hover {
+        background: var(--card-hover);
+        box-shadow: var(--button-glow);
+        transform: translateY(-1px);
+    }
+    button:active {
+        transform: translateY(0px);
+        box-shadow: none;
+    }
+
+    .gallery-section {
+        width: 100%;
+        margin-top: 30px;
+    }
+
+    .gallery-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: var(--secondary-color);
+        text-align: center;
+        letter-spacing: 0.05em;
+    }
+
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 15px;
+        max-height: 400px; /* Limit height */
+        overflow-y: auto; /* Add scroll */
+        padding: 10px;
+        background: rgba(0,0,0,0.2);
+        border-radius: 10px;
+        border: 1px dashed var(--input-border);
+    }
+
+    /* Scrollbar styling */
+    .gallery-grid::-webkit-scrollbar {
+        width: 8px;
+    }
+    .gallery-grid::-webkit-scrollbar-track {
+        background: rgba(0,0,0,0.1);
+        border-radius: 10px;
+    }
+    .gallery-grid::-webkit-scrollbar-thumb {
+        background: var(--accent-color);
+        border-radius: 10px;
+    }
+    .gallery-grid::-webkit-scrollbar-thumb:hover {
+        background: var(--gold);
+    }
+
+    .gallery-item {
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        aspect-ratio: 1 / 1; /* Make items square */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .gallery-item:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 10px var(--secondary-color);
+    }
+
+    .gallery-item img {
+        max-width: 100%;
+        max-height: 100%;
+        display: block;
+        object-fit: cover; /* Changed to cover */
+        pointer-events: none;
+    }
+
+    .sticker {
+        object-fit: contain; /* Stickers should contain */
+        background: transparent;
+        border: none;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 900px) {
+        main {
+            flex-direction: column;
+            align-items: center;
+        }
+        .canvas-container, .controls {
+            flex-basis: auto; /* Reset basis */
+            width: 95%;
+            max-width: 600px;
+        }
+    }
+
+    @media (max-width: 700px) {
+      .container {
+        padding: 15px;
+      }
+      header {
+        padding: 20px 0 15px 0;
+      }
+      .collection-title {
+        font-size: 2.5rem;
+      }
+      .collection-subtitle {
+        font-size: 1.1rem;
+      }
+      .gallery-grid {
+          grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+          gap: 10px;
+      }
+    }
+
+    /* Modal Styles */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1000; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgba(16, 16, 37, 0.8); /* Dark semi-transparent background */
+        backdrop-filter: blur(5px);
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-content {
+        background-color: var(--modal-bg);
+        margin: auto; /* Center horizontally */
+        padding: 25px;
+        border: 1px solid var(--modal-border);
+        border-radius: 15px;
+        width: 80%;
+        max-width: 900px;
+        box-shadow: 0 5px 30px rgba(0,0,0,0.5);
+        position: relative;
+        max-height: 85vh; /* Limit height */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--accent-color);
+    }
+
+    .modal-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: var(--gold);
+        letter-spacing: 0.04em;
+    }
+
+    .close-button {
+        color: var(--secondary-color);
+        font-size: 2rem;
+        font-weight: bold;
+        cursor: pointer;
+        background: none;
+        border: none;
+        line-height: 1;
+        padding: 0 5px;
+    }
+
+    .close-button:hover,
+    .close-button:focus {
+        color: var(--text-color);
+        text-decoration: none;
+    }
+
+    .modal .gallery-grid {
+        display: grid; /* Ensure grid display */
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Responsive columns */
+        gap: 15px; /* Spacing between items */
+        padding: 10px; /* Padding within the scrollable area */
+        flex-grow: 1; /* Allow grid to take remaining space */
+        overflow-y: auto; /* Ensure grid scrolls within modal */
+        max-height: calc(85vh - 120px); /* Adjust max height considering padding/header */
+    }
+
+    /* Ensure gallery items in modal are visible */
+    .modal .gallery-item {
+        width: auto; /* Let grid determine width */
+        height: 100px; /* Fixed height for consistency */
+        aspect-ratio: 1 / 1; /* Make items square */
+        overflow: hidden; /* Hide image overflow */
+        display: flex; /* Center image */
+        align-items: center; /* Center image */
+        justify-content: center; /* Center image */
+        background: var(--card-hover);
+    }
+
+    /* Ensure dropdown options have readable text */
+    select option {
+        color: #000000; /* Black text for options */
+        background-color: #ffffff; /* White background for options */
+    }
+
+    .action-buttons {
+        display: flex; /* Align buttons horizontally */
+        gap: 10px; /* Add space between buttons */
+        justify-content: center; /* Center buttons if needed */
+        margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="collection-title">Meme Maker</h1>
+      <p class="collection-subtitle">Create your masterpiece</p>
+    </header>
+
+    <main>
+      <div class="canvas-container">
+        <canvas id="memeCanvas" width="500" height="400"></canvas>
+        <div class="action-buttons">
+            <button id="downloadBtn">
+                <span class="material-icons" style="vertical-align: middle; font-size: 1.2em;">download</span> Download
+            </button>
+            <button id="copyBtn">
+                 <span class="material-icons" style="vertical-align: middle; font-size: 1.2em;">content_copy</span> Copy Image
+            </button>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="control-group">
+          <label for="topText">Top Text:</label>
+          <input type="text" id="topText" placeholder="Enter top text...">
+        </div>
+        <div class="control-group">
+          <label for="bottomText">Bottom Text:</label>
+          <input type="text" id="bottomText" placeholder="Enter bottom text...">
+        </div>
+        <div class="control-group">
+          <label for="fontSelect">Font:</label>
+          <select id="fontSelect">
+            <option value="Impact">Impact</option>
+            <option value="Arial">Arial</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Comic Sans MS">Comic Sans MS</option>
+            <option value="Anton">Anton</option>
+            <option value="Oswald">Oswald</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="fontSizeInput">Font Size:</label>
+          <input type="number" id="fontSizeInput" value="48" min="8" max="200">
+        </div>
+        <div class="control-group">
+          <label for="colorPicker">Color:</label>
+          <input type="color" id="colorPicker" value="#ffffff">
+        </div>
+        <div class="control-group">
+          <label for="imageUpload">Upload Your Image:</label>
+          <input type="file" id="imageUpload" accept="image/*">
+        </div>
+        <div class="control-group">
+          <button id="showTemplatesBtn">Templates</button>
+        </div>
+        <div class="control-group">
+          <button id="showStickersBtn">Stickers</button>
+        </div>
+        <button id="clearCanvasBtn">Clear Canvas</button>
+      </div>
+    </main>
+
+    <!-- Template Modal -->
+    <div id="templateModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="modal-title">Select a Template</span>
+          <button class="close-button" data-modal-id="templateModal">&times;</button>
+        </div>
+        <div id="templateGallery" class="gallery-grid">
+          <!-- Templates loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Sticker Modal -->
+    <div id="stickerModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="modal-title">Select a Sticker</span>
+          <button class="close-button" data-modal-id="stickerModal">&times;</button>
+        </div>
+        <div id="stickerGallery" class="gallery-grid">
+          <!-- Stickers loaded here -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const canvas = document.getElementById('memeCanvas');
+    const ctx = canvas.getContext('2d');
+    const topTextInput = document.getElementById('topText');
+    const bottomTextInput = document.getElementById('bottomText');
+    const fontSelect = document.getElementById('fontSelect');
+    const fontSizeInput = document.getElementById('fontSizeInput');
+    const colorPicker = document.getElementById('colorPicker');
+    const imageUpload = document.getElementById('imageUpload');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const templateGallery = document.getElementById('templateGallery');
+    const stickerGallery = document.getElementById('stickerGallery');
+    const clearCanvasBtn = document.getElementById('clearCanvasBtn');
+    const showTemplatesBtn = document.getElementById('showTemplatesBtn');
+    const showStickersBtn = document.getElementById('showStickersBtn');
+    const templateModal = document.getElementById('templateModal');
+    const stickerModal = document.getElementById('stickerModal');
+    const closeButtons = document.querySelectorAll('.close-button');
+
+    let baseImage = null; // Holds the current background image (template or upload)
+    let stickers = []; // Array to hold sticker objects {img, x, y, width, height, rotation, isSelected, isDragging}
+    let selectedStickerIndex = -1;
+    let dragStartX, dragStartY;
+    let isDragging = false;
+    let isResizing = false;
+    let isRotating = false;
+    let activeHandle = null; // e.g., 'resize-br', 'rotate-tr'
+    const handleSize = 8; // Size of the interactive handles
+
+    // Store initial state for resize/rotate operations
+    let initialStickerState = {};
+
+    // --- Constants ---
+    const MAX_CANVAS_WIDTH = 600; // Max width for the canvas
+    const MAX_CANVAS_HEIGHT = 600; // Max height for the canvas
+
+    // --- Image Lists (Manually curated based on previous list_dir results) ---
+    const templateFiles = [
+        "0_days_without_Lenny_Simpsons.png", "AJ_Styles_", "A_train_hitting_a_school_bus.png",
+        "All_My_Homies_Hate.jpg", "Always_Has_Been.png", "American_Chopper_Argument.jpg",
+        "Anakin_Padme_4_Panel.png", "Ancient_Aliens.jpg", "Anime_Girl_Hiding_from_Terminator.jpg",
+        "Batman_Slapping_Robin.jpg", "Bell_Curve.png", "Bernie_Once_Again.jpg",
+        "Bernie_Sanders_Once_Again_Asking.png", "Bike_Fall.jpg", "Blank_Nut_Button.jpg",
+        "Boardroom_Meeting_Suggestion.jpg", "Buff_Doge_vs_Cheems.png", "Change_My_Mind.jpg",
+        "Charlie_Conspiracy_Always_Sunny_in_Philidelphia.jpg", "Clown_Applying_Makeup.jpg",
+        "Disappointed_Black_Guy.jpg", "Disaster_Girl.jpg", "Distracted_Boyfriend.jpg",
+        "Domino_Effect.jpg", "Drake_Hotline_Bling.jpg", "Epic_Handshake.jpg", "Evil_Kermit.jpg",
+        "Expanding_Brain.jpg", "Finding_Neverland.jpg", "Flex_Tape.png", "Friendship_ended.jpg",
+        "Futurama_Fry.jpg", "George_Bush_911.jpg", "Grandma_Finds_The_Internet.jpg",
+        "Grant_Gustin_over_grave.png", "Grus_Plan.jpg", "Gus_Fring_we_are_not_the_same.png",
+        "Hide_the_Pain_Harold.jpg", "I_Bet_He's_Thinking_About_Other_Women.jpg",
+        "Inhaling_Seagull.jpg", "Is_This_A_Pigeon.jpg", "Laughing_Leo.png",
+        "Left_Exit_12_Off_Ramp.jpg", "Leonardo_Dicaprio_Cheers.jpg", "Look_At_Me.jpg",
+        "Marked_Safe_From.jpg", "Megamind_no_bitches.jpg", "Megamind_peeking.png",
+        "Mocking_Spongebob.jpg", "Monkey_Puppet.jpg", "Mother_Ignoring_Kid_Drowning_In_A_Pool.jpg",
+        "One_Does_Not_Simply.jpg", "Oprah_You_Get_A.jpg", "Panik_Kalm_Panik.png",
+        "Pawn_Stars_Best_I_Can_Do.jpg", "Roll_Safe_Think_About_It.jpg", "Running_Away_Balloon.jpg",
+        "Sad_Pablo_Escobar.jpg", "Scooby_doo_mask_reveal.jpg", "Sleeping_Shaq.jpg",
+        "Soldier_protecting_sleeping_child.jpg", "Spider_Man_Triple.jpg",
+        "Spongebob_Ight_Imma_Head_Out.jpg", "Squid_Game.jpg", "Squidward_window.jpg",
+        "Star_Wars_Yoda.jpg", "Success_Kid.jpg", "Surprised_Pikachu.jpg",
+        "The_Most_Interesting_Man_In_The_World.jpg", "The_Rock_Driving.jpg",
+        "The_Scroll_Of_Truth.jpg", "They_dont_know.png", "Theyre_The_Same_Picture.jpg",
+        "Third_World_Skeptical_Kid.jpg", "This_Is_Fine.jpg",
+        "This_Is_Where_Id_Put_My_Trophy_If_I_Had_One.jpg", "Three-headed_Dragon.jpg",
+        "Trade_Offer.jpg", "Trump_Bill_Signing.jpg", "Tuxedo_Winnie_The_Pooh.png",
+        "Two_Buttons.jpg", "Two_Paths.png", "Two_guys_on_a_bus.jpg",
+        "Types_of_Headaches_meme.jpg", "UNO_Draw_25_Cards.jpg", "Unsettled_Tom.jpg",
+        "Waiting_Skeleton.jpg", "Whisper_and_Goosebumps.jpg", "Who_Killed_Hannibal.jpg",
+        "Woman_Yelling_At_Cat.jpg", "X_X_Everywhere.jpg", "Yall_Got_Any_More_Of_That.jpg",
+        "You_Guys_are_Getting_Paid.png", "cmon_do_something.jpg", "is_this_butterfly.jpg",
+        "patrick_to_do_list_actually_blank.jpg", "say_the_line_bart_simpsons.jpg",
+        "spiderman_pointing_at_spiderman.jpg", "when_im_in_a_competition_and_my_opponent_is.jpg",
+        "where_monkey.png"
+    ];
+
+    const stickerFiles = [
+        "Batcave_screen.png", "Cracked.png", "DJ.png", "Drop_kick.png", "Eating_Bamboo.png",
+        "Gun_POV2.png", "Gun_pov.png", "Henlo_Fren.png", "Hoverboard.png", "POV_punch2.png",
+        "Pit_Viper_with_Tears_Pose_Images.png", "Prayer.png", "Rug_Pull.png", "Shinji_Chair.png",
+        "Shy_fingers.png", "Smelling_money.png", "Sniper.png", "T-Pose.png", "Trump_docsign.png",
+        "alpachino.png", "angel.png", "astronaut.png", "autism.png", "aware.png", "axibtpepe.png",
+        "back.png", "balls_sunning.png", "bamboominati.png", "baron_trump.png", "basketbal_dribble.png",
+        "basketbal_dunking.png", "bench_press.png", "black_guy_behind_tree.png", "body_slam.png",
+        "camera.png", "chained.png", "conspiracy.png", "corsswalk.png", "devil.png", "dont_care.png",
+        "doom-scroll.png", "dreamer.png", "falling.png", "fbi_headphones.png", "feet_up_on_table_btc.png",
+        "fighter.png", "freedom_of_speech.png", "gamble.png", "gm.png", "golem.png", "golf_swing.png",
+        "gorge_bush.png", "gotta_be.png", "hear_me_out.png", "homerun_swing.png", "introvert.png",
+        "joe_rogan_headphones.png", "jr_trump_chair.png", "kek.png", "laser-V2.png", "laser.png",
+        "left.png", "legendary.png", "let_him_cook.png", "listen_buddy.png", "lover.png", "lunatic.png",
+        "malfunction.png", "mastermind.png", "matrix.png", "mib1.png", "mib2.png", "moderator.png",
+        "mythic.png", "no_pose.png", "npc.png", "one_does_not.png", "optimist.png", "performer.png",
+        "phone_call.png", "pianist.png", "pit-viper.png", "poser.png", "prankster.png", "protector.png",
+        "pullup.png", "punch.png", "pushup.png", "redeemer.png", "right.png", "running.png", "sad.png",
+        "salute.png", "seeker.png", "shaq_dunk.png", "shook.png", "shrek-rizz.png", "sisyphus.png",
+        "smh.png", "sprey_paint.png", "startle.png", "stomp.png", "test_tube.png", "thinker.png",
+        "tiger_squat.png", "trump_rebel.png", "ultra.png", "vr.png", "wallstreet.png", "warrior.png",
+        "weightlift.png", "yeah-boi.png", "yes.png", "yoga.png", "zombie.png"
+    ];
+
+    // --- Populate Galleries ---
+    function populateGallery(galleryElement, files, path, isSticker) {
+        files.forEach(file => {
+            // Skip non-image files if any were accidentally included
+            if (!/\.(png|jpg|jpeg|gif)$/i.test(file)) return;
+
+            const item = document.createElement('div');
+            item.classList.add('gallery-item');
+            if (isSticker) item.classList.add('sticker');
+
+            const img = document.createElement('img');
+            const src = `assets/${path}/${file}`;
+            img.src = src;
+            img.alt = file;
+            img.loading = 'lazy'; // Lazy load images
+
+            item.appendChild(img);
+
+            // Use mousedown for faster response, prevent drag interference
+            item.addEventListener('mousedown', (e) => {
+                e.preventDefault(); // Prevent text selection/image drag
+                const src = `assets/${path}/${file}`;
+                if (isSticker) {
+                    // Directly add sticker
+                    const stickerImg = new Image();
+                    stickerImg.crossOrigin = 'anonymous'; // FIX: Tainted canvas
+                    stickerImg.onload = () => {
+                        const stickerSize = 100; // Initial size
+                        stickers.push({
+                            img: stickerImg,
+                            x: (canvas.width - stickerSize) / 2,
+                            y: (canvas.height - stickerSize) / 2,
+                            width: stickerSize,
+                            height: stickerSize,
+                            rotation: 0,
+                            isSelected: false,
+                            isDragging: false
+                            // Add rotation, selected state etc. later for interaction
+                        });
+                        redrawCanvas();
+                        closeModal(stickerModal); // Close modal after adding
+                    };
+                    stickerImg.onerror = () => {
+                        console.error(`Failed to load sticker: ${src}`);
+                        alert(`Error loading sticker: ${src.split('/').pop()}`)
+                    };
+                    stickerImg.src = src;
+                } else {
+                    // Load template
+                    loadImageOntoCanvas(src);
+                    closeModal(templateModal); // Close modal after selecting template
+                }
+            });
+
+            galleryElement.appendChild(item);
+        });
+    }
+
+    populateGallery(templateGallery, templateFiles, 'templates', false);
+    populateGallery(stickerGallery, stickerFiles, 'stickers', true);
+
+    // --- Modal Logic ---
+    function openModal(modalElement) {
+        if(modalElement) modalElement.style.display = 'flex';
+    }
+
+    function closeModal(modalElement) {
+        if(modalElement) modalElement.style.display = 'none';
+    }
+
+    showTemplatesBtn.addEventListener('click', () => openModal(templateModal));
+    showStickersBtn.addEventListener('click', () => openModal(stickerModal));
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const modalId = button.getAttribute('data-modal-id');
+            closeModal(document.getElementById(modalId));
+        });
+    });
+
+    // Close modal if clicking outside the content
+    window.addEventListener('click', (event) => {
+        if (event.target === templateModal) {
+            closeModal(templateModal);
+        }
+        if (event.target === stickerModal) {
+            closeModal(stickerModal);
+        }
+    });
+
+    // --- Canvas Drawing ---
+    function redrawCanvas() {
+        if (!canvas || !ctx) return;
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#FFFFFF'; // Set background for transparency handling if needed
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw base image if loaded
+        if (baseImage) {
+            // Calculate aspect ratios
+            const imgAspectRatio = baseImage.naturalWidth / baseImage.naturalHeight;
+            const canvasAspectRatio = canvas.width / canvas.height;
+
+            let drawWidth, drawHeight, offsetX, offsetY;
+
+            if (imgAspectRatio > canvasAspectRatio) {
+                // Image is wider than canvas
+                drawWidth = canvas.width;
+                drawHeight = drawWidth / imgAspectRatio;
+                offsetX = 0;
+                offsetY = (canvas.height - drawHeight) / 2;
+            } else {
+                // Image is taller than or same ratio as canvas
+                drawHeight = canvas.height;
+                drawWidth = drawHeight * imgAspectRatio;
+                offsetY = 0;
+                offsetX = (canvas.width - drawWidth) / 2;
+            }
+            ctx.drawImage(baseImage, offsetX, offsetY, drawWidth, drawHeight);
+        }
+
+        // Draw stickers
+        stickers.forEach((sticker, index) => {
+            ctx.save(); // Save the current state
+
+            // Translate origin to the center of the sticker
+            const centerX = sticker.x + sticker.width / 2;
+            const centerY = sticker.y + sticker.height / 2;
+            ctx.translate(centerX, centerY);
+
+            // Rotate the context
+            ctx.rotate(sticker.rotation * Math.PI / 180); // Convert degrees to radians
+
+            // Draw the image centered around the new origin
+            ctx.drawImage(sticker.img, -sticker.width / 2, -sticker.height / 2, sticker.width, sticker.height);
+
+            // If this sticker is selected, draw the bounding box and handles
+            if (index === selectedStickerIndex) {
+                const halfW = sticker.width / 2;
+                const halfH = sticker.height / 2;
+
+                // Draw bounding box
+                const goldColor = getComputedStyle(document.documentElement).getPropertyValue('--gold').trim();
+                ctx.strokeStyle = goldColor || '#ffd580'; // Use gold for selection, fallback if CSS var fails
+                ctx.fillStyle = ctx.strokeStyle; // Use same color for handles
+                ctx.lineWidth = 2;
+                ctx.strokeRect(-halfW, -halfH, sticker.width, sticker.height);
+
+                // Draw Handles (Final Attempt at Clearer Icons)
+                const handleOffset = handleSize / 2; // Keep for reference, may not be used directly
+
+                // Final Resize Handle (Bottom-Right Thick Arrow)
+                const resizeHandleX = halfW; // Relative X center for handle visual origin
+                const resizeHandleY = halfH; // Relative Y center for handle visual origin
+                ctx.lineWidth = 3; // Make arrow thicker
+                ctx.beginPath();
+                // Draw triangle centered roughly at BR corner
+                ctx.moveTo(resizeHandleX - handleSize, resizeHandleY - handleSize); // Top-left of handle area
+                ctx.lineTo(resizeHandleX + handleSize, resizeHandleY - handleSize); // Top-right of handle area
+                ctx.lineTo(resizeHandleX, resizeHandleY + handleSize); // Bottom point
+                ctx.closePath();
+                ctx.fill(); // Fill the triangle
+
+                // Final Rotate Handle (Top-Right Circular Arrow)
+                const rotateHandleX = halfW; // Center X relative to sticker center
+                const rotateHandleY = -halfH; // Center Y relative to sticker center
+                const handleRadius = handleSize; // Standard size
+                ctx.lineWidth = 2; // Reset line width if needed
+                ctx.beginPath();
+                ctx.arc(rotateHandleX, rotateHandleY, handleRadius, Math.PI * 0.75, Math.PI * 2.25); // Adjust arc angles slightly
+                ctx.stroke();
+                // Add arrowhead
+                ctx.beginPath();
+                const arrowAngle = Math.PI * 0.8; // Angle for arrowhead end
+                ctx.moveTo(
+                    rotateHandleX + Math.cos(arrowAngle) * handleRadius,
+                    rotateHandleY + Math.sin(arrowAngle) * handleRadius
+                );
+                ctx.lineTo(
+                    rotateHandleX + Math.cos(arrowAngle - 0.3) * (handleRadius - 4),
+                    rotateHandleY + Math.sin(arrowAngle - 0.3) * (handleRadius - 4)
+                );
+                ctx.lineTo(
+                    rotateHandleX + Math.cos(arrowAngle + 0.3) * (handleRadius - 4),
+                    rotateHandleY + Math.sin(arrowAngle + 0.3) * (handleRadius - 4)
+                );
+                ctx.closePath();
+                ctx.fill();
+
+            }
+
+            ctx.restore(); // Restore the state saved before drawing this sticker
+        });
+
+        // Draw text
+        const topText = topTextInput.value.toUpperCase();
+        const bottomText = bottomTextInput.value.toUpperCase();
+        const fontSize = parseInt(fontSizeInput.value) || 48; // Get from number input
+        const font = fontSelect.value;
+        // Note: Font is set within drawWrappedText now
+
+        // Common Text Style settings (applied within drawWrappedText)
+        // ctx.fillStyle = colorPicker.value;
+        // ctx.strokeStyle = '#000'; // Black outline
+        // ctx.lineWidth = 5; // Adjust outline thickness as needed
+        // ctx.textAlign = 'center';
+
+        // --- Draw Top Text with Wrapping ---
+        const topX = canvas.width / 2;
+        const textPadding = canvas.width * 0.05; // 5% padding each side
+        const lineHeightTop = fontSize * 1.25; // Slightly increased line height
+        const topY = textPadding + (lineHeightTop / 2); // Start slightly below padding
+        const maxWidth = canvas.width * 0.9; // Use 90% of canvas width
+        drawWrappedText(topText, topX, topY, maxWidth, lineHeightTop, fontSize, font, false);
+ 
+         // --- Draw Bottom Text with Wrapping ---
+         const bottomX = canvas.width / 2;
+         // Y position for bottom text will be calculated inside drawWrappedText based on lines
+         const lineHeightBottom = fontSize * 1.25; // Slightly increased line height
+         drawWrappedText(bottomText, bottomX, 0, maxWidth, lineHeightBottom, fontSize, font, true); // Pass y=0 initially, true for bottom alignment
+    }
+
+    // --- Helper function for Text Wrapping ---
+    function drawWrappedText(text, x, initialY, maxWidth, lineHeight, currentFontSize, currentFont, alignBottom = false) {
+        const words = text.split(' ');
+        let line = '';
+        let lines = [];
+
+        // --- Set context properties ONCE before loops ---
+        // Measurement settings:
+        ctx.font = `${currentFontSize}px ${currentFont}`; // Ensure context has correct font for measurement
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle'; // Consistent baseline
+        // --- End context properties ---
+
+        // --- Word Wrapping Loop ---
+        for(let n = 0; n < words.length; n++) {
+            // Font is already set
+            let word = words[n];
+            let wordMetrics = ctx.measureText(word);
+            let wordWidth = wordMetrics.width;
+
+            // Check if the word itself is too long
+            if (wordWidth > maxWidth) {
+                // If there's content on the current line, push it first
+                if (line) {
+                    lines.push(line.trim());
+                    line = ''; // Reset line after pushing
+                }
+                // Force break the long word character by character
+                let subLine = '';
+                for (let i = 0; i < word.length; i++) {
+                    let testSubLine = subLine + word[i];
+                    let subMetrics = ctx.measureText(testSubLine);
+                    if (subMetrics.width > maxWidth && subLine.length > 0) {
+                        // Current subLine + character is too long, push previous subLine
+                        lines.push(subLine);
+                        subLine = word[i]; // Start new subLine with the overflow character
+                    } else {
+                        subLine = testSubLine; // Character fits, add to subLine
+                    }
+                }
+                // Push the remaining part of the long word
+                if (subLine) {
+                    lines.push(subLine);
+                }
+                line = ''; // Word fully processed, reset line for next word
+             } else {
+                 // Word fits on its own, try adding it to the current line
+                 let testLine = line ? line + ' ' + word : word; // Add space only if line isn't empty
+                 let testMetrics = ctx.measureText(testLine);
+                 let testWidth = testMetrics.width;
+
+                 if (testWidth > maxWidth) {
+                     // Adding the word makes the line too long, break before adding it
+                     lines.push(line.trim());
+                     line = word; // Start new line with the current word
+                 } else {
+                     line = testLine;
+                 }
+             }
+        }
+
+        // Push the last remaining line
+        if (line) { // Only push if line has content
+            lines.push(line.trim());
+        }
+
+        // Calculate starting Y position based on lines & alignment
+        let startY;
+        if (alignBottom) {
+            // Calculate Y for the first line so the last line ends near canvas bottom
+            const bottomPadding = canvas.width * 0.05; // Revert to percentage padding
+            startY = canvas.height - bottomPadding - ((lines.length - 1) * lineHeight) - (lineHeight / 2);
+        } else {
+            startY = initialY; // Use the passed Y for top text
+        }
+
+        // --- Set drawing properties ONCE before drawing loop ---
+        ctx.fillStyle = colorPicker.value;
+        ctx.strokeStyle = '#000';
+        ctx.lineJoin = 'round'; // Fix for stroke spikes
+        ctx.lineWidth = Math.max(1, currentFontSize / 12) || 3; // Scale outline based on font size
+        // --- End drawing properties ---
+
+        // Draw the lines
+        lines.forEach((line, index) => {
+            // Font, alignment, baseline already set. Colors/stroke set before loop.
+            const drawY = startY + (index * lineHeight);
+            ctx.strokeText(line, x, drawY);
+            ctx.fillText(line, x, drawY);
+        });
+    }
+
+    // --- Image Loading ---
+    function loadImageOntoCanvas(src) {
+        const img = new Image();
+        img.crossOrigin = 'anonymous'; // FIX: Tainted canvas
+        img.onload = () => {
+            baseImage = img;
+            // Optional: Resize canvas to image aspect ratio? Or fit image to canvas?
+            // Let's fit the image to the existing canvas size for simplicity
+            // Keep canvas 500x500, center image within it
+
+            // --- Dynamic Canvas Resizing ---
+            const imgWidth = img.naturalWidth;
+            const imgHeight = img.naturalHeight;
+            let targetWidth = imgWidth;
+            let targetHeight = imgHeight;
+
+            // Calculate aspect ratio
+            const aspectRatio = imgWidth / imgHeight;
+
+            // Adjust size to fit within max bounds while maintaining aspect ratio
+            if (targetWidth > MAX_CANVAS_WIDTH) {
+                targetWidth = MAX_CANVAS_WIDTH;
+                targetHeight = targetWidth / aspectRatio;
+            }
+            if (targetHeight > MAX_CANVAS_HEIGHT) {
+                targetHeight = MAX_CANVAS_HEIGHT;
+                targetWidth = targetHeight * aspectRatio;
+            }
+
+            // Set canvas dimensions
+            canvas.width = Math.round(targetWidth);
+            canvas.height = Math.round(targetHeight);
+            // --- End Dynamic Resizing ---
+
+            stickers = []; // Clear stickers when loading a new base image
+            selectedStickerIndex = -1;
+            redrawCanvas(); // Redraw with the new base image and size
+        };
+        img.onerror = () => {
+            console.error(`Failed to load image: ${src}`);
+            alert(`Error loading image: ${src.split('/').pop()}`)
+        };
+        img.src = src;
+    }
+
+    // --- Helper: Get Canvas as Blob (without selections) ---
+    function getCleanCanvasBlob() {
+        return new Promise((resolve, reject) => {
+            // Temporarily deselect sticker for clean output
+            const originalSelectedIndex = selectedStickerIndex;
+            selectedStickerIndex = null;
+            redrawCanvas(); // Redraw without selection handles
+
+            canvas.toBlob(blob => {
+                // Restore selection state for the user interface
+                selectedStickerIndex = originalSelectedIndex;
+                // Optional: redraw again if you want handles to immediately reappear, 
+                // but it might cause a brief flicker. Usually not needed.
+                // redrawCanvas(); 
+
+                if (blob) {
+                    resolve(blob);
+                } else {
+                    reject(new Error('Canvas could not be converted to Blob.'));
+                }
+            }, 'image/png'); // Specify PNG format
+        });
+    }
+
+    // --- Sticker Interaction Logic ---
+    function isPointInSticker(x, y, sticker) {
+        // Basic bounding box check (ignoring rotation for now)
+        // Translate point to sticker's local coordinate system (relative to center)
+        const dx = x - (sticker.x + sticker.width / 2);
+        const dy = y - (sticker.y + sticker.height / 2);
+
+        // Rotate point opposite to sticker rotation
+        const angleRad = -sticker.rotation * Math.PI / 180;
+        const cos = Math.cos(angleRad);
+        const sin = Math.sin(angleRad);
+        const rotatedX = dx * cos - dy * sin;
+        const rotatedY = dx * sin + dy * cos;
+
+        // Check if the rotated point is within the non-rotated bounding box centered at origin
+        return Math.abs(rotatedX) <= sticker.width / 2 &&
+               Math.abs(rotatedY) <= sticker.height / 2;
+    }
+
+    function getHandleAtPoint(x, y, sticker) {
+        canvas.style.cursor = 'default'; // Default cursor
+        const halfW = sticker.width / 2;
+        const halfH = sticker.height / 2;
+        const handleOffset = handleSize / 2; // Keep for reference, may not be used directly
+
+        // Coordinates relative to sticker center
+        const localX = x - (sticker.x + halfW);
+        const localY = y - (sticker.y + halfH);
+
+        // Rotate point opposite to sticker rotation
+        const angle = -sticker.rotation * Math.PI / 180; // Convert degrees to radians and negate for coordinate rotation
+        const rotatedX = localX * Math.cos(angle) - localY * Math.sin(angle);
+        const rotatedY = localX * Math.sin(angle) + localY * Math.cos(angle);
+
+        // Check bottom-right handle (Triangle/Arrow hitbox)
+        // Hitbox for BR Resize Handle (around visual center halfW, halfH)
+        const resizeHandleCenterX = halfW;
+        const resizeHandleCenterY = halfH;
+        const handleDetectRadius = handleSize * 1.5; // Generous detection radius
+        const dxResize = rotatedX - resizeHandleCenterX;
+        const dyResize = rotatedY - resizeHandleCenterY;
+        if (dxResize * dxResize + dyResize * dyResize <= handleDetectRadius * handleDetectRadius) {
+            canvas.style.cursor = 'nwse-resize';
+            return 'resize-br';
+        }
+
+        // Check top-right handle (Circular hitbox)
+        const rotateHandleCenterX = halfW;
+        const rotateHandleCenterY = -halfH;
+        const handleRadius = handleSize; // Standard size
+        ctx.lineWidth = 2; // Reset line width if needed
+        ctx.beginPath();
+        ctx.arc(rotateHandleCenterX, rotateHandleCenterY, handleRadius, Math.PI * 0.75, Math.PI * 2.25); // Adjust arc angles slightly
+        ctx.stroke();
+        // Add arrowhead
+        ctx.beginPath();
+        const arrowAngle = Math.PI * 0.8; // Angle for arrowhead end
+        ctx.moveTo(
+            rotateHandleCenterX + Math.cos(arrowAngle) * handleRadius,
+            rotateHandleCenterY + Math.sin(arrowAngle) * handleRadius
+        );
+        ctx.lineTo(
+            rotateHandleCenterX + Math.cos(arrowAngle - 0.3) * (handleRadius - 4),
+            rotateHandleCenterY + Math.sin(arrowAngle - 0.3) * (handleRadius - 4)
+        );
+        ctx.lineTo(
+            rotateHandleCenterX + Math.cos(arrowAngle + 0.3) * (handleRadius - 4),
+            rotateHandleCenterY + Math.sin(arrowAngle + 0.3) * (handleRadius - 4)
+        );
+        ctx.closePath();
+        ctx.fill();
+
+        // If no handle hit, but point is inside sticker, set move cursor
+        if (isPointInSticker(x, y, sticker)) {
+            canvas.style.cursor = 'move';
+        }
+
+        return null; // No handle found
+    }
+
+    canvas.addEventListener('mousedown', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left; // Calculate mouse coords once
+        const mouseY = e.clientY - rect.top;
+        // Reset cursor initially on each mousedown, will be overridden if handle/sticker hit
+        // canvas.style.cursor = 'default'; // Set by getHandleAtPoint or sticker check
+
+        // Check if clicking on a handle of the selected sticker first
+        if (selectedStickerIndex !== -1) {
+            activeHandle = getHandleAtPoint(mouseX, mouseY, stickers[selectedStickerIndex]);
+            if (activeHandle) {
+                isDragging = false; // Not dragging the whole sticker
+                const sticker = stickers[selectedStickerIndex]; // Re-get sticker ref
+                dragStartX = mouseX; // Store initial mouse position for calculations
+                dragStartY = mouseY;
+
+                // Store initial sticker state for calculations relative to start
+                const centerX = sticker.x + sticker.width / 2;
+                const centerY = sticker.y + sticker.height / 2;
+                initialStickerState = {
+                    x: sticker.x,
+                    y: sticker.y,
+                    width: sticker.width,
+                    height: sticker.height,
+                    rotation: sticker.rotation,
+                    centerX: centerX,
+                    centerY: centerY,
+                    // Calculate initial angle from center to mouse
+                    angle: Math.atan2(mouseY - centerY, mouseX - centerX), // Initial angle to mouse
+                    distance: Math.sqrt((mouseX - centerX)**2 + (mouseY - centerY)**2) // Initial distance to mouse
+                };
+                isResizing = activeHandle === 'resize-br';
+                isRotating = activeHandle === 'rotate-tr';
+                redrawCanvas();
+                return; // Stop processing if handle is clicked
+            }
+        }
+
+        // Check if clicking on a sticker (check in reverse order - top sticker first)
+        let clickedOnSticker = false;
+        for (let i = stickers.length - 1; i >= 0; i--) {
+            if (isPointInSticker(mouseX, mouseY, stickers[i])) {
+                // Select the clicked sticker
+                if (selectedStickerIndex !== -1) {
+                    stickers[selectedStickerIndex].isSelected = false; // Deselect previous
+                }
+                selectedStickerIndex = i;
+                stickers[i].isSelected = true;
+                stickers[i].isDragging = true;
+                isDragging = true; // Global dragging flag
+
+                // Bring selected sticker to front (move to end of array)
+                const selected = stickers.splice(i, 1)[0];
+                stickers.push(selected);
+                selectedStickerIndex = stickers.length - 1; // Update index
+
+                dragStartX = mouseX - stickers[i].x;
+                dragStartY = mouseY - stickers[i].y;
+                clickedOnSticker = true;
+                isDragging = true; // Ensure dragging flag is set
+                canvas.style.cursor = 'grabbing'; // Change cursor during drag
+                redrawCanvas();
+                break; // Stop after finding the topmost clicked sticker
+            }
+        }
+
+        // If clicked outside any sticker, deselect
+        if (!clickedOnSticker && selectedStickerIndex !== -1) {
+            stickers[selectedStickerIndex].isSelected = false;
+            selectedStickerIndex = -1;
+            redrawCanvas();
+        }
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+        if (!isDragging && !isResizing && !isRotating) return;
+        if (selectedStickerIndex === -1) return;
+
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        const selectedSticker = stickers[selectedStickerIndex];
+
+        if (isDragging) {
+            selectedSticker.x = mouseX - dragStartX;
+            selectedSticker.y = mouseY - dragStartY;
+        } else if (isResizing && activeHandle === 'resize-br') { // --- Refined Resize Logic ---
+            // Calculate current distance from center to mouse
+            const currentDist = Math.sqrt((mouseX - initialStickerState.centerX)**2 + (mouseY - initialStickerState.centerY)**2);
+
+            let scale = 1;
+            if (initialStickerState.distance > 0) { // Avoid division by zero
+                scale = currentDist / initialStickerState.distance;
+            }
+
+            // Apply scale to initial dimensions, maintaining aspect ratio
+            const initialWidth = initialStickerState.width;
+            const initialHeight = initialStickerState.height;
+            let newWidth = initialWidth * scale;
+            let newHeight = initialHeight * scale; // Scale height proportionally
+
+            // Optional: Minimum size constraint
+            const minSize = 20;
+            if (newWidth < minSize) {
+                scale = minSize / initialWidth;
+                newWidth = minSize;
+                newHeight = initialHeight * scale;
+            }
+            if (newHeight < minSize) {
+                scale = minSize / initialHeight;
+                newHeight = minSize;
+                newWidth = initialWidth * scale;
+            }
+
+            // Update sticker size
+            selectedSticker.width = newWidth;
+            selectedSticker.height = newHeight;
+
+            // Adjust position to keep center fixed
+            selectedSticker.x = initialStickerState.centerX - newWidth / 2;
+            selectedSticker.y = initialStickerState.centerY - newHeight / 2;
+
+        } else if (isRotating && activeHandle === 'rotate-tr') { // --- Refined Rotation Logic ---
+            const dx = mouseX - initialStickerState.centerX;
+            const dy = mouseY - initialStickerState.centerY;
+            // Calculate current angle from sticker center to mouse
+            const currentAngle = Math.atan2(dy, dx);
+
+            // Calculate the change in angle
+            let deltaAngle = currentAngle - initialStickerState.angle;
+
+            // Apply the change (deltaAngle) to the initial rotation
+            selectedSticker.rotation = initialStickerState.rotation + deltaAngle * (180 / Math.PI);
+        }
+
+        redrawCanvas();
+    });
+
+    canvas.addEventListener('mouseup', () => {
+        // Ensure flags are always reset on mouseup
+        if (isDragging && selectedStickerIndex !== -1) {
+            stickers[selectedStickerIndex].isDragging = false;
+        }
+        isDragging = false;
+        isResizing = false;
+        isRotating = false;
+        activeHandle = null;
+        canvas.style.cursor = 'default'; // Reset cursor
+    });
+
+    canvas.addEventListener('mouseout', () => { // Stop dragging if mouse leaves canvas
+        // Ensure flags are always reset on mouseout
+        if (isDragging && selectedStickerIndex !== -1) {
+            stickers[selectedStickerIndex].isDragging = false;
+        }
+        isDragging = false;
+        isResizing = false;
+        isRotating = false;
+        activeHandle = null;
+        canvas.style.cursor = 'default'; // Reset cursor
+    });
+
+    // --- Event Listeners ---
+    topTextInput.addEventListener('input', redrawCanvas);
+    bottomTextInput.addEventListener('input', redrawCanvas);
+    fontSizeInput.addEventListener('input', redrawCanvas);
+    fontSelect.addEventListener('change', redrawCanvas);
+    colorPicker.addEventListener('input', redrawCanvas);
+
+    imageUpload.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                loadImageOntoCanvas(event.target.result);
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // --- Download Meme ---
+    downloadBtn.addEventListener('click', async () => {
+        try {
+            const blob = await getCleanCanvasBlob();
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.download = 'meme.png';
+            link.href = url;
+            link.click();
+            URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error downloading meme:', error);
+            alert('Failed to download meme. See console for details.');
+        }
+    });
+
+    // --- Copy Meme to Clipboard ---
+    copyBtn.addEventListener('click', async () => {
+        try {
+            const blob = await getCleanCanvasBlob();
+            await navigator.clipboard.write([
+                new ClipboardItem({ [blob.type]: blob })
+            ]);
+
+            // Provide user feedback
+            const originalText = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<span class="material-icons" style="vertical-align: middle; font-size: 1.2em;">done</span> Copied!';
+            copyBtn.disabled = true;
+            setTimeout(() => {
+                copyBtn.innerHTML = originalText;
+                copyBtn.disabled = false;
+            }, 1500); // Revert after 1.5 seconds
+
+        } catch (error) {
+            console.error('Error copying image:', error);
+            alert('Failed to copy image. Your browser might not support this feature or permission was denied. See console for details.');
+        }
+    });
+
+    // --- Clear Canvas ---
+    clearCanvasBtn.addEventListener('click', () => {
+        baseImage = null;
+        stickers = [];
+        topTextInput.value = '';
+        bottomTextInput.value = '';
+        imageUpload.value = ''; // Clear file input
+        redrawCanvas(); // Redraw the blank canvas
+    });
+
+    // Initial draw (blank canvas)
+    canvas.width = 500; 
+    canvas.height = 400; 
+    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--card-bg').trim(); // Placeholder background
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim();
+    ctx.textAlign = 'center';
+    ctx.fillText("Load a template or upload an image", canvas.width / 2, canvas.height / 2);
+    redrawCanvas();
+  </script>
+</body>
+</html>
