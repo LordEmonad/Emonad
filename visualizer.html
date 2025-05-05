@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordtism Visualizer</title>
+    <script src="inscription_ids.js"></script>
+    <style>
+        :root {
+            --bg-color: #050510; /* Very dark background */
+            --transition-speed: 1.5s; /* Crossfade transition duration */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Prevent scrollbars */
+            background-color: var(--bg-color);
+            color: #eee;
+            font-family: 'Space Grotesk', sans-serif; /* Match index style */
+        }
+
+        #visualizer-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ordinal-iframe { /* Use a class for both iframes */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            opacity: 0;
+            transition: opacity var(--transition-speed) linear; /* Enable CSS transition */
+            /* transition: none; */ /* Removed */
+            background-color: transparent;
+            z-index: 1; /* Default layer */
+            transform: translateZ(0); /* Encourage hardware acceleration */
+            will-change: opacity; /* Hint that opacity will animate */
+        }
+
+        /* Class to make an iframe visible (instantly) */
+        .ordinal-iframe.visible {
+            opacity: 1; /* JS will handle z-index */
+        }
+        /* No .hidden class needed anymore */
+
+
+        /* Loading indicator only for initial load */
+        #loading-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            color: #aaa;
+            display: flex; /* Show initially */
+            z-index: 10; /* Ensure it's above the iframes during initial load */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+         #loading-indicator.hidden {
+             display: none; /* Hide after initial load */
+         }
+
+        /* Spinner styles */
+        .lds-dual-ring {
+          display: inline-block;
+          width: 80px; /* Slightly larger for visualizer */
+          height: 80px;
+        }
+        .lds-dual-ring:after {
+          content: " ";
+          display: block;
+          width: 64px;
+          height: 64px;
+          margin: 8px;
+          border-radius: 50%;
+          border: 6px solid #ffd580; /* Use theme colors */
+          border-color: #ffd580 transparent #44ffe2 transparent;
+          animation: lds-dual-ring 1.2s linear infinite;
+        }
+        @keyframes lds-dual-ring {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        .loading-text {
+            color: #ffd580; /* Use theme color */
+            font-size: 1.2rem;
+            margin-top: 15px;
+            text-shadow: 0 0 10px rgba(255, 213, 128, 0.5);
+        }
+
+        /* Counter styles */
+        #piece-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(16, 16, 37, 0.7); /* Dark semi-transparent bg */
+            color: #c7a8ff; /* Accent color */
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            z-index: 5; /* Above iframe, below loader */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            border: 1px solid #c7a8ff44;
+            backdrop-filter: blur(3px);
+        }
+        /* Counter removed */
+
+    </style>
+    <!-- Include font from Google Fonts like in index.html -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="visualizer-container">
+        <!-- Two iframes for crossfading -->
+        <iframe id="iframe1" class="ordinal-iframe" allowtransparency="true" sandbox="allow-scripts allow-same-origin"></iframe>
+        <iframe id="iframe2" class="ordinal-iframe" allowtransparency="true" sandbox="allow-scripts allow-same-origin"></iframe>
+
+        <div id="loading-indicator"> <!-- Only shown on initial load -->
+             <div class="lds-dual-ring"></div>
+             <div class="loading-text">Loading Ordtism...</div>
+        </div>
+        <!-- Counter removed -->
+    </div>
+
+    <script>
+        const iframe1 = document.getElementById('iframe1');
+        const iframe2 = document.getElementById('iframe2');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        // Counter removed
+
+
+        const totalPieces = INSCRIPTION_IDS.length - 1;
+        let currentPieceIndex = 0; // Start at 0, will be incremented before first load
+        let activeIframe = iframe1; // Start with iframe1 as active
+        let preloadIframe = iframe2;
+
+        const displayDuration = 3000; // 3 seconds per piece
+        const transitionSpeed = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--transition-speed') || '1.0') * 1000; // Get from CSS in ms
+
+        let transitionTimeout = null; // Timeout for the *next* transition check
+        let cleanupTimeout = null; // Timeout for cleaning up the *previous* iframe after fade
+        let iframe1Ready = false;
+        let iframe2Ready = false;
+        let isTransitioning = false; // Flag to prevent overlapping transitions (REMOVED - using timeout checks instead)
+
+        // Function to load a piece into the specified target iframe
+        function loadPieceIntoPreload(index, targetIframe) {
+
+            // --- Clear Src Immediately Before Loading ---
+            // Clear the src *before* loading new content to prevent brief flash of old content.
+            // We don't hide it here, just clear content. Visibility is handled by z-index/fade.
+            console.log(`Clearing src for ${targetIframe.id} before loading piece ${index}`);
+            targetIframe.src = 'about:blank';
+            // --- End Clear Src ---
+
+            // Mark the target iframe as not ready while loading
+            const targetIsIframe1 = (targetIframe === iframe1);
+            if (targetIsIframe1) iframe1Ready = false;
+            else iframe2Ready = false;
+
+            if (index < 1 || index > totalPieces) {
+                console.error("Invalid piece index:", index);
+                // If index is invalid, maybe try index 1? Or just stop? Let's stop for now.
+                return;
+            }
+            const inscriptionId = INSCRIPTION_IDS[index];
+            const contentSrc = `https://ordinals.com/content/${inscriptionId}`;
+            console.log(`Setting src for piece ${index} into ${targetIframe.id}`);
+
+            // Set the new src after a short delay to allow 'about:blank' to apply
+            setTimeout(() => {
+                 targetIframe.src = contentSrc;
+                 console.log(`Set src for piece ${index} into ${targetIframe.id}`);
+            }, 50);
+
+
+            targetIframe.onload = () => {
+                console.log(`Piece ${index} loaded and ready in ${targetIframe.id}.`);
+                // Mark as ready
+                if (targetIsIframe1) iframe1Ready = true;
+                else iframe2Ready = true;
+
+                // Mark as ready. The display timer is started independently now.
+                // if (targetIframe === preloadIframe) {
+                //     console.log(`Preload complete for ${targetIframe.id}. Starting display timer for active iframe ${activeIframe.id}.`);
+                //     scheduleTransition(); // Timer is no longer started here
+                // }
+                console.log(`Preload complete for ${targetIframe.id}. Ready state set.`);
+            };
+            targetIframe.onerror = () => {
+                console.error(`Error loading piece ${index}: ${contentSrc} in ${targetIframe.id}`);
+                 // Mark as not ready
+                 if (targetIsIframe1) iframe1Ready = false;
+                 else iframe2Ready = false;
+                // Attempt to load the next one immediately into the same target iframe
+                // Ensure index wraps correctly
+                const nextIndex = (index % totalPieces) + 1;
+                // Use a small delay before retrying to avoid potential rapid error loops
+                setTimeout(() => loadPieceIntoPreload(nextIndex, targetIframe), 500);
+            };
+        }
+
+        // Function to start the transition (crossfade)
+        function transitionPieces() {
+            // Clear any pending timeouts just in case
+            if (transitionTimeout) clearTimeout(transitionTimeout);
+            if (cleanupTimeout) clearTimeout(cleanupTimeout);
+            transitionTimeout = null;
+            cleanupTimeout = null;
+
+            currentPieceIndex = (currentPieceIndex % totalPieces) + 1;
+            console.log(`Starting crossfade transition to piece ${currentPieceIndex}`);
+
+            const outgoingIframe = activeIframe;
+            const incomingIframe = preloadIframe;
+
+            console.log(`Crossfading: ${outgoingIframe.id} (out) -> ${incomingIframe.id} (in)`);
+
+            // --- Initiate Crossfade ---
+            // 1. Ensure outgoing is still visible and on its layer
+            outgoingIframe.style.zIndex = 2;
+            // outgoingIframe.classList.add('visible'); // Should already be visible
+
+            // 2. Bring incoming iframe to the top layer and start its fade-in
+            incomingIframe.style.zIndex = 3;
+            incomingIframe.classList.add('visible'); // Starts fade-in due to CSS transition
+
+            // 3. Send 'play' message to the NEWLY active iframe (the one fading in)
+            //    Do this early so it starts playing as it becomes visible.
+            try {
+                setTimeout(() => { // Delay slightly
+                    if (incomingIframe.contentWindow) {
+                        incomingIframe.contentWindow.postMessage({ type: 'play' }, '*');
+                        console.log(`Sent 'play' to incoming ${incomingIframe.id}`);
+                    } else {
+                         console.warn(`Cannot send play: contentWindow not ready for incoming ${incomingIframe.id}`);
+                    }
+                }, 150); // Small delay
+            } catch (e) {
+                console.warn(`Error sending 'play' message to incoming ${incomingIframe.id}:`, e);
+            }
+
+            // Update roles immediately: the incoming iframe is conceptually the active one now
+            activeIframe = incomingIframe;
+            preloadIframe = outgoingIframe; // The outgoing one becomes the next preload target
+
+            // Check if the incoming iframe (now active) was actually ready
+            const isPreloadReady = (activeIframe === iframe1) ? iframe1Ready : iframe2Ready;
+            if (!isPreloadReady) {
+                console.warn(`Transitioning to piece ${currentPieceIndex} but ${activeIframe.id} was not marked as ready yet.`);
+            }
+
+            // --- Schedule Fade-out and Early Preload for the Outgoing Frame (now preloadIframe) ---
+            // This starts the fade-out *after* the incoming frame has had time to fade *in*.
+            // It also starts preloading the *next* piece immediately.
+            if (cleanupTimeout) clearTimeout(cleanupTimeout);
+            cleanupTimeout = setTimeout(() => {
+                const frameToCleanAndPreload = preloadIframe; // The one that needs to fade out and then preload into
+                if (frameToCleanAndPreload) {
+                    console.log(`Starting fade-out for background iframe: ${frameToCleanAndPreload.id}`);
+                    // 1. Lower z-index
+                    frameToCleanAndPreload.style.zIndex = 1;
+                    // 2. Start fade-out by removing 'visible' class
+                    frameToCleanAndPreload.classList.remove('visible'); // Starts fade-out via CSS transition
+
+                    // 3. --- Start Preloading the NEXT piece Immediately ---
+                    //    No need to wait for fade-out to complete. loadPieceIntoPreload will clear the src first.
+                    const nextIndexToPreload = (currentPieceIndex % totalPieces) + 1; // Use currentPieceIndex which points to the *newly* active piece
+                    console.log(`Starting preload early for piece ${nextIndexToPreload} into fading-out ${frameToCleanAndPreload.id}.`);
+                    // Give the fade-out CSS a tiny moment to start before clearing src
+                    setTimeout(() => {
+                         loadPieceIntoPreload(nextIndexToPreload, frameToCleanAndPreload);
+                         // The onload handler in loadPieceIntoPreload will call scheduleTransition for the *active* frame once this preload is done.
+                    }, 50); // Small delay before clearing src and loading
+
+                } else {
+                    console.log("Cleanup timeout fired but frameToCleanAndPreload is null.");
+                }
+                cleanupTimeout = null; // This specific timeout instance is done
+            }, transitionSpeed); // Start fade-out and preload process after the main fade-in completes
+
+            // --- Scheduling the *next* transition ---
+            // Start the display timer for the NEWLY active iframe immediately.
+            scheduleTransition();
+        }
+
+        // Schedules the *check* to see if we can start the next transition
+        function scheduleTransition() {
+            if (transitionTimeout) {
+                clearTimeout(transitionTimeout);
+            }
+            console.log(`Scheduling check for next transition in ${displayDuration}ms`);
+            // Call tryStartTransition after the display duration
+            transitionTimeout = setTimeout(tryStartTransition, displayDuration);
+        }
+
+        // Checks if the preloaded iframe is ready, if so starts transition, otherwise waits.
+        function tryStartTransition() {
+             const isPreloadReady = (preloadIframe === iframe1) ? iframe1Ready : iframe2Ready;
+             if (isPreloadReady) {
+                 console.log(`${preloadIframe.id} is ready. Starting transition.`);
+                 transitionPieces(); // Preloaded content is ready, start the visual transition
+             } else {
+                 console.log(`${preloadIframe.id} is not ready yet. Waiting...`);
+                 // Wait a short period and check again
+                 transitionTimeout = setTimeout(tryStartTransition, 200); // Check again in 200ms
+             }
+        }
+
+
+        // --- Initial Setup ---
+        function startVisualizer() {
+            console.log("Starting visualizer...");
+            currentPieceIndex = 1; // Set the first piece index
+
+            // Start loading the first piece into iframe1 (initially active)
+            console.log(`Initial load: piece ${currentPieceIndex} into ${activeIframe.id}`);
+            const firstInscriptionId = INSCRIPTION_IDS[currentPieceIndex];
+            activeIframe.src = `https://ordinals.com/content/${firstInscriptionId}`;
+
+            activeIframe.onload = () => {
+                 console.log(`Initial piece ${currentPieceIndex} loaded in ${activeIframe.id}.`);
+                 loadingIndicator.classList.add('hidden'); // Hide loader permanently
+                 activeIframe.style.zIndex = 2; // Ensure it's on the active layer initially
+                 activeIframe.classList.add('visible'); // Make the first piece visible (fade-in)
+
+                 // Send initial play message
+                 try {
+                    setTimeout(() => { // Delay play message slightly
+                        if (activeIframe.contentWindow) {
+                            activeIframe.contentWindow.postMessage({ type: 'play' }, '*');
+                        }
+                    }, 100);
+                 } catch(e) { console.warn("Initial play message failed:", e); }
+
+
+                 // Mark iframe1 as ready
+                 iframe1Ready = true;
+
+                 // Now that the first piece is ready and visible, start preloading the second piece.
+                 const nextIndex = (currentPieceIndex % totalPieces) + 1;
+                 console.log("Initial piece loaded. Starting preload of piece 2.");
+                 loadPieceIntoPreload(nextIndex, preloadIframe); // Load piece 2 into iframe2
+                 // Start the display timer for the first piece immediately after starting preload for the second.
+                 console.log("Starting display timer for initial piece 1.");
+                 scheduleTransition();
+            };
+
+            activeIframe.onerror = () => {
+                console.error(`Error loading initial piece ${currentPieceIndex}`);
+                loadingIndicator.classList.add('hidden'); // Hide loader anyway
+                // Attempt to start with piece 2 instead
+                currentPieceIndex = 1; // Will be incremented to 2 in loadPieceIntoPreload
+                loadPieceIntoPreload(2); // Try loading piece 2 directly into the preload iframe
+            };
+        }
+
+        startVisualizer(); // Start the process
+    </script>
+</body>
+</html>
