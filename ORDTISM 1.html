@@ -1,0 +1,248 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>ORDTISM 1</title><script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script><style>html,body{margin:0;padding:0;overflow:hidden;background:#131316;width:100%;height:100%}canvas{display:block;width:100%!important;height:100%!important}</style></head><body><script>
+
+const sketch = function(p) {
+  // Sketch variables
+  const IDX=1;
+  let t=0, rot=0, baseRadius=0, lastFrameTime=0, deltaFrameTime=0, smoothedFrameRate=60;
+  // Default values
+  let lobeCount=2, turbulence=1.67, ribbonCount=9, rotSpeed=0;
+  let currentSeed=4777; // Default seed
+  // Color parameters with default values (using hex for base colors)
+  let ribbonBaseColorHex = '#673ab7'; // Default purple
+  let bgColor1Hex = '#131316'; // Default dark background color 1
+  let bgColor2Hex = '#131316'; // Default dark background color 2
+  let bgColor3Hex = '#131316'; // Default dark background color 3
+
+
+  let radiusScale, sinScale, strokeBase;
+  let isReady = false;
+
+  // --- Helper function to convert Hex to HSB ---
+  function hexToHsb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    let r = parseInt(result[1], 16);
+    let g = parseInt(result[2], 16);
+    let b = parseInt(result[3], 16);
+
+    r /= 255;
+    g /= 255;
+    b /= 255;
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h, s, v = max;
+
+    const d = max - min;
+    if (max === min) {
+      h = 0; // achromatic
+    } else {
+      switch (max) {
+        case r:
+          h = (g - b) / d + (g < b ? 6 : 0);
+          break;
+        case g:
+          h = (b - r) / d + 2;
+          break;
+        case b:
+          h = (r - g) / d + 4;
+          break;
+      }
+      h /= 6;
+    }
+
+    s = max === 0 ? 0 : d / max;
+
+    // Convert HSB to p5.js HSB range (H: 0-360, S/B: 0-100)
+    return {
+      h: h * 360,
+      s: s * 100,
+      b: v * 100
+    };
+  }
+
+
+  // --- Function to parse parameters from URL ---
+  const parseUrlParameters = function() {
+    const params = new URLSearchParams(window.location.search);
+    lobeCount = parseInt(params.get('lobeCount') || lobeCount, 10);
+    turbulence = parseFloat(params.get('turbulence') || turbulence);
+    ribbonCount = parseInt(params.get('ribbonCount') || ribbonCount, 10);
+    rotSpeed = Math.max(0, parseFloat(params.get('rotSpeed') || rotSpeed)); // Ensure not negative
+    currentSeed = parseInt(params.get('currentSeed') || currentSeed, 10);
+    // Parse color parameters (hex)
+    ribbonBaseColorHex = '#' + (params.get('ribbonColor') || ribbonBaseColorHex.substring(1)); // Use ribbonColor parameter
+    bgColor1Hex = '#' + (params.get('bgColor1') || bgColor1Hex.substring(1));
+    bgColor2Hex = '#' + (params.get('bgColor2') || bgColor2Hex.substring(1));
+    bgColor3Hex = '#' + (params.get('bgColor3') || bgColor3Hex.substring(1));
+
+
+    console.log(`ORDTISM 1: Parsed parameters - Lobe: ${lobeCount}, Turb: ${turbulence}, Ribbon: ${ribbonCount}, Speed: ${rotSpeed}, Seed: ${currentSeed}, RibbonColor: ${ribbonBaseColorHex}, BgColor1: ${bgColor1Hex}, BgColor2: ${bgColor2Hex}, BgColor3: ${bgColor3Hex}`);
+  };
+
+
+  // --- p5.js Setup ---
+  p.setup = function() {
+    console.log("Running p.setup()");
+    parseUrlParameters(); // Parse parameters from URL on setup
+
+    p.pixelDensity(1);
+    let r = p.createCanvas(p.windowWidth, p.windowHeight);
+    r.drawingContext.imageSmoothingEnabled = true;
+    r.drawingContext.imageSmoothingQuality = 'high';
+    p.calcBaseRadius(); // Corrected call
+    p.colorMode(p.HSB, 360, 100, 100, 100);
+    p.frameRate(60);
+    p.randomSeed(currentSeed); // Use parsed seed
+    p.noiseSeed(currentSeed);  // Use parsed seed
+    p.textAlign(p.CENTER, p.CENTER);
+    p.textFont('sans-serif');
+    lastFrameTime = p.millis();
+    p.noiseDetail(4, 0.5);
+
+    isReady = true;
+    // Signal readiness to parent window
+    if (window.parent && window.parent !== window) {
+        console.log('ORDTISM 1 (instance): Sending ready message to parent.');
+        window.parent.postMessage({ type: 'ready' }, '*');
+    }
+    p.loop(); // Ensure loop is running
+  };
+
+  // --- p5.js Window Resized ---
+  p.windowResized = function() {
+    p.resizeCanvas(p.windowWidth, p.windowHeight);
+    p.calcBaseRadius(); // Corrected call
+    p.redraw();
+  };
+
+  // --- Helper Functions ---
+  p.calcBaseRadius = function() { // Attach to p object
+    baseRadius = p.min(p.width, p.height) * 0.2;
+    radiusScale = baseRadius * 0.93;
+    sinScale = baseRadius * 0.4;
+    strokeBase = baseRadius / 180;
+  };
+
+  const drawRadialBackground = function() {
+    const ctx = p.drawingContext;
+    const centerX = p.width / 2;
+    const centerY = p.height / 2;
+    const maxDim = p.max(p.width, p.height) * 1.8;
+
+    // Convert background hex colors to HSB
+    const bgHsb1 = hexToHsb(bgColor1Hex);
+    const bgHsb2 = hexToHsb(bgColor2Hex);
+    const bgHsb3 = hexToHsb(bgColor3Hex);
+
+    // Use hues, saturation, and brightness from parsed colors
+    const bgHue1 = bgHsb1.h;
+    const bgSaturation1 = bgHsb1.s;
+    const bgBrightness1 = bgHsb1.b;
+
+    const bgHue2 = bgHsb2.h;
+    const bgSaturation2 = bgHsb2.s;
+    const bgBrightness2 = bgHsb2.b;
+
+    const bgHue3 = bgHsb3.h;
+    const bgSaturation3 = bgHsb3.s;
+    const bgBrightness3 = bgHsb3.b;
+
+    const bgAlpha1 = 100; // Fixed alpha for stop 1
+    const bgAlpha2 = 90;  // Fixed alpha for stop 2 (0.9 * 100)
+    const bgAlpha3 = 100; // Fixed alpha for stop 3
+
+
+    // p.background(bgHsb1.b); // Use brightness of the first color for solid background color - Commented out
+
+
+    const grd = ctx.createRadialGradient(centerX, centerY, maxDim * 0.05, centerX, centerY, maxDim);
+    grd.addColorStop(0, `hsla(${bgHue1}, ${bgSaturation1}%, ${bgBrightness1}%, ${bgAlpha1 / 100})`);
+    grd.addColorStop(0.5, `hsla(${bgHue2}, ${bgSaturation2}%, ${bgBrightness2}%, ${bgAlpha2 / 100})`);
+    grd.addColorStop(1, `hsla(${bgHue3}, ${bgSaturation3}%, ${bgBrightness3}%, ${bgAlpha3 / 100})`);
+
+    ctx.resetTransform();
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, p.width, p.height);
+  };
+
+  // --- p5.js Draw ---
+  p.draw = function() {
+    p.calcBaseRadius(); // Ensure size-dependent variables are up-to-date
+    const currentTime = p.millis();
+    deltaFrameTime = p.min(currentTime - lastFrameTime, 100);
+    lastFrameTime = currentTime;
+    smoothedFrameRate = p.lerp(smoothedFrameRate, p.frameRate(), 0.05);
+    t += deltaFrameTime;
+    rot += rotSpeed * deltaFrameTime;
+    const centerX = p.width / 2;
+    const centerY = p.height / 2;
+    drawRadialBackground();
+    p.push();
+    p.translate(centerX, centerY);
+    p.rotate(rot);
+    const targetPoints = smoothedFrameRate > 50 ? 720 : (smoothedFrameRate > 35 ? 400 : 250);
+    const minPoints = 800 + lobeCount * 80 + ribbonCount * 40;
+    const detailPoints = p.max(p.floor(targetPoints), minPoints);
+    const angleIncrement = p.TWO_PI / detailPoints;
+    const lobeMultiplier = lobeCount;
+    const turbMultiplier = turbulence;
+
+    // Convert ribbon hex color to HSB
+    const ribbonHsb = hexToHsb(ribbonBaseColorHex);
+    const ribbonBaseHue = ribbonHsb.h;
+    const ribbonSaturation = ribbonHsb.s; // Use saturation from parsed color
+    const ribbonBrightness = ribbonHsb.b; // Use brightness from parsed color
+    const ribbonAlphaVal = 60; // Fixed alpha
+
+
+    for (let l = 0; l < ribbonCount; l++) {
+        const phase = t * 0.0002 + l * 0.3;
+        // Calculate hue based on ribbonBaseHue and phase, keeping it within 0-360
+        const currentHue = (ribbonBaseHue + p.sin(phase * 1.3 + l * 0.5) * 80 + 360) % 360;
+        p.stroke(currentHue, ribbonSaturation, ribbonBrightness, ribbonAlphaVal); // Use new color variables and fixed alpha
+        p.strokeWeight(0.28 + l * 0.4 * strokeBase);
+        p.noFill();
+        p.beginShape();
+        let lastR = null;
+        for (let i = 0; i <= detailPoints; i++) {
+            const a = angleIncrement * i;
+            const cosA = p.cos(a * lobeMultiplier);
+            const sinA = p.sin(a * lobeMultiplier);
+            const n = p.noise(cosA * turbMultiplier + phase, sinA * turbMultiplier + phase * 1.1);
+            let r = baseRadius + n * radiusScale + sinScale * p.sin(lobeMultiplier * a + phase + l);
+            if (lastR !== null) r = p.lerp(lastR, r, 0.7);
+            lastR = r;
+            const x = r * p.cos(a);
+            const y = r * p.sin(a);
+            p.curveVertex(x, y);
+        }
+        p.endShape(p.CLOSE);
+    }
+    p.pop();
+  };
+
+  // Key pressed functionality (still uses p.key)
+  p.keyPressed = function() {
+    // This functionality might be less relevant now with controls, but keeping for completeness
+    if (p.key === '0') { rotSpeed = 0; }
+    else if (p.key === '3') { rotSpeed = 0; }
+    else if (p.key === '6') { rotSpeed = 0; }
+    else if (p.key === '9') { rotSpeed = 0; }
+    if (p.key === '1') { lobeCount = p.max(1, lobeCount - 1); }
+    else if (p.key === '2') { lobeCount = p.min(15, lobeCount + 1); }
+    if (p.key === '4') { turbulence = p.max(0.1, turbulence - 0.05); }
+    else if (p.key === '5') { turbulence = p.min(3.0, turbulence + 0.05); }
+    if (p.key === '7') { ribbonCount = p.max(1, ribbonCount - 1); }
+    else if (p.key === '8') { ribbonCount = p.min(20, ribbonCount + 1); }
+    if (p.key === '+' || p.key === '=') { rotSpeed += 0.0001; }
+    else if (p.key === '-') { rotSpeed = p.max(-0.001, rotSpeed - 0.0001); }
+    // Note: Changes via keypress won't update the parent controls or download
+    // This is expected with the URL parameter approach for real-time updates
+  };
+
+}; // End of sketch function definition
+
+// --- Instantiate p5 ---
+let myp5 = new p5(sketch);
+
+</script></body></html>
