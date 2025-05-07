@@ -51,7 +51,7 @@
       background-color: var(--bg-color);
       color: var(--text-color);
       font-family: 'Space Grotesk', sans-serif;
-      overflow-x: hidden;
+      /* overflow-x: hidden; Removed to prevent clipping button glow */
       min-height: 100vh;
       height: 100vh;
       width: 100vw;
@@ -159,12 +159,16 @@
       align-items: stretch;
     }
     @media (max-width: 700px) {
+      .nav-bar {
+        padding: 10px 15px; /* Add horizontal padding */
+        margin: 15px 0 10px 0; /* Adjusted mobile margin */
+      }
       .container {
-        padding: 0 0vw;
+        padding: 0 0vw; /* Reverted horizontal padding */
         min-height: 100vh;
         height: 100vh;
-        max-width: 100vw;
-        overflow: hidden;
+        /* max-width: 100vw; Removed to see if it helps with clipping */
+        /* overflow: hidden; Removed to prevent clipping button glow */
       }
       header {
         padding: 28px 0 12px 0;
@@ -328,22 +332,21 @@
     @media (max-width: 700px) {
       .pagination {
         overflow-x: auto;
-        overflow-y: visible;
-        overflow: visible;
+        overflow-y: visible; /* Ensure vertical overflow is allowed for glow */
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         padding-left: 6vw; /* Reduced padding */
         padding-right: 6vw; /* Reduced padding */
-        padding-top: 12px;
-        padding-bottom: 12px;
+        padding-top: 15px; /* Increased padding to accommodate glow */
+        padding-bottom: 15px; /* Increased padding to accommodate glow */
         gap: 0;
-        min-height: 64px;
+        min-height: 78px; /* Adjusted min-height: 15(pad) + 48(button) + 15(pad) = 78px */
         box-sizing: border-box;
         touch-action: pan-x; /* Improve horizontal scroll handling */
         scrollbar-width: none; /* Hide scrollbar on Firefox */
         position: relative; /* Needed for absolute positioning of arrows */
-        padding-left: 55px; /* Space for left arrow */
-        padding-right: 55px; /* Space for right arrow */
+        padding-left: 60px; /* Space for left arrow, increased for clearance */
+        padding-right: 60px; /* Increased space for right arrow */
       }
       /* Hide scrollbar on WebKit (Safari) */
       .pagination::-webkit-scrollbar {
@@ -355,9 +358,9 @@
         gap: 10px;
         min-width: max-content;
         width: 100%; /* Allow inner to take available space */
-        padding: 0; /* Reset padding */
+        padding: 15px 20px; /* Increased horizontal padding for glow on first/last items */
         overflow-x: auto; /* Ensure inner container scrolls */
-        overflow-y: hidden;
+        overflow-y: visible; /* Allow vertical overflow for shadow visibility */
         justify-content: flex-start; /* Align numbers to the left */
         scrollbar-width: none; /* Hide scrollbar */
       }
@@ -366,7 +369,10 @@
       }
       .page {
         scroll-snap-align: center;
-        margin: 0 2px;
+        margin: 0 3px; /* Slightly increased margin */
+        width: 48px; /* Increased size */
+        height: 48px; /* Increased size */
+        font-size: 1.25rem; /* Slightly larger font */
       }
       /* Style for fixed arrows */
       .page-arrow {
@@ -375,12 +381,14 @@
         transform: translateY(-50%);
         z-index: 15; /* Ensure arrows are above numbers */
         margin: 0; /* Remove default margin */
+        width: 48px; /* Match page number size */
+        height: 48px; /* Match page number size */
       }
       .page-arrow-prev {
-        left: 5px; /* Position left arrow */
+        left: 8px; /* Slightly more space from edge */
       }
       .page-arrow-next {
-        right: 5px; /* Position right arrow */
+        right: 8px; /* Slightly more space from edge */
       }
     }
     
@@ -927,8 +935,70 @@
       text-shadow: 0 0 10px rgba(255, 213, 128, 0.3);
     }
 
+    /* Styles for Controls Pop-up */
+    .controls-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: none; /* Hidden by default */
+      align-items: center;
+      justify-content: center;
+      background: rgba(16, 16, 20, 0.85); /* Semi-transparent background */
+      z-index: 1100; /* Above main modal but below close button if needed */
+      backdrop-filter: blur(3px);
+    }
+
+    .controls-popup-content {
+      background: var(--modal-bg);
+      padding: 25px 30px;
+      border-radius: 15px;
+      border: 2px solid var(--modal-border);
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      max-width: 450px;
+      width: 90%;
+    }
+
+    .controls-popup-title {
+      font-size: 1.6rem;
+      color: var(--gold);
+      margin-bottom: 15px;
+    }
+
+    .controls-popup-text {
+      font-size: 1rem;
+      color: var(--text-color);
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+
+    .controls-popup-ok-btn {
+      background: var(--button-bg);
+      color: var(--button-text);
+      border: 2px solid var(--button-border);
+      border-radius: 8px;
+      padding: 10px 25px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--button-glow);
+    }
+
+    .controls-popup-ok-btn:hover {
+      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%);
+      color: #44ffe2;
+      border-color: #44ffe2;
+    }
+    /* End Styles for Controls Pop-up */
+
     /* Moved from modal/footer <style> block */
     @media (max-width: 700px) {
+      .controls-popup {
+        display: none !important; /* Ensure it's always hidden on mobile */
+      }
       .modal-footer {
         position: sticky;
         bottom: 0;
@@ -1009,11 +1079,15 @@
     @media (max-width: 700px) {
       .nav-buttons {
         gap: 8px;
+        overflow: visible; /* Allow glow to render outside bounds */
+        padding: 0 15px; /* Keep horizontal padding */
+        margin: 0 -15px; /* Add negative horizontal margin */
       }
       
       .nav-button {
         padding: 7px 12px; /* Increased padding */
         font-size: 0.8rem; /* Increased font size */
+        /* margin: 0 5px; Removed horizontal margin */
       }
       
       .collection-title {
@@ -1074,14 +1148,14 @@
         <a href="index.html" class="nav-button">Home</a>
         <a href="https://magiceden.us/ordinals/marketplace/mtrx" class="nav-button" target="_blank">Escape</a>
         <a href="https://magiceden.us/ordinals/marketplace/ordtism" class="nav-button" target="_blank">Ordtisms</a>
-        <a href="ordtism-cards.html" class="nav-button">Rare Tisms</a>
         <a href="visualizer.html" class="nav-button">Gallery Mode</a>
+        <a href="Derivitooor.html" class="nav-button">Derivitooor</a>
       </div>
     </nav>
     
     <header>
       <h1 class="collection-title">Ordtisms</h1>
-      <h2 class="collection-subtitle">Interactive generative art on Bitcoin</h2>
+      <h2 class="collection-subtitle">Interactive generative art on <span id="bitcoin-easter-egg">Bitcoin</span></h2>
     </header>
     
     <div class="gallery">
@@ -1139,12 +1213,22 @@
     </div>
   </div>
   
+  <!-- Controls Pop-up for Desktop -->
+  <div class="controls-popup" id="controlsPopup">
+    <div class="controls-popup-content">
+      <h3 class="controls-popup-title">Interactive Controls</h3>
+      <p class="controls-popup-text">1/2 petals | 4/5 turbulence | 7/8 ribbons | +/- spin speed | 0 3 6 9 stop rotation</p>
+      <button class="controls-popup-ok-btn" id="controlsPopupOkBtn">OK</button>
+    </div>
+  </div>
+  
   <script src="inscription_ids.js"></script>
 <script>
     // Current page and piece index
     let currentPage = 1;
     let currentIndex = 1;
     const MAX_PIECES = INSCRIPTION_IDS.length - 1; // 101 if all present
+    let hasControlsPopupBeenShownThisSession = false; // Flag for controls pop-up
     
     // Function to render gallery with optimized loading
     function renderGallery(page = 1) {
@@ -1357,6 +1441,15 @@
       modalIframe.sandbox = 'allow-scripts allow-same-origin';
       modalIframe.src = 'about:blank'; // Clear first
       
+      // Show controls popup on desktop only once per modal session
+      if (window.innerWidth > 700 && !hasControlsPopupBeenShownThisSession) {
+        const controlsPopup = document.getElementById('controlsPopup');
+        if (controlsPopup) {
+          controlsPopup.style.display = 'flex';
+          hasControlsPopupBeenShownThisSession = true; // Set flag after showing
+        }
+      }
+      
       // Add a brief delay to ensure the clearing happens
       setTimeout(() => {
         modalIframe.src = contentSrc;
@@ -1387,6 +1480,7 @@
         modalIframe.contentWindow.postMessage({type: 'pause'}, '*');
       }
       document.getElementById('modalIframe').src = 'about:blank';
+      hasControlsPopupBeenShownThisSession = false; // Reset flag when modal closes
     }
     
     // Function to show previous piece
@@ -1449,6 +1543,22 @@
     document.getElementById('modalClose').addEventListener('click', closeModal);
     document.getElementById('prevButton').addEventListener('click', showPrevious);
     document.getElementById('nextButton').addEventListener('click', showNext);
+    
+    // Event listener for controls pop-up OK button
+    const controlsPopupOkBtn = document.getElementById('controlsPopupOkBtn');
+    if (controlsPopupOkBtn) {
+      controlsPopupOkBtn.addEventListener('click', () => {
+        const controlsPopup = document.getElementById('controlsPopup');
+        if (controlsPopup) {
+          controlsPopup.style.display = 'none';
+        }
+        // Focus the main modal iframe after closing controls popup
+        const modalIframe = document.getElementById('modalIframe');
+        if (modalIframe && modalIframe.contentWindow) { // Check contentWindow to ensure iframe is loaded
+            modalIframe.focus();
+        }
+      });
+    }
     
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
@@ -1570,6 +1680,34 @@
           tapTimer = setTimeout(() => {
             headerTapCount = 0;
           }, 1500); // Reset after 1.5 seconds of inactivity
+        }
+      });
+    }
+
+    // Easter egg for "Bitcoin" text in subtitle
+    const bitcoinEasterEgg = document.getElementById('bitcoin-easter-egg');
+    let bitcoinTapCount = 0;
+    let bitcoinTapTimer = null;
+
+    if (bitcoinEasterEgg) {
+      bitcoinEasterEgg.style.cursor = 'pointer'; // Indicate it's clickable
+      bitcoinEasterEgg.addEventListener('click', () => {
+        // Only activate on non-mobile (desktop)
+        if (window.innerWidth > 700) {
+          bitcoinTapCount++;
+
+          if (bitcoinTapTimer) {
+            clearTimeout(bitcoinTapTimer);
+          }
+
+          if (bitcoinTapCount === 4) {
+            window.location.href = 'ordtism-cards.html';
+            bitcoinTapCount = 0; // Reset count
+          } else {
+            bitcoinTapTimer = setTimeout(() => {
+              bitcoinTapCount = 0;
+            }, 1500); // Reset after 1.5 seconds
+          }
         }
       });
     }
