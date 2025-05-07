@@ -334,9 +334,10 @@
         overflow-x: auto;
         overflow-y: visible; /* Ensure vertical overflow is allowed for glow */
         scroll-snap-type: x mandatory;
+        scroll-padding-inline: calc(50% - 30px); /* Adjust snap area to center between arrows */
         -webkit-overflow-scrolling: touch;
-        padding-left: 6vw; /* Reduced padding */
-        padding-right: 6vw; /* Reduced padding */
+        padding-left: 15px; /* Added for glow space */
+        padding-right: 15px; /* Added for glow space */
         padding-top: 15px; /* Increased padding to accommodate glow */
         padding-bottom: 15px; /* Increased padding to accommodate glow */
         gap: 0;
@@ -345,8 +346,7 @@
         touch-action: pan-x; /* Improve horizontal scroll handling */
         scrollbar-width: none; /* Hide scrollbar on Firefox */
         position: relative; /* Needed for absolute positioning of arrows */
-        padding-left: 60px; /* Space for left arrow, increased for clearance */
-        padding-right: 60px; /* Increased space for right arrow */
+        /* Arrows are at left: 15px, right: 15px, aligning with this padding */
       }
       /* Hide scrollbar on WebKit (Safari) */
       .pagination::-webkit-scrollbar {
@@ -358,10 +358,10 @@
         gap: 10px;
         min-width: max-content;
         width: 100%; /* Allow inner to take available space */
-        padding: 15px 20px; /* Increased horizontal padding for glow on first/last items */
-        overflow-x: auto; /* Ensure inner container scrolls */
+        padding: 15px 0; /* Only vertical padding */
+        /* overflow-x: auto; Redundant as parent scrolls */
         overflow-y: visible; /* Allow vertical overflow for shadow visibility */
-        justify-content: flex-start; /* Align numbers to the left */
+        justify-content: flex-start; /* Revert to flex-start for scroll snapping */
         scrollbar-width: none; /* Hide scrollbar */
       }
        .pagination-inner::-webkit-scrollbar {
@@ -373,6 +373,7 @@
         width: 48px; /* Increased size */
         height: 48px; /* Increased size */
         font-size: 1.25rem; /* Slightly larger font */
+        flex-shrink: 0; /* Prevent buttons from shrinking */
       }
       /* Style for fixed arrows */
       .page-arrow {
@@ -385,10 +386,10 @@
         height: 48px; /* Match page number size */
       }
       .page-arrow-prev {
-        left: 8px; /* Slightly more space from edge */
+        left: 15px; /* Position arrow from edge */
       }
       .page-arrow-next {
-        right: 8px; /* Slightly more space from edge */
+        right: 15px; /* Position arrow from edge */
       }
     }
     
