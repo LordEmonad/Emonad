@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Derivitooor - Ordtism</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+          --bg-color: #101025;
+          --bg-gradient: radial-gradient(ellipse at 50% 0%, #2e2e56 0%, transparent 70%),
+            radial-gradient(ellipse at 50% 100%, #2a1a36 0%, transparent 70%),
+            radial-gradient(ellipse at 80% 30%, #ffd58033 0%, transparent 80%),
+            #101025;
+          --text-color: #f5f5fa;
+          --accent-color: #c7a8ff;
+          --accent-gradient: linear-gradient(90deg, #ffd580 0%, #c7a8ff 60%, #44ffe2 100%);
+          --secondary-color: #44ffe2;
+          --gold: #ffd580;
+          --violet: #c7a8ff;
+          --teal: #44ffe2;
+          --card-bg: rgba(22,24,40,0.84);
+          --card-hover: rgba(40,30,60,0.97);
+          --border-color: #c7a8ff;
+          --info-color: #ffd580;
+          --button-bg: rgba(22,24,40,0.92);
+          --button-text: #ffd580;
+          --button-border: #c7a8ff;
+          --button-glow: 0 0 12px 2px #c7a8ff66;
+          --modal-bg: #18183a;
+          --modal-border: #ffd580;
+        }
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            display: flex;
+            flex-direction: column; /* Change body to column layout */
+            margin: 0;
+            height: 100vh;
+            background: var(--bg-gradient);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        #controls-container {
+            display: flex;
+            flex-direction: row; /* Arrange control columns side-by-side */
+            height: 100%; /* Fill height of parent (#main-content) */
+        }
+        #controls, #color-controls {
+            width: 300px; /* Slightly wider */
+            padding: 25px;
+            background: var(--card-bg);
+            box-shadow: 0 6px 32px 0 #000a, 0 0 0 1px #44ffe222;
+            border-right: 2px solid var(--border-color); /* Add border */
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 18px; /* Add space between control groups */
+            /* Removed absolute positioning */
+            height: 100%;
+            transition: transform 0.3s ease-in-out; /* Add transition for smooth toggling */
+        }
+        #controls.hidden {
+            transform: translateX(-100%); /* Hide controls by moving off-screen */
+        }
+        #preview {
+            flex-grow: 1;
+            background-color: var(--bg-color); /* Add background to preview area */
+        }
+        iframe {
+            flex-grow: 1;
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px; /* Increased space */
+            font-weight: 600; /* Adjusted weight */
+            color: var(--accent-color); /* Themed color */
+        }
+        input[type="range"], input[type="number"] {
+            width: 100%; /* Full width */
+            margin-bottom: 8px; /* Increased space */
+            cursor: pointer;
+        }
+        /* Range Slider Styles */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            background: rgba(16, 16, 37, 0.7); /* Dark track */
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--gold); /* Gold thumb */
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid var(--bg-color);
+            box-shadow: 0 0 5px var(--gold);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: var(--gold);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid var(--bg-color);
+            box-shadow: 0 0 5px var(--gold);
+        }
+        /* Number Input Styles */
+        input[type="number"] {
+             padding: 8px 10px; /* Increased padding */
+             border: 1.5px solid var(--border-color); /* Themed border */
+             border-radius: 5px;
+             background-color: var(--button-bg); /* Themed background */
+             color: var(--text-color); /* Themed text */
+             font-family: 'Space Grotesk', sans-serif;
+             font-size: 0.95em;
+        }
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 8px var(--gold);
+        }
+        .control-group {
+            border: 1.5px solid var(--border-color); /* Themed border */
+            padding: 15px; /* Increased padding */
+            border-radius: 8px; /* More rounded */
+            background-color: rgba(22, 24, 40, 0.7); /* Darker themed background */
+            backdrop-filter: blur(2px);
+        }
+        .value-display {
+            font-style: normal; /* Removed italic */
+            color: var(--gold); /* Themed color */
+            font-size: 0.95em; /* Slightly larger */
+            margin-left: 8px;
+            font-weight: 500;
+        }
+        /* Button Styles */
+        button {
+            background: var(--button-bg);
+            color: var(--button-text);
+            border: 2px solid var(--button-border);
+            border-radius: 999px; /* Pill shape */
+            padding: 10px 22px; /* Adjusted padding */
+            font-size: 1rem; /* Adjusted size */
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            box-shadow: var(--button-glow);
+            margin-top: 15px; /* Increased space */
+            text-align: center;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%);
+            color: var(--teal);
+            border-color: var(--teal);
+            box-shadow: 0 0 15px rgba(199, 168, 255, 0.6);
+            transform: translateY(-2px);
+        }
+        h2 {
+            margin-top: 0;
+            border-bottom: 2px solid var(--border-color); /* Themed border */
+            padding-bottom: 10px; /* Increased padding */
+            font-size: 1.4em; /* Larger */
+            color: var(--gold); /* Themed color */
+            margin-bottom: 10px; /* Space below title */
+        }
+        /* Custom scrollbar for controls */
+        #controls::-webkit-scrollbar {
+          width: 8px;
+        }
+        #controls::-webkit-scrollbar-track {
+          background: rgba(0,0,0,0.2);
+          border-radius: 4px;
+        }
+        #controls::-webkit-scrollbar-thumb {
+          background-color: var(--accent-color);
+          border-radius: 4px;
+          border: 2px solid var(--card-bg);
+        }
+
+        /* Navigation Bar Styles - Copied from index.html */
+        .nav-bar {
+          display: flex;
+          justify-content: center;
+          margin: 15px 0 10px 0; /* Adjusted margins */
+          padding: 10px 0;
+          flex-shrink: 0; /* Prevent nav bar from shrinking */
+          width: 100%;
+        }
+
+        .nav-buttons {
+          display: flex;
+          gap: 15px;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .nav-button {
+          background: var(--button-bg);
+          color: var(--button-text);
+          border: 2px solid var(--button-border);
+          border-radius: 999px;
+          padding: 8px 22px;
+          font-size: 0.96rem;
+          font-weight: 600;
+          cursor: pointer;
+          text-decoration: none;
+          transition: all 0.25s ease;
+          box-shadow: var(--button-glow);
+        }
+
+        .nav-button:hover {
+          background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%);
+          color: #44ffe2;
+          border-color: #44ffe2;
+          box-shadow: 0 0 15px rgba(199, 168, 255, 0.6);
+          transform: translateY(-2px);
+        }
+
+        @media (max-width: 700px) {
+          .nav-buttons {
+            gap: 8px;
+          }
+
+          .nav-button {
+            padding: 7px 12px;
+            font-size: 0.8rem;
+          }
+        }
+
+        @media (max-width: 400px) {
+          .nav-buttons {
+            gap: 6px;
+          }
+
+          .nav-button {
+            padding: 5px 8px;
+            font-size: 0.7rem;
+          }
+        }
+        /* End Navigation Bar Styles */
+
+        /* Styles for main content area below nav */
+        #main-content {
+            display: flex;
+            flex-grow: 1; /* Take remaining height */
+            overflow: hidden; /* Prevent content overflow */
+            /* Height calculation removed, flex-grow handles it */
+        }
+
+        /* Mobile Controls Nav Bar */
+        #mobile-controls-nav {
+            display: none; /* Hidden by default */
+            padding: 8px 10px;
+            background-color: rgba(16, 16, 37, 0.85);
+            backdrop-filter: blur(3px);
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+        }
+        .mobile-control-btn {
+            background: var(--button-bg);
+            color: var(--button-text);
+            border: 1.5px solid var(--button-border);
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: var(--button-glow);
+            flex-grow: 1; /* Allow buttons to take space */
+            text-align: center;
+            max-width: 150px; /* Limit button width */
+        }
+        .mobile-control-btn:hover {
+            background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%);
+            color: #44ffe2;
+            border-color: #44ffe2;
+        }
+        .close-panel-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background: var(--button-bg);
+            border: 1.5px solid var(--button-border);
+            color: var(--button-text);
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 50%;
+            padding: 0;
+            margin: 0;
+            line-height: 28px;
+            text-align: center;
+            z-index: 10; /* Ensure it's above panel content */
+        }
+        .close-panel-btn:hover {
+             color: #ffd580;
+             border-color: #ffd580;
+             background: #18183a;
+        }
+        /* End Mobile Controls Nav Bar */
+
+        /* Class for visible mobile panels */
+        .panel-visible {
+            display: flex !important; /* Use important to ensure override */
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 700px) {
+            body {
+                /* height: auto; Removed - let flexbox handle height */
+                min-height: 100vh;
+            }
+            #mobile-controls-nav {
+                display: flex; /* Show mobile nav */
+            }
+            /* #main-content rule removed as it was empty */
+            /* #controls-container rule removed as it was empty */
+            /* Style panels as overlays */
+            #controls, #color-controls {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1000; /* High z-index */
+                background-color: rgba(16, 16, 37, 0.30); /* Further adjusted transparency */
+                backdrop-filter: blur(2px); /* Reduced blur */
+                padding: 20px;
+                padding-top: 50px; /* Space for close button */
+                border-right: none;
+                border-bottom: none;
+                display: none; /* Hidden by default */
+                overflow-y: auto;
+                gap: 15px; /* Restore gap */
+                max-height: 100vh; /* Allow full height */
+            }
+            #preview {
+                 /* Preview takes full space in #main-content */
+                 height: 100%;
+                 min-height: 0; /* Reset min-height */
+                 flex-grow: 1; /* Allow preview to grow */
+                 height: 100%; /* Ensure preview fills main-content height */
+            }
+             h2 {
+                font-size: 1.2em; /* Smaller headings */
+                padding-bottom: 8px;
+                margin-bottom: 8px;
+            }
+            .control-group {
+                padding: 10px; /* Reduce padding */
+            }
+            button {
+                padding: 8px 18px;
+                font-size: 0.9rem;
+                margin-top: 10px;
+            }
+            .nav-bar {
+                margin: 10px 0 0 0; /* Adjust nav margins */
+                padding-bottom: 5px;
+            }
+            /* Hide original randomize button on mobile */
+            #controls #randomizeButton {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+      <div class="nav-buttons">
+        <a href="index.html" class="nav-button">Home</a>
+        <a href="https://magiceden.us/ordinals/marketplace/mtrx" class="nav-button" target="_blank">Escape</a>
+        <a href="https://magiceden.us/ordinals/marketplace/ordtism" class="nav-button" target="_blank">Ordtisms</a>
+        <a href="visualizer.html" class="nav-button">Gallery Mode</a>
+        <a href="Derivitooor.html" class="nav-button">Derivitooor</a>
+      </div>
+    </nav>
+    <div id="mobile-controls-nav">
+        <button id="mobileParamsBtn" class="mobile-control-btn">Parameters</button>
+        <button id="mobileColorsBtn" class="mobile-control-btn">Colors</button>
+        <button id="mobileRandomizeBtn" class="mobile-control-btn">Randomize</button>
+    </div>
+    <div id="main-content"> <!-- Wrapper start -->
+    <div id="controls-container">
+        <div id="controls">
+            <button class="close-panel-btn" onclick="closePanel('controls')">×</button>
+            <h2>Derivitooor Controls</h2>
+
+            <div class="control-group">
+                <label for="lobeCount">Lobe Count: <span id="lobeCountValue" class="value-display">2</span></label>
+                <input type="range" id="lobeCount" name="lobeCount" min="1" max="15" value="2" step="1">
+            </div>
+
+            <div class="control-group">
+                <label for="turbulence">Turbulence: <span id="turbulenceValue" class="value-display">1.67</span></label>
+                <input type="range" id="turbulence" name="turbulence" min="0.1" max="3.0" value="1.67" step="0.01">
+            </div>
+
+            <div class="control-group">
+                <label for="ribbonCount">Ribbon Count: <span id="ribbonCountValue" class="value-display">9</span></label>
+                <input type="range" id="ribbonCount" name="ribbonCount" min="1" max="20" value="9" step="1">
+            </div>
+
+            <div class="control-group">
+                <label for="rotSpeed">Rotation Speed: <span id="rotSpeedValue" class="value-display">0.0000</span></label>
+                <input type="range" id="rotSpeed" name="rotSpeed" min="0" max="0.001" value="0" step="0.0001">
+            </div>
+
+             <div class="control-group">
+                <label for="currentSeed">Seed:</label>
+                <input type="number" id="currentSeed" name="currentSeed" value="4777">
+            </div>
+
+            <button id="randomizeButton" style="margin-bottom: 10px;">Randomize Parameters</button>
+        </div>
+        <div id="color-controls">
+             <button class="close-panel-btn" onclick="closePanel('color-controls')">×</button>
+            <h2>Color Controls</h2>
+            <div class="control-group">
+                <label for="bgColor1">Background Color 1:</label>
+                <input type="color" id="bgColor1" name="bgColor1" value="#131316">
+            </div>
+            <div class="control-group">
+                <label for="bgColor2">Background Color 2:</label>
+                <input type="color" id="bgColor2" name="bgColor2" value="#131316">
+            </div>
+            <div class="control-group">
+                <label for="bgColor3">Background Color 3:</label>
+                <input type="color" id="bgColor3" name="bgColor3" value="#131316">
+            </div>
+            <div class="control-group">
+                <label for="ribbonColor">Ribbon Color:</label>
+                <input type="color" id="ribbonColor" name="ribbonColor" value="#673ab7">
+            </div>
+        </div>
+    </div>
+
+    <div id="preview">
+        <iframe id="ordtismFrame" src="file:///C:/Users/kinga/OneDrive/Documents/Ordtism-fresh/Ordtism-fresh/ORDTISM 1.html"></iframe>
+    </div> <!-- Wrapper end -->
+
+    <script>
+        const iframe = document.getElementById('ordtismFrame');
+        const controls = {
+            lobeCount: document.getElementById('lobeCount'),
+            turbulence: document.getElementById('turbulence'),
+            ribbonCount: document.getElementById('ribbonCount'),
+            rotSpeed: document.getElementById('rotSpeed'),
+            currentSeed: document.getElementById('currentSeed'),
+            bgColor1: document.getElementById('bgColor1'),
+            bgColor2: document.getElementById('bgColor2'),
+            bgColor3: document.getElementById('bgColor3'),
+            ribbonColor: document.getElementById('ribbonColor')
+        };
+        const valueDisplays = {
+            lobeCount: document.getElementById('lobeCountValue'),
+            turbulence: document.getElementById('turbulenceValue'),
+            ribbonCount: document.getElementById('ribbonCountValue'),
+            rotSpeed: document.getElementById('rotSpeedValue')
+        };
+        const randomizeButton = document.getElementById('randomizeButton'); // Desktop randomize
+        const mobileParamsBtn = document.getElementById('mobileParamsBtn');
+        const mobileColorsBtn = document.getElementById('mobileColorsBtn');
+        const mobileRandomizeBtn = document.getElementById('mobileRandomizeBtn');
+        const controlsPanel = document.getElementById('controls');
+        const colorControlsPanel = document.getElementById('color-controls');
+        // Removed downloadButton reference
+
+
+        // Function to update the iframe source with current parameters
+        function updateIframeSource() {
+            const currentLobeCount = controls.lobeCount.value;
+            const currentTurbulence = controls.turbulence.value;
+            const currentRibbonCount = controls.ribbonCount.value;
+            const currentRotSpeed = controls.rotSpeed.value;
+            const currentSeedValue = controls.currentSeed.value;
+            const currentBgColor1 = controls.bgColor1.value.substring(1); // Remove #
+            const currentBgColor2 = controls.bgColor2.value.substring(1); // Remove #
+            const currentBgColor3 = controls.bgColor3.value.substring(1); // Remove #
+            const currentRibbonColor = controls.ribbonColor.value.substring(1); // Remove #
+
+
+            const iframeSrc = `file:///C:/Users/kinga/OneDrive/Documents/Ordtism-fresh/Ordtism-fresh/ORDTISM 1.html?lobeCount=${currentLobeCount}&turbulence=${currentTurbulence}&ribbonCount=${currentRibbonCount}&rotSpeed=${currentRotSpeed}&currentSeed=${currentSeedValue}&bgColor1=${currentBgColor1}&bgColor2=${currentBgColor2}&bgColor3=${currentBgColor3}&ribbonColor=${currentRibbonColor}`;
+            iframe.src = iframeSrc;
+            console.log("Derivitooor: Updating iframe source to:", iframeSrc);
+        }
+
+        // Add event listeners to controls to update iframe source
+        for (const param in controls) {
+            controls[param].addEventListener('input', (event) => {
+                const value = event.target.value;
+                if (valueDisplays[param]) {
+                    // Format rotation speed nicely, others as is
+                    valueDisplays[param].textContent = param === 'rotSpeed' ? parseFloat(value).toFixed(4) : value;
+                }
+                // Update iframe source on input change
+                updateIframeSource();
+            });
+        }
+
+        // --- Panel Toggling Logic ---
+        function closePanel(panelId) {
+            console.log(`Closing panel: ${panelId}`);
+            const panel = document.getElementById(panelId);
+            if (panel) {
+                panel.classList.remove('panel-visible'); // Use classList
+                // panel.style.display = 'none'; // Fallback if needed, but class should work
+            }
+        }
+
+        function togglePanel(panelIdToShow) {
+            console.log(`Toggling panel: ${panelIdToShow}`);
+            const panelToShow = document.getElementById(panelIdToShow);
+            const panelToHide = panelIdToShow === 'controls' ? colorControlsPanel : controlsPanel;
+
+            if (panelToShow) {
+                const isCurrentlyVisible = panelToShow.classList.contains('panel-visible');
+                console.log(`Panel ${panelIdToShow} isCurrentlyVisible: ${isCurrentlyVisible}`);
+
+                if (isCurrentlyVisible) {
+                    console.log(`Hiding ${panelIdToShow}`);
+                    panelToShow.classList.remove('panel-visible');
+                } else {
+                    console.log(`Showing ${panelIdToShow}, hiding ${panelToHide?.id}`);
+                    panelToShow.classList.add('panel-visible');
+                    if (panelToHide) {
+                        panelToHide.classList.remove('panel-visible'); // Hide the other panel
+                    }
+                }
+            } else {
+                 console.error(`Panel with ID ${panelIdToShow} not found.`);
+            }
+        }
+
+        if (mobileParamsBtn) {
+            mobileParamsBtn.addEventListener('click', () => {
+                console.log("Mobile Parameters button clicked");
+                togglePanel('controls');
+            });
+        }
+        if (mobileColorsBtn) {
+            mobileColorsBtn.addEventListener('click', () => {
+                console.log("Mobile Colors button clicked");
+                togglePanel('color-controls');
+            });
+        }
+        // Add event listeners for close buttons (handled via inline onclick for simplicity here)
+
+
+        // --- Randomize Logic ---
+        function randomizeParams() {
+             // Generate random values within defined ranges
+             const randomLobeCount = Math.floor(Math.random() * 15) + 1; // 1-15
+            const randomTurbulence = (Math.random() * (3.0 - 0.1) + 0.1).toFixed(2); // 0.1-3.0
+            const randomRibbonCount = Math.floor(Math.random() * 20) + 1; // 1-20
+            let randomRotSpeed = (Math.random() * (0.001 - (-0.001)) + (-0.001)).toFixed(4); // -0.001 to 0.001
+            randomRotSpeed = Math.max(0, parseFloat(randomRotSpeed)).toFixed(4); // Ensure not negative
+            const randomSeed = Math.floor(Math.random() * 1000000); // 0-999999
+
+            // Generate random hex colors
+            const randomColor = () => '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+            const randomBgColor1 = randomColor();
+            const randomBgColor2 = randomColor();
+            const randomBgColor3 = randomColor();
+            const randomRibbonColor = randomColor();
+
+
+            // Update controls
+            controls.lobeCount.value = randomLobeCount;
+            controls.turbulence.value = randomTurbulence;
+            controls.ribbonCount.value = randomRibbonCount;
+            controls.rotSpeed.value = randomRotSpeed;
+            controls.currentSeed.value = randomSeed;
+            controls.bgColor1.value = randomBgColor1;
+            controls.bgColor2.value = randomBgColor2;
+            controls.bgColor3.value = randomBgColor3;
+            controls.ribbonColor.value = randomRibbonColor;
+
+
+            // Update displays
+            valueDisplays.lobeCount.textContent = randomLobeCount;
+            valueDisplays.turbulence.textContent = randomTurbulence;
+            valueDisplays.ribbonCount.textContent = randomRibbonCount;
+            valueDisplays.rotSpeed.textContent = randomRotSpeed;
+            // No display for seed, just update input
+
+            // Update iframe source after randomizing
+            updateIframeSource();
+        }
+
+        // Add event listeners for randomize buttons
+        if (randomizeButton) { // Desktop button
+             randomizeButton.addEventListener('click', () => {
+                 console.log("Desktop Randomize button clicked");
+                 randomizeParams();
+             });
+        }
+        if (mobileRandomizeBtn) { // Mobile button
+             mobileRandomizeBtn.addEventListener('click', () => {
+                 console.log("Mobile Randomize button clicked");
+                 randomizeParams();
+             });
+        }
+
+
+        // Download functionality (Removed - button no longer exists)
+        /*
+        downloadButton?.addEventListener('click', async () => { // Optional chaining in case element is missing
+             try {
+                // 1. Get current values from controls
+                const currentLobeCount = controls.lobeCount.value;
+                const currentTurbulence = controls.turbulence.value;
+                const currentRibbonCount = controls.ribbonCount.value;
+                const currentRotSpeed = controls.rotSpeed.value;
+                const currentSeedValue = controls.currentSeed.value;
+                const currentBgColor1 = controls.bgColor1.value;
+                const currentBgColor2 = controls.bgColor2.value;
+                const currentBgColor3 = controls.bgColor3.value;
+                const currentRibbonColor = controls.ribbonColor.value;
+
+
+                // 2. Fetch the original ORDTISM 1 HTML content
+                const response = await fetch('ORDTISM 1.html');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                let originalHtml = await response.text();
+
+                // 3. Inject current parameters into the script tag
+                // This is a simplified injection. A more robust solution might parse the script and modify variables.
+                // For this specific case, we'll replace the default variable declarations.
+                originalHtml = originalHtml.replace(
+                    /let lobeCount=.*?;\s*let turbulence=.*?;\s*let ribbonCount=.*?;\s*let rotSpeed=.*?;\s*let currentSeed=.*?;\s*let radiusScale, sinScale, strokeBase;/,
+                    `let lobeCount=${currentLobeCount}; let turbulence=${currentTurbulence}; let ribbonCount=${currentRibbonCount}; let rotSpeed=${currentRotSpeed}; let currentSeed=${currentSeedValue}; let radiusScale, sinScale, strokeBase;`
+                );
+
+                 // Inject color parameters into the script tag
+                 originalHtml = originalHtml.replace(
+                    /let ribbonBaseColorHex = '#.*?';\s*let bgColor1Hex = '#.*?';\s*let bgColor2Hex = '#.*?';\s*let bgColor3Hex = '#.*?';/,
+                    `let ribbonBaseColorHex = '${currentRibbonColor}';\n    let bgColor1Hex = '${currentBgColor1}';\n    let bgColor2Hex = '${currentBgColor2}';\n    let bgColor3Hex = '${currentBgColor3}';`
+                 );
+
+
+                // 4. Create Blob and Download Link
+                const blob = new Blob([originalHtml], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `ordtism_derivation_${currentSeedValue}_${Date.now()}.html`; // Include seed and timestamp
+                document.body.appendChild(a);
+                a.click();
+
+                // 5. Cleanup
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+            } catch (error) {
+                console.error("Error creating download file:", error);
+                 alert("Failed to create download file. See console for details.");
+             }
+        });
+        */
+
+    </script>
+</body>
+</html>
