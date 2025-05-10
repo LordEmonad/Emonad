@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Ordtisms</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #101025;
+            color: #f5f5fa;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            overflow-y: scroll; 
+        }
+
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #101025; 
+            z-index: 10000; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 0.5s ease-out; 
+        }
+
+        #splash-screen.fade-out {
+            opacity: 0;
+            pointer-events: none; 
+        }
+
+        #splash-screen h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 900; 
+            font-size: 4.2rem; 
+            letter-spacing: 0.07em; 
+            background: linear-gradient(92deg, #ffd580 0%, #c7a8ff 70%, #44ffe2 100%); 
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            padding: 0;
+            margin-bottom: 0.1em;
+            display: inline-block;
+            line-height: 1.07;
+            border-radius: 12px; 
+            filter: drop-shadow(0 2px 18px #c7a8ff44); 
+            animation: pulseGlow 2s infinite alternate; 
+            text-align: center; /* Ensure text is centered if it wraps */
+        }
+
+        @keyframes pulseGlow { 
+            from {
+                filter: drop-shadow(0 2px 15px #c7a8ff33);
+            }
+            to {
+                filter: drop-shadow(0 2px 25px #c7a8ff66);
+            }
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; 
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .background-item {
+            width: 100%;
+            height: 100%;
+        }
+
+        .background iframe {
+            width: 100%;
+            height: 100%;
+            filter: blur(10px);
+            opacity: 0.7;
+            border: none; 
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: rgba(22, 24, 40, 0.9); 
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1; 
+            opacity: 1; /* Make visible by default now */
+            visibility: visible; /* Make visible by default now */
+            transition: opacity 0.5s ease-in; 
+        }
+
+        .container.hidden-initial { /* New class to control initial state via JS */
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .container.visible {
+            opacity: 1;
+            visibility: visible; 
+        }
+
+
+        .container h1 { 
+            color: #c7a8ff;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-shadow: none; 
+        }
+
+        h2 {
+            color: #44ffe2;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        p {
+            font-size: 1.1em;
+            line-height: 1.7;
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            #splash-screen h1 {
+                font-size: 3rem; /* Smaller splash title on mobile */
+                padding: 0 10px; /* Add padding to prevent edge touching */
+            }
+            .container {
+                margin: 20px auto;
+                padding: 20px;
+            }
+            .container h1 {
+                font-size: 2em;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+            p, li {
+                font-size: 1em;
+            }
+        }
+        @media (max-width: 480px) {
+            #splash-screen h1 {
+                font-size: 2.5rem;
+            }
+            .container {
+                margin: 15px; /* Smaller margin for very small screens */
+                padding: 15px;
+            }
+             .container h1 {
+                font-size: 1.8em;
+            }
+            h2 {
+                font-size: 1.3em;
+            }
+            p, li {
+                font-size: 0.95em;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="splash-screen">
+        <h1>ORDTISMS</h1>
+    </div>
+
+    <div class="background">
+        <div class="background-item" id="bg1"></div>
+        <div class="background-item" id="bg2"></div>
+        <div class="background-item" id="bg3"></div>
+        <div class="background-item" id="bg4"></div> 
+    </div>
+    <script src="inscription_ids.js"></script>
+    <script>
+        const splashScreen = document.getElementById('splash-screen');
+        const mainContainer = document.querySelector('.container');
+        const backgroundItems = document.querySelectorAll('.background-item');
+        const totalIframes = backgroundItems.length;
+        let splashDismissed = false;
+
+        // Initially hide the container with JS, then make it visible
+        if (mainContainer) {
+            mainContainer.classList.add('hidden-initial');
+        }
+        
+        function showContentAndFadeSplash() {
+            if (splashDismissed) return;
+            splashDismissed = true;
+
+            console.log("Starting splash fade out and content fade in...");
+
+            if (splashScreen) {
+                splashScreen.classList.add('fade-out');
+            }
+            
+            if (mainContainer) {
+                mainContainer.classList.remove('hidden-initial'); // Remove initial hide
+                mainContainer.classList.add('visible'); // Add visible to trigger transition
+            }
+            
+            if (splashScreen) {
+                splashScreen.addEventListener('transitionend', () => {
+                    if (splashScreen.parentNode) {
+                        splashScreen.parentNode.removeChild(splashScreen);
+                        console.log("Splash screen removed from DOM.");
+                    }
+                }, { once: true });
+            }
+        }
+
+        setTimeout(showContentAndFadeSplash, 2000); // Splash screen for 2 seconds
+
+        if (totalIframes > 0) {
+            backgroundItems.forEach((item, index) => {
+                if (typeof INSCRIPTION_IDS !== 'undefined' && index + 1 < INSCRIPTION_IDS.length && INSCRIPTION_IDS[index + 1]) {
+                    const inscriptionId = INSCRIPTION_IDS[index + 1]; 
+                    const contentSrc = `https://ordinals.com/content/${inscriptionId}`;
+                    const iframe = document.createElement('iframe');
+                    
+                    iframe.setAttribute('loading', 'eager'); 
+                    iframe.setAttribute('importance', 'low'); 
+                    iframe.allowTransparency = true;
+                    iframe.scrolling = 'no';
+                    iframe.sandbox = 'allow-scripts allow-same-origin';
+                    iframe.style.width = '100%';
+                    iframe.style.height = '100%';
+                    iframe.style.display = 'block';
+                    iframe.style.border = 'none';
+
+                    iframe.onload = () => {
+                        console.log(`Iframe ${index + 1} loaded: ${contentSrc}`);
+                        try {
+                            setTimeout(() => { 
+                                if (iframe.contentWindow) {
+                                    iframe.setAttribute('importance', 'high'); 
+                                    iframe.contentWindow.postMessage({ type: 'play' }, '*');
+                                }
+                            }, index * 200 + 300);
+                        } catch (e) { 
+                            console.warn("Error sending 'play' message to iframe:", iframe.src, e);
+                        }
+                    };
+                    iframe.onerror = () => console.error("Failed to load iframe src:", contentSrc);
+                    setTimeout(() => iframe.src = contentSrc, index * 200); 
+                    item.appendChild(iframe);
+                } else {
+                    console.warn(`Inscription ID for index ${index + 1} is missing or invalid.`);
+                }
+            });
+        }
+    </script>
+    <div class="container">
+        <h1>About Ordtisms</h1>
+        <div class="section">
+            <h2>Overview</h2>
+            <p>Ordtisms is a collection of 101 fully on‑chain, interactive generative artworks inscribed on Bitcoin via Ordinals recursion and rendered in real‑time with p5.js. Conceived and coded by @LordWorldPeace, each piece is a self‑contained HTML algorithm stored on a single satoshi—permanent, interactive, and provably scarce Bitcoin‑native art. Like the recursive library it references, the collection loops curiosity back to its holders.</p>
+        </div>
+        <div class="section">
+            <h2>Artistic Vision & Conceptual Framework</h2>
+            <h3>Core Concepts</h3>
+            <ul>
+                <li>Impermanence vs. Permanence — code in constant motion, preserved forever on Bitcoin.</li>
+                <li>Recursion — every artwork calls the same on‑chain p5.js library, mirroring open‑source iteration.</li>
+                <li>Community as Co‑Creator — holders can manipulate parameters, shaping their personal viewing experience.</li>
+            </ul>
+            <h3>Inspiration, Influence & Intent</h3>
+            <p>Ordtisms nods to:</p>
+            <ul>
+                <li>The early Processing movement and open‑source pioneers Casey Reas & Zach Lieberman.</li>
+                <li>Ordinals trailblazers who proved HTML art could live natively on Bitcoin (e.g., LifoFifo’s p5.js inscription and Elements libraries, OCM Dimensions).</li>
+            <li>Memetic crypto culture—embracing playful autistic weirdness as a design principle.
+            </ul>
+            <h3>Intent</h3>
+            <p>Gratitude — a thank‑you to the builders in ordinals enabling creators to build on bitcoin.</p>
+            <p>Exploration — a lab where art and protocol innovation intersect.</p>
+        </div>
+        <div class="section">
+            <h2>Technical Overview</h2>
+            <p>Ordtisms leverages recursive inscriptions to reference a single on‑chain p5.js library across all 101 pieces, keeping individual inscriptions lean. Each HTML file seeds its algorithm with the inscription ID’s hash, guaranteeing unique yet deterministic outputs. Built‑in keyboard controls turn viewers into real‑time collaborators. Future on‑chain extensions—such as Arch Network integrations—will highlight the growing intersection of Bitcoin art and DeFi.</p>
+        </div>
+        <div class="section">
+            <h2>Aesthetics & Visual Language</h2>
+            <h3>Visual Signature</h3>
+            <p>A spiral‑torus motif anchors every piece, symbolizing recursion and infinite loops. Particle fields and ribbon structures orbit this core, shifting with each frame to reward prolonged observation.</p>
+        </div>
+        <div class="section">
+            <h2>Creator Profile</h2>
+            <h3>@LordWorldPeace</h3>
+            <p>Role: Artist & Founder</p>
+            <p>Background: Generative artist, graphic designer, open‑source AI infrastructure builder, and crypto‑native degenerate.</p>
+        </div>
+        <div class="section">
+            <h2>Roadmap</h2>
+            <p>Museum</p>
+        </div>
+    </div>
+</body>
+</html>
