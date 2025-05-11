@@ -63,7 +63,7 @@
             display: flex;
             flex-direction: column;
             gap: 18px; /* Add space between control groups */
-            /* Removed absolute positioning */
+            position: relative; /* Added for positioning context of close button */
             height: 100%;
             transition: transform 0.3s ease-in-out; /* Add transition for smooth toggling */
         }
@@ -624,65 +624,6 @@
                  randomizeParams();
              });
         }
-
-
-        // Download functionality (Removed - button no longer exists)
-        /*
-        downloadButton?.addEventListener('click', async () => { // Optional chaining in case element is missing
-             try {
-                // 1. Get current values from controls
-                const currentLobeCount = controls.lobeCount.value;
-                const currentTurbulence = controls.turbulence.value;
-                const currentRibbonCount = controls.ribbonCount.value;
-                const currentRotSpeed = controls.rotSpeed.value;
-                const currentSeedValue = controls.currentSeed.value;
-                const currentBgColor1 = controls.bgColor1.value;
-                const currentBgColor2 = controls.bgColor2.value;
-                const currentBgColor3 = controls.bgColor3.value;
-                const currentRibbonColor = controls.ribbonColor.value;
-
-
-                // 2. Fetch the original ORDTISM 1 HTML content
-                const response = await fetch('ORDTISM 1.html');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                let originalHtml = await response.text();
-
-                // 3. Inject current parameters into the script tag
-                // This is a simplified injection. A more robust solution might parse the script and modify variables.
-                // For this specific case, we'll replace the default variable declarations.
-                originalHtml = originalHtml.replace(
-                    /let lobeCount=.*?;\s*let turbulence=.*?;\s*let ribbonCount=.*?;\s*let rotSpeed=.*?;\s*let currentSeed=.*?;\s*let radiusScale, sinScale, strokeBase;/,
-                    `let lobeCount=${currentLobeCount}; let turbulence=${currentTurbulence}; let ribbonCount=${currentRibbonCount}; let rotSpeed=${currentRotSpeed}; let currentSeed=${currentSeedValue}; let radiusScale, sinScale, strokeBase;`
-                );
-
-                 // Inject color parameters into the script tag
-                 originalHtml = originalHtml.replace(
-                    /let ribbonBaseColorHex = '#.*?';\s*let bgColor1Hex = '#.*?';\s*let bgColor2Hex = '#.*?';\s*let bgColor3Hex = '#.*?';/,
-                    `let ribbonBaseColorHex = '${currentRibbonColor}';\n    let bgColor1Hex = '${currentBgColor1}';\n    let bgColor2Hex = '${currentBgColor2}';\n    let bgColor3Hex = '${currentBgColor3}';`
-                 );
-
-
-                // 4. Create Blob and Download Link
-                const blob = new Blob([originalHtml], { type: 'text/html' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `ordtism_derivation_${currentSeedValue}_${Date.now()}.html`; // Include seed and timestamp
-                document.body.appendChild(a);
-                a.click();
-
-                // 5. Cleanup
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-
-            } catch (error) {
-                console.error("Error creating download file:", error);
-                 alert("Failed to create download file. See console for details.");
-             }
-        });
-        */
 
     </script>
 </body>
