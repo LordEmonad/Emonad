@@ -429,12 +429,11 @@
                 <input type="range" id="rotSpeed" name="rotSpeed" min="0" max="0.001" value="0" step="0.0001">
             </div>
 
-             <div class="control-group">
-                <label for="currentSeed">Seed:</label>
-                <input type="number" id="currentSeed" name="currentSeed" value="4777">
+            <div class="control-group" style="text-align: center;">
+                <button id="randomizeButton" style="margin: 5px;">Randomize</button>
+                <button id="downloadButton" style="margin: 5px;">Download</button>
+                <button id="downloadOrdinalButton" style="margin: 5px;">Download Ordinal</button>
             </div>
-
-            <button id="randomizeButton" style="margin-bottom: 10px;">Randomize Parameters</button>
         </div>
         <div id="color-controls">
              <button class="close-panel-btn" onclick="closePanel('color-controls')">×</button>
@@ -446,10 +445,6 @@
             <div class="control-group">
                 <label for="bgColor2">Background Color 2:</label>
                 <input type="color" id="bgColor2" name="bgColor2" value="#131316">
-            </div>
-            <div class="control-group">
-                <label for="bgColor3">Background Color 3:</label>
-                <input type="color" id="bgColor3" name="bgColor3" value="#131316">
             </div>
             <div class="control-group">
                 <label for="ribbonColor">Ribbon Color:</label>
@@ -469,10 +464,8 @@
             turbulence: document.getElementById('turbulence'),
             ribbonCount: document.getElementById('ribbonCount'),
             rotSpeed: document.getElementById('rotSpeed'),
-            currentSeed: document.getElementById('currentSeed'),
             bgColor1: document.getElementById('bgColor1'),
             bgColor2: document.getElementById('bgColor2'),
-            bgColor3: document.getElementById('bgColor3'),
             ribbonColor: document.getElementById('ribbonColor')
         };
         const valueDisplays = {
@@ -487,8 +480,223 @@
         const mobileRandomizeBtn = document.getElementById('mobileRandomizeBtn');
         const controlsPanel = document.getElementById('controls');
         const colorControlsPanel = document.getElementById('color-controls');
-        // Removed downloadButton reference
+        const downloadButton = document.getElementById('downloadButton');
+        const downloadOrdinalButton = document.getElementById('downloadOrdinalButton');
 
+
+        // --- Download Logic ---
+        function downloadArt(useOrdinalScript) {
+            // 1. Get current parameter values from the UI controls
+            const params = {
+                lobeCount: controls.lobeCount.value,
+                turbulence: controls.turbulence.value,
+                ribbonCount: controls.ribbonCount.value,
+                rotSpeed: controls.rotSpeed.value,
+                bgColor1: controls.bgColor1.value,
+                bgColor2: controls.bgColor2.value,
+                ribbonColor: controls.ribbonColor.value
+            };
+
+            const scriptSrc = useOrdinalScript 
+                ? '/content/13a5c8e41dfc110514b450b2f15317988c0aaf276d3dbdcca9aa3c7d0b2188a7i0' 
+                : 'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js';
+
+            const fileName = useOrdinalScript ? 'ORDTISM-ordinal.html' : 'ORDTISM-creation.html';
+
+            // 2. Create the HTML content from a template string
+            const htmlTemplate = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ORDTISM Creation</title>
+  <script src="${scriptSrc}"><\/script>
+  <style>
+    html, body { margin: 0; padding: 0; overflow: hidden; background: #131316; width: 100%; height: 100%; }
+    canvas { display: block; width: 100% !important; height: 100% !important; }
+  </style>
+</head>
+<body>
+<script>
+    let t = 0,
+      rot = 0,
+      baseRadius = 0,
+      lastFrameTime = 0,
+      deltaFrameTime = 0,
+      smoothedFrameRate = 60,
+      lobeCount = ${params.lobeCount},
+      turbulence = ${params.turbulence},
+      ribbonCount = ${params.ribbonCount},
+      rotSpeed = ${params.rotSpeed},
+      radiusScale, sinScale, strokeBase;
+      
+    const ribbonBaseColorHex = '${params.ribbonColor}';
+    const bgColor1Hex = '${params.bgColor1}';
+    const bgColor2Hex = '${params.bgColor2}';
+
+    function hexToHsb(hex) {
+        const result = /^#?([a-f\\d]{2})([a-f\\d]{2})([a-f\\d]{2})$/i.exec(hex);
+        if (!result) return { h: 0, s: 0, b: 0 }; // Return black on error
+        let r = parseInt(result[1], 16);
+        let g = parseInt(result[2], 16);
+        let b = parseInt(result[3], 16);
+
+        r /= 255;
+        g /= 255;
+        b /= 255;
+
+        const max = Math.max(r, g, b);
+        const min = Math.min(r, g, b);
+        let h, s, v = max;
+
+        const d = max - min;
+        if (max === min) {
+        h = 0; // achromatic
+        } else {
+        switch (max) {
+            case r:
+            h = (g - b) / d + (g < b ? 6 : 0);
+            break;
+            case g:
+            h = (b - r) / d + 2;
+            break;
+            case b:
+            h = (r - g) / d + 4;
+            break;
+        }
+        h /= 6;
+        }
+
+        s = max === 0 ? 0 : d / max;
+
+        return {
+        h: h * 360,
+        s: s * 100,
+        b: v * 100
+        };
+    }
+
+    function setup() {
+      pixelDensity(1);
+      let r = createCanvas(window.innerWidth, window.innerHeight);
+      r.drawingContext.imageSmoothingEnabled = true;
+      r.drawingContext.imageSmoothingQuality = 'high';
+      calcBaseRadius();
+      colorMode(HSB, 360, 100, 100, 100);
+      frameRate(60);
+      noiseDetail(4, 0.5);
+      lastFrameTime = millis();
+    }
+
+    function windowResized() {
+      resizeCanvas(window.innerWidth, window.innerHeight);
+      calcBaseRadius();
+    }
+
+    function calcBaseRadius() {
+      baseRadius = min(width, height) * 0.2;
+      radiusScale = baseRadius * 0.93;
+      sinScale = baseRadius * 0.4;
+      strokeBase = baseRadius / 180;
+    }
+
+    function drawRadialBackground() {
+        const e=drawingContext,t=width/2,l=height/2,o=1.8*max(width,height);
+        const r=hexToHsb(bgColor1Hex) || {h:0,s:0,b:0};
+        const a=hexToHsb(bgColor2Hex) || {h:0,s:0,b:0};
+        const n=hexToHsb(bgColor2Hex) || {h:0,s:0,b:0};
+        const s=e.createRadialGradient(t,l,.05*o,t,l,o);
+        s.addColorStop(0,\`hsla(\${r.h},\${r.s}%,\${r.b}%,1)\`);
+        s.addColorStop(.5,\`hsla(\${a.h},\${a.s}%,\${a.b}%,.9)\`);
+        s.addColorStop(1,\`hsla(\${n.h},\${n.s}%,\${n.b}%,1)\`);
+        e.resetTransform();
+        e.fillStyle=s;
+        e.fillRect(0,0,width,height);
+    }
+
+    function draw() {
+      calcBaseRadius();
+      const currentTime = millis();
+      deltaFrameTime = min(currentTime - lastFrameTime, 100);
+      lastFrameTime = currentTime;
+      smoothedFrameRate = lerp(smoothedFrameRate, frameRate(), 0.05);
+      t += deltaFrameTime;
+      rot += rotSpeed * deltaFrameTime;
+      const centerX = width / 2,
+        centerY = height / 2;
+      drawRadialBackground();
+      push();
+      translate(centerX, centerY);
+      rotate(rot);
+      const targetPoints = smoothedFrameRate > 50 ? 720 : (smoothedFrameRate > 35 ? 400 : 250),
+        minPoints = 800 + lobeCount * 80 + ribbonCount * 40,
+        detailPoints = max(floor(targetPoints), minPoints),
+        angleIncrement = TWO_PI / detailPoints,
+        lobeMultiplier = lobeCount,
+        turbMultiplier = turbulence;
+        const i=hexToHsb(ribbonBaseColorHex)  || {h:0,s:0,b:0};
+        const b=i.h,u=i.s,m=i.b;
+      for (let l = 0; l < ribbonCount; l++) {
+        const phase = t * 0.0002 + l * 0.3,
+          hue = (b + sin(phase * 1.3 + l * 0.5) * 80 + 360) % 360;
+        stroke(hue, u, m, 60);
+        strokeWeight(0.28 + l * 0.4 * strokeBase);
+        noFill();
+        beginShape();
+        for (let i = 0; i <= detailPoints; i++) {
+          const a = angleIncrement * i,
+            cosA = cos(a * lobeMultiplier),
+            sinA = sin(a * lobeMultiplier),
+            n = noise(cosA * turbMultiplier + phase, sinA * turbMultiplier + phase * 1.1),
+            r = baseRadius + n * radiusScale + sinScale * sin(lobeMultiplier * a + phase + l),
+            x = r * cos(a),
+            y = r * sin(a);
+          curveVertex(x, y)
+        }
+        endShape(CLOSE);
+      }
+      pop()
+    }
+
+    function keyPressed() {
+      if (key === '0' || key === '3' || key === '6' || key === '9') {
+        rotSpeed = 0;
+      }
+      if (key === '1') {
+        lobeCount = max(3, lobeCount - 1);
+      } else if (key === '2') {
+        lobeCount = min(10, lobeCount + 1);
+      }
+      if (key === '4') {
+        turbulence = max(0.1, turbulence - 0.05);
+      } else if (key === '5') {
+        turbulence = min(3.0, turbulence + 0.05);
+      }
+      if (key === '7') {
+        ribbonCount = max(1, ribbonCount - 1);
+      } else if (key === '8') {
+        ribbonCount = min(20, ribbonCount + 1);
+      }
+      if (key === '+' || key === '=') {
+        rotSpeed += 0.0001;
+      } else if (key === '-') {
+        rotSpeed = max(0, rotSpeed - 0.0001);
+      }
+    }
+<\/script>
+</body>
+</html>`;
+
+            // 3. Create a Blob and trigger download
+            const blob = new Blob([htmlTemplate.trim()], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
 
         // Function to update the iframe source with current parameters
         function updateIframeSource() {
@@ -496,14 +704,13 @@
             const currentTurbulence = controls.turbulence.value;
             const currentRibbonCount = controls.ribbonCount.value;
             const currentRotSpeed = controls.rotSpeed.value;
-            const currentSeedValue = controls.currentSeed.value;
+            const currentSeedValue = Math.floor(Math.random() * 1000000);
             const currentBgColor1 = controls.bgColor1.value.substring(1); // Remove #
             const currentBgColor2 = controls.bgColor2.value.substring(1); // Remove #
-            const currentBgColor3 = controls.bgColor3.value.substring(1); // Remove #
             const currentRibbonColor = controls.ribbonColor.value.substring(1); // Remove #
 
 
-            const iframeSrc = `ORDTISM 1.html?lobeCount=${currentLobeCount}&turbulence=${currentTurbulence}&ribbonCount=${currentRibbonCount}&rotSpeed=${currentRotSpeed}&currentSeed=${currentSeedValue}&bgColor1=${currentBgColor1}&bgColor2=${currentBgColor2}&bgColor3=${currentBgColor3}&ribbonColor=${currentRibbonColor}`;
+            const iframeSrc = `ORDTISM 1.html?lobeCount=${currentLobeCount}&turbulence=${currentTurbulence}&ribbonCount=${currentRibbonCount}&rotSpeed=${currentRotSpeed}&currentSeed=${currentSeedValue}&bgColor1=${currentBgColor1}&bgColor2=${currentBgColor2}&ribbonColor=${currentRibbonColor}`;
             iframe.src = iframeSrc;
             console.log("Derivitooor: Updating iframe source to:", iframeSrc);
         }
@@ -578,13 +785,11 @@
             const randomRibbonCount = Math.floor(Math.random() * 20) + 1; // 1-20
             let randomRotSpeed = (Math.random() * (0.001 - (-0.001)) + (-0.001)).toFixed(4); // -0.001 to 0.001
             randomRotSpeed = Math.max(0, parseFloat(randomRotSpeed)).toFixed(4); // Ensure not negative
-            const randomSeed = Math.floor(Math.random() * 1000000); // 0-999999
 
             // Generate random hex colors
             const randomColor = () => '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
             const randomBgColor1 = randomColor();
             const randomBgColor2 = randomColor();
-            const randomBgColor3 = randomColor();
             const randomRibbonColor = randomColor();
 
 
@@ -593,10 +798,8 @@
             controls.turbulence.value = randomTurbulence;
             controls.ribbonCount.value = randomRibbonCount;
             controls.rotSpeed.value = randomRotSpeed;
-            controls.currentSeed.value = randomSeed;
             controls.bgColor1.value = randomBgColor1;
             controls.bgColor2.value = randomBgColor2;
-            controls.bgColor3.value = randomBgColor3;
             controls.ribbonColor.value = randomRibbonColor;
 
 
@@ -623,6 +826,13 @@
                  console.log("Mobile Randomize button clicked");
                  randomizeParams();
              });
+        }
+
+        if (downloadButton) {
+            downloadButton.addEventListener('click', () => downloadArt(false));
+        }
+        if (downloadOrdinalButton) {
+            downloadOrdinalButton.addEventListener('click', () => downloadArt(true));
         }
 
     </script>
