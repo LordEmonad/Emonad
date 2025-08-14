@@ -75,7 +75,7 @@
     }
     
     header {
-      padding: 56px 0 36px 0;
+      padding: 40px 0 20px 0;
       text-align: center;
       position: relative;
       flex-shrink: 0;
@@ -1086,14 +1086,21 @@
       }
       
       .nav-button {
-        padding: 7px 12px; /* Increased padding */
-        font-size: 0.8rem; /* Increased font size */
-        /* margin: 0 5px; Removed horizontal margin */
+        padding: 6px 14px;
+        font-size: 0.85rem;
       }
       
       .collection-title {
-        font-size: 2.2rem;
-        margin-bottom: 20px;
+        font-size: 2.8rem;
+      }
+      
+      .collection-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 0.9em;
+      }
+      
+      header {
+        padding: 30px 0 15px 0;
       }
       
       .gallery {
@@ -1129,6 +1136,15 @@
         font-size: 1.8rem;
       }
       
+      .collection-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 0.8em;
+      }
+      
+      header {
+        padding: 25px 0 15px 0;
+      }
+      
       .gallery {
         grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
         gap: 10px;
@@ -1138,27 +1154,201 @@
         height: 130px;
       }
     }
+    
+    /* Search Section Styles */
+    .search-section {
+      display: flex;
+      justify-content: center;
+      margin: 15px 0 25px 0;
+      padding: 0 20px;
+    }
+    
+    .search-container {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .search-input {
+      background: var(--button-bg);
+      color: var(--text-color);
+      border: 2px solid var(--button-border);
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-size: 0.96rem;
+      font-weight: 500;
+      font-family: 'Space Grotesk', sans-serif;
+      transition: all 0.25s ease;
+      box-shadow: var(--button-glow);
+      width: 280px;
+      text-align: center;
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: #44ffe2;
+      box-shadow: 0 0 15px rgba(68, 255, 226, 0.4);
+      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%);
+    }
+    
+    .search-input::placeholder {
+      color: rgba(245, 245, 250, 0.6);
+      font-weight: 400;
+    }
+    
+    .search-button {
+      background: var(--button-bg);
+      color: var(--button-text);
+      border: 2px solid var(--button-border);
+      border-radius: 999px;
+      padding: 10px 24px;
+      font-size: 0.96rem;
+      font-weight: 600;
+      font-family: 'Space Grotesk', sans-serif;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: var(--button-glow);
+    }
+    
+    .search-button:hover {
+      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%);
+      color: #44ffe2;
+      border-color: #44ffe2;
+      box-shadow: 0 0 15px rgba(199, 168, 255, 0.6);
+      transform: translateY(-2px);
+    }
+    
+    .search-button:active {
+      transform: translateY(0);
+    }
+    
+    /* Enhanced Mint on Gamma button - Subtle but noticeable */
+    .mint-gamma-btn {
+      position: relative;
+      overflow: visible;
+      font-weight: 600 !important;
+      border: 3px solid transparent !important;
+      background: linear-gradient(var(--button-bg), var(--button-bg)) padding-box,
+                  linear-gradient(45deg, #ffd580, #c7a8ff, #44ffe2, #ffd580) border-box;
+      background-size: auto, 300% 300%;
+      animation: borderGlow 3s ease-in-out infinite;
+      transition: all 0.4s ease-in-out;
+    }
+    
+    /* Enhanced glow layer */
+    .mint-gamma-btn::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: -6px;
+      right: -6px;
+      bottom: -6px;
+      background: linear-gradient(45deg, #ffd580, #c7a8ff, #44ffe2, #ffd580);
+      background-size: 300% 300%;
+      border-radius: 999px;
+      z-index: -1;
+      animation: gammaGlow 3s ease-in-out infinite;
+      opacity: 1;
+      filter: blur(3px);
+      transition: all 0.4s ease-in-out;
+    }
+    
+    /* Border animation for the button itself */
+    @keyframes borderGlow {
+      0%, 100% {
+        background-position: auto, 0% 50%;
+      }
+      50% {
+        background-position: auto, 100% 50%;
+      }
+    }
+    
+    /* Glow animation - enhanced visibility */
+    @keyframes gammaGlow {
+      0%, 100% {
+        background-position: 0% 50%;
+        box-shadow: 0 0 25px rgba(255, 213, 128, 0.9), 0 0 45px rgba(199, 168, 255, 0.7), 0 0 65px rgba(255, 213, 128, 0.5);
+      }
+      50% {
+        background-position: 100% 50%;
+        box-shadow: 0 0 30px rgba(199, 168, 255, 0.9), 0 0 50px rgba(68, 255, 226, 0.7), 0 0 70px rgba(199, 168, 255, 0.5);
+      }
+    }
+    
+    /* Enhanced hover state */
+    .mint-gamma-btn:hover {
+      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%) !important;
+      border: 3px solid #44ffe2 !important;
+      color: #44ffe2;
+      box-shadow: 0 0 15px rgba(199, 168, 255, 0.6);
+      transform: translateY(-2px);
+      animation: none;
+    }
+    
+    @media (max-width: 700px) {
+      .search-input {
+        width: 220px;
+        font-size: 0.9rem;
+        padding: 8px 16px;
+      }
+      
+      .search-button {
+        font-size: 0.9rem;
+        padding: 8px 20px;
+      }
+      
+      .search-container {
+        gap: 10px;
+      }
+    }
+    
+    @media (max-width: 400px) {
+      .search-input {
+        width: 180px;
+        font-size: 0.8rem;
+      }
+      
+      .search-button {
+        font-size: 0.8rem;
+        padding: 7px 16px;
+      }
+      
+      .mint-gamma-btn::before {
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="background-glow"></div>
   
   <div class="container">
-    <nav class="nav-bar">
-      <div class="nav-buttons">
-        <a href="index.html" class="nav-button">Home</a>
-        <a href="about.html" class="nav-button">About Ordtisms</a>
-        <a href="https://magiceden.us/ordinals/marketplace/mtrx" class="nav-button" target="_blank">Escape</a>
-        <a href="https://magiceden.us/ordinals/marketplace/ordtism" class="nav-button" target="_blank">Ordtisms</a>
-        <a href="visualizer.html" class="nav-button">Gallery Mode</a>
-        <a href="Derivitooor.html" class="nav-button">Derivitooor</a>
-      </div>
-    </nav>
-    
     <header>
       <h1 class="collection-title">Ordtisms</h1>
       <h2 class="collection-subtitle">Interactive generative art on <span id="bitcoin-easter-egg">Bitcoin</span></h2>
     </header>
+    
+    <nav class="nav-bar">
+      <div class="nav-buttons">
+        <a href="index.html" class="nav-button">Home</a>
+        <a href="about.html" class="nav-button">About</a>
+        <a href="https://beta.gamma.io/ordinals/collections/ordtisms/items" target="_blank" rel="noopener noreferrer" class="nav-button mint-gamma-btn">Mint on Gamma</a>
+        <a href="Derivitooor.html" class="nav-button">Derivitooor</a>
+      </div>
+    </nav>
+    
+    <!-- Search Section -->
+    <div class="search-section">
+      <div class="search-container">
+        <input type="number" id="searchInput" class="search-input" placeholder="Enter Ordtism number (1-101)" min="1" max="101">
+        <button id="searchButton" class="search-button">View Ordtism</button>
+      </div>
+    </div>
     
     <div class="gallery">
       <!-- Gallery items will be dynamically generated -->
@@ -1231,6 +1421,42 @@
     let currentIndex = 1;
     const MAX_PIECES = INSCRIPTION_IDS.length - 1; // 101 if all present
     let hasControlsPopupBeenShownThisSession = false; // Flag for controls pop-up
+    
+    // Search functionality
+    function initializeSearch() {
+      const searchInput = document.getElementById('searchInput');
+      const searchButton = document.getElementById('searchButton');
+      
+      if (searchInput && searchButton) {
+        // Handle search button click
+        searchButton.addEventListener('click', performSearch);
+        
+        // Handle Enter key press in search input
+        searchInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            performSearch();
+          }
+        });
+      }
+    }
+    
+    function performSearch() {
+      const searchInput = document.getElementById('searchInput');
+      const searchValue = parseInt(searchInput.value);
+      
+      // Validate input
+      if (isNaN(searchValue) || searchValue < 1 || searchValue > MAX_PIECES) {
+        alert(`Please enter a valid Ordtism number between 1 and ${MAX_PIECES}`);
+        searchInput.focus();
+        return;
+      }
+      
+      // Open the modal with the specified ordtism
+      openModal(searchValue);
+      
+      // Clear the search input
+      searchInput.value = '';
+    }
     
     // Function to render gallery with optimized loading
     function renderGallery(page = 1) {
@@ -1501,6 +1727,9 @@
     
     // Initialize the gallery rendering immediately
     renderGallery(1);
+    
+    // Initialize search functionality
+    initializeSearch();
     
     // Mobile viewport height fix
     function setMobileViewportHeight() {

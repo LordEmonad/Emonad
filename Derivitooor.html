@@ -33,6 +33,69 @@
           --modal-bg: #18183a;
           --modal-border: #ffd580;
         }
+        
+        /* Enhanced Mint on Gamma button - Subtle but noticeable */
+        .mint-gamma-btn {
+          position: relative;
+          overflow: visible;
+          font-weight: 600 !important;
+          border: 3px solid transparent !important;
+          background: linear-gradient(var(--button-bg), var(--button-bg)) padding-box,
+                      linear-gradient(45deg, #ffd580, #c7a8ff, #44ffe2, #ffd580) border-box;
+          background-size: auto, 300% 300%;
+          animation: borderGlow 3s ease-in-out infinite;
+          transition: all 0.4s ease-in-out;
+        }
+        
+        /* Enhanced glow layer */
+        .mint-gamma-btn::before {
+          content: '';
+          position: absolute;
+          top: -6px;
+          left: -6px;
+          right: -6px;
+          bottom: -6px;
+          background: linear-gradient(45deg, #ffd580, #c7a8ff, #44ffe2, #ffd580);
+          background-size: 300% 300%;
+          border-radius: 999px;
+          z-index: -1;
+          animation: gammaGlow 3s ease-in-out infinite;
+          opacity: 1;
+          filter: blur(3px);
+          transition: all 0.4s ease-in-out;
+        }
+        
+        /* Border animation for the button itself */
+        @keyframes borderGlow {
+          0%, 100% {
+            background-position: auto, 0% 50%;
+          }
+          50% {
+            background-position: auto, 100% 50%;
+          }
+        }
+        
+        /* Glow animation - enhanced visibility */
+        @keyframes gammaGlow {
+          0%, 100% {
+            background-position: 0% 50%;
+            box-shadow: 0 0 25px rgba(255, 213, 128, 0.9), 0 0 45px rgba(199, 168, 255, 0.7), 0 0 65px rgba(255, 213, 128, 0.5);
+          }
+          50% {
+            background-position: 100% 50%;
+            box-shadow: 0 0 30px rgba(199, 168, 255, 0.9), 0 0 50px rgba(68, 255, 226, 0.7), 0 0 70px rgba(199, 168, 255, 0.5);
+          }
+        }
+        
+        /* Enhanced hover state */
+        .mint-gamma-btn:hover {
+          background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%) !important;
+          border: 3px solid #44ffe2 !important;
+          color: #44ffe2;
+          box-shadow: 0 0 15px rgba(199, 168, 255, 0.6);
+          transform: translateY(-2px);
+          animation: none;
+        }
         * {
           margin: 0;
           padding: 0;
@@ -385,6 +448,13 @@
             #controls #randomizeButton {
                 display: none;
             }
+            
+            .mint-gamma-btn::before {
+              top: -2px;
+              left: -2px;
+              right: -2px;
+              bottom: -2px;
+            }
         }
     </style>
 </head>
@@ -392,9 +462,8 @@
     <nav class="nav-bar">
       <div class="nav-buttons">
         <a href="index.html" class="nav-button">Home</a>
-        <a href="https://magiceden.us/ordinals/marketplace/mtrx" class="nav-button" target="_blank">Escape</a>
-        <a href="https://magiceden.us/ordinals/marketplace/ordtism" class="nav-button" target="_blank">Ordtisms</a>
-        <a href="visualizer.html" class="nav-button">Gallery Mode</a>
+        <a href="about.html" class="nav-button">About Ordtisms</a>
+        <a href="https://beta.gamma.io/ordinals/collections/ordtisms/items" class="nav-button mint-gamma-btn" target="_blank">Mint on Gamma</a>
         <a href="Derivitooor.html" class="nav-button">Derivitooor</a>
       </div>
     </nav>
