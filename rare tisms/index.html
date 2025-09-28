@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Rare Tisms — Trading Card Collection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #101025;
+      --bg-gradient: radial-gradient(ellipse at 50% 0%, #2e2e56 0%, transparent 70%),
+        radial-gradient(ellipse at 50% 100%, #2a1a36 0%, transparent 70%),
+        radial-gradient(ellipse at 80% 30%, #ffd58033 0%, transparent 80%),
+        #101025;
+      --text-color: #f5f5fa;
+      --accent-color: #c7a8ff;
+      --secondary-color: #44ffe2;
+      --gold: #ffd580;
+      --violet: #c7a8ff;
+      --teal: #44ffe2;
+      --card-bg: rgba(22,24,40,0.84);
+      --button-bg: rgba(22,24,40,0.92);
+      --button-text: #ffd580;
+      --button-border: #c7a8ff;
+      --button-glow: 0 0 12px 2px #c7a8ff66;
+      --common: #9ca3af;
+      --uncommon: #22c55e;
+      --rare: #3b82f6;
+      --epic: #8b5cf6;
+      --legendary: #f59e0b;
+      --mythic: #ef4444;
+      --secret-rare: #d946ef;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: var(--bg-gradient);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    header {
+      padding: 40px 0 20px 0;
+      text-align: center;
+    }
+    
+    .collection-title {
+      font-weight: 900;
+      font-size: 4.2rem;
+      letter-spacing: 0.07em;
+      background: linear-gradient(92deg, #ffd580 0%, #c7a8ff 70%, #44ffe2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.1em;
+      display: inline-block;
+      line-height: 1.07;
+      filter: drop-shadow(0 2px 18px #c7a8ff44);
+    }
+    
+    .collection-subtitle {
+      font-size: 1.6rem;
+      margin-bottom: 1.1em;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      background: linear-gradient(90deg, #c7a8ff 0%, #44ffe2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 2px 14px #44ffe233);
+    }
+    
+    .nav-bar {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0 30px 0;
+      padding: 10px 0;
+    }
+    
+    .nav-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .nav-button {
+      background: var(--button-bg);
+      color: var(--button-text);
+      border: 2px solid var(--button-border);
+      border-radius: 999px;
+      padding: 8px 22px;
+      font-size: 0.96rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      box-shadow: var(--button-glow);
+    }
+    
+    .nav-button:hover {
+      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%);
+      color: #44ffe2;
+      border-color: #44ffe2;
+      box-shadow: 0 0 15px rgba(199, 168, 255, 0.6);
+      transform: translateY(-2px);
+    }
+    
+    /* Enhanced Mint on OrdX button - Similar to Gamma styling */
+    .mint-ordx-btn {
+      position: relative;
+      overflow: visible;
+      font-weight: 600 !important;
+      border: 3px solid transparent !important;
+      background: linear-gradient(var(--button-bg), var(--button-bg)) padding-box,
+                  linear-gradient(45deg, #44ffe2, #ffd580, #c7a8ff, #44ffe2) border-box;
+      background-size: auto, 300% 300%;
+      animation: ordxBorderGlow 3s ease-in-out infinite;
+      transition: all 0.4s ease-in-out;
+    }
+    
+    /* Enhanced glow layer for OrdX */
+    .mint-ordx-btn::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: -6px;
+      right: -6px;
+      bottom: -6px;
+      background: linear-gradient(45deg, #44ffe2, #ffd580, #c7a8ff, #44ffe2);
+      background-size: 300% 300%;
+      border-radius: 999px;
+      z-index: -1;
+      animation: ordxGlow 3s ease-in-out infinite;
+      opacity: 1;
+      filter: blur(3px);
+      transition: all 0.4s ease-in-out;
+    }
+    
+    /* Border animation for OrdX button */
+    @keyframes ordxBorderGlow {
+      0%, 100% {
+        background-position: auto, 0% 50%;
+      }
+      50% {
+        background-position: auto, 100% 50%;
+      }
+    }
+    
+    /* Glow animation for OrdX - different colors than Gamma */
+    @keyframes ordxGlow {
+      0%, 100% {
+        background-position: 0% 50%;
+        box-shadow: 0 0 25px rgba(68, 255, 226, 0.9), 0 0 45px rgba(255, 213, 128, 0.7), 0 0 65px rgba(68, 255, 226, 0.5);
+      }
+      50% {
+        background-position: 100% 50%;
+        box-shadow: 0 0 30px rgba(255, 213, 128, 0.9), 0 0 50px rgba(199, 168, 255, 0.7), 0 0 70px rgba(255, 213, 128, 0.5);
+      }
+    }
+    
+    /* Enhanced hover state for OrdX */
+    .mint-ordx-btn:hover {
+      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%) !important;
+      border: 3px solid #44ffe2 !important;
+      color: #44ffe2;
+      box-shadow: 0 0 15px rgba(68, 255, 226, 0.6);
+      transform: translateY(-2px);
+      animation: none;
+    }
+    
+    .pack-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 40px 0;
+      flex: 1;
+    }
+    
+    .pack-container {
+      position: absolute;
+      cursor: pointer;
+      width: 80vw;
+      max-width: 600px;
+      min-width: 340px;
+      height: 80vh;
+      max-height: 700px;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      top: 60%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    
+    .pack-image {
+      width: 100%;
+      max-width: 550px;
+      min-width: 300px;
+      height: auto;
+      border-radius: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .pack-top-half {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      width: 100%;
+      max-width: 550px;
+      min-width: 300px;
+      height: 100%;
+      max-height: 700px;
+      min-height: 500px;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-radius: 20px;
+      transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease;
+      z-index: 3;
+      overflow: hidden;
+      opacity: 0;
+      clip-path: polygon(0% 0%, 100% 0%, 100% 12%, 95% 11%, 90% 13%, 85% 12%, 80% 14%, 75% 13%, 70% 15%, 65% 14%, 60% 16%, 55% 15%, 50% 17%, 45% 16%, 40% 18%, 35% 17%, 30% 19%, 25% 18%, 20% 20%, 15% 19%, 10% 21%, 5% 20%, 0% 22%);
+    }
+    
+    .pack-bottom-half {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      width: 100%;
+      max-width: 550px;
+      min-width: 300px;
+      height: 100%;
+      max-height: 700px;
+      min-height: 500px;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-radius: 20px;
+      z-index: 1;
+      overflow: hidden;
+      opacity: 0;
+      clip-path: polygon(0% 22%, 5% 20%, 10% 21%, 15% 19%, 20% 20%, 25% 18%, 30% 19%, 35% 17%, 40% 18%, 45% 16%, 50% 17%, 55% 15%, 60% 16%, 65% 14%, 70% 15%, 75% 13%, 80% 14%, 85% 12%, 90% 13%, 95% 11%, 100% 12%, 100% 100%, 0% 100%);
+    }
+    
+    .pack-container.ripping .pack-top-half {
+      transform: translateX(-50%) translateY(-50%) rotateZ(0deg) scale(1);
+      opacity: 1;
+    }
+    
+    .pack-container.ripping .pack-bottom-half {
+      transform: translateX(-50%) translateY(-50%);
+      opacity: 1;
+    }
+    
+    /* Keyframe animations for realistic pack opening */
+    @keyframes packRipTop {
+      0% { 
+        transform: translateX(-50%) translateY(-50%) rotateZ(0deg);
+        opacity: 1;
+      }
+      100% { 
+        transform: translateX(-50%) translateY(-85%) rotateZ(-12deg);
+        opacity: 1;
+      }
+    }
+    
+    
+    .pack-container.ripping .pack-image {
+      opacity: 0;
+    }
+    
+    
+    
+    
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 1200px;
+      margin-top: 40px;
+      background: transparent;
+      z-index: 2;
+      position: relative;
+    }
+    
+    
+    
+    .card-item {
+      opacity: 0;
+      transform: translateY(-100vh) scale(0.3) rotate(10deg);
+      animation-fill-mode: forwards;
+      z-index: 2;
+      position: relative;
+    }
+    
+    .card-item.animate-in {
+      animation: cardFlyOut 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+    
+    @keyframes cardFlyOut {
+      0% {
+        opacity: 1;
+        transform: translateY(-100vh) scale(0.3) rotate(10deg);
+      }
+      70% {
+        opacity: 1;
+        transform: translateY(0) scale(1.1) rotate(2deg);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0deg);
+      }
+    }
+    
+    .card-item {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 15px;
+      border: 2px solid var(--accent-color);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.4), 0 0 25px rgba(199, 168, 255, 0.4);
+    }
+    
+    /* Card Viewer Modal */
+    .card-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(16, 16, 37, 0.98);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(15px);
+    }
+    
+    .card-modal.active {
+      display: flex;
+    }
+    
+    .card-modal-content {
+      background: transparent;
+      border-radius: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      box-shadow: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .card-modal-image {
+      max-width: 60vw;
+      max-height: 70vh;
+      width: auto;
+      height: auto;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(199, 168, 255, 0.4);
+      border: 3px solid var(--accent-color);
+    }
+    
+    .card-modal-info {
+      text-align: center;
+      margin-bottom: 30px;
+      background: var(--card-bg);
+      padding: 20px 30px;
+      border-radius: 15px;
+      border: 2px solid var(--accent-color);
+      backdrop-filter: blur(10px);
+    }
+    
+    .card-modal-name {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-color);
+      margin-bottom: 15px;
+      text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+    }
+    
+    .card-modal-rarity {
+      margin-bottom: 0;
+    }
+    
+    .card-modal-controls {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .card-modal-btn {
+      background: var(--button-bg);
+      color: var(--button-text);
+      border: 2px solid var(--button-border);
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: var(--button-glow);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .card-modal-btn:hover {
+      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%);
+      color: #44ffe2;
+      border-color: #44ffe2;
+      box-shadow: 0 0 15px rgba(199, 168, 255, 0.6);
+      transform: translateY(-2px);
+    }
+    
+    .card-modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 40px;
+      height: 40px;
+      background: var(--button-bg);
+      border: 2px solid var(--button-border);
+      color: var(--button-text);
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      box-shadow: var(--button-glow);
+    }
+    
+    .card-modal-close:hover {
+      color: #44ffe2;
+      border-color: #44ffe2;
+      background: #18183a;
+    }
+    
+    .modal-nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(22,24,40,0.95);
+      color: var(--gold);
+      border: 2px solid var(--accent-color);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      z-index: 1001;
+      backdrop-filter: blur(10px);
+    }
+    
+    .modal-nav-arrow:hover {
+      background: rgba(24, 24, 58, 0.9);
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 0 25px rgba(68, 255, 226, 0.6);
+    }
+    
+    .card-nav-prev {
+      left: 50px;
+    }
+    
+    .card-nav-next {
+      right: 50px;
+    }
+    
+    .card-image {
+      width: 100%;
+      height: 250px;
+      object-fit: contain;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      background: rgba(255,255,255,0.05);
+    }
+    
+    .card-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-color);
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    
+    .card-rarity {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    
+    .rarity-badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .rarity-common { background: var(--common); color: white; }
+    .rarity-uncommon { background: var(--uncommon); color: white; }
+    .rarity-rare { background: var(--rare); color: white; }
+    .rarity-epic { background: var(--epic); color: white; }
+    .rarity-legendary { background: var(--legendary); color: white; }
+    .rarity-mythic { background: var(--mythic); color: white; }
+    .rarity-secret\.rare { 
+      background: linear-gradient(45deg, var(--secret-rare), #f0abfc, var(--secret-rare)) !important;
+      background-size: 200% 200%;
+      animation: secretShimmer 2s ease-in-out infinite alternate;
+      color: white !important;
+      text-shadow: 0 0 8px rgba(217, 70, 239, 0.8);
+      box-shadow: 0 0 15px rgba(217, 70, 239, 0.4);
+    }
+    
+    @keyframes secretShimmer {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+    
+    .card-count {
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+    
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 15px;
+      }
+      
+      .collection-title {
+        font-size: 2.8rem;
+      }
+      
+      .collection-subtitle {
+        font-size: 1.2rem;
+      }
+      
+      .pack-container {
+        width: 90vw;
+        max-width: 450px;
+        height: calc(var(--vh, 1vh) * 50);
+        max-height: 400px;
+        top: 75%;
+      }
+      
+      .pack-image {
+        width: 100%;
+        max-width: 400px;
+      }
+      
+      .pack-instruction {
+        font-size: 1.2rem;
+      }
+      
+      .cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 12px;
+        margin-top: 20px;
+      }
+      
+      .card-image {
+        height: 160px;
+      }
+      
+      .card-name {
+        font-size: 0.9rem;
+      }
+      
+      .card-rarity {
+        font-size: 0.8rem;
+      }
+      
+      .nav-buttons {
+        gap: 8px;
+        padding: 0 10px;
+      }
+      
+      .nav-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+      }
+      
+      /* Mobile pack ripping optimizations */
+      .pack-top-half, .pack-bottom-half {
+        border-radius: 15px;
+      }
+      
+      /* Ensure cards are touch-friendly */
+      .card-item {
+        min-height: 220px;
+        padding: 12px;
+      }
+      
+      /* Modal navigation arrows - avoid overlap */
+      .modal-nav-arrow {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+        background: rgba(22,24,40,0.98);
+      }
+      
+      .card-nav-prev {
+        left: 15px;
+      }
+      
+      .card-nav-next {
+        right: 15px;
+      }
+      
+      .modal-content {
+        padding: 20px 70px 20px 70px; /* More padding to avoid arrow overlap */
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .collection-title {
+        font-size: 2.2rem;
+      }
+      
+      .collection-subtitle {
+        font-size: 1rem;
+      }
+      
+      .pack-container {
+        width: 95vw;
+        max-width: 350px;
+        height: calc(var(--vh, 1vh) * 40);
+        top: 70%;
+      }
+      
+      .pack-image {
+        max-width: 320px;
+      }
+      
+      .cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+        margin-top: 15px;
+      }
+      
+      .card-item {
+        min-height: 180px;
+        padding: 10px;
+      }
+      
+      .card-image {
+        height: 120px;
+      }
+      
+      .card-name {
+        font-size: 0.8rem;
+      }
+      
+      .card-rarity {
+        font-size: 0.7rem;
+      }
+      
+      .nav-buttons {
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      
+      .nav-button {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="collection-title">Rare Tisms</h1>
+      <h2 class="collection-subtitle">Click packs to rip open</h2>
+    </header>
+    
+    <nav class="nav-bar">
+      <div class="nav-buttons">
+        <a href="../index.html" class="nav-button">Home</a>
+        <a href="../ordtisms.html" class="nav-button">Ordtisms</a>
+        <button id="packsButton" class="nav-button">Packs</button>
+        <a href="https://www.ord-x.com/" target="_blank" rel="noopener noreferrer" class="nav-button mint-ordx-btn">Mint on OrdX</a>
+        <a href="https://t.me/addstickers/raretisms" target="_blank" rel="noopener noreferrer" class="nav-button">Telegram Stickers</a>
+      </div>
+    </nav>
+    
+    <div class="pack-section">
+      <div class="pack-container" id="packContainer">
+        <div class="pack-top-half" id="packTopHalf"></div>
+        <div class="pack-bottom-half" id="packBottomHalf"></div>
+        <img src="pack.PNG" alt="Rare Tisms Pack" class="pack-image" id="packImage" style="opacity: 0;">
+      </div>
+      
+      
+      <div class="cards-grid" id="cardsGrid">
+        <!-- Cards will be dynamically generated -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Card Viewer Modal -->
+  <div class="card-modal" id="cardModal">
+    <div class="card-modal-content">
+      <button class="card-modal-close" id="cardModalClose">&times;</button>
+      <button class="card-nav-btn card-nav-prev" id="cardNavPrev">&larr;</button>
+      <button class="card-nav-btn card-nav-next" id="cardNavNext">&rarr;</button>
+      
+      <img class="card-modal-image" id="cardModalImage" src="" alt="">
+      
+      <div class="card-modal-info">
+        <div class="card-modal-name" id="cardModalName"></div>
+        <div class="card-modal-rarity" id="cardModalRarity"></div>
+      </div>
+      
+      <div class="card-modal-controls">
+        <button class="card-modal-btn" id="downloadBtn">
+          📥 Download PNG
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Card data with rarities and counts
+    const cardData = [
+      { name: "!RISE", rarity: "uncommon", count: 77, image: "!RISE.PNG" },
+      { name: "Zero", rarity: "uncommon", count: 77, image: "Zero.PNG" },
+      { name: "Soulja", rarity: "rare", count: 77, image: "Soulja.PNG" },
+      { name: "Terminally Online", rarity: "rare", count: 77, image: "Terminally Online.PNG" },
+      { name: "Cloth Off", rarity: "rare", count: 77, image: "Cloth Off.PNG" },
+      { name: "We're Just Getting Started", rarity: "uncommon", count: 77, image: "We're Just Getting Started.PNG" },
+      { name: "Oh, you like crypto?", rarity: "uncommon", count: 77, image: "Oh, you like crypto.PNG" },
+      { name: "Escape", rarity: "mythic", count: 1, image: "Escape.PNG" },
+      { name: "Left", rarity: "rare", count: 77, image: "Left.PNG" },
+      { name: "Escapist.lol", rarity: "legendary", count: 5, image: "EscapeLOL.PNG" },
+      { name: "y ru so GAY", rarity: "common", count: 210, image: "y ru so GAY.png" },
+      { name: "Gmailu", rarity: "epic", count: 21, image: "Gmailu.PNG" },
+      { name: "AGGOT", rarity: "epic", count: 21, image: "AGGOT.PNG" },
+      { name: "Paper Mans", rarity: "epic", count: 21, image: "Paper Mans.PNG" },
+      { name: "Pew Pew", rarity: "epic", count: 21, image: "Pew Pew.PNG" },
+      { name: "Good Afternoon", rarity: "rare", count: 77, image: "Good Afternoon.PNG" },
+      { name: "Shitcoin Card", rarity: "uncommon", count: 77, image: "Shitcoin Card.PNG" },
+      { name: "Curated Arf", rarity: "legendary", count: 5, image: "Curated Arf.PNG" },
+      { name: "Honorable Flipooor", rarity: "uncommon", count: 77, image: "Honorable Flipooor.PNG" },
+      { name: "Fuck it, Jew Mode", rarity: "secret rare", count: 7, image: "Fuck it, Jew Mode.PNG" },
+      { name: "Rare Achefe", rarity: "epic", count: 21, image: "Rare Achefe.PNG" }
+    ];
+    
+    // Rarity order for sorting
+    const rarityOrder = {
+      'mythic': 1,
+      'legendary': 2,
+      'secret rare': 3,
+      'epic': 4,
+      'rare': 5,
+      'uncommon': 6,
+      'common': 7
+    };
+    
+    // Sort cards by rarity (rarest first)
+    cardData.sort((a, b) => rarityOrder[a.rarity] - rarityOrder[b.rarity]);
+    
+    // Initialize pack halves when page loads
+    function initializePack() {
+      const packImage = document.getElementById('packImage');
+      const packTopHalf = document.getElementById('packTopHalf');
+      const packBottomHalf = document.getElementById('packBottomHalf');
+      
+      // Wait for image to load, then set up the halves
+      packImage.onload = function() {
+        const imageUrl = `url('pack.PNG')`;
+        packTopHalf.style.backgroundImage = imageUrl;
+        packBottomHalf.style.backgroundImage = imageUrl;
+        
+        // Show the original image normally (no halves visible initially)
+        packImage.style.opacity = '1';
+        packTopHalf.style.opacity = '0';
+        packBottomHalf.style.opacity = '0';
+      };
+      
+      // Trigger load if image is already cached
+      if (packImage.complete) {
+        packImage.onload();
+      }
+    }
+    
+    function openPack() {
+      const packContainer = document.getElementById('packContainer');
+      const cardsGrid = document.getElementById('cardsGrid');
+      const packImage = document.getElementById('packImage');
+      const packTopHalf = document.getElementById('packTopHalf');
+      const packBottomHalf = document.getElementById('packBottomHalf');
+      
+      // Disable further clicks
+      packContainer.style.pointerEvents = 'none';
+      
+      // Keep original pack visible, only show top half that will rip away
+      packTopHalf.style.opacity = '1';
+      // Immediately mask the original pack to hide the top portion with jagged edge
+      packImage.style.clipPath = 'polygon(0% 22%, 5% 20%, 10% 21%, 15% 19%, 20% 20%, 25% 18%, 30% 19%, 35% 17%, 40% 18%, 45% 16%, 50% 17%, 55% 15%, 60% 16%, 65% 14%, 70% 15%, 75% 13%, 80% 14%, 85% 12%, 90% 13%, 95% 11%, 100% 12%, 100% 100%, 0% 100%)';
+      
+      // Force a reflow to ensure the halves are visible
+      packContainer.offsetHeight;
+      
+      // Apply the ripping animation only to the top half
+      packTopHalf.style.animation = 'packRipTop 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+      
+      // Start cards flying out immediately when rip is triggered
+      // Update header text
+      document.querySelector('.collection-subtitle').textContent = 'Digital trading cards on Bitcoin';
+      
+      // Animate existing cards that are already in the DOM
+      animateCardsIn();
+      
+      // Hide pack gradually as cards are being dealt
+      setTimeout(() => {
+        packContainer.style.opacity = '0.3';
+        packContainer.style.transition = 'opacity 1s ease-out';
+        setTimeout(() => {
+          packContainer.style.opacity = '0';
+          setTimeout(() => {
+            packContainer.style.display = 'none';
+          }, 500);
+        }, 1000);
+      }, 1000);
+    }
+    
+    // Current card index for modal navigation
+    let currentCardIndex = 0;
+    
+    function animateCardsIn() {
+      const cardsGrid = document.getElementById('cardsGrid');
+      
+      // Start dealing cards immediately when rip begins
+      // Cards fly down from top and land exactly in their grid positions
+      for (let i = 0; i < cardsGrid.children.length; i++) {
+        setTimeout(() => {
+          const cardElement = cardsGrid.children[i];
+          cardElement.classList.add('animate-in');
+        }, i * 120); // 120ms between each card for better spacing
+      }
+    }
+    
+    function generateCardsWithAnimation() {
+      const cardsGrid = document.getElementById('cardsGrid');
+      
+      // Create all cards immediately (this reserves the grid space)
+      cardData.forEach((card, index) => {
+        const cardElement = document.createElement('div');
+        cardElement.className = 'card-item';
+        cardElement.style.cursor = 'pointer';
+        
+        const rarityClass = card.rarity.replace(' ', '.');
+        cardElement.innerHTML = `
+          <img src="${card.image}" alt="${card.name}" class="card-image" onerror="this.style.display='none'">
+          <div class="card-name">${card.name}</div>
+          <div class="card-rarity">
+            <span class="rarity-badge rarity-${rarityClass}">${card.rarity}</span>
+            <span class="card-count">×${card.count} supply</span>
+          </div>
+        `;
+        
+        // Add click event to open card modal
+        cardElement.addEventListener('click', () => openCardModal(index));
+        
+        cardsGrid.appendChild(cardElement);
+      });
+    }
+    
+    function generateCards() {
+      const cardsGrid = document.getElementById('cardsGrid');
+      
+      cardData.forEach((card, index) => {
+        const cardElement = document.createElement('div');
+        cardElement.className = 'card-item';
+        cardElement.style.cursor = 'pointer';
+        
+        const rarityClass = card.rarity.replace(' ', '.');
+        cardElement.innerHTML = `
+          <img src="${card.image}" alt="${card.name}" class="card-image" onerror="this.style.display='none'">
+          <div class="card-name">${card.name}</div>
+          <div class="card-rarity">
+            <span class="rarity-badge rarity-${rarityClass}">${card.rarity}</span>
+            <span class="card-count">×${card.count} supply</span>
+          </div>
+        `;
+        
+        // Add click event to open card modal
+        cardElement.addEventListener('click', () => openCardModal(index));
+        
+        cardsGrid.appendChild(cardElement);
+      });
+    }
+    
+    function openCardModal(index) {
+      currentCardIndex = index;
+      const card = cardData[index];
+      const modal = document.getElementById('cardModal');
+      const modalImage = document.getElementById('cardModalImage');
+      const modalName = document.getElementById('cardModalName');
+      const modalRarity = document.getElementById('cardModalRarity');
+      
+      // Set card data
+      modalImage.src = card.image;
+      modalImage.alt = card.name;
+      modalName.textContent = card.name;
+      
+      const rarityClass = card.rarity.replace(' ', '.');
+      modalRarity.innerHTML = `
+        <span class="rarity-badge rarity-${rarityClass}">${card.rarity}</span>
+        <span class="card-count">×${card.count} supply</span>
+      `;
+      
+      // Show modal
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeCardModal() {
+      const modal = document.getElementById('cardModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+    
+    function navigateCard(direction) {
+      if (direction === 'prev') {
+        currentCardIndex = (currentCardIndex - 1 + cardData.length) % cardData.length;
+      } else {
+        currentCardIndex = (currentCardIndex + 1) % cardData.length;
+      }
+      openCardModal(currentCardIndex);
+    }
+    
+    function downloadCard() {
+      const card = cardData[currentCardIndex];
+      const link = document.createElement('a');
+      link.href = card.image;
+      link.download = `${card.name}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+    
+    // Mobile viewport height fix
+    function setMobileViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    
+    // Initialize the pack and cards when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      initializePack();
+      generateCardsWithAnimation(); // Create cards immediately so grid space is reserved
+      setMobileViewportHeight();
+    });
+    
+    // Handle viewport changes
+    window.addEventListener('resize', setMobileViewportHeight);
+    window.addEventListener('orientationchange', () => {
+      setTimeout(setMobileViewportHeight, 200);
+    });
+    
+    // Function to reset pack to unopened state
+    function resetPack() {
+      const packContainer = document.getElementById('packContainer');
+      const cardsGrid = document.getElementById('cardsGrid');
+      const packImage = document.getElementById('packImage');
+      const packTopHalf = document.getElementById('packTopHalf');
+      const packBottomHalf = document.getElementById('packBottomHalf');
+      
+      // Reset all styles and show the pack again
+      packContainer.style.display = 'flex';
+      packContainer.style.transform = '';
+      packContainer.style.opacity = '1';
+      packContainer.style.filter = '';
+      packContainer.style.pointerEvents = 'auto';
+      
+      // Remove ripping class completely
+      packContainer.classList.remove('ripping');
+      
+      // Clear all inline styles to force complete reset
+      packTopHalf.style.cssText = '';
+      packBottomHalf.style.cssText = '';
+      packTopHalf.style.animation = 'none';
+      packBottomHalf.style.animation = 'none';
+      
+      // Re-apply the base CSS styles
+      packTopHalf.style.position = 'absolute';
+      packTopHalf.style.top = '50%';
+      packTopHalf.style.left = '50%';
+      packTopHalf.style.transform = 'translateX(-50%) translateY(-50%)';
+      packTopHalf.style.width = '100%';
+      packTopHalf.style.maxWidth = '550px';
+      packTopHalf.style.minWidth = '300px';
+      packTopHalf.style.height = '100%';
+      packTopHalf.style.maxHeight = '700px';
+      packTopHalf.style.minHeight = '500px';
+      packTopHalf.style.backgroundSize = 'contain';
+      packTopHalf.style.backgroundPosition = 'center';
+      packTopHalf.style.backgroundRepeat = 'no-repeat';
+      packTopHalf.style.borderRadius = '20px';
+      packTopHalf.style.transition = 'transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease';
+      packTopHalf.style.zIndex = '3';
+      packTopHalf.style.overflow = 'hidden';
+      packTopHalf.style.opacity = '0';
+      packTopHalf.style.clipPath = 'polygon(0% 0%, 100% 0%, 100% 12%, 95% 11%, 90% 13%, 85% 12%, 80% 14%, 75% 13%, 70% 15%, 65% 14%, 60% 16%, 55% 15%, 50% 17%, 45% 16%, 40% 18%, 35% 17%, 30% 19%, 25% 18%, 20% 20%, 15% 19%, 10% 21%, 5% 20%, 0% 22%)';
+      
+      packBottomHalf.style.position = 'absolute';
+      packBottomHalf.style.top = '50%';
+      packBottomHalf.style.left = '50%';
+      packBottomHalf.style.transform = 'translateX(-50%) translateY(-50%)';
+      packBottomHalf.style.width = '100%';
+      packBottomHalf.style.maxWidth = '550px';
+      packBottomHalf.style.minWidth = '300px';
+      packBottomHalf.style.height = '100%';
+      packBottomHalf.style.maxHeight = '700px';
+      packBottomHalf.style.minHeight = '500px';
+      packBottomHalf.style.backgroundSize = 'contain';
+      packBottomHalf.style.backgroundPosition = 'center';
+      packBottomHalf.style.backgroundRepeat = 'no-repeat';
+      packBottomHalf.style.borderRadius = '20px';
+      packBottomHalf.style.zIndex = '1';
+      packBottomHalf.style.overflow = 'hidden';
+      packBottomHalf.style.opacity = '0';
+      packBottomHalf.style.clipPath = 'polygon(0% 22%, 5% 20%, 10% 21%, 15% 19%, 20% 20%, 25% 18%, 30% 19%, 35% 17%, 40% 18%, 45% 16%, 50% 17%, 55% 15%, 60% 16%, 65% 14%, 70% 15%, 75% 13%, 80% 14%, 85% 12%, 90% 13%, 95% 11%, 100% 12%, 100% 100%, 0% 100%)';
+      
+      // Ensure background images are set
+      const imageUrl = `url('pack.PNG')`;
+      packTopHalf.style.backgroundImage = imageUrl;
+      packBottomHalf.style.backgroundImage = imageUrl;
+      
+      // Show original pack image and remove any clipping
+      packImage.style.opacity = '1';
+      packImage.style.clipPath = '';
+      
+      // Reset header text
+      document.querySelector('.collection-subtitle').textContent = 'Click packs to rip open';
+      
+      // Force reflow to ensure all changes are applied
+      packContainer.offsetHeight;
+      
+      // Reset cards to invisible state above screen
+      const cardElements = cardsGrid.querySelectorAll('.card-item');
+      cardElements.forEach(card => {
+        card.classList.remove('animate-in');
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(-100vh) scale(0.3) rotate(10deg)';
+      });
+    }
+    
+    // Add click and touch events to pack
+    const packContainer = document.getElementById('packContainer');
+    packContainer.addEventListener('click', openPack);
+    packContainer.addEventListener('touchstart', function(e) {
+      e.preventDefault(); // Prevent double-tap zoom
+    });
+    packContainer.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      openPack();
+    });
+    
+    // Add click event to packs button
+    document.getElementById('packsButton').addEventListener('click', resetPack);
+    
+    // Card modal event listeners
+    document.getElementById('cardModalClose').addEventListener('click', closeCardModal);
+    document.getElementById('cardNavPrev').addEventListener('click', () => navigateCard('prev'));
+    document.getElementById('cardNavNext').addEventListener('click', () => navigateCard('next'));
+    document.getElementById('downloadBtn').addEventListener('click', downloadCard);
+    
+    // Close modal when clicking outside
+    document.getElementById('cardModal').addEventListener('click', (e) => {
+      if (e.target.id === 'cardModal') {
+        closeCardModal();
+      }
+    });
+    
+    // Add keyboard support
+    document.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('cardModal');
+      const packContainer = document.getElementById('packContainer');
+      
+      if (modal.classList.contains('active')) {
+        // Modal is open
+        if (e.key === 'Escape') closeCardModal();
+        if (e.key === 'ArrowLeft') navigateCard('prev');
+        if (e.key === 'ArrowRight') navigateCard('next');
+        if (e.key === 'd' || e.key === 'D') downloadCard();
+      } else {
+        // Modal is closed
+        if (e.key === 'Enter' || e.key === ' ') {
+          if (packContainer.style.display !== 'none') {
+            openPack();
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

@@ -5,15 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
-  <title>Ordtism — Escapist Art Gallery</title>
-  <!-- Preload critical resources -->
+  <title>Ordtisms — Interactive Art on Bitcoin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://ordinals.com">
-  <link rel="dns-prefetch" href="https://ordinals.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    /* Critical CSS first for better performance */
     :root {
       --bg-color: #101025;
       --bg-gradient: radial-gradient(ellipse at 50% 0%, #2e2e56 0%, transparent 70%),
@@ -22,22 +18,15 @@
         #101025;
       --text-color: #f5f5fa;
       --accent-color: #c7a8ff;
-      --accent-gradient: linear-gradient(90deg, #ffd580 0%, #c7a8ff 60%, #44ffe2 100%);
       --secondary-color: #44ffe2;
       --gold: #ffd580;
       --violet: #c7a8ff;
       --teal: #44ffe2;
       --card-bg: rgba(22,24,40,0.84);
-      --card-hover: rgba(40,30,60,0.97);
-      --border-color: #c7a8ff;
-      --info-color: #ffd580;
       --button-bg: rgba(22,24,40,0.92);
       --button-text: #ffd580;
       --button-border: #c7a8ff;
       --button-glow: 0 0 12px 2px #c7a8ff66;
-      --modal-bg: #18183a;
-      --modal-border: #ffd580;
-      --vh: 1vh; /* Custom property for mobile viewport height */
     }
     
     * {
@@ -51,74 +40,59 @@
       background-color: var(--bg-color);
       color: var(--text-color);
       font-family: 'Space Grotesk', sans-serif;
-      /* overflow-x: hidden; Removed to prevent clipping button glow */
       min-height: 100vh;
-      height: 100vh;
-      width: 100vw;
       -webkit-font-smoothing: antialiased;
-      
-    }
-    
-    .background-glow {
-      display: none;
+      overflow-x: hidden;
     }
     
     .container {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
       padding: 0 24px;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
     }
     
+    /* Header */
     header {
-      padding: 40px 0 20px 0;
+      padding: 60px 0 40px 0;
       text-align: center;
-      position: relative;
-      flex-shrink: 0;
     }
-    .collection-title {
+    
+    .main-title {
       font-weight: 900;
-      font-size: 4.2rem;
-      letter-spacing: 0.07em;
-      background: linear-gradient(92deg, #ffd580 0%, #c7a8ff 70%, #44ffe2 100%);
+      font-size: 5.5rem;
+      letter-spacing: 0.05em;
+      background: linear-gradient(92deg, #ffd580 0%, #c7a8ff 50%, #44ffe2 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       color: transparent;
-      padding: 0;
-      margin-bottom: 0.1em;
+      margin-bottom: 0.2em;
       display: inline-block;
-      line-height: 1.07;
-      border-radius: 12px;
-      filter: drop-shadow(0 2px 18px #c7a8ff44);
+      line-height: 1;
+      filter: drop-shadow(0 4px 25px #c7a8ff55);
     }
-    .collection-subtitle {
-      font-size: 1.6rem;
-      margin-bottom: 1.1em;
-      text-align: center;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      background: linear-gradient(90deg, #c7a8ff 0%, #44ffe2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: transparent;
-      filter: drop-shadow(0 2px 14px #44ffe233);
+    
+    .main-subtitle {
+      font-size: 1.8rem;
+      margin-bottom: 2em;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--text-color);
+      opacity: 0.9;
     }
+    
+    /* Navigation */
     .nav-bar {
       display: flex;
       justify-content: center;
-      margin: 20px 0 15px 0;
+      margin: 0 0 60px 0;
       padding: 10px 0;
     }
     
     .nav-buttons {
       display: flex;
-      gap: 15px;
+      gap: 20px;
       flex-wrap: wrap;
       justify-content: center;
     }
@@ -128,1820 +102,368 @@
       color: var(--button-text);
       border: 2px solid var(--button-border);
       border-radius: 999px;
-      padding: 8px 22px;
-      font-size: 0.96rem;
+      padding: 12px 28px;
+      font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
       text-decoration: none;
       transition: all 0.25s ease;
       box-shadow: var(--button-glow);
+      backdrop-filter: blur(10px);
     }
     
     .nav-button:hover {
       background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%);
       color: #44ffe2;
       border-color: #44ffe2;
-      box-shadow: 0 0 15px rgba(199, 168, 255, 0.6);
+      box-shadow: 0 0 20px rgba(68, 255, 226, 0.6);
       transform: translateY(-2px);
     }
     
-    .gallery {
+    /* Header */
+    header {
+      padding: 60px 0 20px 0;
+      text-align: center;
+    }
+    
+    .main-title {
+      font-weight: 900;
+      font-size: 5.5rem;
+      letter-spacing: 0.05em;
+      background: linear-gradient(92deg, #ffd580 0%, #c7a8ff 50%, #44ffe2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0;
+      display: inline-block;
+      line-height: 1;
+      filter: drop-shadow(0 4px 25px #c7a8ff55);
+    }
+    
+    /* Main Content Grid */
+    .main-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(2, 1fr);
-      gap: 30px;
-      padding: 0 8px;
-      margin-bottom: 36px;
-      flex: 1 1 auto;
-      height: 0;
-      min-height: 0;
-      max-height: calc(100vh - 320px);
-      align-items: stretch;
-    }
-    @media (max-width: 700px) {
-      .nav-bar {
-        padding: 10px 15px; /* Add horizontal padding */
-        margin: 15px 0 10px 0; /* Adjusted mobile margin */
-      }
-      .container {
-        padding: 0 0vw; /* Reverted horizontal padding */
-        min-height: 100vh;
-        height: 100vh;
-        /* max-width: 100vw; Removed to see if it helps with clipping */
-        /* overflow: hidden; Removed to prevent clipping button glow */
-      }
-      header {
-        padding: 28px 0 12px 0;
-      }
-      .collection-title {
-        font-size: 2.2rem;
-        margin-bottom: 0.1em;
-      }
-      .collection-subtitle {
-        font-size: 1.02rem;
-        margin-bottom: 0.4em;
-      }
-      .gallery {
-        grid-template-columns: repeat(2, 1fr) !important;
-        grid-template-rows: repeat(2, 1fr) !important;
-        gap: 8vw; /* Increased gap */
-        padding: 0 3vw; /* Increased padding */
-        margin-bottom: 10px;
-        min-height: 0;
-        max-height: none;
-        /* Adjusted height calculation using --vh */
-        height: calc(var(--vh, 1vh) * 100 - 240px); 
-        max-height: calc(var(--vh, 1vh) * 100 - 240px);
-        align-items: center;
-        justify-items: center;
-      }
-      .gallery-item {
-        min-width: 0;
-        min-height: 0;
-        width: 40vw; /* Slightly reduced width */
-        height: 40vw; /* Match width */
-        max-width: 44vw;
-        max-height: 44vw;
-        border-radius: 13px;
-        margin: 0;
-      }
-      .pagination {
-        margin: 12px 0 5px 0;
-        gap: 10px;
-        padding: 0 6vw; /* Reduced padding */
-      }
-    }
-    
-    .gallery-item {
-      position: relative;
-      border-radius: 20px;
-      overflow: hidden;
-      background: var(--card-bg);
-      transition: box-shadow 0.18s, border-color 0.18s, transform 0.18s, background 0.18s;
-      box-shadow: 0 6px 32px 0 #000a, 0 0 0 1px #44ffe222;
-      cursor: pointer;
-      height: 100%;
-      border: 2.5px solid var(--border-color);
-      margin: 10px;
-      backdrop-filter: blur(2.5px) saturate(1.2);
-    }
-    .modal-iframe-container {
-      position: relative;
-      overflow: hidden;
-      flex: 1;
-      display: flex;
-      align-items: center;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      margin: 40px auto 60px auto;
+      align-items: start;
       justify-content: center;
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      background: transparent;
-      width: 100%;
-      min-height: 0;
+      max-width: 1200px;
+    }
+    
+    .module {
+      background: var(--card-bg);
+      border-radius: 25px;
+      padding: 40px;
+      border: 3px solid var(--accent-color);
+      backdrop-filter: blur(15px);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    .module:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.4), 0 0 40px rgba(199, 168, 255, 0.3);
+      border-color: var(--gold);
+    }
+    
+    .module-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--violet) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+      text-align: center;
+    }
+    
+    .module-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-color);
+      opacity: 0.8;
+      margin-bottom: 30px;
+      line-height: 1.5;
+      text-align: center;
+    }
+    
+    .module-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
       flex: 1;
+      justify-content: center;
     }
     
-    @media (max-width: 700px) {
-      .modal-iframe-container {
-        padding: 0 32px; /* Smaller padding on mobile */
-        height: auto;
-        max-height: calc(100% - 110px); /* Account for controls */
-      }
-      
-      .modal-iframe-container iframe {
-        width: 100%;
-        height: 100%;
-        max-height: 100%;
-        border: none;
-        display: block;
-      }
-    }
-    
-    .gallery-item:hover {
-      transform: translateY(-10px) scale(1.035);
-      box-shadow: 0 0 44px 12px #ffd58077, 0 12px 32px #000c;
-      background: rgba(68,255,226,0.10);
-      border-color: #ffd580;
-    }
-    
-    .gallery-item iframe {
+    /* Ordtisms Module */
+    .ordtisms-viewer {
       width: 100%;
-      height: 100%;
-      border: none;
+      height: 350px;
+      border-radius: 20px;
+      border: 2px solid var(--accent-color);
+      overflow: hidden;
+      position: relative;
+      background: rgba(0,0,0,0.3);
       pointer-events: none;
     }
     
-    .gallery-item-info {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 14px 17px 10px 17px;
-      background: linear-gradient(to top, rgba(10,10,12,0.88), rgba(10,10,12,0.0));
-      color: var(--info-color);
-      font-weight: 700;
-      font-size: 1.09rem;
-      letter-spacing: 0.05em;
-      text-align: left;
-      text-shadow: 0 2px 8px #ffb34722;
-      transition: all 0.3s ease;
-      opacity: 0;
-      border-bottom-left-radius: 18px;
-      border-bottom-right-radius: 18px;
-      backdrop-filter: blur(1.5px) saturate(1.1);
-    }
-    
-    .gallery-item:hover .gallery-item-info {
-      opacity: 1;
-    }
-    
-    .gallery-item-info span {
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: 1px;
-    }
-    
-    .pagination {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 36px 0 20px 0;
-      gap: 20px;
-      flex-shrink: 0;
-      position: relative;
-      z-index: 10;
-      overflow: visible;
-      padding: 0;
-      box-sizing: border-box;
-      width: 100%;
-      max-width: 100vw;
-    }
-    .pagination-inner {
-      display: flex;
-      flex-direction: row;
-      gap: 20px;
-      width: auto;
-      min-width: 0;
-      padding: 0;
-    }
-    .page {
-      margin: 0 6px;
-      flex: 0 0 auto;
-      scroll-snap-align: none;
-    }
-    @media (max-width: 700px) {
-      .pagination {
-        overflow-x: auto;
-        overflow-y: visible; /* Ensure vertical overflow is allowed for glow */
-        scroll-snap-type: x mandatory;
-        scroll-padding-inline: calc(50% - 30px); /* Adjust snap area to center between arrows */
-        -webkit-overflow-scrolling: touch;
-        padding-left: 15px; /* Added for glow space */
-        padding-right: 15px; /* Added for glow space */
-        padding-top: 15px; /* Increased padding to accommodate glow */
-        padding-bottom: 15px; /* Increased padding to accommodate glow */
-        gap: 0;
-        min-height: 78px; /* Adjusted min-height: 15(pad) + 48(button) + 15(pad) = 78px */
-        box-sizing: border-box;
-        touch-action: pan-x; /* Improve horizontal scroll handling */
-        scrollbar-width: none; /* Hide scrollbar on Firefox */
-        position: relative; /* Needed for absolute positioning of arrows */
-        /* Arrows are at left: 15px, right: 15px, aligning with this padding */
-      }
-      /* Hide scrollbar on WebKit (Safari) */
-      .pagination::-webkit-scrollbar {
-        display: none;
-      }
-      .pagination-inner {
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-        min-width: max-content;
-        width: 100%; /* Allow inner to take available space */
-        padding: 15px 0; /* Only vertical padding */
-        /* overflow-x: auto; Redundant as parent scrolls */
-        overflow-y: visible; /* Allow vertical overflow for shadow visibility */
-        justify-content: flex-start; /* Revert to flex-start for scroll snapping */
-        scrollbar-width: none; /* Hide scrollbar */
-      }
-       .pagination-inner::-webkit-scrollbar {
-        display: none; /* Hide scrollbar */
-      }
-      .page {
-        scroll-snap-align: center;
-        margin: 0 3px; /* Slightly increased margin */
-        width: 48px; /* Increased size */
-        height: 48px; /* Increased size */
-        font-size: 1.25rem; /* Slightly larger font */
-        flex-shrink: 0; /* Prevent buttons from shrinking */
-      }
-      /* Style for fixed arrows */
-      .page-arrow {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 15; /* Ensure arrows are above numbers */
-        margin: 0; /* Remove default margin */
-        width: 48px; /* Match page number size */
-        height: 48px; /* Match page number size */
-      }
-      .page-arrow-prev {
-        left: 15px; /* Position arrow from edge */
-      }
-      .page-arrow-next {
-        right: 15px; /* Position arrow from edge */
-      }
-    }
-    
-    .page {
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      background: var(--button-bg);
-      border: 2.5px solid var(--button-border);
-      color: var(--button-text);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.18s;
-      font-size: 1.18rem;
-      font-weight: 700;
-      outline: none;
-      box-shadow: var(--button-glow);
-      backdrop-filter: blur(1.5px) saturate(1.1);
-    }
-    
-    .page:hover {
-      background: #22224c;
-      border-color: #44ffe2;
-      color: #44ffe2;
-      box-shadow: 0 0 0 4px #44ffe244, var(--button-glow);
-    }
-    
-    .page.active {
-      background: #22224c;
-      border: 3px solid #ffd580;
-      color: #ffd580;
-      box-shadow: 0 0 0 7px #ffd58033, var(--button-glow);
-    }
-    
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background: rgba(16, 16, 20, 0.98);
-      z-index: 1000;
-      transition: all 0.25s ease-in-out;
-      padding: 0;
-      margin: 0;
-      overflow: hidden;
-      backdrop-filter: blur(5px);
-    }
-    .modal-iframe {
+    .ordtisms-iframe {
       width: 100%;
       height: 100%;
-      min-height: 300px;
-      min-width: 300px;
-      max-width: 100%;
-      max-height: 100%;
       border: none;
       display: block;
-      border-radius: 0;
-      padding: 0;
-      margin: 0;
-      overflow: hidden;
-      background-color: transparent;
-      aspect-ratio: 1/1;
-      object-fit: contain;
-    }
-    .modal.active {
-      display: flex;
-      opacity: 1;
-      justify-content: center;
-      align-items: center;
+      pointer-events: none;
     }
     
-    /* Loading spinner styles */
-    .gallery-loading,
-    .gallery-loading-spinner,
-    .modal-loading-spinner {
+    .loading-spinner {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(16, 16, 37, 0.7);
-      z-index: 10;
-      border-radius: 16px;
-    }
-    
-    .modal-loading-spinner {
-      border-radius: 0;
-    }
-    
-    .lds-dual-ring {
-      display: inline-block;
-      width: 64px;
-      height: 64px;
-    }
-    
-    .lds-dual-ring:after {
-      content: "";
-      display: block;
-      width: 46px;
-      height: 46px;
-      margin: 8px;
-      border-radius: 50%;
-      border: 5px solid #ffd580;
-      border-color: #ffd580 transparent #44ffe2 transparent;
-      animation: lds-dual-ring 1.2s linear infinite;
-    }
-    
-    .loading-text {
-      color: #ffd580;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--gold);
       font-size: 1.2rem;
-      margin-top: 15px;
+    }
+    
+    /* Rare Tisms Module */
+    .pack-preview {
+      width: 250px;
+      height: auto;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-radius: 15px;
+      position: relative;
+    }
+    
+    .pack-preview:hover {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 25px rgba(255, 213, 128, 0.4));
+    }
+    
+    .pack-instruction {
+      font-size: 1.2rem;
+      color: var(--gold);
       text-align: center;
+      font-weight: 600;
+      margin-top: 15px;
+      opacity: 0.9;
+    }
+    
+    /* Module Buttons */
+    .module-button {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--violet) 100%);
+      color: #1a1a2e;
+      border: none;
+      border-radius: 15px;
+      padding: 15px 35px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(255, 213, 128, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .module-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(255, 213, 128, 0.5);
+      filter: brightness(1.1);
+    }
+    
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 60px 0 40px 0;
+      border-top: 1px solid rgba(199, 168, 255, 0.2);
+      margin-top: 60px;
+    }
+    
+    .footer-text {
+      color: var(--text-color);
+      opacity: 0.7;
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .footer-link {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    
+    .footer-link:hover {
+      color: var(--gold);
       text-shadow: 0 0 10px rgba(255, 213, 128, 0.5);
     }
     
-    @keyframes lds-dual-ring {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-    
-    @media (min-width: 701px) {
-      .modal.active .modal-controls {
-        display: block !important;
-      }
-    }
-    
-    .modal-content {
-      background: var(--modal-bg);
-      padding: 20px;
-      position: relative;
-      width: 85vw;
-      height: 85vh;
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      border-radius: 25px;
-      overflow: hidden;
-      border: 3px solid var(--modal-border);
-      box-shadow: 0 5px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 213, 128, 0.37);
-      animation: modal-glow 4s infinite alternate ease-in-out;
-    }
-    
-    @keyframes modal-glow {
-      0% {
-        box-shadow: 0 5px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 213, 128, 0.37);
-      }
-      100% {
-        box-shadow: 0 5px 50px rgba(0, 0, 0, 0.7), 0 0 40px rgba(255, 213, 128, 0.47);
-      }
-    }
-    
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 20px 10px 20px;
-      border-bottom: 1px solid rgba(255, 213, 128, 0.3);
-    }
-    
-    .modal-main {
-      position: relative;
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-      overflow: hidden;
-      width: 100%;
-      max-width: 100%;
-      min-height: 300px;
-    }
-    
-    .modal-footer {
-      padding: 10px 20px;
-      border-top: 1px solid rgba(255, 213, 128, 0.3);
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      z-index: 1200;
-      width: 40px;
-      height: 40px;
-      background: var(--button-bg);
-      border: 2.5px solid var(--button-border);
-      color: var(--button-text);
-      font-size: 2.1rem;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 50%;
-      outline: none;
-      box-shadow: var(--button-glow);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease-in-out;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      line-height: 36px;
-    }
-    .modal-close:hover {
-      color: #ffd580;
-      border-color: #ffd580;
-      background: #18183a;
-    }
-    .modal-nav-button {
-      /* Copied exactly from .page class */
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      background: var(--button-bg);
-      border: 2.5px solid var(--button-border);
-      color: var(--button-text);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s ease-in-out;
-      font-size: 1.18rem;
-      font-weight: 700;
-      outline: none;
-      box-shadow: var(--button-glow);
-      backdrop-filter: blur(1.5px) saturate(1.1);
-      pointer-events: auto;
-      margin: 0;
-      padding: 0;
-      text-shadow: 0 0 5px rgba(255, 213, 128, 0.5);
-    }
-    
-    /* The modal nav buttons now inherit directly from .page class */
-    .modal-nav-button:hover {
-      background: #22224c;
-      border-color: #44ffe2;
-      color: #44ffe2;
-      box-shadow: 0 0 0 4px #44ffe244, var(--button-glow);
-    }
-    
-    .modal-nav-button.active {
-      background: #22224c;
-      border: 3px solid #ffd580;
-      color: #ffd580;
-      box-shadow: 0 0 0 7px #ffd58033, var(--button-glow);
-    }
-    .modal-nav-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 1200;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 50px;
-      height: 50px;
-      pointer-events: none; /* Only the button is clickable */
-    }
-    .modal-nav-arrow-left {
-      left: 10px;
-    }
-    .modal-nav-arrow-right {
-      right: 10px;
-    }
-    @media (max-width: 700px) {
-      .modal-content {
-        width: 94vw;
-        height: calc(var(--vh, 1vh) * 88);
-        max-width: 94vw;
-        padding: 10px;
-        border-radius: 16px;
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 20px;
       }
       
-      body.modal-open {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
+      .main-title {
+        font-size: 3.5rem;
       }
       
-      .modal {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        background-color: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(5px);
+      .main-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        margin: 30px auto 40px auto;
       }
       
-      .modal-content {
-        width: 100vw;
-        height: calc(var(--vh, 1vh) * 100);
-        max-width: 100vw;
-        max-height: calc(var(--vh, 1vh) * 100);
-        border-radius: 0;
-        margin: 0;
+      .module {
+        padding: 30px 25px;
       }
       
-      .modal-iframe-container {
-        border-radius: 12px;
-        min-height: 120px;
-        padding: 0;
+      .module-title {
+        font-size: 2rem;
       }
       
-      .modal-info {
-        top: 7px;
-        left: 7px;
-        font-size: 1rem;
-        padding: 5px 10px 4px 10px;
-        border-radius: 7px;
-        max-width: 75vw;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-    }
-    @media (max-width: 700px) {
-      .modal-mobile-controls {
-        display: flex !important;
-        justify-content: center;
-        gap: 7px;
-        flex-wrap: wrap;
-        margin: 0;
-        padding: 0;
-        z-index: 1202;
-        width: 100%;
-      }
-      .modal-controls {
-        display: none !important;
-      }
-      .mobile-ctrl-btn {
-        font-size: 1.01rem;
-        font-weight: 700;
-        padding: 8px 13px;
-        border-radius: 10px;
-        background: #18183a;
-        color: #ffd580;
-        border: 2px solid #ffd58066;
-        box-shadow: 0 1px 8px #0007;
-        margin: 2px 0;
-        flex: 1 0 28%;
-        min-width: 70px;
-        max-width: 110px;
-        outline: none;
-        transition: background 0.18s, color 0.18s, border 0.18s;
-      }
-    }
-    @media (max-width: 700px) {
-      .mobile-ctrl-btn:active {
-        background: #ffd580;
-        color: #18183a;
-        border-color: #ffd580;
-      }
-      .modal-close {
-        top: 6px;
-        right: 6px;
-        width: 36px; /* Slightly increased size */
-        height: 36px; /* Slightly increased size */
-        font-size: 1.2rem;
-      }
-      .modal-nav-button {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: var(--button-bg);
-        border: 2.5px solid var(--button-border);
-        color: var(--button-text);
-        font-size: 1rem;
-        font-weight: 700;
-        padding: 0;
-        cursor: pointer;
-        outline: none;
-        box-shadow: var(--button-glow);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0;
-        padding: 0;
-        pointer-events: auto;
-        transition: color 0.18s, border-color 0.18s, background 0.18s;
-      }
-      .modal-nav-arrow {
-        width: 40px;
-        height: 40px;
-      }
-      .ordinal-link-btn {
-        top: 7px;
-        padding: 8px 16px 8px 13px;
-        font-size: 0.93rem;
-        border-radius: 999px;
-        max-width: 84vw;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-    }
-    
-    @media (min-width: 701px) {
-      .modal-mobile-controls {
-        display: none !important;
-      }
-      .modal-controls {
-        display: flex !important;
-        justify-content: center;
-        align-items: center;
-        margin: 10px 0 0 0;
-        padding: 10px 22px;
-        border-radius: 16px;
-        background: rgba(24, 24, 58, 0.73);
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-        border: 1.5px solid rgba(199, 168, 255, 0.3);
-        max-width: 90%;
-      }
-    }
-    .modal-mobile-controls {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      width: 100%;
-      margin: 0;
-      padding: 0;
-    }
-    
-    @media (min-width: 701px) {
-      .modal-mobile-controls { display: none !important; }
-    }
-    .ordinal-link-btn {
-      display: inline-flex;
-      align-items: center;
-      z-index: 1050;
-      padding: 9px 16px 7px 16px;
-      border-radius: 999px;
-      font-size: 1rem;
-      font-weight: 700;
-      background: rgba(16, 20, 40, 0.84);
-      color: var(--button-text);
-      border: 2px solid var(--button-border);
-      box-shadow: var(--button-glow);
-      cursor: pointer;
-      transition: all 0.18s ease;
-      text-decoration: none;
-      z-index: 1201;
-      backdrop-filter: blur(2px) saturate(1.2);
-      outline: none;
-    }
-    .ordinal-link-btn:hover {
-      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%);
-      color: #44ffe2;
-      border: 2.5px solid transparent;
-      box-shadow: 0 8px 32px #44ffe277, 0 0 0 4px #ffd58044;
-      text-decoration: underline;
-    }
-    .ordinal-link-btn svg {
-      filter: drop-shadow(0 1px 4px #44ffe244);
-    }
-
-    .modal-close:hover, .modal-nav-button:hover {
-      color: var(--button-text);
-      border-color: var(--button-border);
-      background: var(--button-bg);
-      box-shadow: 0 0 0 4px var(--button-glow);
-    }
-    
-    .modal-controls {
-      background: rgba(24, 24, 58, 0.73);
-      padding: 10px 22px;
-      border-radius: 16px;
-      backdrop-filter: blur(3px);
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-      border: 1.5px solid rgba(199, 168, 255, 0.3);
-      max-width: 90%;
-      margin: 10px auto 5px auto;
-      display: none;
-    }
-    
-    .controls-text {
-      font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.9);
-      text-align: center;
-      letter-spacing: 0.03em;
-    }
-    
-    @media (max-width: 700px) {
-      .controls-text {
-        font-size: 0.8rem;
-      }
-      .modal-controls {
-        padding: 8px 15px;
-        bottom: 10px;
-      }
-    }
-
-    .modal-nav-button {
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      background: var(--button-bg);
-      border: 2.5px solid var(--button-border);
-      color: var(--button-text);
-      font-size: 2.3rem;
-      font-weight: bold;
-      cursor: pointer;
-      outline: none;
-      box-shadow: var(--button-glow);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color 0.18s, border-color 0.18s, background 0.18s;
-      margin: 0;
-      padding: 0;
-    }
-
-    .modal-nav-button:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-    
-    .modal-info {
-      color: var(--info-color);
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-right: 20px;
-      letter-spacing: 0.5px;
-      text-shadow: 0 0 10px rgba(255, 213, 128, 0.3);
-    }
-
-    /* Styles for Controls Pop-up */
-    .controls-popup {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      display: none; /* Hidden by default */
-      align-items: center;
-      justify-content: center;
-      background: rgba(16, 16, 20, 0.85); /* Semi-transparent background */
-      z-index: 1100; /* Above main modal but below close button if needed */
-      backdrop-filter: blur(3px);
-    }
-
-    .controls-popup-content {
-      background: var(--modal-bg);
-      padding: 25px 30px;
-      border-radius: 15px;
-      border: 2px solid var(--modal-border);
-      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
-      text-align: center;
-      max-width: 450px;
-      width: 90%;
-    }
-
-    .controls-popup-title {
-      font-size: 1.6rem;
-      color: var(--gold);
-      margin-bottom: 15px;
-    }
-
-    .controls-popup-text {
-      font-size: 1rem;
-      color: var(--text-color);
-      margin-bottom: 25px;
-      line-height: 1.6;
-    }
-
-    .controls-popup-ok-btn {
-      background: var(--button-bg);
-      color: var(--button-text);
-      border: 2px solid var(--button-border);
-      border-radius: 8px;
-      padding: 10px 25px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: var(--button-glow);
-    }
-
-    .controls-popup-ok-btn:hover {
-      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%);
-      color: #44ffe2;
-      border-color: #44ffe2;
-    }
-    /* End Styles for Controls Pop-up */
-
-    /* Moved from modal/footer <style> block */
-    @media (max-width: 700px) {
-      .controls-popup {
-        display: none !important; /* Ensure it's always hidden on mobile */
-      }
-      .modal-footer {
-        position: sticky;
-        bottom: 0;
-        background: var(--modal-bg, #18183a);
-        z-index: 2000;
-        padding-bottom: 20px;
-        padding-top: 18px;
-        border-radius: 0 0 18px 18px;
-        box-shadow: 0 -2px 16px 0 #000c;
-        margin-top: 0;
-        min-height: 110px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-      }
-      .modal-desktop-controls {
-        display: none !important;
-      }
-      .modal-mobile-message {
-        display: block;
-        font-size: 1.13em;
-        color: #ffd580;
-        background: none;
-        padding: 16px 18px 0 18px;
-        text-align: center;
-        width: 100%;
-        max-width: 380px;
-        margin: 0 auto;
-        font-weight: 500;
-        line-height: 1.5;
-        word-break: break-word;
-      }
-    }
-    @media (min-width: 701px) {
-      .modal-mobile-message {
-        display: none !important;
-      }
-    }
-    
-    /* Navigation Bar Styles */
-    .nav-bar {
-      display: flex;
-      justify-content: center;
-      margin: 20px 0 15px 0;
-      padding: 10px 0;
-    }
-    
-    .nav-buttons {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    
-    .nav-button {
-      background: var(--button-bg);
-      color: var(--button-text);
-      border: 2px solid var(--button-border);
-      border-radius: 999px;
-      padding: 8px 22px;
-      font-size: 0.96rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.25s ease;
-      box-shadow: var(--button-glow);
-    }
-    
-    .nav-button:hover {
-      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%);
-      color: #44ffe2;
-      border-color: #44ffe2;
-      box-shadow: 0 0 15px rgba(199, 168, 255, 0.6);
-      transform: translateY(-2px);
-    }
-    
-    @media (max-width: 700px) {
-      .nav-buttons {
-        gap: 8px;
-        overflow: visible; /* Allow glow to render outside bounds */
-        padding: 0 15px; /* Keep horizontal padding */
-        margin: 0 -15px; /* Add negative horizontal margin */
+      .ordtisms-viewer {
+        height: 280px;
       }
       
-      .nav-button {
-        padding: 6px 14px;
-        font-size: 0.85rem;
+      .pack-preview {
+        width: 200px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      header {
+        padding: 40px 0 15px 0;
       }
       
-      .collection-title {
+      .main-title {
         font-size: 2.8rem;
       }
       
-      .collection-subtitle {
-        font-size: 1.2rem;
-        margin-bottom: 0.9em;
+      .module {
+        padding: 25px 20px;
       }
       
-      header {
-        padding: 30px 0 15px 0;
+      .ordtisms-viewer {
+        height: 250px;
       }
       
-      .gallery {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 15px;
-      }
-      
-      .gallery-item {
-        height: 140px;
-      }
-      
-      .gallery-item-info {
-        font-size: 0.8rem;
-        padding: 6px 8px;
-      }
-      
-      .container {
-        padding: 10px;
-      }
-    }
-    
-    @media (max-width: 400px) {
-      .nav-buttons {
-        gap: 6px;
-      }
-      
-      .nav-button {
-        padding: 5px 8px;
-        font-size: 0.7rem;
-      }
-      
-      .collection-title {
-        font-size: 1.8rem;
-      }
-      
-      .collection-subtitle {
-        font-size: 1.1rem;
-        margin-bottom: 0.8em;
-      }
-      
-      header {
-        padding: 25px 0 15px 0;
-      }
-      
-      .gallery {
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-        gap: 10px;
-      }
-      
-      .gallery-item {
-        height: 130px;
-      }
-    }
-    
-    /* Search Section Styles */
-    .search-section {
-      display: flex;
-      justify-content: center;
-      margin: 15px 0 25px 0;
-      padding: 0 20px;
-    }
-    
-    .search-container {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    
-    .search-input {
-      background: var(--button-bg);
-      color: var(--text-color);
-      border: 2px solid var(--button-border);
-      border-radius: 999px;
-      padding: 10px 18px;
-      font-size: 0.96rem;
-      font-weight: 500;
-      font-family: 'Space Grotesk', sans-serif;
-      transition: all 0.25s ease;
-      box-shadow: var(--button-glow);
-      width: 280px;
-      text-align: center;
-    }
-    
-    .search-input:focus {
-      outline: none;
-      border-color: #44ffe2;
-      box-shadow: 0 0 15px rgba(68, 255, 226, 0.4);
-      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%);
-    }
-    
-    .search-input::placeholder {
-      color: rgba(245, 245, 250, 0.6);
-      font-weight: 400;
-    }
-    
-    .search-button {
-      background: var(--button-bg);
-      color: var(--button-text);
-      border: 2px solid var(--button-border);
-      border-radius: 999px;
-      padding: 10px 24px;
-      font-size: 0.96rem;
-      font-weight: 600;
-      font-family: 'Space Grotesk', sans-serif;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      box-shadow: var(--button-glow);
-    }
-    
-    .search-button:hover {
-      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%);
-      color: #44ffe2;
-      border-color: #44ffe2;
-      box-shadow: 0 0 15px rgba(199, 168, 255, 0.6);
-      transform: translateY(-2px);
-    }
-    
-    .search-button:active {
-      transform: translateY(0);
-    }
-    
-    /* Enhanced Mint on Gamma button - Subtle but noticeable */
-    .mint-gamma-btn {
-      position: relative;
-      overflow: visible;
-      font-weight: 600 !important;
-      border: 3px solid transparent !important;
-      background: linear-gradient(var(--button-bg), var(--button-bg)) padding-box,
-                  linear-gradient(45deg, #ffd580, #c7a8ff, #44ffe2, #ffd580) border-box;
-      background-size: auto, 300% 300%;
-      animation: borderGlow 3s ease-in-out infinite;
-      transition: all 0.4s ease-in-out;
-    }
-    
-    /* Enhanced glow layer */
-    .mint-gamma-btn::before {
-      content: '';
-      position: absolute;
-      top: -6px;
-      left: -6px;
-      right: -6px;
-      bottom: -6px;
-      background: linear-gradient(45deg, #ffd580, #c7a8ff, #44ffe2, #ffd580);
-      background-size: 300% 300%;
-      border-radius: 999px;
-      z-index: -1;
-      animation: gammaGlow 3s ease-in-out infinite;
-      opacity: 1;
-      filter: blur(3px);
-      transition: all 0.4s ease-in-out;
-    }
-    
-    /* Border animation for the button itself */
-    @keyframes borderGlow {
-      0%, 100% {
-        background-position: auto, 0% 50%;
-      }
-      50% {
-        background-position: auto, 100% 50%;
-      }
-    }
-    
-    /* Glow animation - enhanced visibility */
-    @keyframes gammaGlow {
-      0%, 100% {
-        background-position: 0% 50%;
-        box-shadow: 0 0 25px rgba(255, 213, 128, 0.9), 0 0 45px rgba(199, 168, 255, 0.7), 0 0 65px rgba(255, 213, 128, 0.5);
-      }
-      50% {
-        background-position: 100% 50%;
-        box-shadow: 0 0 30px rgba(199, 168, 255, 0.9), 0 0 50px rgba(68, 255, 226, 0.7), 0 0 70px rgba(199, 168, 255, 0.5);
-      }
-    }
-    
-    /* Enhanced hover state */
-    .mint-gamma-btn:hover {
-      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%) !important;
-      border: 3px solid #44ffe2 !important;
-      color: #44ffe2;
-      box-shadow: 0 0 15px rgba(199, 168, 255, 0.6);
-      transform: translateY(-2px);
-      animation: none;
-    }
-    
-    @media (max-width: 700px) {
-      .search-input {
-        width: 220px;
-        font-size: 0.9rem;
-        padding: 8px 16px;
-      }
-      
-      .search-button {
-        font-size: 0.9rem;
-        padding: 8px 20px;
-      }
-      
-      .search-container {
-        gap: 10px;
-      }
-    }
-    
-    @media (max-width: 400px) {
-      .search-input {
+      .pack-preview {
         width: 180px;
-        font-size: 0.8rem;
-      }
-      
-      .search-button {
-        font-size: 0.8rem;
-        padding: 7px 16px;
-      }
-      
-      .mint-gamma-btn::before {
-        top: -2px;
-        left: -2px;
-        right: -2px;
-        bottom: -2px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="background-glow"></div>
-  
   <div class="container">
     <header>
-      <h1 class="collection-title">Ordtisms</h1>
-      <h2 class="collection-subtitle">Interactive generative art on <span id="bitcoin-easter-egg">Bitcoin</span></h2>
+      <h1 class="main-title">Lordtism</h1>
     </header>
     
-    <nav class="nav-bar">
-      <div class="nav-buttons">
-        <a href="index.html" class="nav-button">Home</a>
-        <a href="about.html" class="nav-button">About</a>
-        <a href="https://beta.gamma.io/ordinals/collections/ordtisms/items" target="_blank" rel="noopener noreferrer" class="nav-button mint-gamma-btn">Mint on Gamma</a>
-        <a href="Derivitooor.html" class="nav-button">Derivitooor</a>
-      </div>
-    </nav>
-    
-    <!-- Search Section -->
-    <div class="search-section">
-      <div class="search-container">
-        <input type="number" id="searchInput" class="search-input" placeholder="Enter Ordtism number (1-101)" min="1" max="101">
-        <button id="searchButton" class="search-button">View Ordtism</button>
-      </div>
-    </div>
-    
-    <div class="gallery">
-      <!-- Gallery items will be dynamically generated -->
-    </div>
-    
-    <div class="pagination">
-      <div class="pagination-inner">
-        <!-- Pagination will be dynamically generated -->
-      </div>
-    </div>
-  </div>
-  
-  <!-- Modal for viewing individual pieces -->
-  <div class="modal" id="modal" style="display:none;">
-    <button class="modal-close" id="modalClose" aria-label="Close">&#10005;</button>
-    
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-info" id="modalInfo">ORDTISM 1</div>
-        <a id="ordinalLink" class="ordinal-link-btn" href="#" target="_blank" rel="noopener noreferrer">
-          <span>View on Ordinals</span>
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-left:7px;"><path d="M7 15L15 7M15 7H8M15 7V14" stroke="#ffd580" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
-      
-      <div class="modal-main">
-        <div class="modal-nav-arrow modal-nav-arrow-left">
-          <button class="page modal-nav-button" id="prevButton" aria-label="Previous">&#8592;</button>
-        </div>
+    <main class="main-grid">
+      <!-- Ordtisms Module -->
+      <a href="ordtisms.html" class="module">
+        <h2 class="module-title">Ordtisms</h2>
+        <p class="module-subtitle">Interactive generative art on Bitcoin</p>
         
-        <!-- New Wrapper -->
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; overflow: hidden; width: 100%; height: 100%; padding: 0 50px;"> 
-          <div class="decorative-line decorative-line-top" style="width: 100%; height: 3px; background: linear-gradient(90deg, transparent 5%, #ffd580 30%, #ffd580 70%, transparent 95%); margin-bottom: 10px; opacity: 0.6; flex-shrink: 0;"></div>
-          <div class="modal-iframe-container"> 
-            <iframe id="modalIframe" class="modal-iframe" tabindex="0" allowtransparency="true" frameborder="0" scrolling="no"></iframe>
+        <div class="module-content">
+          <div class="ordtisms-viewer">
+            <iframe 
+              class="ordtisms-iframe" 
+              id="ordtismsIframe"
+              allowtransparency="true" 
+              frameborder="0" 
+              scrolling="no">
+            </iframe>
+            <div class="loading-spinner" id="ordtismsLoading">Loading Ordtism #1...</div>
           </div>
-          <div class="decorative-line decorative-line-bottom" style="width: 100%; height: 3px; background: linear-gradient(90deg, transparent 5%, #ffd580 30%, #ffd580 70%, transparent 95%); margin-top: 10px; opacity: 0.6; flex-shrink: 0;"></div>
-        </div>
-        <!-- End New Wrapper -->
-        
-        <div class="modal-nav-arrow modal-nav-arrow-right">
-          <button class="page modal-nav-button" id="nextButton" aria-label="Next">&#8594;</button>
-        </div>
-      </div>
-      
-      <div class="modal-footer">
-        <div class="modal-desktop-controls">
-          <div class="controls-text">Controls: 1/2 petals | 4/5 turbulence | 7/8 ribbons | +/- spin speed | 0 3 6 9 stop rotation</div>
-        </div>
-        <div class="modal-mobile-message">
-          To interact with this piece, please open it on a desktop computer.
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Controls Pop-up for Desktop -->
-  <div class="controls-popup" id="controlsPopup">
-    <div class="controls-popup-content">
-      <h3 class="controls-popup-title">Interactive Controls</h3>
-      <p class="controls-popup-text">1/2 petals | 4/5 turbulence | 7/8 ribbons | +/- spin speed | 0 3 6 9 stop rotation</p>
-      <button class="controls-popup-ok-btn" id="controlsPopupOkBtn">OK</button>
-    </div>
-  </div>
-  
-  <script src="inscription_ids.js"></script>
-<script>
-    // Current page and piece index
-    let currentPage = 1;
-    let currentIndex = 1;
-    const MAX_PIECES = INSCRIPTION_IDS.length - 1; // 101 if all present
-    let hasControlsPopupBeenShownThisSession = false; // Flag for controls pop-up
-    
-    // Search functionality
-    function initializeSearch() {
-      const searchInput = document.getElementById('searchInput');
-      const searchButton = document.getElementById('searchButton');
-      
-      if (searchInput && searchButton) {
-        // Handle search button click
-        searchButton.addEventListener('click', performSearch);
-        
-        // Handle Enter key press in search input
-        searchInput.addEventListener('keypress', function(e) {
-          if (e.key === 'Enter') {
-            performSearch();
-          }
-        });
-      }
-    }
-    
-    function performSearch() {
-      const searchInput = document.getElementById('searchInput');
-      const searchValue = parseInt(searchInput.value);
-      
-      // Validate input
-      if (isNaN(searchValue) || searchValue < 1 || searchValue > MAX_PIECES) {
-        alert(`Please enter a valid Ordtism number between 1 and ${MAX_PIECES}`);
-        searchInput.focus();
-        return;
-      }
-      
-      // Open the modal with the specified ordtism
-      openModal(searchValue);
-      
-      // Clear the search input
-      searchInput.value = '';
-    }
-    
-    // Function to render gallery with optimized loading
-    function renderGallery(page = 1) {
-      const galleryEl = document.querySelector('.gallery');
-      // Show loading indicator for the gallery
-      const loadingIndicator = document.createElement('div');
-      loadingIndicator.className = 'gallery-loading';
-      loadingIndicator.innerHTML = '<div class="lds-dual-ring"></div><div class="loading-text">Loading Pieces...</div>';
-      galleryEl.innerHTML = '';
-      galleryEl.appendChild(loadingIndicator);
-      
-      // Use setTimeout to allow the browser to render the loading indicator first
-      setTimeout(() => {
-        // Now remove the loading indicator and continue rendering
-        galleryEl.removeChild(loadingIndicator);
-        renderGalleryItems(page);
-      }, 50);
-    }
-    
-    // Actual function to render gallery items
-    function renderGalleryItems(page = 1) {
-      const galleryEl = document.querySelector('.gallery');
-      // Remove all previous iframes and gallery items if any remain
-      galleryEl.innerHTML = '';
-
-      // Responsive: 4 per page on mobile, 6 on desktop
-      let itemsPerPage = 6;
-      if (window.innerWidth <= 700) itemsPerPage = 4;
-      const startIndex = (page - 1) * itemsPerPage + 1;
-      const endIndex = Math.min(startIndex + itemsPerPage - 1, MAX_PIECES);
-
-      // Create gallery items progressively to prevent lag
-      let itemsCreated = 0;
-      
-      function createNextItem() {
-        if (itemsCreated >= (endIndex - startIndex + 1)) return;
-        
-        const i = startIndex + itemsCreated;
-        let src = `https://ordinals.com/content/${INSCRIPTION_IDS[i]}`;
-        
-        const item = document.createElement('div');
-        item.className = 'gallery-item';
-        item.setAttribute('data-index', i);
-        itemsCreated++;
-
-        // Create an iframe showing the actual ORDTISM piece (paused by default)
-        const iframe = document.createElement('iframe');
-        iframe.setAttribute('importance', 'high'); // Signal high importance to browser
-        iframe.allowTransparency = true;
-        iframe.scrolling = 'no';
-        
-        // Add a tiny random delay to prevent all iframes from loading simultaneously
-        // This helps distribute the load and prevent lag
-        const randomDelay = Math.floor(Math.random() * 50);
-        setTimeout(() => {
-          iframe.src = src;
-        }, randomDelay);
-        iframe.style.width = '100%';
-        iframe.style.height = '100%';
-        iframe.style.display = 'block';
-        
-        // Add loading indicator
-        const loadingSpinner = document.createElement('div');
-        loadingSpinner.className = 'gallery-loading-spinner';
-        loadingSpinner.innerHTML = '<div class="lds-dual-ring"></div>';
-        item.appendChild(loadingSpinner);
-        
-        // Remove spinner and PAUSE animation when iframe loads
-        iframe.onload = () => {
-          if (loadingSpinner.parentNode === item) {
-            item.removeChild(loadingSpinner);
-          }
-          // Send pause message to keep the piece static
-          try {
-            iframe.contentWindow.postMessage({type: 'pause'}, '*');
-          } catch(e) {}
-        };
-        
-        item.appendChild(iframe);
-
-        const info = document.createElement('div');
-        info.className = 'gallery-item-info';
-        info.innerHTML = `<span>ORDTISM ${i}</span>`;
-        item.appendChild(info);
-
-        item.addEventListener('click', () => {
-          openModal(i);
-        });
-
-        galleryEl.appendChild(item);
-        
-        // Schedule next item creation with a tiny delay to prevent UI blocking
-        setTimeout(createNextItem, 20);
-      }
-      
-      // Start the progressive loading process
-      createNextItem();
-      
-      // No hidden iframes remain in the DOM. Only 6 are ever loaded at a time.
-
-      
-      currentPage = page;
-      
-      // Update pagination immediately before starting progressive loading
-      updatePagination(page);
-    }
-    
-    // Separate pagination function to improve performance
-    function updatePagination(page) {
-      const itemsPerPage = window.innerWidth <= 700 ? 4 : 6;
-      const totalPages = Math.ceil(MAX_PIECES / itemsPerPage);
-      const paginationContainer = document.querySelector('.pagination'); // Get the main container
-      const paginationInner = document.querySelector('.pagination-inner'); // Get the inner scrollable part
-      
-      // Clear previous buttons (both arrows and numbers)
-      paginationContainer.querySelectorAll('.page-arrow').forEach(btn => btn.remove()); // Remove old arrows if any
-      paginationInner.innerHTML = ''; // Clear old page numbers
-      
-      // Previous button (append to main container)
-      if (page > 1) {
-        const prevPage = document.createElement('button');
-        prevPage.className = 'page page-arrow page-arrow-prev'; // Add classes for styling
-        prevPage.textContent = '←';
-        prevPage.setAttribute('aria-label', 'Previous Page');
-        prevPage.addEventListener('click', () => renderGallery(page - 1));
-        paginationContainer.appendChild(prevPage); // Append to main container
-      }
-      
-      // Page numbers (append to inner container)
-      const pageCount = Math.min(5, totalPages);
-      let startPage = Math.max(1, page - 2);
-      const endPage = Math.min(startPage + pageCount - 1, totalPages);
-      
-      if (endPage - startPage < pageCount - 1) {
-        startPage = Math.max(1, endPage - pageCount + 1);
-      }
-      
-      for (let i = startPage; i <= endPage; i++) {
-        const pageButton = document.createElement('button');
-        pageButton.className = 'page' + (i === page ? ' active' : '');
-        pageButton.textContent = i;
-        pageButton.setAttribute('aria-label', `Go to Page ${i}`);
-        pageButton.addEventListener('click', () => renderGallery(i));
-        paginationInner.appendChild(pageButton); // Append numbers to inner container
-      }
-      
-      // Next button (append to main container)
-      if (page < totalPages) {
-        const nextPage = document.createElement('button');
-        nextPage.className = 'page page-arrow page-arrow-next'; // Add classes for styling
-        nextPage.textContent = '→';
-        nextPage.setAttribute('aria-label', 'Next Page');
-        nextPage.addEventListener('click', () => renderGallery(page + 1));
-        paginationContainer.appendChild(nextPage); // Append to main container
-      }
-    }
-    
-    // Function to open the modal
-    function openModal(index) {
-      const inscriptionId = INSCRIPTION_IDS[index];
-      const contentSrc = `https://ordinals.com/content/${inscriptionId}`;
-      const inscriptionUrl = `https://ordinals.com/inscription/${inscriptionId}`;
-      currentIndex = index;
-      
-      const modal = document.getElementById('modal');
-      document.getElementById('modalInfo').textContent = `ORDTISM ${index}`;
-      document.getElementById('ordinalLink').href = inscriptionUrl;
-      
-      // Show loading indicator first
-      modal.classList.add('active');
-      modal.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-      
-      // Add loading indicator
-      const modalContainer = document.querySelector('.modal-iframe-container');
-      const loadingSpinner = document.createElement('div');
-      loadingSpinner.className = 'modal-loading-spinner';
-      loadingSpinner.innerHTML = '<div class="lds-dual-ring"></div>';
-      modalContainer.appendChild(loadingSpinner);
-      
-      // Reset the container size to ensure proper proportions
-      modalContainer.style.width = '100%';
-      modalContainer.style.height = '100%';
-      modalContainer.style.maxWidth = '100%';
-      modalContainer.style.maxHeight = '100%';
-      modalContainer.style.display = 'flex';
-      modalContainer.style.alignItems = 'center';
-      modalContainer.style.justifyContent = 'center';
-      modalContainer.style.borderRadius = '16px'; 
-      modalContainer.style.overflow = 'hidden';   
-      
-      // Clear any existing content and set src immediately for better responsiveness
-      const modalIframe = document.getElementById('modalIframe');
-      
-      // Set iframe size to match the container
-      modalIframe.style.width = '100%';
-      modalIframe.style.height = '100%';
-      modalIframe.style.minHeight = '300px';
-      modalIframe.style.minWidth = '300px';
-      modalIframe.style.maxWidth = '100%';
-      modalIframe.style.maxHeight = '100%';
-      modalIframe.style.border = 'none';
-      modalIframe.style.display = 'block';
-      modalIframe.style.borderRadius = '0';
-      modalIframe.style.background = 'transparent';
-      modalIframe.style.padding = '0';
-      modalIframe.style.margin = '0';
-      modalIframe.style.aspectRatio = '1/1';
-      modalIframe.style.objectFit = 'contain';
-      modalIframe.sandbox = 'allow-scripts allow-same-origin';
-      modalIframe.src = 'about:blank'; // Clear first
-      
-      // Show controls popup on desktop only once per modal session
-      if (window.innerWidth > 700 && !hasControlsPopupBeenShownThisSession) {
-        const controlsPopup = document.getElementById('controlsPopup');
-        if (controlsPopup) {
-          controlsPopup.style.display = 'flex';
-          hasControlsPopupBeenShownThisSession = true; // Set flag after showing
-        }
-      }
-      
-      // Add a brief delay to ensure the clearing happens
-      setTimeout(() => {
-        modalIframe.src = contentSrc;
-        // Focus iframe and play after it loads
-        modalIframe.onload = () => {
-          // Remove loading spinner
-          if (loadingSpinner.parentNode === modalContainer) {
-            modalContainer.removeChild(loadingSpinner);
-          }
           
-          modalIframe.focus();
-          if (modalIframe.contentWindow) {
-            modalIframe.contentWindow.postMessage({type: 'play'}, '*');
-          }
-        };
-      }, 100);
-    }
+        </div>
+      </a>
+      
+      <!-- Rare Tisms Module -->
+      <a href="rare tisms/index.html" class="module">
+        <h2 class="module-title">Rare Tisms</h2>
+        <p class="module-subtitle">Digital trading cards on Bitcoin</p>
+        
+        <div class="module-content">
+          <img src="rare tisms/pack.PNG" alt="Rare Tisms Pack" class="pack-preview" id="packPreview">
+          
+        </div>
+      </a>
+    </main>
     
-    // Function to close the modal
-    function closeModal() {
-      const modal = document.getElementById('modal');
-      modal.classList.remove('active');
-      modal.style.display = 'none';
-      document.body.style.overflow = 'auto';
-      // Pause modal animation before removing
-      const modalIframe = document.getElementById('modalIframe');
-      if (modalIframe && modalIframe.contentWindow) {
-        modalIframe.contentWindow.postMessage({type: 'pause'}, '*');
+  </div>
+
+  <script src="inscription_ids.js"></script>
+  <script>
+    // Load Ordtism #101 when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      const iframe = document.getElementById('ordtismsIframe');
+      const loading = document.getElementById('ordtismsLoading');
+      
+      // Set the source to Ordtism #101
+      if (INSCRIPTION_IDS && INSCRIPTION_IDS[101]) {
+        iframe.src = `https://ordinals.com/content/${INSCRIPTION_IDS[101]}`;
+      } else {
+        // Fallback to Ordtism #1 if 101 doesn't exist
+        iframe.src = `https://ordinals.com/content/6fb976ab49dcec017f1e201e84395983204ae1a9c7e9f8bd5d1e194d359bc7d0i0`;
       }
-      document.getElementById('modalIframe').src = 'about:blank';
-      hasControlsPopupBeenShownThisSession = false; // Reset flag when modal closes
-    }
+      
+      iframe.addEventListener('load', function() {
+        if (loading) {
+          loading.style.display = 'none';
+        }
+        
+        // Send play message to start the animation
+        try {
+          this.contentWindow.postMessage({type: 'play'}, '*');
+        } catch(e) {
+          console.log('Could not send play message to iframe');
+        }
+      });
+    });
     
-    // Function to show previous piece
-    function showPrevious() {
-      if (currentIndex > 1) {
-        openModal(currentIndex - 1);
-      }
-    }
+    // Add hover effect to pack preview
+    document.getElementById('packPreview').addEventListener('mouseenter', function() {
+      this.style.transform = 'scale(1.08) rotateY(5deg)';
+    });
     
-    // Function to show next piece
-    function showNext() {
-      if (currentIndex < MAX_PIECES) {
-        openModal(currentIndex + 1);
-      }
-    }
+    document.getElementById('packPreview').addEventListener('mouseleave', function() {
+      this.style.transform = 'scale(1.05)';
+    });
     
-    // Initialize the gallery rendering immediately
-    renderGallery(1);
-    
-    // Initialize search functionality
-    initializeSearch();
+    // Module click handlers are now handled by anchor tags
     
     // Mobile viewport height fix
     function setMobileViewportHeight() {
-      // First we get the viewport height and we multiply it by 1% to get a value for a vh unit
       let vh = window.innerHeight * 0.01;
-      // Then we set the value in the --vh custom property to the root of the document
       document.documentElement.style.setProperty('--vh', `${vh}px`);
     }
     
-    // Set the height initially
     setMobileViewportHeight();
-    
-    // Reset on resize and orientation change
     window.addEventListener('resize', setMobileViewportHeight);
     window.addEventListener('orientationchange', () => {
       setTimeout(setMobileViewportHeight, 200);
     });
-    
-    // Optimize modal for mobile
-    const optimizeModalForMobile = () => {
-      const modal = document.querySelector('.modal');
-      if (!modal) return;
-      
-      const toggleModalClass = () => {
-        if (modal.classList.contains('active')) {
-          document.body.classList.add('modal-open');
-          setMobileViewportHeight();
-        } else {
-          document.body.classList.remove('modal-open');
-        }
-      };
-      
-      // Watch for modal state changes
-      const observer = new MutationObserver(toggleModalClass);
-      observer.observe(modal, { attributes: true, attributeFilter: ['class'] });
-    };
-    
-    // Initialize modal optimization
-    optimizeModalForMobile();
-    
-    // Event listeners
-    document.getElementById('modalClose').addEventListener('click', closeModal);
-    document.getElementById('prevButton').addEventListener('click', showPrevious);
-    document.getElementById('nextButton').addEventListener('click', showNext);
-    
-    // Event listener for controls pop-up OK button
-    const controlsPopupOkBtn = document.getElementById('controlsPopupOkBtn');
-    if (controlsPopupOkBtn) {
-      controlsPopupOkBtn.addEventListener('click', () => {
-        const controlsPopup = document.getElementById('controlsPopup');
-        if (controlsPopup) {
-          controlsPopup.style.display = 'none';
-        }
-        // Focus the main modal iframe after closing controls popup
-        const modalIframe = document.getElementById('modalIframe');
-        if (modalIframe && modalIframe.contentWindow) { // Check contentWindow to ensure iframe is loaded
-            modalIframe.focus();
-        }
-      });
-    }
-    
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-      if (!document.getElementById('modal').classList.contains('active')) return;
-      if (e.key === 'Escape') closeModal();
-      if (e.key === 'ArrowLeft') showPrevious();
-      if (e.key === 'ArrowRight') showNext();
-    });
-
-    // Ordinals-optimized mobile controls implementation
-    const mobileControls = document.getElementById('modalMobileControls');
-    if (mobileControls) {
-      // Ensure we're ready to receive any responses from the iframe
-      window.addEventListener('message', function(event) {
-        // Log any messages from the iframe for debugging
-        console.log('Received from iframe:', event.data);
-        
-        // Handle specific responses if needed
-        if (event.data && event.data.type === 'control-response') {
-          console.log('Control response received:', event.data.success);
-        }
-      });
-      
-      // Special function for handling mobile button clicks
-      function handleMobileButtonClick(key) {
-        const modalIframe = document.getElementById('modalIframe');
-        if (!modalIframe || !modalIframe.contentWindow) return;
-        
-        console.log('Sending key to Ordinal:', key);
-        
-        // Create a structured message with all needed info
-        const message = {
-          type: 'mobile-control',
-          key: key,
-          timestamp: Date.now(),
-          source: 'parent-page'
-        };
-        
-        // Send the message with a retry strategy
-        // Multiple retries help with mobile timing issues
-        const sendMessageWithRetry = () => {
-          try {
-            modalIframe.contentWindow.postMessage(message, '*');
-          } catch (err) {
-            console.error('Error sending message:', err);
-          }
-        };
-        
-        // Initial send
-        sendMessageWithRetry();
-        
-        // Retry a few times with increasing delays
-        // This ensures the message is received even if iframe is loading
-        setTimeout(sendMessageWithRetry, 100);
-        setTimeout(sendMessageWithRetry, 300);
-        setTimeout(sendMessageWithRetry, 600);
-      }
-      
-      // Remove mobile modal controls logic; add keyboard helper for mobile
-      const showKeyboardBtn = document.getElementById('showKeyboardBtn');
-      const keyboardHelperInput = document.getElementById('keyboardHelperInput');
-      function showKeyboardHelper() {
-        keyboardHelperInput.value = '';
-        keyboardHelperInput.focus();
-        keyboardHelperInput.select();
-      }
-      if (showKeyboardBtn && keyboardHelperInput) {
-        showKeyboardBtn.addEventListener('click', showKeyboardHelper);
-      }
-      // Show keyboard helper only on mobile
-      function updateKeyboardHelperVisibility() {
-        const helper = document.getElementById('keyboard-helper-container');
-        if (window.innerWidth <= 700 && helper) {
-          helper.style.display = 'flex';
-        } else if (helper) {
-          helper.style.display = 'none';
-        }
-      }
-      window.addEventListener('resize', updateKeyboardHelperVisibility);
-      window.addEventListener('load', updateKeyboardHelperVisibility);
-
-    }
-
-    // Only re-render gallery on resize for dynamic itemsPerPage
-    // (We already call renderGallery(1) directly to initialize the page)
-    window.addEventListener('resize', () => {
-      // Keep current page, but re-render for new itemsPerPage
-      renderGallery(currentPage);
-    });
-    
-    // Secret feature: Ctrl+6 to access the meme maker
-    document.addEventListener('keydown', (e) => {
-      // Check if Ctrl+6 is pressed (keyCode 54 is '6')
-      if (e.ctrlKey && e.keyCode === 54) {
-        window.location.href = 'gmailu/mememaker.html';
-      }
-    });
-
-    // Secret tap gesture for header on mobile
-    const headerTitle = document.querySelector('.collection-title');
-    let headerTapCount = 0;
-    let tapTimer = null;
-
-    if (headerTitle) {
-      headerTitle.addEventListener('click', () => {
-        headerTapCount++;
-        
-        // Clear previous timer if exists
-        if (tapTimer) {
-          clearTimeout(tapTimer);
-        }
-
-        if (headerTapCount === 6) {
-          // Navigate after 6 taps
-          window.location.href = 'gmailu/mememaker.html';
-          headerTapCount = 0; // Reset count after navigation
-        } else {
-          // Set a timer to reset the count if no more taps occur soon
-          tapTimer = setTimeout(() => {
-            headerTapCount = 0;
-          }, 1500); // Reset after 1.5 seconds of inactivity
-        }
-      });
-    }
-
-    // Easter egg for "Bitcoin" text in subtitle
-    const bitcoinEasterEgg = document.getElementById('bitcoin-easter-egg');
-    let bitcoinTapCount = 0;
-    let bitcoinTapTimer = null;
-
-    if (bitcoinEasterEgg) {
-      bitcoinEasterEgg.style.cursor = 'pointer'; // Indicate it's clickable
-      bitcoinEasterEgg.addEventListener('click', () => {
-        // Only activate on non-mobile (desktop)
-        if (window.innerWidth > 700) {
-          bitcoinTapCount++;
-
-          if (bitcoinTapTimer) {
-            clearTimeout(bitcoinTapTimer);
-          }
-
-          if (bitcoinTapCount === 4) {
-            window.location.href = 'ordtism-cards.html';
-            bitcoinTapCount = 0; // Reset count
-          } else {
-            bitcoinTapTimer = setTimeout(() => {
-              bitcoinTapCount = 0;
-            }, 1500); // Reset after 1.5 seconds
-          }
-        }
-      });
-    }
   </script>
 </body>
 </html>
