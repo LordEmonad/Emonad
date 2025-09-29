@@ -1800,6 +1800,46 @@
       if (e.key === 'ArrowRight') showNext();
     });
 
+    // Add swipe functionality for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let touchStartY = 0;
+    let touchEndY = 0;
+    const minSwipeDistance = 50; // Minimum distance for a swipe
+    const maxVerticalDistance = 100; // Maximum vertical movement to still count as horizontal swipe
+
+    function handleSwipe() {
+      const modal = document.getElementById('modal');
+      if (!modal.classList.contains('active')) return;
+
+      const deltaX = touchEndX - touchStartX;
+      const deltaY = Math.abs(touchEndY - touchStartY);
+      
+      // Only process horizontal swipes (vertical movement should be minimal)
+      if (Math.abs(deltaX) > minSwipeDistance && deltaY < maxVerticalDistance) {
+        if (deltaX > 0) {
+          // Swipe right - go to previous piece
+          showPrevious();
+        } else {
+          // Swipe left - go to next piece
+          showNext();
+        }
+      }
+    }
+
+    // Add touch event listeners to the modal
+    const modal = document.getElementById('modal');
+    modal.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    modal.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      touchEndY = e.changedTouches[0].screenY;
+      handleSwipe();
+    }, { passive: true });
+
     // Ordinals-optimized mobile controls implementation
     const mobileControls = document.getElementById('modalMobileControls');
     if (mobileControls) {

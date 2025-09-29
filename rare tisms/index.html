@@ -490,35 +490,58 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(22,24,40,0.95);
-      color: var(--gold);
-      border: 2px solid var(--accent-color);
-      border-radius: 50%;
+      z-index: 1200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 50px;
       height: 50px;
+      pointer-events: none; /* Only the button is clickable */
+    }
+    .modal-nav-arrow-left {
+      left: 10px;
+    }
+    .modal-nav-arrow-right {
+      right: 10px;
+    }
+    
+    .modal-nav-button {
+      /* Copied exactly from .page class */
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--button-bg);
+      border: 2.5px solid var(--button-border);
+      color: var(--button-text);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 20px;
-      font-weight: bold;
-      transition: all 0.3s ease;
-      z-index: 1001;
-      backdrop-filter: blur(10px);
+      transition: all 0.18s ease;
+      font-size: 1.18rem;
+      font-weight: 700;
+      outline: none;
+      box-shadow: var(--button-glow);
+      backdrop-filter: blur(1.5px) saturate(1.1);
+      pointer-events: auto;
+      margin: 0;
+      padding: 0;
+      text-shadow: 0 0 5px rgba(255, 213, 128, 0.5);
     }
     
-    .modal-nav-arrow:hover {
-      background: rgba(24, 24, 58, 0.9);
-      transform: translateY(-50%) scale(1.1);
-      box-shadow: 0 0 25px rgba(68, 255, 226, 0.6);
+    /* The modal nav buttons now inherit directly from .page class */
+    .modal-nav-button:hover {
+      background: #22224c;
+      border-color: #44ffe2;
+      color: #44ffe2;
+      box-shadow: 0 0 0 4px #44ffe244, var(--button-glow);
     }
     
-    .card-nav-prev {
-      left: 50px;
-    }
-    
-    .card-nav-next {
-      right: 50px;
+    .modal-nav-button.active {
+      background: #22224c;
+      border: 3px solid #ffd580;
+      color: #ffd580;
+      box-shadow: 0 0 0 7px #ffd58033, var(--button-glow);
     }
     
     .card-image {
@@ -652,18 +675,40 @@
       
       /* Modal navigation arrows - avoid overlap */
       .modal-nav-arrow {
-        width: 45px;
-        height: 45px;
+        width: 40px;
+        height: 40px;
         font-size: 18px;
-        background: rgba(22,24,40,0.98);
+        z-index: 1001;
+        background: rgba(22,24,40,0.95);
+        backdrop-filter: blur(10px);
+      }
+      .modal-nav-arrow-left {
+        left: 8px;
+      }
+      .modal-nav-arrow-right {
+        right: 8px;
       }
       
-      .card-nav-prev {
-        left: 15px;
-      }
-      
-      .card-nav-next {
-        right: 15px;
+      .modal-nav-button {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--button-bg);
+        border: 2.5px solid var(--button-border);
+        color: var(--button-text);
+        font-size: 1rem;
+        font-weight: 700;
+        padding: 0;
+        cursor: pointer;
+        outline: none;
+        box-shadow: var(--button-glow);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+        pointer-events: auto;
+        transition: color 0.18s, border-color 0.18s, background 0.18s;
       }
       
       .modal-content {
@@ -761,8 +806,12 @@
   <div class="card-modal" id="cardModal">
     <div class="card-modal-content">
       <button class="card-modal-close" id="cardModalClose">&times;</button>
-      <button class="card-nav-btn card-nav-prev" id="cardNavPrev">&larr;</button>
-      <button class="card-nav-btn card-nav-next" id="cardNavNext">&rarr;</button>
+      <div class="modal-nav-arrow modal-nav-arrow-left">
+        <button class="modal-nav-button" id="cardNavPrev" aria-label="Previous">&#8592;</button>
+      </div>
+      <div class="modal-nav-arrow modal-nav-arrow-right">
+        <button class="modal-nav-button" id="cardNavNext" aria-label="Next">&#8594;</button>
+      </div>
       
       <img class="card-modal-image" id="cardModalImage" src="" alt="">
       
@@ -1154,6 +1203,46 @@
         }
       }
     });
+
+    // Add swipe functionality for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let touchStartY = 0;
+    let touchEndY = 0;
+    const minSwipeDistance = 50; // Minimum distance for a swipe
+    const maxVerticalDistance = 100; // Maximum vertical movement to still count as horizontal swipe
+
+    function handleSwipe() {
+      const modal = document.getElementById('cardModal');
+      if (!modal.classList.contains('active')) return;
+
+      const deltaX = touchEndX - touchStartX;
+      const deltaY = Math.abs(touchEndY - touchStartY);
+      
+      // Only process horizontal swipes (vertical movement should be minimal)
+      if (Math.abs(deltaX) > minSwipeDistance && deltaY < maxVerticalDistance) {
+        if (deltaX > 0) {
+          // Swipe right - go to previous card
+          navigateCard('prev');
+        } else {
+          // Swipe left - go to next card
+          navigateCard('next');
+        }
+      }
+    }
+
+    // Add touch event listeners to the modal
+    const cardModal = document.getElementById('cardModal');
+    cardModal.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    cardModal.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      touchEndY = e.changedTouches[0].screenY;
+      handleSwipe();
+    }, { passive: true });
   </script>
 </body>
 </html>
