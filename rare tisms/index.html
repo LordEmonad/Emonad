@@ -11,22 +11,27 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-color: #101025;
-      --bg-gradient: radial-gradient(ellipse at 50% 0%, #2e2e56 0%, transparent 70%),
-        radial-gradient(ellipse at 50% 100%, #2a1a36 0%, transparent 70%),
-        radial-gradient(ellipse at 80% 30%, #ffd58033 0%, transparent 80%),
-        #101025;
-      --text-color: #f5f5fa;
-      --accent-color: #c7a8ff;
-      --secondary-color: #44ffe2;
-      --gold: #ffd580;
-      --violet: #c7a8ff;
-      --teal: #44ffe2;
-      --card-bg: rgba(22,24,40,0.84);
-      --button-bg: rgba(22,24,40,0.92);
-      --button-text: #ffd580;
-      --button-border: #c7a8ff;
-      --button-glow: 0 0 12px 2px #c7a8ff66;
+      --bg-color: #0d0d0d;
+      --bg-gradient: radial-gradient(ellipse at 50% 0%, #1a1a1a 0%, transparent 70%),
+        radial-gradient(ellipse at 50% 100%, #2d1a0d 0%, transparent 70%),
+        radial-gradient(ellipse at 80% 30%, #ff660044 0%, transparent 80%),
+        #0d0d0d;
+      --text-color: #f5f5f5;
+      --accent-color: #ff6b35;
+      --secondary-color: #ff8f65;
+      --orange-primary: #ff6b35;
+      --orange-secondary: #ff8f65;
+      --orange-tertiary: #ffb395;
+      --orange-dark: #cc4a1a;
+      --orange-darker: #991f00;
+      --black-primary: #0d0d0d;
+      --black-secondary: #1a1a1a;
+      --black-tertiary: #262626;
+      --card-bg: rgba(26,26,26,0.85);
+      --button-bg: rgba(26,26,26,0.9);
+      --button-text: #ff6b35;
+      --button-border: #ff6b35;
+      --button-glow: 0 0 15px 3px #ff6b3555;
       --common: #9ca3af;
       --uncommon: #22c55e;
       --rare: #3b82f6;
@@ -49,6 +54,35 @@
       font-family: 'Space Grotesk', sans-serif;
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
+      position: relative;
+    }
+
+    /* Banner Background */
+    .banner-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-image: url('../banner image.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: blur(6px) brightness(0.3) saturate(1.2);
+      z-index: -2;
+      transform: scale(1.05);
+    }
+
+    .banner-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: transparent;
+      backdrop-filter: blur(2px);
+      opacity: 1;
+      z-index: -1;
     }
     
     .container {
@@ -69,15 +103,12 @@
       font-weight: 900;
       font-size: 4.2rem;
       letter-spacing: 0.07em;
-      background: linear-gradient(92deg, #ffd580 0%, #c7a8ff 70%, #44ffe2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: transparent;
+      color: #ffb395;
       margin-bottom: 0.1em;
       display: inline-block;
       line-height: 1.07;
-      filter: drop-shadow(0 2px 18px #c7a8ff44);
+      filter: drop-shadow(0 2px 18px rgba(255, 179, 149, 0.4));
+      text-shadow: 0 0 25px rgba(255, 179, 149, 0.3);
     }
     
     .collection-subtitle {
@@ -86,12 +117,9 @@
       text-align: center;
       font-weight: 700;
       letter-spacing: 0.08em;
-      background: linear-gradient(90deg, #c7a8ff 0%, #44ffe2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: transparent;
-      filter: drop-shadow(0 2px 14px #44ffe233);
+      color: #ffc9b3;
+      filter: drop-shadow(0 2px 14px rgba(255, 201, 179, 0.4));
+      text-shadow: 0 0 20px rgba(255, 201, 179, 0.3);
     }
     
     .nav-bar {
@@ -197,27 +225,25 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 40px 0;
+      margin: 10px 0;
       flex: 1;
     }
     
     .pack-container {
-      position: absolute;
+      position: relative;
       cursor: pointer;
-      width: 80vw;
-      max-width: 600px;
-      min-width: 340px;
-      height: 80vh;
-      max-height: 700px;
-      min-height: 500px;
+      width: 70vw;
+      max-width: 500px;
+      min-width: 300px;
+      height: 60vh;
+      max-height: 500px;
+      min-height: 350px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 10;
-      top: 60%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      margin: 80px auto 0 auto;
     }
     
     
@@ -240,8 +266,8 @@
       max-width: 550px;
       min-width: 300px;
       height: 100%;
-      max-height: 700px;
-      min-height: 500px;
+      max-height: 500px;
+      min-height: 350px;
       background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
@@ -262,8 +288,8 @@
       max-width: 550px;
       min-width: 300px;
       height: 100%;
-      max-height: 700px;
-      min-height: 500px;
+      max-height: 500px;
+      min-height: 350px;
       background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
@@ -310,10 +336,13 @@
       gap: 20px;
       width: 100%;
       max-width: 1200px;
-      margin-top: 40px;
       background: transparent;
       z-index: 2;
-      position: relative;
+      position: absolute;
+      top: 25%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0 20px;
     }
     
     
@@ -604,6 +633,20 @@
     }
     
     
+    /* Banner Responsive Adjustments */
+    @media (max-width: 768px) {
+      .banner-background {
+        filter: blur(4px) brightness(0.25) saturate(1.1);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .banner-background {
+        filter: blur(3px) brightness(0.3) saturate(1.1);
+        background-position: center top;
+      }
+    }
+
     @media (max-width: 768px) {
       .container {
         padding: 0 15px;
@@ -618,11 +661,12 @@
       }
       
       .pack-container {
-        width: 90vw;
-        max-width: 450px;
-        height: calc(var(--vh, 1vh) * 50);
-        max-height: 400px;
-        top: 75%;
+        width: 85vw;
+        max-width: 400px;
+        height: 50vh;
+        max-height: 350px;
+        min-height: 280px;
+        margin: 50px auto 0 auto;
       }
       
       .pack-image {
@@ -637,7 +681,8 @@
       .cards-grid {
         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
         gap: 12px;
-        margin-top: 20px;
+        top: 28%;
+        padding: 0 15px;
       }
       
       .card-image {
@@ -726,10 +771,12 @@
       }
       
       .pack-container {
-        width: 95vw;
-        max-width: 350px;
-        height: calc(var(--vh, 1vh) * 40);
-        top: 70%;
+        width: 90vw;
+        max-width: 320px;
+        height: 45vh;
+        max-height: 300px;
+        min-height: 220px;
+        margin: 40px auto 0 auto;
       }
       
       .pack-image {
@@ -739,7 +786,8 @@
       .cards-grid {
         grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
         gap: 10px;
-        margin-top: 15px;
+        top: 30%;
+        padding: 0 10px;
       }
       
       .card-item {
@@ -772,6 +820,8 @@
   </style>
 </head>
 <body>
+  <div class="banner-background"></div>
+  <div class="banner-overlay"></div>
   <div class="container">
     <header>
       <h1 class="collection-title">Rare Tisms</h1>
