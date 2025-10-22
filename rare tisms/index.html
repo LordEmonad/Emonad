@@ -11,27 +11,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-color: #0d0d0d;
-      --bg-gradient: radial-gradient(ellipse at 50% 0%, #1a1a1a 0%, transparent 70%),
-        radial-gradient(ellipse at 50% 100%, #2d1a0d 0%, transparent 70%),
-        radial-gradient(ellipse at 80% 30%, #ff660044 0%, transparent 80%),
-        #0d0d0d;
-      --text-color: #f5f5f5;
-      --accent-color: #ff6b35;
-      --secondary-color: #ff8f65;
-      --orange-primary: #ff6b35;
-      --orange-secondary: #ff8f65;
-      --orange-tertiary: #ffb395;
-      --orange-dark: #cc4a1a;
-      --orange-darker: #991f00;
-      --black-primary: #0d0d0d;
-      --black-secondary: #1a1a1a;
-      --black-tertiary: #262626;
-      --card-bg: rgba(26,26,26,0.85);
-      --button-bg: rgba(26,26,26,0.9);
-      --button-text: #ff6b35;
-      --button-border: #ff6b35;
-      --button-glow: 0 0 15px 3px #ff6b3555;
+      --bg-color: #0a0a0a;
+      --bg-gradient: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.03) 0%, transparent 70%),
+        radial-gradient(ellipse at 50% 100%, rgba(255, 255, 255, 0.02) 0%, transparent 70%),
+        radial-gradient(ellipse at 80% 30%, rgba(255, 255, 255, 0.01) 0%, transparent 80%),
+        #0a0a0a;
+      --text-color: #ffffff;
+      --glass-primary: rgba(255, 255, 255, 0.1);
+      --glass-secondary: rgba(255, 255, 255, 0.15);
+      --glass-tertiary: rgba(255, 255, 255, 0.08);
+      --glass-light: rgba(255, 255, 255, 0.2);
+      --black-primary: #0a0a0a;
+      --black-secondary: rgba(20, 20, 20, 0.8);
+      --black-tertiary: rgba(30, 30, 30, 0.6);
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --button-bg: rgba(255, 255, 255, 0.08);
+      --button-text: #ffffff;
+      --button-border: rgba(255, 255, 255, 0.3);
+      --button-glow: 0 0 20px rgba(255, 255, 255, 0.2);
       --common: #9ca3af;
       --uncommon: #22c55e;
       --rare: #3b82f6;
@@ -65,12 +62,24 @@
       width: 100%;
       height: 100vh;
       background-image: url('../banner image.png');
-      background-size: cover;
-      background-position: center;
+      background-size: auto 100%;
+      background-position: 0% center;
       background-repeat: no-repeat;
-      filter: blur(6px) brightness(0.3) saturate(1.2);
+      background-attachment: fixed;
+      filter: blur(6px) brightness(0.5);
       z-index: -2;
-      transform: scale(1.05);
+      min-height: 100vh;
+    }
+    
+    .banner-background::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 1;
     }
 
     .banner-overlay {
@@ -103,12 +112,19 @@
       font-weight: 900;
       font-size: 4.2rem;
       letter-spacing: 0.07em;
-      color: #ffb395;
+      color: #ffffff;
       margin-bottom: 0.1em;
       display: inline-block;
       line-height: 1.07;
-      filter: drop-shadow(0 2px 18px rgba(255, 179, 149, 0.4));
-      text-shadow: 0 0 25px rgba(255, 179, 149, 0.3);
+      text-align: center;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px 30px;
+      border-radius: 25px;
+      backdrop-filter: blur(30px) saturate(1.8);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      filter: drop-shadow(0 4px 20px rgba(255, 255, 255, 0.3));
+      text-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
     }
     
     .collection-subtitle {
@@ -117,9 +133,9 @@
       text-align: center;
       font-weight: 700;
       letter-spacing: 0.08em;
-      color: #ffc9b3;
-      filter: drop-shadow(0 2px 14px rgba(255, 201, 179, 0.4));
-      text-shadow: 0 0 20px rgba(255, 201, 179, 0.3);
+      color: rgba(255, 255, 255, 0.9);
+      filter: drop-shadow(0 2px 14px rgba(255, 255, 255, 0.3));
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
     }
     
     .nav-bar {
@@ -139,86 +155,91 @@
     .nav-button {
       background: var(--button-bg);
       color: var(--button-text);
-      border: 2px solid var(--button-border);
+      border: 1px solid var(--button-border);
       border-radius: 999px;
       padding: 8px 22px;
       font-size: 0.96rem;
       font-weight: 600;
       cursor: pointer;
       text-decoration: none;
-      transition: all 0.25s ease;
-      box-shadow: var(--button-glow);
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: var(--button-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(20px) saturate(1.8);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .nav-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .nav-button:hover::before {
+      left: 100%;
     }
     
     .nav-button:hover {
-      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%);
-      color: #44ffe2;
-      border-color: #44ffe2;
-      box-shadow: 0 0 15px rgba(199, 168, 255, 0.6);
-      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transform: translateY(-3px) scale(1.02);
     }
     
-    /* Enhanced Mint on OrdX button - Similar to Gamma styling */
+    /* Enhanced Mint on OrdX button - Premium glass effect */
     .mint-ordx-btn {
       position: relative;
-      overflow: visible;
+      overflow: hidden;
       font-weight: 600 !important;
-      border: 3px solid transparent !important;
-      background: linear-gradient(var(--button-bg), var(--button-bg)) padding-box,
-                  linear-gradient(45deg, #44ffe2, #ffd580, #c7a8ff, #44ffe2) border-box;
-      background-size: auto, 300% 300%;
-      animation: ordxBorderGlow 3s ease-in-out infinite;
-      transition: all 0.4s ease-in-out;
+      background: rgba(255, 255, 255, 0.12) !important;
+      border: 1px solid rgba(255, 255, 255, 0.4) !important;
+      backdrop-filter: blur(30px) saturate(1.8) !important;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+      animation: ordxPulse 2s ease-in-out infinite !important;
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
     }
     
-    /* Enhanced glow layer for OrdX */
+    /* Animated glow effect */
     .mint-ordx-btn::before {
       content: '';
       position: absolute;
-      top: -6px;
-      left: -6px;
-      right: -6px;
-      bottom: -6px;
-      background: linear-gradient(45deg, #44ffe2, #ffd580, #c7a8ff, #44ffe2);
-      background-size: 300% 300%;
-      border-radius: 999px;
-      z-index: -1;
-      animation: ordxGlow 3s ease-in-out infinite;
-      opacity: 1;
-      filter: blur(3px);
-      transition: all 0.4s ease-in-out;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: left 0.6s ease;
+      z-index: 1;
     }
     
-    /* Border animation for OrdX button */
-    @keyframes ordxBorderGlow {
+    /* Light sweep animation on hover */
+    .mint-ordx-btn:hover::before {
+      left: 100%;
+    }
+    
+    /* Pulsing glow animation */
+    @keyframes ordxPulse {
       0%, 100% {
-        background-position: auto, 0% 50%;
+        box-shadow: 0 0 25px rgba(255, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
       }
       50% {
-        background-position: auto, 100% 50%;
+        box-shadow: 0 0 35px rgba(255, 255, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
       }
     }
     
-    /* Glow animation for OrdX - different colors than Gamma */
-    @keyframes ordxGlow {
-      0%, 100% {
-        background-position: 0% 50%;
-        box-shadow: 0 0 25px rgba(68, 255, 226, 0.9), 0 0 45px rgba(255, 213, 128, 0.7), 0 0 65px rgba(68, 255, 226, 0.5);
-      }
-      50% {
-        background-position: 100% 50%;
-        box-shadow: 0 0 30px rgba(255, 213, 128, 0.9), 0 0 50px rgba(199, 168, 255, 0.7), 0 0 70px rgba(255, 213, 128, 0.5);
-      }
-    }
-    
-    /* Enhanced hover state for OrdX */
+    /* Enhanced hover state */
     .mint-ordx-btn:hover {
-      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%) !important;
-      border: 3px solid #44ffe2 !important;
-      color: #44ffe2;
-      box-shadow: 0 0 15px rgba(68, 255, 226, 0.6);
-      transform: translateY(-2px);
-      animation: none;
+      background: rgba(255, 255, 255, 0.18) !important;
+      border-color: rgba(255, 255, 255, 0.6) !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+      transform: translateY(-3px) scale(1.02) !important;
     }
     
     .pack-section {
@@ -339,7 +360,7 @@
       background: transparent;
       z-index: 2;
       position: absolute;
-      top: 25%;
+      top: 30%;
       left: 50%;
       transform: translateX(-50%);
       padding: 0 20px;
@@ -376,18 +397,37 @@
     
     .card-item {
       background: var(--card-bg);
-      border-radius: 15px;
+      border-radius: 20px;
       padding: 15px;
-      border: 2px solid var(--accent-color);
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      backdrop-filter: blur(30px) saturate(1.8);
       position: relative;
       overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    
+    .card-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    
+    .card-item:hover::before {
+      opacity: 1;
     }
     
     .card-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.4), 0 0 25px rgba(199, 168, 255, 0.4);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 40px rgba(255, 255, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.4);
     }
     
     /* Card Viewer Modal */
@@ -397,12 +437,12 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(16, 16, 37, 0.98);
+      background: rgba(10, 10, 10, 0.3);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 1000;
-      backdrop-filter: blur(15px);
+      backdrop-filter: blur(15px) saturate(1.2);
     }
     
     .card-modal.active {
@@ -410,13 +450,15 @@
     }
     
     .card-modal-content {
-      background: transparent;
-      border-radius: 0;
-      padding: 0;
-      width: 100vw;
-      height: 100vh;
-      border: none;
-      box-shadow: none;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 30px;
+      padding: 20px;
+      width: 90vw;
+      height: 90vh;
+      max-width: 1000px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(255, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(30px) saturate(1.8);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -425,24 +467,25 @@
     }
     
     .card-modal-image {
-      max-width: 60vw;
-      max-height: 70vh;
+      max-width: 50vw;
+      max-height: 60vh;
       width: auto;
       height: auto;
-      border-radius: 15px;
+      border-radius: 20px;
       margin-bottom: 30px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(199, 168, 255, 0.4);
-      border: 3px solid var(--accent-color);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(255, 255, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
     }
     
     .card-modal-info {
       text-align: center;
       margin-bottom: 30px;
-      background: var(--card-bg);
+      background: rgba(255, 255, 255, 0.05);
       padding: 20px 30px;
-      border-radius: 15px;
-      border: 2px solid var(--accent-color);
-      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(30px) saturate(1.8);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     }
     
     .card-modal-name {
@@ -467,26 +510,44 @@
     .card-modal-btn {
       background: var(--button-bg);
       color: var(--button-text);
-      border: 2px solid var(--button-border);
-      border-radius: 10px;
-      padding: 10px 20px;
+      border: 1px solid var(--button-border);
+      border-radius: 15px;
+      padding: 12px 24px;
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.25s ease;
-      box-shadow: var(--button-glow);
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: var(--button-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(20px) saturate(1.8);
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card-modal-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .card-modal-btn:hover::before {
+      left: 100%;
     }
     
     .card-modal-btn:hover {
-      background: linear-gradient(90deg, #18183a 0%, #2e2e56 100%);
-      color: #44ffe2;
-      border-color: #44ffe2;
-      box-shadow: 0 0 15px rgba(199, 168, 255, 0.6);
-      transform: translateY(-2px);
+      background: rgba(68, 255, 226, 0.2);
+      color: #ffffff;
+      border-color: rgba(68, 255, 226, 0.6);
+      box-shadow: 0 0 30px rgba(68, 255, 226, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transform: translateY(-3px) scale(1.05);
     }
     
     .card-modal-close {
@@ -496,7 +557,7 @@
       width: 40px;
       height: 40px;
       background: var(--button-bg);
-      border: 2px solid var(--button-border);
+      border: 1px solid var(--button-border);
       color: var(--button-text);
       font-size: 1.5rem;
       font-weight: bold;
@@ -505,14 +566,17 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s ease;
-      box-shadow: var(--button-glow);
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: var(--button-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(20px) saturate(1.8);
     }
     
     .card-modal-close:hover {
-      color: #44ffe2;
-      border-color: #44ffe2;
-      background: #18183a;
+      color: #ffffff;
+      border-color: rgba(68, 255, 226, 0.6);
+      background: rgba(68, 255, 226, 0.2);
+      box-shadow: 0 0 30px rgba(68, 255, 226, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
     }
     
     .modal-nav-arrow {
@@ -560,17 +624,18 @@
     
     /* The modal nav buttons now inherit directly from .page class */
     .modal-nav-button:hover {
-      background: #22224c;
-      border-color: #44ffe2;
-      color: #44ffe2;
-      box-shadow: 0 0 0 4px #44ffe244, var(--button-glow);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.5);
+      color: #ffffff;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
     }
     
     .modal-nav-button.active {
-      background: #22224c;
-      border: 3px solid #ffd580;
-      color: #ffd580;
-      box-shadow: 0 0 0 7px #ffd58033, var(--button-glow);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      color: #ffffff;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
     }
     
     .card-image {
@@ -630,20 +695,23 @@
     .card-count {
       color: var(--text-color);
       opacity: 0.8;
+      font-size: 0.85rem;
+      white-space: nowrap;
     }
     
     
     /* Banner Responsive Adjustments */
     @media (max-width: 768px) {
       .banner-background {
-        filter: blur(4px) brightness(0.25) saturate(1.1);
+        filter: blur(4px) brightness(0.7);
+        background-size: auto 100%;
       }
     }
 
     @media (max-width: 480px) {
       .banner-background {
-        filter: blur(3px) brightness(0.3) saturate(1.1);
-        background-position: center top;
+        filter: blur(3px) brightness(0.7);
+        background-size: auto 100%;
       }
     }
 
@@ -666,7 +734,7 @@
         height: 50vh;
         max-height: 350px;
         min-height: 280px;
-        margin: 50px auto 0 auto;
+        margin: 30px auto 0 auto; /* Reduced top margin for better mobile fit */
       }
       
       .pack-image {
@@ -681,7 +749,7 @@
       .cards-grid {
         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
         gap: 12px;
-        top: 28%;
+        top: 25%; /* Adjusted positioning */
         padding: 0 15px;
       }
       
@@ -691,6 +759,20 @@
       
       .card-name {
         font-size: 0.9rem;
+        line-height: 1.2;
+        margin-bottom: 4px;
+      }
+      
+      .card-rarity {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        align-items: flex-start;
+      }
+      
+      .card-count {
+        font-size: 0.75rem;
+        margin-top: 2px;
       }
       
       .card-rarity {
@@ -759,6 +841,50 @@
       .modal-content {
         padding: 20px 70px 20px 70px; /* More padding to avoid arrow overlap */
       }
+      
+      .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        padding: 0 10px;
+      }
+      
+      .card-modal-content {
+        width: 95vw;
+        height: 90vh;
+        border-radius: 20px;
+        padding: 15px;
+      }
+      
+      .card-modal-image {
+        max-width: 70vw;
+        max-height: 50vh;
+        border-radius: 15px;
+      }
+      
+      .card-modal-info {
+        padding: 15px 20px;
+        margin-bottom: 20px;
+        border-radius: 15px;
+      }
+      
+      .card-modal-name {
+        font-size: 2rem;
+        margin-bottom: 12px;
+      }
+      
+      .card-modal-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        border-radius: 12px;
+      }
+      
+      .card-modal-close {
+        width: 35px;
+        height: 35px;
+        font-size: 1.3rem;
+        top: 12px;
+        right: 12px;
+      }
     }
     
     @media (max-width: 480px) {
@@ -775,8 +901,18 @@
         max-width: 320px;
         height: 45vh;
         max-height: 300px;
-        min-height: 220px;
-        margin: 40px auto 0 auto;
+        min-height: 250px;
+        margin: 15px auto 0 auto;
+      }
+      
+      .collection-title {
+        font-size: 2rem;
+        margin-bottom: 8px;
+      }
+      
+      .collection-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 15px;
       }
       
       .pack-image {
@@ -784,10 +920,24 @@
       }
       
       .cards-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 10px;
-        top: 30%;
-        padding: 0 10px;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 12px;
+        top: 20%;
+        padding: 0 12px;
+      }
+      
+      .card-item {
+        padding: 12px;
+        border-radius: 16px;
+      }
+      
+      .card-name {
+        font-size: 0.85rem;
+        margin-bottom: 6px;
+      }
+      
+      .card-count {
+        font-size: 0.7rem;
       }
       
       .card-item {
@@ -1293,6 +1443,26 @@
       touchEndY = e.changedTouches[0].screenY;
       handleSwipe();
     }, { passive: true });
+
+    // Background horizontal scroll effect
+    function updateBackgroundPosition() {
+      const scrollY = window.scrollY;
+      const maxScroll = document.body.scrollHeight - window.innerHeight;
+      const scrollPercent = Math.min(scrollY / maxScroll, 1);
+      
+      // Direct correlation: scroll down = move right (0% to 100%)
+      const horizontalPos = scrollPercent * 100;
+      
+      const bannerBg = document.querySelector('.banner-background');
+      if (bannerBg) {
+        bannerBg.style.backgroundPosition = `${horizontalPos}% center`;
+      }
+    }
+
+    // Update on scroll
+    window.addEventListener('scroll', updateBackgroundPosition);
+    // Initial position
+    updateBackgroundPosition();
   </script>
 </body>
 </html>
