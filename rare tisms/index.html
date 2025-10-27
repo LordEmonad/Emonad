@@ -24,7 +24,7 @@
       --black-primary: #0a0a0a;
       --black-secondary: rgba(20, 20, 20, 0.8);
       --black-tertiary: rgba(30, 30, 30, 0.6);
-      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-bg: transparent;
       --button-bg: rgba(255, 255, 255, 0.08);
       --button-text: #ffffff;
       --button-border: rgba(255, 255, 255, 0.3);
@@ -35,7 +35,7 @@
       --epic: #8b5cf6;
       --legendary: #f59e0b;
       --mythic: #ef4444;
-      --secret-rare: #d946ef;
+      --secret-rare: transparent;
     }
     
     * {
@@ -45,16 +45,19 @@
     }
     
     body {
-      background: var(--bg-gradient);
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-family: 'Space Grotesk', sans-serif;
-      min-height: 100vh;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+      min-height: 200vh;
+      overflow-x: hidden;
+      overflow-y: scroll; /* Always show scrollbar to prevent layout shifts */
       -webkit-font-smoothing: antialiased;
       position: relative;
     }
 
-    /* Banner Background */
+    /* Banner Background with smooth animation */
     .banner-background {
       position: fixed;
       top: 0;
@@ -69,6 +72,28 @@
       filter: blur(6px) brightness(0.5);
       z-index: -2;
       min-height: 100vh;
+      animation: backgroundSlide 40s linear infinite;
+      will-change: background-position;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+    }
+    
+    @keyframes backgroundSlide {
+      0% {
+        background-position: 0% center;
+      }
+      25% {
+        background-position: 50% center;
+      }
+      50% {
+        background-position: 100% center;
+      }
+      75% {
+        background-position: 50% center;
+      }
+      100% {
+        background-position: 0% center;
+      }
     }
     
     .banner-background::after {
@@ -352,27 +377,40 @@
     
     
     .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      display: none; /* Initially hidden until pack opens */
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 20px;
-      width: 100%;
-      max-width: 1200px;
-      background: transparent;
-      z-index: 2;
       position: absolute;
-      top: 30%;
+      top: 345px;
       left: 50%;
       transform: translateX(-50%);
-      padding: 0 20px;
+      width: 90%;
+      max-width: 1200px;
+      padding: 20px 20px 100px 20px;
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+      justify-items: center;
+      align-items: start;
+      justify-content: center;
+    }
+    
+    .cards-grid.visible {
+      display: grid;
+      opacity: 1;
+    }
+    
+    .cards-grid::-webkit-scrollbar {
+      display: none;
     }
     
     
     
     .card-item {
-      opacity: 0;
-      transform: translateY(-100vh) scale(0.3) rotate(10deg);
+      opacity: 0; /* Cards start invisible */
+      transform: translateY(-150vh) scale(1) rotate(15deg); /* Start way above screen at full size */
       animation-fill-mode: forwards;
-      z-index: 2;
+      transition: all 0.3s ease;
       position: relative;
     }
     
@@ -382,66 +420,163 @@
     
     @keyframes cardFlyOut {
       0% {
-        opacity: 1;
-        transform: translateY(-100vh) scale(0.3) rotate(10deg);
+        opacity: 0;
+        transform: translateY(-150vh) translateX(0) scale(1) rotate(15deg);
       }
-      70% {
-        opacity: 1;
-        transform: translateY(0) scale(1.1) rotate(2deg);
+      60% {
+        opacity: 0.8;
+        transform: translateY(-20px) translateX(0) scale(1.05) rotate(3deg);
       }
       100% {
         opacity: 1;
-        transform: translateY(0) scale(1) rotate(0deg);
+        transform: translateY(0) translateX(0) scale(1) rotate(0deg);
       }
     }
     
     .card-item {
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 15px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: transparent !important;
+      border-radius: 0;
+      padding: 0;
+      border: none;
       transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      backdrop-filter: blur(30px) saturate(1.8);
       position: relative;
-      overflow: hidden;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      overflow: visible;
+      perspective: 1000px;
+      cursor: pointer;
+      aspect-ratio: 63 / 88;
+      width: 100%;
+      max-width: 180px;
+      height: auto;
     }
     
-    .card-item::before {
-      content: '';
+    /* 3D Card Flip Container */
+    .card-flip-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      background: transparent !important;
+      border: none;
+    }
+    
+    .card-flip-container.flipped {
+      transform: rotateY(180deg);
+    }
+    
+    /* Card Front (actual card) and Back (your background) */
+    .card-front, .card-back {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      pointer-events: none;
+      width: 100% !important;
+      height: 100% !important;
+      top: 0 !important;
+      left: 0 !important;
+      backface-visibility: hidden;
+      overflow: hidden;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      border-radius: 0 !important;
     }
     
-    .card-item:hover::before {
+    /* Card front specific styling */
+    .card-front {
+      transform: rotateY(180deg) !important;
+      background: transparent !important;
+    }
+    
+    /* Card back specific styling */
+    .card-back {
+      transform: rotateY(0deg) !important;
+      background-image: url('../cardbackground.PNG') !important;
+      background-size: cover !important;
+      background-position: center !important;
+      background-repeat: no-repeat !important;
+      border: none;
+      box-shadow: none;
+    }
+    
+    
+    
+    /* Card content styling - show FULL card without cropping */
+    .card-image {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain !important;
+      border-radius: 0 !important;
+      display: block;
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      position: absolute;
+      top: 0 !important;
+      left: 0 !important;
+    }
+    
+    
+    
+    
+    
+    /* Card flip animation states */
+    .card-item.face-down .card-flip-container {
+      transform: rotateY(0deg);
+    }
+    
+    .card-item.face-up .card-flip-container {
+      transform: rotateY(180deg);
+    }
+    
+    /* Ensure proper initial state */
+    .card-item {
+      transform-style: preserve-3d;
+    }
+    
+    /* Ensure cards are visible when face-down */
+    .card-item.face-down {
       opacity: 1;
+      visibility: visible;
     }
     
-    .card-item:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 40px rgba(255, 255, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-      border-color: rgba(255, 255, 255, 0.4);
+    .card-item.face-up {
+      opacity: 1;
+      visibility: visible;
     }
     
-    /* Card Viewer Modal */
+    /* Make sure card backs are always visible when face-down */
+    .card-item.face-down .card-back {
+      opacity: 1 !important;
+      visibility: visible !important;
+      z-index: 1;
+    }
+    
+    
+    /* Staggered flip animation */
+    .card-item.flip-delay-1 .card-flip-container {
+      transition-delay: 0.2s;
+    }
+    
+    .card-item.flip-delay-2 .card-flip-container {
+      transition-delay: 0.4s;
+    }
+    
+    .card-item.flip-delay-3 .card-flip-container {
+      transition-delay: 0.6s;
+    }
+    
     .card-modal {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
       background: rgba(10, 10, 10, 0.3);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 1000;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       backdrop-filter: blur(15px) saturate(1.2);
     }
     
@@ -451,80 +586,105 @@
     
     .card-modal-content {
       background: rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      position: relative;
+      width: 85vw;
+      height: 85vh;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       border-radius: 30px;
-      padding: 20px;
-      width: 90vw;
-      height: 90vh;
-      max-width: 1000px;
+      overflow: hidden;
       border: 1px solid rgba(255, 255, 255, 0.3);
       box-shadow: 0 8px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(255, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(30px) saturate(1.8);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
+      animation: modal-glow 6s infinite alternate ease-in-out;
     }
     
-    .card-modal-image {
-      max-width: 50vw;
-      max-height: 60vh;
-      width: auto;
-      height: auto;
-      border-radius: 20px;
-      margin-bottom: 30px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(255, 255, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.3);
+    .card-modal-close {
+      position: absolute !important;
+      top: 15px !important;
+      right: 15px !important;
+      z-index: 1200;
+      margin: 0 !important;
+      left: auto !important;
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      font-size: 1.8rem;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 50%;
+      outline: none;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    
+    .card-modal-close:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: scale(1.05);
     }
     
     .card-modal-info {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #ffffff;
       text-align: center;
-      margin-bottom: 30px;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 20px 30px;
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(30px) saturate(1.8);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      margin-bottom: 20px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     }
     
     .card-modal-name {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--text-color);
+      font-size: 2rem;
+      font-weight: 800;
+      color: #ffffff;
+      text-align: center;
       margin-bottom: 15px;
-      text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+      text-shadow: 0 2px 15px rgba(0, 0, 0, 0.7);
     }
     
     .card-modal-rarity {
-      margin-bottom: 0;
-    }
-    
-    .card-modal-controls {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #ffffff;
+      text-align: center;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.9;
     }
     
     .card-modal-btn {
-      background: var(--button-bg);
-      color: var(--button-text);
-      border: 1px solid var(--button-border);
-      border-radius: 15px;
-      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      padding: 15px 30px;
+      border-radius: 25px;
+      cursor: pointer;
       font-size: 1rem;
       font-weight: 600;
-      cursor: pointer;
       transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      box-shadow: var(--button-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(20px) saturate(1.8);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      margin: 0 15px;
+      backdrop-filter: blur(10px);
+      text-transform: uppercase;
+      letter-spacing: 1px;
       position: relative;
       overflow: hidden;
+    }
+    
+    .card-modal-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2), 0 0 20px rgba(255, 255, 255, 0.1);
     }
     
     .card-modal-btn::before {
@@ -535,162 +695,92 @@
       width: 100%;
       height: 100%;
       background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.5s ease;
+      transition: left 0.5s;
     }
     
     .card-modal-btn:hover::before {
       left: 100%;
     }
     
-    .card-modal-btn:hover {
-      background: rgba(68, 255, 226, 0.2);
-      color: #ffffff;
-      border-color: rgba(68, 255, 226, 0.6);
-      box-shadow: 0 0 30px rgba(68, 255, 226, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-      transform: translateY(-3px) scale(1.05);
-    }
-    
-    .card-modal-close {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      width: 40px;
-      height: 40px;
-      background: var(--button-bg);
-      border: 1px solid var(--button-border);
-      color: var(--button-text);
-      font-size: 1.5rem;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      box-shadow: var(--button-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(20px) saturate(1.8);
-    }
-    
-    .card-modal-close:hover {
-      color: #ffffff;
-      border-color: rgba(68, 255, 226, 0.6);
-      background: rgba(68, 255, 226, 0.2);
-      box-shadow: 0 0 30px rgba(68, 255, 226, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-      transform: scale(1.1);
-    }
-    
     .modal-nav-arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      z-index: 1200;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 50px;
-      height: 50px;
-      pointer-events: none; /* Only the button is clickable */
+      z-index: 1001;
     }
+    
     .modal-nav-arrow-left {
-      left: 10px;
+      left: 20px;
     }
+    
     .modal-nav-arrow-right {
-      right: 10px;
+      right: 20px;
     }
     
     .modal-nav-button {
-      /* Copied exactly from .page class */
-      width: 46px;
-      height: 46px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
-      background: var(--button-bg);
-      border: 2.5px solid var(--button-border);
-      color: var(--button-text);
+      cursor: pointer;
+      font-size: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      transition: all 0.18s ease;
-      font-size: 1.18rem;
-      font-weight: 700;
-      outline: none;
-      box-shadow: var(--button-glow);
-      backdrop-filter: blur(1.5px) saturate(1.1);
-      pointer-events: auto;
-      margin: 0;
-      padding: 0;
-      text-shadow: 0 0 5px rgba(255, 213, 128, 0.5);
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      backdrop-filter: blur(15px);
+      font-weight: bold;
     }
     
-    /* The modal nav buttons now inherit directly from .page class */
     .modal-nav-button:hover {
       background: rgba(255, 255, 255, 0.15);
       border-color: rgba(255, 255, 255, 0.5);
-      color: #ffffff;
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
       transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
     }
     
-    .modal-nav-button.active {
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      color: #ffffff;
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    /* Ensure arrows are always visible */
+    @media (max-width: 768px) {
+      .modal-nav-arrow-left {
+        left: 10px;
+      }
+      
+      .modal-nav-arrow-right {
+        right: 10px;
+      }
+      
+      .modal-nav-button {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+      }
     }
     
-    .card-image {
-      width: 100%;
-      height: 250px;
-      object-fit: contain;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      background: rgba(255,255,255,0.05);
+    /* Modal glow animation */
+    @keyframes modal-glow {
+      0% {
+        box-shadow: 0 8px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(255, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      }
+      100% {
+        box-shadow: 0 8px 60px rgba(0, 0, 0, 0.6), 0 0 60px rgba(255, 255, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      }
     }
     
-    .card-name {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--text-color);
-      margin-bottom: 8px;
-      text-align: center;
-    }
-    
-    .card-rarity {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
-    
-    .rarity-badge {
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    
-    .rarity-common { background: var(--common); color: white; }
-    .rarity-uncommon { background: var(--uncommon); color: white; }
-    .rarity-rare { background: var(--rare); color: white; }
-    .rarity-epic { background: var(--epic); color: white; }
-    .rarity-legendary { background: var(--legendary); color: white; }
-    .rarity-mythic { background: var(--mythic); color: white; }
+    .rarity-common { background: transparent !important; color: white; }
+    .rarity-uncommon { background: transparent !important; color: white; }
+    .rarity-rare { background: transparent !important; color: white; }
+    .rarity-epic { background: transparent !important; color: white; }
+    .rarity-legendary { background: transparent !important; color: white; }
+    .rarity-mythic { background: transparent !important; color: white; }
     .rarity-secret\.rare { 
-      background: linear-gradient(45deg, var(--secret-rare), #f0abfc, var(--secret-rare)) !important;
-      background-size: 200% 200%;
-      animation: secretShimmer 2s ease-in-out infinite alternate;
+      background: transparent !important;
       color: white !important;
-      text-shadow: 0 0 8px rgba(217, 70, 239, 0.8);
-      box-shadow: 0 0 15px rgba(217, 70, 239, 0.4);
+      text-shadow: none;
+      box-shadow: none;
     }
     
-    @keyframes secretShimmer {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 100% 50%; }
-    }
     
     .card-count {
       color: var(--text-color);
@@ -720,6 +810,13 @@
         padding: 0 15px;
       }
       
+      header {
+        position: relative;
+        z-index: 1000;
+        padding: 15px 0 5px 0;
+        margin-bottom: 10px;
+      }
+      
       .collection-title {
         font-size: 2.8rem;
       }
@@ -734,7 +831,9 @@
         height: 50vh;
         max-height: 350px;
         min-height: 280px;
-        margin: 30px auto 0 auto; /* Reduced top margin for better mobile fit */
+        margin: 40px auto 0 auto;
+        position: relative;
+        z-index: 50;
       }
       
       .pack-image {
@@ -747,14 +846,27 @@
       }
       
       .cards-grid {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 12px;
-        top: 25%; /* Adjusted positioning */
-        padding: 0 15px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        top: 300px;
+        padding: 0 20px;
+        max-width: 90vw;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+        justify-items: center;
+        align-items: center;
+        justify-content: center;
       }
       
       .card-image {
-        height: 160px;
+        height: 220px !important;
+        width: 100% !important;
+        object-fit: contain !important;
+        border-radius: 0 !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
       }
       
       .card-name {
@@ -796,39 +908,35 @@
       
       /* Ensure cards are touch-friendly */
       .card-item {
-        min-height: 220px;
-        padding: 12px;
+        min-height: 280px;
+        padding: 15px;
       }
       
       /* Modal navigation arrows - avoid overlap */
       .modal-nav-arrow {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
-        z-index: 1001;
-        background: rgba(22,24,40,0.95);
-        backdrop-filter: blur(10px);
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1002;
       }
+      
       .modal-nav-arrow-left {
-        left: 8px;
+        left: 10px;
       }
+      
       .modal-nav-arrow-right {
-        right: 8px;
+        right: 10px;
       }
       
       .modal-nav-button {
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        background: var(--button-bg);
-        border: 2.5px solid var(--button-border);
-        color: var(--button-text);
-        font-size: 1rem;
-        font-weight: 700;
-        padding: 0;
-        cursor: pointer;
-        outline: none;
-        box-shadow: var(--button-glow);
+        font-size: 16px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: #ffffff;
+        backdrop-filter: blur(10px);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -849,33 +957,64 @@
       }
       
       .card-modal-content {
-        width: 95vw;
+        width: 90vw;
         height: 90vh;
-        border-radius: 20px;
+        border-radius: 25px;
         padding: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        overflow: hidden;
+        max-width: 500px;
+        margin: auto;
+        box-sizing: border-box;
       }
       
       .card-modal-image {
-        max-width: 70vw;
+        max-width: 75vw;
         max-height: 50vh;
+        width: auto;
+        height: auto;
         border-radius: 15px;
+        object-fit: contain;
+        display: block;
+        margin: 0 auto;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        flex-shrink: 0;
       }
       
       .card-modal-info {
         padding: 15px 20px;
-        margin-bottom: 20px;
+        margin: 15px 0 10px 0;
         border-radius: 15px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        flex-shrink: 0;
+        width: 100%;
+        max-width: 400px;
+        box-sizing: border-box;
       }
       
       .card-modal-name {
-        font-size: 2rem;
-        margin-bottom: 12px;
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+        font-weight: 800;
+      }
+      
+      .card-modal-rarity {
+        font-size: 0.9rem;
+        opacity: 0.9;
       }
       
       .card-modal-btn {
         padding: 10px 20px;
         font-size: 0.9rem;
         border-radius: 12px;
+        margin: 0;
+        flex-shrink: 0;
       }
       
       .card-modal-close {
@@ -888,12 +1027,20 @@
     }
     
     @media (max-width: 480px) {
+      header {
+        position: relative;
+        z-index: 1000;
+        padding: 10px 0 5px 0;
+        margin-bottom: 5px;
+      }
+      
       .collection-title {
         font-size: 2.2rem;
       }
       
       .collection-subtitle {
-        font-size: 1rem;
+        font-size: 0.95rem;
+        margin-bottom: 15px;
       }
       
       .pack-container {
@@ -902,7 +1049,9 @@
         height: 45vh;
         max-height: 300px;
         min-height: 250px;
-        margin: 15px auto 0 auto;
+        margin: 30px auto 0 auto;
+        position: relative;
+        z-index: 50;
       }
       
       .collection-title {
@@ -920,10 +1069,17 @@
       }
       
       .cards-grid {
-        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
         gap: 12px;
-        top: 20%;
-        padding: 0 12px;
+        top: 280px;
+        padding: 0 15px;
+        max-width: 95vw;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+        justify-items: center;
+        align-items: center;
+        justify-content: center;
       }
       
       .card-item {
@@ -941,12 +1097,18 @@
       }
       
       .card-item {
-        min-height: 180px;
-        padding: 10px;
+        min-height: 240px;
+        padding: 12px;
       }
       
       .card-image {
-        height: 120px;
+        height: 200px !important;
+        width: 100% !important;
+        object-fit: contain !important;
+        border-radius: 0 !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
       }
       
       .card-name {
@@ -1041,7 +1203,6 @@
       { name: "Escape", rarity: "mythic", count: 1, image: "Escape.PNG" },
       { name: "Left", rarity: "rare", count: 77, image: "Left.PNG" },
       { name: "Escapist.lol", rarity: "legendary", count: 5, image: "EscapeLOL.PNG" },
-      { name: "y ru so GAY", rarity: "common", count: 210, image: "y ru so GAY.png" },
       { name: "Gmailu", rarity: "epic", count: 21, image: "Gmailu.PNG" },
       { name: "AGGOT", rarity: "epic", count: 21, image: "AGGOT.PNG" },
       { name: "Paper Mans", rarity: "epic", count: 21, image: "Paper Mans.PNG" },
@@ -1051,7 +1212,8 @@
       { name: "Curated Arf", rarity: "legendary", count: 5, image: "Curated Arf.PNG" },
       { name: "Honorable Flipooor", rarity: "uncommon", count: 77, image: "Honorable Flipooor.PNG" },
       { name: "Fuck it, Jew Mode", rarity: "secret rare", count: 7, image: "Fuck it, Jew Mode.PNG" },
-      { name: "Rare Achefe", rarity: "epic", count: 21, image: "Rare Achefe.PNG" }
+      { name: "Rare Achefe", rarity: "epic", count: 21, image: "Rare Achefe.PNG" },
+      { name: "y ru so GAY", rarity: "common", count: 210, image: "y ru so GAY.png" }
     ];
     
     // Rarity order for sorting
@@ -1103,6 +1265,7 @@
       packContainer.style.pointerEvents = 'none';
       
       // Keep original pack visible, only show top half that will rip away
+      packTopHalf.style.display = 'block';
       packTopHalf.style.opacity = '1';
       // Immediately mask the original pack to hide the top portion with jagged edge
       packImage.style.clipPath = 'polygon(0% 22%, 5% 20%, 10% 21%, 15% 19%, 20% 20%, 25% 18%, 30% 19%, 35% 17%, 40% 18%, 45% 16%, 50% 17%, 55% 15%, 60% 16%, 65% 14%, 70% 15%, 75% 13%, 80% 14%, 85% 12%, 90% 13%, 95% 11%, 100% 12%, 100% 100%, 0% 100%)';
@@ -1117,8 +1280,18 @@
       // Update header text
       document.querySelector('.collection-subtitle').textContent = 'Digital trading cards on Bitcoin';
       
-      // Animate existing cards that are already in the DOM
-      animateCardsIn();
+      // Generate cards first
+      generateCardsWithAnimation();
+      
+      // Show cards grid immediately so cards can be seen
+      cardsGrid.style.display = 'grid';
+      cardsGrid.style.opacity = '1';
+      cardsGrid.classList.add('visible');
+      
+      // Start animating cards flying in
+      setTimeout(() => {
+        animateCardsIn();
+      }, 200);
       
       // Hide pack gradually as cards are being dealt
       setTimeout(() => {
@@ -1131,48 +1304,109 @@
           }, 500);
         }, 1000);
       }, 1000);
+      
+      // Wait for ALL 21 cards to lay out, THEN start flip sequence
+      setTimeout(() => {
+        const cardsToWaitFor = cardData.length; // Wait for ALL cards
+        const layoutTime = cardsToWaitFor * 120; // 120ms per card
+        
+        setTimeout(() => {
+          flipAllCards();
+        }, layoutTime + 500); // Wait for ALL cards + delay
+      }, 500);
     }
     
     // Current card index for modal navigation
     let currentCardIndex = 0;
     
+    // Function to flip all cards with staggered timing
+    function flipAllCards() {
+      const cards = document.querySelectorAll('.card-item');
+      console.log('Starting flip sequence for', cards.length, 'cards');
+      
+      cards.forEach((card, index) => {
+        setTimeout(() => {
+          console.log('Flipping card', index);
+          card.classList.remove('face-down');
+          card.classList.add('face-up');
+          
+          // Visual feedback
+          const container = card.querySelector('.card-flip-container');
+          if (container) {
+            container.classList.add('flipped');
+            container.style.transform = 'rotateY(180deg) scale(1.05)';
+            setTimeout(() => {
+              container.style.transform = 'rotateY(180deg)';
+            }, 200);
+          }
+        }, index * 100); // Faster staggered flip timing
+      });
+    }
+    
     function animateCardsIn() {
       const cardsGrid = document.getElementById('cardsGrid');
       
+      // Clear any existing cards first
+      cardsGrid.innerHTML = '';
+      
       // Start dealing cards immediately when rip begins
-      // Cards fly down from top and land exactly in their grid positions
-      for (let i = 0; i < cardsGrid.children.length; i++) {
+      // Create and animate each card individually
+      for (let i = 0; i < cardData.length; i++) {
         setTimeout(() => {
-          const cardElement = cardsGrid.children[i];
-          cardElement.classList.add('animate-in');
+          const card = cardData[i];
+          
+          // Create card element
+          const cardElement = document.createElement('div');
+          cardElement.className = 'card-item face-down animate-in';
+          cardElement.style.cursor = 'pointer';
+          
+          // Add staggered flip delay
+          const delayClass = `flip-delay-${(i % 5) + 1}`;
+          cardElement.classList.add(delayClass);
+          
+          // Add rarity class for special effects
+          const rarityClass = card.rarity.replace(' ', '.');
+          cardElement.classList.add(`rarity-${rarityClass.toLowerCase()}`);
+          
+          cardElement.innerHTML = `
+            <div class="card-flip-container">
+              <div class="card-back" style="background: url('../cardbackground.PNG') center/cover no-repeat;"></div>
+              <div class="card-front">
+                <!-- Image will be added after animation completes -->
+              </div>
+            </div>
+          `;
+          
+          // Add click event for flip or modal
+          cardElement.addEventListener('click', () => {
+            if (cardElement.classList.contains('face-down')) {
+              // If face down, flip to reveal
+              cardElement.classList.remove('face-down');
+              cardElement.classList.add('face-up');
+            } else {
+              // If face up, open modal
+              openCardModal(i);
+            }
+          });
+          
+          // Add to grid and start animation
+          cardsGrid.appendChild(cardElement);
+          
+          // Add card image after animation completes
+          setTimeout(() => {
+            const cardFront = cardElement.querySelector('.card-front');
+            if (cardFront && card) {
+              cardFront.innerHTML = `<img src="${encodeURIComponent(card.image)}" alt="${card.name}" class="card-image">`;
+            }
+          }, 800); // Wait for animation to complete (0.8s)
         }, i * 120); // 120ms between each card for better spacing
       }
     }
     
     function generateCardsWithAnimation() {
       const cardsGrid = document.getElementById('cardsGrid');
-      
-      // Create all cards immediately (this reserves the grid space)
-      cardData.forEach((card, index) => {
-        const cardElement = document.createElement('div');
-        cardElement.className = 'card-item';
-        cardElement.style.cursor = 'pointer';
-        
-        const rarityClass = card.rarity.replace(' ', '.');
-        cardElement.innerHTML = `
-          <img src="${card.image}" alt="${card.name}" class="card-image" onerror="this.style.display='none'">
-          <div class="card-name">${card.name}</div>
-          <div class="card-rarity">
-            <span class="rarity-badge rarity-${rarityClass}">${card.rarity}</span>
-            <span class="card-count">×${card.count} supply</span>
-          </div>
-        `;
-        
-        // Add click event to open card modal
-        cardElement.addEventListener('click', () => openCardModal(index));
-        
-        cardsGrid.appendChild(cardElement);
-      });
+      // Don't create cards immediately - they'll be created during animation
+      cardsGrid.innerHTML = ''; // Clear any existing cards
     }
     
     function generateCards() {
@@ -1258,7 +1492,7 @@
     // Initialize the pack and cards when page loads
     document.addEventListener('DOMContentLoaded', function() {
       initializePack();
-      generateCardsWithAnimation(); // Create cards immediately so grid space is reserved
+      // Don't generate cards immediately - only when pack is opened
       setMobileViewportHeight();
     });
     
@@ -1268,92 +1502,9 @@
       setTimeout(setMobileViewportHeight, 200);
     });
     
-    // Function to reset pack to unopened state
+    // Function to refresh the page (simplest and most reliable reset)
     function resetPack() {
-      const packContainer = document.getElementById('packContainer');
-      const cardsGrid = document.getElementById('cardsGrid');
-      const packImage = document.getElementById('packImage');
-      const packTopHalf = document.getElementById('packTopHalf');
-      const packBottomHalf = document.getElementById('packBottomHalf');
-      
-      // Reset all styles and show the pack again
-      packContainer.style.display = 'flex';
-      packContainer.style.transform = '';
-      packContainer.style.opacity = '1';
-      packContainer.style.filter = '';
-      packContainer.style.pointerEvents = 'auto';
-      
-      // Remove ripping class completely
-      packContainer.classList.remove('ripping');
-      
-      // Clear all inline styles to force complete reset
-      packTopHalf.style.cssText = '';
-      packBottomHalf.style.cssText = '';
-      packTopHalf.style.animation = 'none';
-      packBottomHalf.style.animation = 'none';
-      
-      // Re-apply the base CSS styles
-      packTopHalf.style.position = 'absolute';
-      packTopHalf.style.top = '50%';
-      packTopHalf.style.left = '50%';
-      packTopHalf.style.transform = 'translateX(-50%) translateY(-50%)';
-      packTopHalf.style.width = '100%';
-      packTopHalf.style.maxWidth = '550px';
-      packTopHalf.style.minWidth = '300px';
-      packTopHalf.style.height = '100%';
-      packTopHalf.style.maxHeight = '700px';
-      packTopHalf.style.minHeight = '500px';
-      packTopHalf.style.backgroundSize = 'contain';
-      packTopHalf.style.backgroundPosition = 'center';
-      packTopHalf.style.backgroundRepeat = 'no-repeat';
-      packTopHalf.style.borderRadius = '20px';
-      packTopHalf.style.transition = 'transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease';
-      packTopHalf.style.zIndex = '3';
-      packTopHalf.style.overflow = 'hidden';
-      packTopHalf.style.opacity = '0';
-      packTopHalf.style.clipPath = 'polygon(0% 0%, 100% 0%, 100% 12%, 95% 11%, 90% 13%, 85% 12%, 80% 14%, 75% 13%, 70% 15%, 65% 14%, 60% 16%, 55% 15%, 50% 17%, 45% 16%, 40% 18%, 35% 17%, 30% 19%, 25% 18%, 20% 20%, 15% 19%, 10% 21%, 5% 20%, 0% 22%)';
-      
-      packBottomHalf.style.position = 'absolute';
-      packBottomHalf.style.top = '50%';
-      packBottomHalf.style.left = '50%';
-      packBottomHalf.style.transform = 'translateX(-50%) translateY(-50%)';
-      packBottomHalf.style.width = '100%';
-      packBottomHalf.style.maxWidth = '550px';
-      packBottomHalf.style.minWidth = '300px';
-      packBottomHalf.style.height = '100%';
-      packBottomHalf.style.maxHeight = '700px';
-      packBottomHalf.style.minHeight = '500px';
-      packBottomHalf.style.backgroundSize = 'contain';
-      packBottomHalf.style.backgroundPosition = 'center';
-      packBottomHalf.style.backgroundRepeat = 'no-repeat';
-      packBottomHalf.style.borderRadius = '20px';
-      packBottomHalf.style.zIndex = '1';
-      packBottomHalf.style.overflow = 'hidden';
-      packBottomHalf.style.opacity = '0';
-      packBottomHalf.style.clipPath = 'polygon(0% 22%, 5% 20%, 10% 21%, 15% 19%, 20% 20%, 25% 18%, 30% 19%, 35% 17%, 40% 18%, 45% 16%, 50% 17%, 55% 15%, 60% 16%, 65% 14%, 70% 15%, 75% 13%, 80% 14%, 85% 12%, 90% 13%, 95% 11%, 100% 12%, 100% 100%, 0% 100%)';
-      
-      // Ensure background images are set
-      const imageUrl = `url('pack.PNG')`;
-      packTopHalf.style.backgroundImage = imageUrl;
-      packBottomHalf.style.backgroundImage = imageUrl;
-      
-      // Show original pack image and remove any clipping
-      packImage.style.opacity = '1';
-      packImage.style.clipPath = '';
-      
-      // Reset header text
-      document.querySelector('.collection-subtitle').textContent = 'Click packs to rip open';
-      
-      // Force reflow to ensure all changes are applied
-      packContainer.offsetHeight;
-      
-      // Reset cards to invisible state above screen
-      const cardElements = cardsGrid.querySelectorAll('.card-item');
-      cardElements.forEach(card => {
-        card.classList.remove('animate-in');
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(-100vh) scale(0.3) rotate(10deg)';
-      });
+      window.location.reload();
     }
     
     // Add click and touch events to pack
@@ -1444,25 +1595,6 @@
       handleSwipe();
     }, { passive: true });
 
-    // Background horizontal scroll effect
-    function updateBackgroundPosition() {
-      const scrollY = window.scrollY;
-      const maxScroll = document.body.scrollHeight - window.innerHeight;
-      const scrollPercent = Math.min(scrollY / maxScroll, 1);
-      
-      // Direct correlation: scroll down = move right (0% to 100%)
-      const horizontalPos = scrollPercent * 100;
-      
-      const bannerBg = document.querySelector('.banner-background');
-      if (bannerBg) {
-        bannerBg.style.backgroundPosition = `${horizontalPos}% center`;
-      }
-    }
-
-    // Update on scroll
-    window.addEventListener('scroll', updateBackgroundPosition);
-    // Initial position
-    updateBackgroundPosition();
   </script>
 </body>
 </html>

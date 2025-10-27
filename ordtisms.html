@@ -75,6 +75,28 @@
       filter: blur(6px) brightness(0.5);
       z-index: -2;
       min-height: 100vh;
+      animation: backgroundSlide 40s linear infinite;
+      will-change: background-position;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+    }
+    
+    @keyframes backgroundSlide {
+      0% {
+        background-position: 0% center;
+      }
+      25% {
+        background-position: 50% center;
+      }
+      50% {
+        background-position: 100% center;
+      }
+      75% {
+        background-position: 50% center;
+      }
+      100% {
+        background-position: 0% center;
+      }
     }
     
     .banner-background::after {
@@ -153,8 +175,8 @@
     .nav-bar {
       display: flex;
       justify-content: center;
-      margin: 20px 0 15px 0;
-      padding: 10px 0;
+      margin: 15px 0 8px 0;
+      padding: 5px 0;
     }
     
     .nav-buttons {
@@ -179,6 +201,10 @@
       backdrop-filter: blur(30px) saturate(1.8);
       position: relative;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
     
     .nav-button::before {
@@ -211,7 +237,7 @@
     
     .gallery {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 30px;
       padding: 0 20px;
       margin-bottom: 36px;
@@ -219,6 +245,7 @@
       overflow: visible;
       max-width: 100%;
       width: 100%;
+      transition: opacity 0.4s ease-in-out;
     }
     /* Banner Responsive Adjustments */
     @media (max-width: 768px) {
@@ -237,8 +264,8 @@
 
     @media (max-width: 700px) {
       .nav-bar {
-        padding: 10px 15px; /* Add horizontal padding */
-        margin: 15px 0 10px 0; /* Adjusted mobile margin */
+        padding: 5px 15px; /* Add horizontal padding */
+        margin: 10px 0 5px 0; /* Adjusted mobile margin */
       }
       .container {
         padding: 0 0vw; /* Reverted horizontal padding */
@@ -248,20 +275,103 @@
         /* overflow: hidden; Removed to prevent clipping button glow */
       }
       header {
-        padding: 28px 0 12px 0;
+        padding: 25px 20px 15px 20px;
+        text-align: center;
       }
       .collection-title {
-        font-size: 2.2rem;
-        margin-bottom: 0.1em;
+        font-size: 2.4rem;
+        margin-bottom: 0.2em;
+        padding: 15px 20px;
+        line-height: 1.1;
       }
       .collection-subtitle {
-        font-size: 1.02rem;
-        margin-bottom: 0.4em;
+        font-size: 1.1rem;
+        margin-bottom: 0.5em;
+        opacity: 0.9;
       }
       .gallery {
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 3vw; /* Further reduced gap */
-        padding: 0 2vw;
+        gap: 16px;
+        padding: 0 20px;
+        margin: 30px auto 25px auto;
+        min-height: 0;
+        max-height: none;
+        height: auto;
+        align-items: center;
+        justify-items: center;
+        max-width: 450px;
+        justify-content: center;
+        display: grid;
+        transition: opacity 0.4s ease-in-out;
+      }
+      .gallery-item {
+        min-width: 0;
+        min-height: 0;
+        width: 100%;
+        aspect-ratio: 1;
+        max-width: 200px;
+        border-radius: 18px;
+        margin: 0;
+        border-width: 1.5px;
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      }
+      
+      .gallery-item:hover {
+        transform: translateY(-4px) scale(1.01); /* Reduced hover effect on mobile */
+      }
+      .pagination {
+        margin: 25px auto 20px auto;
+        gap: 10px;
+        padding: 0 20px;
+        justify-content: center;
+        position: relative;
+        height: 50px;
+        align-items: center;
+        display: flex;
+        width: 100%;
+        max-width: 450px;
+      }
+      
+      .page {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        max-width: 40px;
+        min-height: 40px;
+        max-height: 40px;
+        font-size: 1rem;
+        border-radius: 50%;
+        flex: 0 0 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        text-align: center;
+        line-height: 1;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      header {
+        padding: 20px 15px 12px 15px;
+      }
+      
+      .collection-title {
+        font-size: 2.6rem;
+        padding: 12px 18px;
+        margin-bottom: 0.15em;
+      }
+      
+      .collection-subtitle {
+        font-size: 1.05rem;
+        line-height: 1.4;
+        margin-bottom: 0.4em;
+      }
+      
+      .gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        padding: 0 5px;
         margin-bottom: 15px;
         min-height: 0;
         max-height: none;
@@ -302,13 +412,20 @@
       border-radius: 25px;
       overflow: hidden;
       background: var(--card-bg);
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transition: all 0.3s ease-in-out, opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
       cursor: pointer;
       height: 100%;
       border: 2px solid var(--border-color);
       margin: 10px;
       backdrop-filter: blur(25px) saturate(1.8);
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    
+    .gallery-item.loaded {
+      opacity: 1;
+      transform: scale(1);
     }
     .modal-iframe-container {
       position: relative;
@@ -444,14 +561,44 @@
     .pagination-inner {
       display: flex;
       flex-direction: row;
-      gap: 20px;
-      width: auto;
-      min-width: 0;
-      padding: 0;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      overflow-x: visible;
+      overflow-y: visible;
+      padding: 10px 0;
+      margin: 0;
+      scroll-snap-align: none;
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
     }
     .page {
-      margin: 0 6px;
-      flex: 0 0 auto;
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
+      min-height: 46px;
+      max-width: 46px;
+      max-height: 46px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      backdrop-filter: blur(30px) saturate(1.8);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      aspect-ratio: 1 / 1;
+      margin: 0;
       scroll-snap-align: none;
     }
     @media (max-width: 700px) {
@@ -459,91 +606,39 @@
         overflow-x: auto;
         overflow-y: visible; /* Ensure vertical overflow is allowed for glow */
         scroll-snap-type: x mandatory;
-        scroll-padding-inline: calc(50% - 30px); /* Adjust snap area to center between arrows */
-        -webkit-overflow-scrolling: touch;
-        padding: 15px; /* Simplified padding */
-        gap: 0;
-        min-height: 78px; /* Adjusted min-height: 15(pad) + 48(button) + 15(pad) = 78px */
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* Internet Explorer 10+ */
+        padding: 0 15px;
+        margin: 15px 0 10px 0;
+        gap: 6px;
+        justify-content: center;
+        max-width: calc(100vw - 30px);
+        width: calc(100% - 30px);
         box-sizing: border-box;
-        touch-action: pan-x; /* Improve horizontal scroll handling */
-        scrollbar-width: none; /* Hide scrollbar on Firefox */
-        position: relative; /* Needed for absolute positioning of arrows */
-      }
+        position: relative;
+      } 
       /* Hide scrollbar on WebKit (Safari) */
       .pagination::-webkit-scrollbar {
         display: none;
       }
-      .pagination-inner {
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-        min-width: max-content;
-        width: 100%; /* Allow inner to take available space */
-        padding: 15px 0; /* Only vertical padding */
-        /* overflow-x: auto; Redundant as parent scrolls */
-        overflow-y: visible; /* Allow vertical overflow for shadow visibility */
-        justify-content: flex-start; /* Revert to flex-start for scroll snapping */
-        scrollbar-width: none; /* Hide scrollbar */
-      }
-       .pagination-inner::-webkit-scrollbar {
-        display: none; /* Hide scrollbar */
-      }
+      
       .page {
         scroll-snap-align: center;
-        margin: 0 3px; /* Slightly increased margin */
-        width: 48px; /* Increased size */
-        height: 48px; /* Increased size */
-        font-size: 1.25rem; /* Slightly larger font */
-        flex-shrink: 0; /* Prevent buttons from shrinking */
+        margin: 0 2px;
+        width: 42px !important;
+        height: 42px !important;
+        min-width: 42px !important;
+        min-height: 42px !important;
+        max-width: 42px !important;
+        max-height: 42px !important;
+        font-size: 0.9rem;
+        border-radius: 50% !important;
+        flex-shrink: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        aspect-ratio: 1 / 1 !important;
       }
-      /* Style for fixed arrows */
-      .page-arrow {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 15; /* Ensure arrows are above numbers */
-        margin: 0; /* Remove default margin */
-        width: 48px; /* Match page number size */
-        height: 48px; /* Match page number size */
-      }
-      .page-arrow-prev {
-        left: 15px; /* Position arrow from edge */
-      }
-      .page-arrow-next {
-        right: 15px; /* Position arrow from edge */
-      }
-    }
-    
-    .page {
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      background: var(--button-bg);
-      border: 2px solid var(--button-border);
-      color: var(--button-text);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      font-size: 1.18rem;
-      font-weight: 700;
-      outline: none;
-      box-shadow: var(--button-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(30px) saturate(1.8);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .page::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      transition: left 0.5s ease;
     }
     
     .page:hover::before {
@@ -748,31 +843,35 @@
     }
 
     .modal-close {
-      position: absolute;
-      top: 15px;
-      right: 15px;
+      position: absolute !important;
+      top: 15px !important;
+      right: 15px !important;
       z-index: 1200;
-      width: 40px;
-      height: 40px;
-      background: var(--button-bg);
-      border: 2px solid var(--button-border);
-      color: var(--button-text);
-      font-size: 1.8rem;
-      font-weight: bold;
-      cursor: pointer;
+      margin: 0 !important;
+      left: auto !important;
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
+      min-height: 46px;
+      max-width: 46px;
+      max-height: 46px;
       border-radius: 50%;
-      outline: none;
-      box-shadow: var(--button-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       backdrop-filter: blur(30px) saturate(1.8);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      position: relative;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+      flex-shrink: 0;
+      aspect-ratio: 1 / 1;
     }
     .modal-close::before {
       content: '';
@@ -880,28 +979,33 @@
     }
     @media (max-width: 700px) {
       .modal-content {
-        width: 95vw;
-        height: 90vh;
-        max-height: 90vh;
-        border-radius: 20px;
+        width: 96vw;
+        height: 92vh;
+        max-height: 92vh;
+        border-radius: 22px;
         padding: 0;
         margin: 0 auto;
+        box-shadow: 0 12px 60px rgba(0, 0, 0, 0.6), 0 0 50px rgba(255, 255, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
       }
       
       .modal-header {
-        padding: 15px 20px;
-        border-radius: 20px 20px 0 0;
+        padding: 18px 22px;
+        border-radius: 22px 22px 0 0;
+        min-height: 60px;
       }
       
       .modal-info {
-        font-size: 1.4rem;
-        padding: 6px 12px;
+        font-size: 1.5rem;
+        padding: 8px 14px;
         margin-right: 15px;
+        border-radius: 12px;
       }
       
       .ordinal-link-btn {
-        padding: 8px 14px;
-        font-size: 0.85rem;
+        padding: 10px 16px;
+        font-size: 0.9rem;
+        min-height: 44px;
+        border-radius: 12px;
       }
       
       .modal-iframe-container {
@@ -924,27 +1028,37 @@
       }
       
       .modal-nav-arrow {
-        width: 50px;
-        height: 50px;
-        font-size: 1.2rem;
+        width: 52px;
+        height: 52px;
+        font-size: 1.3rem;
+        border-radius: 50%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
       }
       
       .modal-nav-button {
-        width: 50px;
-        height: 50px;
-        font-size: 1.2rem;
+        width: 52px !important;
+        height: 52px !important;
+        min-width: 52px !important;
+        min-height: 52px !important;
+        font-size: 1.3rem;
+        border-radius: 50% !important;
+        flex-shrink: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
       }
       
       .modal-nav-arrow-left {
-        left: 10px;
+        left: 12px;
       }
       
       .modal-nav-arrow-right {
-        right: 10px;
+        right: 12px;
       }
       
       .modal-iframe-wrapper {
-        padding: 15px 60px;
+        padding: 15px 70px;
       }
       
       .modal-footer {
@@ -991,15 +1105,30 @@
       }
       
       .page {
-        width: 35px;
-        height: 35px;
+        width: 35px !important;
+        height: 35px !important;
+        min-width: 35px !important;
+        min-height: 35px !important;
+        max-width: 35px !important;
+        max-height: 35px !important;
         font-size: 0.9rem;
+        border-radius: 50% !important;
+        flex-shrink: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        aspect-ratio: 1 / 1 !important;
       }
       
       .nav-button {
         padding: 8px 16px;
         font-size: 0.85rem;
         margin: 3px;
+        border-radius: 20px;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
       }
     }
     
@@ -1029,9 +1158,17 @@
       }
       
       .modal-nav-button {
-        width: 45px;
-        height: 45px;
+        width: 45px !important;
+        height: 45px !important;
+        min-width: 45px !important;
+        min-height: 45px !important;
         font-size: 1.1rem;
+        border-radius: 50% !important;
+        flex-shrink: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
       }
       
       .collection-title {
@@ -1070,12 +1207,39 @@
         padding: 6px 10px;
         font-size: 0.75rem;
         margin: 2px;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
       }
       
       .page {
-        width: 32px;
-        height: 32px;
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 32px !important;
+        min-height: 32px !important;
+        max-width: 32px !important;
+        max-height: 32px !important;
         font-size: 0.8rem;
+        margin: 0 1px;
+        border-radius: 50% !important;
+        flex-shrink: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        aspect-ratio: 1 / 1 !important;
+      }
+      
+      .pagination {
+        padding: 0 10px;
+        max-width: calc(100vw - 20px);
+        width: calc(100% - 20px);
+      }
+      
+      .pagination-inner {
+        gap: 4px;
+        flex-wrap: wrap;
+        justify-content: center;
       }
     }
       
@@ -1148,11 +1312,11 @@
     
     .modal-controls {
       background: rgba(255, 255, 255, 0.08);
-      padding: 10px 22px;
+      padding: 12px 24px;
       border-radius: 20px;
-      backdrop-filter: blur(25px) saturate(1.8);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(68, 255, 226, 0.3);
+      backdrop-filter: blur(30px) saturate(1.8);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       max-width: 90%;
       margin: 10px auto 5px auto;
       display: none;
@@ -1163,7 +1327,7 @@
       color: rgba(255, 255, 255, 0.9);
       text-align: center;
       letter-spacing: 0.03em;
-      text-shadow: 0 0 10px rgba(68, 255, 226, 0.3);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     }
     
     @media (max-width: 700px) {
@@ -1174,26 +1338,6 @@
         padding: 8px 15px;
         bottom: 10px;
       }
-    }
-
-    .modal-nav-button {
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      background: var(--button-bg);
-      border: 2.5px solid var(--button-border);
-      color: var(--button-text);
-      font-size: 2.3rem;
-      font-weight: bold;
-      cursor: pointer;
-      outline: none;
-      box-shadow: var(--button-glow);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color 0.18s, border-color 0.18s, background 0.18s;
-      margin: 0;
-      padding: 0;
     }
 
     .modal-nav-button:hover {
@@ -1230,11 +1374,11 @@
     }
 
     .controls-popup-content {
-      background: rgba(20, 20, 30, 0.95);
+      background: rgba(255, 255, 255, 0.08);
       padding: 25px 30px;
       border-radius: 20px;
-      border: 1px solid var(--modal-border);
-      box-shadow: 0 8px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(68, 255, 226, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(30px) saturate(1.8);
       text-align: center;
       max-width: 450px;
@@ -1243,19 +1387,20 @@
 
     .controls-popup-title {
       font-size: 1.6rem;
-      background: linear-gradient(135deg, #44ffe2 0%, #c7a8ff 50%, #ffd580 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: #ffffff;
       margin-bottom: 15px;
-      text-shadow: 0 0 20px rgba(68, 255, 226, 0.4);
+      font-weight: 600;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      letter-spacing: 0.02em;
     }
 
     .controls-popup-text {
       font-size: 1rem;
-      color: var(--text-color);
+      color: rgba(255, 255, 255, 0.9);
       margin-bottom: 25px;
       line-height: 1.6;
+      font-weight: 400;
+      letter-spacing: 0.01em;
     }
 
     .controls-popup-ok-btn {
@@ -1366,14 +1511,27 @@
     @media (max-width: 700px) {
       .nav-buttons {
         gap: 8px;
-        overflow: visible; /* Allow glow to render outside bounds */
-        padding: 0 15px; /* Keep horizontal padding */
-        margin: 0 -15px; /* Add negative horizontal margin */
+        overflow: visible;
+        padding: 0 15px 15px 15px;
+        margin: 0;
+        flex-wrap: wrap;
+        justify-content: center;
+        max-width: 100%;
+        padding-bottom: 20px;
       }
       
       .nav-button {
-        padding: 6px 14px;
-        font-size: 0.85rem;
+        padding: 8px 14px;
+        font-size: 0.8rem;
+        min-height: 40px;
+        white-space: nowrap;
+        flex: 0 0 auto;
+        border-radius: 20px;
+        min-width: fit-content;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
       }
       
       .collection-title {
@@ -1417,6 +1575,10 @@
       .nav-button {
         padding: 5px 8px;
         font-size: 0.7rem;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
       }
       
       .collection-title {
@@ -1544,8 +1706,8 @@
       transform: translateY(-1px) scale(0.98);
     }
     
-    /* Enhanced Mint on Gamma button - Clean and elegant */
-    .mint-gamma-btn {
+    /* Enhanced Marketplace button - Clean and elegant */
+    .marketplace-btn {
       position: relative;
       overflow: hidden;
       font-weight: 600 !important;
@@ -1553,12 +1715,12 @@
       background: rgba(255, 255, 255, 0.15) !important;
       backdrop-filter: blur(30px) saturate(1.8) !important;
       box-shadow: 0 0 30px rgba(255, 255, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
-      animation: gammaGlow 3s ease-in-out infinite !important;
+      animation: marketplaceGlow 3s ease-in-out infinite !important;
       transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
     }
     
-    /* Clean light sweep for Mint on Gamma */
-    .mint-gamma-btn::before {
+    /* Clean light sweep for Marketplace */
+    .marketplace-btn::before {
       content: '';
       position: absolute;
       top: 0;
@@ -1569,13 +1731,13 @@
       transition: left 0.6s ease;
     }
     
-    .mint-gamma-btn:hover::before {
+    .marketplace-btn:hover::before {
       left: 100%;
     }
     
     
     /* Subtle glow animation */
-    @keyframes gammaGlow {
+    @keyframes marketplaceGlow {
       0%, 100% {
         box-shadow: 0 0 30px rgba(255, 255, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
       }
@@ -1585,7 +1747,7 @@
     }
     
     /* Clean hover state */
-    .mint-gamma-btn:hover {
+    .marketplace-btn:hover {
       background: rgba(255, 255, 255, 0.2) !important;
       border-color: rgba(255, 255, 255, 0.7) !important;
       color: #ffffff !important;
@@ -1594,7 +1756,7 @@
       animation: none !important;
     }
     
-    .mint-gamma-btn:active {
+    .marketplace-btn:active {
       transform: translateY(-1px) scale(0.98) !important;
       transition: all 0.1s ease !important;
     }
@@ -1616,15 +1778,13 @@
         flex-direction: column;
         gap: 12px;
         align-items: center;
+        margin: 20px 0 25px 0;
+        padding: 0 20px;
       }
       
       .search-input {
         width: 280px;
         margin-right: 0;
-      }
-      
-      .search-container {
-        gap: 10px;
       }
     }
     
@@ -1656,20 +1816,21 @@
   <div class="container">
     <header>
       <h1 class="collection-title">Ordtisms</h1>
-      <h2 class="collection-subtitle">Interactive generative art on <span id="bitcoin-easter-egg">Bitcoin</span></h2>
+      <h2 class="collection-subtitle">Interactive Tisms on <span id="bitcoin-easter-egg">Bitcoin</span></h2>
     </header>
     
     <nav class="nav-bar">
       <div class="nav-buttons">
         <a href="index.html" class="nav-button">Home</a>
-        <a href="https://beta.gamma.io/ordinals/collections/ordtisms/items" target="_blank" rel="noopener noreferrer" class="nav-button mint-gamma-btn">Mint on Gamma</a>
+        <a href="https://magiceden.us/ordinals/marketplace/ordtism" target="_blank" rel="noopener noreferrer" class="nav-button marketplace-btn">Marketplace</a>
         <a href="https://stakit.com/?referral=Ordtisms" target="_blank" rel="noopener noreferrer" class="nav-button">Stake Ordtisms</a>
         <a href="rare tisms/index.html" class="nav-button">Rare Tisms</a>
+        <button id="searchToggle" class="nav-button">Search</button>
       </div>
     </nav>
     
     <!-- Search Section -->
-    <div class="search-section">
+    <div class="search-section" id="searchSection" style="display: none;">
       <div class="search-container">
         <input type="number" id="searchInput" class="search-input" placeholder="Enter Ordtism number (1-101)" min="1" max="101">
         <button id="searchButton" class="search-button">View Ordtism</button>
@@ -1689,9 +1850,8 @@
   
   <!-- Modal for viewing individual pieces -->
   <div class="modal" id="modal" style="display:none;">
-    <button class="modal-close" id="modalClose" aria-label="Close">&#10005;</button>
-    
     <div class="modal-content">
+      <button class="modal-close" id="modalClose" aria-label="Close">&#10005;</button>
       <div class="modal-header">
         <div class="modal-info" id="modalInfo">ORDTISM 1</div>
         <a id="ordinalLink" class="ordinal-link-btn" href="#" target="_blank" rel="noopener noreferrer">
@@ -1780,22 +1940,12 @@
       searchInput.value = '';
     }
     
-    // Function to render gallery with optimized loading
+    // Function to render gallery with direct transition
     function renderGallery(page = 1) {
       const galleryEl = document.querySelector('.gallery');
-      // Show loading indicator for the gallery
-      const loadingIndicator = document.createElement('div');
-      loadingIndicator.className = 'gallery-loading';
-      loadingIndicator.innerHTML = '<div class="lds-dual-ring"></div><div class="loading-text">Loading Pieces...</div>';
-      galleryEl.innerHTML = '';
-      galleryEl.appendChild(loadingIndicator);
       
-      // Use setTimeout to allow the browser to render the loading indicator first
-      setTimeout(() => {
-        // Now remove the loading indicator and continue rendering
-        galleryEl.removeChild(loadingIndicator);
-        renderGalleryItems(page);
-      }, 50);
+      // Render new items directly without fading out
+      renderGalleryItems(page);
     }
     
     // Actual function to render gallery items
@@ -1804,9 +1954,8 @@
       // Remove all previous iframes and gallery items if any remain
       galleryEl.innerHTML = '';
 
-      // Responsive: 4 per page on mobile, 6 on desktop
-      let itemsPerPage = 6;
-      if (window.innerWidth <= 700) itemsPerPage = 4;
+      // Show 2 pieces per page for focused viewing
+      let itemsPerPage = 2;
       const startIndex = (page - 1) * itemsPerPage + 1;
       const endIndex = Math.min(startIndex + itemsPerPage - 1, MAX_PIECES);
 
@@ -1822,7 +1971,6 @@
         const item = document.createElement('div');
         item.className = 'gallery-item';
         item.setAttribute('data-index', i);
-        itemsCreated++;
 
         // Create an iframe showing the actual ORDTISM piece (paused by default)
         const iframe = document.createElement('iframe');
@@ -1840,17 +1988,8 @@
         iframe.style.height = '100%';
         iframe.style.display = 'block';
         
-        // Add loading indicator
-        const loadingSpinner = document.createElement('div');
-        loadingSpinner.className = 'gallery-loading-spinner';
-        loadingSpinner.innerHTML = '<div class="lds-dual-ring"></div>';
-        item.appendChild(loadingSpinner);
-        
-        // Remove spinner and PAUSE animation when iframe loads
+        // PAUSE animation when iframe loads
         iframe.onload = () => {
-          if (loadingSpinner.parentNode === item) {
-            item.removeChild(loadingSpinner);
-          }
           // Send pause message to keep the piece static
           try {
             iframe.contentWindow.postMessage({type: 'pause'}, '*');
@@ -1861,9 +2000,6 @@
         
         // Add error handling for failed iframe loads
         iframe.onerror = () => {
-          if (loadingSpinner.parentNode === item) {
-            item.removeChild(loadingSpinner);
-          }
           // Show error message or placeholder
           const errorDiv = document.createElement('div');
           errorDiv.style.cssText = 'display: flex; align-items: center; justify-content: center; height: 100%; color: rgba(255,255,255,0.6); font-size: 0.9rem;';
@@ -1875,16 +2011,22 @@
 
         const info = document.createElement('div');
         info.className = 'gallery-item-info';
-        info.innerHTML = `<span>ORDTISM ${i}</span>`;
+        info.innerHTML = `<strong>ORDTISM ${i}</strong>`;
         item.appendChild(info);
 
-        item.addEventListener('click', () => {
-          openModal(i);
-        });
+        // Add click event to open modal
+        item.addEventListener('click', () => openModal(i));
+        item.style.cursor = 'pointer';
 
         galleryEl.appendChild(item);
         
-        // Schedule next item creation with a tiny delay to prevent UI blocking
+        // Animate item in with staggered timing
+        setTimeout(() => {
+          item.classList.add('loaded');
+        }, 100 + (itemsCreated * 50));
+        
+        itemsCreated++;
+        
         setTimeout(createNextItem, 20);
       }
       
@@ -1902,23 +2044,22 @@
     
     // Separate pagination function to improve performance
     function updatePagination(page) {
-      const itemsPerPage = window.innerWidth <= 700 ? 4 : 6;
+      const itemsPerPage = 2;
       const totalPages = Math.ceil(MAX_PIECES / itemsPerPage);
       const paginationContainer = document.querySelector('.pagination'); // Get the main container
       const paginationInner = document.querySelector('.pagination-inner'); // Get the inner scrollable part
       
-      // Clear previous buttons (both arrows and numbers)
-      paginationContainer.querySelectorAll('.page-arrow').forEach(btn => btn.remove()); // Remove old arrows if any
-      paginationInner.innerHTML = ''; // Clear old page numbers
+      // Clear previous buttons
+      paginationInner.innerHTML = ''; // Clear all content
       
-      // Previous button (append to main container)
+      // Previous button (add to inner container)
       if (page > 1) {
         const prevPage = document.createElement('button');
-        prevPage.className = 'page page-arrow page-arrow-prev'; // Add classes for styling
+        prevPage.className = 'page'; // Same styling as page numbers
         prevPage.textContent = '←';
         prevPage.setAttribute('aria-label', 'Previous Page');
         prevPage.addEventListener('click', () => renderGallery(page - 1));
-        paginationContainer.appendChild(prevPage); // Append to main container
+        paginationInner.appendChild(prevPage); // Add to inner container
       }
       
       // Page numbers (append to inner container)
@@ -1939,14 +2080,14 @@
         paginationInner.appendChild(pageButton); // Append numbers to inner container
       }
       
-      // Next button (append to main container)
+      // Next button (add to inner container)
       if (page < totalPages) {
         const nextPage = document.createElement('button');
-        nextPage.className = 'page page-arrow page-arrow-next'; // Add classes for styling
+        nextPage.className = 'page'; // Same styling as page numbers
         nextPage.textContent = '→';
         nextPage.setAttribute('aria-label', 'Next Page');
         nextPage.addEventListener('click', () => renderGallery(page + 1));
-        paginationContainer.appendChild(nextPage); // Append to main container
+        paginationInner.appendChild(nextPage); // Add to inner container
       }
     }
     
@@ -1961,17 +2102,12 @@
       document.getElementById('modalInfo').textContent = `ORDTISM ${index}`;
       document.getElementById('ordinalLink').href = inscriptionUrl;
       
-      // Show loading indicator first
+      // Show modal immediately
       modal.classList.add('active');
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
       
-      // Add loading indicator
       const modalContainer = document.querySelector('.modal-iframe-container');
-      const loadingSpinner = document.createElement('div');
-      loadingSpinner.className = 'modal-loading-spinner';
-      loadingSpinner.innerHTML = '<div class="lds-dual-ring"></div>';
-      modalContainer.appendChild(loadingSpinner);
       
       // Reset the container size to ensure proper proportions
       modalContainer.style.width = '100%';
@@ -2019,11 +2155,6 @@
         modalIframe.src = contentSrc;
         // Focus iframe and play after it loads
         modalIframe.onload = () => {
-          // Remove loading spinner
-          if (loadingSpinner.parentNode === modalContainer) {
-            modalContainer.removeChild(loadingSpinner);
-          }
-          
           modalIframe.focus();
           if (modalIframe.contentWindow) {
             modalIframe.contentWindow.postMessage({type: 'play'}, '*');
@@ -2322,25 +2453,18 @@
         }
       });
     }
-    // Background horizontal scroll effect
-    function updateBackgroundPosition() {
-      const scrollY = window.scrollY;
-      const maxScroll = document.body.scrollHeight - window.innerHeight;
-      const scrollPercent = Math.min(scrollY / maxScroll, 1);
-      
-      // Direct correlation: scroll down = move right (0% to 100%)
-      const horizontalPos = scrollPercent * 100;
-      
-      const bannerBg = document.querySelector('.banner-background');
-      if (bannerBg) {
-        bannerBg.style.backgroundPosition = `${horizontalPos}% center`;
-      }
-    }
 
-    // Update on scroll
-    window.addEventListener('scroll', updateBackgroundPosition);
-    // Initial position
-    updateBackgroundPosition();
+    // Search toggle functionality
+    document.getElementById('searchToggle').addEventListener('click', function() {
+      const searchSection = document.getElementById('searchSection');
+      if (searchSection.style.display === 'none') {
+        searchSection.style.display = 'block';
+        this.textContent = 'Hide Search';
+      } else {
+        searchSection.style.display = 'none';
+        this.textContent = 'Search';
+      }
+    });
   </script>
 </body>
 </html>
