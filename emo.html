@@ -181,30 +181,9 @@
         <span id="contractText">0x81A224F8A62f52BdE942dBF23A56df77A10b7777</span>
       </div>
     </div>
-
-    <!-- Memes Section -->
-    <div class="memes-section" style="margin-top: 40px; padding-top: 30px; border-top: 1px solid #eee;">
-      <h2 style="color: #333; margin-bottom: 20px;">Emo Memes</h2>
-      <div class="memes-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; padding: 0 20px;">
-        <div style="text-align: center;">
-          <div style="background: #f8f9fa; border-radius: 10px; padding: 15px; height: 100%;">
-            <p style="margin-top: 10px; color: #666;">Add your memes to the 'memes' folder</p>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const memesGrid = document.querySelector('.memes-grid');
-      memesGrid.innerHTML = `
-        <div style="grid-column: 1 / -1; text-align: center; padding: 20px;">
-          <p>No memes yet! Add your memes to the 'memes' folder.</p>
-        </div>
-      `;
-    });
-
     document.getElementById('contractAddress').addEventListener('click', () => {
       navigator.clipboard.writeText(document.getElementById('contractText').textContent);
       const el = document.getElementById('contractAddress');
