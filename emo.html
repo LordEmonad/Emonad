@@ -171,7 +171,6 @@
       </p>
       
       <div class="button-group">
-        <a href="https://mevx.io/monad/0x714A2694C8d4f0B1bfbA0E5b76240E439df2182D?tab=transactions&tm=2" class="button" target="_blank">Buy $EMO</a>
         <a href="https://nad.fun/tokens/0x81A224F8A62f52BdE942dBF23A56df77A10b7777" class="button" target="_blank">Nad.fun</a>
         <a href="https://www.kuru.io/token/0x81a224f8a62f52bde942dbf23a56df77a10b7777" class="button kuru" target="_blank">Kuru</a>
         <a href="https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d" class="button" target="_blank" style="background: #1a1a1a;">DEX</a>
@@ -182,13 +181,11 @@
         <span id="contractText">0x81A224F8A62f52BdE942dBF23A56df77A10b7777</span>
       </div>
     </div>
-    </div>
 
     <!-- Memes Section -->
     <div class="memes-section" style="margin-top: 40px; padding-top: 30px; border-top: 1px solid #eee;">
       <h2 style="color: #333; margin-bottom: 20px;">Emo Memes</h2>
       <div class="memes-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; padding: 0 20px;">
-        <!-- Memes will be loaded here from the memes folder -->
         <div style="text-align: center;">
           <div style="background: #f8f9fa; border-radius: 10px; padding: 15px; height: 100%;">
             <p style="margin-top: 10px; color: #666;">Add your memes to the 'memes' folder</p>
@@ -199,36 +196,15 @@
   </div>
 
   <script>
-    // Load memes from memes folder
     document.addEventListener('DOMContentLoaded', function() {
-      // This is a placeholder - in a real implementation, you would need server-side code
-      // to read the contents of the memes directory and generate this list
-      const memes = [
-        // Add your meme filenames here when you add them to the memes folder
-        // Example: { name: 'meme1.jpg', alt: 'Funny Emo meme' },
-      ];
-
       const memesGrid = document.querySelector('.memes-grid');
-      
-      if (memes.length === 0) {
-        // If no memes, show a message
-        memesGrid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 20px;">
-            <p>No memes yet! Add your memes to the 'memes' folder.</p>
-          </div>
-        `;
-      } else {
-        // If there are memes, display them
-        memesGrid.innerHTML = memes.map(meme => `
-          <div style="text-align: center;">
-            <img src="memes/${meme.name}" alt="${meme.alt}" style="max-width: 100%; border-radius: 8px; margin-bottom: 10px;">
-            <a href="memes/${meme.name}" download style="display: inline-block; margin-top: 5px; color: var(--accent-color); text-decoration: none;">
-              Download
-            </a>
-          </div>
-        `).join('');
-      }
+      memesGrid.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 20px;">
+          <p>No memes yet! Add your memes to the 'memes' folder.</p>
+        </div>
+      `;
     });
+
     document.getElementById('contractAddress').addEventListener('click', () => {
       navigator.clipboard.writeText(document.getElementById('contractText').textContent);
       const el = document.getElementById('contractAddress');
