@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>$EMO — Emonad Memecoin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #333333;
+      --accent-color: #7B3FE4;
+      --accent-light: #8D5AEC;
+      --accent-dark: #5D2BB8;
+      --button-bg: var(--accent-color);
+      --button-hover: var(--accent-light);
+      --button-text: #ffffff;
+      --card-bg: #ffffff;
+      --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .header-image {
+      width: 80%;
+      max-width: 500px;
+      margin: 0 auto 20px;
+      display: block;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin: 20px 0;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .button {
+      background: var(--button-bg);
+      color: var(--button-text);
+      border: none;
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(123, 63, 228, 0.3);
+      min-width: 140px;
+      white-space: nowrap;
+    }
+
+    .button:hover {
+      background: var(--accent-light);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(138, 43, 226, 0.4);
+    }
+    
+    /* Kuru Button */
+    .button.kuru {
+      background: #a3e635;
+      box-shadow: 0 4px 12px rgba(163, 230, 53, 0.4);
+      color: #333;
+    }
+    
+    .button.kuru:hover {
+      background: #b3f043;
+      box-shadow: 0 6px 16px rgba(163, 230, 53, 0.5);
+    }
+
+    .contract-address {
+      background: #f8f0ff;
+      color: var(--accent-dark);
+      padding: 12px 20px;
+      border-radius: 30px;
+      margin: 15px auto 0;
+      max-width: 400px;
+      text-align: center;
+      cursor: pointer;
+      border: 2px solid #e9d5ff;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      font-family: 'Space Grotesk', monospace;
+    }
+
+    .contract-address.copied::after {
+      content: 'Copied!';
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      animation: fadeInOut 2s ease;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    @media (max-width: 768px) {
+      .button { padding: 10px 20px; font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="emonad.jpg" alt="Emonad" class="header-image">
+    
+    <div class="content-section">
+      <h1 style="font-size: 2.5rem; margin: 10px 0 5px; color: #333; letter-spacing: -0.5px;">$EMO</h1>
+      <p style="font-size: 1.4rem; margin: 0 0 30px; color: #666; font-weight: 500;">
+        i lost it all on day 1
+      </p>
+      
+      <div class="button-group">
+        <a href="https://nad.fun/tokens/0x81A224F8A62f52BdE942dBF23A56df77A10b7777" class="button" target="_blank">Nad.fun</a>
+        <a href="https://www.kuru.io/token/0x81a224f8a62f52bde942dbf23a56df77a10b7777" class="button kuru" target="_blank">Kuru</a>
+        <a href="https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d" class="button" target="_blank" style="background: #1a1a1a;">DEX</a>
+        <a href="https://twitter.com/EmonadCoin" class="button" target="_blank" style="background: #1DA1F2;">Twitter</a>
+      </div>
+      
+      <div class="contract-address" id="contractAddress" title="Click to copy">
+        <span id="contractText">0x81A224F8A62f52BdE942dBF23A56df77A10b7777</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('contractAddress').addEventListener('click', () => {
+      navigator.clipboard.writeText(document.getElementById('contractText').textContent);
+      const el = document.getElementById('contractAddress');
+      el.classList.add('copied');
+      setTimeout(() => el.classList.remove('copied'), 2000);
+    });
+  </script>
+</body>
+</html>
