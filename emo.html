@@ -201,6 +201,190 @@
       background: rgba(0,0,0,0.8);
     }
 
+    /* Audio Player */
+    .audio-player {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      background: linear-gradient(135deg, rgba(123, 63, 228, 0.95), rgba(93, 43, 184, 0.95));
+      padding: 12px 25px;
+      border-radius: 60px;
+      margin: 0 auto 25px;
+      box-shadow: 0 8px 25px rgba(123, 63, 228, 0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+      max-width: fit-content;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .audio-player::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .audio-player.playing {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .audio-player .player-btn {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.25s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .audio-player .player-btn:hover {
+      background: rgba(255,255,255,0.25);
+      transform: scale(1.15);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .audio-player .player-btn:active {
+      transform: scale(0.95);
+    }
+
+    .audio-player .player-btn.play-btn {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #ffffff, #f0f0f0);
+      color: var(--accent-color);
+      font-size: 22px;
+      border: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .audio-player .player-btn.play-btn:hover {
+      background: linear-gradient(135deg, #ffffff, #e8e8e8);
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    }
+
+    .audio-player .volume-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .audio-player .volume-slider {
+      width: 70px;
+      height: 5px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: rgba(255,255,255,0.25);
+      border-radius: 3px;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+    }
+
+    .audio-player .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      background: linear-gradient(135deg, #ffffff, #e0e0e0);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+
+    .audio-player .volume-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    .audio-player .volume-slider::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      background: linear-gradient(135deg, #ffffff, #e0e0e0);
+      border-radius: 50%;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .audio-player .track-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .audio-player .track-name {
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .audio-player .track-artist {
+      color: rgba(255,255,255,0.7);
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .audio-player .visualizer {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .audio-player .visualizer .bar {
+      width: 3px;
+      background: rgba(255,255,255,0.8);
+      border-radius: 2px;
+      height: 8px;
+      transition: height 0.1s;
+    }
+
+    .audio-player.playing .visualizer .bar {
+      animation: visualizer 0.5s ease-in-out infinite alternate;
+    }
+
+    .audio-player .visualizer .bar:nth-child(1) { animation-delay: 0s; }
+    .audio-player .visualizer .bar:nth-child(2) { animation-delay: 0.1s; }
+    .audio-player .visualizer .bar:nth-child(3) { animation-delay: 0.2s; }
+    .audio-player .visualizer .bar:nth-child(4) { animation-delay: 0.15s; }
+    .audio-player .visualizer .bar:nth-child(5) { animation-delay: 0.05s; }
+
+    @keyframes visualizer {
+      0% { height: 8px; }
+      100% { height: 20px; }
+    }
+
     @media (max-width: 768px) {
       .button { 
         padding: 10px 12px; 
@@ -229,11 +413,57 @@
         width: 38px;
         height: 38px;
       }
+      .audio-player {
+        padding: 10px 18px;
+        gap: 10px;
+      }
+      .audio-player .player-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+      }
+      .audio-player .player-btn.play-btn {
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+      }
+      .audio-player .volume-slider {
+        width: 50px;
+      }
+      .audio-player .track-info {
+        display: none;
+      }
+      .audio-player .visualizer {
+        display: none;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- Audio Player -->
+    <div class="audio-player" id="audioPlayer">
+      <div class="track-info">
+        <span class="track-name">Emonad</span>
+        <span class="track-artist">Theme Song</span>
+      </div>
+      <div class="visualizer">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+      <button class="player-btn" id="prevBtn">⏮</button>
+      <button class="player-btn play-btn" id="playBtn">▶</button>
+      <button class="player-btn" id="nextBtn">⏭</button>
+      <div class="volume-control">
+        <button class="player-btn" id="muteBtn">🔊</button>
+        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
+      </div>
+    </div>
+    <audio id="themeAudio" src="emonad.mp3" loop></audio>
+
     <img src="emonad.jpg" alt="Emonad" class="header-image">
     
     <div class="content-section">
@@ -301,6 +531,79 @@
         chartModal.classList.remove('active');
         chartFrame.src = '';
       }
+    });
+
+    // Audio Player
+    const audio = document.getElementById('themeAudio');
+    const audioPlayer = document.getElementById('audioPlayer');
+    const playBtn = document.getElementById('playBtn');
+    const muteBtn = document.getElementById('muteBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    audio.volume = 0.5;
+
+    // Autoplay on page load
+    window.addEventListener('load', () => {
+      audio.play().then(() => {
+        playBtn.textContent = '⏸';
+        audioPlayer.classList.add('playing');
+      }).catch(() => {
+        // Autoplay blocked - wait for user interaction
+        document.body.addEventListener('click', () => {
+          if (audio.paused) {
+            audio.play();
+            playBtn.textContent = '⏸';
+            audioPlayer.classList.add('playing');
+          }
+        }, { once: true });
+      });
+    });
+
+    playBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        playBtn.textContent = '⏸';
+        audioPlayer.classList.add('playing');
+      } else {
+        audio.pause();
+        playBtn.textContent = '▶';
+        audioPlayer.classList.remove('playing');
+      }
+    });
+
+    audio.addEventListener('ended', () => {
+      playBtn.textContent = '▶';
+      audioPlayer.classList.remove('playing');
+    });
+
+    muteBtn.addEventListener('click', () => {
+      audio.muted = !audio.muted;
+      muteBtn.textContent = audio.muted ? '🔇' : '🔊';
+    });
+
+    volumeSlider.addEventListener('input', (e) => {
+      audio.volume = e.target.value / 100;
+      if (audio.volume === 0) {
+        muteBtn.textContent = '🔇';
+      } else {
+        muteBtn.textContent = '🔊';
+        audio.muted = false;
+      }
+    });
+
+    // Restart track
+    prevBtn.addEventListener('click', () => {
+      audio.currentTime = 0;
+    });
+
+    // Skip to end (restart since it loops)
+    nextBtn.addEventListener('click', () => {
+      audio.currentTime = 0;
+      audio.play();
+      playBtn.textContent = '⏸';
+      audioPlayer.classList.add('playing');
     });
   </script>
 </body>
