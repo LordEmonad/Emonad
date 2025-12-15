@@ -6,6 +6,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <title>$EMO — Emonad Memecoin</title>
+  <link rel="icon" type="image/jpeg" href="face.jpg">
+  <link rel="apple-touch-icon" href="face.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -59,64 +61,162 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
+    }
+
+    /* Desktop three-column layout */
+    @media (min-width: 1400px) {
+      .container {
+        max-width: 100%;
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+        padding: 60px 40px 20px;
+        min-height: calc(100vh - 60px);
+      }
+      
+      .sidebar-left,
+      .sidebar-right {
+        position: sticky;
+        top: 60px;
+        width: 320px;
+        flex-shrink: 0;
+      }
+      
+      .main-content {
+        flex: 0 0 auto;
+        width: 500px;
+        max-width: 500px;
+      }
+      
+      .twitter-section,
+      .stats-section {
+        margin-top: 0 !important;
+      }
+    }
+    
+    .sidebar-left,
+    .sidebar-right {
+      display: none;
+    }
+    
+    @media (min-width: 1400px) {
+      .sidebar-left,
+      .sidebar-right {
+        display: block;
+      }
+    }
+
+    .header-image-wrapper {
+      position: relative;
+      margin: 0 auto 20px;
     }
 
     .header-image {
-      width: 60%;
-      max-width: 400px;
-      margin: 0 auto 20px;
+      width: 80%;
+      max-width: 500px;
+      margin: 0 auto;
       display: block;
       border-radius: 15px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
 
-    /* Dark Mode Toggle */
-    .theme-toggle {
+    /* Price Ticker */
+    .price-ticker {
       position: fixed;
-      top: 20px;
-      right: 20px;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      border: none;
+      top: 0;
+      left: 0;
+      right: 0;
       background: var(--card-bg);
-      box-shadow: var(--card-shadow);
+      border-bottom: 1px solid var(--contract-border);
+      padding: 10px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 99;
+      backdrop-filter: blur(10px);
+    }
+
+    .price-ticker .token-name {
+      color: var(--accent-color);
+    }
+
+    .price-ticker .price {
+      color: var(--text-color);
+      font-size: 16px;
+    }
+
+    .price-ticker .change {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 13px;
+    }
+
+    .price-ticker .change.positive {
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+    }
+
+    .price-ticker .change.negative {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+    }
+
+    .price-ticker .mcap {
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* Dark Mode Toggle - in header */
+    .theme-toggle-header {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--accent-color);
+      background: rgba(123, 63, 228, 0.2);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
+      font-size: 18px;
       transition: all 0.3s ease;
-      z-index: 100;
+      margin-left: 10px;
+      position: relative;
     }
 
-    .theme-toggle:hover {
+    .theme-toggle-header:hover {
       transform: scale(1.1);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      background: rgba(123, 63, 228, 0.4);
     }
 
-    .theme-toggle .icon-sun,
-    .theme-toggle .icon-moon {
+    .theme-toggle-header .icon-sun,
+    .theme-toggle-header .icon-moon {
       position: absolute;
       transition: all 0.3s ease;
     }
 
-    .theme-toggle .icon-sun {
+    .theme-toggle-header .icon-sun {
       opacity: 0;
       transform: rotate(-90deg);
     }
 
-    .theme-toggle .icon-moon {
+    .theme-toggle-header .icon-moon {
       opacity: 1;
       transform: rotate(0deg);
     }
 
-    [data-theme="dark"] .theme-toggle .icon-sun {
+    [data-theme="dark"] .theme-toggle-header .icon-sun {
       opacity: 1;
       transform: rotate(0deg);
     }
 
-    [data-theme="dark"] .theme-toggle .icon-moon {
+    [data-theme="dark"] .theme-toggle-header .icon-moon {
       opacity: 0;
       transform: rotate(90deg);
     }
@@ -221,6 +321,128 @@
     .liquidity-menu a:first-child {
       margin-bottom: 4px;
     }
+
+    /* Twitter Feed Section - Follows theme */
+    .twitter-section {
+      margin-top: 40px;
+      padding: 25px;
+      background: var(--card-bg);
+      border-radius: 20px;
+      border: 1px solid var(--contract-border);
+      box-shadow: var(--card-shadow);
+      min-height: 450px;
+      height: 450px;
+      overflow: hidden;
+    }
+
+    .twitter-header {
+      color: var(--text-color);
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--contract-border);
+    }
+
+    .twitter-header .x-icon {
+      width: 24px;
+      height: 24px;
+      background: var(--text-color);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--card-bg);
+    }
+    
+    /* Token Stats Section - Follows theme */
+    .stats-section {
+      margin-top: 40px;
+      padding: 25px;
+      background: var(--card-bg);
+      border-radius: 20px;
+      border: 1px solid var(--contract-border);
+      box-shadow: var(--card-shadow);
+      min-height: 450px;
+      height: 450px;
+      overflow: hidden;
+    }
+
+    .stats-header {
+      color: var(--text-color);
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--contract-border);
+    }
+
+    .stats-header .stats-icon {
+      font-size: 20px;
+    }
+
+    .stat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--contract-border);
+    }
+
+    .stat-item:last-child {
+      border-bottom: none;
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .stat-value {
+      color: var(--text-color);
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .stat-value.positive {
+      color: #22c55e;
+    }
+
+    .stat-value.negative {
+      color: #ef4444;
+    }
+
+    .stat-value.loading {
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    .twitter-feed-container {
+      height: 360px;
+      max-height: 360px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      border-radius: 12px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .twitter-feed-container::-webkit-scrollbar {
+      display: none;
+    }
+    
+
 
     .contract-address {
       background: var(--contract-bg);
@@ -327,55 +549,24 @@
       background: rgba(0,0,0,0.8);
     }
 
-    /* Audio Player */
+    /* Audio Player - in header bar */
     .audio-player {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 15px;
-      background: linear-gradient(135deg, rgba(123, 63, 228, 0.95), rgba(93, 43, 184, 0.95));
-      padding: 12px 25px;
-      border-radius: 60px;
-      margin: 0 auto 25px;
-      box-shadow: 0 8px 25px rgba(123, 63, 228, 0.5), inset 0 1px 0 rgba(255,255,255,0.2);
-      max-width: fit-content;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.15);
-      position: relative;
-      overflow: hidden;
+      gap: 8px;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+      margin-left: auto;
     }
 
-    .audio-player::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-      animation: shimmer 3s infinite;
-    }
-
-    @keyframes shimmer {
-      0% { left: -100%; }
-      100% { left: 100%; }
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-
-    .audio-player.playing {
-      animation: pulse 2s ease-in-out infinite;
-    }
 
     .audio-player .player-btn {
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: white;
-      width: 38px;
-      height: 38px;
+      background: rgba(123, 63, 228, 0.3);
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       cursor: pointer;
       display: flex;
@@ -402,11 +593,11 @@
     }
 
     .audio-player .player-btn.play-btn {
-      width: 50px;
-      height: 50px;
-      background: linear-gradient(135deg, #ffffff, #f0f0f0);
-      color: var(--accent-color);
-      font-size: 22px;
+      width: 36px;
+      height: 36px;
+      background: var(--accent-color);
+      color: white;
+      font-size: 16px;
       border: none;
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
@@ -572,52 +763,236 @@
       .theme-toggle {
         width: 42px;
         height: 42px;
-        top: 15px;
+        top: 50px;
         right: 15px;
         font-size: 20px;
+      }
+      .price-ticker {
+        padding: 6px 8px;
+        gap: 4px;
+        font-size: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .price-ticker .token-name {
+        font-size: 10px;
+      }
+      .price-ticker .price {
+        font-size: 11px;
+      }
+      .price-ticker .mcap {
+        display: none;
+      }
+      .price-ticker .change {
+        padding: 2px 6px;
+        font-size: 9px;
+      }
+      .price-ticker .audio-player {
+        display: flex;
+        gap: 2px;
+        margin-left: auto;
+      }
+      .price-ticker .audio-player .player-btn {
+        width: 22px;
+        height: 22px;
+        font-size: 10px;
+        min-width: 22px;
+        flex-shrink: 0;
+      }
+      .price-ticker .audio-player .player-btn.play-btn {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+        min-width: 24px;
+      }
+      .price-ticker .theme-toggle-header {
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
+        margin-left: 2px;
+        min-width: 24px;
+        flex-shrink: 0;
+      }
+      .container {
+        padding-top: 55px;
+        min-height: calc(100vh - 55px);
+        justify-content: center;
+        padding-bottom: 10px;
+      }
+      .header-image {
+        width: 60%;
+        max-width: 220px;
+        margin-bottom: 15px;
+      }
+      .main-content h1 {
+        font-size: 2.2rem !important;
+        margin: 8px 0 !important;
+      }
+      .main-content p {
+        font-size: 1.1rem !important;
+        margin-bottom: 20px !important;
+      }
+      .button-group {
+        gap: 8px;
+        margin: 15px 0;
+      }
+      .button {
+        padding: 10px 16px;
+        font-size: 13px;
+        min-width: 80px;
+      }
+      .contract-address {
+        font-size: 8px;
+        padding: 6px 10px;
+        max-width: 98%;
+        word-break: break-all;
+        margin-top: 15px;
+        white-space: normal;
+        line-height: 1.4;
+      }
+      .twitter-section {
+        display: none;
+      }
+      .stats-section {
+        display: none;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .price-ticker {
+        gap: 3px;
+        font-size: 9px;
+        padding: 4px 5px;
+        flex-wrap: wrap;
+      }
+      .price-ticker .token-name {
+        font-size: 9px;
+      }
+      .price-ticker .price {
+        font-size: 10px;
+      }
+      .price-ticker .change {
+        padding: 2px 4px;
+        font-size: 8px;
+      }
+      .price-ticker .audio-player {
+        gap: 1px;
+      }
+      .price-ticker .audio-player .player-btn {
+        width: 20px;
+        height: 20px;
+        font-size: 8px;
+        min-width: 20px;
+      }
+      .price-ticker .audio-player .player-btn.play-btn {
+        width: 22px;
+        height: 22px;
+        font-size: 9px;
+        min-width: 22px;
+      }
+      .price-ticker .theme-toggle-header {
+        width: 20px;
+        height: 20px;
+        font-size: 9px;
+        min-width: 20px;
+      }
+      .header-image {
+        width: 55%;
+        max-width: 180px;
+      }
+      .main-content h1 {
+        font-size: 1.6rem !important;
+      }
+      .main-content p {
+        font-size: 0.9rem !important;
+      }
+      .button {
+        padding: 7px 10px;
+        font-size: 10px;
+        min-width: 60px;
+      }
+      .contract-address {
+        font-size: 7px;
+        padding: 5px 6px;
+        white-space: normal;
+        line-height: 1.3;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Dark Mode Toggle -->
-  <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">
-    <span class="icon-sun">☀️</span>
-    <span class="icon-moon">🌙</span>
-  </button>
-
-  <div class="container">
-    <!-- Audio Player -->
+  <!-- Price Ticker with Audio Player and Theme Toggle -->
+  <div class="price-ticker" id="priceTicker">
+    <span class="token-name">$EMO</span>
+    <span class="price" id="tokenPrice">Loading...</span>
+    <span class="change" id="priceChange">--</span>
+    <span class="mcap" id="marketCap"></span>
+    
+    <!-- Audio Player in Header -->
     <div class="audio-player" id="audioPlayer">
-      <div class="track-info">
-        <span class="track-name">Emonad</span>
-        <span class="track-artist">Theme Song</span>
-      </div>
-      <div class="visualizer">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-      </div>
       <button class="player-btn" id="prevBtn">⏮</button>
       <button class="player-btn play-btn" id="playBtn">▶</button>
       <button class="player-btn" id="nextBtn">⏭</button>
-      <div class="volume-control">
-        <button class="player-btn" id="muteBtn">🔊</button>
-        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
-      </div>
+      <button class="player-btn" id="muteBtn">🔊</button>
       <a href="emonad.mp3" download="Emonad.mp3" class="player-btn download-btn" title="Download">↓</a>
     </div>
+    
+    <!-- Dark Mode Toggle in Header -->
+    <button class="theme-toggle-header" id="themeToggle" title="Toggle dark mode">
+      <span class="icon-sun">☀️</span>
+      <span class="icon-moon">🌙</span>
+    </button>
+  </div>
+
+  <div class="container">
     <audio id="themeAudio" src="emonad.mp3" loop></audio>
 
-    <img src="emonad.jpg" alt="Emonad" class="header-image">
-    
-    <div class="content-section">
-      <h1 style="font-size: 2.5rem; margin: 10px 0 5px; color: var(--text-color); letter-spacing: -0.5px;">$EMO</h1>
-      <p style="font-size: 1.4rem; margin: 0 0 30px; color: var(--text-secondary); font-weight: 500;">
-        i lost it all on day 1
-      </p>
+    <!-- Left Sidebar - Token Stats -->
+    <div class="sidebar-left">
+      <div class="stats-section">
+        <h3 class="stats-header">
+          <span class="stats-icon">📊</span>
+          Token Stats
+        </h3>
+        <div class="stat-item">
+          <span class="stat-label">Price</span>
+          <span class="stat-value" id="statPrice">Loading...</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">24h Change</span>
+          <span class="stat-value" id="stat24hChange">--</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Market Cap</span>
+          <span class="stat-value" id="statMcap">--</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">24h Volume</span>
+          <span class="stat-value" id="statVolume">--</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Liquidity</span>
+          <span class="stat-value" id="statLiquidity">--</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">FDV</span>
+          <span class="stat-value" id="statFdv">--</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Pair Age</span>
+          <span class="stat-value" id="statAge">--</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-content">
+      <div class="header-image-wrapper">
+        <img src="emonad.jpg" alt="Emonad" class="header-image">
+      </div>
+      
+      <div class="content-section">
+      <h1 style="font-size: 2.2rem; margin: 10px 0 25px; color: var(--text-color); letter-spacing: -0.5px;">$EMO <span style="font-size: 1.2rem; color: var(--text-secondary); font-weight: 500;">i lost it all on day 1</span></h1>
       
       <div class="button-group">
         <button class="button" id="buyBtn" style="background: linear-gradient(135deg, #FF6B35, #F7931A);">Buy $EMO</button>
@@ -639,6 +1014,29 @@
       <div class="contract-address" id="contractAddress" title="Click to copy">
         <span id="contractText">0x81A224F8A62f52BdE942dBF23A56df77A10b7777</span>
       </div>
+      </div>
+    </div>
+
+    <!-- Right Sidebar - @EmonadCoin Feed -->
+    <div class="sidebar-right">
+      <div class="twitter-section">
+        <h3 class="twitter-header">
+          <span class="x-icon">𝕏</span>
+          Latest Updates
+        </h3>
+        <div class="twitter-feed-container">
+          <a class="twitter-timeline" 
+             id="twitterEmbed"
+             data-theme="dark"
+             data-chrome="noheader nofooter noborders transparent noscrollbar"
+             data-tweet-limit="5"
+             data-width="300"
+             data-height="350"
+             href="https://twitter.com/EmonadCoin">
+            Loading tweets...
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -659,6 +1057,102 @@
   </div>
 
   <script>
+    // Price Ticker - Fetch from DEXScreener API
+    async function fetchPrice() {
+      try {
+        const response = await fetch('https://api.dexscreener.com/latest/dex/pairs/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d');
+        const data = await response.json();
+        if (data.pair) {
+          const price = parseFloat(data.pair.priceUsd);
+          const change24h = parseFloat(data.pair.priceChange.h24);
+          const mcap = data.pair.marketCap;
+          
+          document.getElementById('tokenPrice').textContent = '$' + price.toFixed(7);
+          
+          const changeEl = document.getElementById('priceChange');
+          changeEl.textContent = (change24h >= 0 ? '+' : '') + change24h.toFixed(2) + '%';
+          changeEl.className = 'change ' + (change24h >= 0 ? 'positive' : 'negative');
+          
+          if (mcap) {
+            const mcapFormatted = mcap >= 1000000 ? (mcap / 1000000).toFixed(2) + 'M' : (mcap / 1000).toFixed(1) + 'K';
+            document.getElementById('marketCap').textContent = 'MC: $' + mcapFormatted;
+          }
+        }
+      } catch (error) {
+        console.log('Price fetch error:', error);
+        document.getElementById('tokenPrice').textContent = '--';
+      }
+    }
+    
+    // Fetch price on load and every 30 seconds
+    fetchPrice();
+    setInterval(fetchPrice, 30000);
+
+    // Token Stats - Fetch detailed stats for sidebar
+    async function fetchTokenStats() {
+      try {
+        const response = await fetch('https://api.dexscreener.com/latest/dex/pairs/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d');
+        const data = await response.json();
+        if (data.pair) {
+          const pair = data.pair;
+          
+          // Price
+          const price = parseFloat(pair.priceUsd);
+          document.getElementById('statPrice').textContent = '$' + price.toFixed(7);
+          
+          // 24h Change
+          const change24h = parseFloat(pair.priceChange.h24);
+          const changeEl = document.getElementById('stat24hChange');
+          changeEl.textContent = (change24h >= 0 ? '+' : '') + change24h.toFixed(2) + '%';
+          changeEl.className = 'stat-value ' + (change24h >= 0 ? 'positive' : 'negative');
+          
+          // Market Cap
+          if (pair.marketCap) {
+            const mcap = pair.marketCap;
+            const mcapFormatted = mcap >= 1000000 ? '$' + (mcap / 1000000).toFixed(2) + 'M' : '$' + (mcap / 1000).toFixed(1) + 'K';
+            document.getElementById('statMcap').textContent = mcapFormatted;
+          }
+          
+          // 24h Volume
+          if (pair.volume && pair.volume.h24) {
+            const vol = pair.volume.h24;
+            const volFormatted = vol >= 1000000 ? '$' + (vol / 1000000).toFixed(2) + 'M' : '$' + (vol / 1000).toFixed(1) + 'K';
+            document.getElementById('statVolume').textContent = volFormatted;
+          }
+          
+          // Liquidity
+          if (pair.liquidity && pair.liquidity.usd) {
+            const liq = pair.liquidity.usd;
+            const liqFormatted = liq >= 1000000 ? '$' + (liq / 1000000).toFixed(2) + 'M' : '$' + (liq / 1000).toFixed(1) + 'K';
+            document.getElementById('statLiquidity').textContent = liqFormatted;
+          }
+          
+          // FDV
+          if (pair.fdv) {
+            const fdv = pair.fdv;
+            const fdvFormatted = fdv >= 1000000 ? '$' + (fdv / 1000000).toFixed(2) + 'M' : '$' + (fdv / 1000).toFixed(1) + 'K';
+            document.getElementById('statFdv').textContent = fdvFormatted;
+          }
+          
+          // Pair Age
+          if (pair.pairCreatedAt) {
+            const created = new Date(pair.pairCreatedAt);
+            const now = new Date();
+            const diffMs = now - created;
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('statAge').textContent = diffDays > 0 ? diffDays + 'd ' + diffHours + 'h' : diffHours + 'h';
+          }
+        }
+      } catch (error) {
+        console.log('Stats fetch error:', error);
+      }
+    }
+    
+    // Fetch stats on load and every 30 seconds
+    fetchTokenStats();
+    setInterval(fetchTokenStats, 30000);
+
     // Liquidity Dropdown
     const liquidityDropdown = document.getElementById('liquidityDropdown');
     const liquidityBtn = liquidityDropdown.querySelector('.button');
@@ -747,7 +1241,6 @@
     const audioPlayer = document.getElementById('audioPlayer');
     const playBtn = document.getElementById('playBtn');
     const muteBtn = document.getElementById('muteBtn');
-    const volumeSlider = document.getElementById('volumeSlider');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
 
@@ -757,32 +1250,19 @@
       if (audio.paused) {
         audio.play();
         playBtn.textContent = '⏸';
-        audioPlayer.classList.add('playing');
       } else {
         audio.pause();
         playBtn.textContent = '▶';
-        audioPlayer.classList.remove('playing');
       }
     });
 
     audio.addEventListener('ended', () => {
       playBtn.textContent = '▶';
-      audioPlayer.classList.remove('playing');
     });
 
     muteBtn.addEventListener('click', () => {
       audio.muted = !audio.muted;
       muteBtn.textContent = audio.muted ? '🔇' : '🔊';
-    });
-
-    volumeSlider.addEventListener('input', (e) => {
-      audio.volume = e.target.value / 100;
-      if (audio.volume === 0) {
-        muteBtn.textContent = '🔇';
-      } else {
-        muteBtn.textContent = '🔊';
-        audio.muted = false;
-      }
     });
 
     // Restart track
@@ -795,29 +1275,78 @@
       audio.currentTime = 0;
       audio.play();
       playBtn.textContent = '⏸';
-      audioPlayer.classList.add('playing');
     });
 
     // Dark Mode Toggle
     const themeToggle = document.getElementById('themeToggle');
     const html = document.documentElement;
     
-    // Check for saved theme preference or default to light
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    // Function to reload Twitter widget with correct theme
+    function reloadTwitterWidget(theme) {
+      const container = document.querySelector('.twitter-feed-container');
+      if (container && window.twttr && window.twttr.widgets) {
+        container.innerHTML = '';
+        const link = document.createElement('a');
+        link.className = 'twitter-timeline';
+        link.setAttribute('data-theme', theme);
+        link.setAttribute('data-chrome', 'noheader nofooter noborders transparent noscrollbar');
+        link.setAttribute('data-tweet-limit', '5');
+        link.setAttribute('data-width', '300');
+        link.setAttribute('data-height', '350');
+        link.href = 'https://twitter.com/EmonadCoin';
+        link.textContent = 'Loading tweets...';
+        container.appendChild(link);
+        window.twttr.widgets.load(container);
+      }
+    }
+    
+    // Check for saved theme preference or default to dark
+    const savedTheme = localStorage.getItem('theme') || 'dark';
     if (savedTheme === 'dark') {
       html.setAttribute('data-theme', 'dark');
+    } else {
+      html.removeAttribute('data-theme');
     }
+    
+    // Set initial Twitter theme and reload widget with correct theme
+    const twitterEmbed = document.getElementById('twitterEmbed');
+    if (twitterEmbed) {
+      twitterEmbed.setAttribute('data-theme', savedTheme);
+    }
+    
+    // Wait for Twitter widget script to load then reload with correct theme
+    window.twttr = window.twttr || {};
+    window.twttr.ready = window.twttr.ready || function(fn) {
+      if (window.twttr.widgets) {
+        fn();
+      } else {
+        window.twttr._e = window.twttr._e || [];
+        window.twttr._e.push(fn);
+      }
+    };
+    
+    window.twttr.ready(function() {
+      setTimeout(function() {
+        reloadTwitterWidget(savedTheme);
+      }, 1000);
+    });
 
     themeToggle.addEventListener('click', () => {
       const currentTheme = html.getAttribute('data-theme');
       if (currentTheme === 'dark') {
         html.removeAttribute('data-theme');
         localStorage.setItem('theme', 'light');
+        reloadTwitterWidget('light');
       } else {
         html.setAttribute('data-theme', 'dark');
         localStorage.setItem('theme', 'dark');
+        reloadTwitterWidget('dark');
       }
     });
+
   </script>
+
+  <!-- Twitter Widget Script -->
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </body>
 </html>

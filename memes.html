@@ -128,22 +128,33 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0, 0, 0, 0.95);
       z-index: 1000;
       justify-content: center;
       align-items: center;
       padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(10px);
     }
 
     .lightbox.active {
       display: flex;
+      opacity: 1;
     }
 
     .lightbox img {
       max-width: 90%;
-      max-height: 90%;
+      max-height: 85%;
       object-fit: contain;
-      border-radius: 8px;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+
+    .lightbox.active img {
+      transform: scale(1);
     }
 
     .lightbox-close {
@@ -154,11 +165,20 @@
       font-size: 40px;
       cursor: pointer;
       z-index: 1001;
-      transition: transform 0.2s;
+      transition: transform 0.2s, color 0.2s;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
     }
 
     .lightbox-close:hover {
-      transform: scale(1.2);
+      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.2);
+      color: var(--accent-color);
     }
 
     .lightbox-nav {
@@ -166,18 +186,26 @@
       top: 50%;
       transform: translateY(-50%);
       color: white;
-      font-size: 50px;
+      font-size: 30px;
       cursor: pointer;
       z-index: 1001;
-      padding: 20px;
+      padding: 15px;
       user-select: none;
-      transition: transform 0.2s, opacity 0.2s;
+      transition: all 0.2s ease;
       opacity: 0.7;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .lightbox-nav:hover {
-      transform: translateY(-50%) scale(1.2);
+      transform: translateY(-50%) scale(1.1);
       opacity: 1;
+      background: var(--accent-color);
     }
 
     .lightbox-prev {
@@ -186,6 +214,19 @@
 
     .lightbox-next {
       right: 20px;
+    }
+
+    .lightbox-counter {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+      font-weight: 500;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 8px 16px;
+      border-radius: 20px;
     }
 
     @media (max-width: 768px) {
@@ -263,6 +304,7 @@
     <span class="lightbox-nav lightbox-prev" id="lightboxPrev">&#10094;</span>
     <img src="" alt="Full size meme" id="lightboxImg">
     <span class="lightbox-nav lightbox-next" id="lightboxNext">&#10095;</span>
+    <div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
   </div>
 
   <script>
@@ -282,22 +324,29 @@
     const lightboxClose = document.getElementById('lightboxClose');
     const lightboxPrev = document.getElementById('lightboxPrev');
     const lightboxNext = document.getElementById('lightboxNext');
+    const lightboxCounter = document.getElementById('lightboxCounter');
     
     // Get all meme images after they're loaded
     const memeImages = Array.from(document.querySelectorAll('.meme-item img'));
     let currentIndex = 0;
+
+    function updateCounter() {
+      lightboxCounter.textContent = `${currentIndex + 1} / ${memeImages.length}`;
+    }
 
     function showMeme(index) {
       if (index < 0) index = memeImages.length - 1;
       if (index >= memeImages.length) index = 0;
       currentIndex = index;
       lightboxImg.src = memeImages[currentIndex].src;
+      updateCounter();
     }
 
     memeImages.forEach((img, index) => {
       img.addEventListener('click', () => {
         currentIndex = index;
         lightboxImg.src = img.src;
+        updateCounter();
         lightbox.classList.add('active');
       });
     });
