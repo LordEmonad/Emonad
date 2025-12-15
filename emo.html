@@ -13,6 +13,7 @@
     :root {
       --bg-color: #ffffff;
       --text-color: #333333;
+      --text-secondary: #666666;
       --accent-color: #7B3FE4;
       --accent-light: #8D5AEC;
       --accent-dark: #5D2BB8;
@@ -21,6 +22,21 @@
       --button-text: #ffffff;
       --card-bg: #ffffff;
       --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      --contract-bg: #f8f0ff;
+      --contract-border: #e9d5ff;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #0a0a0a;
+      --text-color: #ffffff;
+      --text-secondary: #a0a0a0;
+      --accent-color: #9B5FFF;
+      --accent-light: #B080FF;
+      --accent-dark: #7B3FE4;
+      --card-bg: #1a1a1a;
+      --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      --contract-bg: #1a1a2e;
+      --contract-border: #3d3d5c;
     }
     
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -52,6 +68,57 @@
       display: block;
       border-radius: 15px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Dark Mode Toggle */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      background: var(--card-bg);
+      box-shadow: var(--card-shadow);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .theme-toggle .icon-sun,
+    .theme-toggle .icon-moon {
+      position: absolute;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle .icon-sun {
+      opacity: 0;
+      transform: rotate(-90deg);
+    }
+
+    .theme-toggle .icon-moon {
+      opacity: 1;
+      transform: rotate(0deg);
+    }
+
+    [data-theme="dark"] .theme-toggle .icon-sun {
+      opacity: 1;
+      transform: rotate(0deg);
+    }
+
+    [data-theme="dark"] .theme-toggle .icon-moon {
+      opacity: 0;
+      transform: rotate(90deg);
     }
 
     .button-group {
@@ -99,8 +166,64 @@
       box-shadow: 0 6px 16px rgba(163, 230, 53, 0.5);
     }
 
+    /* Liquidity Dropdown */
+    .liquidity-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .liquidity-dropdown .button {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    }
+
+    .liquidity-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 8px;
+      margin-top: 8px;
+      min-width: 160px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--contract-border);
+      z-index: 100;
+    }
+
+    .liquidity-dropdown.active .liquidity-menu {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    .liquidity-menu a {
+      display: block;
+      padding: 12px 16px;
+      color: var(--text-color);
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 500;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    .liquidity-menu a:hover {
+      background: var(--accent-color);
+      color: white;
+    }
+
+    .liquidity-menu a:first-child {
+      margin-bottom: 4px;
+    }
+
     .contract-address {
-      background: #f8f0ff;
+      background: var(--contract-bg);
       color: var(--accent-dark);
       padding: 10px 15px;
       border-radius: 30px;
@@ -108,29 +231,32 @@
       max-width: 90%;
       text-align: center;
       cursor: pointer;
-      border: 2px solid #e9d5ff;
+      border: 2px solid var(--contract-border);
       font-size: 12px;
       font-weight: 500;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       font-family: 'Space Grotesk', monospace;
       white-space: nowrap;
-      overflow: hidden;
+      overflow: visible;
       text-overflow: ellipsis;
       display: inline-block;
       letter-spacing: -0.3px;
+      position: relative;
     }
 
     .contract-address.copied::after {
-      content: 'Copied!';
+      content: '✓ Copied!';
       position: absolute;
-      top: -30px;
+      top: -40px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(0,0,0,0.8);
+      background: linear-gradient(135deg, var(--accent-color), var(--accent-dark));
       color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 12px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(123, 63, 228, 0.4);
       animation: fadeInOut 2s ease;
     }
 
@@ -269,6 +395,10 @@
 
     .audio-player .player-btn:active {
       transform: scale(0.95);
+    }
+
+    .audio-player .player-btn.download-btn {
+      text-decoration: none;
     }
 
     .audio-player .player-btn.play-btn {
@@ -436,10 +566,26 @@
       .audio-player .visualizer {
         display: none;
       }
+      .audio-player .volume-control {
+        display: none;
+      }
+      .theme-toggle {
+        width: 42px;
+        height: 42px;
+        top: 15px;
+        right: 15px;
+        font-size: 20px;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Dark Mode Toggle -->
+  <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">
+    <span class="icon-sun">☀️</span>
+    <span class="icon-moon">🌙</span>
+  </button>
+
   <div class="container">
     <!-- Audio Player -->
     <div class="audio-player" id="audioPlayer">
@@ -461,21 +607,30 @@
         <button class="player-btn" id="muteBtn">🔊</button>
         <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
       </div>
+      <a href="emonad.mp3" download="Emonad.mp3" class="player-btn download-btn" title="Download">↓</a>
     </div>
     <audio id="themeAudio" src="emonad.mp3" loop></audio>
 
     <img src="emonad.jpg" alt="Emonad" class="header-image">
     
     <div class="content-section">
-      <h1 style="font-size: 2.5rem; margin: 10px 0 5px; color: #333; letter-spacing: -0.5px;">$EMO</h1>
-      <p style="font-size: 1.4rem; margin: 0 0 30px; color: #666; font-weight: 500;">
+      <h1 style="font-size: 2.5rem; margin: 10px 0 5px; color: var(--text-color); letter-spacing: -0.5px;">$EMO</h1>
+      <p style="font-size: 1.4rem; margin: 0 0 30px; color: var(--text-secondary); font-weight: 500;">
         i lost it all on day 1
       </p>
       
       <div class="button-group">
+        <button class="button" id="buyBtn" style="background: linear-gradient(135deg, #FF6B35, #F7931A);">Buy $EMO</button>
+        <div class="liquidity-dropdown" id="liquidityDropdown">
+          <button class="button">Add Liquidity ▾</button>
+          <div class="liquidity-menu">
+            <a href="https://app.uniswap.org/positions/create/v4?currencyA=NATIVE&currencyB=0x81A224F8A62f52BdE942dBF23A56df77A10b7777&chain=monad" target="_blank">🦄 Uniswap</a>
+            <a href="https://www.kuru.io/liquidity/0x81a224f8a62f52bde942dbf23a56df77a10b7777" target="_blank"><img src="kuru.jpg" alt="Kuru" style="width: 18px; height: 18px; border-radius: 50%; vertical-align: middle; margin-right: 8px;">Kuru</a>
+          </div>
+        </div>
         <a href="https://nad.fun/tokens/0x81A224F8A62f52BdE942dBF23A56df77A10b7777" class="button" target="_blank">Nad.fun</a>
         <a href="https://www.kuru.io/token/0x81a224f8a62f52bde942dbf23a56df77a10b7777" class="button kuru" target="_blank">Kuru</a>
-        <button class="button" id="chartBtn" style="background: linear-gradient(135deg, #00d4aa, #00a085);">📈 Chart</button>
+        <button class="button" id="chartBtn" style="background: linear-gradient(135deg, #00d4aa, #00a085);">Chart</button>
         <a href="https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d" class="button" target="_blank" style="background: #1a1a1a;">DEX</a>
         <a href="https://twitter.com/EmonadCoin" class="button" target="_blank" style="background: #1DA1F2;">Twitter</a>
         <a href="memes.html" class="button" style="background: #FF6B6B;">Memes</a>
@@ -495,7 +650,31 @@
     </div>
   </div>
 
+  <!-- Buy/Swap Modal (Official Uniswap - Safe & Secure) -->
+  <div class="chart-modal" id="buyModal">
+    <div class="chart-container" style="max-width: 420px; width: 420px; height: 520px; border-radius: 24px;">
+      <span class="chart-close" id="buyClose">&times;</span>
+      <iframe id="buyFrame" src="" allow="clipboard-write" style="background: #131313; border-radius: 24px;"></iframe>
+    </div>
+  </div>
+
   <script>
+    // Liquidity Dropdown
+    const liquidityDropdown = document.getElementById('liquidityDropdown');
+    const liquidityBtn = liquidityDropdown.querySelector('.button');
+
+    liquidityBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      liquidityDropdown.classList.toggle('active');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!liquidityDropdown.contains(e.target)) {
+        liquidityDropdown.classList.remove('active');
+      }
+    });
+
     document.getElementById('contractAddress').addEventListener('click', () => {
       navigator.clipboard.writeText(document.getElementById('contractText').textContent);
       const el = document.getElementById('contractAddress');
@@ -526,10 +705,40 @@
       }
     });
 
+    // Buy/Swap Modal (Official Uniswap)
+    const buyModal = document.getElementById('buyModal');
+    const buyFrame = document.getElementById('buyFrame');
+    const buyBtn = document.getElementById('buyBtn');
+    const buyClose = document.getElementById('buyClose');
+
+    buyBtn.addEventListener('click', () => {
+      // Using official Uniswap app.uniswap.org - safe and secure
+      buyFrame.src = 'https://app.uniswap.org/swap?chain=monad&outputCurrency=0x81A224F8A62f52BdE942dBF23A56df77A10b7777';
+      buyModal.classList.add('active');
+    });
+
+    buyClose.addEventListener('click', () => {
+      buyModal.classList.remove('active');
+      buyFrame.src = '';
+    });
+
+    buyModal.addEventListener('click', (e) => {
+      if (e.target === buyModal) {
+        buyModal.classList.remove('active');
+        buyFrame.src = '';
+      }
+    });
+
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && chartModal.classList.contains('active')) {
-        chartModal.classList.remove('active');
-        chartFrame.src = '';
+      if (e.key === 'Escape') {
+        if (chartModal.classList.contains('active')) {
+          chartModal.classList.remove('active');
+          chartFrame.src = '';
+        }
+        if (buyModal.classList.contains('active')) {
+          buyModal.classList.remove('active');
+          buyFrame.src = '';
+        }
       }
     });
 
@@ -543,23 +752,6 @@
     const nextBtn = document.getElementById('nextBtn');
 
     audio.volume = 0.5;
-
-    // Autoplay on page load
-    window.addEventListener('load', () => {
-      audio.play().then(() => {
-        playBtn.textContent = '⏸';
-        audioPlayer.classList.add('playing');
-      }).catch(() => {
-        // Autoplay blocked - wait for user interaction
-        document.body.addEventListener('click', () => {
-          if (audio.paused) {
-            audio.play();
-            playBtn.textContent = '⏸';
-            audioPlayer.classList.add('playing');
-          }
-        }, { once: true });
-      });
-    });
 
     playBtn.addEventListener('click', () => {
       if (audio.paused) {
@@ -604,6 +796,27 @@
       audio.play();
       playBtn.textContent = '⏸';
       audioPlayer.classList.add('playing');
+    });
+
+    // Dark Mode Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    
+    // Check for saved theme preference or default to light
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    if (savedTheme === 'dark') {
+      html.setAttribute('data-theme', 'dark');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = html.getAttribute('data-theme');
+      if (currentTheme === 'dark') {
+        html.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
     });
   </script>
 </body>
