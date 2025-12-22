@@ -898,6 +898,210 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* Dashboard Styles */
+    .dashboard-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 20px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      margin-bottom: 20px;
+      border: 1px solid var(--contract-border);
+    }
+
+    .dashboard-header .token-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .dashboard-header .token-info h3 {
+      font-size: 1.4rem;
+      margin-bottom: 4px;
+    }
+
+    .dashboard-header .token-info .token-ca {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-family: monospace;
+    }
+
+    .dashboard-header .token-price {
+      margin-left: auto;
+      text-align: right;
+    }
+
+    .dashboard-header .token-price .price {
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+
+    .dashboard-header .token-price .change {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .dashboard-header .token-price .change.positive {
+      background: rgba(34, 197, 94, 0.2);
+      color: #22c55e;
+    }
+
+    .dashboard-header .token-price .change.negative {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+    }
+
+    .dashboard-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--contract-border);
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .stat-card .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-card .stat-value {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-color);
+    }
+
+    .dashboard-intervals {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .interval-card {
+      background: var(--card-bg);
+      border: 1px solid var(--contract-border);
+      border-radius: 12px;
+      padding: 15px;
+    }
+
+    .interval-card .interval-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--contract-border);
+    }
+
+    .interval-card .interval-label {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--accent-color);
+    }
+
+    .interval-card .interval-change {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .interval-card .interval-change.positive {
+      background: rgba(34, 197, 94, 0.2);
+      color: #22c55e;
+    }
+
+    .interval-card .interval-change.negative {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+    }
+
+    .interval-card .interval-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .interval-card .interval-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+    }
+
+    .interval-card .interval-row .label {
+      color: var(--text-secondary);
+    }
+
+    .interval-card .interval-row .value {
+      font-weight: 600;
+    }
+
+    .interval-card .interval-row .value.buy {
+      color: #22c55e;
+    }
+
+    .interval-card .interval-row .value.sell {
+      color: #ef4444;
+    }
+
+    .buy-sell-bar {
+      height: 6px;
+      background: #ef4444;
+      border-radius: 3px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+
+    .buy-sell-bar .buy-portion {
+      height: 100%;
+      background: #22c55e;
+      border-radius: 3px 0 0 3px;
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .dashboard-intervals {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 500px) {
+      .dashboard-stats {
+        grid-template-columns: 1fr;
+      }
+      .dashboard-intervals {
+        grid-template-columns: 1fr;
+      }
+      .dashboard-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      .dashboard-header .token-price {
+        margin-left: 0;
+        margin-top: 15px;
+        text-align: center;
+      }
+    }
   </style>
 </head>
 <body>
@@ -970,11 +1174,12 @@
           <button class="btn secondary" id="exportCsvBtn" onclick="exportSnapshotCSV()" style="display: none;">📥 CSV</button>
           <button class="btn secondary" id="exportJsonBtn" onclick="exportSnapshotJSON()" style="display: none;">📥 JSON</button>
           <button class="btn secondary" id="exportTxtBtn" onclick="exportSnapshotTXT()" style="display: none;">📥 TXT</button>
+          <button class="btn secondary" id="copyAddressesBtn" onclick="copySnapshotAddresses()" style="display: none;">📋 Copy All</button>
         </div>
         <div class="status" id="snapshotStatus"></div>
         <div class="results-area" id="snapshotResults">
           <div class="results-header">
-            <h3>Token Holders</h3>
+            <h3 id="snapshotTokenName">Token Holders</h3>
             <div class="results-stats">
               <span id="snapshotTotalHolders">0 holders</span>
               <span id="snapshotTime"></span>
@@ -1003,7 +1208,7 @@
         <div class="tool-icon">👛</div>
         <div class="tool-title">
           <h2>Wallet Checker</h2>
-          <p>View all tokens held by any wallet</p>
+          <p>View all tokens & NFTs held by any wallet</p>
         </div>
         <span class="toggle-icon">▼</span>
       </div>
@@ -1012,7 +1217,11 @@
           <label>Wallet Address</label>
           <input type="text" class="input-field" id="walletAddress" placeholder="0x...">
         </div>
-        <button class="btn" onclick="checkWallet()">👛 Check Wallet</button>
+        <div class="btn-group">
+          <button class="btn" onclick="checkWallet()">👛 Check Wallet</button>
+          <button class="btn secondary" id="exportWalletCsvBtn" onclick="exportWalletCSV()" style="display: none;">📥 CSV</button>
+          <button class="btn secondary" id="copyWalletBtn" onclick="copyWalletAddress()" style="display: none;">📋 Copy</button>
+        </div>
         <div class="status" id="walletStatus"></div>
         <div class="results-area" id="walletResults">
           <div class="results-header">
@@ -1023,6 +1232,15 @@
             </div>
           </div>
           <div id="walletTokenList"></div>
+          
+          <!-- NFT Holdings Section -->
+          <div class="results-header" id="walletNftHeader" style="margin-top: 20px; display: none;">
+            <h3>🖼️ NFT Holdings</h3>
+            <div class="results-stats">
+              <span id="walletTotalNfts">0 NFTs</span>
+            </div>
+          </div>
+          <div id="walletNftList"></div>
         </div>
       </div>
     </div>
@@ -1102,13 +1320,15 @@
           <button class="btn" onclick="fetchNFTHolders()">🖼️ Take Snapshot</button>
           <button class="btn secondary" id="exportNftCsvBtn" onclick="exportNFTCSV()" style="display: none;">📥 CSV</button>
           <button class="btn secondary" id="exportNftTxtBtn" onclick="exportNFTTXT()" style="display: none;">📥 TXT</button>
+          <button class="btn secondary" id="copyNftAddressesBtn" onclick="copyNFTAddresses()" style="display: none;">📋 Copy All</button>
         </div>
         <div class="status" id="nftStatus"></div>
         <div class="results-area" id="nftResults">
           <div class="results-header">
-            <h3>NFT Holders</h3>
+            <h3 id="nftCollectionTitle">NFT Holders</h3>
             <div class="results-stats">
               <span id="nftTotalHolders">0 holders</span>
+              <span id="nftTotalSupply"></span>
             </div>
           </div>
           <div class="results-container">
@@ -1135,6 +1355,8 @@
     let snapshotData = [];
     let nftData = [];
     let whaleData = [];
+    let walletTokenData = [];
+    let walletNftData = [];
 
     // ==================== PRICE TICKER ====================
     async function fetchPrice() {
@@ -1323,6 +1545,9 @@
     }
 
     // ==================== TOOL 1: TOKEN HOLDER SNAPSHOT ====================
+    let snapshotTokenName = '';
+    let snapshotTokenSymbol = '';
+
     async function fetchHolders() {
       const tokenAddress = document.getElementById('snapshotTokenAddress').value.trim();
       const topCount = parseInt(document.getElementById('snapshotTopCount').value) || 50;
@@ -1332,12 +1557,25 @@
         return;
       }
 
-      showStatus('snapshotStatus', 'Fetching holders...', 'loading');
+      showStatus('snapshotStatus', 'Fetching token info...', 'loading');
       snapshotData = [];
+      snapshotTokenName = '';
+      snapshotTokenSymbol = '';
       let cursor = '';
       let page = 1;
 
       try {
+        // Get token name first
+        try {
+          const contractInfo = await apiCall('contract/detail', { contractAddress: tokenAddress });
+          if (contractInfo) {
+            snapshotTokenName = contractInfo.token?.name || contractInfo.contractMeta?.contractName || '';
+            snapshotTokenSymbol = contractInfo.token?.symbol || '';
+          }
+        } catch (e) {}
+
+        showStatus('snapshotStatus', 'Fetching holders...', 'loading');
+
         while (snapshotData.length < topCount) {
           const result = await apiCall('token/holders', {
             contractAddress: tokenAddress,
@@ -1363,28 +1601,49 @@
           return;
         }
 
-        // Display results
+        // Display results with contract icon for contract addresses
         const tbody = document.getElementById('snapshotTable');
-        tbody.innerHTML = snapshotData.map((h, i) => `
-          <tr>
-            <td>${i + 1}</td>
-            <td class="address" title="${h.holder}">${h.holder}</td>
-            <td class="amount">${formatNumber(h.amount)}</td>
-            <td class="percentage">${parseFloat(h.percentage || 0).toFixed(2)}%</td>
-          </tr>
-        `).join('');
+        tbody.innerHTML = snapshotData.map((h, i) => {
+          const isContract = h.isContract || false;
+          const icon = isContract ? '<span title="Contract">📄</span> ' : '';
+          return `
+            <tr>
+              <td>${i + 1}</td>
+              <td class="address" title="${h.holder}">${icon}${h.holder}</td>
+              <td class="amount">${formatNumber(h.amount)}</td>
+              <td class="percentage">${parseFloat(h.percentage || 0).toFixed(2)}%</td>
+            </tr>
+          `;
+        }).join('');
 
         document.getElementById('snapshotResults').classList.add('active');
+        
+        // Show token name in header
+        const tokenLabel = snapshotTokenSymbol ? `${snapshotTokenName} ($${snapshotTokenSymbol})` : (snapshotTokenName || 'Token');
+        document.getElementById('snapshotTokenName').innerHTML = `<span style="color: var(--accent-color);">${tokenLabel}</span> Holders`;
+        
         document.getElementById('snapshotTotalHolders').textContent = `${snapshotData.length} holders`;
         document.getElementById('snapshotTime').textContent = new Date().toLocaleString();
         document.getElementById('exportCsvBtn').style.display = 'inline-flex';
         document.getElementById('exportJsonBtn').style.display = 'inline-flex';
         document.getElementById('exportTxtBtn').style.display = 'inline-flex';
+        document.getElementById('copyAddressesBtn').style.display = 'inline-flex';
 
-        showStatus('snapshotStatus', `Fetched ${snapshotData.length} holders!`, 'success');
+        const successMsg = snapshotTokenSymbol ? `Found ${snapshotData.length} holders of $${snapshotTokenSymbol}!` : `Fetched ${snapshotData.length} holders!`;
+        showStatus('snapshotStatus', successMsg, 'success');
       } catch (error) {
         showStatus('snapshotStatus', error.message, 'error');
       }
+    }
+
+    function copySnapshotAddresses() {
+      if (snapshotData.length === 0) return;
+      const addresses = snapshotData.map(h => h.holder).join('\n');
+      navigator.clipboard.writeText(addresses).then(() => {
+        showStatus('snapshotStatus', `Copied ${snapshotData.length} addresses to clipboard!`, 'success');
+      }).catch(() => {
+        showStatus('snapshotStatus', 'Failed to copy to clipboard', 'error');
+      });
     }
 
     function exportSnapshotCSV() {
@@ -1425,44 +1684,103 @@
       }
 
       showStatus('walletStatus', 'Fetching wallet tokens...', 'loading');
+      walletTokenData = [];
+      walletNftData = [];
 
       try {
         const result = await apiCall('account/tokens', { address: walletAddress });
         const tokens = result.data || [];
-
-        if (tokens.length === 0) {
-          showStatus('walletStatus', 'No tokens found in this wallet', 'error');
-          return;
-        }
+        walletTokenData = tokens;
 
         const tokenList = document.getElementById('walletTokenList');
         let totalValue = 0;
 
-        tokenList.innerHTML = tokens.map(t => {
-          const value = parseFloat(t.usdValue || 0);
-          totalValue += value;
-          return `
-            <div class="token-card">
-              <div class="token-info">
-                <span class="token-name">${t.symbol || 'Unknown'}</span>
-                <span class="token-address">${t.contractAddress}</span>
+        if (tokens.length > 0) {
+          tokenList.innerHTML = tokens.map(t => {
+            const value = parseFloat(t.usdValue || 0);
+            totalValue += value;
+            return `
+              <div class="token-card">
+                <div class="token-info">
+                  <span class="token-name">${t.symbol || 'Unknown'}</span>
+                  <span class="token-address">${t.contractAddress}</span>
+                </div>
+                <div class="token-balance">
+                  <div class="token-amount">${formatNumber(t.balance)}</div>
+                  ${value > 0 ? `<div class="token-value">${formatUSD(value)}</div>` : ''}
+                </div>
               </div>
-              <div class="token-balance">
-                <div class="token-amount">${formatNumber(t.balance)}</div>
-                ${value > 0 ? `<div class="token-value">${formatUSD(value)}</div>` : ''}
-              </div>
-            </div>
-          `;
-        }).join('');
+            `;
+          }).join('');
+        } else {
+          tokenList.innerHTML = '<div style="color: var(--text-secondary); padding: 10px;">No tokens found</div>';
+        }
 
-        document.getElementById('walletResults').classList.add('active');
         document.getElementById('walletTotalTokens').textContent = `${tokens.length} tokens`;
         document.getElementById('walletTotalValue').textContent = totalValue > 0 ? `Total: ${formatUSD(totalValue)}` : '';
 
-        showStatus('walletStatus', `Found ${tokens.length} tokens!`, 'success');
+        // Fetch NFTs
+        showStatus('walletStatus', 'Fetching NFTs...', 'loading');
+        try {
+          const nftResult = await apiCall('account/nfts', { address: walletAddress });
+          const nfts = nftResult.data || [];
+          walletNftData = nfts;
+
+          if (nfts.length > 0) {
+            document.getElementById('walletNftHeader').style.display = 'flex';
+            document.getElementById('walletTotalNfts').textContent = `${nfts.length} NFTs`;
+            
+            document.getElementById('walletNftList').innerHTML = nfts.map(n => `
+              <div class="token-card">
+                <div class="token-info">
+                  <span class="token-name">🖼️ ${n.collectionName || n.name || 'Unknown NFT'}</span>
+                  <span class="token-address">${n.contractAddress}</span>
+                </div>
+                <div class="token-balance">
+                  <div class="token-amount">${n.tokenId ? `#${n.tokenId}` : `${n.amount || 1}x`}</div>
+                </div>
+              </div>
+            `).join('');
+          } else {
+            document.getElementById('walletNftHeader').style.display = 'none';
+            document.getElementById('walletNftList').innerHTML = '';
+          }
+        } catch (e) {
+          // NFT fetch failed, just skip
+          document.getElementById('walletNftHeader').style.display = 'none';
+        }
+
+        document.getElementById('walletResults').classList.add('active');
+        document.getElementById('exportWalletCsvBtn').style.display = 'inline-flex';
+        document.getElementById('copyWalletBtn').style.display = 'inline-flex';
+
+        const totalItems = tokens.length + walletNftData.length;
+        showStatus('walletStatus', `Found ${tokens.length} tokens${walletNftData.length > 0 ? ` and ${walletNftData.length} NFTs` : ''}!`, 'success');
       } catch (error) {
         showStatus('walletStatus', error.message, 'error');
       }
+    }
+
+    function exportWalletCSV() {
+      if (walletTokenData.length === 0 && walletNftData.length === 0) return;
+      const walletAddress = document.getElementById('walletAddress').value.trim();
+      let csv = 'Type,Name,Contract,Amount,Value\n';
+      walletTokenData.forEach(t => {
+        csv += `Token,${t.symbol || 'Unknown'},${t.contractAddress},${t.balance},${t.usdValue || 0}\n`;
+      });
+      walletNftData.forEach(n => {
+        csv += `NFT,${n.collectionName || n.name || 'Unknown'},${n.contractAddress},${n.amount || 1},\n`;
+      });
+      downloadFile(csv, `${walletAddress.slice(0, 10)}_holdings.csv`, 'text/csv');
+    }
+
+    function copyWalletAddress() {
+      const walletAddress = document.getElementById('walletAddress').value.trim();
+      navigator.clipboard.writeText(walletAddress).then(() => {
+        showStatus('walletStatus', 'Wallet address copied!', 'success');
+      }).catch(() => {
+        showStatus('walletStatus', 'Failed to copy', 'error');
+      });
     }
 
     // ==================== TOOL 3: WHALE WATCHER ====================
@@ -1493,6 +1811,9 @@
         whaleData = [];
         const whaleList = document.getElementById('whaleList');
         whaleList.innerHTML = '';
+        
+        // Track common holdings across whales
+        const tokenCounts = {};
 
         // For each whale, get their other holdings
         for (let i = 0; i < holders.length; i++) {
@@ -1505,14 +1826,26 @@
               t.contractAddress.toLowerCase() !== tokenAddress.toLowerCase()
             ).slice(0, 5);
 
+            // Count token occurrences for common holdings
+            otherTokens.forEach(t => {
+              const key = t.contractAddress.toLowerCase();
+              if (!tokenCounts[key]) {
+                tokenCounts[key] = { symbol: t.symbol || 'Unknown', count: 0, contract: t.contractAddress };
+              }
+              tokenCounts[key].count++;
+            });
+
             whaleData.push({ ...whale, otherTokens });
+
+            const isContract = whale.isContract || false;
+            const icon = isContract ? '<span title="Contract">📄</span> ' : '';
 
             whaleList.innerHTML += `
               <div class="token-card" style="flex-direction: column; align-items: stretch;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                   <div>
                     <strong>#${i + 1}</strong>
-                    <span class="token-address" style="margin-left: 10px;">${whale.holder}</span>
+                    <span class="token-address" style="margin-left: 10px;">${icon}${whale.holder}</span>
                   </div>
                   <div>
                     <span class="token-amount">${formatNumber(whale.amount)}</span>
@@ -1528,7 +1861,28 @@
             `;
           } catch (e) {
             // Skip if we can't get this whale's tokens
+            whaleData.push({ ...whale, otherTokens: [] });
           }
+        }
+
+        // Show common holdings analysis
+        const commonTokens = Object.values(tokenCounts)
+          .filter(t => t.count >= 2)
+          .sort((a, b) => b.count - a.count)
+          .slice(0, 5);
+
+        if (commonTokens.length > 0) {
+          const commonHtml = `
+            <div class="token-card" style="background: rgba(123, 63, 228, 0.1); border-color: var(--accent-color);">
+              <div style="width: 100%;">
+                <div style="font-weight: 700; margin-bottom: 8px; color: var(--accent-color);">🔥 Common Holdings</div>
+                <div style="font-size: 0.9rem;">
+                  ${commonTokens.map(t => `<span style="margin-right: 15px;"><strong>${t.symbol}</strong> <span style="color: var(--text-secondary);">(${t.count} whales)</span></span>`).join('')}
+                </div>
+              </div>
+            </div>
+          `;
+          whaleList.insertAdjacentHTML('afterbegin', commonHtml);
         }
 
         document.getElementById('whaleResults').classList.add('active');
@@ -1667,12 +2021,19 @@
 
         document.getElementById('nftResults').classList.add('active');
         
-        // Show collection name if found
-        const nameDisplay = nftCollectionName ? `<strong style="color: var(--accent-color);">${nftCollectionName}</strong> — ` : '';
-        document.getElementById('nftTotalHolders').innerHTML = `${nameDisplay}${nftData.length} holders`;
+        // Show collection name in title
+        if (nftCollectionName) {
+          document.getElementById('nftCollectionTitle').innerHTML = `<span style="color: var(--accent-color);">${nftCollectionName}</span> Holders`;
+        } else {
+          document.getElementById('nftCollectionTitle').textContent = 'NFT Holders';
+        }
+        
+        document.getElementById('nftTotalHolders').textContent = `${nftData.length} holders`;
+        document.getElementById('nftTotalSupply').textContent = `${totalNFTs} total NFTs`;
         
         document.getElementById('exportNftCsvBtn').style.display = 'inline-flex';
         document.getElementById('exportNftTxtBtn').style.display = 'inline-flex';
+        document.getElementById('copyNftAddressesBtn').style.display = 'inline-flex';
 
         const successMsg = nftCollectionName ? `Found ${nftData.length} holders of ${nftCollectionName}!` : `Fetched ${nftData.length} holders!`;
         showStatus('nftStatus', successMsg, 'success');
@@ -1695,6 +2056,16 @@
         csv += `${i + 1},${addr},${h.amount || h.tokenCount || 1}\n`;
       });
       downloadFile(csv, `${nftAddress.slice(0, 10)}_nft_holders.csv`, 'text/csv');
+    }
+
+    function copyNFTAddresses() {
+      if (nftData.length === 0) return;
+      const addresses = nftData.map(h => h.ownerAddress || h.holder || h.address).join('\n');
+      navigator.clipboard.writeText(addresses).then(() => {
+        showStatus('nftStatus', `Copied ${nftData.length} addresses to clipboard!`, 'success');
+      }).catch(() => {
+        showStatus('nftStatus', 'Failed to copy to clipboard', 'error');
+      });
     }
 
   </script>
