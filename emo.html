@@ -43,6 +43,56 @@
     
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
+    /* Cursor Trail */
+    .cursor-trail {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      font-size: 16px;
+      opacity: 0;
+      transform: translateY(0) scale(1);
+      animation: tearFall 1.5s ease-out forwards;
+      text-shadow: 0 0 10px rgba(155, 95, 255, 0.8), 0 0 20px rgba(155, 95, 255, 0.4);
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+    
+    @keyframes tearFall {
+      0% {
+        opacity: 0.9;
+        transform: translateY(0) scale(1) rotate(0deg);
+      }
+      50% {
+        opacity: 0.6;
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(80px) scale(0.3) rotate(15deg);
+      }
+    }
+    
+    /* Click burst effect */
+    .click-burst {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(155, 95, 255, 0.6) 0%, transparent 70%);
+      animation: burstExpand 0.5s ease-out forwards;
+    }
+    
+    @keyframes burstExpand {
+      0% {
+        transform: scale(0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(3);
+        opacity: 0;
+      }
+    }
+    
     body {
       background-color: var(--bg-color);
       color: var(--text-color);
@@ -1003,7 +1053,7 @@
       <div class="button-group">
         <button class="button" id="buyBtn" style="background: linear-gradient(135deg, #FF6B35, #F7931A);">Buy $EMO</button>
         <div class="liquidity-dropdown" id="liquidityDropdown">
-          <button class="button">Add Liquidity ▾</button>
+          <button class="button">Liquidity Pools ▾</button>
           <div class="liquidity-menu">
             <a href="https://app.uniswap.org/positions/create/v4?currencyA=NATIVE&currencyB=0x81A224F8A62f52BdE942dBF23A56df77A10b7777&chain=monad" target="_blank">🦄 Uniswap</a>
             <a href="https://www.kuru.io/liquidity/0x81a224f8a62f52bde942dbf23a56df77a10b7777" target="_blank"><img src="kuru.jpg" alt="Kuru" style="width: 18px; height: 18px; border-radius: 50%; vertical-align: middle; margin-right: 8px;">Kuru</a>
@@ -1320,22 +1370,8 @@
       twitterEmbed.setAttribute('data-theme', savedTheme);
     }
     
-    // Wait for Twitter widget script to load then reload with correct theme
-    window.twttr = window.twttr || {};
-    window.twttr.ready = window.twttr.ready || function(fn) {
-      if (window.twttr.widgets) {
-        fn();
-      } else {
-        window.twttr._e = window.twttr._e || [];
-        window.twttr._e.push(fn);
-      }
-    };
-    
-    window.twttr.ready(function() {
-      setTimeout(function() {
-        reloadTwitterWidget(savedTheme);
-      }, 1000);
-    });
+    // Twitter widget will load automatically from HTML
+    // Only reload when user toggles theme (not on page load)
 
     themeToggle.addEventListener('click', () => {
       const currentTheme = html.getAttribute('data-theme');
@@ -1350,6 +1386,69 @@
       }
     });
 
+  </script>
+
+  <!-- Cursor Trail Effect -->
+  <script>
+    (function() {
+      // Only on desktop
+      if (window.innerWidth < 768) return;
+      
+      const tears = ['💧', '🖤', '💔', '😢', '🥀'];
+      let lastX = 0, lastY = 0;
+      let throttle = false;
+      
+      // Trail on mouse move
+      document.addEventListener('mousemove', (e) => {
+        if (throttle) return;
+        
+        // Only spawn if moved enough distance
+        const dist = Math.sqrt(Math.pow(e.clientX - lastX, 2) + Math.pow(e.clientY - lastY, 2));
+        if (dist < 30) return;
+        
+        throttle = true;
+        setTimeout(() => throttle = false, 50);
+        
+        lastX = e.clientX;
+        lastY = e.clientY;
+        
+        const tear = document.createElement('div');
+        tear.className = 'cursor-trail';
+        tear.textContent = tears[Math.floor(Math.random() * tears.length)];
+        tear.style.left = (e.clientX - 8 + (Math.random() - 0.5) * 20) + 'px';
+        tear.style.top = (e.clientY - 8) + 'px';
+        document.body.appendChild(tear);
+        
+        setTimeout(() => tear.remove(), 1500);
+      });
+      
+      // Burst on click
+      document.addEventListener('click', (e) => {
+        // Don't burst on buttons/links
+        if (e.target.closest('button, a, .button, input')) return;
+        
+        const burst = document.createElement('div');
+        burst.className = 'click-burst';
+        burst.style.left = (e.clientX - 20) + 'px';
+        burst.style.top = (e.clientY - 20) + 'px';
+        document.body.appendChild(burst);
+        
+        // Spawn multiple tears on click
+        for (let i = 0; i < 5; i++) {
+          setTimeout(() => {
+            const tear = document.createElement('div');
+            tear.className = 'cursor-trail';
+            tear.textContent = tears[Math.floor(Math.random() * tears.length)];
+            tear.style.left = (e.clientX - 8 + (Math.random() - 0.5) * 40) + 'px';
+            tear.style.top = (e.clientY - 8 + (Math.random() - 0.5) * 40) + 'px';
+            document.body.appendChild(tear);
+            setTimeout(() => tear.remove(), 1500);
+          }, i * 30);
+        }
+        
+        setTimeout(() => burst.remove(), 500);
+      });
+    })();
   </script>
 
   <!-- Twitter Widget Script -->

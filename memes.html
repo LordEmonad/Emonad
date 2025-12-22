@@ -11,16 +11,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-color: #ffffff;
-      --text-color: #333333;
+      --bg-color: #0a0a0a;
+      --text-color: #ffffff;
       --accent-color: #7B3FE4;
       --accent-light: #8D5AEC;
       --accent-dark: #5D2BB8;
-      --button-bg: var(--accent-color);
-      --button-hover: var(--accent-light);
+      --button-bg: rgba(255, 255, 255, 0.1);
+      --button-hover: rgba(255, 255, 255, 0.2);
       --button-text: #ffffff;
-      --card-bg: #ffffff;
-      --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
     
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -53,23 +53,25 @@
     }
 
     .header p {
-      color: #666;
+      color: rgba(255, 255, 255, 0.6);
       font-size: 1.1rem;
     }
 
     .button-group {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
       display: flex;
       gap: 15px;
-      justify-content: center;
-      margin: 15px 0 25px;
       flex-wrap: wrap;
       align-items: center;
     }
 
     .button {
-      background: var(--button-bg);
+      background: rgba(255, 255, 255, 0.1);
       color: var(--button-text);
-      border: none;
+      border: 1px solid rgba(255, 255, 255, 0.2);
       padding: 12px 25px;
       border-radius: 30px;
       font-family: 'Space Grotesk', sans-serif;
@@ -79,21 +81,24 @@
       transition: all 0.3s ease;
       text-decoration: none;
       text-align: center;
-      box-shadow: 0 4px 12px rgba(123, 63, 228, 0.3);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       min-width: 140px;
       white-space: nowrap;
     }
 
     .button:hover {
-      background: var(--accent-light);
+      background: rgba(255, 255, 255, 0.2);
       transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(138, 43, 226, 0.4);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      border-color: rgba(255, 255, 255, 0.4);
     }
 
     .meme-grid {
       column-count: 3;
       column-gap: 15px;
-      padding: 10px 0 40px;
+      padding: 80px 0 40px;
     }
 
     .meme-item {
@@ -101,17 +106,19 @@
       border-radius: 16px;
       overflow: hidden;
       box-shadow: var(--card-shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
       cursor: pointer;
       break-inside: avoid;
       margin-bottom: 15px;
       display: inline-block;
       width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .meme-item:hover {
       transform: translateY(-5px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+      border-color: rgba(255, 255, 255, 0.3);
     }
 
     .meme-item img {
@@ -281,14 +288,14 @@
   </style>
 </head>
 <body>
+  <div class="button-group">
+    <a href="emo.html" class="button">← Back to $EMO</a>
+  </div>
+
   <div class="container">
     <div class="header">
       <h1>$EMO Memes</h1>
       <p>i lost it all on day 1</p>
-    </div>
-
-    <div class="button-group">
-      <a href="emo.html" class="button">← Back to $EMO</a>
     </div>
 
     <div class="meme-grid" id="memeGrid">
