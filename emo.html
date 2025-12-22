@@ -43,56 +43,6 @@
     
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
-    /* Cursor Trail */
-    .cursor-trail {
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      font-size: 16px;
-      opacity: 0;
-      transform: translateY(0) scale(1);
-      animation: tearFall 1.5s ease-out forwards;
-      text-shadow: 0 0 10px rgba(155, 95, 255, 0.8), 0 0 20px rgba(155, 95, 255, 0.4);
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    }
-    
-    @keyframes tearFall {
-      0% {
-        opacity: 0.9;
-        transform: translateY(0) scale(1) rotate(0deg);
-      }
-      50% {
-        opacity: 0.6;
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(80px) scale(0.3) rotate(15deg);
-      }
-    }
-    
-    /* Click burst effect */
-    .click-burst {
-      position: fixed;
-      pointer-events: none;
-      z-index: 9998;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(155, 95, 255, 0.6) 0%, transparent 70%);
-      animation: burstExpand 0.5s ease-out forwards;
-    }
-    
-    @keyframes burstExpand {
-      0% {
-        transform: scale(0);
-        opacity: 1;
-      }
-      100% {
-        transform: scale(3);
-        opacity: 0;
-      }
-    }
-    
     body {
       background-color: var(--bg-color);
       color: var(--text-color);
@@ -974,6 +924,23 @@
         line-height: 1.3;
       }
     }
+    
+    /* Mouse Glow Background */
+    .mouse-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 600px;
+      height: 600px;
+      pointer-events: none;
+      z-index: 9998;
+      background: radial-gradient(circle, rgba(155, 95, 255, 0.12) 0%, rgba(155, 95, 255, 0.04) 30%, transparent 70%);
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s ease;
+      opacity: 0;
+      will-change: left, top;
+      mix-blend-mode: screen;
+    }
   </style>
 </head>
 <body>
@@ -1388,70 +1355,133 @@
 
   </script>
 
-  <!-- Cursor Trail Effect -->
+  <!-- Particle Grid Background -->
+  <canvas id="particleGrid" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
+  
   <script>
     (function() {
-      // Only on desktop
       if (window.innerWidth < 768) return;
       
-      const tears = ['💧', '🖤', '💔', '😢', '🥀'];
-      let lastX = 0, lastY = 0;
-      let throttle = false;
+      const canvas = document.getElementById('particleGrid');
+      const ctx = canvas.getContext('2d');
       
-      // Trail on mouse move
+      let width, height;
+      let particles = [];
+      let mouseX = -1000, mouseY = -1000;
+      const gridSpacing = 50;
+      const particleRadius = 1.5;
+      const pushRadius = 150;
+      const pushStrength = 1.2;
+      const returnSpeed = 0.05;
+      
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        initParticles();
+      }
+      
+      function initParticles() {
+        particles = [];
+        for (let x = gridSpacing / 2; x < width; x += gridSpacing) {
+          for (let y = gridSpacing / 2; y < height; y += gridSpacing) {
+            particles.push({
+              originX: x,
+              originY: y,
+              x: x,
+              y: y,
+              vx: 0,
+              vy: 0
+            });
+          }
+        }
+      }
+      
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        
+        particles.forEach(p => {
+          // Calculate distance from mouse
+          const dx = mouseX - p.x;
+          const dy = mouseY - p.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          
+          // Push away from mouse
+          if (dist < pushRadius && dist > 0) {
+            const force = (pushRadius - dist) / pushRadius;
+            p.vx -= (dx / dist) * force * pushStrength;
+            p.vy -= (dy / dist) * force * pushStrength;
+          }
+          
+          // Spring back to origin
+          const homeX = p.originX - p.x;
+          const homeY = p.originY - p.y;
+          p.vx += homeX * returnSpeed;
+          p.vy += homeY * returnSpeed;
+          
+          // Apply velocity with damping
+          p.vx *= 0.9;
+          p.vy *= 0.9;
+          p.x += p.vx;
+          p.y += p.vy;
+          
+          // Calculate opacity based on displacement
+          const displacement = Math.sqrt(homeX * homeX + homeY * homeY);
+          const alpha = Math.min(0.15 + displacement * 0.02, 0.5);
+          
+          // Draw particle
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, particleRadius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(155, 95, 255, ${alpha})`;
+          ctx.fill();
+        });
+        
+        requestAnimationFrame(animate);
+      }
+      
       document.addEventListener('mousemove', (e) => {
-        if (throttle) return;
-        
-        // Only spawn if moved enough distance
-        const dist = Math.sqrt(Math.pow(e.clientX - lastX, 2) + Math.pow(e.clientY - lastY, 2));
-        if (dist < 30) return;
-        
-        throttle = true;
-        setTimeout(() => throttle = false, 50);
-        
-        lastX = e.clientX;
-        lastY = e.clientY;
-        
-        const tear = document.createElement('div');
-        tear.className = 'cursor-trail';
-        tear.textContent = tears[Math.floor(Math.random() * tears.length)];
-        tear.style.left = (e.clientX - 8 + (Math.random() - 0.5) * 20) + 'px';
-        tear.style.top = (e.clientY - 8) + 'px';
-        document.body.appendChild(tear);
-        
-        setTimeout(() => tear.remove(), 1500);
+        mouseX = e.clientX;
+        mouseY = e.clientY;
       });
       
-      // Burst on click
-      document.addEventListener('click', (e) => {
-        // Don't burst on buttons/links
-        if (e.target.closest('button, a, .button, input')) return;
-        
-        const burst = document.createElement('div');
-        burst.className = 'click-burst';
-        burst.style.left = (e.clientX - 20) + 'px';
-        burst.style.top = (e.clientY - 20) + 'px';
-        document.body.appendChild(burst);
-        
-        // Spawn multiple tears on click
-        for (let i = 0; i < 5; i++) {
-          setTimeout(() => {
-            const tear = document.createElement('div');
-            tear.className = 'cursor-trail';
-            tear.textContent = tears[Math.floor(Math.random() * tears.length)];
-            tear.style.left = (e.clientX - 8 + (Math.random() - 0.5) * 40) + 'px';
-            tear.style.top = (e.clientY - 8 + (Math.random() - 0.5) * 40) + 'px';
-            document.body.appendChild(tear);
-            setTimeout(() => tear.remove(), 1500);
-          }, i * 30);
-        }
-        
-        setTimeout(() => burst.remove(), 500);
+      document.addEventListener('mouseleave', () => {
+        mouseX = -1000;
+        mouseY = -1000;
+      });
+      
+      window.addEventListener('resize', resize);
+      resize();
+      animate();
+    })();
+  </script>
+
+  <!-- Mouse Glow Background Effect -->
+  <script>
+    (function() {
+      if (window.innerWidth < 768) return;
+      
+      const glow = document.createElement('div');
+      glow.className = 'mouse-glow';
+      glow.style.opacity = '1';
+      document.body.appendChild(glow);
+      
+      // Track mouse position globally
+      document.addEventListener('mousemove', (e) => {
+        glow.style.left = e.clientX + 'px';
+        glow.style.top = e.clientY + 'px';
+      }, true);
+      
+      // Only hide when leaving the entire window
+      document.documentElement.addEventListener('mouseleave', () => {
+        glow.style.opacity = '0';
+      });
+      
+      document.documentElement.addEventListener('mouseenter', () => {
+        glow.style.opacity = '1';
       });
     })();
   </script>
 
-  <!-- Twitter Widget Script -->
+<!-- Twitter Widget Script -->
   <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </body>
 </html>
