@@ -1102,6 +1102,228 @@
         text-align: center;
       }
     }
+
+    /* Diamond Hand Analyzer Styles */
+    .diamond-summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .diamond-stat {
+      background: var(--card-bg);
+      border: 1px solid var(--contract-border);
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .diamond-stat.highlight {
+      background: rgba(123, 63, 228, 0.1);
+      border-color: var(--accent-color);
+    }
+
+    .diamond-stat .stat-icon {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+
+    .diamond-stat .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+
+    .diamond-stat .stat-value {
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .diamond-stat .stat-value.diamond {
+      color: #60a5fa;
+    }
+
+    .diamond-stat .stat-value.gold {
+      color: #fbbf24;
+    }
+
+    .diamond-stat .stat-value.green {
+      color: #22c55e;
+    }
+
+    .diamond-card {
+      background: var(--card-bg);
+      border: 1px solid var(--contract-border);
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .diamond-card .rank {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      min-width: 35px;
+    }
+
+    .diamond-card .rank.top3 {
+      color: #fbbf24;
+    }
+
+    .diamond-card .holder-info {
+      flex: 1;
+    }
+
+    .diamond-card .holder-address {
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .diamond-card .holder-stats {
+      display: flex;
+      gap: 15px;
+      margin-top: 5px;
+      font-size: 0.85rem;
+    }
+
+    .diamond-card .diamond-score {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 70px;
+    }
+
+    .diamond-card .score-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #60a5fa;
+    }
+
+    .diamond-card .score-label {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+
+    .diamond-card .tier-badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .tier-badge.og {
+      background: rgba(251, 191, 36, 0.2);
+      color: #fbbf24;
+    }
+
+    .tier-badge.diamond {
+      background: rgba(96, 165, 250, 0.2);
+      color: #60a5fa;
+    }
+
+    .tier-badge.accumulator {
+      background: rgba(34, 197, 94, 0.2);
+      color: #22c55e;
+    }
+
+    .tier-badge.steady {
+      background: rgba(156, 163, 175, 0.2);
+      color: #9ca3af;
+    }
+
+    .tier-badge.paper {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+    }
+
+    @media (max-width: 768px) {
+      .diamond-summary {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .diamond-card {
+        flex-direction: column;
+        text-align: center;
+      }
+      .diamond-card .holder-stats {
+        justify-content: center;
+      }
+    }
+
+    /* Deep Dive Button & Results */
+    .deep-dive-btn {
+      padding: 8px 12px !important;
+      min-width: auto !important;
+      font-size: 1rem !important;
+    }
+
+    .deep-dive-btn.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .deep-dive-results {
+      margin-top: 12px;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      border: 1px solid var(--contract-border);
+    }
+
+    .deep-dive-results .dive-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .deep-dive-results .dive-stat {
+      text-align: center;
+    }
+
+    .deep-dive-results .dive-stat .label {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+
+    .deep-dive-results .dive-stat .value {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .deep-dive-results .dive-stat .value.green {
+      color: #22c55e;
+    }
+
+    .deep-dive-results .dive-stat .value.red {
+      color: #ef4444;
+    }
+
+    .deep-dive-results .dive-stat .value.blue {
+      color: #60a5fa;
+    }
+
+    .deep-dive-results .dive-summary {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--contract-border);
+      padding-top: 10px;
+      margin-top: 5px;
+    }
+
+    @media (max-width: 500px) {
+      .deep-dive-results .dive-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
   </style>
 </head>
 <body>
@@ -1281,7 +1503,46 @@
       </div>
     </div>
 
-    <!-- Tool 4: NFT Holder Snapshot -->
+    <!-- Tool 4: Diamond Hand Analyzer -->
+    <div class="tool-card collapsed" id="tool-diamond">
+      <div class="tool-header" onclick="toggleTool('tool-diamond')">
+        <div class="tool-icon">💎</div>
+        <div class="tool-title">
+          <h2>Diamond Hand Analyzer</h2>
+          <p>Analyze holder strength & identify loyal diamond hands</p>
+        </div>
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="tool-content">
+        <div class="input-row">
+          <div class="form-group">
+            <label>Token Contract Address</label>
+            <input type="text" class="input-field" id="diamondTokenAddress" placeholder="0x..." value="0x81A224F8A62f52BdE942dBF23A56df77A10b7777">
+          </div>
+          <div class="form-group small">
+            <label>Analyze Top</label>
+            <input type="number" class="input-field" id="diamondCount" value="25" min="5" max="50">
+          </div>
+        </div>
+        <div class="btn-group">
+          <button class="btn" onclick="analyzeDiamondHands()">💎 Analyze Diamond Hands</button>
+          <button class="btn secondary" id="exportDiamondCsvBtn" onclick="exportDiamondCSV()" style="display: none;">📥 CSV</button>
+          <button class="btn secondary" id="exportDiamondTxtBtn" onclick="exportDiamondTXT()" style="display: none;">📥 TXT</button>
+        </div>
+        <div class="status" id="diamondStatus"></div>
+        <div class="results-area" id="diamondResults">
+          <!-- Summary Stats -->
+          <div class="diamond-summary" id="diamondSummary"></div>
+          <!-- Holder List -->
+          <div class="results-header">
+            <h3 id="diamondTokenName">Diamond Hand Rankings</h3>
+          </div>
+          <div id="diamondList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tool 5: NFT Holder Snapshot -->
     <div class="tool-card collapsed" id="tool-nft">
       <div class="tool-header" onclick="toggleTool('tool-nft')">
         <div class="tool-icon">🖼️</div>
@@ -1357,6 +1618,7 @@
     let whaleData = [];
     let walletTokenData = [];
     let walletNftData = [];
+    let diamondData = [];
 
     // ==================== PRICE TICKER ====================
     async function fetchPrice() {
@@ -1912,7 +2174,339 @@
       downloadFile(txt, `${tokenAddress.slice(0, 10)}_whale_wallets.txt`, 'text/plain');
     }
 
-    // ==================== TOOL 4: NFT HOLDER SNAPSHOT ====================
+    // ==================== TOOL 4: DIAMOND HAND ANALYZER ====================
+    let diamondTokenName = '';
+    let diamondTokenSymbol = '';
+
+    async function analyzeDiamondHands() {
+      const tokenAddress = document.getElementById('diamondTokenAddress').value.trim();
+      const analyzeCount = parseInt(document.getElementById('diamondCount').value) || 25;
+
+      if (!validateAddress(tokenAddress)) {
+        showStatus('diamondStatus', 'Invalid token address', 'error');
+        return;
+      }
+
+      showStatus('diamondStatus', 'Fetching token info...', 'loading');
+      diamondData = [];
+      diamondTokenName = '';
+      diamondTokenSymbol = '';
+
+      try {
+        // Get token name first
+        try {
+          const contractInfo = await apiCall('contract/detail', { contractAddress: tokenAddress });
+          if (contractInfo) {
+            diamondTokenName = contractInfo.token?.name || contractInfo.contractMeta?.contractName || '';
+            diamondTokenSymbol = contractInfo.token?.symbol || '';
+          }
+        } catch (e) {}
+
+        showStatus('diamondStatus', 'Fetching top holders...', 'loading');
+
+        // Get top holders
+        const holdersResult = await apiCall('token/holders', {
+          contractAddress: tokenAddress,
+          limit: analyzeCount
+        });
+
+        const holders = holdersResult.data || [];
+        if (holders.length === 0) {
+          showStatus('diamondStatus', 'No holders found', 'error');
+          return;
+        }
+
+        // Analyze each holder
+        let totalSupplyHeld = 0;
+        const tierCounts = { og: 0, diamond: 0, accumulator: 0, steady: 0, paper: 0 };
+        const tierSupply = { og: 0, diamond: 0, accumulator: 0, steady: 0, paper: 0 };
+
+        for (let i = 0; i < holders.length; i++) {
+          const holder = holders[i];
+          showStatus('diamondStatus', `Analyzing holder ${i + 1}/${holders.length}...`, 'loading');
+
+          const percentage = parseFloat(holder.percentage || 0);
+          totalSupplyHeld += percentage;
+
+          let otherTokenCount = 0;
+          let focusScore = 100; // Start with max focus
+
+          // Get other holdings to calculate focus score
+          try {
+            const tokensResult = await apiCall('account/tokens', { address: holder.holder });
+            const otherTokens = (tokensResult.data || []).filter(t => 
+              t.contractAddress.toLowerCase() !== tokenAddress.toLowerCase()
+            );
+            otherTokenCount = otherTokens.length;
+            // More tokens = less focused = lower score
+            focusScore = Math.max(0, 100 - (otherTokenCount * 5));
+          } catch (e) {
+            // If we can't get holdings, assume moderate focus
+            focusScore = 50;
+          }
+
+          // Calculate diamond score
+          // Position weight (40%): Higher % = higher score
+          const positionScore = Math.min(100, percentage * 10);
+          
+          // Rank weight (30%): Lower rank = higher score (early holder proxy)
+          const rankScore = Math.max(0, 100 - (i * 4));
+          
+          // Focus weight (30%): Fewer other tokens = higher score
+          const diamondScore = Math.round(
+            (positionScore * 0.4) + (rankScore * 0.3) + (focusScore * 0.3)
+          );
+
+          // Determine tier based on score and rank
+          let tier = 'steady';
+          if (i < 5 && diamondScore >= 70) {
+            tier = 'og';
+          } else if (diamondScore >= 60) {
+            tier = 'diamond';
+          } else if (focusScore >= 70) {
+            tier = 'accumulator';
+          } else if (diamondScore >= 30) {
+            tier = 'steady';
+          } else {
+            tier = 'paper';
+          }
+
+          tierCounts[tier]++;
+          tierSupply[tier] += percentage;
+
+          diamondData.push({
+            rank: i + 1,
+            address: holder.holder,
+            amount: holder.amount,
+            percentage: percentage,
+            isContract: holder.isContract || false,
+            otherTokenCount: otherTokenCount,
+            diamondScore: diamondScore,
+            tier: tier
+          });
+        }
+
+        // Sort by diamond score
+        diamondData.sort((a, b) => b.diamondScore - a.diamondScore);
+
+        // Calculate overall diamond strength
+        const diamondStrength = Math.round(tierSupply.og + tierSupply.diamond + tierSupply.accumulator);
+
+        // Render summary
+        const tokenLabel = diamondTokenSymbol ? `$${diamondTokenSymbol}` : 'Token';
+        document.getElementById('diamondSummary').innerHTML = `
+          <div class="diamond-stat highlight">
+            <div class="stat-icon">💎</div>
+            <div class="stat-label">Diamond Strength</div>
+            <div class="stat-value diamond">${diamondStrength}%</div>
+          </div>
+          <div class="diamond-stat">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-label">OG Holders</div>
+            <div class="stat-value gold">${tierCounts.og}</div>
+          </div>
+          <div class="diamond-stat">
+            <div class="stat-icon">💎</div>
+            <div class="stat-label">Diamond Hands</div>
+            <div class="stat-value diamond">${tierCounts.diamond}</div>
+          </div>
+          <div class="diamond-stat">
+            <div class="stat-icon">📊</div>
+            <div class="stat-label">Analyzed</div>
+            <div class="stat-value">${holders.length}</div>
+          </div>
+        `;
+
+        // Render holder list
+        const diamondList = document.getElementById('diamondList');
+        diamondList.innerHTML = diamondData.map((h, i) => {
+          const tierLabels = {
+            og: '🏆 OG',
+            diamond: '💎 Diamond',
+            accumulator: '📈 Stacker',
+            steady: '⚖️ Steady',
+            paper: '📄 Paper'
+          };
+          const contractIcon = h.isContract ? '<span title="Contract">📄</span> ' : '';
+          
+          return `
+            <div class="diamond-card" id="diamond-card-${i}">
+              <div class="rank ${i < 3 ? 'top3' : ''}">#${i + 1}</div>
+              <div class="holder-info">
+                <div class="holder-address">${contractIcon}${h.address}</div>
+                <div class="holder-stats">
+                  <span><strong>${formatNumber(h.amount)}</strong> ${tokenLabel}</span>
+                  <span>${h.percentage.toFixed(2)}%</span>
+                  <span>${h.otherTokenCount} other tokens</span>
+                </div>
+                <div class="deep-dive-results" id="deep-dive-${i}" style="display: none;"></div>
+              </div>
+              <div class="diamond-score">
+                <div class="score-value">${h.diamondScore}</div>
+                <div class="score-label">Score</div>
+              </div>
+              <span class="tier-badge ${h.tier}">${tierLabels[h.tier]}</span>
+              <button class="btn secondary deep-dive-btn" id="deep-btn-${i}" onclick="deepDiveWallet('${h.address}', ${i})" title="Get buy/sell history">🔍</button>
+            </div>
+          `;
+        }).join('');
+
+        // Update header
+        if (diamondTokenSymbol) {
+          document.getElementById('diamondTokenName').innerHTML = `<span style="color: var(--accent-color);">$${diamondTokenSymbol}</span> Diamond Rankings`;
+        }
+
+        document.getElementById('diamondResults').classList.add('active');
+        document.getElementById('exportDiamondCsvBtn').style.display = 'inline-flex';
+        document.getElementById('exportDiamondTxtBtn').style.display = 'inline-flex';
+
+        showStatus('diamondStatus', `Analyzed ${holders.length} holders! Diamond Strength: ${diamondStrength}%`, 'success');
+      } catch (error) {
+        showStatus('diamondStatus', error.message, 'error');
+      }
+    }
+
+    function exportDiamondCSV() {
+      if (diamondData.length === 0) return;
+      const tokenAddress = document.getElementById('diamondTokenAddress').value.trim();
+      let csv = 'Rank,Address,Amount,Percentage,Diamond Score,Tier,Other Tokens,Is Contract\n';
+      diamondData.forEach((h, i) => {
+        csv += `${i + 1},${h.address},${h.amount},${h.percentage},${h.diamondScore},${h.tier},${h.otherTokenCount},${h.isContract}\n`;
+      });
+      downloadFile(csv, `${tokenAddress.slice(0, 10)}_diamond_hands.csv`, 'text/csv');
+    }
+
+    function exportDiamondTXT() {
+      if (diamondData.length === 0) return;
+      const tokenAddress = document.getElementById('diamondTokenAddress').value.trim();
+      // Export only diamond hands (OG, Diamond, Accumulator tiers)
+      const diamondHands = diamondData.filter(h => ['og', 'diamond', 'accumulator'].includes(h.tier));
+      const txt = diamondHands.map(h => h.address).join('\n');
+      downloadFile(txt, `${tokenAddress.slice(0, 10)}_diamond_wallets.txt`, 'text/plain');
+    }
+
+    async function deepDiveWallet(walletAddress, index) {
+      const tokenAddress = document.getElementById('diamondTokenAddress').value.trim();
+      const btn = document.getElementById(`deep-btn-${index}`);
+      const resultsDiv = document.getElementById(`deep-dive-${index}`);
+      
+      // If already showing, toggle off
+      if (resultsDiv.style.display === 'block') {
+        resultsDiv.style.display = 'none';
+        btn.textContent = '🔍';
+        return;
+      }
+
+      btn.classList.add('loading');
+      btn.textContent = '⏳';
+      resultsDiv.innerHTML = '<div style="color: var(--text-secondary);">Loading activity...</div>';
+      resultsDiv.style.display = 'block';
+
+      try {
+        // Fetch wallet activity
+        const result = await apiCall('account/activity', { 
+          address: walletAddress,
+          limit: 50
+        });
+
+        const activities = result.data || [];
+        
+        // Filter for this token's transactions
+        let totalBought = 0;
+        let totalSold = 0;
+        let buyCount = 0;
+        let sellCount = 0;
+        let firstTxTime = null;
+        let lastTxTime = null;
+
+        activities.forEach(tx => {
+          const timestamp = tx.timestamp;
+          if (!firstTxTime || timestamp < firstTxTime) firstTxTime = timestamp;
+          if (!lastTxTime || timestamp > lastTxTime) lastTxTime = timestamp;
+
+          // Check addTokens (buys/receives)
+          if (tx.addTokens) {
+            tx.addTokens.forEach(token => {
+              if (token.contractAddress?.toLowerCase() === tokenAddress.toLowerCase()) {
+                const usdValue = parseFloat(token.usdValue || 0);
+                totalBought += usdValue;
+                buyCount++;
+              }
+            });
+          }
+
+          // Check subTokens (sells/sends)
+          if (tx.subTokens) {
+            tx.subTokens.forEach(token => {
+              if (token.contractAddress?.toLowerCase() === tokenAddress.toLowerCase()) {
+                const usdValue = parseFloat(token.usdValue || 0);
+                totalSold += usdValue;
+                sellCount++;
+              }
+            });
+          }
+        });
+
+        // Calculate metrics
+        const netPosition = totalBought - totalSold;
+        const holdDays = firstTxTime ? Math.floor((Date.now() - firstTxTime) / (1000 * 60 * 60 * 24)) : 0;
+        
+        // Determine verdict
+        let verdict = '';
+        let verdictClass = '';
+        if (totalSold === 0 && totalBought > 0) {
+          verdict = '💎 Never sold - True Diamond Hand!';
+          verdictClass = 'green';
+        } else if (netPosition > 0) {
+          verdict = '📈 Net accumulator - Buying more than selling';
+          verdictClass = 'green';
+        } else if (netPosition < 0) {
+          verdict = '📉 Net seller - Sold more than bought';
+          verdictClass = 'red';
+        } else if (buyCount === 0 && sellCount === 0) {
+          verdict = '🔄 No token activity found in recent history';
+          verdictClass = '';
+        } else {
+          verdict = '⚖️ Balanced - Similar buy/sell activity';
+          verdictClass = '';
+        }
+
+        resultsDiv.innerHTML = `
+          <div class="dive-grid">
+            <div class="dive-stat">
+              <div class="label">Total Bought</div>
+              <div class="value green">${formatUSD(totalBought)}</div>
+            </div>
+            <div class="dive-stat">
+              <div class="label">Total Sold</div>
+              <div class="value red">${formatUSD(totalSold)}</div>
+            </div>
+            <div class="dive-stat">
+              <div class="label">Net Position</div>
+              <div class="value ${netPosition >= 0 ? 'green' : 'red'}">${netPosition >= 0 ? '+' : ''}${formatUSD(netPosition)}</div>
+            </div>
+            <div class="dive-stat">
+              <div class="label">Hold Duration</div>
+              <div class="value blue">${holdDays > 0 ? holdDays + ' days' : 'N/A'}</div>
+            </div>
+          </div>
+          <div class="dive-summary">
+            <strong>${verdict}</strong><br>
+            <span style="font-size: 0.8rem;">${buyCount} buys, ${sellCount} sells in last 50 transactions</span>
+          </div>
+        `;
+
+        btn.textContent = '✓';
+        btn.classList.remove('loading');
+
+      } catch (error) {
+        resultsDiv.innerHTML = `<div style="color: var(--error-color);">Failed to load: ${error.message}</div>`;
+        btn.textContent = '🔍';
+        btn.classList.remove('loading');
+      }
+    }
+
+    // ==================== TOOL 5: NFT HOLDER SNAPSHOT ====================
 
     function exportNFTTXT() {
       if (nftData.length === 0) return;
