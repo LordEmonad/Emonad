@@ -239,13 +239,22 @@
     }
 
     @media (max-width: 768px) {
+      .header {
+        padding: 10px 0 5px;
+      }
+      
       .header h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+      }
+      
+      .header p {
+        font-size: 0.9rem;
       }
       
       .meme-grid {
         column-count: 2;
         column-gap: 10px;
+        padding: 60px 0 30px;
       }
       
       .meme-item {
@@ -254,37 +263,97 @@
       }
       
       .button { 
-        padding: 10px 20px; 
-        font-size: 14px; 
-        min-width: 120px;
+        padding: 8px 16px; 
+        font-size: 13px; 
+        min-width: 100px;
       }
       
       .button-group {
-        gap: 10px;
+        gap: 8px;
+        top: 12px;
+        left: 12px;
       }
       
       .container {
-        padding: 15px;
+        padding: 10px;
+      }
+      
+      .lightbox-close {
+        top: 15px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+        font-size: 30px;
+      }
+      
+      .lightbox-nav {
+        width: 45px;
+        height: 45px;
+        font-size: 24px;
+      }
+      
+      .lightbox-prev {
+        left: 10px;
+      }
+      
+      .lightbox-next {
+        right: 10px;
+      }
+      
+      .lightbox-counter {
+        bottom: 20px;
+        font-size: 12px;
+        padding: 6px 12px;
       }
     }
 
     @media (max-width: 480px) {
       .meme-grid {
         column-count: 2;
-        column-gap: 8px;
+        column-gap: 6px;
+        padding: 55px 0 20px;
       }
       
       .meme-item {
-        margin-bottom: 8px;
-        border-radius: 10px;
+        margin-bottom: 6px;
+        border-radius: 8px;
       }
       
       .header h1 {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
       }
       
       .header p {
-        font-size: 0.95rem;
+        font-size: 0.85rem;
+      }
+      
+      .button { 
+        padding: 6px 12px; 
+        font-size: 11px; 
+        min-width: 80px;
+      }
+      
+      .button-group {
+        top: 10px;
+        left: 10px;
+      }
+      
+      .container {
+        padding: 8px;
+      }
+      
+      .lightbox-close {
+        top: 10px;
+        right: 10px;
+        width: 36px;
+        height: 36px;
+        font-size: 26px;
+      }
+      
+      .lightbox-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
       }
     }
   </style>
