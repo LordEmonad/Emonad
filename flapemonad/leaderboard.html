@@ -335,19 +335,35 @@
                 
                 const [players, names, scores] = await contract.getTopScores(20);
                 
-                // Fetch NewHighScore events to get transaction hashes
+                // Fetch NewHighScore events to get transaction hashes using eth_getLogs
                 try {
-                    const filter = contract.filters.NewHighScore();
-                    const events = await contract.queryFilter(filter, 0, 'latest');
+                    // NewHighScore event signature: keccak256("NewHighScore(address,string,uint256,uint256)")
+                    const eventSignature = ethers.id('NewHighScore(address,string,uint256,uint256)');
                     
-                    // Map player addresses to their latest high score tx hash
-                    for (const event of events) {
-                        const playerAddr = event.args[0].toLowerCase();
-                        const eventScore = Number(event.args[2]);
+                    const logs = await provider.send('eth_getLogs', [{
+                        address: LEADERBOARD_ADDRESS,
+                        topics: [eventSignature],
+                        fromBlock: '0x0',
+                        toBlock: 'latest'
+                    }]);
+                    
+                    console.log('Found logs:', logs.length);
+                    
+                    // Decode and map logs to player addresses
+                    for (const log of logs) {
+                        // First indexed param (player address) is in topics[1]
+                        const playerAddr = '0x' + log.topics[1].slice(26).toLowerCase();
+                        
+                        // Decode non-indexed params (name, score, timestamp) from data
+                        const abiCoder = new ethers.AbiCoder();
+                        const decoded = abiCoder.decode(['string', 'uint256', 'uint256'], log.data);
+                        const eventScore = Number(decoded[1]);
+                        
                         // Only store if this event's score matches their current high score
                         const playerIndex = players.findIndex(p => p.toLowerCase() === playerAddr);
                         if (playerIndex !== -1 && Number(scores[playerIndex]) === eventScore) {
-                            playerTxHashes[playerAddr] = event.transactionHash;
+                            playerTxHashes[playerAddr] = log.transactionHash;
+                            console.log('Mapped TX for', playerAddr, 'score:', eventScore, 'tx:', log.transactionHash);
                         }
                     }
                 } catch (eventErr) {
