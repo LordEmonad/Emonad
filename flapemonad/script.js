@@ -20,7 +20,7 @@ const MONAD_CHAIN_CONFIG = {
 
 // Leaderboard Contract (UPDATE AFTER DEPLOYMENT)
 const LEADERBOARD_ADDRESS = '0x7fffA7d3FF68A8781d3cc724810ddb03601D9642'; // TODO: Set after deployment
-const REFEREE_SERVER_URL = 'https://late-squids-hammer.loca.lt';
+const REFEREE_SERVER_URL = 'https://felt-majority-alan-pair.trycloudflare.com';
 
 // Leaderboard Contract ABI (minimal)
 const LEADERBOARD_ABI = [
