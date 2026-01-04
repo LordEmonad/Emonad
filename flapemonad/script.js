@@ -984,6 +984,21 @@ async function submitScoreToBlockchain() {
         if (submitBtn) submitBtn.textContent = 'Confirming...';
         await tx.wait();
         
+        // Store TX hash on server for leaderboard display
+        try {
+            await fetch(`${REFEREE_SERVER_URL}/api/tx-hash`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    playerAddress: userAddress,
+                    txHash: tx.hash,
+                    score: currentScore
+                })
+            });
+        } catch (e) {
+            console.warn('Could not store TX hash:', e);
+        }
+        
         alert('Score submitted on-chain! 🎉');
         
         // Refresh leaderboard

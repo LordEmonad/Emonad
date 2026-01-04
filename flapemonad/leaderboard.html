@@ -251,6 +251,9 @@
         // Leaderboard Contract (UPDATE AFTER DEPLOYMENT)
         const LEADERBOARD_ADDRESS = '0x7fffA7d3FF68A8781d3cc724810ddb03601D9642';
         
+        // Referee server URL (same as in script.js)
+        const REFEREE_SERVER_URL = 'https://felt-majority-alan-pair.trycloudflare.com';
+        
         const LEADERBOARD_ABI = [
             'function getHighScore(address _player) external view returns (uint256)',
             'function getName(address _player) external view returns (string memory)',
@@ -335,39 +338,18 @@
                 
                 const [players, names, scores] = await contract.getTopScores(20);
                 
-                // Fetch NewHighScore events to get transaction hashes using eth_getLogs
+                // Fetch TX hashes from the referee server
                 try {
-                    // NewHighScore event signature: keccak256("NewHighScore(address,string,uint256,uint256)")
-                    const eventSignature = ethers.id('NewHighScore(address,string,uint256,uint256)');
+                    const txResponse = await fetch(`${REFEREE_SERVER_URL}/api/tx-hashes`);
+                    const txData = await txResponse.json();
                     
-                    const logs = await provider.send('eth_getLogs', [{
-                        address: LEADERBOARD_ADDRESS,
-                        topics: [eventSignature],
-                        fromBlock: '0x0',
-                        toBlock: 'latest'
-                    }]);
-                    
-                    console.log('Found logs:', logs.length);
-                    
-                    // Decode and map logs to player addresses
-                    for (const log of logs) {
-                        // First indexed param (player address) is in topics[1]
-                        const playerAddr = '0x' + log.topics[1].slice(26).toLowerCase();
-                        
-                        // Decode non-indexed params (name, score, timestamp) from data
-                        const abiCoder = new ethers.AbiCoder();
-                        const decoded = abiCoder.decode(['string', 'uint256', 'uint256'], log.data);
-                        const eventScore = Number(decoded[1]);
-                        
-                        // Only store if this event's score matches their current high score
-                        const playerIndex = players.findIndex(p => p.toLowerCase() === playerAddr);
-                        if (playerIndex !== -1 && Number(scores[playerIndex]) === eventScore) {
-                            playerTxHashes[playerAddr] = log.transactionHash;
-                            console.log('Mapped TX for', playerAddr, 'score:', eventScore, 'tx:', log.transactionHash);
-                        }
+                    // Map to playerTxHashes
+                    for (const [addr, data] of Object.entries(txData)) {
+                        playerTxHashes[addr.toLowerCase()] = data.txHash;
                     }
-                } catch (eventErr) {
-                    console.warn('Could not fetch events:', eventErr);
+                    console.log('Loaded TX hashes:', Object.keys(playerTxHashes).length);
+                } catch (txErr) {
+                    console.warn('Could not fetch TX hashes:', txErr);
                 }
                 
                 leaderboardList.innerHTML = '';
