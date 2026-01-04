@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Flap Emonad - Leaderboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e, #16213e);
+            font-family: 'Creepster', cursive;
+            color: #FFFFFF;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 48px;
+            color: #FFD700;
+            text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            font-family: 'Creepster', cursive;
+            padding: 12px 30px;
+            font-size: 20px;
+            color: #FFFFFF;
+            background: linear-gradient(135deg, #333, #555);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .back-btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #444, #666);
+        }
+        
+        .my-score-section {
+            background: rgba(123, 63, 228, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid rgba(123, 63, 228, 0.5);
+        }
+        
+        .my-score-section span:first-child {
+            font-size: 22px;
+        }
+        
+        .my-score-section .score {
+            font-size: 32px;
+            color: #9B5FFF;
+        }
+        
+        .leaderboard-list {
+            list-style: none;
+        }
+        
+        .leaderboard-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            transition: all 0.2s;
+        }
+        
+        .leaderboard-list li:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+        
+        .leaderboard-list li.current-user {
+            background: rgba(123, 63, 228, 0.4);
+            border: 2px solid #9B5FFF;
+        }
+        
+        .leaderboard-list li.loading {
+            justify-content: center;
+            color: #888888;
+        }
+        
+        .leaderboard-list li.gold {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 165, 0, 0.2));
+            border: 2px solid #FFD700;
+        }
+        
+        .leaderboard-list li.silver {
+            background: linear-gradient(135deg, rgba(192, 192, 192, 0.3), rgba(169, 169, 169, 0.2));
+            border: 2px solid #C0C0C0;
+        }
+        
+        .leaderboard-list li.bronze {
+            background: linear-gradient(135deg, rgba(205, 127, 50, 0.3), rgba(184, 115, 51, 0.2));
+            border: 2px solid #CD7F32;
+        }
+        
+        .rank {
+            font-size: 24px;
+            font-weight: bold;
+            min-width: 50px;
+        }
+        
+        .rank.gold { color: #FFD700; }
+        .rank.silver { color: #C0C0C0; }
+        .rank.bronze { color: #CD7F32; }
+        .rank.normal { color: #888; }
+        
+        .player-name {
+            flex: 1;
+            text-align: center;
+            font-size: 20px;
+            padding: 0 15px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .score {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00FF88;
+            min-width: 60px;
+            text-align: right;
+        }
+        
+        .connect-section {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+        }
+        
+        .connect-section p {
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 16px;
+        }
+        
+        .connect-btn {
+            font-family: 'Creepster', cursive;
+            padding: 15px 35px;
+            font-size: 22px;
+            color: #FFFFFF;
+            background: linear-gradient(135deg, #7B3FE4, #9B5FFF);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .connect-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(123, 63, 228, 0.5);
+        }
+        
+        .wallet-address {
+            color: #9B5FFF;
+            font-size: 18px;
+        }
+        
+        .no-scores {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 20px;
+        }
+        
+        @media (max-width: 500px) {
+            .header h1 {
+                font-size: 36px;
+            }
+            
+            .leaderboard-list li {
+                padding: 14px 15px;
+            }
+            
+            .rank {
+                font-size: 20px;
+                min-width: 40px;
+            }
+            
+            .player-name {
+                font-size: 16px;
+            }
+            
+            .score {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏆 LEADERBOARD</h1>
+            <a href="index.html" class="back-btn">← Back to Game</a>
+        </div>
+        
+        <div class="my-score-section">
+            <span>Your Best:</span>
+            <span class="score" id="my-high-score">-</span>
+        </div>
+        
+        <ul class="leaderboard-list" id="leaderboard-list">
+            <li class="loading">Loading...</li>
+        </ul>
+        
+        <div class="connect-section" id="connect-section">
+            <p>Connect wallet to see your ranking</p>
+            <button class="connect-btn" onclick="connectWallet()">Connect Wallet</button>
+        </div>
+        
+        <div class="connect-section" id="connected-section" style="display: none;">
+            <p>Connected as:</p>
+            <span class="wallet-address" id="wallet-address"></span>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.9.0/ethers.umd.min.js"></script>
+    <script>
+        // Monad Network Configuration
+        const MONAD_CHAIN_ID = 143;
+        const MONAD_RPC = 'https://rpc.monad.xyz';
+        
+        // Leaderboard Contract (UPDATE AFTER DEPLOYMENT)
+        const LEADERBOARD_ADDRESS = '0x7fffA7d3FF68A8781d3cc724810ddb03601D9642';
+        
+        const LEADERBOARD_ABI = [
+            'function getHighScore(address _player) external view returns (uint256)',
+            'function getName(address _player) external view returns (string memory)',
+            'function getTopScores(uint256 _count) external view returns (address[] memory, string[] memory, uint256[] memory)',
+            'function getPlayerCount() external view returns (uint256)'
+        ];
+        
+        let userAddress = null;
+        
+        async function connectWallet() {
+            // Get the Ethereum provider - check multiple locations
+            const getProvider = () => {
+                console.log('Checking for wallets...');
+                console.log('window.phantom:', window.phantom);
+                console.log('window.phantom?.ethereum:', window.phantom?.ethereum);
+                console.log('window.ethereum:', window.ethereum);
+                
+                // Method 1: Phantom's dedicated namespace (preferred)
+                if (window.phantom?.ethereum) {
+                    console.log('Found provider at window.phantom.ethereum');
+                    return window.phantom.ethereum;
+                }
+                
+                // Method 2: Standard ethereum provider
+                if (window.ethereum) {
+                    console.log('Found provider at window.ethereum');
+                    if (window.ethereum.providers?.length) {
+                        const phantom = window.ethereum.providers.find(p => p.isPhantom);
+                        if (phantom) return phantom;
+                        return window.ethereum.providers[0];
+                    }
+                    return window.ethereum;
+                }
+                
+                return null;
+            };
+            
+            let ethereumProvider = getProvider();
+            
+            // Retry after delay if not found
+            if (!ethereumProvider) {
+                await new Promise(resolve => setTimeout(resolve, 500));
+                ethereumProvider = getProvider();
+            }
+            
+            if (!ethereumProvider) {
+                alert('No wallet detected! Make sure Phantom or MetaMask is installed and enabled.');
+                return;
+            }
+            
+            try {
+                const accounts = await ethereumProvider.request({ method: 'eth_requestAccounts' });
+                userAddress = accounts[0];
+                
+                document.getElementById('connect-section').style.display = 'none';
+                document.getElementById('connected-section').style.display = 'block';
+                document.getElementById('wallet-address').textContent = 
+                    userAddress.slice(0, 6) + '...' + userAddress.slice(-4);
+                
+                loadLeaderboard();
+            } catch (err) {
+                console.error('Wallet connection failed:', err);
+                alert('Failed to connect wallet: ' + err.message);
+            }
+        }
+        
+        async function loadLeaderboard() {
+            const leaderboardList = document.getElementById('leaderboard-list');
+            
+            if (LEADERBOARD_ADDRESS === '0x0000000000000000000000000000000000000000') {
+                leaderboardList.innerHTML = '<li class="no-scores">Leaderboard not deployed yet</li>';
+                return;
+            }
+            
+            try {
+                const provider = new ethers.JsonRpcProvider(MONAD_RPC);
+                const contract = new ethers.Contract(LEADERBOARD_ADDRESS, LEADERBOARD_ABI, provider);
+                
+                const [players, names, scores] = await contract.getTopScores(20);
+                
+                leaderboardList.innerHTML = '';
+                
+                if (players.length === 0 || players[0] === '0x0000000000000000000000000000000000000000') {
+                    leaderboardList.innerHTML = '<li class="no-scores">No scores yet - be the first!</li>';
+                    return;
+                }
+                
+                for (let i = 0; i < players.length; i++) {
+                    if (players[i] === '0x0000000000000000000000000000000000000000') continue;
+                    
+                    const displayName = names[i] && names[i].length > 0 
+                        ? names[i] 
+                        : players[i].slice(0, 6) + '...' + players[i].slice(-4);
+                    
+                    const li = document.createElement('li');
+                    
+                    // Add medal classes for top 3
+                    let rankClass = 'normal';
+                    let rowClass = '';
+                    if (i === 0) { rankClass = 'gold'; rowClass = 'gold'; }
+                    else if (i === 1) { rankClass = 'silver'; rowClass = 'silver'; }
+                    else if (i === 2) { rankClass = 'bronze'; rowClass = 'bronze'; }
+                    
+                    if (rowClass) li.classList.add(rowClass);
+                    
+                    // Highlight current user
+                    if (userAddress && players[i].toLowerCase() === userAddress.toLowerCase()) {
+                        li.classList.add('current-user');
+                    }
+                    
+                    li.innerHTML = `
+                        <span class="rank ${rankClass}">#${i + 1}</span>
+                        <span class="player-name">${displayName}</span>
+                        <span class="score">${scores[i]}</span>
+                    `;
+                    
+                    leaderboardList.appendChild(li);
+                }
+                
+                // Get player's high score if connected
+                if (userAddress) {
+                    const myHighScore = await contract.getHighScore(userAddress);
+                    document.getElementById('my-high-score').textContent = myHighScore.toString();
+                }
+                
+            } catch (err) {
+                console.error('Failed to load leaderboard:', err);
+                leaderboardList.innerHTML = '<li class="no-scores">Failed to load leaderboard</li>';
+            }
+        }
+        
+        // Load on page load
+        loadLeaderboard();
+    </script>
+</body>
+</html>

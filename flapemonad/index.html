@@ -10,15 +10,35 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Wallet Connect Button -->
+    <button id="connect-wallet-btn" onclick="connectWallet()">Connect Wallet</button>
+    
     <div id="game-container">
         <canvas id="gameCanvas"></canvas>
-        <!-- Start screen is now drawn on canvas -->
+        
+        <!-- Game Over Screen -->
         <div id="game-over-screen" class="hidden">
             <h2>GAME OVER</h2>
             <p>Score: <span id="final-score">0</span></p>
-            <button id="restart-btn">RESTART</button>
+            
+            <!-- Name input for leaderboard -->
+            <div class="name-input-container">
+                <input type="text" id="player-name-input" placeholder="Enter your name (optional)" maxlength="20">
+            </div>
+            
+            <div class="game-over-buttons">
+                <button id="restart-btn">RESTART</button>
+                <button id="submit-score-btn" onclick="submitScoreToBlockchain()" disabled>Submit Score</button>
+            </div>
+            <a href="leaderboard.html" class="view-lb-btn">🏆 View Leaderboard</a>
+            <p class="submit-hint">Connect wallet to submit score on-chain</p>
         </div>
+        
     </div>
+    
+    <!-- Ethers.js for blockchain interaction -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.9.0/ethers.umd.min.js"></script>
     <script src="script.js"></script>
+    
 </body>
 </html>

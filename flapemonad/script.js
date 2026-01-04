@@ -1,6 +1,46 @@
 // ============================================
 // FLAP EMONAD - A Flappy Bird Clone
+// With On-Chain Leaderboard on Monad
 // ============================================
+
+// ============================================
+// BLOCKCHAIN CONFIGURATION
+// ============================================
+
+// Monad Network Configuration
+const MONAD_CHAIN_ID = 143;
+const MONAD_RPC = 'https://rpc.monad.xyz';
+const MONAD_CHAIN_CONFIG = {
+    chainId: '0x8f', // 143 in hex
+    chainName: 'Monad',
+    nativeCurrency: { name: 'MON', symbol: 'MON', decimals: 18 },
+    rpcUrls: ['https://rpc.monad.xyz'],
+    blockExplorerUrls: ['https://monadscan.com']
+};
+
+// Leaderboard Contract (UPDATE AFTER DEPLOYMENT)
+const LEADERBOARD_ADDRESS = '0x7fffA7d3FF68A8781d3cc724810ddb03601D9642'; // TODO: Set after deployment
+const REFEREE_SERVER_URL = 'https://late-squids-hammer.loca.lt';
+
+// Leaderboard Contract ABI (minimal)
+const LEADERBOARD_ABI = [
+    'function submitScore(uint256 _score, uint256 _nonce, string memory _name, bytes memory _signature) external',
+    'function getHighScore(address _player) external view returns (uint256)',
+    'function getNonce(address _player) external view returns (uint256)',
+    'function getName(address _player) external view returns (string memory)',
+    'function getTopScores(uint256 _count) external view returns (address[] memory, string[] memory, uint256[] memory)',
+    'function getPlayerCount() external view returns (uint256)',
+    'event NewHighScore(address indexed player, string name, uint256 score, uint256 timestamp)'
+];
+
+// Wallet state
+let provider = null;
+let signer = null;
+let userAddress = null;
+let isWalletConnected = false;
+
+// Game timing for anti-cheat
+let gameStartTime = 0;
 
 // Canvas setup
 const canvas = document.getElementById('gameCanvas');
@@ -175,10 +215,44 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Mouse/touch input
-canvas.addEventListener('click', handleInput);
+// Mouse/touch input with leaderboard button detection
+canvas.addEventListener('click', (e) => {
+    // Check if clicking leaderboard button on start screen
+    if (gameState === GameState.READY && window.startScreenLeaderboardBtn) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = GAME_WIDTH / rect.width;
+        const scaleY = GAME_HEIGHT / rect.height;
+        const clickX = (e.clientX - rect.left) * scaleX;
+        const clickY = (e.clientY - rect.top) * scaleY;
+        
+        const btn = window.startScreenLeaderboardBtn;
+        if (clickX >= btn.x && clickX <= btn.x + btn.width &&
+            clickY >= btn.y && clickY <= btn.y + btn.height) {
+            window.location.href = 'leaderboard.html';
+            return;
+        }
+    }
+    handleInput();
+});
+
 canvas.addEventListener('touchstart', (e) => {
     e.preventDefault();
+    
+    // Check if touching leaderboard button on start screen
+    if (gameState === GameState.READY && window.startScreenLeaderboardBtn && e.touches.length > 0) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = GAME_WIDTH / rect.width;
+        const scaleY = GAME_HEIGHT / rect.height;
+        const touchX = (e.touches[0].clientX - rect.left) * scaleX;
+        const touchY = (e.touches[0].clientY - rect.top) * scaleY;
+        
+        const btn = window.startScreenLeaderboardBtn;
+        if (touchX >= btn.x && touchX <= btn.x + btn.width &&
+            touchY >= btn.y && touchY <= btn.y + btn.height) {
+            window.location.href = 'leaderboard.html';
+            return;
+        }
+    }
     handleInput();
 }, { passive: false });
 
@@ -194,6 +268,7 @@ function startGame() {
     gameOverScreen.classList.add('hidden');
     score = 0;
     razorSpawnTimer = RAZOR_SPAWN_INTERVAL; // Spawn first razor immediately
+    gameStartTime = Date.now(); // Track start time for anti-cheat
 }
 
 function flap() {
@@ -601,7 +676,7 @@ function drawStartScreen(deltaTime) {
     if (dieSprite) {
         ctx.save();
         const dieX = GAME_WIDTH / 2;
-        const dieY = GAME_HEIGHT * 0.7;
+        const dieY = GAME_HEIGHT * 0.65;
         ctx.translate(dieX, dieY);
         // Slight wobble
         const wobble = Math.sin(Date.now() / 150) * 5;
@@ -615,6 +690,38 @@ function drawStartScreen(deltaTime) {
         );
         ctx.restore();
     }
+    
+    // Draw "View Leaderboard" button
+    ctx.save();
+    const lbBtnY = GAME_HEIGHT * 0.88;
+    const lbBtnWidth = 400;
+    const lbBtnHeight = 70;
+    const lbBtnX = GAME_WIDTH / 2 - lbBtnWidth / 2;
+    
+    // Button background
+    const gradient = ctx.createLinearGradient(lbBtnX, lbBtnY, lbBtnX + lbBtnWidth, lbBtnY);
+    gradient.addColorStop(0, '#FFD700');
+    gradient.addColorStop(1, '#FFA500');
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.roundRect(lbBtnX, lbBtnY, lbBtnWidth, lbBtnHeight, 15);
+    ctx.fill();
+    
+    // Button text
+    ctx.font = '36px "Creepster", cursive';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('🏆 View Leaderboard', GAME_WIDTH / 2, lbBtnY + lbBtnHeight / 2);
+    ctx.restore();
+    
+    // Store button bounds for click detection
+    window.startScreenLeaderboardBtn = {
+        x: lbBtnX,
+        y: lbBtnY,
+        width: lbBtnWidth,
+        height: lbBtnHeight
+    };
 }
 
 function render(deltaTime) {
@@ -670,5 +777,295 @@ async function init() {
     console.log('Game ready!');
 }
 
+// ============================================
+// WALLET & BLOCKCHAIN FUNCTIONS
+// ============================================
+
+async function connectWallet() {
+    // Check if running from file:// protocol (wallets don't work there)
+    if (window.location.protocol === 'file:') {
+        alert('⚠️ Wallet connection requires a web server!\n\n' +
+            'Wallets cannot connect when opening HTML files directly.\n\n' +
+            'To enable wallet connection:\n' +
+            '1. Deploy this site to a hosting service, OR\n' +
+            '2. Run a local server:\n' +
+            '   - Open terminal in this folder\n' +
+            '   - Run: python -m http.server 8080\n' +
+            '   - Open: http://localhost:8080\n\n' +
+            'You can still play the game - just can\'t submit scores on-chain.');
+        return false;
+    }
+    
+    // Get the Ethereum provider
+    const getProvider = () => {
+        // Phantom's dedicated namespace
+        if (window.phantom?.ethereum) {
+            return window.phantom.ethereum;
+        }
+        // Standard ethereum provider
+        if (window.ethereum) {
+            if (window.ethereum.providers?.length) {
+                return window.ethereum.providers.find(p => p.isPhantom) || window.ethereum.providers[0];
+            }
+            return window.ethereum;
+        }
+        return null;
+    };
+    
+    let ethereumProvider = getProvider();
+    
+    // Wait a moment if not found (provider might still be loading)
+    if (!ethereumProvider) {
+        await new Promise(r => setTimeout(r, 1000));
+        ethereumProvider = getProvider();
+    }
+    
+    if (!ethereumProvider) {
+        alert('No wallet detected!\n\n' +
+            'Make sure Phantom or MetaMask is:\n' +
+            '1. Installed in your browser\n' +
+            '2. Set to an EVM network (Ethereum, not Solana)\n' +
+            '3. Unlocked\n\n' +
+            'Then refresh this page and try again.');
+        return false;
+    }
+    
+    console.log('Using provider:', ethereumProvider);
+    
+    try {
+        // Request account access
+        const accounts = await ethereumProvider.request({ method: 'eth_requestAccounts' });
+        userAddress = accounts[0];
+        
+        // Create provider and signer
+        provider = new ethers.BrowserProvider(ethereumProvider);
+        signer = await provider.getSigner();
+        
+        // Check if on Monad network
+        const network = await provider.getNetwork();
+        if (Number(network.chainId) !== MONAD_CHAIN_ID) {
+            // Try to switch to Monad
+            try {
+                await ethereumProvider.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: MONAD_CHAIN_CONFIG.chainId }]
+                });
+            } catch (switchError) {
+                // Chain not added, try to add it
+                if (switchError.code === 4902) {
+                    await ethereumProvider.request({
+                        method: 'wallet_addEthereumChain',
+                        params: [MONAD_CHAIN_CONFIG]
+                    });
+                } else {
+                    throw switchError;
+                }
+            }
+            // Refresh provider after network switch
+            provider = new ethers.BrowserProvider(ethereumProvider);
+            signer = await provider.getSigner();
+        }
+        
+        isWalletConnected = true;
+        updateWalletUI();
+        console.log('Wallet connected:', userAddress);
+        return true;
+        
+    } catch (err) {
+        console.error('Wallet connection failed:', err);
+        alert('Failed to connect wallet: ' + err.message);
+        return false;
+    }
+}
+
+function disconnectWallet() {
+    provider = null;
+    signer = null;
+    userAddress = null;
+    isWalletConnected = false;
+    updateWalletUI();
+}
+
+function updateWalletUI() {
+    const connectBtn = document.getElementById('connect-wallet-btn');
+    const walletInfo = document.getElementById('wallet-info');
+    const submitBtn = document.getElementById('submit-score-btn');
+    
+    if (isWalletConnected && userAddress) {
+        const shortAddress = userAddress.slice(0, 6) + '...' + userAddress.slice(-4);
+        if (connectBtn) connectBtn.textContent = shortAddress;
+        if (walletInfo) walletInfo.textContent = shortAddress;
+        if (submitBtn) submitBtn.disabled = false;
+    } else {
+        if (connectBtn) connectBtn.textContent = 'Connect Wallet';
+        if (walletInfo) walletInfo.textContent = '';
+        if (submitBtn) submitBtn.disabled = true;
+    }
+}
+
+async function submitScoreToBlockchain() {
+    if (!isWalletConnected) {
+        const connected = await connectWallet();
+        if (!connected) return;
+    }
+    
+    if (LEADERBOARD_ADDRESS === '0x0000000000000000000000000000000000000000') {
+        alert('Leaderboard contract not deployed yet!');
+        return;
+    }
+    
+    // Get player name from input (optional)
+    const nameInput = document.getElementById('player-name-input');
+    let playerName = nameInput ? nameInput.value.trim() : '';
+    
+    // Validate name length
+    if (playerName.length > 20) {
+        playerName = playerName.substring(0, 20);
+    }
+    
+    const gameDuration = Date.now() - gameStartTime;
+    const currentScore = score;
+    
+    try {
+        // Show loading state
+        const submitBtn = document.getElementById('submit-score-btn');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Validating...';
+        }
+        
+        // 1. Get current nonce from server
+        const nonceResponse = await fetch(`${REFEREE_SERVER_URL}/api/nonce/${userAddress}`);
+        const nonceData = await nonceResponse.json();
+        const nonce = parseInt(nonceData.nonce);
+        
+        // 2. Request signature from referee server
+        const signResponse = await fetch(`${REFEREE_SERVER_URL}/api/sign-score`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                playerAddress: userAddress,
+                score: currentScore,
+                gameDurationMs: gameDuration,
+                nonce: nonce
+            })
+        });
+        
+        const signData = await signResponse.json();
+        
+        if (signData.error) {
+            alert('Score rejected: ' + signData.error);
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Score';
+            }
+            return;
+        }
+        
+        const signature = signData.signature;
+        
+        // 3. Submit to blockchain with name
+        if (submitBtn) submitBtn.textContent = 'Submitting...';
+        
+        const contract = new ethers.Contract(LEADERBOARD_ADDRESS, LEADERBOARD_ABI, signer);
+        const tx = await contract.submitScore(currentScore, nonce, playerName, signature);
+        
+        if (submitBtn) submitBtn.textContent = 'Confirming...';
+        await tx.wait();
+        
+        alert('Score submitted on-chain! 🎉');
+        
+        // Refresh leaderboard
+        await loadLeaderboard();
+        
+    } catch (err) {
+        console.error('Score submission failed:', err);
+        alert('Failed to submit score: ' + (err.reason || err.message));
+    } finally {
+        const submitBtn = document.getElementById('submit-score-btn');
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Score';
+        }
+    }
+}
+
+async function loadLeaderboard() {
+    if (LEADERBOARD_ADDRESS === '0x0000000000000000000000000000000000000000') {
+        return;
+    }
+    
+    try {
+        const readProvider = new ethers.JsonRpcProvider(MONAD_RPC);
+        const contract = new ethers.Contract(LEADERBOARD_ADDRESS, LEADERBOARD_ABI, readProvider);
+        
+        // Get top 10 scores with names
+        const [players, names, scores] = await contract.getTopScores(10);
+        
+        const leaderboardList = document.getElementById('leaderboard-list');
+        if (!leaderboardList) return;
+        
+        leaderboardList.innerHTML = '';
+        
+        for (let i = 0; i < players.length; i++) {
+            if (players[i] === '0x0000000000000000000000000000000000000000') continue;
+            
+            // Use name if set, otherwise show shortened address
+            const displayName = names[i] && names[i].length > 0 
+                ? names[i] 
+                : players[i].slice(0, 6) + '...' + players[i].slice(-4);
+            
+            const li = document.createElement('li');
+            li.innerHTML = `<span class="rank">#${i + 1}</span> <span class="player-name">${displayName}</span> <span class="lb-score">${scores[i]}</span>`;
+            
+            // Highlight current user
+            if (userAddress && players[i].toLowerCase() === userAddress.toLowerCase()) {
+                li.classList.add('current-user');
+            }
+            
+            leaderboardList.appendChild(li);
+        }
+        
+        // Get player's high score and name if connected
+        if (userAddress) {
+            const myHighScore = await contract.getHighScore(userAddress);
+            const myScoreEl = document.getElementById('my-high-score');
+            if (myScoreEl) myScoreEl.textContent = myHighScore.toString();
+            
+            // Check if player already has a name set
+            const myName = await contract.getName(userAddress);
+            const nameInput = document.getElementById('player-name-input');
+            if (nameInput && myName && myName.length > 0) {
+                nameInput.value = myName;
+                nameInput.disabled = true;
+                nameInput.placeholder = myName;
+            }
+        }
+        
+    } catch (err) {
+        console.error('Failed to load leaderboard:', err);
+    }
+}
+
+// Listen for account changes
+if (typeof window.ethereum !== 'undefined') {
+    window.ethereum.on('accountsChanged', (accounts) => {
+        if (accounts.length === 0) {
+            disconnectWallet();
+        } else {
+            userAddress = accounts[0];
+            updateWalletUI();
+        }
+    });
+    
+    window.ethereum.on('chainChanged', () => {
+        window.location.reload();
+    });
+}
+
+
 // Start the game
 init();
+
+// Load leaderboard on page load
+setTimeout(loadLeaderboard, 1000);
