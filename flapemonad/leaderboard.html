@@ -217,9 +217,33 @@
                 font-size: 20px;
             }
         }
+        /* Sound Toggle Button */
+        #sound-toggle-btn {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            background: linear-gradient(135deg, #7B3FE4, #9B5FFF);
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+        
+        #sound-toggle-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
+    <button id="sound-toggle-btn" onclick="toggleSound()">🔊</button>
     <div class="container">
         <div class="header">
             <h1>🏆 LEADERBOARD</h1>
@@ -243,7 +267,25 @@
     </div>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.9.0/ethers.umd.min.js"></script>
+    <script src="audio.js"></script>
     <script>
+        // Start leaderboard music on first interaction (any interaction)
+        const startMusic = () => {
+            if (typeof chiptunePlayer !== 'undefined' && !chiptunePlayer.isMuted) {
+                chiptunePlayer.playLeaderboardMusic();
+            }
+            document.removeEventListener('click', startMusic);
+            document.removeEventListener('touchstart', startMusic);
+            document.removeEventListener('keydown', startMusic);
+            document.removeEventListener('mousemove', startMusic);
+            document.removeEventListener('scroll', startMusic);
+        };
+        document.addEventListener('click', startMusic);
+        document.addEventListener('touchstart', startMusic);
+        document.addEventListener('keydown', startMusic);
+        document.addEventListener('mousemove', startMusic);
+        document.addEventListener('scroll', startMusic);
+        
         // Monad Network Configuration
         const MONAD_CHAIN_ID = 143;
         const MONAD_RPC = 'https://rpc.monad.xyz';
@@ -401,6 +443,16 @@
             } catch (err) {
                 console.error('Failed to load leaderboard:', err);
                 leaderboardList.innerHTML = '<li class="no-scores">Failed to load leaderboard</li>';
+            }
+        }
+        
+        // Toggle sound on/off
+        function toggleSound() {
+            if (typeof chiptunePlayer !== 'undefined') {
+                chiptunePlayer.playClick();
+                const isMuted = chiptunePlayer.toggleMute();
+                const btn = document.getElementById('sound-toggle-btn');
+                if (btn) btn.textContent = isMuted ? '🔇' : '🔊';
             }
         }
         

@@ -260,8 +260,13 @@ canvas.addEventListener('touchstart', (e) => {
     handleInput();
 }, { passive: false });
 
-// Restart button
-restartBtn.addEventListener('click', resetGame);
+// Restart button with click sound
+restartBtn.addEventListener('click', () => {
+    if (typeof chiptunePlayer !== 'undefined') {
+        chiptunePlayer.playClick();
+    }
+    resetGame();
+});
 
 // ============================================
 // GAME FUNCTIONS
@@ -273,6 +278,12 @@ function startGame() {
     score = 0;
     razorSpawnTimer = RAZOR_SPAWN_INTERVAL; // Spawn first razor immediately
     gameStartTime = Date.now(); // Track start time for anti-cheat
+    
+    // Start music (random track)
+    if (typeof chiptunePlayer !== 'undefined') {
+        const track = Math.floor(Math.random() * 3) + 1;
+        chiptunePlayer.playTrack(track);
+    }
 }
 
 function flap() {
@@ -281,6 +292,11 @@ function flap() {
     player.rotation = JUMP_ROTATION;
     player.currentFrame = 0;
     player.animationTimer = 0;
+    
+    // Play flap sound
+    if (typeof chiptunePlayer !== 'undefined') {
+        chiptunePlayer.playFlap();
+    }
 }
 
 function die() {
@@ -288,12 +304,25 @@ function die() {
     player.deathFrame = 0;
     player.deathAnimationTimer = 0;
     player.deathAnimationComplete = false;
+    
+    // Stop music and play death sound
+    if (typeof chiptunePlayer !== 'undefined') {
+        chiptunePlayer.stop();
+        chiptunePlayer.playDeath();
+    }
 }
 
 function showGameOver() {
     gameState = GameState.GAME_OVER;
     finalScoreEl.textContent = score;
     gameOverScreen.classList.remove('hidden');
+    
+    // Play game over music quickly after death sound starts
+    if (typeof chiptunePlayer !== 'undefined') {
+        setTimeout(() => {
+            chiptunePlayer.playGameOverMusic();
+        }, 600); // Quick transition
+    }
 }
 
 function resetGame() {
@@ -361,6 +390,11 @@ function updateRazors(deltaTime) {
         if (!razor.scored && razor.x + RAZOR_WIDTH < player.x) {
             razor.scored = true;
             score++;
+            
+            // Play score sound
+            if (typeof chiptunePlayer !== 'undefined') {
+                chiptunePlayer.playScore();
+            }
         }
     }
 }
@@ -764,21 +798,122 @@ function gameLoop(currentTime) {
 // INITIALIZATION
 // ============================================
 
+// Loading screen progress
+let loadingProgress = 0;
+let gameReady = false;
+
+function updateLoadingBar(progress) {
+    const bar = document.getElementById('loading-bar');
+    const text = document.getElementById('loading-text');
+    if (bar) bar.style.width = progress + '%';
+    
+    if (progress < 30) {
+        if (text) text.textContent = 'Loading assets...';
+    } else if (progress < 60) {
+        if (text) text.textContent = 'Loading music...';
+    } else if (progress < 90) {
+        if (text) text.textContent = 'Almost ready...';
+    } else {
+        if (text) text.textContent = 'Ready!';
+    }
+}
+
+function showPlayButton() {
+    const playBtn = document.getElementById('play-btn');
+    const loadingText = document.getElementById('loading-text');
+    if (playBtn) {
+        playBtn.classList.add('show');
+    }
+    if (loadingText) {
+        loadingText.textContent = 'Ready!';
+    }
+    gameReady = true;
+}
+
+function dismissLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    const soundBtn = document.getElementById('sound-toggle-btn');
+    
+    if (loadingScreen) {
+        loadingScreen.classList.add('hidden');
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+        }, 500);
+    }
+    
+    // Show sound toggle button
+    if (soundBtn) {
+        soundBtn.style.display = 'block';
+    }
+    
+    // Start the menu music immediately (user clicked, so audio is allowed)
+    if (typeof chiptunePlayer !== 'undefined' && !chiptunePlayer.isMuted) {
+        chiptunePlayer.playMenuMusic();
+    }
+}
+
+// Called when user clicks PLAY button
+function startGameFromLoading() {
+    if (!gameReady) return;
+    
+    // Play click sound
+    if (typeof chiptunePlayer !== 'undefined') {
+        chiptunePlayer.playClick();
+    }
+    
+    dismissLoadingScreen();
+}
+
 async function init() {
     console.log('Initializing Flap Emonad...');
     
+    // Simulate loading progress
+    updateLoadingBar(10);
+    
     // Load images
+    updateLoadingBar(30);
     const loaded = await loadAllImages();
     if (!loaded) {
         console.error('Failed to load images!');
         return;
     }
     
+    updateLoadingBar(60);
+    
+    // Initialize audio system
+    if (typeof chiptunePlayer !== 'undefined') {
+        chiptunePlayer.init();
+    }
+    
+    updateLoadingBar(80);
+    
     // Start game loop
     lastTime = performance.now();
     requestAnimationFrame(gameLoop);
     
+    updateLoadingBar(100);
+    
     console.log('Game ready!');
+    
+    // Show play button after a tiny delay for smooth animation
+    setTimeout(() => {
+        showPlayButton();
+    }, 300);
+}
+
+// Toggle sound on/off
+function toggleSound() {
+    if (typeof chiptunePlayer !== 'undefined') {
+        chiptunePlayer.playClick();
+        const isMuted = chiptunePlayer.toggleMute();
+        
+        // Update button icons
+        const icon = isMuted ? '🔇' : '🔊';
+        const btn1 = document.getElementById('sound-toggle-btn');
+        const btn2 = document.getElementById('sound-toggle-btn-gameover');
+        if (btn1) btn1.textContent = icon;
+        if (btn2) btn2.textContent = icon;
+    }
 }
 
 // ============================================
