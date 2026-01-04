@@ -935,14 +935,19 @@ async function submitScoreToBlockchain() {
         }
         
         // 1. Get current nonce from server
-        const nonceResponse = await fetch(`${REFEREE_SERVER_URL}/api/nonce/${userAddress}`);
+        const nonceResponse = await fetch(`${REFEREE_SERVER_URL}/api/nonce/${userAddress}`, {
+            headers: { 'bypass-tunnel-reminder': 'true' }
+        });
         const nonceData = await nonceResponse.json();
         const nonce = parseInt(nonceData.nonce);
         
         // 2. Request signature from referee server
         const signResponse = await fetch(`${REFEREE_SERVER_URL}/api/sign-score`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'bypass-tunnel-reminder': 'true'
+            },
             body: JSON.stringify({
                 playerAddress: userAddress,
                 score: currentScore,
