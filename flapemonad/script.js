@@ -867,38 +867,43 @@ function startGameFromLoading() {
 async function init() {
     console.log('Initializing Flap Emonad...');
     
-    // Simulate loading progress
-    updateLoadingBar(10);
-    
-    // Load images
-    updateLoadingBar(30);
-    const loaded = await loadAllImages();
-    if (!loaded) {
-        console.error('Failed to load images!');
-        return;
-    }
-    
-    updateLoadingBar(60);
-    
-    // Initialize audio system
-    if (typeof chiptunePlayer !== 'undefined') {
-        chiptunePlayer.init();
-    }
-    
-    updateLoadingBar(80);
-    
-    // Start game loop
-    lastTime = performance.now();
-    requestAnimationFrame(gameLoop);
-    
-    updateLoadingBar(100);
-    
-    console.log('Game ready!');
-    
-    // Show play button after a tiny delay for smooth animation
-    setTimeout(() => {
+    try {
+        // Simulate loading progress
+        updateLoadingBar(10);
+        
+        // Load images
+        updateLoadingBar(30);
+        const loaded = await loadAllImages();
+        if (!loaded) {
+            console.error('Failed to load images - continuing anyway');
+        }
+        
+        updateLoadingBar(60);
+        
+        // Initialize audio system
+        if (typeof chiptunePlayer !== 'undefined') {
+            chiptunePlayer.init();
+        }
+        
+        updateLoadingBar(80);
+        
+        // Start game loop
+        lastTime = performance.now();
+        requestAnimationFrame(gameLoop);
+        
+        updateLoadingBar(100);
+        
+        console.log('Game ready!');
+        
+        // Show play button after a tiny delay for smooth animation
+        setTimeout(() => {
+            showPlayButton();
+        }, 300);
+    } catch (error) {
+        console.error('Init error:', error);
+        // Still show play button so user isn't stuck
         showPlayButton();
-    }, 300);
+    }
 }
 
 // Toggle sound on/off
