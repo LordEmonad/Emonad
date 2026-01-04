@@ -1,0 +1,115 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    background-color: #FFFFFF;
+    overflow: hidden;
+    font-family: 'Creepster', cursive;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#game-container {
+    position: relative;
+    width: 100vw;
+    max-width: calc(100vh * 0.667); /* Maintain 2:3 aspect ratio */
+    height: 100vh;
+    background-color: #FFFFFF;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+#gameCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: #FFFFFF;
+}
+
+/* Prevent text selection and touch callouts on mobile */
+canvas {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+#game-over-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.95);
+    z-index: 20;
+}
+
+#game-over-screen.hidden {
+    display: none;
+}
+
+#game-over-screen h2 {
+    font-family: 'Creepster', cursive;
+    font-size: 64px;
+    color: #000000;
+    margin-bottom: 15px;
+    text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+#game-over-screen p {
+    font-family: 'Creepster', cursive;
+    font-size: 42px;
+    color: #333333;
+    margin-bottom: 30px;
+}
+
+#final-score {
+    font-weight: bold;
+    color: #000000;
+}
+
+#restart-btn {
+    font-family: 'Creepster', cursive;
+    padding: 20px 50px;
+    font-size: 32px;
+    color: #FFFFFF;
+    background-color: #000000;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.1s, background-color 0.2s;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+#restart-btn:hover {
+    background-color: #333333;
+    transform: scale(1.05);
+}
+
+#restart-btn:active {
+    transform: scale(0.95);
+}
+
+/* Ensure game fills height on all devices */
+@media (max-aspect-ratio: 2/3) {
+    #game-container {
+        width: 100vw;
+        height: calc(100vw * 1.5); /* 2:3 aspect ratio */
+        max-height: 100vh;
+    }
+}
