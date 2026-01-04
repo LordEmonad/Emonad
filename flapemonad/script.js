@@ -847,15 +847,24 @@ function dismissLoadingScreen() {
     }
     
     // Start the menu music immediately (user clicked, so audio is allowed)
-    if (typeof chiptunePlayer !== 'undefined' && !chiptunePlayer.isMuted) {
-        chiptunePlayer.playMenuMusic();
+    if (typeof chiptunePlayer !== 'undefined') {
+        // Initialize audio context on user interaction (required for mobile)
+        chiptunePlayer.init();
+        
+        // Resume audio context if suspended (mobile browsers require this)
+        if (chiptunePlayer.audioContext && chiptunePlayer.audioContext.state === 'suspended') {
+            chiptunePlayer.audioContext.resume();
+        }
+        
+        // Play menu music if not muted
+        if (!chiptunePlayer.isMuted) {
+            chiptunePlayer.playMenuMusic();
+        }
     }
 }
 
 // Called when user clicks PLAY button
 function startGameFromLoading() {
-    if (!gameReady) return;
-    
     // Play click sound
     if (typeof chiptunePlayer !== 'undefined') {
         chiptunePlayer.playClick();
