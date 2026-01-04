@@ -36,6 +36,26 @@ class ChiptunePlayer {
         this.sfxGain = this.audioContext.createGain();
         this.sfxGain.gain.value = 0.7;
         this.sfxGain.connect(this.masterGain);
+        
+        // Unlock audio for iOS Safari - play a silent buffer
+        this.unlockAudio();
+    }
+    
+    // Unlock audio context for iOS Safari
+    unlockAudio() {
+        if (!this.audioContext) return;
+        
+        // Create and play a silent buffer to unlock
+        const buffer = this.audioContext.createBuffer(1, 1, 22050);
+        const source = this.audioContext.createBufferSource();
+        source.buffer = buffer;
+        source.connect(this.audioContext.destination);
+        source.start(0);
+        
+        // Also resume if suspended
+        if (this.audioContext.state === 'suspended') {
+            this.audioContext.resume();
+        }
     }
 
     // Create oscillator with envelope

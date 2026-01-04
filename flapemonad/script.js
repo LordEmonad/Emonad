@@ -900,10 +900,8 @@ async function init() {
         
         updateLoadingBar(60);
         
-        // Initialize audio system
-        if (typeof chiptunePlayer !== 'undefined') {
-            chiptunePlayer.init();
-        }
+        // DON'T initialize audio here - must be done on user tap for mobile!
+        // Audio will be initialized in startGameFromLoading() when user taps PLAY
         
         updateLoadingBar(80);
         
