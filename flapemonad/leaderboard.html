@@ -59,26 +59,7 @@
             background: linear-gradient(135deg, #444, #666);
         }
         
-        .my-score-section {
-            background: rgba(123, 63, 228, 0.3);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 2px solid rgba(123, 63, 228, 0.5);
-        }
-        
-        .my-score-section span:first-child {
-            font-size: 22px;
-        }
-        
-        .my-score-section .score {
-            font-size: 32px;
-            color: #9B5FFF;
-        }
-        
+                
         .leaderboard-list {
             list-style: none;
         }
@@ -151,6 +132,24 @@
             color: #00FF88;
             min-width: 60px;
             text-align: right;
+        }
+        
+        .tx-btn {
+            font-family: 'Creepster', cursive;
+            padding: 6px 12px;
+            font-size: 14px;
+            color: #FFFFFF;
+            background: linear-gradient(135deg, #4a4a4a, #666);
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-left: 10px;
+            transition: all 0.2s;
+        }
+        
+        .tx-btn:hover {
+            background: linear-gradient(135deg, #7B3FE4, #9B5FFF);
+            transform: scale(1.05);
         }
         
         .connect-section {
@@ -227,10 +226,6 @@
             <a href="index.html" class="back-btn">← Back to Game</a>
         </div>
         
-        <div class="my-score-section">
-            <span>Your Best:</span>
-            <span class="score" id="my-high-score">-</span>
-        </div>
         
         <ul class="leaderboard-list" id="leaderboard-list">
             <li class="loading">Loading...</li>
@@ -260,8 +255,12 @@
             'function getHighScore(address _player) external view returns (uint256)',
             'function getName(address _player) external view returns (string memory)',
             'function getTopScores(uint256 _count) external view returns (address[] memory, string[] memory, uint256[] memory)',
-            'function getPlayerCount() external view returns (uint256)'
+            'function getPlayerCount() external view returns (uint256)',
+            'event NewHighScore(address indexed player, string name, uint256 score, uint256 timestamp)'
         ];
+        
+        // Cache for transaction hashes per player
+        let playerTxHashes = {};
         
         let userAddress = null;
         
@@ -336,6 +335,25 @@
                 
                 const [players, names, scores] = await contract.getTopScores(20);
                 
+                // Fetch NewHighScore events to get transaction hashes
+                try {
+                    const filter = contract.filters.NewHighScore();
+                    const events = await contract.queryFilter(filter, 0, 'latest');
+                    
+                    // Map player addresses to their latest high score tx hash
+                    for (const event of events) {
+                        const playerAddr = event.args[0].toLowerCase();
+                        const eventScore = Number(event.args[2]);
+                        // Only store if this event's score matches their current high score
+                        const playerIndex = players.findIndex(p => p.toLowerCase() === playerAddr);
+                        if (playerIndex !== -1 && Number(scores[playerIndex]) === eventScore) {
+                            playerTxHashes[playerAddr] = event.transactionHash;
+                        }
+                    }
+                } catch (eventErr) {
+                    console.warn('Could not fetch events:', eventErr);
+                }
+                
                 leaderboardList.innerHTML = '';
                 
                 if (players.length === 0 || players[0] === '0x0000000000000000000000000000000000000000') {
@@ -366,21 +384,22 @@
                         li.classList.add('current-user');
                     }
                     
+                    const txHash = playerTxHashes[players[i].toLowerCase()];
+                    const txButton = txHash 
+                        ? `<a href="https://monadvision.com/tx/${txHash}?tab=Logs" target="_blank" class="tx-btn" title="View Transaction">TX</a>`
+                        : '';
+                    
                     li.innerHTML = `
                         <span class="rank ${rankClass}">#${i + 1}</span>
                         <span class="player-name">${displayName}</span>
                         <span class="score">${scores[i]}</span>
+                        ${txButton}
                     `;
                     
                     leaderboardList.appendChild(li);
                 }
                 
-                // Get player's high score if connected
-                if (userAddress) {
-                    const myHighScore = await contract.getHighScore(userAddress);
-                    document.getElementById('my-high-score').textContent = myHighScore.toString();
-                }
-                
+                                
             } catch (err) {
                 console.error('Failed to load leaderboard:', err);
                 leaderboardList.innerHTML = '<li class="no-scores">Failed to load leaderboard</li>';

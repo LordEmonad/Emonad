@@ -210,6 +210,10 @@ function handleInput() {
 // Keyboard input
 document.addEventListener('keydown', (e) => {
     if (e.code === 'Space' || e.key === ' ') {
+        // Don't trigger game actions if typing in an input field
+        if (document.activeElement && document.activeElement.tagName === 'INPUT') {
+            return;
+        }
         e.preventDefault();
         handleInput();
     }
@@ -914,9 +918,16 @@ async function submitScoreToBlockchain() {
         return;
     }
     
-    // Get player name from input (optional)
+    // Get player name from input
     const nameInput = document.getElementById('player-name-input');
     let playerName = nameInput ? nameInput.value.trim() : '';
+    
+    // Require name if input is not disabled (first time submitting)
+    if (nameInput && !nameInput.disabled && playerName.length === 0) {
+        alert('Please enter a name for the leaderboard!');
+        nameInput.focus();
+        return;
+    }
     
     // Validate name length
     if (playerName.length > 20) {
