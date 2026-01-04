@@ -1089,11 +1089,15 @@ class ChiptunePlayer {
     mute() {
         this.isMuted = true;
         this.setMasterVolume(0);
+        // Save to localStorage so it persists across pages
+        try { localStorage.setItem('flapEmonadMuted', 'true'); } catch(e) {}
     }
 
     unmute() {
         this.isMuted = false;
         this.setMasterVolume(0.3);
+        // Save to localStorage so it persists across pages
+        try { localStorage.setItem('flapEmonadMuted', 'false'); } catch(e) {}
     }
 
     toggleMute() {
@@ -1104,8 +1108,23 @@ class ChiptunePlayer {
         }
         return this.isMuted;
     }
+    
+    // Load mute state from localStorage
+    loadMuteState() {
+        try {
+            const saved = localStorage.getItem('flapEmonadMuted');
+            if (saved === 'true') {
+                this.isMuted = true;
+            } else {
+                this.isMuted = false;
+            }
+        } catch(e) {
+            this.isMuted = false;
+        }
+    }
 }
 
 // Global instance
 const chiptunePlayer = new ChiptunePlayer();
-chiptunePlayer.isMuted = false;
+// Load saved mute state from localStorage
+chiptunePlayer.loadMuteState();

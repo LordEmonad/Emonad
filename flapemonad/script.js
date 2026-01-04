@@ -865,8 +865,19 @@ function dismissLoadingScreen() {
 
 // Called when user clicks PLAY button
 function startGameFromLoading() {
-    // Play click sound
+    // Initialize audio context FIRST on user tap (required for mobile)
     if (typeof chiptunePlayer !== 'undefined') {
+        chiptunePlayer.init();
+        
+        // Resume audio context if suspended (mobile browsers require this)
+        if (chiptunePlayer.audioContext && chiptunePlayer.audioContext.state === 'suspended') {
+            chiptunePlayer.audioContext.resume().then(() => {
+                chiptunePlayer.playClick();
+                dismissLoadingScreen();
+            });
+            return;
+        }
+        
         chiptunePlayer.playClick();
     }
     
