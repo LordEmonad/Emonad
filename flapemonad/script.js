@@ -25,11 +25,15 @@ const restartBtn = document.getElementById('restart-btn');
 // GAME CONSTANTS - Tuned for authentic feel
 // ============================================
 
+// Target frame rate for consistent physics
+const TARGET_FPS = 60;
+const TARGET_FRAME_TIME = 1000 / TARGET_FPS; // ~16.67ms
+
 // Physics (tuned to feel like original Flappy Bird, scaled for high res)
-const GRAVITY = 1.2;               // Gravity acceleration per frame
+const GRAVITY = 1.2;               // Gravity acceleration per frame (at 60fps)
 const JUMP_VELOCITY = -24;         // Velocity set on flap (not added)
 const MAX_FALL_SPEED = 34;         // Terminal velocity
-const ROTATION_SPEED = 4;          // Degrees per frame when falling
+const ROTATION_SPEED = 4;          // Degrees per frame when falling (at 60fps)
 const JUMP_ROTATION = -25;         // Rotation on flap (degrees)
 const MAX_ROTATION = 90;           // Max nose-dive rotation
 
@@ -48,7 +52,7 @@ const DEATH_ANIMATION_SPEED = 300; // ms between death frames (slower for visibi
 const RAZOR_WIDTH = 170;           // Display width
 const RAZOR_HEIGHT = 680;          // Display height (will tile if needed)
 const RAZOR_GAP = 470;             // Gap between top and bottom razors
-const RAZOR_SPEED = 8.5;           // Pixels per frame
+const RAZOR_SPEED = 8.5;           // Pixels per frame (at 60fps)
 const RAZOR_SPAWN_INTERVAL = 1800; // ms between razor spawns
 const MIN_RAZOR_Y = 270;           // Minimum gap position from top
 const MAX_RAZOR_Y = GAME_HEIGHT - RAZOR_GAP - 270; // Maximum gap position
@@ -253,6 +257,9 @@ function spawnRazor() {
 }
 
 function updateRazors(deltaTime) {
+    // Normalize delta time to target 60fps for consistent physics
+    const timeScale = deltaTime / TARGET_FRAME_TIME;
+    
     // Spawn timer
     razorSpawnTimer += deltaTime;
     if (razorSpawnTimer >= RAZOR_SPAWN_INTERVAL) {
@@ -260,10 +267,10 @@ function updateRazors(deltaTime) {
         razorSpawnTimer = 0;
     }
     
-    // Update razor positions
+    // Update razor positions (scaled by time)
     for (let i = razors.length - 1; i >= 0; i--) {
         const razor = razors[i];
-        razor.x -= RAZOR_SPEED;
+        razor.x -= RAZOR_SPEED * timeScale;
         
         // Remove off-screen razors
         if (razor.x + RAZOR_WIDTH < 0) {
@@ -337,22 +344,25 @@ function checkCollisions() {
 // ============================================
 
 function updatePlayer(deltaTime) {
+    // Normalize delta time to target 60fps for consistent physics
+    const timeScale = deltaTime / TARGET_FRAME_TIME;
+    
     if (gameState === GameState.PLAYING || gameState === GameState.DYING) {
-        // Apply gravity
-        player.velocity += GRAVITY;
+        // Apply gravity (scaled by time)
+        player.velocity += GRAVITY * timeScale;
         
         // Cap fall speed
         if (player.velocity > MAX_FALL_SPEED) {
             player.velocity = MAX_FALL_SPEED;
         }
         
-        // Update position
-        player.y += player.velocity;
+        // Update position (scaled by time)
+        player.y += player.velocity * timeScale;
         
-        // Update rotation based on velocity
+        // Update rotation based on velocity (scaled by time)
         if (player.velocity > 0) {
             // Falling - rotate toward nose-dive
-            player.rotation += ROTATION_SPEED;
+            player.rotation += ROTATION_SPEED * timeScale;
             if (player.rotation > MAX_ROTATION) {
                 player.rotation = MAX_ROTATION;
             }
