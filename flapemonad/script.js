@@ -323,26 +323,21 @@ function startGame() {
     }
 }
 
-// Flap counter - batch flaps and send periodically to avoid Cloudflare rate limits
-// EVERY FLAP IS COUNTED - just sent in batches
-let pendingFlaps = 0;
-
-// Send pending flaps every 2 seconds
-setInterval(() => {
-    if (pendingFlaps > 0) {
-        const flapsToSend = pendingFlaps;
-        pendingFlaps = 0;
-        // Send batch of flaps
-        fetch(`${REFEREE_SERVER_URL}/api/flap/batch`, { 
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ count: flapsToSend })
-        }).catch(() => {
-            // If failed, add back to pending
-            pendingFlaps += flapsToSend;
-        });
-    }
-}, 2000);
+// Flap counter - DISABLED FOR NOW
+// let pendingFlaps = 0;
+// setInterval(() => {
+//     if (pendingFlaps > 0) {
+//         const flapsToSend = pendingFlaps;
+//         pendingFlaps = 0;
+//         fetch(`${REFEREE_SERVER_URL}/api/flap/batch`, { 
+//             method: 'POST',
+//             headers: { 'Content-Type': 'application/json' },
+//             body: JSON.stringify({ count: flapsToSend })
+//         }).catch(() => {
+//             pendingFlaps += flapsToSend;
+//         });
+//     }
+// }, 2000);
 
 function flap() {
     // Set velocity directly (authentic Flappy Bird feel)
@@ -356,8 +351,8 @@ function flap() {
         chiptunePlayer.playFlap();
     }
     
-    // Count this flap (will be sent in next batch)
-    pendingFlaps++;
+    // Flap tracking disabled
+    // pendingFlaps++;
 }
 
 function die(deathType = 'razor', killerRazor = null) {
