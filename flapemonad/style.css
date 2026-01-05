@@ -10,42 +10,77 @@
     top: 10px;
     left: 10px;
     z-index: 1000;
-    width: 50px;
-    height: 50px;
+    width: 54px;
+    height: 54px;
     border-radius: 50%;
-    border: 3px solid #000;
-    background: linear-gradient(135deg, #7B3FE4, #9B5FFF);
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    background: linear-gradient(135deg, #7B3FE4, #9B5FFF, #7B3FE4);
+    background-size: 200% 200%;
     color: white;
-    font-size: 24px;
+    font-size: 26px;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 4px 20px rgba(123, 63, 228, 0.5),
+        0 0 30px rgba(123, 63, 228, 0.2),
+        0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    animation: soundBtnIdle 3s ease infinite;
+}
+
+@keyframes soundBtnIdle {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
 }
 
 #sound-toggle-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 15px rgba(123, 63, 228, 0.5);
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 
+        0 8px 30px rgba(123, 63, 228, 0.7),
+        0 0 50px rgba(123, 63, 228, 0.3),
+        0 1px 0 rgba(255, 255, 255, 0.3) inset;
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+#sound-toggle-btn:active {
+    transform: scale(0.9) rotate(-5deg);
+    box-shadow: 0 2px 10px rgba(123, 63, 228, 0.4);
+    transition: all 0.1s ease;
 }
 
 #sound-toggle-btn-gameover {
-    width: 50px;
-    height: 50px;
+    width: 54px;
+    height: 54px;
     border-radius: 50%;
-    border: 3px solid #000;
-    background: linear-gradient(135deg, #7B3FE4, #9B5FFF);
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    background: linear-gradient(135deg, #7B3FE4, #9B5FFF, #7B3FE4);
+    background-size: 200% 200%;
     color: white;
-    font-size: 24px;
+    font-size: 26px;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.2s;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 4px 20px rgba(123, 63, 228, 0.5),
+        0 0 30px rgba(123, 63, 228, 0.2),
+        0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    animation: soundBtnIdle 3s ease infinite;
 }
 
 #sound-toggle-btn-gameover:hover {
-    transform: scale(1.1);
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 
+        0 8px 30px rgba(123, 63, 228, 0.7),
+        0 0 50px rgba(123, 63, 228, 0.3);
+}
+
+#sound-toggle-btn-gameover:active {
+    transform: scale(0.9) rotate(-5deg);
+    transition: all 0.1s ease;
 }
 
 html, body {
@@ -99,8 +134,47 @@ canvas {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.95);
+    background: linear-gradient(135deg, rgba(26, 10, 46, 0.97) 0%, rgba(22, 33, 62, 0.97) 50%, rgba(15, 15, 35, 0.97) 100%);
     z-index: 20;
+    animation: gameOverAppear 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+#game-over-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, rgba(255, 68, 68, 0.3), transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(157, 78, 221, 0.2), transparent),
+        radial-gradient(2px 2px at 50px 160px, rgba(255, 68, 68, 0.3), transparent),
+        radial-gradient(2px 2px at 90px 40px, rgba(157, 78, 221, 0.2), transparent),
+        radial-gradient(2px 2px at 130px 80px, rgba(255, 68, 68, 0.3), transparent),
+        radial-gradient(2px 2px at 160px 120px, rgba(157, 78, 221, 0.2), transparent);
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    animation: deathParticles 15s linear infinite;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+@keyframes deathParticles {
+    0% { transform: translateY(0) translateX(0); }
+    100% { transform: translateY(-200px) translateX(30px); }
+}
+
+@keyframes gameOverAppear {
+    0% {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+    100% {
+        opacity: 1;
+        backdrop-filter: blur(5px);
+    }
 }
 
 #game-over-screen.hidden {
@@ -109,22 +183,71 @@ canvas {
 
 #game-over-screen h2 {
     font-family: 'Creepster', cursive;
-    font-size: 64px;
-    color: #000000;
+    font-size: 72px;
+    color: #ff4444;
     margin-bottom: 15px;
-    text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+    text-shadow: 
+        0 0 20px rgba(255, 68, 68, 0.6),
+        0 0 40px rgba(255, 68, 68, 0.4),
+        0 0 60px rgba(255, 68, 68, 0.2),
+        4px 4px 0 rgba(0, 0, 0, 0.4);
+    animation: gameOverPulse 2s ease-in-out infinite, gameOverShake 0.5s ease-out;
+    letter-spacing: 6px;
+}
+
+@keyframes gameOverPulse {
+    0%, 100% { 
+        transform: scale(1); 
+        text-shadow: 
+            0 0 20px rgba(255, 68, 68, 0.6),
+            0 0 40px rgba(255, 68, 68, 0.4),
+            0 0 60px rgba(255, 68, 68, 0.2);
+    }
+    50% { 
+        transform: scale(1.03); 
+        text-shadow: 
+            0 0 30px rgba(255, 68, 68, 0.8),
+            0 0 60px rgba(255, 68, 68, 0.5),
+            0 0 90px rgba(255, 68, 68, 0.3);
+    }
+}
+
+@keyframes gameOverShake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
 }
 
 #game-over-screen p {
     font-family: 'Creepster', cursive;
     font-size: 42px;
-    color: #333333;
+    color: #e0aaff;
     margin-bottom: 30px;
+    text-shadow: 0 0 10px rgba(224, 170, 255, 0.3);
 }
 
 #final-score {
     font-weight: bold;
-    color: #000000;
+    color: #FFD700;
+    text-shadow: 
+        0 0 15px rgba(255, 215, 0, 0.8),
+        0 0 30px rgba(255, 215, 0, 0.5),
+        0 0 45px rgba(255, 215, 0, 0.3);
+    animation: scoreGlow 1.5s ease-in-out infinite;
+}
+
+@keyframes scoreGlow {
+    0%, 100% { 
+        text-shadow: 
+            0 0 15px rgba(255, 215, 0, 0.8),
+            0 0 30px rgba(255, 215, 0, 0.5);
+    }
+    50% { 
+        text-shadow: 
+            0 0 25px rgba(255, 215, 0, 1),
+            0 0 50px rgba(255, 215, 0, 0.7),
+            0 0 75px rgba(255, 215, 0, 0.4);
+    }
 }
 
 #restart-btn {
@@ -132,21 +255,52 @@ canvas {
     padding: 20px 50px;
     font-size: 32px;
     color: #FFFFFF;
-    background-color: #000000;
-    border: none;
-    border-radius: 12px;
+    background: linear-gradient(135deg, #444, #222, #333);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
     cursor: pointer;
-    transition: transform 0.1s, background-color 0.2s;
-    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+        0 1px 0 rgba(255, 255, 255, 0.1) inset;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 2px;
+}
+
+#restart-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+#restart-btn:hover::before {
+    left: 100%;
 }
 
 #restart-btn:hover {
-    background-color: #333333;
-    transform: scale(1.05);
+    background: linear-gradient(135deg, #555, #333, #444);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 
+        0 8px 30px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+        0 1px 0 rgba(255, 255, 255, 0.15) inset;
+    border-color: rgba(255, 255, 255, 0.25);
 }
 
 #restart-btn:active {
-    transform: scale(0.95);
+    transform: translateY(1px) scale(0.98);
+    box-shadow: 
+        0 2px 10px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    transition: all 0.1s ease;
 }
 
 /* ============================================ */
@@ -159,20 +313,59 @@ canvas {
     right: 15px;
     z-index: 1000;
     font-family: 'Creepster', cursive;
-    padding: 12px 24px;
+    padding: 14px 28px;
     font-size: 18px;
     color: #FFFFFF;
-    background: linear-gradient(135deg, #7B3FE4, #9B5FFF);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 25px;
+    background: linear-gradient(135deg, #7B3FE4, #9B5FFF, #7B3FE4);
+    background-size: 200% 200%;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    border-radius: 30px;
     cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 4px 15px rgba(123, 63, 228, 0.4);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 4px 20px rgba(123, 63, 228, 0.5),
+        0 0 30px rgba(123, 63, 228, 0.2),
+        0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    animation: walletBtnIdle 3s ease infinite;
+}
+
+@keyframes walletBtnIdle {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+#connect-wallet-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+#connect-wallet-btn:hover::before {
+    left: 100%;
 }
 
 #connect-wallet-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(123, 63, 228, 0.6);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 
+        0 8px 30px rgba(123, 63, 228, 0.6),
+        0 0 50px rgba(123, 63, 228, 0.3),
+        0 1px 0 rgba(255, 255, 255, 0.3) inset;
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+#connect-wallet-btn:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow: 0 2px 15px rgba(123, 63, 228, 0.4);
+    transition: all 0.1s ease;
 }
 
 /* ============================================ */
@@ -190,16 +383,56 @@ canvas {
     padding: 20px 35px;
     font-size: 28px;
     color: #FFFFFF;
-    background: linear-gradient(135deg, #7B3FE4, #9B5FFF);
-    border: none;
-    border-radius: 12px;
+    background: linear-gradient(135deg, #7B3FE4, #9B5FFF, #7B3FE4);
+    background-size: 200% 200%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 4px 20px rgba(123, 63, 228, 0.5),
+        0 0 40px rgba(123, 63, 228, 0.2),
+        0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+#submit-score-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+#submit-score-btn:hover:not(:disabled)::before {
+    left: 100%;
 }
 
 #submit-score-btn:hover:not(:disabled) {
-    transform: scale(1.05);
-    box-shadow: 0 4px 15px rgba(123, 63, 228, 0.5);
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 
+        0 8px 35px rgba(123, 63, 228, 0.6),
+        0 0 60px rgba(123, 63, 228, 0.3),
+        0 1px 0 rgba(255, 255, 255, 0.3) inset;
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+#submit-score-btn:active:not(:disabled) {
+    transform: translateY(1px) scale(0.98);
+    box-shadow: 0 2px 15px rgba(123, 63, 228, 0.4);
+    transition: all 0.1s ease;
 }
 
 #submit-score-btn:disabled {
@@ -210,7 +443,7 @@ canvas {
 
 .submit-hint {
     font-size: 16px !important;
-    color: #888888 !important;
+    color: rgba(224, 170, 255, 0.6) !important;
     margin-top: 10px;
 }
 
@@ -224,22 +457,40 @@ canvas {
 
 #player-name-input {
     font-family: 'Creepster', cursive;
-    padding: 12px 20px;
-    font-size: 20px;
-    width: 280px;
+    padding: 14px 24px;
+    font-size: 22px;
+    width: 300px;
     max-width: 90%;
     text-align: center;
     border: 3px solid #7B3FE4;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.9);
-    color: #333;
+    border-radius: 14px;
+    background: rgba(26, 10, 46, 0.85);
+    color: #e0aaff;
     outline: none;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(123, 63, 228, 0.15),
+        0 1px 0 rgba(255, 255, 255, 0.05) inset;
+    letter-spacing: 2px;
 }
 
 #player-name-input:focus {
+    border-color: #a855f7;
+    box-shadow: 
+        0 0 25px rgba(123, 63, 228, 0.6),
+        0 0 50px rgba(123, 63, 228, 0.3),
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        0 1px 0 rgba(255, 255, 255, 0.1) inset;
+    background: rgba(26, 10, 46, 0.95);
+    transform: scale(1.02);
+}
+
+#player-name-input:hover:not(:focus) {
     border-color: #9B5FFF;
-    box-shadow: 0 0 15px rgba(123, 63, 228, 0.4);
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.3),
+        0 0 25px rgba(123, 63, 228, 0.2);
 }
 
 #player-name-input:disabled {
@@ -249,7 +500,7 @@ canvas {
 }
 
 #player-name-input::placeholder {
-    color: #999;
+    color: rgba(224, 170, 255, 0.5);
     font-size: 16px;
 }
 
@@ -258,24 +509,65 @@ canvas {
 /* ============================================ */
 
 .view-lb-btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     font-family: 'Creepster', cursive;
-    padding: 12px 25px;
+    padding: 14px 28px;
     font-size: 22px;
-    color: #FFFFFF;
-    background: linear-gradient(135deg, #FFD700, #FFA500);
-    border: none;
+    color: #1a1a1a;
+    background: linear-gradient(135deg, #FFD700, #FFC107, #FFD700);
+    background-size: 200% 200%;
+    border: 2px solid rgba(255, 255, 255, 0.4);
     text-decoration: none;
-    border-radius: 10px;
+    border-radius: 14px;
     cursor: pointer;
     margin-top: 15px;
-    transition: all 0.2s;
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 4px 20px rgba(255, 215, 0, 0.5),
+        0 0 30px rgba(255, 215, 0, 0.2),
+        0 1px 0 rgba(255, 255, 255, 0.5) inset;
+    position: relative;
+    overflow: hidden;
+    text-shadow: 0 1px 2px rgba(255, 215, 0, 0.3);
+    animation: goldShimmer 2s ease infinite;
+}
+
+@keyframes goldShimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.view-lb-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s ease;
+}
+
+.view-lb-btn:hover::before {
+    left: 100%;
 }
 
 .view-lb-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 
+        0 10px 40px rgba(255, 215, 0, 0.6),
+        0 0 50px rgba(255, 215, 0, 0.4),
+        0 1px 0 rgba(255, 255, 255, 0.6) inset;
+    border-color: rgba(255, 255, 255, 0.6);
+    color: #000;
+}
+
+.view-lb-btn:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow: 0 2px 15px rgba(255, 215, 0, 0.4);
+    transition: all 0.1s ease;
 }
 
 /* ============================================ */

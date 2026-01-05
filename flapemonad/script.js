@@ -113,6 +113,29 @@ let score = 0;
 let lastTime = 0;
 let razorSpawnTimer = 0;
 
+// Death impact effects
+let screenShake = {
+    active: false,
+    intensity: 0,
+    duration: 0,
+    elapsed: 0
+};
+let screenFlash = {
+    active: false,
+    color: 'rgba(255, 0, 0, 0.6)',
+    duration: 0,
+    elapsed: 0,
+    phase: 0  // 0 = flash in, 1 = hold, 2 = fade out
+};
+
+// Death certificate data
+let deathCertificate = {
+    killerRazor: null,  // The razor that killed the player
+    deathType: 'razor', // 'razor', 'floor', 'ceiling'
+    finalScore: 0,
+    timestamp: null
+};
+
 // Start screen animation state
 let startScreenFlapFrame = 0;
 let startScreenDieFrame = 0;
@@ -323,11 +346,30 @@ function flap() {
     pendingFlaps++;
 }
 
-function die() {
+function die(deathType = 'razor', killerRazor = null) {
     gameState = GameState.DYING;
     player.deathFrame = 0;
     player.deathAnimationTimer = 0;
     player.deathAnimationComplete = false;
+    
+    // Store death certificate data
+    deathCertificate.killerRazor = killerRazor;
+    deathCertificate.deathType = deathType;
+    deathCertificate.finalScore = score;
+    deathCertificate.timestamp = new Date();
+    
+    // Trigger screen shake - intense burst
+    screenShake.active = true;
+    screenShake.intensity = 25;  // Strong shake
+    screenShake.duration = 300;  // 300ms
+    screenShake.elapsed = 0;
+    
+    // Trigger screen flash - red impact flash
+    screenFlash.active = true;
+    screenFlash.color = 'rgba(255, 50, 50, 0.7)';
+    screenFlash.duration = 250;  // Total flash duration
+    screenFlash.elapsed = 0;
+    screenFlash.phase = 0;
     
     // Stop music and play death sound
     if (typeof chiptunePlayer !== 'undefined') {
@@ -346,6 +388,252 @@ function showGameOver() {
         setTimeout(() => {
             chiptunePlayer.playGameOverMusic();
         }, 600); // Quick transition
+    }
+}
+
+// ============================================
+// DEATH CERTIFICATE GENERATOR
+// ============================================
+
+// Certificate uses the already-loaded game images (images.die[2] and images.razor)
+
+function generateDeathCertificate(playerName) {
+    // Create offscreen canvas for the certificate - LANDSCAPE
+    const certCanvas = document.createElement('canvas');
+    const certCtx = certCanvas.getContext('2d');
+    
+    // Certificate dimensions - LANDSCAPE (Twitter/social media friendly)
+    const CERT_WIDTH = 1920;
+    const CERT_HEIGHT = 1080;
+    certCanvas.width = CERT_WIDTH;
+    certCanvas.height = CERT_HEIGHT;
+    
+    // Background - dark gradient matching game theme
+    const bgGradient = certCtx.createLinearGradient(0, 0, CERT_WIDTH, CERT_HEIGHT);
+    bgGradient.addColorStop(0, '#0d0505');
+    bgGradient.addColorStop(0.3, '#1a0a0a');
+    bgGradient.addColorStop(0.7, '#2d1515');
+    bgGradient.addColorStop(1, '#1a0808');
+    certCtx.fillStyle = bgGradient;
+    certCtx.fillRect(0, 0, CERT_WIDTH, CERT_HEIGHT);
+    
+    // Add subtle noise texture
+    for (let i = 0; i < 3000; i++) {
+        const x = Math.random() * CERT_WIDTH;
+        const y = Math.random() * CERT_HEIGHT;
+        const alpha = Math.random() * 0.02;
+        certCtx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+        certCtx.fillRect(x, y, 1, 1);
+    }
+    
+    // Decorative border - double line
+    certCtx.strokeStyle = '#8B0000';
+    certCtx.lineWidth = 6;
+    certCtx.strokeRect(30, 30, CERT_WIDTH - 60, CERT_HEIGHT - 60);
+    certCtx.strokeStyle = '#4a0000';
+    certCtx.lineWidth = 2;
+    certCtx.strokeRect(45, 45, CERT_WIDTH - 90, CERT_HEIGHT - 90);
+    
+    // Corner decorations
+    const cornerSize = 50;
+    certCtx.fillStyle = '#8B0000';
+    [[30, 30], [CERT_WIDTH - 30 - cornerSize, 30], [30, CERT_HEIGHT - 38], [CERT_WIDTH - 30 - cornerSize, CERT_HEIGHT - 38]].forEach(([x, y]) => {
+        certCtx.fillRect(x, y, cornerSize, 6);
+    });
+    [[30, 30], [30, CERT_HEIGHT - 30 - cornerSize], [CERT_WIDTH - 36, 30], [CERT_WIDTH - 36, CERT_HEIGHT - 30 - cornerSize]].forEach(([x, y]) => {
+        certCtx.fillRect(x, y, 6, cornerSize);
+    });
+    
+    // === LEFT SECTION - Character ===
+    const leftCenterX = 300;
+    
+    // Draw character using embedded base64 image
+    const charSize = 280;
+    const charImg = new Image();
+    charImg.src = CERT_DIE3_BASE64;
+    certCtx.drawImage(
+        charImg,
+        leftCenterX - charSize / 2,
+        CERT_HEIGHT / 2 - charSize / 2 - 30,
+        charSize,
+        charSize
+    );
+    
+    // Player name under character
+    certCtx.font = 'bold 48px "Creepster", Georgia, cursive';
+    certCtx.fillStyle = '#ffffff';
+    certCtx.textAlign = 'center';
+    certCtx.fillText(playerName || 'ANONYMOUS', leftCenterX, CERT_HEIGHT / 2 + 180);
+    
+    // === CENTER SECTION - Title & Info ===
+    const centerX = CERT_WIDTH / 2;
+    
+    // Title
+    certCtx.font = 'bold 72px "Creepster", Georgia, cursive';
+    certCtx.fillStyle = '#8B0000';
+    certCtx.textAlign = 'center';
+    certCtx.fillText('DEATH CERTIFICATE', centerX, 130);
+    
+    // Decorative line under title
+    certCtx.strokeStyle = '#8B0000';
+    certCtx.lineWidth = 3;
+    certCtx.beginPath();
+    certCtx.moveTo(centerX - 350, 160);
+    certCtx.lineTo(centerX + 350, 160);
+    certCtx.stroke();
+    
+    // "was brutally slain by"
+    certCtx.font = '36px Georgia, serif';
+    certCtx.fillStyle = '#cccccc';
+    certCtx.fillText('was brutally slain by', centerX, 250);
+    
+    // Determine razor type based on death
+    let candleColor, candleLabel;
+    if (deathCertificate.deathType === 'floor') {
+        candleColor = '#26A69A';
+        candleLabel = 'THE FLOOR';
+    } else if (deathCertificate.deathType === 'razor-top') {
+        candleColor = '#EF5350';
+        candleLabel = 'A BEARISH RAZOR';
+    } else if (deathCertificate.deathType === 'razor-bottom') {
+        candleColor = '#26A69A';
+        candleLabel = 'A BULLISH RAZOR';
+    } else {
+        candleColor = '#EF5350';
+        candleLabel = 'A CRYPTO RAZOR';
+    }
+    
+    // Candle label
+    certCtx.font = 'bold 56px "Creepster", Georgia, cursive';
+    certCtx.fillStyle = candleColor;
+    certCtx.fillText(candleLabel, centerX, 330);
+    
+    // Score section
+    certCtx.font = '32px Georgia, serif';
+    certCtx.fillStyle = '#aaaaaa';
+    certCtx.fillText('Final Score', centerX, 450);
+    
+    // Big score number
+    certCtx.font = 'bold 180px "Creepster", Georgia, cursive';
+    // Shadow
+    certCtx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    certCtx.fillText(deathCertificate.finalScore.toString(), centerX + 5, 620);
+    // Gold gradient
+    const goldGradient = certCtx.createLinearGradient(0, 480, 0, 620);
+    goldGradient.addColorStop(0, '#FFD700');
+    goldGradient.addColorStop(0.5, '#FFF8DC');
+    goldGradient.addColorStop(1, '#DAA520');
+    certCtx.fillStyle = goldGradient;
+    certCtx.fillText(deathCertificate.finalScore.toString(), centerX, 615);
+    
+    // Date and time
+    const dateStr = deathCertificate.timestamp ? 
+        deathCertificate.timestamp.toLocaleDateString('en-US', { 
+            year: 'numeric', month: 'long', day: 'numeric' 
+        }) : new Date().toLocaleDateString();
+    const timeStr = deathCertificate.timestamp ?
+        deathCertificate.timestamp.toLocaleTimeString('en-US', {
+            hour: '2-digit', minute: '2-digit'
+        }) : '';
+    
+    certCtx.font = '28px Georgia, serif';
+    certCtx.fillStyle = '#888888';
+    certCtx.fillText(`${dateStr} at ${timeStr}`, centerX, 700);
+    
+    // === RIGHT SECTION - Killer Candle/Razor ===
+    const rightCenterX = CERT_WIDTH - 300;
+    const candleY = 280;
+    const candleHeight = 450;
+    const candleWidth = 100;
+    
+    // Candle glow
+    const glowGradient = certCtx.createRadialGradient(
+        rightCenterX, candleY + candleHeight / 2, 0,
+        rightCenterX, candleY + candleHeight / 2, 250
+    );
+    glowGradient.addColorStop(0, candleColor + '30');
+    glowGradient.addColorStop(1, 'transparent');
+    certCtx.fillStyle = glowGradient;
+    certCtx.fillRect(rightCenterX - 200, candleY - 50, 400, candleHeight + 100);
+    
+    // Candle wick (top)
+    certCtx.fillStyle = '#555555';
+    certCtx.fillRect(rightCenterX - 3, candleY, 6, 35);
+    
+    // Candle body
+    const candleGrad = certCtx.createLinearGradient(rightCenterX - candleWidth/2, 0, rightCenterX + candleWidth/2, 0);
+    candleGrad.addColorStop(0, candleColor + 'cc');
+    candleGrad.addColorStop(0.5, candleColor);
+    candleGrad.addColorStop(1, candleColor + '99');
+    certCtx.fillStyle = candleGrad;
+    certCtx.fillRect(rightCenterX - candleWidth/2, candleY + 35, candleWidth, candleHeight - 70);
+    
+    // Candle highlight
+    certCtx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+    certCtx.fillRect(rightCenterX - candleWidth/2 + 10, candleY + 45, 15, candleHeight - 90);
+    
+    // Candle wick (bottom)
+    certCtx.fillStyle = '#555555';
+    certCtx.fillRect(rightCenterX - 3, candleY + candleHeight - 35, 6, 35);
+    
+    // Draw razor using embedded base64 image
+    const razorImg = new Image();
+    razorImg.src = CERT_RAZOR_BASE64;
+    const razorSize = 140;
+    certCtx.save();
+    certCtx.translate(rightCenterX, candleY + candleHeight / 2);
+    if (candleColor === '#EF5350') {
+        certCtx.rotate(Math.PI);
+    }
+    certCtx.drawImage(
+        razorImg,
+        -razorSize / 2,
+        -razorSize,
+        razorSize,
+        razorSize * 2
+    );
+    certCtx.restore();
+    
+    // === BOTTOM - Branding ===
+    certCtx.font = 'bold 64px "Creepster", Georgia, cursive';
+    certCtx.fillStyle = '#4a4a4a';
+    certCtx.fillText('FLAP EMONAD', centerX, CERT_HEIGHT - 100);
+    
+    certCtx.font = '24px Georgia, serif';
+    certCtx.fillStyle = '#555555';
+    certCtx.fillText('emonad.lol  •  Play on Monad', centerX, CERT_HEIGHT - 55);
+    
+    return certCanvas;
+}
+
+function downloadDeathCertificate() {
+    // Get player name from input
+    const nameInput = document.getElementById('death-cert-name');
+    const playerName = nameInput ? nameInput.value.trim() : '';
+    
+    if (!playerName) {
+        nameInput.style.borderColor = '#ff4444';
+        nameInput.placeholder = 'Please enter your name!';
+        nameInput.focus();
+        setTimeout(() => {
+            nameInput.style.borderColor = '#8B0000';
+            nameInput.placeholder = 'Enter your name for certificate';
+        }, 2000);
+        return;
+    }
+    
+    const certCanvas = generateDeathCertificate(playerName);
+    
+    // Convert to data URL and download
+    const dataURL = certCanvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.download = `flap-emonad-death-certificate-${playerName}-${deathCertificate.finalScore}.png`;
+    link.href = dataURL;
+    link.click();
+    
+    // Play a sound effect
+    if (typeof chiptunePlayer !== 'undefined') {
+        chiptunePlayer.playClick();
     }
 }
 
@@ -437,7 +725,7 @@ function checkCollisions() {
     // Floor collision
     if (playerBottom >= GAME_HEIGHT) {
         player.y = GAME_HEIGHT - PLAYER_HEIGHT + HITBOX_PADDING;
-        return true;
+        return { hit: true, type: 'floor', razor: null };
     }
     
     // Ceiling collision
@@ -462,18 +750,18 @@ function checkCollisions() {
         if (playerRight > topRazorLeft && 
             playerLeft < topRazorRight && 
             playerTop < topRazorBottom) {
-            return true;
+            return { hit: true, type: 'razor-top', razor: razor };
         }
         
         // Check bottom razor collision
         if (playerRight > bottomRazorLeft && 
             playerLeft < bottomRazorRight && 
             playerBottom > bottomRazorTop) {
-            return true;
+            return { hit: true, type: 'razor-bottom', razor: razor };
         }
     }
     
-    return false;
+    return { hit: false, type: null, razor: null };
 }
 
 // ============================================
@@ -544,8 +832,9 @@ function update(deltaTime) {
         updateRazors(deltaTime);
         
         // Check collisions
-        if (checkCollisions()) {
-            die();
+        const collision = checkCollisions();
+        if (collision.hit) {
+            die(collision.type, collision.razor);
         }
     } else if (gameState === GameState.DYING) {
         updatePlayer(deltaTime);
@@ -662,17 +951,29 @@ function drawScore() {
     if (gameState === GameState.PLAYING || gameState === GameState.DYING) {
         ctx.save();
         ctx.font = 'bold 120px "Creepster", cursive';
-        ctx.fillStyle = '#000000';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
         
-        // Draw shadow
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-        ctx.fillText(score.toString(), GAME_WIDTH / 2 + 5, 88);
+        // Outer glow effect
+        ctx.shadowColor = 'rgba(157, 78, 221, 0.8)';
+        ctx.shadowBlur = 20;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
         
-        // Draw score
-        ctx.fillStyle = '#000000';
+        // Draw shadow/outline
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        ctx.fillText(score.toString(), GAME_WIDTH / 2 + 4, 88);
+        
+        // Draw main score with white fill
+        ctx.shadowBlur = 30;
+        ctx.shadowColor = 'rgba(157, 78, 221, 0.6)';
+        ctx.fillStyle = '#FFFFFF';
         ctx.fillText(score.toString(), GAME_WIDTH / 2, 85);
+        
+        // Draw stroke for definition
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 4;
+        ctx.strokeText(score.toString(), GAME_WIDTH / 2, 85);
         
         ctx.restore();
     }
@@ -753,28 +1054,65 @@ function drawStartScreen(deltaTime) {
         ctx.restore();
     }
     
-    // Draw "View Leaderboard" button
+    // Draw "View Leaderboard" button with premium effects
     ctx.save();
     const lbBtnY = GAME_HEIGHT * 0.88;
-    const lbBtnWidth = 400;
-    const lbBtnHeight = 70;
+    const lbBtnWidth = 420;
+    const lbBtnHeight = 80;
     const lbBtnX = GAME_WIDTH / 2 - lbBtnWidth / 2;
     
-    // Button background
-    const gradient = ctx.createLinearGradient(lbBtnX, lbBtnY, lbBtnX + lbBtnWidth, lbBtnY);
+    // Animated glow pulse
+    const glowPulse = 0.5 + 0.5 * Math.sin(Date.now() / 500);
+    const glowIntensity = 15 + glowPulse * 15;
+    
+    // Outer glow
+    ctx.shadowColor = 'rgba(255, 215, 0, 0.6)';
+    ctx.shadowBlur = glowIntensity;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 4;
+    
+    // Button background with animated gradient
+    const gradientOffset = (Date.now() / 20) % lbBtnWidth;
+    const gradient = ctx.createLinearGradient(lbBtnX - gradientOffset, lbBtnY, lbBtnX + lbBtnWidth + gradientOffset, lbBtnY);
     gradient.addColorStop(0, '#FFD700');
-    gradient.addColorStop(1, '#FFA500');
+    gradient.addColorStop(0.3, '#FFC107');
+    gradient.addColorStop(0.5, '#FFEB3B');
+    gradient.addColorStop(0.7, '#FFC107');
+    gradient.addColorStop(1, '#FFD700');
     ctx.fillStyle = gradient;
     ctx.beginPath();
-    ctx.roundRect(lbBtnX, lbBtnY, lbBtnWidth, lbBtnHeight, 15);
+    ctx.roundRect(lbBtnX, lbBtnY, lbBtnWidth, lbBtnHeight, 18);
     ctx.fill();
     
-    // Button text
-    ctx.font = '36px "Creepster", cursive';
-    ctx.fillStyle = '#FFFFFF';
+    // Inner highlight (top edge)
+    ctx.shadowBlur = 0;
+    const highlightGrad = ctx.createLinearGradient(lbBtnX, lbBtnY, lbBtnX, lbBtnY + 20);
+    highlightGrad.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
+    highlightGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    ctx.fillStyle = highlightGrad;
+    ctx.beginPath();
+    ctx.roundRect(lbBtnX + 3, lbBtnY + 3, lbBtnWidth - 6, 25, [15, 15, 0, 0]);
+    ctx.fill();
+    
+    // Border
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.roundRect(lbBtnX, lbBtnY, lbBtnWidth, lbBtnHeight, 18);
+    ctx.stroke();
+    
+    // Button text with shadow
+    ctx.font = 'bold 40px "Creepster", cursive';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('🏆 View Leaderboard', GAME_WIDTH / 2, lbBtnY + lbBtnHeight / 2);
+    
+    // Text shadow
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+    ctx.fillText('🏆 VIEW LEADERBOARD', GAME_WIDTH / 2 + 2, lbBtnY + lbBtnHeight / 2 + 2);
+    
+    // Main text
+    ctx.fillStyle = '#1a1a1a';
+    ctx.fillText('🏆 VIEW LEADERBOARD', GAME_WIDTH / 2, lbBtnY + lbBtnHeight / 2);
     ctx.restore();
     
     // Store button bounds for click detection
@@ -787,9 +1125,36 @@ function drawStartScreen(deltaTime) {
 }
 
 function render(deltaTime) {
+    // Update screen shake
+    let shakeX = 0, shakeY = 0;
+    if (screenShake.active) {
+        screenShake.elapsed += deltaTime;
+        if (screenShake.elapsed >= screenShake.duration) {
+            screenShake.active = false;
+        } else {
+            // Decay intensity over time with easing
+            const progress = screenShake.elapsed / screenShake.duration;
+            const decay = 1 - (progress * progress);  // Quadratic ease out
+            const currentIntensity = screenShake.intensity * decay;
+            
+            // Random shake offset with some directional bias
+            shakeX = (Math.random() - 0.5) * 2 * currentIntensity;
+            shakeY = (Math.random() - 0.5) * 2 * currentIntensity;
+            
+            // Add some rotational shake feel by biasing direction
+            const angle = Math.random() * Math.PI * 2;
+            shakeX += Math.cos(angle) * currentIntensity * 0.3;
+            shakeY += Math.sin(angle) * currentIntensity * 0.3;
+        }
+    }
+    
+    // Apply screen shake transform
+    ctx.save();
+    ctx.translate(shakeX, shakeY);
+    
     // Clear canvas with white
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    ctx.fillRect(-50, -50, GAME_WIDTH + 100, GAME_HEIGHT + 100);  // Slightly larger to cover shake
     
     // Draw game elements based on state
     if (gameState === GameState.READY) {
@@ -798,6 +1163,46 @@ function render(deltaTime) {
         drawRazors();
         drawPlayer();
         drawScore();
+    }
+    
+    ctx.restore();
+    
+    // Draw screen flash overlay (after restore so it's not shaken)
+    if (screenFlash.active) {
+        screenFlash.elapsed += deltaTime;
+        
+        let alpha = 0;
+        const flashInTime = 50;   // Quick flash in
+        const holdTime = 80;      // Brief hold
+        const fadeOutTime = screenFlash.duration - flashInTime - holdTime;
+        
+        if (screenFlash.elapsed < flashInTime) {
+            // Flash in - quick burst
+            alpha = (screenFlash.elapsed / flashInTime) * 0.8;
+        } else if (screenFlash.elapsed < flashInTime + holdTime) {
+            // Hold at peak
+            alpha = 0.8;
+        } else if (screenFlash.elapsed < screenFlash.duration) {
+            // Fade out
+            const fadeProgress = (screenFlash.elapsed - flashInTime - holdTime) / fadeOutTime;
+            alpha = 0.8 * (1 - fadeProgress);
+        } else {
+            screenFlash.active = false;
+        }
+        
+        if (alpha > 0) {
+            ctx.save();
+            ctx.fillStyle = `rgba(255, 50, 50, ${alpha})`;
+            ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+            
+            // Add a white flash burst at the very start for extra impact
+            if (screenFlash.elapsed < 30) {
+                const whiteAlpha = (1 - screenFlash.elapsed / 30) * 0.5;
+                ctx.fillStyle = `rgba(255, 255, 255, ${whiteAlpha})`;
+                ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+            }
+            ctx.restore();
+        }
     }
 }
 

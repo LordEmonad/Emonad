@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css?v=4">
     <style>
         /* Loading Screen Styles */
         #loading-screen {
@@ -22,12 +22,42 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 0.5s ease-out;
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            overflow: hidden;
         }
+        
+        /* Animated background particles */
+        #loading-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, rgba(157, 78, 221, 0.4), transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(224, 170, 255, 0.3), transparent),
+                radial-gradient(2px 2px at 50px 160px, rgba(157, 78, 221, 0.4), transparent),
+                radial-gradient(2px 2px at 90px 40px, rgba(224, 170, 255, 0.3), transparent),
+                radial-gradient(2px 2px at 130px 80px, rgba(157, 78, 221, 0.4), transparent),
+                radial-gradient(2px 2px at 160px 120px, rgba(224, 170, 255, 0.3), transparent);
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            animation: particleFloat 20s linear infinite;
+            opacity: 0.6;
+        }
+        
+        @keyframes particleFloat {
+            0% { transform: translateY(0) translateX(0); }
+            100% { transform: translateY(-200px) translateX(50px); }
+        }
+        
         #loading-screen.hidden {
             opacity: 0;
+            transform: scale(1.1);
             pointer-events: none;
         }
+        
         .loading-title {
             font-family: 'Creepster', cursive;
             font-size: 4rem;
@@ -35,84 +65,135 @@
             text-shadow: 0 0 20px #9d4edd, 0 0 40px #7b2cbf, 0 0 60px #5a189a;
             margin-bottom: 30px;
             animation: titlePulse 2s ease-in-out infinite;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 4px;
         }
+        
         @keyframes titlePulse {
             0%, 100% { transform: scale(1); text-shadow: 0 0 20px #9d4edd, 0 0 40px #7b2cbf; }
             50% { transform: scale(1.05); text-shadow: 0 0 30px #9d4edd, 0 0 60px #7b2cbf, 0 0 80px #5a189a; }
         }
+        
         .loading-bird {
-            width: 200px;
-            height: 200px;
+            width: 220px;
+            height: 220px;
             object-fit: contain;
-            animation: birdFlap 0.15s ease-in-out infinite alternate;
+            animation: birdFlap 0.15s ease-in-out infinite alternate, birdGlow 2s ease-in-out infinite;
             margin-bottom: 30px;
-            image-rendering: pixelated;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 0 20px rgba(157, 78, 221, 0.6));
         }
+        
         @keyframes birdFlap {
             0% { transform: translateY(0) rotate(-8deg); }
             100% { transform: translateY(-20px) rotate(8deg); }
         }
+        
+        @keyframes birdGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(157, 78, 221, 0.6)); }
+            50% { filter: drop-shadow(0 0 35px rgba(157, 78, 221, 0.9)) drop-shadow(0 0 50px rgba(224, 170, 255, 0.4)); }
+        }
+        
         .loading-text {
             font-family: 'Creepster', cursive;
             font-size: 1.5rem;
             color: #e0aaff;
             margin-bottom: 20px;
-            animation: loadingDots 1.5s ease-in-out infinite;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 10px rgba(224, 170, 255, 0.5);
         }
-        @keyframes loadingDots {
-            0%, 20% { content: 'Loading'; }
-            40% { content: 'Loading.'; }
-            60% { content: 'Loading..'; }
-            80%, 100% { content: 'Loading...'; }
-        }
+        
         .loading-bar-container {
-            width: 250px;
-            height: 8px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 4px;
+            width: 280px;
+            height: 12px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 6px;
             overflow: hidden;
             margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            box-shadow: 0 0 20px rgba(157, 78, 221, 0.2), inset 0 2px 4px rgba(0,0,0,0.3);
         }
+        
         .loading-bar {
             height: 100%;
-            background: linear-gradient(90deg, #9d4edd, #e0aaff, #9d4edd);
-            background-size: 200% 100%;
-            animation: loadingBarMove 1s linear infinite;
+            background: linear-gradient(90deg, #7b2cbf, #9d4edd, #e0aaff, #9d4edd, #7b2cbf);
+            background-size: 300% 100%;
+            animation: loadingBarMove 1.5s ease-in-out infinite;
             width: 0%;
             transition: width 0.3s ease-out;
+            border-radius: 6px;
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.8);
         }
+        
         @keyframes loadingBarMove {
             0% { background-position: 100% 0; }
-            100% { background-position: -100% 0; }
+            100% { background-position: 0% 0; }
         }
+        
         #play-btn {
             font-family: 'Creepster', cursive;
-            font-size: 2rem;
-            padding: 15px 50px;
+            font-size: 2.2rem;
+            padding: 18px 60px;
             background: linear-gradient(135deg, #9d4edd, #7b2cbf);
             color: white;
-            border: none;
+            border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50px;
             cursor: pointer;
             opacity: 0;
             transform: scale(0.8);
             transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(157, 78, 221, 0.5);
+            box-shadow: 0 0 30px rgba(157, 78, 221, 0.5), 0 8px 25px rgba(0, 0, 0, 0.3);
             display: none;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
+        
         #play-btn.show {
             display: block;
             opacity: 1;
             transform: scale(1);
-            animation: playBtnPulse 1.5s ease-in-out infinite;
+            animation: playBtnPulse 1.5s ease-in-out infinite, playBtnFloat 3s ease-in-out infinite;
         }
+        
         #play-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 40px rgba(157, 78, 221, 0.8);
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 0 0 50px rgba(157, 78, 221, 0.8), 0 12px 35px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.5);
+            background: linear-gradient(135deg, #a855f7, #8b5cf6);
         }
+        
+        #play-btn:active {
+            transform: scale(1.05) translateY(0);
+        }
+        
         @keyframes playBtnPulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(157, 78, 221, 0.5); }
-            50% { box-shadow: 0 0 40px rgba(157, 78, 221, 0.8), 0 0 60px rgba(157, 78, 221, 0.4); }
+            0%, 100% { box-shadow: 0 0 30px rgba(157, 78, 221, 0.5), 0 8px 25px rgba(0, 0, 0, 0.3); }
+            50% { box-shadow: 0 0 50px rgba(157, 78, 221, 0.8), 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 80px rgba(157, 78, 221, 0.3); }
+        }
+        
+        @keyframes playBtnFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        /* Subtitle under title */
+        .loading-subtitle {
+            font-family: 'Creepster', cursive;
+            font-size: 1.2rem;
+            color: rgba(224, 170, 255, 0.6);
+            margin-top: -20px;
+            margin-bottom: 25px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
         }
         /* Mobile responsive loading screen */
         @media (max-width: 600px) {
@@ -143,6 +224,7 @@
     <!-- Loading Screen -->
     <div id="loading-screen">
         <div class="loading-title">FLAP EMONAD</div>
+        <div class="loading-subtitle">on Monad</div>
         <img class="loading-bird" src="flap1.PNG" alt="Flap Emonad" id="loading-bird-img">
         <div class="loading-text" id="loading-text">Loading...</div>
         <div class="loading-bar-container">
@@ -185,6 +267,8 @@
                 <button id="restart-btn">RESTART</button>
                 <button id="submit-score-btn" onclick="submitScoreToBlockchain()">Submit Score</button>
             </div>
+            
+            
             <a href="leaderboard.html" class="view-lb-btn">🏆 View Leaderboard</a>
             <p class="submit-hint">Click Submit Score to connect wallet & submit on-chain</p>
         </div>
@@ -194,7 +278,7 @@
     <!-- Ethers.js for blockchain interaction -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.9.0/ethers.umd.min.js"></script>
     <script src="audio.js?v=7"></script>
-    <script src="script.js?v=9"></script>
+    <script src="script.js?v=10"></script>
     
 </body>
 </html>
