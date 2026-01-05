@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Flap Emonad - On-Chain Stats</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e, #16213e);
+            font-family: 'Space Grotesk', sans-serif;
+            color: #FFFFFF;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-family: 'Creepster', cursive;
+            font-size: 48px;
+            color: #9d4edd;
+            text-shadow: 0 0 20px rgba(157, 78, 221, 0.5);
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            font-family: 'Creepster', cursive;
+            padding: 12px 25px;
+            font-size: 18px;
+            color: #FFFFFF;
+            background: linear-gradient(135deg, #333, #555);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .nav-btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #444, #666);
+        }
+        
+        .nav-btn.primary {
+            background: linear-gradient(135deg, #7B3FE4, #9B5FFF);
+        }
+        
+        .nav-btn.primary:hover {
+            box-shadow: 0 4px 20px rgba(123, 63, 228, 0.5);
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .stat-card .icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #9d4edd;
+            margin-bottom: 5px;
+        }
+        
+        .stat-card .value.loading {
+            color: #666;
+            font-size: 24px;
+        }
+        
+        .stat-card .label {
+            font-size: 14px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Contract Info Section */
+        .section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .section h2 {
+            font-family: 'Creepster', cursive;
+            font-size: 28px;
+            color: #FFD700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .contract-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .info-row .label {
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .info-row .value {
+            font-family: monospace;
+            font-size: 14px;
+            color: #9d4edd;
+            word-break: break-all;
+        }
+        
+        .info-row .value a {
+            color: #9d4edd;
+            text-decoration: none;
+        }
+        
+        .info-row .value a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Recent Transactions */
+        .tx-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .tx-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            transition: all 0.2s;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .tx-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .tx-item .player {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tx-item .player-name {
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .tx-item .player-address {
+            font-family: monospace;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .tx-item .score {
+            font-size: 20px;
+            font-weight: 700;
+            color: #00FF88;
+        }
+        
+        .tx-item .timestamp {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .tx-item .tx-link {
+            font-size: 12px;
+            color: #9d4edd;
+            text-decoration: none;
+        }
+        
+        .tx-item .tx-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Top Players */
+        .top-players {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .player-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            transition: all 0.2s;
+        }
+        
+        .player-row:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+        }
+        
+        .player-row.gold {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.1));
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .player-row.silver {
+            background: linear-gradient(135deg, rgba(192, 192, 192, 0.2), rgba(169, 169, 169, 0.1));
+            border: 1px solid rgba(192, 192, 192, 0.3);
+        }
+        
+        .player-row.bronze {
+            background: linear-gradient(135deg, rgba(205, 127, 50, 0.2), rgba(184, 115, 51, 0.1));
+            border: 1px solid rgba(205, 127, 50, 0.3);
+        }
+        
+        .player-row .rank {
+            font-size: 24px;
+            font-weight: 700;
+            min-width: 50px;
+        }
+        
+        .player-row .rank.gold { color: #FFD700; }
+        .player-row .rank.silver { color: #C0C0C0; }
+        .player-row .rank.bronze { color: #CD7F32; }
+        .player-row .rank.normal { color: #666; }
+        
+        .player-row .name {
+            flex: 1;
+            font-weight: 600;
+        }
+        
+        .player-row .address {
+            font-family: monospace;
+            font-size: 12px;
+            color: #666;
+            margin-left: 10px;
+        }
+        
+        .player-row .score {
+            font-size: 24px;
+            font-weight: 700;
+            color: #00FF88;
+        }
+        
+        .player-row {
+            cursor: pointer;
+        }
+        
+        .player-row:hover {
+            background: rgba(157, 78, 221, 0.2);
+        }
+        
+        /* All Transactions Table */
+        .tx-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .tx-table th {
+            text-align: left;
+            padding: 12px 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: #888;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        
+        .tx-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 14px;
+        }
+        
+        .tx-table tr:hover {
+            background: rgba(255,255,255,0.03);
+        }
+        
+        .tx-table .hash {
+            font-family: monospace;
+            color: #9d4edd;
+        }
+        
+        .tx-table .hash a {
+            color: #9d4edd;
+            text-decoration: none;
+        }
+        
+        .tx-table .hash a:hover {
+            text-decoration: underline;
+        }
+        
+        .tx-table .method {
+            background: rgba(157, 78, 221, 0.2);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #9d4edd;
+        }
+        
+        .tx-table .gas {
+            color: #FFD700;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .pagination button {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .pagination button:hover:not(:disabled) {
+            background: rgba(157, 78, 221, 0.3);
+        }
+        
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Loading State */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(157, 78, 221, 0.3);
+            border-top-color: #9d4edd;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        /* Refresh Button */
+        .refresh-btn {
+            background: rgba(157, 78, 221, 0.2);
+            border: 1px solid #9d4edd;
+            color: #9d4edd;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .refresh-btn:hover {
+            background: rgba(157, 78, 221, 0.3);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 36px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .stat-card .value {
+                font-size: 24px;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .player-row {
+                flex-wrap: wrap;
+            }
+            
+            .player-row .address {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 ON-CHAIN STATS</h1>
+            <p>Live data from the Flap Emonad smart contract on Monad</p>
+            <div class="nav-buttons">
+                <a href="index.html" class="nav-btn primary">🎮 Play Game</a>
+                <a href="leaderboard.html" class="nav-btn">🏆 Leaderboard</a>
+            </div>
+        </div>
+        
+        <!-- Key Stats -->
+        <div class="stats-grid">
+            <div class="stat-card" style="background: linear-gradient(135deg, rgba(157, 78, 221, 0.3), rgba(200, 100, 255, 0.2));">
+                <div class="icon">🦅</div>
+                <div class="value loading" id="total-flaps" style="color: #FF6B6B;">...</div>
+                <div class="label">Global Flaps</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">👥</div>
+                <div class="value loading" id="total-players">...</div>
+                <div class="label">Total Players</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">🎯</div>
+                <div class="value loading" id="total-submissions">...</div>
+                <div class="label">Score Submissions</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">🏆</div>
+                <div class="value loading" id="highest-score">...</div>
+                <div class="label">Highest Score</div>
+            </div>
+                    </div>
+        
+        <!-- Contract Info -->
+        <div class="section">
+            <h2>📜 Contract Info</h2>
+            <div class="contract-info">
+                <div class="info-row">
+                    <span class="label">Contract Address</span>
+                    <span class="value">
+                        <a href="https://monadvision.com/address/0x7fffA7d3FF68A8781d3cc724810ddb03601D9642" target="_blank" id="contract-address">
+                            0x7fffA7d3FF68A8781d3cc724810ddb03601D9642
+                        </a>
+                    </span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Network</span>
+                    <span class="value">Monad (Chain ID: 143)</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Contract Balance</span>
+                    <span class="value" id="contract-balance">Loading...</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Total Transactions</span>
+                    <span class="value" id="total-txs">Loading...</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Leaderboard -->
+        <div class="section">
+            <div class="section-header">
+                <h2>🏆 Leaderboard</h2>
+                <button class="refresh-btn" onclick="loadLeaderboard()">↻ Refresh</button>
+            </div>
+            <p style="color: #666; font-size: 12px; margin-bottom: 15px;">Click any player to view their wallet on Monadvision</p>
+            <div class="top-players" id="leaderboard">
+                <div class="empty-state"><div class="loading-spinner"></div> Loading...</div>
+            </div>
+            <div class="pagination" id="leaderboard-pagination" style="display: none;">
+                <button onclick="prevLeaderboardPage()" id="prev-lb-btn" disabled>← Previous</button>
+                <span id="lb-page-info" style="padding: 8px 16px; color: #888;">Page 1</span>
+                <button onclick="nextLeaderboardPage()" id="next-lb-btn">Next →</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.9.0/ethers.umd.min.js"></script>
+    <script>
+        // Monad Network Configuration
+        const MONAD_RPC = 'https://rpc.monad.xyz';
+        const LEADERBOARD_ADDRESS = '0x7fffA7d3FF68A8781d3cc724810ddb03601D9642';
+        const FLAP_COUNTER_ADDRESS = '0xF68865966172F2E2C062905c936b602e39C4C4F2';
+        const REFEREE_SERVER_URL = 'https://felt-majority-alan-pair.trycloudflare.com';
+        
+        // Extended ABI for stats
+        const LEADERBOARD_ABI = [
+            'function getHighScore(address _player) external view returns (uint256)',
+            'function getName(address _player) external view returns (string memory)',
+            'function getTopScores(uint256 _count) external view returns (address[] memory, string[] memory, uint256[] memory)',
+            'function getPlayerCount() external view returns (uint256)',
+            'function getNonce(address _player) external view returns (uint256)',
+            'event NewHighScore(address indexed player, string name, uint256 score, uint256 timestamp)'
+        ];
+        
+        let provider;
+        let contract;
+        
+        async function loadStats() {
+            try {
+                // Get player count
+                const playerCount = await contract.getPlayerCount();
+                document.getElementById('total-players').textContent = playerCount.toString();
+                document.getElementById('total-players').classList.remove('loading');
+                
+                // Get top scores to find highest
+                const [players, names, scores] = await contract.getTopScores(1);
+                if (players.length > 0 && players[0] !== '0x0000000000000000000000000000000000000000') {
+                    document.getElementById('highest-score').textContent = scores[0].toString();
+                } else {
+                    document.getElementById('highest-score').textContent = '0';
+                }
+                document.getElementById('highest-score').classList.remove('loading');
+                
+            } catch (err) {
+                console.error('Failed to load stats:', err);
+                document.getElementById('total-players').textContent = 'Error';
+                document.getElementById('highest-score').textContent = 'Error';
+            }
+        }
+        
+        async function loadContractInfo() {
+            try {
+                // Get contract balance
+                const balance = await provider.getBalance(LEADERBOARD_ADDRESS);
+                const balanceInMon = ethers.formatEther(balance);
+                document.getElementById('contract-balance').textContent = parseFloat(balanceInMon).toFixed(4) + ' MON';
+                
+                // Get transaction count (nonce) - this is an approximation
+                const txCount = await provider.getTransactionCount(LEADERBOARD_ADDRESS);
+                document.getElementById('total-txs').textContent = txCount.toString();
+                
+                // For total submissions, we'll use player count as approximation
+                const playerCount = await contract.getPlayerCount();
+                document.getElementById('total-submissions').textContent = playerCount.toString();
+                document.getElementById('total-submissions').classList.remove('loading');
+                
+                
+            } catch (err) {
+                console.error('Failed to load contract info:', err);
+            }
+        }
+        
+        // ========== PAGINATED LEADERBOARD ==========
+        let allPlayers = [];
+        let lbPage = 0;
+        const playersPerPage = 10;
+        
+        async function loadLeaderboard() {
+            const container = document.getElementById('leaderboard');
+            container.innerHTML = '<div class="empty-state"><div class="loading-spinner"></div> Loading...</div>';
+            
+            try {
+                // Get all players (fetch more than we need for pagination)
+                const [players, names, scores] = await contract.getTopScores(100);
+                
+                // Filter out empty entries
+                allPlayers = [];
+                for (let i = 0; i < players.length; i++) {
+                    if (players[i] !== '0x0000000000000000000000000000000000000000') {
+                        allPlayers.push({
+                            address: players[i],
+                            name: names[i] && names[i].length > 0 ? names[i] : 'Anonymous',
+                            score: scores[i].toString(),
+                            rank: i + 1
+                        });
+                    }
+                }
+                
+                if (allPlayers.length === 0) {
+                    container.innerHTML = '<div class="empty-state">No scores yet - be the first!</div>';
+                    return;
+                }
+                
+                // Show pagination if needed
+                if (allPlayers.length > playersPerPage) {
+                    document.getElementById('leaderboard-pagination').style.display = 'flex';
+                }
+                
+                lbPage = 0;
+                renderLeaderboardPage();
+                
+            } catch (err) {
+                console.error('Failed to load leaderboard:', err);
+                container.innerHTML = '<div class="empty-state">Failed to load leaderboard</div>';
+            }
+        }
+        
+        function renderLeaderboardPage() {
+            const container = document.getElementById('leaderboard');
+            const start = lbPage * playersPerPage;
+            const end = Math.min(start + playersPerPage, allPlayers.length);
+            const pagePlayers = allPlayers.slice(start, end);
+            
+            container.innerHTML = '';
+            
+            for (const player of pagePlayers) {
+                const shortAddress = player.address.slice(0, 6) + '...' + player.address.slice(-4);
+                
+                let rankClass = 'normal';
+                let rowClass = '';
+                if (player.rank === 1) { rankClass = 'gold'; rowClass = 'gold'; }
+                else if (player.rank === 2) { rankClass = 'silver'; rowClass = 'silver'; }
+                else if (player.rank === 3) { rankClass = 'bronze'; rowClass = 'bronze'; }
+                
+                const row = document.createElement('div');
+                row.className = `player-row ${rowClass}`;
+                row.style.cursor = 'pointer';
+                row.onclick = () => window.open(`https://monadvision.com/address/${player.address}`, '_blank');
+                row.innerHTML = `
+                    <span class="rank ${rankClass}">#${player.rank}</span>
+                    <span class="name">${player.name}</span>
+                    <span class="address">${shortAddress}</span>
+                    <span class="score">${player.score}</span>
+                `;
+                container.appendChild(row);
+            }
+            
+            // Update pagination
+            const totalPages = Math.ceil(allPlayers.length / playersPerPage);
+            document.getElementById('lb-page-info').textContent = `Page ${lbPage + 1} of ${totalPages}`;
+            document.getElementById('prev-lb-btn').disabled = lbPage === 0;
+            document.getElementById('next-lb-btn').disabled = end >= allPlayers.length;
+        }
+        
+        function prevLeaderboardPage() {
+            if (lbPage > 0) {
+                lbPage--;
+                renderLeaderboardPage();
+            }
+        }
+        
+        function nextLeaderboardPage() {
+            if ((lbPage + 1) * playersPerPage < allPlayers.length) {
+                lbPage++;
+                renderLeaderboardPage();
+            }
+        }
+        
+        // Load global flap count from server
+        async function loadFlapCount() {
+            try {
+                const response = await fetch(`${REFEREE_SERVER_URL}/api/flaps`);
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('total-flaps').textContent = parseInt(data.totalFlaps).toLocaleString();
+                    document.getElementById('total-flaps').classList.remove('loading');
+                } else {
+                    document.getElementById('total-flaps').textContent = '—';
+                    document.getElementById('total-flaps').classList.remove('loading');
+                }
+            } catch (err) {
+                console.error('Failed to load flap count:', err);
+                document.getElementById('total-flaps').textContent = '—';
+                document.getElementById('total-flaps').classList.remove('loading');
+            }
+        }
+        
+        // Initialize on page load
+        async function init() {
+            provider = new ethers.JsonRpcProvider(MONAD_RPC);
+            contract = new ethers.Contract(LEADERBOARD_ADDRESS, LEADERBOARD_ABI, provider);
+            
+            // Load all data
+            await Promise.all([
+                loadStats(),
+                loadLeaderboard(),
+                loadContractInfo(),
+                loadFlapCount()
+            ]);
+        }
+        
+        init();
+    </script>
+</body>
+</html>

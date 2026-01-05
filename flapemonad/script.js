@@ -15,7 +15,7 @@ const MONAD_CHAIN_CONFIG = {
     chainName: 'Monad',
     nativeCurrency: { name: 'MON', symbol: 'MON', decimals: 18 },
     rpcUrls: ['https://rpc.monad.xyz'],
-    blockExplorerUrls: ['https://monadscan.com']
+    blockExplorerUrls: ['https://monadvision.com']
 };
 
 // Leaderboard Contract (UPDATE AFTER DEPLOYMENT)
@@ -297,6 +297,9 @@ function flap() {
     if (typeof chiptunePlayer !== 'undefined') {
         chiptunePlayer.playFlap();
     }
+    
+    // Record flap on-chain (fire and forget - doesn't affect gameplay)
+    fetch(`${REFEREE_SERVER_URL}/api/flap`, { method: 'POST' }).catch(() => {});
 }
 
 function die() {
