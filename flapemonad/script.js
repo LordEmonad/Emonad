@@ -15,12 +15,12 @@ const MONAD_CHAIN_CONFIG = {
     chainName: 'Monad',
     nativeCurrency: { name: 'MON', symbol: 'MON', decimals: 18 },
     rpcUrls: ['https://rpc.monad.xyz'],
-    blockExplorerUrls: ['https://monadscan.com']
+    blockExplorerUrls: ['https://monadvision.com']
 };
 
 // Leaderboard Contract (UPDATE AFTER DEPLOYMENT)
 const LEADERBOARD_ADDRESS = '0x7fffA7d3FF68A8781d3cc724810ddb03601D9642'; // TODO: Set after deployment
-const REFEREE_SERVER_URL = 'https://felt-majority-alan-pair.trycloudflare.com';
+const REFEREE_SERVER_URL = 'https://api.emonad.lol';
 
 // Leaderboard Contract ABI (minimal)
 const LEADERBOARD_ABI = [
@@ -286,6 +286,27 @@ function startGame() {
     }
 }
 
+// Flap counter - batch flaps and send periodically to avoid Cloudflare rate limits
+// EVERY FLAP IS COUNTED - just sent in batches
+let pendingFlaps = 0;
+
+// Send pending flaps every 2 seconds
+setInterval(() => {
+    if (pendingFlaps > 0) {
+        const flapsToSend = pendingFlaps;
+        pendingFlaps = 0;
+        // Send batch of flaps
+        fetch(`${REFEREE_SERVER_URL}/api/flap/batch`, { 
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ count: flapsToSend })
+        }).catch(() => {
+            // If failed, add back to pending
+            pendingFlaps += flapsToSend;
+        });
+    }
+}, 2000);
+
 function flap() {
     // Set velocity directly (authentic Flappy Bird feel)
     player.velocity = JUMP_VELOCITY;
@@ -297,6 +318,9 @@ function flap() {
     if (typeof chiptunePlayer !== 'undefined') {
         chiptunePlayer.playFlap();
     }
+    
+    // Count this flap (will be sent in next batch)
+    pendingFlaps++;
 }
 
 function die() {
