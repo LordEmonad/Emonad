@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="stylesheet" href="style.css?v=16">
     <style>
         /* Loading Screen Styles */
         #loading-screen {
@@ -20,7 +20,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #1a0a2e 0%, #16213e 50%, #0f0f23 100%);
+            background: radial-gradient(ellipse at center, #1a0a2e 0%, #0d0515 50%, #050208 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -30,7 +30,7 @@
             overflow: hidden;
         }
         
-        /* Animated background particles */
+        /* Animated background particles - layer 1 (slow, large) */
         #loading-screen::before {
             content: '';
             position: absolute;
@@ -39,21 +39,47 @@
             right: 0;
             bottom: 0;
             background-image: 
-                radial-gradient(2px 2px at 20px 30px, rgba(157, 78, 221, 0.4), transparent),
-                radial-gradient(2px 2px at 40px 70px, rgba(224, 170, 255, 0.3), transparent),
-                radial-gradient(2px 2px at 50px 160px, rgba(157, 78, 221, 0.4), transparent),
-                radial-gradient(2px 2px at 90px 40px, rgba(224, 170, 255, 0.3), transparent),
-                radial-gradient(2px 2px at 130px 80px, rgba(157, 78, 221, 0.4), transparent),
-                radial-gradient(2px 2px at 160px 120px, rgba(224, 170, 255, 0.3), transparent);
+                radial-gradient(3px 3px at 10% 20%, rgba(157, 78, 221, 0.6), transparent),
+                radial-gradient(4px 4px at 80% 10%, rgba(224, 170, 255, 0.5), transparent),
+                radial-gradient(3px 3px at 30% 80%, rgba(157, 78, 221, 0.6), transparent),
+                radial-gradient(5px 5px at 70% 60%, rgba(123, 44, 191, 0.4), transparent),
+                radial-gradient(3px 3px at 50% 40%, rgba(224, 170, 255, 0.5), transparent),
+                radial-gradient(4px 4px at 90% 90%, rgba(157, 78, 221, 0.6), transparent);
+            background-repeat: repeat;
+            background-size: 400px 400px;
+            animation: particleFloat 25s linear infinite;
+            opacity: 0.8;
+        }
+        
+        /* Animated background particles - layer 2 (fast, small) */
+        #loading-screen::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(2px 2px at 15% 25%, rgba(255, 255, 255, 0.4), transparent),
+                radial-gradient(1px 1px at 85% 15%, rgba(255, 255, 255, 0.3), transparent),
+                radial-gradient(2px 2px at 25% 75%, rgba(255, 255, 255, 0.4), transparent),
+                radial-gradient(1px 1px at 65% 55%, rgba(255, 255, 255, 0.3), transparent),
+                radial-gradient(2px 2px at 45% 35%, rgba(255, 255, 255, 0.4), transparent),
+                radial-gradient(1px 1px at 95% 85%, rgba(255, 255, 255, 0.3), transparent);
             background-repeat: repeat;
             background-size: 200px 200px;
-            animation: particleFloat 20s linear infinite;
-            opacity: 0.6;
+            animation: particleFloatFast 12s linear infinite;
+            opacity: 0.5;
         }
         
         @keyframes particleFloat {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); }
+            100% { transform: translateY(-300px) translateX(100px) rotate(10deg); }
+        }
+        
+        @keyframes particleFloatFast {
             0% { transform: translateY(0) translateX(0); }
-            100% { transform: translateY(-200px) translateX(50px); }
+            100% { transform: translateY(-200px) translateX(-50px); }
         }
         
         #loading-screen.hidden {
@@ -64,40 +90,54 @@
         
         .loading-title {
             font-family: 'Creepster', cursive;
-            font-size: 4rem;
-            color: #9d4edd;
-            text-shadow: 0 0 20px #9d4edd, 0 0 40px #7b2cbf, 0 0 60px #5a189a;
+            font-size: 4.5rem;
+            color: #e0aaff;
+            text-shadow: 
+                0 0 8px rgba(157, 78, 221, 0.6),
+                0 0 20px rgba(157, 78, 221, 0.4),
+                0 0 35px rgba(123, 44, 191, 0.3);
             margin-bottom: 30px;
-            animation: titlePulse 2s ease-in-out infinite;
+            animation: titlePulse 4s ease-in-out infinite;
             position: relative;
             z-index: 1;
-            letter-spacing: 4px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
         }
         
         @keyframes titlePulse {
-            0%, 100% { transform: scale(1); text-shadow: 0 0 20px #9d4edd, 0 0 40px #7b2cbf; }
-            50% { transform: scale(1.05); text-shadow: 0 0 30px #9d4edd, 0 0 60px #7b2cbf, 0 0 80px #5a189a; }
+            0%, 100% { 
+                transform: scale(1); 
+                text-shadow: 0 0 8px rgba(157, 78, 221, 0.6), 0 0 20px rgba(157, 78, 221, 0.4), 0 0 35px rgba(123, 44, 191, 0.3);
+            }
+            50% { 
+                transform: scale(1.02); 
+                text-shadow: 0 0 12px rgba(157, 78, 221, 0.7), 0 0 25px rgba(157, 78, 221, 0.5), 0 0 45px rgba(123, 44, 191, 0.35);
+            }
         }
         
         .loading-bird {
             width: 220px;
             height: 220px;
             object-fit: contain;
-            animation: birdFlap 0.15s ease-in-out infinite alternate, birdGlow 2s ease-in-out infinite;
-            margin-bottom: 30px;
+            animation: birdGlow 3s ease-in-out infinite, birdFloat 3s ease-in-out infinite;
+            margin-bottom: 35px;
             position: relative;
             z-index: 1;
-            filter: drop-shadow(0 0 20px rgba(157, 78, 221, 0.6));
-        }
-        
-        @keyframes birdFlap {
-            0% { transform: translateY(0) rotate(-8deg); }
-            100% { transform: translateY(-20px) rotate(8deg); }
+            filter: drop-shadow(0 0 20px rgba(157, 78, 221, 0.7)) drop-shadow(0 0 40px rgba(123, 44, 191, 0.3));
         }
         
         @keyframes birdGlow {
-            0%, 100% { filter: drop-shadow(0 0 20px rgba(157, 78, 221, 0.6)); }
-            50% { filter: drop-shadow(0 0 35px rgba(157, 78, 221, 0.9)) drop-shadow(0 0 50px rgba(224, 170, 255, 0.4)); }
+            0%, 100% { 
+                filter: drop-shadow(0 0 20px rgba(157, 78, 221, 0.7)) drop-shadow(0 0 40px rgba(123, 44, 191, 0.3));
+            }
+            50% { 
+                filter: drop-shadow(0 0 35px rgba(157, 78, 221, 0.9)) drop-shadow(0 0 60px rgba(224, 170, 255, 0.5));
+            }
+        }
+        
+        @keyframes birdFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
         
         .loading-text {
@@ -111,70 +151,81 @@
         }
         
         .loading-bar-container {
-            width: 280px;
-            height: 12px;
-            background: rgba(255,255,255,0.08);
-            border-radius: 6px;
+            width: 320px;
+            height: 14px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
             overflow: hidden;
-            margin-bottom: 40px;
+            margin-bottom: 45px;
             position: relative;
             z-index: 1;
-            border: 1px solid rgba(157, 78, 221, 0.3);
-            box-shadow: 0 0 20px rgba(157, 78, 221, 0.2), inset 0 2px 4px rgba(0,0,0,0.3);
+            border: 2px solid rgba(157, 78, 221, 0.4);
+            box-shadow: 
+                0 0 30px rgba(157, 78, 221, 0.3),
+                inset 0 2px 6px rgba(0,0,0,0.5),
+                0 4px 15px rgba(0, 0, 0, 0.4);
         }
         
         .loading-bar {
             height: 100%;
-            background: linear-gradient(90deg, #7b2cbf, #9d4edd, #e0aaff, #9d4edd, #7b2cbf);
-            background-size: 300% 100%;
-            animation: loadingBarMove 1.5s ease-in-out infinite;
+            background: linear-gradient(90deg, 
+                #5a189a, #7b2cbf, #9d4edd, #c77dff, #e0aaff, #c77dff, #9d4edd, #7b2cbf, #5a189a);
+            background-size: 400% 100%;
+            animation: loadingBarMove 2s ease-in-out infinite;
             width: 0%;
-            transition: width 0.3s ease-out;
-            border-radius: 6px;
-            box-shadow: 0 0 15px rgba(157, 78, 221, 0.8);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 8px;
+            box-shadow: 
+                0 0 20px rgba(157, 78, 221, 1),
+                0 0 40px rgba(157, 78, 221, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
         
         @keyframes loadingBarMove {
             0% { background-position: 100% 0; }
-            100% { background-position: 0% 0; }
+            100% { background-position: -100% 0; }
         }
         
         #play-btn {
             font-family: 'Creepster', cursive;
             font-size: 2.2rem;
-            padding: 18px 60px;
-            background: linear-gradient(135deg, #9d4edd, #7b2cbf);
+            padding: 20px 60px;
+            background: linear-gradient(135deg, #9d4edd 0%, #7b2cbf 50%, #5a189a 100%);
             color: white;
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50px;
             cursor: pointer;
             opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.3s ease;
-            box-shadow: 0 0 30px rgba(157, 78, 221, 0.5), 0 8px 25px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 
+                0 0 20px rgba(157, 78, 221, 0.4),
+                0 8px 25px rgba(0, 0, 0, 0.3);
             display: none;
             position: relative;
             z-index: 1;
             letter-spacing: 3px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
         }
         
         #play-btn.show {
             display: block;
             opacity: 1;
             transform: scale(1);
-            animation: playBtnPulse 1.5s ease-in-out infinite, playBtnFloat 3s ease-in-out infinite;
+            animation: playBtnFloat 4s ease-in-out infinite;
         }
         
         #play-btn:hover {
-            transform: scale(1.1) translateY(-3px);
-            box-shadow: 0 0 50px rgba(157, 78, 221, 0.8), 0 12px 35px rgba(0, 0, 0, 0.4);
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 
+                0 0 30px rgba(157, 78, 221, 0.6),
+                0 12px 30px rgba(0, 0, 0, 0.4);
             border-color: rgba(255, 255, 255, 0.5);
-            background: linear-gradient(135deg, #a855f7, #8b5cf6);
         }
         
         #play-btn:active {
-            transform: scale(0.95) translateY(0);
+            transform: scale(0.95);
             transition: transform 0.1s ease;
         }
         
@@ -182,18 +233,12 @@
         @media (hover: none) {
             #play-btn:active {
                 transform: scale(0.92);
-                background: linear-gradient(135deg, #8b5cf6, #7c3aed);
             }
-        }
-        
-        @keyframes playBtnPulse {
-            0%, 100% { box-shadow: 0 0 30px rgba(157, 78, 221, 0.5), 0 8px 25px rgba(0, 0, 0, 0.3); }
-            50% { box-shadow: 0 0 50px rgba(157, 78, 221, 0.8), 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 80px rgba(157, 78, 221, 0.3); }
         }
         
         @keyframes playBtnFloat {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+            50% { transform: translateY(-4px); }
         }
         
         /* Subtitle under title */
@@ -247,8 +292,8 @@
     </div>
     
     <script>
-        // Animate the loading bird through flap frames
-        const flapFrames = ['flap1.PNG', 'flap2.PNG', 'flap3.PNG', 'flap2.PNG'];
+        // Animate the loading bird through flap frames - only 1 and 2, slower
+        const flapFrames = ['flap1.PNG', 'flap2.PNG'];
         let currentFlapFrame = 0;
         const loadingBirdImg = document.getElementById('loading-bird-img');
         
@@ -257,7 +302,7 @@
                 currentFlapFrame = (currentFlapFrame + 1) % flapFrames.length;
                 loadingBirdImg.src = flapFrames[currentFlapFrame];
             }
-        }, 100); // Change frame every 100ms
+        }, 250); // Slower - change frame every 250ms
     </script>
 
     <!-- Sound Toggle Button -->
@@ -278,6 +323,7 @@
             
             <div class="game-over-buttons">
                 <button id="restart-btn">RESTART</button>
+                <button id="home-btn">🏠 HOME</button>
                 <button id="submit-score-btn" onclick="submitScoreToBlockchain()">Submit Score</button>
             </div>
             

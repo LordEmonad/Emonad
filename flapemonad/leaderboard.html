@@ -42,12 +42,13 @@
         html, body {
             width: 100%;
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a0a2e 0%, #16213e 50%, #0f0f23 100%);
+            background: radial-gradient(ellipse at center, #1a0a2e 0%, #0d0515 50%, #050208 100%);
             font-family: 'Creepster', cursive;
             color: #FFFFFF;
             overflow-x: hidden;
         }
         
+        /* Particle layer 1 - slow, large */
         body::before {
             content: '';
             position: fixed;
@@ -56,21 +57,49 @@
             right: 0;
             bottom: 0;
             background-image: 
-                radial-gradient(2px 2px at 20px 30px, rgba(157, 78, 221, 0.3), transparent),
-                radial-gradient(2px 2px at 40px 70px, rgba(224, 170, 255, 0.2), transparent),
-                radial-gradient(2px 2px at 50px 160px, rgba(157, 78, 221, 0.3), transparent),
-                radial-gradient(2px 2px at 90px 40px, rgba(224, 170, 255, 0.2), transparent);
+                radial-gradient(3px 3px at 10% 20%, rgba(255, 215, 0, 0.4), transparent),
+                radial-gradient(4px 4px at 80% 10%, rgba(157, 78, 221, 0.5), transparent),
+                radial-gradient(3px 3px at 30% 80%, rgba(255, 215, 0, 0.4), transparent),
+                radial-gradient(5px 5px at 70% 60%, rgba(224, 170, 255, 0.3), transparent),
+                radial-gradient(3px 3px at 50% 40%, rgba(255, 215, 0, 0.4), transparent),
+                radial-gradient(4px 4px at 90% 90%, rgba(157, 78, 221, 0.5), transparent);
+            background-repeat: repeat;
+            background-size: 400px 400px;
+            animation: particleFloat 25s linear infinite;
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        /* Particle layer 2 - fast, small stars */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(2px 2px at 15% 25%, rgba(255, 255, 255, 0.5), transparent),
+                radial-gradient(1px 1px at 85% 15%, rgba(255, 255, 255, 0.4), transparent),
+                radial-gradient(2px 2px at 25% 75%, rgba(255, 255, 255, 0.5), transparent),
+                radial-gradient(1px 1px at 65% 55%, rgba(255, 255, 255, 0.4), transparent);
             background-repeat: repeat;
             background-size: 200px 200px;
-            animation: particleFloat 20s linear infinite;
+            animation: particleFloatFast 12s linear infinite;
             opacity: 0.4;
             pointer-events: none;
             z-index: 0;
         }
         
         @keyframes particleFloat {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); }
+            100% { transform: translateY(-300px) translateX(100px) rotate(10deg); }
+        }
+        
+        @keyframes particleFloatFast {
             0% { transform: translateY(0) translateX(0); }
-            100% { transform: translateY(-200px) translateX(50px); }
+            100% { transform: translateY(-200px) translateX(-50px); }
         }
         
         .container {
@@ -88,17 +117,20 @@
             font-size: 52px;
             color: #FFD700;
             text-shadow: 
-                0 0 20px rgba(255, 215, 0, 0.6),
-                0 0 40px rgba(255, 215, 0, 0.4),
-                3px 3px 0 rgba(0, 0, 0, 0.5);
-            margin-bottom: 15px;
-            animation: titleGlow 2s ease-in-out infinite;
-            letter-spacing: 3px;
+                0 0 10px rgba(255, 215, 0, 0.5),
+                0 0 25px rgba(255, 215, 0, 0.3);
+            margin-bottom: 20px;
+            animation: titleGlow 4s ease-in-out infinite;
+            letter-spacing: 4px;
         }
         
         @keyframes titleGlow {
-            0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 215, 0, 0.4), 3px 3px 0 rgba(0, 0, 0, 0.5); }
-            50% { text-shadow: 0 0 30px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.5), 3px 3px 0 rgba(0, 0, 0, 0.5); }
+            0%, 100% { 
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.5), 0 0 25px rgba(255, 215, 0, 0.3);
+            }
+            50% { 
+                text-shadow: 0 0 15px rgba(255, 215, 0, 0.6), 0 0 35px rgba(255, 215, 0, 0.4);
+            }
         }
         
         .back-btn {

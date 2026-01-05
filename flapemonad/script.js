@@ -65,9 +65,9 @@ const restartBtn = document.getElementById('restart-btn');
 // GAME CONSTANTS - Tuned for authentic feel
 // ============================================
 
-// Target frame rate for consistent physics
+// Target frame rate for consistent physics (game runs at any FPS but physics are normalized)
 const TARGET_FPS = 60;
-const TARGET_FRAME_TIME = 1000 / TARGET_FPS; // ~16.67ms
+const TARGET_FRAME_TIME = 1000 / TARGET_FPS; // ~16.67ms - physics reference frame
 
 // Physics (tuned to feel like original Flappy Bird, scaled for high res)
 const GRAVITY = 1.2;               // Gravity acceleration per frame (at 60fps)
@@ -146,6 +146,22 @@ const MAX_TRAIL_LENGTH = 8;
 // Background clouds
 let clouds = [];
 const NUM_CLOUDS = 6;
+
+// Background particles for in-game
+let bgParticles = [];
+const NUM_BG_PARTICLES = 20;
+
+// Start screen particles (separate from in-game)
+let startScreenParticles = [];
+const NUM_START_PARTICLES = 30;
+
+// Screen transition for fade effect
+let screenTransition = {
+    active: false,
+    alpha: 1,
+    duration: 400,
+    elapsed: 0
+};
 
 // Start screen animation state
 let startScreenFlapFrame = 0;
@@ -302,6 +318,43 @@ restartBtn.addEventListener('click', () => {
     resetGame();
 });
 
+// Home button - go back to start screen
+const homeBtn = document.getElementById('home-btn');
+if (homeBtn) {
+    homeBtn.addEventListener('click', () => {
+        if (typeof chiptunePlayer !== 'undefined') {
+            chiptunePlayer.playClick();
+        }
+        goToStartScreen();
+    });
+}
+
+function goToStartScreen() {
+    // Reset game state to READY (start screen)
+    gameState = GameState.READY;
+    gameOverScreen.classList.add('hidden');
+    
+    // Reset player position
+    player.y = PLAYER_START_Y;
+    player.velocity = 0;
+    player.rotation = 0;
+    player.flapFrame = 0;
+    
+    // Clear razors
+    razors.length = 0;
+    
+    // Reset score
+    score = 0;
+    
+    // Stop game music, play menu music
+    if (typeof chiptunePlayer !== 'undefined') {
+        chiptunePlayer.stopMusic();
+        if (!chiptunePlayer.isMuted) {
+            chiptunePlayer.playMenuMusic();
+        }
+    }
+}
+
 // ============================================
 // GAME FUNCTIONS
 // ============================================
@@ -315,11 +368,104 @@ function startGame() {
     
     // Reset effects
     scoreParticles = [];
+    initBackgroundParticles();
+    
+    // Start fade transition from dark to white
+    screenTransition.active = true;
+    screenTransition.alpha = 1;
+    screenTransition.elapsed = 0;
     
     // Start music (random track)
     if (typeof chiptunePlayer !== 'undefined') {
         const track = Math.floor(Math.random() * 3) + 1;
         chiptunePlayer.playTrack(track);
+    }
+}
+
+// Initialize background particles for white background gameplay
+function initBackgroundParticles() {
+    bgParticles = [];
+    for (let i = 0; i < 25; i++) {  // More particles
+        bgParticles.push({
+            x: Math.random() * GAME_WIDTH,
+            y: Math.random() * GAME_HEIGHT,
+            size: 4 + Math.random() * 8,  // Larger particles
+            speed: 0.8 + Math.random() * 1.2,  // Faster upward movement
+            opacity: 0.15 + Math.random() * 0.25,  // More visible
+            color: Math.random() > 0.4 ? '#9d4edd' : '#c77dff'  // Purple colors
+        });
+    }
+}
+
+// Draw purple floating particles during gameplay (white background)
+function drawBackgroundParticles() {
+    for (const p of bgParticles) {
+        // Move particle upward
+        p.y -= p.speed;
+        p.x += Math.sin(Date.now() / 1500 + p.y / 80) * 0.5; // Gentle sway
+        
+        // Wrap around when off top
+        if (p.y < -20) {
+            p.y = GAME_HEIGHT + 20;
+            p.x = Math.random() * GAME_WIDTH;
+        }
+        
+        // Draw particle with glow
+        ctx.save();
+        ctx.globalAlpha = p.opacity;
+        ctx.fillStyle = p.color;
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 10;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+    }
+}
+
+// Initialize start screen particles
+function initStartScreenParticles() {
+    startScreenParticles = [];
+    for (let i = 0; i < NUM_START_PARTICLES; i++) {
+        startScreenParticles.push({
+            x: Math.random() * GAME_WIDTH,
+            y: Math.random() * GAME_HEIGHT,
+            size: 2 + Math.random() * 5,
+            speed: 0.4 + Math.random() * 0.6,
+            opacity: 0.15 + Math.random() * 0.25,
+            color: Math.random() > 0.6 ? '#9d4edd' : (Math.random() > 0.5 ? '#e0aaff' : '#ffffff')
+        });
+    }
+}
+
+// Draw start screen particles
+function drawStartScreenParticles() {
+    // Initialize if empty
+    if (startScreenParticles.length === 0) {
+        initStartScreenParticles();
+    }
+    
+    for (const p of startScreenParticles) {
+        // Move particle slowly upward
+        p.y -= p.speed;
+        p.x += Math.sin(Date.now() / 3000 + p.y / 150) * 0.4; // Gentle sway
+        
+        // Wrap around
+        if (p.y < -10) {
+            p.y = GAME_HEIGHT + 10;
+            p.x = Math.random() * GAME_WIDTH;
+        }
+        
+        // Draw particle with glow
+        ctx.save();
+        ctx.globalAlpha = p.opacity;
+        ctx.fillStyle = p.color;
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
     }
 }
 
@@ -839,6 +985,16 @@ function updatePlayer(deltaTime) {
 }
 
 function update(deltaTime) {
+    // Update screen transition fade
+    if (screenTransition.active) {
+        screenTransition.elapsed += deltaTime;
+        screenTransition.alpha = 1 - (screenTransition.elapsed / screenTransition.duration);
+        if (screenTransition.alpha <= 0) {
+            screenTransition.alpha = 0;
+            screenTransition.active = false;
+        }
+    }
+    
     if (gameState === GameState.PLAYING) {
         updatePlayer(deltaTime);
         updateRazors(deltaTime);
@@ -859,34 +1015,76 @@ function update(deltaTime) {
 // PARTICLE & EFFECTS SYSTEMS
 // ============================================
 
-// Spawn particles when scoring
+// Spawn particles when scoring - premium burst effect
 function spawnScoreParticles() {
     const centerX = GAME_WIDTH / 2;
-    const centerY = 150;
-    // Purple and black themed colors
-    const colors = [
-        '#9d4edd',  // Purple
-        '#7b2cbf',  // Dark purple
-        '#5a189a',  // Deeper purple
-        '#e0aaff',  // Light purple
-        '#1a1a1a',  // Near black
-        '#2d2d2d',  // Dark gray
-        '#000000'   // Black
-    ];
+    const centerY = 140;
     
-    // More particles for better effect
-    for (let i = 0; i < 16; i++) {
-        const angle = (Math.PI * 2 / 16) * i + Math.random() * 0.4;
-        const speed = 10 + Math.random() * 8;
+    // Layer 1: Inner bright burst (white/light purple)
+    for (let i = 0; i < 8; i++) {
+        const angle = (Math.PI * 2 / 8) * i + Math.random() * 0.3;
+        const speed = 6 + Math.random() * 4;
         scoreParticles.push({
             x: centerX,
             y: centerY,
             vx: Math.cos(angle) * speed,
-            vy: Math.sin(angle) * speed - 4,
-            size: 10 + Math.random() * 12,
+            vy: Math.sin(angle) * speed - 2,
+            size: 6 + Math.random() * 4,
+            color: Math.random() > 0.5 ? '#ffffff' : '#e0aaff',
+            life: 1.0,
+            decay: 0.03,
+            type: 'circle'
+        });
+    }
+    
+    // Layer 2: Mid burst (purple tones)
+    for (let i = 0; i < 12; i++) {
+        const angle = (Math.PI * 2 / 12) * i + Math.random() * 0.5;
+        const speed = 10 + Math.random() * 6;
+        const colors = ['#9d4edd', '#7b2cbf', '#c77dff'];
+        scoreParticles.push({
+            x: centerX,
+            y: centerY,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 3,
+            size: 8 + Math.random() * 6,
             color: colors[Math.floor(Math.random() * colors.length)],
             life: 1.0,
-            decay: 0.018 + Math.random() * 0.012
+            decay: 0.022,
+            type: 'circle'
+        });
+    }
+    
+    // Layer 3: Outer sparkles (small, fast)
+    for (let i = 0; i < 16; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 14 + Math.random() * 8;
+        scoreParticles.push({
+            x: centerX,
+            y: centerY,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 5,
+            size: 3 + Math.random() * 3,
+            color: Math.random() > 0.3 ? '#ffffff' : '#e0aaff',
+            life: 1.0,
+            decay: 0.04,
+            type: 'star'
+        });
+    }
+    
+    // Layer 4: Rising embers (slow, upward)
+    for (let i = 0; i < 6; i++) {
+        const offsetX = (Math.random() - 0.5) * 60;
+        scoreParticles.push({
+            x: centerX + offsetX,
+            y: centerY,
+            vx: (Math.random() - 0.5) * 2,
+            vy: -8 - Math.random() * 4,
+            size: 4 + Math.random() * 4,
+            color: '#9d4edd',
+            life: 1.0,
+            decay: 0.015,
+            type: 'ember'
         });
     }
 }
@@ -899,27 +1097,87 @@ function updateScoreParticles(deltaTime) {
         const p = scoreParticles[i];
         p.x += p.vx * timeScale;
         p.y += p.vy * timeScale;
-        p.vy += 0.3 * timeScale; // Gravity
-        p.life -= p.decay * timeScale;
-        p.size *= 0.98;
         
-        if (p.life <= 0 || p.size < 1) {
+        // Different gravity for different particle types
+        if (p.type === 'ember') {
+            p.vy += 0.1 * timeScale; // Light gravity for embers
+            p.vx *= 0.98; // Slow horizontal drift
+        } else {
+            p.vy += 0.35 * timeScale; // Normal gravity
+        }
+        
+        p.life -= p.decay * timeScale;
+        
+        // Shrink based on type
+        if (p.type === 'star') {
+            p.size *= 0.96; // Stars shrink faster
+        } else {
+            p.size *= 0.985;
+        }
+        
+        if (p.life <= 0 || p.size < 0.5) {
             scoreParticles.splice(i, 1);
         }
     }
 }
 
-// Draw score particles
+// Draw score particles - premium rendering
 function drawScoreParticles() {
     for (const p of scoreParticles) {
         ctx.save();
-        ctx.globalAlpha = p.life;
-        ctx.fillStyle = p.color;
-        ctx.shadowColor = p.color;
-        ctx.shadowBlur = 10;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.globalAlpha = p.life * p.life; // Quadratic fade for smoother effect
+        
+        if (p.type === 'star') {
+            // Draw 4-point star
+            ctx.fillStyle = p.color;
+            ctx.shadowColor = p.color;
+            ctx.shadowBlur = 8;
+            ctx.translate(p.x, p.y);
+            ctx.rotate(Date.now() / 200 + p.x); // Spinning stars
+            ctx.beginPath();
+            for (let i = 0; i < 4; i++) {
+                const angle = (i / 4) * Math.PI * 2;
+                const outerX = Math.cos(angle) * p.size;
+                const outerY = Math.sin(angle) * p.size;
+                const innerAngle = angle + Math.PI / 4;
+                const innerX = Math.cos(innerAngle) * (p.size * 0.4);
+                const innerY = Math.sin(innerAngle) * (p.size * 0.4);
+                if (i === 0) ctx.moveTo(outerX, outerY);
+                else ctx.lineTo(outerX, outerY);
+                ctx.lineTo(innerX, innerY);
+            }
+            ctx.closePath();
+            ctx.fill();
+        } else if (p.type === 'ember') {
+            // Draw glowing ember with trail effect
+            const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2);
+            gradient.addColorStop(0, p.color);
+            gradient.addColorStop(0.5, p.color + '80');
+            gradient.addColorStop(1, 'transparent');
+            ctx.fillStyle = gradient;
+            ctx.shadowColor = p.color;
+            ctx.shadowBlur = 15;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size * 2, 0, Math.PI * 2);
+            ctx.fill();
+        } else {
+            // Draw circle with glow
+            ctx.fillStyle = p.color;
+            ctx.shadowColor = p.color;
+            ctx.shadowBlur = 12;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Inner bright core
+            ctx.shadowBlur = 0;
+            ctx.globalAlpha = p.life * 0.6;
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size * 0.4, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
         ctx.restore();
     }
 }
@@ -1133,36 +1391,65 @@ function drawRazors() {
 function drawScore() {
     if (gameState === GameState.PLAYING || gameState === GameState.DYING) {
         ctx.save();
-        ctx.font = 'bold 120px "Creepster", cursive';
+        ctx.font = 'bold 130px "Creepster", cursive';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
         
-        // Outer glow effect
-        ctx.shadowColor = 'rgba(157, 78, 221, 0.8)';
-        ctx.shadowBlur = 20;
+        const scoreText = score.toString();
+        const x = GAME_WIDTH / 2;
+        const y = 75;
+        
+        // Animated glow pulse
+        const glowPulse = 0.7 + 0.3 * Math.sin(Date.now() / 400);
+        const glowSize = 25 + glowPulse * 15;
+        
+        // Multiple glow layers for neon effect
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
         
-        // Draw shadow/outline
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-        ctx.fillText(score.toString(), GAME_WIDTH / 2 + 4, 88);
-        
-        // Draw main score with white fill
-        ctx.shadowBlur = 30;
+        // Outer purple glow
         ctx.shadowColor = 'rgba(157, 78, 221, 0.6)';
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fillText(score.toString(), GAME_WIDTH / 2, 85);
+        ctx.shadowBlur = glowSize + 20;
+        ctx.fillStyle = 'rgba(157, 78, 221, 0.3)';
+        ctx.fillText(scoreText, x, y);
         
-        // Draw stroke for definition
-        ctx.strokeStyle = '#000000';
-        ctx.lineWidth = 4;
-        ctx.strokeText(score.toString(), GAME_WIDTH / 2, 85);
+        // Mid glow
+        ctx.shadowColor = 'rgba(157, 78, 221, 0.8)';
+        ctx.shadowBlur = glowSize;
+        ctx.fillStyle = 'rgba(200, 150, 255, 0.5)';
+        ctx.fillText(scoreText, x, y);
+        
+        // Inner white glow
+        ctx.shadowColor = 'rgba(255, 255, 255, 0.9)';
+        ctx.shadowBlur = 15;
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillText(scoreText, x, y);
+        
+        // Black stroke for definition
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.6)';
+        ctx.lineWidth = 5;
+        ctx.strokeText(scoreText, x, y);
         
         ctx.restore();
     }
 }
 
 function drawStartScreen(deltaTime) {
+    // Draw lighter dark background with gradient (25% lighter than loading screen)
+    const bgGradient = ctx.createRadialGradient(
+        GAME_WIDTH / 2, GAME_HEIGHT / 2, 0,
+        GAME_WIDTH / 2, GAME_HEIGHT / 2, GAME_HEIGHT
+    );
+    bgGradient.addColorStop(0, '#2d1a4a');  // 25% lighter
+    bgGradient.addColorStop(0.5, '#1a0d2a'); // 25% lighter
+    bgGradient.addColorStop(1, '#0f0812');  // 25% lighter
+    ctx.fillStyle = bgGradient;
+    ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    
+    // Draw background particles
+    drawStartScreenParticles();
+    
     // Update animation timer
     startScreenAnimTimer += deltaTime;
     
@@ -1173,16 +1460,15 @@ function drawStartScreen(deltaTime) {
         startScreenDieFrame = (startScreenDieFrame + 1) % 3;
     }
     
-    // Draw title
+    // Draw title with glow
     ctx.save();
     ctx.font = 'bold 108px "Creepster", cursive';
-    ctx.fillStyle = '#000000';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    // Shadow
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-    ctx.fillText('FLAP EMONAD', GAME_WIDTH / 2 + 4, 174);
-    ctx.fillStyle = '#000000';
+    // Glow effect
+    ctx.shadowColor = 'rgba(157, 78, 221, 0.6)';
+    ctx.shadowBlur = 20;
+    ctx.fillStyle = '#e0aaff';
     ctx.fillText('FLAP EMONAD', GAME_WIDTH / 2, 170);
     ctx.restore();
     
@@ -1194,7 +1480,10 @@ function drawStartScreen(deltaTime) {
         const flapY = GAME_HEIGHT * 0.35;
         ctx.translate(flapX, flapY);
         // Slight bobbing motion
-        const bob = Math.sin(Date.now() / 200) * 10;
+        const bob = Math.sin(Date.now() / 300) * 8;
+        // Add glow to character
+        ctx.shadowColor = 'rgba(157, 78, 221, 0.5)';
+        ctx.shadowBlur = 25;
         ctx.drawImage(
             flapSprite,
             -170,
@@ -1205,16 +1494,18 @@ function drawStartScreen(deltaTime) {
         ctx.restore();
     }
     
-    // Draw "Click to Start" text in middle
+    // Draw "Tap to Start" text in middle
     ctx.save();
-    ctx.font = '48px "Creepster", cursive';
-    ctx.fillStyle = '#333333';
+    ctx.font = '52px "Creepster", cursive';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     // Pulsing opacity
-    const pulse = 0.5 + 0.5 * Math.sin(Date.now() / 500);
+    const pulse = 0.5 + 0.5 * Math.sin(Date.now() / 600);
     ctx.globalAlpha = pulse;
-    ctx.fillText('Click or Press Space to Start', GAME_WIDTH / 2, GAME_HEIGHT / 2);
+    ctx.fillStyle = '#e0aaff';
+    ctx.shadowColor = 'rgba(157, 78, 221, 0.5)';
+    ctx.shadowBlur = 10;
+    ctx.fillText('TAP TO START', GAME_WIDTH / 2, GAME_HEIGHT / 2);
     ctx.restore();
     
     // Draw dying character on bottom half (looping death animation)
@@ -1335,20 +1626,39 @@ function render(deltaTime) {
     ctx.save();
     ctx.translate(shakeX, shakeY);
     
-    // Clear canvas with white
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(-50, -50, GAME_WIDTH + 100, GAME_HEIGHT + 100);  // Slightly larger to cover shake
-    
-    // Draw game elements based on state
+    // Draw background based on state
     if (gameState === GameState.READY) {
+        // Dark purple gradient for start screen
+        const bgGradient = ctx.createRadialGradient(
+            GAME_WIDTH / 2, GAME_HEIGHT / 2, 0,
+            GAME_WIDTH / 2, GAME_HEIGHT / 2, GAME_HEIGHT
+        );
+        bgGradient.addColorStop(0, '#2d1a4a');
+        bgGradient.addColorStop(0.5, '#1a0d2a');
+        bgGradient.addColorStop(1, '#0f0812');
+        ctx.fillStyle = bgGradient;
+        ctx.fillRect(-50, -50, GAME_WIDTH + 100, GAME_HEIGHT + 100);
+        
         drawStartScreen(deltaTime);
     } else {
+        // White background for gameplay
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(-50, -50, GAME_WIDTH + 100, GAME_HEIGHT + 100);
+        
         drawRazors();
         drawPlayer();
         drawScore();
         
         // Draw score particles (on top)
         drawScoreParticles();
+        
+        // Draw fade overlay during transition
+        if (screenTransition.active) {
+            ctx.save();
+            ctx.fillStyle = `rgba(45, 26, 74, ${screenTransition.alpha})`;
+            ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+            ctx.restore();
+        }
     }
     
     ctx.restore();
@@ -1512,46 +1822,48 @@ function startGameFromLoading() {
     dismissLoadingScreen();
 }
 
-// Setup play button with proper iOS PWA touch handling
+// Setup play button and loading screen tap handling for PWA
 function setupPlayButton() {
     const playBtn = document.getElementById('play-btn');
-    if (!playBtn) return;
+    const loadingScreen = document.getElementById('loading-screen');
     
-    let touchHandled = false;
-    let isPressed = false;
+    let gameStarted = false;
     
-    // Touch start - visual feedback
-    playBtn.addEventListener('touchstart', function(e) {
-        isPressed = true;
-        playBtn.style.transform = 'scale(0.92)';
-        playBtn.style.transition = 'transform 0.1s ease';
-    }, { passive: true });
+    // Function to start game (only once)
+    function tryStartGame() {
+        if (gameStarted || !gameReady) return;
+        gameStarted = true;
+        startGameFromLoading();
+    }
     
-    // Touch end - trigger action
-    playBtn.addEventListener('touchend', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
+    // Play button handlers
+    if (playBtn) {
+        playBtn.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            tryStartGame();
+        }, { passive: false });
         
-        if (isPressed && !touchHandled) {
-            touchHandled = true;
-            playBtn.style.transform = 'scale(1)';
-            startGameFromLoading();
-        }
-        isPressed = false;
-    }, { passive: false });
+        playBtn.addEventListener('click', function(e) {
+            tryStartGame();
+        });
+    }
     
-    // Touch cancel - reset state
-    playBtn.addEventListener('touchcancel', function(e) {
-        isPressed = false;
-        playBtn.style.transform = 'scale(1)';
-    }, { passive: true });
-    
-    // Fallback click for desktop/non-touch
-    playBtn.addEventListener('click', function(e) {
-        if (!touchHandled) {
-            startGameFromLoading();
-        }
-    });
+    // TAP ANYWHERE on loading screen to start (for PWA/popup browsers)
+    if (loadingScreen) {
+        loadingScreen.addEventListener('touchend', function(e) {
+            if (gameReady && !gameStarted) {
+                e.preventDefault();
+                tryStartGame();
+            }
+        }, { passive: false });
+        
+        loadingScreen.addEventListener('click', function(e) {
+            if (gameReady && !gameStarted) {
+                tryStartGame();
+            }
+        });
+    }
 }
 
 async function init() {

@@ -186,12 +186,13 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, rgba(26, 10, 46, 0.97) 0%, rgba(22, 33, 62, 0.97) 50%, rgba(15, 15, 35, 0.97) 100%);
+    background: radial-gradient(ellipse at center, rgba(40, 10, 20, 0.98) 0%, rgba(15, 5, 25, 0.99) 50%, rgba(5, 2, 10, 1) 100%);
     z-index: 20;
-    animation: gameOverAppear 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: gameOverAppear 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
 }
 
+/* Vignette overlay */
 #game-over-screen::before {
     content: '';
     position: absolute;
@@ -199,33 +200,52 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: 
-        radial-gradient(2px 2px at 20px 30px, rgba(255, 68, 68, 0.3), transparent),
-        radial-gradient(2px 2px at 40px 70px, rgba(157, 78, 221, 0.2), transparent),
-        radial-gradient(2px 2px at 50px 160px, rgba(255, 68, 68, 0.3), transparent),
-        radial-gradient(2px 2px at 90px 40px, rgba(157, 78, 221, 0.2), transparent),
-        radial-gradient(2px 2px at 130px 80px, rgba(255, 68, 68, 0.3), transparent),
-        radial-gradient(2px 2px at 160px 120px, rgba(157, 78, 221, 0.2), transparent);
-    background-repeat: repeat;
-    background-size: 200px 200px;
-    animation: deathParticles 15s linear infinite;
-    opacity: 0.5;
+    background: radial-gradient(ellipse at center, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.6) 100%);
     pointer-events: none;
+    z-index: 0;
+}
+
+/* Floating particles layer */
+#game-over-screen::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(3px 3px at 10% 15%, rgba(255, 68, 68, 0.5), transparent),
+        radial-gradient(2px 2px at 85% 25%, rgba(255, 100, 100, 0.4), transparent),
+        radial-gradient(3px 3px at 20% 70%, rgba(255, 68, 68, 0.5), transparent),
+        radial-gradient(4px 4px at 75% 80%, rgba(157, 78, 221, 0.4), transparent),
+        radial-gradient(2px 2px at 40% 40%, rgba(255, 68, 68, 0.4), transparent),
+        radial-gradient(3px 3px at 60% 60%, rgba(157, 78, 221, 0.3), transparent),
+        radial-gradient(2px 2px at 90% 50%, rgba(255, 100, 100, 0.4), transparent),
+        radial-gradient(3px 3px at 30% 90%, rgba(255, 68, 68, 0.5), transparent);
+    background-repeat: repeat;
+    background-size: 300px 300px;
+    animation: deathParticles 20s linear infinite;
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 0;
 }
 
 @keyframes deathParticles {
-    0% { transform: translateY(0) translateX(0); }
-    100% { transform: translateY(-200px) translateX(30px); }
+    0% { transform: translateY(0) translateX(0) scale(1); }
+    50% { transform: translateY(-150px) translateX(20px) scale(1.1); }
+    100% { transform: translateY(-300px) translateX(40px) scale(1); }
 }
 
 @keyframes gameOverAppear {
     0% {
         opacity: 0;
         backdrop-filter: blur(0px);
+        transform: scale(1.05);
     }
     100% {
         opacity: 1;
-        backdrop-filter: blur(5px);
+        backdrop-filter: blur(8px);
+        transform: scale(1);
     }
 }
 
@@ -236,31 +256,26 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
 #game-over-screen h2 {
     font-family: 'Creepster', cursive;
     font-size: 72px;
-    color: #ff4444;
-    margin-bottom: 15px;
+    color: #ff6b6b;
+    margin-bottom: 20px;
     text-shadow: 
-        0 0 20px rgba(255, 68, 68, 0.6),
-        0 0 40px rgba(255, 68, 68, 0.4),
-        0 0 60px rgba(255, 68, 68, 0.2),
-        4px 4px 0 rgba(0, 0, 0, 0.4);
-    animation: gameOverPulse 2s ease-in-out infinite, gameOverShake 0.5s ease-out;
+        0 0 10px rgba(255, 68, 68, 0.5),
+        0 0 25px rgba(255, 68, 68, 0.3),
+        0 0 40px rgba(255, 34, 34, 0.2);
+    animation: gameOverPulse 3s ease-in-out infinite, gameOverShake 0.5s ease-out;
     letter-spacing: 6px;
+    position: relative;
+    z-index: 1;
 }
 
 @keyframes gameOverPulse {
     0%, 100% { 
         transform: scale(1); 
-        text-shadow: 
-            0 0 20px rgba(255, 68, 68, 0.6),
-            0 0 40px rgba(255, 68, 68, 0.4),
-            0 0 60px rgba(255, 68, 68, 0.2);
+        text-shadow: 0 0 10px rgba(255, 68, 68, 0.5), 0 0 25px rgba(255, 68, 68, 0.3), 0 0 40px rgba(255, 34, 34, 0.2);
     }
     50% { 
-        transform: scale(1.03); 
-        text-shadow: 
-            0 0 30px rgba(255, 68, 68, 0.8),
-            0 0 60px rgba(255, 68, 68, 0.5),
-            0 0 90px rgba(255, 68, 68, 0.3);
+        transform: scale(1.01); 
+        text-shadow: 0 0 15px rgba(255, 68, 68, 0.6), 0 0 30px rgba(255, 68, 68, 0.4), 0 0 50px rgba(255, 34, 34, 0.25);
     }
 }
 
@@ -272,33 +287,32 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
 
 #game-over-screen p {
     font-family: 'Creepster', cursive;
-    font-size: 42px;
+    font-size: 46px;
     color: #e0aaff;
     margin-bottom: 30px;
-    text-shadow: 0 0 10px rgba(224, 170, 255, 0.3);
+    text-shadow: 0 0 15px rgba(224, 170, 255, 0.5);
+    position: relative;
+    z-index: 1;
 }
 
 #final-score {
     font-weight: bold;
+    font-size: 52px;
     color: #FFD700;
     text-shadow: 
-        0 0 15px rgba(255, 215, 0, 0.8),
-        0 0 30px rgba(255, 215, 0, 0.5),
-        0 0 45px rgba(255, 215, 0, 0.3);
-    animation: scoreGlow 1.5s ease-in-out infinite;
+        0 0 10px rgba(255, 215, 0, 0.5),
+        0 0 25px rgba(255, 215, 0, 0.3);
+    animation: scoreGlow 3s ease-in-out infinite;
 }
 
 @keyframes scoreGlow {
     0%, 100% { 
-        text-shadow: 
-            0 0 15px rgba(255, 215, 0, 0.8),
-            0 0 30px rgba(255, 215, 0, 0.5);
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5), 0 0 25px rgba(255, 215, 0, 0.3);
+        transform: scale(1);
     }
     50% { 
-        text-shadow: 
-            0 0 25px rgba(255, 215, 0, 1),
-            0 0 50px rgba(255, 215, 0, 0.7),
-            0 0 75px rgba(255, 215, 0, 0.4);
+        text-shadow: 0 0 15px rgba(255, 215, 0, 0.6), 0 0 35px rgba(255, 215, 0, 0.4);
+        transform: scale(1.02);
     }
 }
 
@@ -351,6 +365,57 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
     transform: translateY(1px) scale(0.98);
     box-shadow: 
         0 2px 10px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    transition: all 0.1s ease;
+}
+
+#home-btn {
+    font-family: 'Creepster', cursive;
+    padding: 20px 40px;
+    font-size: 28px;
+    color: #FFFFFF;
+    background: linear-gradient(135deg, #5a189a, #3c096c, #240046);
+    border: 2px solid rgba(157, 78, 221, 0.4);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    box-shadow: 
+        0 4px 15px rgba(90, 24, 154, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 2px;
+}
+
+#home-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    transition: left 0.5s ease;
+}
+
+#home-btn:hover::before {
+    left: 100%;
+}
+
+#home-btn:hover {
+    background: linear-gradient(135deg, #7b2cbf, #5a189a, #3c096c);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 
+        0 8px 30px rgba(123, 44, 191, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    border-color: rgba(157, 78, 221, 0.6);
+}
+
+#home-btn:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow: 
+        0 2px 10px rgba(90, 24, 154, 0.4),
         0 0 0 1px rgba(255, 255, 255, 0.05) inset;
     transition: all 0.1s ease;
 }
