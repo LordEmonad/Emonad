@@ -1397,9 +1397,12 @@ function render(deltaTime) {
 // ============================================
 
 function gameLoop(currentTime) {
-    // Calculate delta time
-    const deltaTime = currentTime - lastTime;
+    // Calculate delta time with cap to prevent huge jumps (e.g., when tab is backgrounded)
+    let deltaTime = currentTime - lastTime;
     lastTime = currentTime;
+    
+    // Cap delta time to prevent physics explosions after tab switch/PWA resume
+    if (deltaTime > 100) deltaTime = TARGET_FRAME_TIME;
     
     // Update and render
     update(deltaTime);
@@ -1480,6 +1483,13 @@ function dismissLoadingScreen() {
 
 // Called when user clicks PLAY button
 function startGameFromLoading() {
+    // Prevent double-tap issues
+    const playBtn = document.getElementById('play-btn');
+    if (playBtn) {
+        playBtn.disabled = true;
+        playBtn.style.pointerEvents = 'none';
+    }
+    
     // Initialize audio context FIRST on user tap (required for mobile)
     if (typeof chiptunePlayer !== 'undefined') {
         chiptunePlayer.init();
@@ -1489,6 +1499,9 @@ function startGameFromLoading() {
             chiptunePlayer.audioContext.resume().then(() => {
                 chiptunePlayer.playClick();
                 dismissLoadingScreen();
+            }).catch(() => {
+                // Even if audio fails, still dismiss loading screen
+                dismissLoadingScreen();
             });
             return;
         }
@@ -1497,6 +1510,48 @@ function startGameFromLoading() {
     }
     
     dismissLoadingScreen();
+}
+
+// Setup play button with proper iOS PWA touch handling
+function setupPlayButton() {
+    const playBtn = document.getElementById('play-btn');
+    if (!playBtn) return;
+    
+    let touchHandled = false;
+    let isPressed = false;
+    
+    // Touch start - visual feedback
+    playBtn.addEventListener('touchstart', function(e) {
+        isPressed = true;
+        playBtn.style.transform = 'scale(0.92)';
+        playBtn.style.transition = 'transform 0.1s ease';
+    }, { passive: true });
+    
+    // Touch end - trigger action
+    playBtn.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        if (isPressed && !touchHandled) {
+            touchHandled = true;
+            playBtn.style.transform = 'scale(1)';
+            startGameFromLoading();
+        }
+        isPressed = false;
+    }, { passive: false });
+    
+    // Touch cancel - reset state
+    playBtn.addEventListener('touchcancel', function(e) {
+        isPressed = false;
+        playBtn.style.transform = 'scale(1)';
+    }, { passive: true });
+    
+    // Fallback click for desktop/non-touch
+    playBtn.addEventListener('click', function(e) {
+        if (!touchHandled) {
+            startGameFromLoading();
+        }
+    });
 }
 
 async function init() {
@@ -1527,6 +1582,9 @@ async function init() {
         updateLoadingBar(100);
         
         console.log('Game ready!');
+        
+        // Setup play button with iOS PWA touch handling
+        setupPlayButton();
         
         // Show play button after a tiny delay for smooth animation
         setTimeout(() => {
@@ -1862,6 +1920,35 @@ if (typeof window.ethereum !== 'undefined') {
     });
 }
 
+
+// Handle visibility change (iOS PWA backgrounding)
+document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+        // App backgrounded - pause music
+        if (typeof chiptunePlayer !== 'undefined' && chiptunePlayer.audioContext) {
+            chiptunePlayer.audioContext.suspend();
+        }
+    } else {
+        // App resumed - reset lastTime to prevent physics jump
+        lastTime = performance.now();
+        
+        // Resume audio context
+        if (typeof chiptunePlayer !== 'undefined' && chiptunePlayer.audioContext) {
+            chiptunePlayer.audioContext.resume();
+        }
+    }
+});
+
+// Handle page show (iOS PWA cold start / bfcache)
+window.addEventListener('pageshow', function(event) {
+    // Reset timing on page show (handles bfcache restoration)
+    lastTime = performance.now();
+    
+    // Re-setup play button in case it wasn't set up
+    if (!gameReady) {
+        setupPlayButton();
+    }
+});
 
 // Start the game
 init();

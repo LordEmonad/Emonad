@@ -152,6 +152,28 @@ canvas {
     -ms-user-select: none;
     user-select: none;
     touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Ensure smooth rendering on all devices */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* GPU acceleration for animations */
+button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-gameover {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Touch feedback for mobile buttons */
+@media (hover: none) and (pointer: coarse) {
+    button:active, .back-btn:active, .nav-btn:active {
+        transform: scale(0.95) !important;
+        transition: transform 0.1s ease !important;
+    }
 }
 
 #game-over-screen {

@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1a0a2e">
     <title>Flap Emonad - Leaderboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,16 +16,27 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
         /* Page transition */
         body {
             animation: pageFadeIn 0.3s ease-out;
+            -webkit-tap-highlight-color: transparent;
         }
         
         @keyframes pageFadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
+        }
+        
+        /* Touch feedback for mobile */
+        @media (hover: none) and (pointer: coarse) {
+            button:active, a:active, .back-btn:active, .tx-btn:active, .connect-btn:active {
+                transform: scale(0.95) !important;
+                transition: transform 0.1s ease !important;
+            }
         }
         
         html, body {
