@@ -4,6 +4,14 @@
     box-sizing: border-box;
 }
 
+/* GPU acceleration for smooth animations */
+#gameCanvas {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
 /* Page transition - quick fade in */
 body {
     animation: pageFadeIn 0.3s ease-out;

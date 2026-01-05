@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=16">
+    <link rel="stylesheet" href="style.css?v=20">
     <style>
         /* Loading Screen Styles */
         #loading-screen {
@@ -209,6 +209,13 @@
             overflow: hidden;
         }
         
+        /* Hide play button on mobile */
+        @media (max-width: 768px), (hover: none) {
+            #play-btn {
+                display: none !important;
+            }
+        }
+        
         #play-btn.show {
             display: block;
             opacity: 1;
@@ -336,8 +343,8 @@
     
     <!-- Ethers.js for blockchain interaction -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.9.0/ethers.umd.min.js"></script>
-    <script src="audio.js?v=7"></script>
-    <script src="script.js?v=10"></script>
+    <script src="audio.js?v=8"></script>
+    <script src="script.js?v=20"></script>
     
 </body>
 </html>

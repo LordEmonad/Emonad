@@ -44,7 +44,7 @@ let gameStartTime = 0;
 
 // Canvas setup
 const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
+const ctx = canvas.getContext('2d', { alpha: false }); // Disable alpha for performance
 
 // Enable HIGH QUALITY image smoothing for best rendering
 ctx.imageSmoothingEnabled = true;
@@ -135,6 +135,21 @@ let deathCertificate = {
     finalScore: 0,
     timestamp: null
 };
+
+// Slow-motion death effect
+let deathSlowMo = {
+    active: false,
+    timeScale: 1.0,      // 1.0 = normal, 0.2 = slow
+    targetScale: 0.2,    // How slow to go
+    duration: 800,       // Total slow-mo duration
+    elapsed: 0,
+    zoom: 1.0,           // Camera zoom
+    targetZoom: 1.15,    // Zoom in slightly
+    desaturation: 0      // 0 = full color, 1 = grayscale
+};
+
+// Top 3 leaderboard scores for start screen
+let topScores = [];
 
 // Score particles system
 let scoreParticles = [];
@@ -526,6 +541,13 @@ function die(deathType = 'razor', killerRazor = null) {
     screenFlash.elapsed = 0;
     screenFlash.phase = 0;
     
+    // Trigger slow-motion death effect
+    deathSlowMo.active = true;
+    deathSlowMo.timeScale = 1.0;
+    deathSlowMo.elapsed = 0;
+    deathSlowMo.zoom = 1.0;
+    deathSlowMo.desaturation = 0;
+    
     // Stop music and play death sound
     if (typeof chiptunePlayer !== 'undefined') {
         chiptunePlayer.stop();
@@ -538,11 +560,64 @@ function showGameOver() {
     finalScoreEl.textContent = score;
     gameOverScreen.classList.remove('hidden');
     
+    // Setup tap anywhere to restart on mobile
+    setupGameOverTapToRestart();
+    
     // Play game over music quickly after death sound starts
     if (typeof chiptunePlayer !== 'undefined') {
         setTimeout(() => {
             chiptunePlayer.playGameOverMusic();
         }, 600); // Quick transition
+    }
+}
+
+// Setup tap anywhere on game over screen to restart (mobile)
+function setupGameOverTapToRestart() {
+    const gameOverScreenEl = document.getElementById('game-over-screen');
+    if (!gameOverScreenEl) return;
+    
+    // Remove any existing listener first
+    gameOverScreenEl.removeEventListener('touchend', handleGameOverTap);
+    gameOverScreenEl.removeEventListener('click', handleGameOverClick);
+    
+    // Add new listeners
+    gameOverScreenEl.addEventListener('touchend', handleGameOverTap, { passive: false });
+    gameOverScreenEl.addEventListener('click', handleGameOverClick);
+}
+
+function handleGameOverTap(e) {
+    // Don't restart if tapping on a button, input, or link
+    const target = e.target;
+    if (target.tagName === 'BUTTON' || target.tagName === 'INPUT' || 
+        target.tagName === 'A' || target.closest('button') || 
+        target.closest('a') || target.closest('input')) {
+        return;
+    }
+    
+    e.preventDefault();
+    if (typeof chiptunePlayer !== 'undefined') {
+        chiptunePlayer.playClick();
+    }
+    resetGame();
+}
+
+function handleGameOverClick(e) {
+    // Don't restart if clicking on a button, input, or link
+    const target = e.target;
+    if (target.tagName === 'BUTTON' || target.tagName === 'INPUT' || 
+        target.tagName === 'A' || target.closest('button') || 
+        target.closest('a') || target.closest('input')) {
+        return;
+    }
+    
+    // Only on mobile/touch devices
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                     (window.matchMedia && window.matchMedia('(hover: none)').matches);
+    if (isMobile) {
+        if (typeof chiptunePlayer !== 'undefined') {
+            chiptunePlayer.playClick();
+        }
+        resetGame();
     }
 }
 
@@ -995,6 +1070,44 @@ function update(deltaTime) {
         }
     }
     
+    // Update slow-motion death effect
+    let effectiveDeltaTime = deltaTime;
+    if (deathSlowMo.active) {
+        deathSlowMo.elapsed += deltaTime;
+        
+        // Ease into slow-mo quickly, then gradually return to normal
+        const progress = deathSlowMo.elapsed / deathSlowMo.duration;
+        
+        if (progress < 0.15) {
+            // Quick ramp down to slow-mo (first 15%)
+            const rampProgress = progress / 0.15;
+            deathSlowMo.timeScale = 1.0 - (1.0 - deathSlowMo.targetScale) * rampProgress;
+            deathSlowMo.zoom = 1.0 + (deathSlowMo.targetZoom - 1.0) * rampProgress;
+            deathSlowMo.desaturation = rampProgress * 0.6;
+        } else if (progress < 0.6) {
+            // Hold slow-mo (15% to 60%)
+            deathSlowMo.timeScale = deathSlowMo.targetScale;
+            deathSlowMo.zoom = deathSlowMo.targetZoom;
+            deathSlowMo.desaturation = 0.6;
+        } else {
+            // Gradually return to normal (60% to 100%)
+            const returnProgress = (progress - 0.6) / 0.4;
+            deathSlowMo.timeScale = deathSlowMo.targetScale + (1.0 - deathSlowMo.targetScale) * returnProgress;
+            deathSlowMo.zoom = deathSlowMo.targetZoom - (deathSlowMo.targetZoom - 1.0) * returnProgress;
+            deathSlowMo.desaturation = 0.6 * (1 - returnProgress);
+        }
+        
+        if (progress >= 1.0) {
+            deathSlowMo.active = false;
+            deathSlowMo.timeScale = 1.0;
+            deathSlowMo.zoom = 1.0;
+            deathSlowMo.desaturation = 0;
+        }
+        
+        // Apply slow-mo to delta time
+        effectiveDeltaTime = deltaTime * deathSlowMo.timeScale;
+    }
+    
     if (gameState === GameState.PLAYING) {
         updatePlayer(deltaTime);
         updateRazors(deltaTime);
@@ -1006,8 +1119,8 @@ function update(deltaTime) {
             die(collision.type, collision.razor);
         }
     } else if (gameState === GameState.DYING) {
-        updatePlayer(deltaTime);
-        updateScoreParticles(deltaTime);
+        updatePlayer(effectiveDeltaTime);
+        updateScoreParticles(effectiveDeltaTime);
     }
 }
 
@@ -1015,166 +1128,275 @@ function update(deltaTime) {
 // PARTICLE & EFFECTS SYSTEMS
 // ============================================
 
-// Spawn particles when scoring - premium burst effect
+// Spawn particles when scoring - EPIC burst effect
+// ALL RED particles
 function spawnScoreParticles() {
     const centerX = GAME_WIDTH / 2;
     const centerY = 140;
     
-    // Layer 1: Inner bright burst (white/light purple)
-    for (let i = 0; i < 8; i++) {
-        const angle = (Math.PI * 2 / 8) * i + Math.random() * 0.3;
-        const speed = 6 + Math.random() * 4;
+    // All red color palette
+    const redColors = ['#FF4444', '#EF5350', '#FF6B6B', '#E53935', '#D32F2F', '#C62828'];
+    
+    // RING BURST - expanding ring of particles
+    for (let i = 0; i < 24; i++) {
+        const angle = (Math.PI * 2 / 24) * i;
+        const speed = 18 + Math.random() * 4;
         scoreParticles.push({
             x: centerX,
             y: centerY,
             vx: Math.cos(angle) * speed,
-            vy: Math.sin(angle) * speed - 2,
-            size: 6 + Math.random() * 4,
-            color: Math.random() > 0.5 ? '#ffffff' : '#e0aaff',
+            vy: Math.sin(angle) * speed,
+            size: 5 + Math.random() * 3,
+            color: redColors[Math.floor(Math.random() * redColors.length)],
             life: 1.0,
-            decay: 0.03,
-            type: 'circle'
+            decay: 0.035,
+            type: 'ring',
+            initialAngle: angle
         });
     }
     
-    // Layer 2: Mid burst (purple tones)
-    for (let i = 0; i < 12; i++) {
-        const angle = (Math.PI * 2 / 12) * i + Math.random() * 0.5;
+    // RED COINS - chunky red particles flying out
+    for (let i = 0; i < 10; i++) {
+        const angle = (Math.PI * 2 / 10) * i + Math.random() * 0.3;
+        const speed = 12 + Math.random() * 8;
+        scoreParticles.push({
+            x: centerX,
+            y: centerY,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 6,
+            size: 12 + Math.random() * 8,
+            color: redColors[Math.floor(Math.random() * redColors.length)],
+            life: 1.0,
+            decay: 0.018,
+            type: 'coin',
+            rotation: Math.random() * Math.PI * 2,
+            rotationSpeed: (Math.random() - 0.5) * 0.4
+        });
+    }
+    
+    // SPARKLE EXPLOSION - red sparkles
+    for (let i = 0; i < 30; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 8 + Math.random() * 16;
+        scoreParticles.push({
+            x: centerX + (Math.random() - 0.5) * 30,
+            y: centerY + (Math.random() - 0.5) * 30,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 4,
+            size: 2 + Math.random() * 4,
+            color: redColors[Math.floor(Math.random() * redColors.length)],
+            life: 1.0,
+            decay: 0.05,
+            type: 'sparkle',
+            twinkle: Math.random() * Math.PI * 2
+        });
+    }
+    
+    // RED BURST - medium red orbs
+    for (let i = 0; i < 14; i++) {
+        const angle = (Math.PI * 2 / 14) * i + Math.random() * 0.4;
         const speed = 10 + Math.random() * 6;
-        const colors = ['#9d4edd', '#7b2cbf', '#c77dff'];
+        const colors = ['#FF4444', '#EF5350', '#E53935'];
         scoreParticles.push({
             x: centerX,
             y: centerY,
             vx: Math.cos(angle) * speed,
             vy: Math.sin(angle) * speed - 3,
-            size: 8 + Math.random() * 6,
+            size: 10 + Math.random() * 8,
             color: colors[Math.floor(Math.random() * colors.length)],
             life: 1.0,
-            decay: 0.022,
-            type: 'circle'
+            decay: 0.02,
+            type: 'orb'
         });
     }
     
-    // Layer 3: Outer sparkles (small, fast)
-    for (let i = 0; i < 16; i++) {
+    // CONFETTI - all red squares tumbling
+    for (let i = 0; i < 12; i++) {
         const angle = Math.random() * Math.PI * 2;
-        const speed = 14 + Math.random() * 8;
+        const speed = 6 + Math.random() * 10;
         scoreParticles.push({
             x: centerX,
             y: centerY,
             vx: Math.cos(angle) * speed,
-            vy: Math.sin(angle) * speed - 5,
-            size: 3 + Math.random() * 3,
-            color: Math.random() > 0.3 ? '#ffffff' : '#e0aaff',
+            vy: Math.sin(angle) * speed - 8,
+            size: 8 + Math.random() * 6,
+            color: redColors[Math.floor(Math.random() * redColors.length)],
             life: 1.0,
-            decay: 0.04,
-            type: 'star'
+            decay: 0.012,
+            type: 'confetti',
+            rotation: Math.random() * Math.PI * 2,
+            rotationSpeed: (Math.random() - 0.5) * 0.3
         });
     }
     
-    // Layer 4: Rising embers (slow, upward)
-    for (let i = 0; i < 6; i++) {
-        const offsetX = (Math.random() - 0.5) * 60;
+    // RISING EMBERS - all red slow floaty particles going up
+    for (let i = 0; i < 8; i++) {
+        const offsetX = (Math.random() - 0.5) * 80;
         scoreParticles.push({
             x: centerX + offsetX,
-            y: centerY,
-            vx: (Math.random() - 0.5) * 2,
-            vy: -8 - Math.random() * 4,
-            size: 4 + Math.random() * 4,
-            color: '#9d4edd',
+            y: centerY + Math.random() * 20,
+            vx: (Math.random() - 0.5) * 3,
+            vy: -10 - Math.random() * 6,
+            size: 6 + Math.random() * 6,
+            color: redColors[Math.floor(Math.random() * redColors.length)],
             life: 1.0,
-            decay: 0.015,
+            decay: 0.012,
             type: 'ember'
         });
     }
 }
 
-// Update score particles
+// Update score particles - optimized for smooth performance
 function updateScoreParticles(deltaTime) {
     const timeScale = deltaTime / TARGET_FRAME_TIME;
     
-    for (let i = scoreParticles.length - 1; i >= 0; i--) {
+    // Pre-calculate decay multipliers (avoid repeated Math operations)
+    const shrinkFast = Math.pow(0.97, timeScale);
+    const shrinkSlow = Math.pow(0.995, timeScale);
+    const shrinkNormal = Math.pow(0.985, timeScale);
+    const dragRing = Math.pow(0.96, timeScale);
+    const dragConfetti = Math.pow(0.99, timeScale);
+    const dragEmber = Math.pow(0.97, timeScale);
+    
+    let i = scoreParticles.length;
+    while (i--) {
         const p = scoreParticles[i];
         p.x += p.vx * timeScale;
         p.y += p.vy * timeScale;
         
-        // Different gravity for different particle types
+        // Different physics for different particle types
         if (p.type === 'ember') {
-            p.vy += 0.1 * timeScale; // Light gravity for embers
-            p.vx *= 0.98; // Slow horizontal drift
+            p.vy += 0.08 * timeScale;
+            p.vx *= dragEmber;
+            p.size *= shrinkNormal;
+        } else if (p.type === 'ring') {
+            p.vx *= dragRing;
+            p.vy *= dragRing;
+            p.size *= shrinkFast;
+        } else if (p.type === 'confetti') {
+            p.vy += 0.5 * timeScale;
+            p.vx *= dragConfetti;
+            p.rotation += p.rotationSpeed * timeScale;
+            p.size *= shrinkSlow;
+        } else if (p.type === 'coin') {
+            p.vy += 0.4 * timeScale;
+            p.rotation += p.rotationSpeed * timeScale;
+            p.size *= shrinkNormal;
+        } else if (p.type === 'sparkle') {
+            p.vy += 0.25 * timeScale;
+            p.twinkle += 0.3 * timeScale;
+            p.size *= shrinkFast;
         } else {
-            p.vy += 0.35 * timeScale; // Normal gravity
+            p.vy += 0.35 * timeScale;
+            p.size *= shrinkNormal;
         }
         
         p.life -= p.decay * timeScale;
         
-        // Shrink based on type
-        if (p.type === 'star') {
-            p.size *= 0.96; // Stars shrink faster
-        } else {
-            p.size *= 0.985;
-        }
-        
-        if (p.life <= 0 || p.size < 0.5) {
+        if (p.life <= 0 || p.size < 0.3) {
             scoreParticles.splice(i, 1);
         }
     }
 }
 
-// Draw score particles - premium rendering
+// Draw score particles - EPIC rendering
 function drawScoreParticles() {
     for (const p of scoreParticles) {
         ctx.save();
-        ctx.globalAlpha = p.life * p.life; // Quadratic fade for smoother effect
+        ctx.globalAlpha = p.life * p.life; // Quadratic fade
         
-        if (p.type === 'star') {
-            // Draw 4-point star
+        if (p.type === 'ring') {
+            // Expanding ring particles - RED
             ctx.fillStyle = p.color;
             ctx.shadowColor = p.color;
-            ctx.shadowBlur = 8;
+            ctx.shadowBlur = 15;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fill();
+        } else if (p.type === 'coin') {
+            // Red coins - spinning ellipses
             ctx.translate(p.x, p.y);
-            ctx.rotate(Date.now() / 200 + p.x); // Spinning stars
+            ctx.rotate(p.rotation);
+            const squish = Math.abs(Math.cos(p.rotation * 2)); // Coin flip effect
+            ctx.scale(1, 0.3 + squish * 0.7);
+            
+            // Coin body - RED
+            ctx.fillStyle = p.color;
+            ctx.shadowColor = p.color;
+            ctx.shadowBlur = 20;
+            ctx.beginPath();
+            ctx.arc(0, 0, p.size, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Coin shine - lighter red
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = '#FF8A80';
+            ctx.beginPath();
+            ctx.arc(-p.size * 0.3, -p.size * 0.3, p.size * 0.3, 0, Math.PI * 2);
+            ctx.fill();
+        } else if (p.type === 'sparkle') {
+            // Twinkling sparkles - 4-point stars that pulse
+            const twinkleSize = p.size * (0.7 + 0.3 * Math.sin(p.twinkle));
+            ctx.translate(p.x, p.y);
+            ctx.fillStyle = p.color;
+            ctx.shadowColor = p.color;
+            ctx.shadowBlur = 10;
+            
+            // Draw 4-point star
             ctx.beginPath();
             for (let i = 0; i < 4; i++) {
-                const angle = (i / 4) * Math.PI * 2;
-                const outerX = Math.cos(angle) * p.size;
-                const outerY = Math.sin(angle) * p.size;
+                const angle = (i / 4) * Math.PI * 2 - Math.PI / 4;
+                const outerX = Math.cos(angle) * twinkleSize;
+                const outerY = Math.sin(angle) * twinkleSize;
                 const innerAngle = angle + Math.PI / 4;
-                const innerX = Math.cos(innerAngle) * (p.size * 0.4);
-                const innerY = Math.sin(innerAngle) * (p.size * 0.4);
+                const innerX = Math.cos(innerAngle) * (twinkleSize * 0.3);
+                const innerY = Math.sin(innerAngle) * (twinkleSize * 0.3);
                 if (i === 0) ctx.moveTo(outerX, outerY);
                 else ctx.lineTo(outerX, outerY);
                 ctx.lineTo(innerX, innerY);
             }
             ctx.closePath();
             ctx.fill();
+        } else if (p.type === 'orb') {
+            // Purple orbs with gradient glow
+            const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
+            gradient.addColorStop(0, '#ffffff');
+            gradient.addColorStop(0.3, p.color);
+            gradient.addColorStop(1, p.color + '00');
+            ctx.fillStyle = gradient;
+            ctx.shadowColor = p.color;
+            ctx.shadowBlur = 20;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fill();
+        } else if (p.type === 'confetti') {
+            // Colorful tumbling rectangles
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rotation);
+            ctx.fillStyle = p.color;
+            ctx.shadowColor = p.color;
+            ctx.shadowBlur = 5;
+            ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
         } else if (p.type === 'ember') {
-            // Draw glowing ember with trail effect
-            const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2);
-            gradient.addColorStop(0, p.color);
-            gradient.addColorStop(0.5, p.color + '80');
+            // Glowing embers rising up
+            const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2.5);
+            gradient.addColorStop(0, '#ffffff');
+            gradient.addColorStop(0.2, p.color);
+            gradient.addColorStop(0.6, p.color + '80');
             gradient.addColorStop(1, 'transparent');
             ctx.fillStyle = gradient;
             ctx.shadowColor = p.color;
-            ctx.shadowBlur = 15;
+            ctx.shadowBlur = 25;
             ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size * 2, 0, Math.PI * 2);
+            ctx.arc(p.x, p.y, p.size * 2.5, 0, Math.PI * 2);
             ctx.fill();
         } else {
-            // Draw circle with glow
+            // Default circle with glow
             ctx.fillStyle = p.color;
             ctx.shadowColor = p.color;
             ctx.shadowBlur = 12;
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // Inner bright core
-            ctx.shadowBlur = 0;
-            ctx.globalAlpha = p.life * 0.6;
-            ctx.fillStyle = '#ffffff';
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size * 0.4, 0, Math.PI * 2);
             ctx.fill();
         }
         
@@ -1317,16 +1539,21 @@ function drawPlayer() {
     
     ctx.restore();
 }
+// Pre-cached razor dimensions (calculated once on first use)
+let _cachedRazorHeight = 0;
 
 function drawRazors() {
     // Trading candle colors
     const RED_CANDLE = '#EF5350';   // Red for top (bearish)
     const GREEN_CANDLE = '#26A69A'; // Green for bottom (bullish)
     
+    // Calculate razor height once
+    if (_cachedRazorHeight === 0 && images.razor && images.razor.width > 0) {
+        _cachedRazorHeight = RAZOR_WIDTH * (images.razor.height / images.razor.width);
+    }
+    const singleRazorHeight = _cachedRazorHeight || RAZOR_WIDTH;
+    
     for (const razor of razors) {
-        // Calculate razor dimensions
-        const razorAspect = images.razor.height / images.razor.width;
-        const singleRazorHeight = RAZOR_WIDTH * razorAspect;
         
         // ===== TOP OBSTACLE (RED) =====
         ctx.save();
@@ -1528,11 +1755,37 @@ function drawStartScreen(deltaTime) {
         ctx.restore();
     }
     
+    // Draw TOP 3 LEADERBOARD preview
+    if (topScores.length > 0) {
+        ctx.save();
+        const lbPreviewY = GAME_HEIGHT * 0.78;
+        
+        // Title
+        ctx.font = 'bold 32px "Creepster", cursive';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#FFD700';
+        ctx.shadowColor = 'rgba(255, 215, 0, 0.5)';
+        ctx.shadowBlur = 10;
+        ctx.fillText('🏆 TOP SCORES 🏆', GAME_WIDTH / 2, lbPreviewY);
+        
+        // Scores
+        ctx.font = '28px "Creepster", cursive';
+        ctx.shadowBlur = 5;
+        const medals = ['🥇', '🥈', '🥉'];
+        for (let i = 0; i < topScores.length && i < 3; i++) {
+            const yPos = lbPreviewY + 40 + (i * 35);
+            const name = topScores[i].name.length > 12 ? topScores[i].name.substring(0, 12) + '...' : topScores[i].name;
+            ctx.fillStyle = i === 0 ? '#FFD700' : (i === 1 ? '#C0C0C0' : '#CD7F32');
+            ctx.fillText(`${medals[i]} ${name}: ${topScores[i].score}`, GAME_WIDTH / 2, yPos);
+        }
+        ctx.restore();
+    }
+    
     // Draw "View Leaderboard" button with premium effects
     ctx.save();
-    const lbBtnY = GAME_HEIGHT * 0.88;
+    const lbBtnY = GAME_HEIGHT * 0.92;
     const lbBtnWidth = 420;
-    const lbBtnHeight = 80;
+    const lbBtnHeight = 70;
     const lbBtnX = GAME_WIDTH / 2 - lbBtnWidth / 2;
     
     // Animated glow pulse
@@ -1641,6 +1894,16 @@ function render(deltaTime) {
         
         drawStartScreen(deltaTime);
     } else {
+        // Apply zoom effect during death slow-mo
+        if (deathSlowMo.active && deathSlowMo.zoom !== 1.0) {
+            ctx.save();
+            const zoomCenterX = player.x + PLAYER_WIDTH / 2;
+            const zoomCenterY = player.y + PLAYER_HEIGHT / 2;
+            ctx.translate(zoomCenterX, zoomCenterY);
+            ctx.scale(deathSlowMo.zoom, deathSlowMo.zoom);
+            ctx.translate(-zoomCenterX, -zoomCenterY);
+        }
+        
         // White background for gameplay
         ctx.fillStyle = '#FFFFFF';
         ctx.fillRect(-50, -50, GAME_WIDTH + 100, GAME_HEIGHT + 100);
@@ -1651,6 +1914,31 @@ function render(deltaTime) {
         
         // Draw score particles (on top)
         drawScoreParticles();
+        
+        // Apply desaturation overlay during death
+        if (deathSlowMo.active && deathSlowMo.desaturation > 0) {
+            ctx.save();
+            ctx.globalCompositeOperation = 'saturation';
+            ctx.fillStyle = `rgba(128, 128, 128, ${deathSlowMo.desaturation})`;
+            ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+            ctx.restore();
+            
+            // Add dramatic vignette
+            ctx.save();
+            const vignetteGradient = ctx.createRadialGradient(
+                GAME_WIDTH / 2, GAME_HEIGHT / 2, GAME_HEIGHT * 0.3,
+                GAME_WIDTH / 2, GAME_HEIGHT / 2, GAME_HEIGHT * 0.8
+            );
+            vignetteGradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
+            vignetteGradient.addColorStop(1, `rgba(0, 0, 0, ${deathSlowMo.desaturation * 0.5})`);
+            ctx.fillStyle = vignetteGradient;
+            ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+            ctx.restore();
+        }
+        
+        if (deathSlowMo.active && deathSlowMo.zoom !== 1.0) {
+            ctx.restore();
+        }
         
         // Draw fade overlay during transition
         if (screenTransition.active) {
@@ -1706,17 +1994,42 @@ function render(deltaTime) {
 // GAME LOOP
 // ============================================
 
+// Smoothing for delta time to prevent micro-jitter
+let smoothedDeltaTime = TARGET_FRAME_TIME;
+const DELTA_SMOOTHING = 0.85; // Balanced smoothing
+
+// Frame time history for better smoothing
+let frameTimeHistory = [];
+const FRAME_HISTORY_SIZE = 5;
+
 function gameLoop(currentTime) {
-    // Calculate delta time with cap to prevent huge jumps (e.g., when tab is backgrounded)
-    let deltaTime = currentTime - lastTime;
+    // Calculate raw delta time
+    let rawDeltaTime = currentTime - lastTime;
     lastTime = currentTime;
     
     // Cap delta time to prevent physics explosions after tab switch/PWA resume
-    if (deltaTime > 100) deltaTime = TARGET_FRAME_TIME;
+    if (rawDeltaTime > 100) rawDeltaTime = TARGET_FRAME_TIME;
+    if (rawDeltaTime < 1) rawDeltaTime = TARGET_FRAME_TIME;
     
-    // Update and render
-    update(deltaTime);
-    render(deltaTime);
+    // Add to frame history
+    frameTimeHistory.push(rawDeltaTime);
+    if (frameTimeHistory.length > FRAME_HISTORY_SIZE) {
+        frameTimeHistory.shift();
+    }
+    
+    // Use median of recent frames to filter outliers
+    const sortedHistory = [...frameTimeHistory].sort((a, b) => a - b);
+    const medianDelta = sortedHistory[Math.floor(sortedHistory.length / 2)];
+    
+    // Smooth using exponential moving average on median
+    smoothedDeltaTime = smoothedDeltaTime * DELTA_SMOOTHING + medianDelta * (1 - DELTA_SMOOTHING);
+    
+    // Clamp to reasonable range
+    smoothedDeltaTime = Math.max(8, Math.min(smoothedDeltaTime, 32));
+    
+    // Update and render with smoothed delta
+    update(smoothedDeltaTime);
+    render(smoothedDeltaTime);
     
     // Continue loop
     requestAnimationFrame(gameLoop);
@@ -1791,7 +2104,7 @@ function dismissLoadingScreen() {
     }
 }
 
-// Called when user clicks PLAY button
+// Called when user clicks PLAY button or auto-advances
 function startGameFromLoading() {
     // Prevent double-tap issues
     const playBtn = document.getElementById('play-btn');
@@ -1800,26 +2113,25 @@ function startGameFromLoading() {
         playBtn.style.pointerEvents = 'none';
     }
     
-    // Initialize audio context FIRST on user tap (required for mobile)
-    if (typeof chiptunePlayer !== 'undefined') {
-        chiptunePlayer.init();
-        
-        // Resume audio context if suspended (mobile browsers require this)
-        if (chiptunePlayer.audioContext && chiptunePlayer.audioContext.state === 'suspended') {
-            chiptunePlayer.audioContext.resume().then(() => {
-                chiptunePlayer.playClick();
-                dismissLoadingScreen();
-            }).catch(() => {
-                // Even if audio fails, still dismiss loading screen
-                dismissLoadingScreen();
-            });
-            return;
-        }
-        
-        chiptunePlayer.playClick();
-    }
-    
+    // ALWAYS dismiss loading screen first - don't wait for audio
     dismissLoadingScreen();
+    
+    // Try to initialize audio (will fail silently on auto-advance, that's OK)
+    try {
+        if (typeof chiptunePlayer !== 'undefined') {
+            chiptunePlayer.init();
+            
+            // Try to resume audio context (may fail without user gesture)
+            if (chiptunePlayer.audioContext && chiptunePlayer.audioContext.state === 'suspended') {
+                chiptunePlayer.audioContext.resume().catch(() => {
+                    // Audio failed, that's fine - game still works
+                });
+            }
+        }
+    } catch (e) {
+        // Audio init failed, that's fine
+        console.log('Audio init skipped (no user gesture)');
+    }
 }
 
 // Setup play button and loading screen tap handling for PWA
@@ -1864,6 +2176,18 @@ function setupPlayButton() {
             }
         });
     }
+    
+    // AUTO-ADVANCE on mobile after 2 seconds (for popup browsers that don't register taps)
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                     (window.matchMedia && window.matchMedia('(hover: none)').matches);
+    if (isMobile) {
+        setTimeout(() => {
+            if (!gameStarted && gameReady) {
+                console.log('Auto-advancing from loading screen (mobile fallback)');
+                tryStartGame();
+            }
+        }, 2000);
+    }
 }
 
 async function init() {
@@ -1881,6 +2205,9 @@ async function init() {
         }
         
         updateLoadingBar(60);
+        
+        // Fetch top 3 leaderboard scores for start screen
+        fetchTopScores();
         
         // DON'T initialize audio here - must be done on user tap for mobile!
         // Audio will be initialized in startGameFromLoading() when user taps PLAY
@@ -1906,6 +2233,29 @@ async function init() {
         console.error('Init error:', error);
         // Still show play button so user isn't stuck
         showPlayButton();
+    }
+}
+
+// Fetch top 3 scores from leaderboard contract
+async function fetchTopScores() {
+    try {
+        const provider = new ethers.JsonRpcProvider(MONAD_RPC);
+        const contract = new ethers.Contract(LEADERBOARD_ADDRESS, LEADERBOARD_ABI, provider);
+        const [addresses, names, scores] = await contract.getTopScores(3);
+        
+        topScores = [];
+        for (let i = 0; i < addresses.length && i < 3; i++) {
+            if (scores[i] > 0) {
+                topScores.push({
+                    name: names[i] || 'Anonymous',
+                    score: Number(scores[i])
+                });
+            }
+        }
+        console.log('Top scores loaded:', topScores);
+    } catch (error) {
+        console.log('Could not fetch leaderboard:', error.message);
+        topScores = [];
     }
 }
 
