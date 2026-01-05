@@ -136,6 +136,17 @@ let deathCertificate = {
     timestamp: null
 };
 
+// Score particles system
+let scoreParticles = [];
+
+// Player trail system
+let playerTrail = [];
+const MAX_TRAIL_LENGTH = 8;
+
+// Background clouds
+let clouds = [];
+const NUM_CLOUDS = 6;
+
 // Start screen animation state
 let startScreenFlapFrame = 0;
 let startScreenDieFrame = 0;
@@ -301,6 +312,9 @@ function startGame() {
     score = 0;
     razorSpawnTimer = RAZOR_SPAWN_INTERVAL; // Spawn first razor immediately
     gameStartTime = Date.now(); // Track start time for anti-cheat
+    
+    // Reset effects
+    scoreParticles = [];
     
     // Start music (random track)
     if (typeof chiptunePlayer !== 'undefined') {
@@ -703,6 +717,9 @@ function updateRazors(deltaTime) {
             razor.scored = true;
             score++;
             
+            // Spawn score particles
+            spawnScoreParticles();
+            
             // Play score sound
             if (typeof chiptunePlayer !== 'undefined') {
                 chiptunePlayer.playScore();
@@ -830,6 +847,7 @@ function update(deltaTime) {
     if (gameState === GameState.PLAYING) {
         updatePlayer(deltaTime);
         updateRazors(deltaTime);
+        updateScoreParticles(deltaTime);
         
         // Check collisions
         const collision = checkCollisions();
@@ -838,7 +856,177 @@ function update(deltaTime) {
         }
     } else if (gameState === GameState.DYING) {
         updatePlayer(deltaTime);
+        updateScoreParticles(deltaTime);
     }
+}
+
+// ============================================
+// PARTICLE & EFFECTS SYSTEMS
+// ============================================
+
+// Spawn particles when scoring
+function spawnScoreParticles() {
+    const centerX = GAME_WIDTH / 2;
+    const centerY = 150;
+    // Purple and black themed colors
+    const colors = [
+        '#9d4edd',  // Purple
+        '#7b2cbf',  // Dark purple
+        '#5a189a',  // Deeper purple
+        '#e0aaff',  // Light purple
+        '#1a1a1a',  // Near black
+        '#2d2d2d',  // Dark gray
+        '#000000'   // Black
+    ];
+    
+    // More particles for better effect
+    for (let i = 0; i < 16; i++) {
+        const angle = (Math.PI * 2 / 16) * i + Math.random() * 0.4;
+        const speed = 10 + Math.random() * 8;
+        scoreParticles.push({
+            x: centerX,
+            y: centerY,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 4,
+            size: 10 + Math.random() * 12,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            life: 1.0,
+            decay: 0.018 + Math.random() * 0.012
+        });
+    }
+}
+
+// Update score particles
+function updateScoreParticles(deltaTime) {
+    const timeScale = deltaTime / TARGET_FRAME_TIME;
+    
+    for (let i = scoreParticles.length - 1; i >= 0; i--) {
+        const p = scoreParticles[i];
+        p.x += p.vx * timeScale;
+        p.y += p.vy * timeScale;
+        p.vy += 0.3 * timeScale; // Gravity
+        p.life -= p.decay * timeScale;
+        p.size *= 0.98;
+        
+        if (p.life <= 0 || p.size < 1) {
+            scoreParticles.splice(i, 1);
+        }
+    }
+}
+
+// Draw score particles
+function drawScoreParticles() {
+    for (const p of scoreParticles) {
+        ctx.save();
+        ctx.globalAlpha = p.life;
+        ctx.fillStyle = p.color;
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 10;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+    }
+}
+
+// Update player trail
+function updatePlayerTrail() {
+    // Add current position to trail
+    playerTrail.unshift({
+        x: player.x + PLAYER_WIDTH / 2,
+        y: player.y + PLAYER_HEIGHT / 2,
+        rotation: player.rotation
+    });
+    
+    // Limit trail length
+    if (playerTrail.length > MAX_TRAIL_LENGTH) {
+        playerTrail.pop();
+    }
+}
+
+// Draw player trail
+function drawPlayerTrail() {
+    if (playerTrail.length < 2) return;
+    
+    for (let i = 1; i < playerTrail.length; i++) {
+        const t = playerTrail[i];
+        const alpha = (1 - i / playerTrail.length) * 0.3;
+        const size = PLAYER_WIDTH * (1 - i / playerTrail.length) * 0.5;
+        
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.translate(t.x, t.y);
+        ctx.rotate(t.rotation * Math.PI / 180);
+        
+        // Draw trail ghost
+        ctx.fillStyle = 'rgba(157, 78, 221, 0.5)';
+        ctx.beginPath();
+        ctx.ellipse(0, 0, size, size * 0.7, 0, 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.restore();
+    }
+}
+
+// Initialize clouds
+function initClouds() {
+    clouds = [];
+    for (let i = 0; i < NUM_CLOUDS; i++) {
+        clouds.push({
+            x: Math.random() * GAME_WIDTH,
+            y: 100 + Math.random() * (GAME_HEIGHT - 300),
+            width: 200 + Math.random() * 300,
+            height: 80 + Math.random() * 120,
+            speed: 0.3 + Math.random() * 0.4,
+            opacity: 0.03 + Math.random() * 0.04
+        });
+    }
+}
+
+// Update clouds
+function updateClouds(deltaTime) {
+    const timeScale = deltaTime / TARGET_FRAME_TIME;
+    
+    for (const cloud of clouds) {
+        cloud.x -= cloud.speed * timeScale;
+        
+        // Wrap around
+        if (cloud.x + cloud.width < 0) {
+            cloud.x = GAME_WIDTH + 50;
+            cloud.y = 100 + Math.random() * (GAME_HEIGHT - 300);
+        }
+    }
+}
+
+// Draw clouds (subtle, blurred dark clouds)
+function drawClouds() {
+    ctx.save();
+    
+    for (const cloud of clouds) {
+        ctx.globalAlpha = cloud.opacity;
+        
+        // Draw blurred dark cloud shape
+        const gradient = ctx.createRadialGradient(
+            cloud.x + cloud.width / 2, cloud.y + cloud.height / 2, 0,
+            cloud.x + cloud.width / 2, cloud.y + cloud.height / 2, cloud.width / 2
+        );
+        gradient.addColorStop(0, 'rgba(30, 20, 50, 0.8)');
+        gradient.addColorStop(0.5, 'rgba(30, 20, 50, 0.4)');
+        gradient.addColorStop(1, 'rgba(30, 20, 50, 0)');
+        
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.ellipse(
+            cloud.x + cloud.width / 2,
+            cloud.y + cloud.height / 2,
+            cloud.width / 2,
+            cloud.height / 2,
+            0, 0, Math.PI * 2
+        );
+        ctx.fill();
+    }
+    
+    ctx.restore();
 }
 
 // ============================================
@@ -1163,6 +1351,9 @@ function render(deltaTime) {
         drawRazors();
         drawPlayer();
         drawScore();
+        
+        // Draw score particles (on top)
+        drawScoreParticles();
     }
     
     ctx.restore();

@@ -14,6 +14,16 @@
             box-sizing: border-box;
         }
         
+        /* Page transition */
+        body {
+            animation: pageFadeIn 0.3s ease-out;
+        }
+        
+        @keyframes pageFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
         html, body {
             width: 100%;
             min-height: 100vh;
