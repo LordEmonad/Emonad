@@ -14,9 +14,6 @@ class ChiptunePlayer {
         this.currentTrack = null;
         this.loopTimeout = null;
         this.isMuted = false;
-        this.activeNodes = [];
-        this.playTimeout = null;
-        this.playId = 0;
     }
 
     init() {
@@ -111,7 +108,6 @@ class ChiptunePlayer {
         
         osc.start(startTime);
         osc.stop(startTime + duration + 0.01);
-        this.activeNodes.push({ osc, gain, end: startTime + duration });
     }
 
     // Heavy bass
@@ -133,7 +129,6 @@ class ChiptunePlayer {
         
         osc1.start(startTime);
         osc1.stop(startTime + duration + 0.01);
-        this.activeNodes.push({ osc: osc1, gain: gain1, end: startTime + duration });
         
         // Punch layer
         const osc2 = this.audioContext.createOscillator();
@@ -148,7 +143,6 @@ class ChiptunePlayer {
         
         osc2.start(startTime);
         osc2.stop(startTime + duration + 0.01);
-        this.activeNodes.push({ osc: osc2, gain: gain2, end: startTime + duration });
     }
 
     // Arpeggio note
@@ -168,162 +162,6 @@ class ChiptunePlayer {
         
         osc.start(startTime);
         osc.stop(startTime + duration + 0.01);
-        this.activeNodes.push({ osc, gain, end: startTime + duration });
-    }
-
-    // Kick drum - punchy 808
-    playKick(startTime, volume = 0.5) {
-        if (!this.audioContext) return;
-        const osc = this.audioContext.createOscillator();
-        const gain = this.audioContext.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(180, startTime);
-        osc.frequency.exponentialRampToValueAtTime(35, startTime + 0.08);
-        gain.gain.setValueAtTime(volume, startTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.2);
-        osc.connect(gain);
-        gain.connect(this.musicGain);
-        osc.start(startTime);
-        osc.stop(startTime + 0.25);
-        
-        // Click attack
-        const click = this.audioContext.createOscillator();
-        const clickGain = this.audioContext.createGain();
-        click.type = 'square';
-        click.frequency.value = 900;
-        clickGain.gain.setValueAtTime(volume * 0.3, startTime);
-        clickGain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.01);
-        click.connect(clickGain);
-        clickGain.connect(this.musicGain);
-        click.start(startTime);
-        click.stop(startTime + 0.02);
-    }
-
-    // Snare drum
-    playSnare(startTime, volume = 0.4) {
-        if (!this.audioContext) return;
-        
-        // Noise burst
-        const bufferSize = this.audioContext.sampleRate * 0.12;
-        const buffer = this.audioContext.createBuffer(1, bufferSize, this.audioContext.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-            data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.1));
-        }
-        const noise = this.audioContext.createBufferSource();
-        noise.buffer = buffer;
-        const filter = this.audioContext.createBiquadFilter();
-        filter.type = 'highpass';
-        filter.frequency.value = 2500;
-        const noiseGain = this.audioContext.createGain();
-        noiseGain.gain.setValueAtTime(volume, startTime);
-        noiseGain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.1);
-        noise.connect(filter);
-        filter.connect(noiseGain);
-        noiseGain.connect(this.musicGain);
-        noise.start(startTime);
-        noise.stop(startTime + 0.15);
-        
-        // Body tone
-        const osc = this.audioContext.createOscillator();
-        const oscGain = this.audioContext.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(200, startTime);
-        osc.frequency.exponentialRampToValueAtTime(100, startTime + 0.03);
-        oscGain.gain.setValueAtTime(volume * 0.5, startTime);
-        oscGain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.05);
-        osc.connect(oscGain);
-        oscGain.connect(this.musicGain);
-        osc.start(startTime);
-        osc.stop(startTime + 0.08);
-    }
-
-    // Hi-hat
-    playHiHat(startTime, volume = 0.15) {
-        if (!this.audioContext) return;
-        const bufferSize = this.audioContext.sampleRate * 0.04;
-        const buffer = this.audioContext.createBuffer(1, bufferSize, this.audioContext.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-            data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.06));
-        }
-        const noise = this.audioContext.createBufferSource();
-        noise.buffer = buffer;
-        const filter = this.audioContext.createBiquadFilter();
-        filter.type = 'highpass';
-        filter.frequency.value = 9000;
-        const gain = this.audioContext.createGain();
-        gain.gain.setValueAtTime(volume, startTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.03);
-        noise.connect(filter);
-        filter.connect(gain);
-        gain.connect(this.musicGain);
-        noise.start(startTime);
-        noise.stop(startTime + 0.05);
-    }
-
-    // Open hi-hat
-    playOpenHat(startTime, volume = 0.12) {
-        if (!this.audioContext) return;
-        const bufferSize = this.audioContext.sampleRate * 0.15;
-        const buffer = this.audioContext.createBuffer(1, bufferSize, this.audioContext.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-            data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.2));
-        }
-        const noise = this.audioContext.createBufferSource();
-        noise.buffer = buffer;
-        const filter = this.audioContext.createBiquadFilter();
-        filter.type = 'highpass';
-        filter.frequency.value = 7000;
-        const gain = this.audioContext.createGain();
-        gain.gain.setValueAtTime(volume, startTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.12);
-        noise.connect(filter);
-        filter.connect(gain);
-        gain.connect(this.musicGain);
-        noise.start(startTime);
-        noise.stop(startTime + 0.15);
-    }
-
-    // Crash cymbal
-    playCrash(startTime, volume = 0.18) {
-        if (!this.audioContext) return;
-        const bufferSize = this.audioContext.sampleRate * 0.6;
-        const buffer = this.audioContext.createBuffer(1, bufferSize, this.audioContext.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-            data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.25));
-        }
-        const noise = this.audioContext.createBufferSource();
-        noise.buffer = buffer;
-        const filter = this.audioContext.createBiquadFilter();
-        filter.type = 'highpass';
-        filter.frequency.value = 5000;
-        const gain = this.audioContext.createGain();
-        gain.gain.setValueAtTime(volume, startTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.5);
-        noise.connect(filter);
-        filter.connect(gain);
-        gain.connect(this.musicGain);
-        noise.start(startTime);
-        noise.stop(startTime + 0.6);
-    }
-
-    // Tom drum
-    playTom(startTime, freq = 150, volume = 0.3) {
-        if (!this.audioContext) return;
-        const osc = this.audioContext.createOscillator();
-        const gain = this.audioContext.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, startTime);
-        osc.frequency.exponentialRampToValueAtTime(freq * 0.5, startTime + 0.12);
-        gain.gain.setValueAtTime(volume, startTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.18);
-        osc.connect(gain);
-        gain.connect(this.musicGain);
-        osc.start(startTime);
-        osc.stop(startTime + 0.2);
     }
 
     // ========== TRACK 1: "NEON FUNERAL" - Metal/Emo at 110 BPM ==========
@@ -399,40 +237,10 @@ class ChiptunePlayer {
             }
         }
         
-        // DRUMS - Driving rock beat
-        for (let bar = 0; bar < 16; bar++) {
-            const barStart = now + bar * 4 * beatTime;
-            // Kick on 1 and 3
-            this.playKick(barStart, 0.45);
-            this.playKick(barStart + 2 * beatTime, 0.45);
-            // Snare on 2 and 4
-            this.playSnare(barStart + beatTime, 0.35);
-            this.playSnare(barStart + 3 * beatTime, 0.35);
-            // Hi-hats on 8ths
-            for (let i = 0; i < 8; i++) {
-                const vol = (i % 2 === 0) ? 0.12 : 0.08;
-                this.playHiHat(barStart + i * beatTime / 2, vol);
-            }
-            // Open hat on "and" of 4
-            this.playOpenHat(barStart + 3.5 * beatTime, 0.1);
-            // Crash every 4 bars
-            if (bar % 4 === 0) {
-                this.playCrash(barStart, 0.15);
-            }
-            // Tom fill on bar 8 and 16
-            if (bar === 7 || bar === 15) {
-                this.playTom(barStart + 3 * beatTime, 180, 0.25);
-                this.playTom(barStart + 3.25 * beatTime, 140, 0.25);
-                this.playTom(barStart + 3.5 * beatTime, 110, 0.25);
-                this.playTom(barStart + 3.75 * beatTime, 90, 0.25);
-            }
-        }
-        
         // Loop after 64 beats
         const loopTime = 64 * beatTime * 1000;
-        const loopPlayId = this.playId;
         this.loopTimeout = setTimeout(() => {
-            if (this.playId === loopPlayId && this.isPlaying && this.currentTrack === 1) this.playTrack1();
+            if (this.isPlaying) this.playTrack1();
         }, loopTime - 100);
     }
 
@@ -486,33 +294,9 @@ class ChiptunePlayer {
             }
         }
         
-        // DRUMS - Half-time emotional feel
-        for (let bar = 0; bar < 16; bar++) {
-            const barStart = now + bar * 4 * beatTime;
-            // Kick on 1
-            this.playKick(barStart, 0.4);
-            // Soft kick on 3 sometimes
-            if (bar % 2 === 1) {
-                this.playKick(barStart + 2 * beatTime, 0.25);
-            }
-            // Snare on 3 (half-time)
-            this.playSnare(barStart + 2 * beatTime, 0.3);
-            // Hi-hats on quarters
-            for (let i = 0; i < 4; i++) {
-                this.playHiHat(barStart + i * beatTime, 0.08);
-            }
-            // Open hat on beat 4
-            this.playOpenHat(barStart + 3 * beatTime, 0.07);
-            // Crash every 8 bars
-            if (bar % 8 === 0) {
-                this.playCrash(barStart, 0.12);
-            }
-        }
-        
         const loopTime = 64 * beatTime * 1000;
-        const loopPlayId = this.playId;
         this.loopTimeout = setTimeout(() => {
-            if (this.playId === loopPlayId && this.isPlaying && this.currentTrack === 2) this.playTrack2();
+            if (this.isPlaying) this.playTrack2();
         }, loopTime - 100);
     }
 
@@ -524,25 +308,30 @@ class ChiptunePlayer {
         const beatTime = 60 / tempo;
         const now = this.audioContext.currentTime + 0.1;
         
-        // D minor - aggressive, punk energy - just the main riff looped
+        // D minor - aggressive, punk energy
         const melody = [
-            // Main aggressive riff - repeated
+            // Fast aggressive riffs
             ['D', 5, 1], ['D', 5, 1], ['F', 5, 2], ['G', 5, 2], ['A', 5, 2],
             ['G', 5, 2], ['F', 5, 2], ['E', 5, 2], ['D', 5, 2],
             ['D', 5, 1], ['D', 5, 1], ['F', 5, 2], ['G', 5, 2], ['A', 5, 2],
             ['Bb', 5, 2], ['A', 5, 2], ['G', 5, 2], ['D', 5, 2],
-            // Repeat the riff
-            ['D', 5, 1], ['D', 5, 1], ['F', 5, 2], ['G', 5, 2], ['A', 5, 2],
+            // Build
+            ['A', 5, 2], ['Bb', 5, 2], ['C', 6, 4],
+            ['Bb', 5, 2], ['A', 5, 2], ['G', 5, 4],
+            ['F', 5, 2], ['G', 5, 2], ['A', 5, 4],
+            ['G', 5, 2], ['F', 5, 2], ['D', 5, 4],
+            // Climax
+            ['D', 6, 2], ['C', 6, 2], ['Bb', 5, 2], ['A', 5, 2],
             ['G', 5, 2], ['F', 5, 2], ['E', 5, 2], ['D', 5, 2],
-            ['D', 5, 1], ['D', 5, 1], ['F', 5, 2], ['G', 5, 2], ['A', 5, 2],
-            ['Bb', 5, 2], ['A', 5, 2], ['G', 5, 2], ['D', 5, 2]
+            ['D', 6, 2], ['C', 6, 2], ['Bb', 5, 2], ['A', 5, 2],
+            ['D', 5, 8]
         ];
         
         const bass = [
             ['D', 2, 4], ['D', 2, 4], ['Bb', 1, 4], ['Bb', 1, 4],
             ['F', 2, 4], ['F', 2, 4], ['C', 2, 4], ['C', 2, 4],
             ['D', 2, 4], ['D', 2, 4], ['Bb', 1, 4], ['Bb', 1, 4],
-            ['F', 2, 4], ['F', 2, 4], ['C', 2, 4], ['C', 2, 4]
+            ['F', 2, 4], ['F', 2, 4], ['D', 2, 8]
         ];
         
         const arpPattern = ['D', 'A', 'D', 'F', 'A', 'D', 'F', 'A'];
@@ -560,7 +349,7 @@ class ChiptunePlayer {
         }
         
         const arpBeatTime = beatTime / 2;
-        for (let bar = 0; bar < 16; bar++) {
+        for (let bar = 0; bar < 14; bar++) {
             for (let i = 0; i < 8; i++) {
                 const noteIdx = i % arpPattern.length;
                 const octave = (i % 2 === 0) ? 4 : 5;
@@ -568,230 +357,100 @@ class ChiptunePlayer {
             }
         }
         
-        // DRUMS - Fast punk four-on-floor
-        for (let bar = 0; bar < 16; bar++) {
-            const barStart = now + bar * 4 * beatTime;
-            // Kick on every beat (punk style)
-            for (let i = 0; i < 4; i++) {
-                this.playKick(barStart + i * beatTime, 0.48);
-            }
-            // Snare on 2 and 4
-            this.playSnare(barStart + beatTime, 0.38);
-            this.playSnare(barStart + 3 * beatTime, 0.38);
-            // Hi-hats on 8ths - loud and driving
-            for (let i = 0; i < 8; i++) {
-                this.playHiHat(barStart + i * beatTime / 2, 0.14);
-            }
-            // Open hat accents
-            this.playOpenHat(barStart + 1.5 * beatTime, 0.1);
-            this.playOpenHat(barStart + 3.5 * beatTime, 0.1);
-            // Crash every 4 bars
-            if (bar % 4 === 0) {
-                this.playCrash(barStart, 0.18);
-            }
-            // Tom fills
-            if (bar === 7 || bar === 15) {
-                this.playTom(barStart + 3 * beatTime, 180, 0.3);
-                this.playTom(barStart + 3.25 * beatTime, 140, 0.3);
-                this.playTom(barStart + 3.5 * beatTime, 110, 0.3);
-                this.playTom(barStart + 3.75 * beatTime, 90, 0.3);
-            }
-        }
-        
-        const loopTime = 64 * beatTime * 1000;
-        const loopPlayId = this.playId;
+        const loopTime = 56 * beatTime * 1000;
         this.loopTimeout = setTimeout(() => {
-            if (this.playId === loopPlayId && this.isPlaying && this.currentTrack === 3) this.playTrack3();
+            if (this.isPlaying) this.playTrack3();
         }, loopTime - 100);
     }
 
-    // ========== GAME OVER TRACK - Heavy and dark ==========
+    // ========== GAME OVER TRACK - Slow sad ==========
     playGameOverTrack() {
         if (!this.audioContext || !this.isPlaying) return;
         
-        const tempo = 100;
+        const tempo = 60;
         const beatTime = 60 / tempo;
         const now = this.audioContext.currentTime + 0.1;
         
-        // D minor - dark and heavy
+        // A minor - sad and reflective
         const melody = [
-            ['D', 5, 2], ['F', 5, 2], ['A', 5, 4],
-            ['G', 5, 2], ['F', 5, 2], ['D', 5, 4],
-            ['D', 5, 2], ['F', 5, 2], ['G', 5, 2], ['A', 5, 2],
-            ['F', 5, 4], ['D', 5, 4],
-            ['A', 5, 2], ['G', 5, 2], ['F', 5, 4],
-            ['G', 5, 2], ['F', 5, 2], ['D', 5, 4],
-            ['D', 5, 2], ['F', 5, 2], ['A', 5, 4],
-            ['D', 5, 8]
+            ['E', 5, 4], ['D', 5, 4], ['C', 5, 8],
+            ['D', 5, 4], ['E', 5, 4], ['A', 4, 8],
+            ['E', 5, 4], ['D', 5, 4], ['C', 5, 4], ['B', 4, 4],
+            ['A', 4, 16]
         ];
         
         const bass = [
-            ['D', 2, 4], ['D', 2, 4], ['Bb', 1, 4], ['Bb', 1, 4],
-            ['F', 2, 4], ['F', 2, 4], ['A', 1, 4], ['A', 1, 4],
-            ['D', 2, 4], ['D', 2, 4], ['Bb', 1, 4], ['Bb', 1, 4],
-            ['F', 2, 4], ['F', 2, 4], ['D', 2, 8]
+            ['A', 2, 8], ['F', 2, 8], ['C', 2, 8], ['A', 2, 8]
         ];
         
-        const arpPattern = ['D', 'A', 'D', 'F', 'A', 'D', 'F', 'A'];
-        
-        // Melody
         let time = 0;
         for (const [note, oct, beats] of melody) {
-            this.playLead(this.note(note, oct), now + time * beatTime, beats * beatTime * 0.85, 0.16);
+            this.playLead(this.note(note, oct), now + time * beatTime, beats * beatTime * 0.8, 0.12);
             time += beats;
         }
         
-        // Heavy bass
         time = 0;
         for (const [note, oct, beats] of bass) {
-            this.playBass(this.note(note, oct), now + time * beatTime, beats * beatTime * 0.9, 0.5);
+            this.playBass(this.note(note, oct), now + time * beatTime, beats * beatTime * 0.85, 0.25);
             time += beats;
         }
         
-        // Arps
-        const arpBeatTime = beatTime / 2;
-        for (let bar = 0; bar < 14; bar++) {
-            for (let i = 0; i < 8; i++) {
-                const noteIdx = i % arpPattern.length;
-                const octave = (i % 2 === 0) ? 4 : 5;
-                this.playArp(this.note(arpPattern[noteIdx], octave), now + (bar * 8 + i) * arpBeatTime, arpBeatTime * 0.5, 0.06);
-            }
-        }
-        
-        // HEAVY DRUMS
-        for (let bar = 0; bar < 14; bar++) {
-            const barStart = now + bar * 4 * beatTime;
-            // Kick on 1 and 3
-            this.playKick(barStart, 0.55);
-            this.playKick(barStart + 2 * beatTime, 0.55);
-            // Extra kick on "and" of 2 for heaviness
-            this.playKick(barStart + 1.5 * beatTime, 0.35);
-            // Snare on 2 and 4
-            this.playSnare(barStart + beatTime, 0.4);
-            this.playSnare(barStart + 3 * beatTime, 0.4);
-            // Hi-hats on 8ths
-            for (let i = 0; i < 8; i++) {
-                this.playHiHat(barStart + i * beatTime / 2, 0.12);
-            }
-            // Open hat
-            this.playOpenHat(barStart + 3.5 * beatTime, 0.1);
-            // Crash every 4 bars
-            if (bar % 4 === 0) {
-                this.playCrash(barStart, 0.18);
-            }
-        }
-        
-        const loopTime = 56 * beatTime * 1000;
-        const loopPlayId = this.playId;
+        const loopTime = 32 * beatTime * 1000;
         this.loopTimeout = setTimeout(() => {
-            if (this.playId === loopPlayId && this.isPlaying && this.currentTrack === 'gameover') this.playGameOverTrack();
+            if (this.isPlaying) this.playGameOverTrack();
         }, loopTime - 100);
     }
 
     // ========== PLAYBACK CONTROL ==========
     
-    // Kill ALL audio immediately by disconnecting musicGain and recreating it
     stop() {
-        // INCREMENT PLAYID FIRST - this invalidates ALL pending loops and plays
-        this.playId++;
-        
         this.isPlaying = false;
-        this.currentTrack = null;
-        
-        // Clear any pending play timeout
-        if (this.playTimeout) {
-            clearTimeout(this.playTimeout);
-            this.playTimeout = null;
-        }
-        
-        // Clear loop timeout
         if (this.loopTimeout) {
             clearTimeout(this.loopTimeout);
             this.loopTimeout = null;
         }
-        
-        // NUCLEAR OPTION: Disconnect and recreate musicGain to kill ALL music instantly
-        if (this.audioContext && this.musicGain) {
-            this.musicGain.disconnect();
-            this.musicGain = this.audioContext.createGain();
-            this.musicGain.gain.value = 0.5;
-            this.musicGain.connect(this.masterGain);
-            
-            try {
-                const saved = localStorage.getItem('flapEmonadSettings');
-                if (saved) {
-                    const settings = JSON.parse(saved);
-                    if (settings.musicVolume !== undefined) {
-                        this.musicGain.gain.value = settings.musicVolume;
-                    }
-                }
-            } catch (e) {}
-        }
-        
-        this.activeNodes = [];
     }
 
     playTrack(trackNum) {
         this.init();
         this.stop();
+        this.isPlaying = true;
         
-        // Increment playId to invalidate any pending plays
-        this.playId++;
-        const thisPlayId = this.playId;
-        const trackToPlay = trackNum;
-        
-        this.playTimeout = setTimeout(() => {
-            // Only play if this is still the current play request
-            if (this.playId !== thisPlayId) return;
-            
-            this.playTimeout = null;
-            this.isPlaying = true;
-            this.currentTrack = trackToPlay;
-            switch(trackToPlay) {
-                case 1: this.playTrack1(); break;
-                case 2: this.playTrack2(); break;
-                case 3: this.playTrack3(); break;
-                default: this.playTrack1();
-            }
-        }, 50);
+        switch(trackNum) {
+            case 1: this.playTrack1(); break;
+            case 2: this.playTrack2(); break;
+            case 3: this.playTrack3(); break;
+            default: this.playTrack1();
+        }
     }
 
     playMenuMusic() {
-        // Menu always plays Track 3 (Broken Static) as theme song
-        this.playTrack(3);
-    }
-    
-    playGameMusic() {
-        // In-game music is always random
-        const trackNum = Math.floor(Math.random() * 3) + 1;
+        // Get track preference from settings
+        let trackNum = 1;
+        try {
+            const saved = localStorage.getItem('flapEmonadSettings');
+            if (saved) {
+                const settings = JSON.parse(saved);
+                if (settings.musicTrack === 'random') {
+                    trackNum = Math.floor(Math.random() * 3) + 1;
+                } else if (settings.musicTrack) {
+                    trackNum = parseInt(settings.musicTrack) || 1;
+                }
+            }
+        } catch (e) {}
+        
         this.playTrack(trackNum);
     }
 
     playGameOverMusic() {
         this.init();
         this.stop();
-        
-        // Increment playId to invalidate any pending plays
-        this.playId++;
-        const thisPlayId = this.playId;
-        
-        this.playTimeout = setTimeout(() => {
-            // Only play if this is still the current play request
-            if (this.playId !== thisPlayId) return;
-            
-            this.playTimeout = null;
-            this.isPlaying = true;
-            this.currentTrack = 'gameover';
-            this.playGameOverTrack();
-        }, 50);
+        this.isPlaying = true;
+        this.playGameOverTrack();
     }
 
     playLeaderboardMusic() {
-        this.playTrack(2);
-    }
-
-    stopMusic() {
-        this.stop();
+        this.playTrack(2); // Use the slower emotional track
     }
 
     // ========== SOUND EFFECTS ==========

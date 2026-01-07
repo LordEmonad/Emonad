@@ -46,6 +46,34 @@
             font-family: 'Space Grotesk', sans-serif;
             color: #FFFFFF;
             overflow-x: hidden;
+            transition: background 0.3s ease;
+        }
+        
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 50%, #050505 100%);
+        }
+        
+        .settings-link {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #7B3FE4, #9B5FFF);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-size: 24px;
+            z-index: 100;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(123, 63, 228, 0.4);
+        }
+        
+        .settings-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(123, 63, 228, 0.6);
         }
         
         body::before {
@@ -587,6 +615,21 @@
     </style>
 </head>
 <body>
+    <a href="settings.html" class="settings-link">⚙️</a>
+    <script>
+        // Load dark mode preference
+        (function() {
+            try {
+                const saved = localStorage.getItem('flapEmonadSettings');
+                if (saved) {
+                    const settings = JSON.parse(saved);
+                    if (settings.darkMode) {
+                        document.body.classList.add('dark-mode');
+                    }
+                }
+            } catch (e) {}
+        })();
+    </script>
     <div class="container">
         <div class="header">
             <h1>📊 ON-CHAIN STATS</h1>

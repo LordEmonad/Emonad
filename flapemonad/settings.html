@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1a0a2e">
+    <title>Flap Emonad - Settings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        body {
+            animation: pageFadeIn 0.3s ease-out;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        @keyframes pageFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            background: radial-gradient(ellipse at center, #1a0a2e 0%, #0d0515 50%, #050208 100%);
+            font-family: 'Creepster', cursive;
+            color: #FFFFFF;
+            overflow-x: hidden;
+            transition: background 0.3s ease;
+        }
+        
+        body.dark-mode {
+            background: radial-gradient(ellipse at center, #1a1a1a 0%, #0d0d0d 50%, #050505 100%);
+        }
+        
+        /* Particle background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(3px 3px at 10% 20%, rgba(157, 78, 221, 0.5), transparent),
+                radial-gradient(4px 4px at 80% 10%, rgba(224, 170, 255, 0.4), transparent),
+                radial-gradient(3px 3px at 30% 80%, rgba(157, 78, 221, 0.5), transparent),
+                radial-gradient(5px 5px at 70% 60%, rgba(123, 44, 191, 0.3), transparent);
+            background-repeat: repeat;
+            background-size: 400px 400px;
+            animation: particleFloat 25s linear infinite;
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        @keyframes particleFloat {
+            0% { transform: translateY(0) translateX(0); }
+            100% { transform: translateY(-300px) translateX(100px); }
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 52px;
+            color: #e0aaff;
+            text-shadow: 
+                0 0 20px rgba(157, 78, 221, 0.6),
+                0 0 40px rgba(157, 78, 221, 0.4);
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+        }
+        
+        body.dark-mode .header h1 {
+            color: rgba(180, 142, 255, 0.9);
+            text-shadow: 
+                0 0 15px rgba(157, 78, 221, 0.4),
+                0 0 30px rgba(123, 63, 228, 0.2);
+        }
+        
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 12px 24px;
+            font-family: 'Creepster', cursive;
+            font-size: 20px;
+            background: linear-gradient(135deg, #7B3FE4, #9B5FFF);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(123, 63, 228, 0.4);
+            z-index: 10;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(123, 63, 228, 0.6);
+        }
+        
+        .settings-section {
+            background: rgba(157, 78, 221, 0.1);
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        body.dark-mode .settings-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .section-title {
+            font-size: 28px;
+            color: #e0aaff;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        body.dark-mode .section-title {
+            color: rgba(180, 142, 255, 0.9);
+        }
+        
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(157, 78, 221, 0.2);
+        }
+        
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+        
+        .setting-label {
+            font-size: 22px;
+            color: #ffffff;
+        }
+        
+        .setting-description {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            font-family: Arial, sans-serif;
+            margin-top: 4px;
+        }
+        
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 32px;
+            cursor: pointer;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(100, 100, 100, 0.5);
+            border-radius: 32px;
+            transition: 0.3s;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 24px;
+            width: 24px;
+            left: 4px;
+            bottom: 4px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        
+        .toggle-switch input:checked + .toggle-slider {
+            background: linear-gradient(135deg, #7B3FE4, #9B5FFF);
+        }
+        
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(28px);
+        }
+        
+        /* Volume Slider */
+        .volume-slider {
+            width: 200px;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(100, 100, 100, 0.5);
+            border-radius: 4px;
+            outline: none;
+        }
+        
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #7B3FE4, #9B5FFF);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(123, 63, 228, 0.5);
+        }
+        
+        .volume-slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #7B3FE4, #9B5FFF);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 10px rgba(123, 63, 228, 0.5);
+        }
+        
+        /* Track Select Dropdown */
+        .track-select {
+            padding: 12px 16px;
+            font-family: 'Creepster', cursive;
+            font-size: 18px;
+            background: rgba(50, 50, 50, 0.8);
+            color: #e0aaff;
+            border: 2px solid rgba(123, 63, 228, 0.5);
+            border-radius: 12px;
+            cursor: pointer;
+            outline: none;
+            min-width: 180px;
+        }
+        
+        .track-select:focus {
+            border-color: #7B3FE4;
+            box-shadow: 0 0 10px rgba(123, 63, 228, 0.5);
+        }
+        
+        .track-select option {
+            background: #1a0a2e;
+            color: #e0aaff;
+            padding: 10px;
+        }
+        
+        .volume-value {
+            font-size: 18px;
+            color: #e0aaff;
+            min-width: 50px;
+            text-align: right;
+            font-family: Arial, sans-serif;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        /* Save Button */
+        .save-btn {
+            width: 100%;
+            padding: 18px;
+            font-family: 'Creepster', cursive;
+            font-size: 28px;
+            background: linear-gradient(135deg, #7B3FE4, #9B5FFF);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(123, 63, 228, 0.5);
+            margin-top: 20px;
+        }
+        
+        .save-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(123, 63, 228, 0.7);
+        }
+        
+        .save-btn:active {
+            transform: translateY(0);
+        }
+        
+        .saved-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #26A69A, #4DB6AC);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 20px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .saved-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 38px;
+            }
+            
+            .section-title {
+                font-size: 24px;
+            }
+            
+            .setting-label {
+                font-size: 18px;
+            }
+            
+            .volume-slider {
+                width: 120px;
+            }
+            
+            .slider-container {
+                gap: 10px;
+            }
+            
+            .back-btn {
+                padding: 10px 18px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="goBack()">← BACK</button>
+    
+    <div class="container">
+        <div class="header">
+            <h1>⚙️ SETTINGS</h1>
+        </div>
+        
+        <!-- Display Settings -->
+        <div class="settings-section">
+            <div class="section-title">🎨 Display</div>
+            
+            <div class="setting-row">
+                <div>
+                    <div class="setting-label">Dark Mode</div>
+                    <div class="setting-description">Switch to dark theme</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="darkModeToggle" onchange="updateSetting('darkMode', this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+        
+        <!-- Audio Settings -->
+        <div class="settings-section">
+            <div class="section-title">🔊 Audio</div>
+            
+            <div class="setting-row">
+                <div>
+                    <div class="setting-label">Sound</div>
+                    <div class="setting-description">Enable/disable all audio</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="soundToggle" onchange="updateSetting('muted', !this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            
+            <div class="setting-row">
+                <div>
+                    <div class="setting-label">Music Volume</div>
+                </div>
+                <div class="slider-container">
+                    <input type="range" class="volume-slider" id="musicVolume" min="0" max="100" value="50" 
+                           oninput="updateVolume('music', this.value)">
+                    <span class="volume-value" id="musicVolumeValue">50%</span>
+                </div>
+            </div>
+            
+            <div class="setting-row">
+                <div>
+                    <div class="setting-label">SFX Volume</div>
+                </div>
+                <div class="slider-container">
+                    <input type="range" class="volume-slider" id="sfxVolume" min="0" max="100" value="70" 
+                           oninput="updateVolume('sfx', this.value)">
+                    <span class="volume-value" id="sfxVolumeValue">70%</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Gameplay Settings -->
+        <div class="settings-section">
+            <div class="section-title">🎮 Gameplay</div>
+            
+            <div class="setting-row">
+                <div>
+                    <div class="setting-label">Haptic Feedback</div>
+                    <div class="setting-description">Vibration on mobile devices</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="hapticsToggle" onchange="updateSetting('haptics', this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+        
+        <button class="save-btn" onclick="saveAndClose()">💾 SAVE & CLOSE</button>
+    </div>
+    
+    <div class="saved-toast" id="savedToast">✓ Settings Saved!</div>
+    
+    <script>
+        // Default settings
+        let settings = {
+            darkMode: false,
+            haptics: true,
+            musicVolume: 0.5,
+            sfxVolume: 0.7,
+            muted: false,
+            musicTrack: 'random'
+        };
+        
+        // Load settings on page load
+        function loadSettings() {
+            try {
+                const saved = localStorage.getItem('flapEmonadSettings');
+                if (saved) {
+                    settings = { ...settings, ...JSON.parse(saved) };
+                }
+            } catch (e) {
+                console.log('Could not load settings');
+            }
+            
+            // Apply to UI
+            document.getElementById('darkModeToggle').checked = settings.darkMode;
+            document.getElementById('soundToggle').checked = !settings.muted;
+            document.getElementById('hapticsToggle').checked = settings.haptics;
+            document.getElementById('musicVolume').value = settings.musicVolume * 100;
+            document.getElementById('sfxVolume').value = settings.sfxVolume * 100;
+            document.getElementById('musicVolumeValue').textContent = Math.round(settings.musicVolume * 100) + '%';
+            document.getElementById('sfxVolumeValue').textContent = Math.round(settings.sfxVolume * 100) + '%';
+            
+            // Apply dark mode to page
+            if (settings.darkMode) {
+                document.body.classList.add('dark-mode');
+            }
+        }
+        
+        // Update a setting
+        function updateSetting(key, value) {
+            settings[key] = value;
+            
+            // Apply dark mode immediately
+            if (key === 'darkMode') {
+                if (value) {
+                    document.body.classList.add('dark-mode');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                }
+            }
+            
+            // Auto-save
+            saveSettings();
+        }
+        
+        // Update volume
+        function updateVolume(type, value) {
+            const normalized = value / 100;
+            if (type === 'music') {
+                settings.musicVolume = normalized;
+                document.getElementById('musicVolumeValue').textContent = value + '%';
+            } else {
+                settings.sfxVolume = normalized;
+                document.getElementById('sfxVolumeValue').textContent = value + '%';
+            }
+            
+            // Auto-save
+            saveSettings();
+        }
+        
+        // Save settings to localStorage
+        function saveSettings() {
+            try {
+                localStorage.setItem('flapEmonadSettings', JSON.stringify(settings));
+            } catch (e) {
+                console.log('Could not save settings');
+            }
+        }
+        
+        // Save and go back
+        function saveAndClose() {
+            saveSettings();
+            
+            // Show toast
+            const toast = document.getElementById('savedToast');
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    goBack();
+                }, 200);
+            }, 800);
+        }
+        
+        // Go back to game
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+        
+        // Initialize on load
+        loadSettings();
+    </script>
+    <script src="audio.js?v=27"></script>
+</body>
+</html>

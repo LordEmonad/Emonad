@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20">
+    <link rel="stylesheet" href="style.css?v=38">
     <style>
         /* Loading Screen Styles */
         #loading-screen {
@@ -297,6 +297,9 @@
         </div>
         <button id="play-btn">▶ PLAY</button>
     </div>
+    <script>
+        // Audio is handled by script.js - no duplicate calls here
+    </script>
     
     <script>
         // Animate the loading bird through flap frames - only 1 and 2, slower
@@ -312,9 +315,6 @@
         }, 250); // Slower - change frame every 250ms
     </script>
 
-    <!-- Sound Toggle Button -->
-    <button id="sound-toggle-btn" onclick="toggleSound()" style="display: none;">🔊</button>
-    
     <div id="game-container">
         <canvas id="gameCanvas"></canvas>
         
@@ -329,22 +329,25 @@
             </div>
             
             <div class="game-over-buttons">
-                <button id="restart-btn">RESTART</button>
                 <button id="home-btn">🏠 HOME</button>
                 <button id="submit-score-btn" onclick="submitScoreToBlockchain()">Submit Score</button>
             </div>
             
             
             <a href="leaderboard.html" class="view-lb-btn">🏆 View Leaderboard</a>
+            <a href="settings.html" class="view-lb-btn" style="background: linear-gradient(135deg, #7B3FE4, #9B5FFF); margin-top: 10px;">⚙️ Settings</a>
             <p class="submit-hint">Click Submit Score to connect wallet & submit on-chain</p>
+            
+            <!-- Full-width restart bar at bottom -->
+            <button id="restart-btn">TAP TO RESTART</button>
         </div>
         
     </div>
     
     <!-- Ethers.js for blockchain interaction -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.9.0/ethers.umd.min.js"></script>
-    <script src="audio.js?v=8"></script>
-    <script src="script.js?v=20"></script>
+    <script src="audio.js?v=27"></script>
+    <script src="script.js?v=45"></script>
     
 </body>
 </html>

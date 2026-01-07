@@ -15,6 +15,13 @@
 /* Page transition - quick fade in */
 body {
     animation: pageFadeIn 0.3s ease-out;
+    background: radial-gradient(ellipse at center, #1a0a2e 0%, #0d0515 50%, #050208 100%);
+    transition: background 0.3s ease;
+}
+
+/* Dark mode body styling */
+body.dark-mode {
+    background: radial-gradient(ellipse at center, #0a0a0a 0%, #050505 50%, #000000 100%);
 }
 
 @keyframes pageFadeIn {
@@ -42,85 +49,6 @@ body {
     }
 }
 
-/* Sound Toggle Button */
-#sound-toggle-btn {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    z-index: 1000;
-    width: 54px;
-    height: 54px;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.25);
-    background: linear-gradient(135deg, #7B3FE4, #9B5FFF, #7B3FE4);
-    background-size: 200% 200%;
-    color: white;
-    font-size: 26px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 
-        0 4px 20px rgba(123, 63, 228, 0.5),
-        0 0 30px rgba(123, 63, 228, 0.2),
-        0 1px 0 rgba(255, 255, 255, 0.2) inset;
-    animation: soundBtnIdle 3s ease infinite;
-}
-
-@keyframes soundBtnIdle {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
-
-#sound-toggle-btn:hover {
-    transform: scale(1.15) rotate(5deg);
-    box-shadow: 
-        0 8px 30px rgba(123, 63, 228, 0.7),
-        0 0 50px rgba(123, 63, 228, 0.3),
-        0 1px 0 rgba(255, 255, 255, 0.3) inset;
-    border-color: rgba(255, 255, 255, 0.5);
-}
-
-#sound-toggle-btn:active {
-    transform: scale(0.9) rotate(-5deg);
-    box-shadow: 0 2px 10px rgba(123, 63, 228, 0.4);
-    transition: all 0.1s ease;
-}
-
-#sound-toggle-btn-gameover {
-    width: 54px;
-    height: 54px;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.25);
-    background: linear-gradient(135deg, #7B3FE4, #9B5FFF, #7B3FE4);
-    background-size: 200% 200%;
-    color: white;
-    font-size: 26px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 
-        0 4px 20px rgba(123, 63, 228, 0.5),
-        0 0 30px rgba(123, 63, 228, 0.2),
-        0 1px 0 rgba(255, 255, 255, 0.2) inset;
-    animation: soundBtnIdle 3s ease infinite;
-}
-
-#sound-toggle-btn-gameover:hover {
-    transform: scale(1.15) rotate(5deg);
-    box-shadow: 
-        0 8px 30px rgba(123, 63, 228, 0.7),
-        0 0 50px rgba(123, 63, 228, 0.3);
-}
-
-#sound-toggle-btn-gameover:active {
-    transform: scale(0.9) rotate(-5deg);
-    transition: all 0.1s ease;
-}
-
 html, body {
     width: 100%;
     height: 100%;
@@ -142,6 +70,12 @@ body {
     height: 100vh;
     background-color: #FFFFFF;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Prevent white sliver on edges */
+}
+
+/* Dark mode game container background */
+body.dark-mode #game-container {
+    background-color: #0a0a0a;
 }
 
 #gameCanvas {
@@ -196,7 +130,7 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
     align-items: center;
     background: radial-gradient(ellipse at center, rgba(40, 10, 20, 0.98) 0%, rgba(15, 5, 25, 0.99) 50%, rgba(5, 2, 10, 1) 100%);
     z-index: 20;
-    animation: gameOverAppear 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: gameOverAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     overflow: hidden;
 }
 
@@ -248,12 +182,10 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
     0% {
         opacity: 0;
         backdrop-filter: blur(0px);
-        transform: scale(1.05);
     }
     100% {
         opacity: 1;
-        backdrop-filter: blur(8px);
-        transform: scale(1);
+        backdrop-filter: blur(12px);
     }
 }
 
@@ -263,85 +195,177 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
 
 #game-over-screen h2 {
     font-family: 'Creepster', cursive;
-    font-size: 72px;
+    font-size: 82px;
     color: #ff6b6b;
     margin-bottom: 20px;
     text-shadow: 
-        0 0 10px rgba(255, 68, 68, 0.5),
-        0 0 25px rgba(255, 68, 68, 0.3),
-        0 0 40px rgba(255, 34, 34, 0.2);
-    animation: gameOverPulse 3s ease-in-out infinite, gameOverShake 0.5s ease-out;
-    letter-spacing: 6px;
+        0 0 10px rgba(255, 68, 68, 0.8),
+        0 0 30px rgba(255, 68, 68, 0.6),
+        0 0 60px rgba(255, 34, 34, 0.4),
+        0 0 100px rgba(255, 0, 0, 0.2),
+        0 4px 0 #8B0000;
+    animation: gameOverTitle 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, gameOverPulse 3s ease-in-out 0.4s infinite;
+    letter-spacing: 8px;
     position: relative;
     z-index: 1;
+    opacity: 0;
+    transform: translateY(-50px) scale(2);
+}
+
+@keyframes gameOverTitle {
+    0% {
+        opacity: 0;
+        transform: translateY(-100px) scale(3) rotate(-8deg);
+        filter: blur(15px);
+    }
+    70% {
+        opacity: 1;
+        transform: translateY(8px) scale(0.95) rotate(2deg);
+        filter: blur(0px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0deg);
+        filter: blur(0px);
+    }
 }
 
 @keyframes gameOverPulse {
     0%, 100% { 
         transform: scale(1); 
-        text-shadow: 0 0 10px rgba(255, 68, 68, 0.5), 0 0 25px rgba(255, 68, 68, 0.3), 0 0 40px rgba(255, 34, 34, 0.2);
+        text-shadow: 0 0 10px rgba(255, 68, 68, 0.8), 0 0 30px rgba(255, 68, 68, 0.6), 0 0 60px rgba(255, 34, 34, 0.4), 0 0 100px rgba(255, 0, 0, 0.2), 0 4px 0 #8B0000;
     }
     50% { 
-        transform: scale(1.01); 
-        text-shadow: 0 0 15px rgba(255, 68, 68, 0.6), 0 0 30px rgba(255, 68, 68, 0.4), 0 0 50px rgba(255, 34, 34, 0.25);
+        transform: scale(1.02); 
+        text-shadow: 0 0 20px rgba(255, 68, 68, 0.9), 0 0 40px rgba(255, 68, 68, 0.7), 0 0 80px rgba(255, 34, 34, 0.5), 0 0 120px rgba(255, 0, 0, 0.3), 0 4px 0 #8B0000;
     }
 }
 
-@keyframes gameOverShake {
-    0%, 100% { transform: translateX(0); }
-    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-    20%, 40%, 60%, 80% { transform: translateX(5px); }
-}
 
 #game-over-screen p {
     font-family: 'Creepster', cursive;
-    font-size: 46px;
+    font-size: 50px;
     color: #e0aaff;
     margin-bottom: 30px;
-    text-shadow: 0 0 15px rgba(224, 170, 255, 0.5);
+    text-shadow: 0 0 20px rgba(224, 170, 255, 0.7), 0 0 40px rgba(224, 170, 255, 0.4);
     position: relative;
     z-index: 1;
+    opacity: 0;
+    animation: scoreReveal 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.25s forwards;
+}
+
+@keyframes scoreReveal {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 #final-score {
     font-weight: bold;
-    font-size: 52px;
+    font-size: 64px;
     color: #FFD700;
     text-shadow: 
-        0 0 10px rgba(255, 215, 0, 0.5),
-        0 0 25px rgba(255, 215, 0, 0.3);
-    animation: scoreGlow 3s ease-in-out infinite;
+        0 0 15px rgba(255, 215, 0, 0.8),
+        0 0 35px rgba(255, 215, 0, 0.5),
+        0 0 60px rgba(255, 215, 0, 0.3),
+        0 3px 0 #B8860B;
+    animation: scoreGlow 2s ease-in-out infinite, scorePop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) 0.35s both;
+}
+
+@keyframes scorePop {
+    0% {
+        transform: scale(0);
+    }
+    60% {
+        transform: scale(1.4);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 @keyframes scoreGlow {
     0%, 100% { 
-        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5), 0 0 25px rgba(255, 215, 0, 0.3);
-        transform: scale(1);
+        text-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 0 35px rgba(255, 215, 0, 0.5), 0 0 60px rgba(255, 215, 0, 0.3), 0 3px 0 #B8860B;
+        filter: brightness(1);
     }
     50% { 
-        text-shadow: 0 0 15px rgba(255, 215, 0, 0.6), 0 0 35px rgba(255, 215, 0, 0.4);
-        transform: scale(1.02);
+        text-shadow: 0 0 25px rgba(255, 215, 0, 1), 0 0 50px rgba(255, 215, 0, 0.7), 0 0 80px rgba(255, 215, 0, 0.4), 0 3px 0 #B8860B;
+        filter: brightness(1.2);
     }
 }
 
+/* Button container - no animation, buttons animate individually */
+.game-over-buttons {
+    opacity: 1;
+}
+
+/* Full-width restart bar - TALL TAP AREA just under buttons */
 #restart-btn {
     font-family: 'Creepster', cursive;
-    padding: 20px 50px;
+    padding: 30px 40px;
     font-size: 32px;
     color: #FFFFFF;
-    background: linear-gradient(135deg, #444, #222, #333);
-    border: 2px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
+    background: linear-gradient(180deg, #3a3a3a 0%, #222 30%, #1a1a1a 100%);
+    background-size: 200% 200%;
+    border: none;
+    border-top: 3px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0;
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 255, 255, 0.2);
     box-shadow: 
-        0 4px 15px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
-        0 1px 0 rgba(255, 255, 255, 0.1) inset;
-    position: relative;
+        0 -8px 30px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 28%;
     overflow: hidden;
-    letter-spacing: 2px;
+    letter-spacing: 5px;
+    opacity: 0;
+    animation: restartBtnIdle 4s ease infinite, restartBarSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s forwards;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes restartBarSlide {
+    0% {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes btnPop {
+    0% {
+        opacity: 0;
+        transform: scale(0) translateY(20px);
+    }
+    70% {
+        transform: scale(1.1) translateY(-5px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes restartBtnIdle {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
 }
 
 #restart-btn::before {
@@ -351,8 +375,8 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transition: left 0.5s ease;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    transition: left 0.6s ease;
 }
 
 #restart-btn:hover::before {
@@ -360,40 +384,49 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
 }
 
 #restart-btn:hover {
-    background: linear-gradient(135deg, #555, #333, #444);
-    transform: translateY(-3px) scale(1.02);
+    background: linear-gradient(135deg, #555, #333, #444, #333, #555);
     box-shadow: 
-        0 8px 30px rgba(0, 0, 0, 0.5),
-        0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-        0 1px 0 rgba(255, 255, 255, 0.15) inset;
-    border-color: rgba(255, 255, 255, 0.25);
+        0 -6px 30px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    border-top-color: rgba(255, 255, 255, 0.3);
 }
 
 #restart-btn:active {
-    transform: translateY(1px) scale(0.98);
+    background: linear-gradient(135deg, #333, #1a1a1a, #222, #1a1a1a, #333);
     box-shadow: 
-        0 2px 10px rgba(0, 0, 0, 0.4),
+        0 -2px 10px rgba(0, 0, 0, 0.5),
         0 0 0 1px rgba(255, 255, 255, 0.05) inset;
-    transition: all 0.1s ease;
+    transition: all 0.08s ease;
 }
 
 #home-btn {
     font-family: 'Creepster', cursive;
-    padding: 20px 40px;
-    font-size: 28px;
+    padding: 16px 28px;
+    font-size: 24px;
     color: #FFFFFF;
-    background: linear-gradient(135deg, #5a189a, #3c096c, #240046);
-    border: 2px solid rgba(157, 78, 221, 0.4);
-    border-radius: 16px;
+    background: linear-gradient(135deg, #7b2cbf, #5a189a, #3c096c, #5a189a, #7b2cbf);
+    background-size: 200% 200%;
+    border: 3px solid rgba(157, 78, 221, 0.5);
+    border-radius: 14px;
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
     box-shadow: 
-        0 4px 15px rgba(90, 24, 154, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+        0 6px 25px rgba(90, 24, 154, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+        0 2px 0 rgba(255, 255, 255, 0.15) inset,
+        0 0 20px rgba(157, 78, 221, 0.2);
     position: relative;
     overflow: hidden;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
+    opacity: 0;
+    animation: homeBtnIdle 4s ease infinite, btnPop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.55s forwards;
+    flex: 0 0 auto;
+}
+
+@keyframes homeBtnIdle {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
 }
 
 #home-btn::before {
@@ -403,8 +436,8 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-    transition: left 0.5s ease;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
 }
 
 #home-btn:hover::before {
@@ -412,20 +445,22 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
 }
 
 #home-btn:hover {
-    background: linear-gradient(135deg, #7b2cbf, #5a189a, #3c096c);
-    transform: translateY(-3px) scale(1.02);
+    background: linear-gradient(135deg, #9d4edd, #7b2cbf, #5a189a, #7b2cbf, #9d4edd);
+    transform: translateY(-4px) scale(1.05);
     box-shadow: 
-        0 8px 30px rgba(123, 44, 191, 0.5),
-        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-    border-color: rgba(157, 78, 221, 0.6);
+        0 12px 40px rgba(123, 44, 191, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+        0 2px 0 rgba(255, 255, 255, 0.2) inset,
+        0 0 40px rgba(157, 78, 221, 0.3);
+    border-color: rgba(224, 170, 255, 0.6);
 }
 
 #home-btn:active {
-    transform: translateY(1px) scale(0.98);
+    transform: translateY(2px) scale(0.96);
     box-shadow: 
         0 2px 10px rgba(90, 24, 154, 0.4),
         0 0 0 1px rgba(255, 255, 255, 0.05) inset;
-    transition: all 0.1s ease;
+    transition: all 0.08s ease;
 }
 
 /* ============================================ */
@@ -499,30 +534,54 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
 
 .game-over-buttons {
     display: flex;
-    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
     margin-bottom: 15px;
+    max-width: 90%;
+    z-index: 1;
 }
 
 #submit-score-btn {
     font-family: 'Creepster', cursive;
-    padding: 20px 35px;
-    font-size: 28px;
+    padding: 16px 28px;
+    font-size: 24px;
     color: #FFFFFF;
-    background: linear-gradient(135deg, #7B3FE4, #9B5FFF, #7B3FE4);
-    background-size: 200% 200%;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 16px;
+    background: linear-gradient(135deg, #9B5FFF, #7B3FE4, #5a189a, #7B3FE4, #9B5FFF);
+    background-size: 300% 300%;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 14px;
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 
-        0 4px 20px rgba(123, 63, 228, 0.5),
-        0 0 40px rgba(123, 63, 228, 0.2),
-        0 1px 0 rgba(255, 255, 255, 0.2) inset;
+        0 6px 30px rgba(123, 63, 228, 0.6),
+        0 0 50px rgba(123, 63, 228, 0.25),
+        0 2px 0 rgba(255, 255, 255, 0.25) inset,
+        0 -2px 10px rgba(90, 24, 154, 0.3) inset;
     position: relative;
     overflow: hidden;
     letter-spacing: 1px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    animation: gradientShift 3s ease infinite;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    animation: submitBtnGlow 3s ease infinite, btnPop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.65s forwards;
+    flex: 0 0 auto;
+}
+
+@keyframes submitBtnGlow {
+    0%, 100% { 
+        background-position: 0% 50%;
+        box-shadow: 
+            0 6px 30px rgba(123, 63, 228, 0.6),
+            0 0 50px rgba(123, 63, 228, 0.25),
+            0 2px 0 rgba(255, 255, 255, 0.25) inset;
+    }
+    50% { 
+        background-position: 100% 50%;
+        box-shadow: 
+            0 6px 35px rgba(155, 95, 255, 0.7),
+            0 0 60px rgba(123, 63, 228, 0.35),
+            0 2px 0 rgba(255, 255, 255, 0.3) inset;
+    }
 }
 
 @keyframes gradientShift {
@@ -656,7 +715,8 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
     position: relative;
     overflow: hidden;
     text-shadow: 0 1px 2px rgba(255, 215, 0, 0.3);
-    animation: goldShimmer 2s ease infinite;
+    opacity: 0;
+    animation: goldShimmer 2s ease infinite, btnPop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.75s forwards;
 }
 
 @keyframes goldShimmer {
@@ -695,19 +755,143 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
     transition: all 0.1s ease;
 }
 
+body.dark-mode #game-over-screen {
+    background: radial-gradient(ellipse at center, rgba(25, 15, 35, 0.98) 0%, rgba(12, 8, 18, 0.99) 50%, rgba(5, 3, 8, 1) 100%) !important;
+}
+
+body.dark-mode #game-over-screen h2 {
+    color: rgba(180, 142, 255, 0.9);
+    text-shadow: 
+        0 0 15px rgba(157, 78, 221, 0.4),
+        0 0 30px rgba(123, 63, 228, 0.2);
+}
+
+body.dark-mode #game-over-screen p {
+    color: rgba(180, 160, 200, 0.8);
+}
+
+body.dark-mode #final-score {
+    color: rgba(200, 170, 255, 0.9) !important;
+}
+
 /* ============================================ */
-/* RESPONSIVE */
+/* RESPONSIVE - COMPREHENSIVE ALL DEVICES */
 /* ============================================ */
 
+/* Aspect ratio handling for game container */
 @media (max-aspect-ratio: 2/3) {
     #game-container {
         width: 100vw;
-        height: calc(100vw * 1.5); /* 2:3 aspect ratio */
+        height: calc(100vw * 1.5);
         max-height: 100vh;
     }
 }
 
-@media (max-width: 600px) {
+@media (min-aspect-ratio: 2/3) {
+    #game-container {
+        height: 100vh;
+        width: calc(100vh * 0.667);
+        max-width: 100vw;
+    }
+}
+
+/* Ultra-wide screens */
+@media (min-aspect-ratio: 21/9) {
+    #game-container {
+        height: 100vh;
+        width: calc(100vh * 0.667);
+    }
+}
+
+/* Large desktop (1920px+) */
+@media (min-width: 1920px) {
+    #game-over-screen h2 {
+        font-size: 90px;
+    }
+    
+    #game-over-screen p {
+        font-size: 56px;
+    }
+    
+    #final-score {
+        font-size: 72px;
+    }
+    
+    #restart-btn, #home-btn, #submit-score-btn {
+        padding: 20px 36px;
+        font-size: 28px;
+    }
+    
+    .view-lb-btn {
+        font-size: 26px;
+        padding: 18px 34px;
+    }
+}
+
+/* Standard desktop (1200px - 1919px) */
+@media (min-width: 1200px) and (max-width: 1919px) {
+    #game-over-screen h2 {
+        font-size: 82px;
+    }
+    
+    #game-over-screen p {
+        font-size: 50px;
+    }
+}
+
+/* Tablet landscape (900px - 1199px) */
+@media (min-width: 900px) and (max-width: 1199px) {
+    #game-over-screen h2 {
+        font-size: 72px;
+    }
+    
+    #game-over-screen p {
+        font-size: 44px;
+    }
+    
+    #final-score {
+        font-size: 56px;
+    }
+    
+    #restart-btn, #home-btn, #submit-score-btn {
+        padding: 14px 24px;
+        font-size: 22px;
+    }
+}
+
+/* Tablet portrait (600px - 899px) */
+@media (min-width: 600px) and (max-width: 899px) {
+    #game-over-screen h2 {
+        font-size: 60px;
+    }
+    
+    #game-over-screen p {
+        font-size: 38px;
+    }
+    
+    #final-score {
+        font-size: 48px;
+    }
+    
+    #restart-btn, #home-btn, #submit-score-btn {
+        padding: 14px 22px;
+        font-size: 20px;
+    }
+    
+    .view-lb-btn {
+        font-size: 18px;
+        padding: 12px 22px;
+    }
+    
+    #player-name-input {
+        font-size: 18px;
+        padding: 12px 20px;
+        width: 260px;
+    }
+}
+
+/* Mobile large (480px - 599px) */
+@media (min-width: 480px) and (max-width: 599px) {
     #connect-wallet-btn {
         padding: 10px 18px;
         font-size: 14px;
@@ -716,25 +900,221 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
     }
     
     .game-over-buttons {
-        flex-direction: column;
-        gap: 10px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
     }
     
-    #restart-btn, #submit-score-btn {
-        padding: 15px 30px;
-        font-size: 24px;
+    #restart-btn, #home-btn, #submit-score-btn {
+        padding: 12px 18px;
+        font-size: 18px;
     }
     
     #game-over-screen h2 {
-        font-size: 48px;
+        font-size: 52px;
+        letter-spacing: 4px;
     }
     
     #game-over-screen p {
         font-size: 32px;
     }
     
+    #final-score {
+        font-size: 42px;
+    }
+    
     .view-lb-btn {
+        font-size: 16px;
+        padding: 10px 18px;
+    }
+    
+    #player-name-input {
+        font-size: 16px;
+        padding: 10px 16px;
+        width: 220px;
+    }
+    
+    .submit-hint {
+        font-size: 12px !important;
+    }
+}
+
+/* Mobile small (320px - 479px) */
+@media (max-width: 479px) {
+    #connect-wallet-btn {
+        padding: 8px 14px;
+        font-size: 12px;
+        top: 8px;
+        right: 8px;
+    }
+    
+    .game-over-buttons {
+        flex-direction: column;
+        gap: 8px;
+        width: 90%;
+    }
+    
+    #restart-btn, #home-btn, #submit-score-btn {
+        padding: 12px 20px;
         font-size: 18px;
-        padding: 10px 20px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    #game-over-screen h2 {
+        font-size: 42px;
+        letter-spacing: 3px;
+        margin-bottom: 10px;
+    }
+    
+    #game-over-screen p {
+        font-size: 26px;
+        margin-bottom: 15px;
+    }
+    
+    #final-score {
+        font-size: 36px;
+    }
+    
+    .view-lb-btn {
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+    
+    #player-name-input {
+        font-size: 14px;
+        padding: 10px 14px;
+        width: 200px;
+    }
+    
+    .submit-hint {
+        font-size: 11px !important;
+    }
+    
+    .name-input-container {
+        margin-bottom: 12px;
+    }
+    
+    #sound-toggle-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
+        top: 8px;
+        left: 8px;
+    }
+    
+    .dark-mode-toggle {
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
+        top: 8px;
+        right: 8px;
+    }
+}
+
+/* Extra small devices (< 320px) */
+@media (max-width: 319px) {
+    #game-over-screen h2 {
+        font-size: 32px;
+        letter-spacing: 2px;
+    }
+    
+    #game-over-screen p {
+        font-size: 20px;
+    }
+    
+    #final-score {
+        font-size: 28px;
+    }
+    
+    #restart-btn, #home-btn, #submit-score-btn {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+    
+    .view-lb-btn {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+}
+
+/* Landscape mobile orientation */
+@media (max-height: 500px) and (orientation: landscape) {
+    #game-over-screen {
+        padding: 10px;
+        justify-content: flex-start;
+        overflow-y: auto;
+    }
+    
+    #game-over-screen h2 {
+        font-size: 36px;
+        margin-bottom: 8px;
+    }
+    
+    #game-over-screen p {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+    
+    .game-over-buttons {
+        flex-direction: row;
+        gap: 8px;
+    }
+    
+    #restart-btn, #home-btn, #submit-score-btn {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+    
+    .view-lb-btn {
+        font-size: 12px;
+        padding: 6px 12px;
+        margin-top: 8px;
+    }
+    
+    #player-name-input {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    
+    .name-input-container {
+        margin-bottom: 8px;
+    }
+}
+
+/* High DPI / Retina displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    #gameCanvas {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Safe area insets for notched devices */
+@supports (padding: max(0px)) {
+    #game-container {
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+        padding-top: max(0px, env(safe-area-inset-top));
+        padding-bottom: max(0px, env(safe-area-inset-bottom));
+    }
+    
+    #sound-toggle-btn {
+        left: max(15px, calc(env(safe-area-inset-left) + 15px));
+        top: max(15px, calc(env(safe-area-inset-top) + 15px));
+    }
+    
+    .dark-mode-toggle {
+        right: max(20px, calc(env(safe-area-inset-right) + 20px));
+        top: max(20px, calc(env(safe-area-inset-top) + 20px));
     }
 }

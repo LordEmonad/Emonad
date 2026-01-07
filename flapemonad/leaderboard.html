@@ -46,6 +46,36 @@
             font-family: 'Creepster', cursive;
             color: #FFFFFF;
             overflow-x: hidden;
+            transition: background 0.3s ease;
+        }
+        
+        /* Dark mode styles */
+        body.dark-mode {
+            background: radial-gradient(ellipse at center, #1a1a1a 0%, #0d0d0d 50%, #050505 100%);
+        }
+        
+        body.dark-mode .header h1 {
+            color: #ffffff;
+            text-shadow: 
+                0 0 10px rgba(255, 255, 255, 0.5),
+                0 0 25px rgba(255, 255, 255, 0.3);
+        }
+        
+        body.dark-mode .leaderboard-list li {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        body.dark-mode .leaderboard-list li:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+        
+        body.dark-mode .connect-section {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        
+        body.dark-mode::before,
+        body.dark-mode::after {
+            opacity: 0.3;
         }
         
         /* Particle layer 1 - slow, large */
@@ -407,53 +437,130 @@
                 font-size: 20px;
             }
         }
-        /* Sound Toggle Button */
-        #sound-toggle-btn {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            z-index: 1000;
-            width: 54px;
-            height: 54px;
-            border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.25);
-            background: linear-gradient(135deg, #7B3FE4, #9B5FFF, #7B3FE4);
-            background-size: 200% 200%;
-            color: white;
-            font-size: 26px;
-            cursor: pointer;
+        /* Search Box */
+        .search-container {
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 14px 20px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(157, 78, 221, 0.3);
+            border-radius: 12px;
+            color: #fff;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .search-input:focus {
+            border-color: rgba(157, 78, 221, 0.6);
+            box-shadow: 0 0 20px rgba(157, 78, 221, 0.3);
+        }
+        
+        /* Pagination */
+        .pagination {
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 
-                0 4px 20px rgba(123, 63, 228, 0.5),
-                0 0 30px rgba(123, 63, 228, 0.2),
-                0 1px 0 rgba(255, 255, 255, 0.2) inset;
-            animation: soundBtnIdle 3s ease infinite;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
         }
         
-        @keyframes soundBtnIdle {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        .page-btn {
+            font-family: 'Creepster', cursive;
+            padding: 10px 18px;
+            font-size: 18px;
+            background: linear-gradient(135deg, #444, #222);
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
         
-        #sound-toggle-btn:hover {
-            transform: scale(1.15) rotate(5deg);
-            box-shadow: 
-                0 8px 30px rgba(123, 63, 228, 0.7),
-                0 0 50px rgba(123, 63, 228, 0.3);
-            border-color: rgba(255, 255, 255, 0.5);
+        .page-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #555, #333);
+            transform: translateY(-2px);
         }
         
-        #sound-toggle-btn:active {
-            transform: scale(0.9) rotate(-5deg);
-            transition: all 0.1s ease;
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .page-btn.active {
+            background: linear-gradient(135deg, #7B3FE4, #9B5FFF);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .page-info {
+            font-size: 18px;
+            color: #888;
+        }
+        
+        /* Your Rank Box */
+        .your-rank-box {
+            background: linear-gradient(135deg, rgba(123, 63, 228, 0.3), rgba(157, 78, 221, 0.2));
+            border: 2px solid #9B5FFF;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .your-rank-box .rank-label {
+            font-size: 20px;
+            color: #e0aaff;
+        }
+        
+        .your-rank-box .rank-value {
+            font-size: 28px;
+            color: #FFD700;
+            font-weight: bold;
+        }
+        
+        .your-rank-box .score-value {
+            font-size: 24px;
+            color: #00FF88;
+        }
+        
+        /* Settings link */
+        .settings-link {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #7B3FE4, #9B5FFF);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-size: 24px;
+            z-index: 100;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(123, 63, 228, 0.4);
+        }
+        
+        .settings-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(123, 63, 228, 0.6);
         }
     </style>
 </head>
 <body>
-    <button id="sound-toggle-btn" onclick="toggleSound()">🔊</button>
+    <a href="settings.html" class="settings-link">⚙️</a>
     <div class="container">
         <div class="header">
             <h1>🏆 LEADERBOARD</h1>
@@ -463,10 +570,17 @@
             </div>
         </div>
         
-        
-        <ul class="leaderboard-list" id="leaderboard-list">
-            <li class="loading">Loading...</li>
-        </ul>
+        <!-- Your Rank (shown when connected) -->
+        <div class="your-rank-box" id="your-rank-box" style="display: none;">
+            <div>
+                <div class="rank-label">Your Rank</div>
+                <div class="rank-value" id="your-rank">#--</div>
+            </div>
+            <div>
+                <div class="rank-label">High Score</div>
+                <div class="score-value" id="your-score">--</div>
+            </div>
+        </div>
         
         <div class="connect-section" id="connect-section">
             <p>Connect wallet to see your ranking</p>
@@ -477,43 +591,52 @@
             <p>Connected as:</p>
             <span class="wallet-address" id="wallet-address"></span>
         </div>
+        
+        <!-- Search Box -->
+        <div class="search-container">
+            <input type="text" class="search-input" id="search-input" placeholder="🔍 Search by name or address..." oninput="filterLeaderboard()">
+        </div>
+        
+        <ul class="leaderboard-list" id="leaderboard-list">
+            <li class="loading">Loading...</li>
+        </ul>
+        
+        <!-- Pagination -->
+        <div class="pagination" id="pagination"></div>
     </div>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.9.0/ethers.umd.min.js"></script>
-    <script src="audio.js?v=7"></script>
+    <script src="audio.js?v=27"></script>
     <script>
-        // Update sound button icon based on saved mute state
+        // Load dark mode preference on page load
         (function() {
-            const btn = document.getElementById('sound-toggle-btn');
-            if (btn && typeof chiptunePlayer !== 'undefined') {
-                btn.textContent = chiptunePlayer.isMuted ? '🔇' : '🔊';
-            }
+            try {
+                const saved = localStorage.getItem('flapEmonadSettings');
+                if (saved) {
+                    const settings = JSON.parse(saved);
+                    if (settings.darkMode) {
+                        document.body.classList.add('dark-mode');
+                    }
+                }
+            } catch (e) {}
         })();
         
-        // Start leaderboard music on first interaction (any interaction)
+        // Start leaderboard music on first interaction
         const startMusic = () => {
             if (typeof chiptunePlayer !== 'undefined') {
-                // Initialize and resume audio context for mobile
                 chiptunePlayer.init();
                 if (chiptunePlayer.audioContext && chiptunePlayer.audioContext.state === 'suspended') {
                     chiptunePlayer.audioContext.resume();
                 }
-                // Only play if not muted
                 if (!chiptunePlayer.isMuted) {
                     chiptunePlayer.playLeaderboardMusic();
                 }
             }
             document.removeEventListener('click', startMusic);
             document.removeEventListener('touchstart', startMusic);
-            document.removeEventListener('keydown', startMusic);
-            document.removeEventListener('mousemove', startMusic);
-            document.removeEventListener('scroll', startMusic);
         };
         document.addEventListener('click', startMusic);
         document.addEventListener('touchstart', startMusic);
-        document.addEventListener('keydown', startMusic);
-        document.addEventListener('mousemove', startMusic);
-        document.addEventListener('scroll', startMusic);
         
         // Monad Network Configuration
         const MONAD_CHAIN_ID = 143;
@@ -537,6 +660,10 @@
         let playerTxHashes = {};
         
         let userAddress = null;
+        let allPlayers = []; // Store all leaderboard data
+        let filteredPlayers = []; // Filtered results
+        let currentPage = 1;
+        const ITEMS_PER_PAGE = 10;
         
         async function connectWallet() {
             // Get the Ethereum provider - check multiple locations
@@ -607,82 +734,179 @@
                 const provider = new ethers.JsonRpcProvider(MONAD_RPC);
                 const contract = new ethers.Contract(LEADERBOARD_ADDRESS, LEADERBOARD_ABI, provider);
                 
-                const [players, names, scores] = await contract.getTopScores(20);
+                // Fetch more scores for pagination
+                const [players, names, scores] = await contract.getTopScores(100);
                 
                 // Fetch TX hashes from the referee server
                 try {
                     const txResponse = await fetch(`${REFEREE_SERVER_URL}/api/tx-hashes`);
                     const txData = await txResponse.json();
-                    
-                    // Map to playerTxHashes
                     for (const [addr, data] of Object.entries(txData)) {
                         playerTxHashes[addr.toLowerCase()] = data.txHash;
                     }
-                    console.log('Loaded TX hashes:', Object.keys(playerTxHashes).length);
                 } catch (txErr) {
                     console.warn('Could not fetch TX hashes:', txErr);
                 }
                 
-                leaderboardList.innerHTML = '';
-                
-                if (players.length === 0 || players[0] === '0x0000000000000000000000000000000000000000') {
-                    leaderboardList.innerHTML = '<li class="no-scores">No scores yet - be the first!</li>';
-                    return;
-                }
-                
+                // Store all players data
+                allPlayers = [];
                 for (let i = 0; i < players.length; i++) {
                     if (players[i] === '0x0000000000000000000000000000000000000000') continue;
-                    
-                    const displayName = names[i] && names[i].length > 0 
-                        ? names[i] 
-                        : players[i].slice(0, 6) + '...' + players[i].slice(-4);
-                    
-                    const li = document.createElement('li');
-                    
-                    // Add medal classes for top 3
-                    let rankClass = 'normal';
-                    let rowClass = '';
-                    if (i === 0) { rankClass = 'gold'; rowClass = 'gold'; }
-                    else if (i === 1) { rankClass = 'silver'; rowClass = 'silver'; }
-                    else if (i === 2) { rankClass = 'bronze'; rowClass = 'bronze'; }
-                    
-                    if (rowClass) li.classList.add(rowClass);
-                    
-                    // Highlight current user
-                    if (userAddress && players[i].toLowerCase() === userAddress.toLowerCase()) {
-                        li.classList.add('current-user');
-                    }
-                    
-                    const txHash = playerTxHashes[players[i].toLowerCase()];
-                    const txButton = txHash 
-                        ? `<a href="https://monadvision.com/tx/${txHash}?tab=Logs" target="_blank" class="tx-btn" title="View Transaction">TX</a>`
-                        : '';
-                    
-                    li.innerHTML = `
-                        <span class="rank ${rankClass}">#${i + 1}</span>
-                        <span class="player-name">${displayName}</span>
-                        <span class="score">${scores[i]}</span>
-                        ${txButton}
-                    `;
-                    
-                    leaderboardList.appendChild(li);
+                    allPlayers.push({
+                        rank: i + 1,
+                        address: players[i],
+                        name: names[i] && names[i].length > 0 ? names[i] : players[i].slice(0, 6) + '...' + players[i].slice(-4),
+                        score: Number(scores[i]),
+                        txHash: playerTxHashes[players[i].toLowerCase()] || null
+                    });
                 }
                 
-                                
+                filteredPlayers = [...allPlayers];
+                
+                // Update user rank if connected
+                updateUserRank();
+                
+                // Render the list
+                renderLeaderboard();
+                
             } catch (err) {
                 console.error('Failed to load leaderboard:', err);
                 leaderboardList.innerHTML = '<li class="no-scores">Failed to load leaderboard</li>';
             }
         }
         
-        // Toggle sound on/off
-        function toggleSound() {
-            if (typeof chiptunePlayer !== 'undefined') {
-                chiptunePlayer.playClick();
-                const isMuted = chiptunePlayer.toggleMute();
-                const btn = document.getElementById('sound-toggle-btn');
-                if (btn) btn.textContent = isMuted ? '🔇' : '🔊';
+        function updateUserRank() {
+            if (!userAddress) return;
+            
+            const userEntry = allPlayers.find(p => p.address.toLowerCase() === userAddress.toLowerCase());
+            const rankBox = document.getElementById('your-rank-box');
+            
+            if (userEntry) {
+                rankBox.style.display = 'flex';
+                document.getElementById('your-rank').textContent = '#' + userEntry.rank;
+                document.getElementById('your-score').textContent = userEntry.score;
             }
+        }
+        
+        function filterLeaderboard() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
+            
+            if (!searchTerm) {
+                filteredPlayers = [...allPlayers];
+            } else {
+                filteredPlayers = allPlayers.filter(p => 
+                    p.name.toLowerCase().includes(searchTerm) ||
+                    p.address.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            currentPage = 1;
+            renderLeaderboard();
+        }
+        
+        function renderLeaderboard() {
+            const leaderboardList = document.getElementById('leaderboard-list');
+            leaderboardList.innerHTML = '';
+            
+            if (filteredPlayers.length === 0) {
+                leaderboardList.innerHTML = '<li class="no-scores">No players found</li>';
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+            
+            // Calculate pagination
+            const totalPages = Math.ceil(filteredPlayers.length / ITEMS_PER_PAGE);
+            const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
+            const endIdx = Math.min(startIdx + ITEMS_PER_PAGE, filteredPlayers.length);
+            const pageItems = filteredPlayers.slice(startIdx, endIdx);
+            
+            // Render items
+            for (const player of pageItems) {
+                const li = document.createElement('li');
+                
+                // Add medal classes for top 3
+                let rankClass = 'normal';
+                let rowClass = '';
+                if (player.rank === 1) { rankClass = 'gold'; rowClass = 'gold'; }
+                else if (player.rank === 2) { rankClass = 'silver'; rowClass = 'silver'; }
+                else if (player.rank === 3) { rankClass = 'bronze'; rowClass = 'bronze'; }
+                
+                if (rowClass) li.classList.add(rowClass);
+                
+                // Highlight current user
+                if (userAddress && player.address.toLowerCase() === userAddress.toLowerCase()) {
+                    li.classList.add('current-user');
+                }
+                
+                const txButton = player.txHash 
+                    ? `<a href="https://monadvision.com/tx/${player.txHash}?tab=Logs" target="_blank" class="tx-btn" title="View Transaction">TX</a>`
+                    : '';
+                
+                li.innerHTML = `
+                    <span class="rank ${rankClass}">#${player.rank}</span>
+                    <span class="player-name">${player.name}</span>
+                    <span class="score">${player.score}</span>
+                    ${txButton}
+                `;
+                
+                leaderboardList.appendChild(li);
+            }
+            
+            // Render pagination
+            renderPagination(totalPages);
+        }
+        
+        function renderPagination(totalPages) {
+            const pagination = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+            
+            let html = '';
+            
+            // Previous button
+            html += `<button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>←</button>`;
+            
+            // Page numbers
+            const maxVisible = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+            
+            if (endPage - startPage < maxVisible - 1) {
+                startPage = Math.max(1, endPage - maxVisible + 1);
+            }
+            
+            if (startPage > 1) {
+                html += `<button class="page-btn" onclick="goToPage(1)">1</button>`;
+                if (startPage > 2) html += `<span class="page-info">...</span>`;
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            }
+            
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) html += `<span class="page-info">...</span>`;
+                html += `<button class="page-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+            }
+            
+            // Next button
+            html += `<button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>→</button>`;
+            
+            // Page info
+            html += `<span class="page-info">${filteredPlayers.length} players</span>`;
+            
+            pagination.innerHTML = html;
+        }
+        
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredPlayers.length / ITEMS_PER_PAGE);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderLeaderboard();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
         // Load on page load
