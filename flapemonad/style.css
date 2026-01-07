@@ -53,7 +53,7 @@ html, body {
     width: 100%;
     height: 100%;
     height: 100dvh; /* Dynamic viewport height - accounts for browser UI */
-    background-color: #FFFFFF;
+    background-color: #000000; /* Black to prevent white lines */
     overflow: hidden;
     font-family: 'Creepster', cursive;
 }
@@ -67,12 +67,11 @@ body {
 #game-container {
     position: relative;
     width: 100vw;
-    max-width: calc(100dvh * 0.667); /* Maintain 2:3 aspect ratio using dynamic vh */
     height: 100dvh; /* Dynamic viewport height - fills available space */
     height: 100vh; /* Fallback for older browsers */
-    background-color: #FFFFFF;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    overflow: hidden; /* Prevent white sliver on edges */
+    background-color: #000000; /* Black to prevent white lines */
+    box-shadow: none;
+    overflow: hidden;
 }
 
 /* Standalone/PWA mode - fill entire screen */
@@ -83,7 +82,7 @@ body {
     
     #game-container {
         height: 100vh;
-        max-width: calc(100vh * 0.667);
+        width: 100vw;
     }
 }
 
@@ -96,7 +95,7 @@ body.dark-mode #game-container {
     display: block;
     width: 100%;
     height: 100%;
-    background-color: #FFFFFF;
+    background-color: #000000; /* Black to prevent white lines */
 }
 
 /* Prevent text selection and touch callouts on mobile */

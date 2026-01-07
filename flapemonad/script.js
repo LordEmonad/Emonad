@@ -50,11 +50,36 @@ const ctx = canvas.getContext('2d', { alpha: false }); // Disable alpha for perf
 ctx.imageSmoothingEnabled = true;
 ctx.imageSmoothingQuality = 'high';
 
-// Set canvas resolution (internal) - Maximum res for crisp rendering
+// Set canvas resolution (internal) - Dynamic height to fill screen
 const GAME_WIDTH = 1080;
-const GAME_HEIGHT = 1620;
+// Calculate height based on screen aspect ratio (fill full screen)
+function calculateGameHeight() {
+    const screenRatio = window.innerHeight / window.innerWidth;
+    // Clamp to reasonable range (between 1.5 and 2.5 aspect ratio)
+    const clampedRatio = Math.max(1.5, Math.min(2.5, screenRatio));
+    return Math.round(GAME_WIDTH * clampedRatio);
+}
+let GAME_HEIGHT = calculateGameHeight();
 canvas.width = GAME_WIDTH;
 canvas.height = GAME_HEIGHT;
+
+// Handle resize to update game height
+function handleResize() {
+    const newHeight = calculateGameHeight();
+    if (newHeight !== GAME_HEIGHT) {
+        GAME_HEIGHT = newHeight;
+        canvas.height = GAME_HEIGHT;
+        // Update dependent values
+        updateDynamicValues();
+    }
+}
+
+// Debounced resize handler
+let resizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(handleResize, 100);
+});
 
 // UI Elements
 const gameOverScreen = document.getElementById('game-over-screen');
@@ -81,7 +106,7 @@ const MAX_ROTATION = 90;           // Max nose-dive rotation
 const PLAYER_WIDTH = 270;          // Display width (larger for detail)
 const PLAYER_HEIGHT = 270;         // Display height (larger for detail)
 const PLAYER_X = 270;              // Fixed X position
-const PLAYER_START_Y = GAME_HEIGHT / 2 - PLAYER_HEIGHT / 2;
+let PLAYER_START_Y = GAME_HEIGHT / 2 - PLAYER_HEIGHT / 2;
 const HITBOX_PADDING = 40;         // Shrink hitbox for fairness
 
 // Animation timing
@@ -95,7 +120,13 @@ const RAZOR_GAP = 470;             // Gap between top and bottom razors
 const RAZOR_SPEED = 8.5;           // Pixels per frame (at 60fps)
 const RAZOR_SPAWN_INTERVAL = 1800; // ms between razor spawns
 const MIN_RAZOR_Y = 270;           // Minimum gap position from top
-const MAX_RAZOR_Y = GAME_HEIGHT - RAZOR_GAP - 270; // Maximum gap position
+let MAX_RAZOR_Y = GAME_HEIGHT - RAZOR_GAP - 270; // Maximum gap position
+
+// Update values that depend on GAME_HEIGHT
+function updateDynamicValues() {
+    PLAYER_START_Y = GAME_HEIGHT / 2 - PLAYER_HEIGHT / 2;
+    MAX_RAZOR_Y = GAME_HEIGHT - RAZOR_GAP - 270;
+}
 
 // ============================================
 // GAME STATE
