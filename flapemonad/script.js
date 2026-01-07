@@ -2918,65 +2918,61 @@ function storePendingScore() {
     localStorage.setItem('pendingScoreSubmission', JSON.stringify(pendingData));
 }
 
-// Check for pending score on page load
+// Check for pending score from URL parameters
 function checkPendingScore() {
     try {
-        const pending = localStorage.getItem('pendingScoreSubmission');
-        if (pending) {
-            const data = JSON.parse(pending);
-            // Only use if less than 5 minutes old
-            if (Date.now() - data.timestamp < 300000) {
-                return data;
-            }
-            localStorage.removeItem('pendingScoreSubmission');
+        const urlParams = new URLSearchParams(window.location.search);
+        const pendingScore = urlParams.get('pendingScore');
+        const pendingName = urlParams.get('pendingName');
+        
+        if (pendingScore) {
+            return {
+                score: parseInt(pendingScore, 10),
+                name: pendingName ? decodeURIComponent(pendingName) : 'Anonymous'
+            };
         }
-    } catch (e) {}
+    } catch (e) {
+        console.error('Error checking pending score:', e);
+    }
     return null;
 }
 
-// Open wallet app via deep link
+// Open wallet app via deep link - pass score in URL
 function openWalletDeepLink(walletType) {
-    storePendingScore();
-    const currentUrl = window.location.href;
+    const playerName = document.getElementById('player-name-input')?.value || 'Anonymous';
+    // Build URL with score parameters
+    const baseUrl = window.location.origin + window.location.pathname;
+    const scoreUrl = `${baseUrl}?pendingScore=${score}&pendingName=${encodeURIComponent(playerName)}`;
     
     if (walletType === 'metamask') {
-        window.location.href = `https://metamask.app.link/dapp/${window.location.host}${window.location.pathname}`;
+        window.location.href = `https://metamask.app.link/dapp/${window.location.host}${window.location.pathname}?pendingScore=${score}&pendingName=${encodeURIComponent(playerName)}`;
     } else if (walletType === 'phantom') {
-        window.location.href = `https://phantom.app/ul/browse/${encodeURIComponent(currentUrl)}`;
+        window.location.href = `https://phantom.app/ul/browse/${encodeURIComponent(scoreUrl)}`;
     } else if (walletType === 'coinbase') {
-        window.location.href = `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(currentUrl)}`;
+        window.location.href = `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(scoreUrl)}`;
     } else if (walletType === 'trust') {
-        window.location.href = `https://link.trustwallet.com/open_url?coin_id=60&url=${encodeURIComponent(currentUrl)}`;
+        window.location.href = `https://link.trustwallet.com/open_url?coin_id=60&url=${encodeURIComponent(scoreUrl)}`;
     }
 }
 
 // Show wallet selection for mobile users
 function showMobileWalletOptions() {
-    const choice = confirm(
-        '📱 Open in Wallet App?\n\n' +
-        'To submit your score on-chain, you need to open this game in your wallet\'s browser.\n\n' +
+    const walletChoice = prompt(
+        '📱 Choose Your Wallet\n\n' +
+        'To submit your score on-chain, open this game in your wallet\'s browser.\n\n' +
         'Your score will be saved!\n\n' +
-        'Click OK to open in MetaMask\n' +
-        'Click Cancel for other options'
+        'Enter a number:\n' +
+        '1 = MetaMask\n' +
+        '2 = Phantom\n' +
+        '3 = Coinbase Wallet\n' +
+        '4 = Trust Wallet\n\n' +
+        'Or press Cancel to go back'
     );
     
-    if (choice) {
-        openWalletDeepLink('metamask');
-    } else {
-        const otherChoice = prompt(
-            'Enter wallet name:\n\n' +
-            '1 = MetaMask\n' +
-            '2 = Phantom\n' +
-            '3 = Coinbase Wallet\n' +
-            '4 = Trust Wallet\n\n' +
-            'Or press Cancel to go back'
-        );
-        
-        if (otherChoice === '1') openWalletDeepLink('metamask');
-        else if (otherChoice === '2') openWalletDeepLink('phantom');
-        else if (otherChoice === '3') openWalletDeepLink('coinbase');
-        else if (otherChoice === '4') openWalletDeepLink('trust');
-    }
+    if (walletChoice === '1') openWalletDeepLink('metamask');
+    else if (walletChoice === '2') openWalletDeepLink('phantom');
+    else if (walletChoice === '3') openWalletDeepLink('coinbase');
+    else if (walletChoice === '4') openWalletDeepLink('trust');
 }
 
 async function connectWallet() {
@@ -3329,24 +3325,51 @@ loadDarkModePreference();
 setTimeout(loadLeaderboard, 1000);
 
 // Check for pending score submission (after wallet redirect)
-setTimeout(() => {
+// This runs immediately and bypasses normal game flow if pending score exists
+(function checkPendingScoreOnLoad() {
     const pendingScore = checkPendingScore();
-    if (pendingScore && window.ethereum) {
-        console.log('Found pending score:', pendingScore);
-        // Auto-show game over with pending score
-        score = pendingScore.score;
-        const nameInput = document.getElementById('player-name-input');
-        if (nameInput) nameInput.value = pendingScore.name;
+    if (pendingScore) {
+        console.log('Found pending score from URL:', pendingScore);
         
-        // Clear pending data
-        localStorage.removeItem('pendingScoreSubmission');
+        // Clean up URL (remove query params) without reloading
+        if (window.history && window.history.replaceState) {
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
         
-        // Show notification
-        alert(`Welcome back! Your score of ${pendingScore.score} is ready to submit.\n\nClick "Submit Score" to submit on-chain!`);
+        // Wait for page to be ready
+        const showScoreScreen = () => {
+            // Set the score
+            score = pendingScore.score;
+            const nameInput = document.getElementById('player-name-input');
+            if (nameInput) nameInput.value = pendingScore.name;
+            
+            // Hide loading screen if visible
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                loadingScreen.style.display = 'none';
+            }
+            
+            // Show game over screen with the score
+            finalScoreEl.textContent = pendingScore.score;
+            gameOverScreen.classList.remove('hidden');
+            gameState = GameState.GAME_OVER;
+            
+            // Force visibility of all elements
+            setTimeout(() => {
+                const elements = gameOverScreen.querySelectorAll('h2, p, button, a, input, .name-input-container, .submit-hint');
+                elements.forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'none';
+                });
+            }, 100);
+            
+            // Show notification
+            setTimeout(() => {
+                alert(`🎮 Score Restored!\n\nYour score of ${pendingScore.score} is ready.\n\nClick "Submit Score" to submit on-chain!`);
+            }, 300);
+        };
         
-        // Show game over screen with the score
-        finalScoreEl.textContent = pendingScore.score;
-        gameOverScreen.classList.remove('hidden');
-        gameState = GameState.GAME_OVER;
+        // Run after a short delay for page to load
+        setTimeout(showScoreScreen, 800);
     }
-}, 1500);
+})();
