@@ -2907,15 +2907,34 @@ function isMobileDevice() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
-// Store pending score for submission after wallet redirect
-function storePendingScore() {
-    const playerName = document.getElementById('player-name-input')?.value || 'Anonymous';
-    const pendingData = {
-        score: score,
-        name: playerName,
-        timestamp: Date.now()
-    };
-    localStorage.setItem('pendingScoreSubmission', JSON.stringify(pendingData));
+// Generate unique score token (one-time use)
+let currentScoreToken = null;
+
+function generateScoreToken() {
+    // Create unique token: timestamp + random + score
+    const token = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${score}`;
+    currentScoreToken = token;
+    // Store in localStorage to track used tokens
+    return token;
+}
+
+function isTokenUsed(token) {
+    try {
+        const usedTokens = JSON.parse(localStorage.getItem('usedScoreTokens') || '[]');
+        return usedTokens.includes(token);
+    } catch (e) {
+        return false;
+    }
+}
+
+function markTokenUsed(token) {
+    try {
+        const usedTokens = JSON.parse(localStorage.getItem('usedScoreTokens') || '[]');
+        usedTokens.push(token);
+        // Keep only last 50 tokens to prevent localStorage bloat
+        if (usedTokens.length > 50) usedTokens.shift();
+        localStorage.setItem('usedScoreTokens', JSON.stringify(usedTokens));
+    } catch (e) {}
 }
 
 // Check for pending score from URL parameters
@@ -2924,11 +2943,22 @@ function checkPendingScore() {
         const urlParams = new URLSearchParams(window.location.search);
         const pendingScore = urlParams.get('pendingScore');
         const pendingName = urlParams.get('pendingName');
+        const token = urlParams.get('token');
         
-        if (pendingScore) {
+        if (pendingScore && token) {
+            // Check if token already used
+            if (isTokenUsed(token)) {
+                console.log('Score token already used');
+                return null;
+            }
+            
+            // Mark token as used immediately
+            markTokenUsed(token);
+            
             return {
                 score: parseInt(pendingScore, 10),
-                name: pendingName ? decodeURIComponent(pendingName) : 'Anonymous'
+                name: pendingName ? decodeURIComponent(pendingName) : 'Anonymous',
+                token: token
             };
         }
     } catch (e) {
@@ -2937,42 +2967,175 @@ function checkPendingScore() {
     return null;
 }
 
-// Open wallet app via deep link - pass score in URL
+// Open wallet app via deep link - pass score in URL with one-time token
 function openWalletDeepLink(walletType) {
     const playerName = document.getElementById('player-name-input')?.value || 'Anonymous';
-    // Build URL with score parameters
+    // Generate one-time token for this score
+    const token = generateScoreToken();
+    
+    // Build URL with score parameters and token
     const baseUrl = window.location.origin + window.location.pathname;
-    const scoreUrl = `${baseUrl}?pendingScore=${score}&pendingName=${encodeURIComponent(playerName)}`;
+    const params = `pendingScore=${score}&pendingName=${encodeURIComponent(playerName)}&token=${encodeURIComponent(token)}`;
+    const scoreUrl = `${baseUrl}?${params}`;
     
     if (walletType === 'metamask') {
-        window.location.href = `https://metamask.app.link/dapp/${window.location.host}${window.location.pathname}?pendingScore=${score}&pendingName=${encodeURIComponent(playerName)}`;
+        window.location.href = `https://metamask.app.link/dapp/${window.location.host}${window.location.pathname}?${params}`;
     } else if (walletType === 'phantom') {
         window.location.href = `https://phantom.app/ul/browse/${encodeURIComponent(scoreUrl)}`;
-    } else if (walletType === 'coinbase') {
-        window.location.href = `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(scoreUrl)}`;
-    } else if (walletType === 'trust') {
-        window.location.href = `https://link.trustwallet.com/open_url?coin_id=60&url=${encodeURIComponent(scoreUrl)}`;
+    } else if (walletType === 'backpack') {
+        window.location.href = `https://backpack.app/ul/browse/?url=${encodeURIComponent(scoreUrl)}&ref=${encodeURIComponent(baseUrl)}`;
     }
 }
 
-// Show wallet selection for mobile users
+// Show wallet selection modal for mobile users
 function showMobileWalletOptions() {
-    const walletChoice = prompt(
-        '📱 Choose Your Wallet\n\n' +
-        'To submit your score on-chain, open this game in your wallet\'s browser.\n\n' +
-        'Your score will be saved!\n\n' +
-        'Enter a number:\n' +
-        '1 = MetaMask\n' +
-        '2 = Phantom\n' +
-        '3 = Coinbase Wallet\n' +
-        '4 = Trust Wallet\n\n' +
-        'Or press Cancel to go back'
-    );
+    // Create modal overlay
+    const overlay = document.createElement('div');
+    overlay.id = 'wallet-modal-overlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Creepster', cursive;
+    `;
     
-    if (walletChoice === '1') openWalletDeepLink('metamask');
-    else if (walletChoice === '2') openWalletDeepLink('phantom');
-    else if (walletChoice === '3') openWalletDeepLink('coinbase');
-    else if (walletChoice === '4') openWalletDeepLink('trust');
+    // Modal content
+    overlay.innerHTML = `
+        <div style="
+            background: linear-gradient(135deg, #1a0a2e 0%, #2d1a4a 50%, #1a0a2e 100%);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 320px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(157, 78, 221, 0.5), 0 0 80px rgba(123, 63, 228, 0.3);
+            border: 2px solid rgba(157, 78, 221, 0.5);
+        ">
+            <h2 style="
+                color: #e0aaff;
+                font-size: 28px;
+                margin-bottom: 10px;
+                text-shadow: 0 0 20px rgba(224, 170, 255, 0.7);
+            ">📱 Open in Wallet</h2>
+            
+            <p style="
+                color: rgba(224, 170, 255, 0.8);
+                font-size: 16px;
+                margin-bottom: 25px;
+                font-family: Arial, sans-serif;
+            ">Your score will be saved!<br>Choose your wallet app:</p>
+            
+            <button id="wallet-btn-metamask" style="
+                width: 100%;
+                padding: 18px 20px;
+                margin-bottom: 12px;
+                font-size: 20px;
+                font-family: 'Creepster', cursive;
+                color: white;
+                background: linear-gradient(135deg, #f6851b 0%, #e2761b 50%, #cd6116 100%);
+                border: none;
+                border-radius: 12px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+                box-shadow: 0 4px 20px rgba(246, 133, 27, 0.4);
+                transition: transform 0.2s, box-shadow 0.2s;
+            ">
+                <span style="font-size: 28px;">🦊</span> MetaMask
+            </button>
+            
+            <button id="wallet-btn-phantom" style="
+                width: 100%;
+                padding: 18px 20px;
+                margin-bottom: 12px;
+                font-size: 20px;
+                font-family: 'Creepster', cursive;
+                color: white;
+                background: linear-gradient(135deg, #ab9ff2 0%, #7c3aed 50%, #5b21b6 100%);
+                border: none;
+                border-radius: 12px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+                box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+                transition: transform 0.2s, box-shadow 0.2s;
+            ">
+                <span style="font-size: 28px;">👻</span> Phantom
+            </button>
+            
+            <button id="wallet-btn-backpack" style="
+                width: 100%;
+                padding: 18px 20px;
+                margin-bottom: 20px;
+                font-size: 20px;
+                font-family: 'Creepster', cursive;
+                color: white;
+                background: linear-gradient(135deg, #e33d3d 0%, #c41e3a 50%, #8b0000 100%);
+                border: none;
+                border-radius: 12px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+                box-shadow: 0 4px 20px rgba(196, 30, 58, 0.4);
+                transition: transform 0.2s, box-shadow 0.2s;
+            ">
+                <span style="font-size: 28px;">🎒</span> Backpack
+            </button>
+            
+            <button id="wallet-btn-cancel" style="
+                width: 100%;
+                padding: 12px 20px;
+                font-size: 16px;
+                font-family: Arial, sans-serif;
+                color: rgba(224, 170, 255, 0.7);
+                background: transparent;
+                border: 1px solid rgba(224, 170, 255, 0.3);
+                border-radius: 8px;
+                cursor: pointer;
+            ">Cancel</button>
+        </div>
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    // Add button handlers
+    document.getElementById('wallet-btn-metamask').onclick = () => {
+        overlay.remove();
+        openWalletDeepLink('metamask');
+    };
+    
+    document.getElementById('wallet-btn-phantom').onclick = () => {
+        overlay.remove();
+        openWalletDeepLink('phantom');
+    };
+    
+    document.getElementById('wallet-btn-backpack').onclick = () => {
+        overlay.remove();
+        openWalletDeepLink('backpack');
+    };
+    
+    document.getElementById('wallet-btn-cancel').onclick = () => {
+        overlay.remove();
+    };
+    
+    // Close on overlay click
+    overlay.onclick = (e) => {
+        if (e.target === overlay) overlay.remove();
+    };
 }
 
 async function connectWallet() {
