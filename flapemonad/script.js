@@ -159,7 +159,6 @@ let darkMode = false;
 // Settings (loaded from localStorage)
 let gameSettings = {
     darkMode: false,
-    haptics: true,
     musicVolume: 0.5,
     sfxVolume: 0.7,
     muted: false
@@ -189,13 +188,6 @@ function saveSettings() {
     }
 }
 
-// Haptic feedback helper
-function vibrate(pattern) {
-    if (!gameSettings.haptics) return;
-    if (navigator.vibrate) {
-        navigator.vibrate(pattern);
-    }
-}
 
 // Score particles system
 let scoreParticles = [];
@@ -582,9 +574,6 @@ function flap() {
     player.currentFrame = 0;
     player.animationTimer = 0;
     
-    // Haptic feedback - short tap
-    vibrate(10);
-    
     // Play flap sound
     if (typeof chiptunePlayer !== 'undefined') {
         chiptunePlayer.playFlap();
@@ -605,9 +594,6 @@ function die(deathType = 'razor', killerRazor = null) {
     deathCertificate.deathType = deathType;
     deathCertificate.finalScore = score;
     deathCertificate.timestamp = new Date();
-    
-    // Haptic feedback - strong double pulse for death
-    vibrate([50, 30, 100]);
     
     // Trigger screen shake - intense burst
     screenShake.active = true;
@@ -640,6 +626,15 @@ function showGameOver() {
     gameState = GameState.GAME_OVER;
     finalScoreEl.textContent = score;
     gameOverScreen.classList.remove('hidden');
+    
+    // BULLETPROOF: Force all elements visible after short delay (CSS animation fallback)
+    setTimeout(() => {
+        const elements = gameOverScreen.querySelectorAll('h2, p, button, a, input, .name-input-container, .submit-hint');
+        elements.forEach(el => {
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+        });
+    }, 400);
     
     // Setup tap anywhere to restart on mobile
     setupGameOverTapToRestart();
@@ -905,6 +900,13 @@ function downloadDeathCertificate() {
 }
 
 function resetGame() {
+    // Clear inline styles from game over elements (reset for next death)
+    const elements = gameOverScreen.querySelectorAll('h2, p, button, a, input, .name-input-container, .submit-hint');
+    elements.forEach(el => {
+        el.style.opacity = '';
+        el.style.transform = '';
+    });
+    
     // Reset player
     player.x = PLAYER_X;
     player.y = PLAYER_START_Y;
@@ -969,9 +971,6 @@ function updateRazors(deltaTime) {
         if (!razor.scored && razor.x + RAZOR_WIDTH < player.x) {
             razor.scored = true;
             score++;
-            
-            // Haptic feedback - quick pulse for score
-            vibrate(15);
             
             // Spawn score particles
             spawnScoreParticles();

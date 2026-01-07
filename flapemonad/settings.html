@@ -425,22 +425,6 @@
             </div>
         </div>
         
-        <!-- Gameplay Settings -->
-        <div class="settings-section">
-            <div class="section-title">🎮 Gameplay</div>
-            
-            <div class="setting-row">
-                <div>
-                    <div class="setting-label">Haptic Feedback</div>
-                    <div class="setting-description">Vibration on mobile devices</div>
-                </div>
-                <label class="toggle-switch">
-                    <input type="checkbox" id="hapticsToggle" onchange="updateSetting('haptics', this.checked)">
-                    <span class="toggle-slider"></span>
-                </label>
-            </div>
-        </div>
-        
         <button class="save-btn" onclick="saveAndClose()">💾 SAVE & CLOSE</button>
     </div>
     
@@ -450,7 +434,6 @@
         // Default settings
         let settings = {
             darkMode: false,
-            haptics: true,
             musicVolume: 0.5,
             sfxVolume: 0.7,
             muted: false,
@@ -471,7 +454,6 @@
             // Apply to UI
             document.getElementById('darkModeToggle').checked = settings.darkMode;
             document.getElementById('soundToggle').checked = !settings.muted;
-            document.getElementById('hapticsToggle').checked = settings.haptics;
             document.getElementById('musicVolume').value = settings.musicVolume * 100;
             document.getElementById('sfxVolume').value = settings.sfxVolume * 100;
             document.getElementById('musicVolumeValue').textContent = Math.round(settings.musicVolume * 100) + '%';
