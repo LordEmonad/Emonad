@@ -52,6 +52,7 @@ body.dark-mode {
 html, body {
     width: 100%;
     height: 100%;
+    height: 100dvh; /* Dynamic viewport height - accounts for browser UI */
     background-color: #FFFFFF;
     overflow: hidden;
     font-family: 'Creepster', cursive;
@@ -66,11 +67,24 @@ body {
 #game-container {
     position: relative;
     width: 100vw;
-    max-width: calc(100vh * 0.667); /* Maintain 2:3 aspect ratio */
-    height: 100vh;
+    max-width: calc(100dvh * 0.667); /* Maintain 2:3 aspect ratio using dynamic vh */
+    height: 100dvh; /* Dynamic viewport height - fills available space */
+    height: 100vh; /* Fallback for older browsers */
     background-color: #FFFFFF;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     overflow: hidden; /* Prevent white sliver on edges */
+}
+
+/* Standalone/PWA mode - fill entire screen */
+@media (display-mode: standalone), (display-mode: fullscreen) {
+    html, body {
+        height: 100vh;
+    }
+    
+    #game-container {
+        height: 100vh;
+        max-width: calc(100vh * 0.667);
+    }
 }
 
 /* Dark mode game container background */
@@ -128,10 +142,13 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-bottom: 25%;
     background: radial-gradient(ellipse at center, rgba(40, 10, 20, 0.98) 0%, rgba(15, 5, 25, 0.99) 50%, rgba(5, 2, 10, 1) 100%);
     z-index: 20;
     animation: gameOverAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
 }
 
 /* Vignette overlay */
@@ -189,6 +206,18 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
     }
 }
 
+/* Fast pop animation for quick deaths */
+@keyframes fastPop {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
 #game-over-screen.hidden {
     display: none;
 }
@@ -204,7 +233,7 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
         0 0 60px rgba(255, 34, 34, 0.4),
         0 0 100px rgba(255, 0, 0, 0.2),
         0 4px 0 #8B0000;
-    animation: gameOverTitle 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, gameOverPulse 3s ease-in-out 0.4s infinite;
+    animation: gameOverTitle 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, gameOverPulse 3s ease-in-out 0.25s infinite;
     letter-spacing: 8px;
     position: relative;
     z-index: 1;
@@ -215,12 +244,12 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
 @keyframes gameOverTitle {
     0% {
         opacity: 0;
-        transform: translateY(-100px) scale(3) rotate(-8deg);
-        filter: blur(15px);
+        transform: translateY(-40px) scale(1.5) rotate(-4deg);
+        filter: blur(8px);
     }
-    70% {
+    60% {
         opacity: 1;
-        transform: translateY(8px) scale(0.95) rotate(2deg);
+        transform: translateY(4px) scale(0.98) rotate(1deg);
         filter: blur(0px);
     }
     100% {
@@ -251,13 +280,13 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
     position: relative;
     z-index: 1;
     opacity: 0;
-    animation: scoreReveal 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.25s forwards;
+    animation: scoreReveal 0.15s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s forwards;
 }
 
 @keyframes scoreReveal {
     0% {
         opacity: 0;
-        transform: translateY(40px) scale(0.5);
+        transform: translateY(15px) scale(0.9);
     }
     100% {
         opacity: 1;
@@ -274,15 +303,15 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
         0 0 35px rgba(255, 215, 0, 0.5),
         0 0 60px rgba(255, 215, 0, 0.3),
         0 3px 0 #B8860B;
-    animation: scoreGlow 2s ease-in-out infinite, scorePop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) 0.35s both;
+    animation: scoreGlow 2s ease-in-out infinite, scorePop 0.15s cubic-bezier(0.34, 1.56, 0.64, 1) 0.12s both;
 }
 
 @keyframes scorePop {
     0% {
-        transform: scale(0);
+        transform: scale(0.7);
     }
     60% {
-        transform: scale(1.4);
+        transform: scale(1.15);
     }
     100% {
         transform: scale(1);
@@ -305,10 +334,10 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
     opacity: 1;
 }
 
-/* Full-width restart bar - TALL TAP AREA just under buttons */
+/* Full-width restart bar - TALL TAP AREA at bottom, respects safe areas */
 #restart-btn {
     font-family: 'Creepster', cursive;
-    padding: 30px 40px;
+    padding: 40px 40px;
     font-size: 32px;
     color: #FFFFFF;
     background: linear-gradient(180deg, #3a3a3a 0%, #222 30%, #1a1a1a 100%);
@@ -327,11 +356,14 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
     left: 0;
     right: 0;
     width: 100%;
-    height: 28%;
+    min-height: 180px;
+    height: 22%;
+    max-height: 25%;
+    padding-bottom: max(30px, env(safe-area-inset-bottom, 30px));
     overflow: hidden;
     letter-spacing: 5px;
     opacity: 0;
-    animation: restartBtnIdle 4s ease infinite, restartBarSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s forwards;
+    animation: restartBtnIdle 4s ease infinite, restartBarSlide 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s forwards;
     z-index: 10;
     display: flex;
     align-items: center;
@@ -341,7 +373,7 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
 @keyframes restartBarSlide {
     0% {
         opacity: 0;
-        transform: translateY(100%);
+        transform: translateY(30%);
     }
     100% {
         opacity: 1;
@@ -352,10 +384,10 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
 @keyframes btnPop {
     0% {
         opacity: 0;
-        transform: scale(0) translateY(20px);
+        transform: scale(0.85) translateY(8px);
     }
     70% {
-        transform: scale(1.1) translateY(-5px);
+        transform: scale(1.05) translateY(-2px);
     }
     100% {
         opacity: 1;
@@ -420,7 +452,7 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
     overflow: hidden;
     letter-spacing: 1px;
     opacity: 0;
-    animation: homeBtnIdle 4s ease infinite, btnPop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.55s forwards;
+    animation: homeBtnIdle 4s ease infinite, btnPop 0.15s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s forwards;
     flex: 0 0 auto;
 }
 
@@ -563,7 +595,7 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
     letter-spacing: 1px;
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
     opacity: 0;
-    animation: submitBtnGlow 3s ease infinite, btnPop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.65s forwards;
+    animation: submitBtnGlow 3s ease infinite, btnPop 0.15s cubic-bezier(0.34, 1.56, 0.64, 1) 0.22s forwards;
     flex: 0 0 auto;
 }
 
@@ -629,6 +661,8 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
     font-size: 16px !important;
     color: rgba(224, 170, 255, 0.6) !important;
     margin-top: 10px;
+    opacity: 0;
+    animation: fastPop 0.15s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards;
 }
 
 /* ============================================ */
@@ -637,6 +671,8 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
 
 .name-input-container {
     margin-bottom: 20px;
+    opacity: 0;
+    animation: fastPop 0.15s cubic-bezier(0.34, 1.56, 0.64, 1) 0.14s forwards;
 }
 
 #player-name-input {
@@ -716,7 +752,7 @@ button, .back-btn, .nav-btn, .view-lb-btn, #sound-toggle-btn, #sound-toggle-btn-
     overflow: hidden;
     text-shadow: 0 1px 2px rgba(255, 215, 0, 0.3);
     opacity: 0;
-    animation: goldShimmer 2s ease infinite, btnPop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.75s forwards;
+    animation: goldShimmer 2s ease infinite, btnPop 0.15s cubic-bezier(0.34, 1.56, 0.64, 1) 0.26s forwards;
 }
 
 @keyframes goldShimmer {
@@ -948,37 +984,49 @@ body.dark-mode #final-score {
         right: 8px;
     }
     
-    .game-over-buttons {
-        flex-direction: column;
-        gap: 8px;
-        width: 90%;
+    #game-over-screen {
+        padding-bottom: 26%;
     }
     
-    #restart-btn, #home-btn, #submit-score-btn {
-        padding: 12px 20px;
-        font-size: 18px;
-        width: 100%;
-        box-sizing: border-box;
+    .game-over-buttons {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 90%;
+        justify-content: center;
+    }
+    
+    #home-btn, #submit-score-btn {
+        padding: 10px 16px;
+        font-size: 16px;
+        flex: 0 1 auto;
+    }
+    
+    #restart-btn {
+        padding: 30px 40px;
+        font-size: 24px;
+        min-height: 140px;
     }
     
     #game-over-screen h2 {
-        font-size: 42px;
+        font-size: 38px;
         letter-spacing: 3px;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
     }
     
     #game-over-screen p {
-        font-size: 26px;
-        margin-bottom: 15px;
+        font-size: 24px;
+        margin-bottom: 12px;
     }
     
     #final-score {
-        font-size: 36px;
+        font-size: 32px;
     }
     
     .view-lb-btn {
-        font-size: 14px;
-        padding: 10px 16px;
+        font-size: 13px;
+        padding: 8px 14px;
+        margin-top: 8px;
     }
     
     #player-name-input {
@@ -988,11 +1036,12 @@ body.dark-mode #final-score {
     }
     
     .submit-hint {
-        font-size: 11px !important;
+        font-size: 10px !important;
+        margin-top: 6px;
     }
     
     .name-input-container {
-        margin-bottom: 12px;
+        margin-bottom: 10px;
     }
     
     #sound-toggle-btn {
@@ -1042,18 +1091,19 @@ body.dark-mode #final-score {
 @media (max-height: 500px) and (orientation: landscape) {
     #game-over-screen {
         padding: 10px;
-        justify-content: flex-start;
+        padding-bottom: 100px;
+        justify-content: center;
         overflow-y: auto;
     }
     
     #game-over-screen h2 {
-        font-size: 36px;
-        margin-bottom: 8px;
+        font-size: 32px;
+        margin-bottom: 6px;
     }
     
     #game-over-screen p {
-        font-size: 22px;
-        margin-bottom: 10px;
+        font-size: 20px;
+        margin-bottom: 8px;
     }
     
     .game-over-buttons {
@@ -1061,24 +1111,40 @@ body.dark-mode #final-score {
         gap: 8px;
     }
     
-    #restart-btn, #home-btn, #submit-score-btn {
+    #home-btn, #submit-score-btn {
         padding: 8px 16px;
         font-size: 14px;
     }
     
+    #restart-btn {
+        min-height: 80px;
+        height: 25%;
+        padding: 16px 30px;
+        font-size: 18px;
+    }
+    
     .view-lb-btn {
-        font-size: 12px;
-        padding: 6px 12px;
-        margin-top: 8px;
+        font-size: 11px;
+        padding: 6px 10px;
+        margin-top: 6px;
     }
     
     #player-name-input {
-        padding: 8px 12px;
-        font-size: 14px;
+        padding: 6px 10px;
+        font-size: 12px;
+        width: 160px;
     }
     
     .name-input-container {
-        margin-bottom: 8px;
+        margin-bottom: 6px;
+    }
+    
+    #final-score {
+        font-size: 24px;
+    }
+    
+    .submit-hint {
+        display: none;
     }
 }
 
@@ -1104,13 +1170,21 @@ body.dark-mode #final-score {
     #game-container {
         padding-left: max(0px, env(safe-area-inset-left));
         padding-right: max(0px, env(safe-area-inset-right));
-        padding-top: max(0px, env(safe-area-inset-top));
-        padding-bottom: max(0px, env(safe-area-inset-bottom));
     }
     
     #sound-toggle-btn {
         left: max(15px, calc(env(safe-area-inset-left) + 15px));
         top: max(15px, calc(env(safe-area-inset-top) + 15px));
+    }
+    
+    /* Restart button respects bottom safe area */
+    #restart-btn {
+        padding-bottom: max(24px, calc(env(safe-area-inset-bottom) + 16px));
+    }
+    
+    /* Game over screen content stays above restart button */
+    #game-over-screen {
+        padding-bottom: max(26%, calc(env(safe-area-inset-bottom) + 22%));
     }
     
     .dark-mode-toggle {
