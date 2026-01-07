@@ -50,36 +50,11 @@ const ctx = canvas.getContext('2d', { alpha: false }); // Disable alpha for perf
 ctx.imageSmoothingEnabled = true;
 ctx.imageSmoothingQuality = 'high';
 
-// Set canvas resolution (internal) - Dynamic height to fill screen
+// Set canvas resolution (internal) - Fixed 2:3 aspect ratio
 const GAME_WIDTH = 1080;
-// Calculate height based on screen aspect ratio (fill full screen)
-function calculateGameHeight() {
-    const screenRatio = window.innerHeight / window.innerWidth;
-    // Clamp to reasonable range (between 1.5 and 2.5 aspect ratio)
-    const clampedRatio = Math.max(1.5, Math.min(2.5, screenRatio));
-    return Math.round(GAME_WIDTH * clampedRatio);
-}
-let GAME_HEIGHT = calculateGameHeight();
+const GAME_HEIGHT = 1620;
 canvas.width = GAME_WIDTH;
 canvas.height = GAME_HEIGHT;
-
-// Handle resize to update game height
-function handleResize() {
-    const newHeight = calculateGameHeight();
-    if (newHeight !== GAME_HEIGHT) {
-        GAME_HEIGHT = newHeight;
-        canvas.height = GAME_HEIGHT;
-        // Update dependent values
-        updateDynamicValues();
-    }
-}
-
-// Debounced resize handler
-let resizeTimeout;
-window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(handleResize, 100);
-});
 
 // UI Elements
 const gameOverScreen = document.getElementById('game-over-screen');
@@ -106,7 +81,7 @@ const MAX_ROTATION = 90;           // Max nose-dive rotation
 const PLAYER_WIDTH = 270;          // Display width (larger for detail)
 const PLAYER_HEIGHT = 270;         // Display height (larger for detail)
 const PLAYER_X = 270;              // Fixed X position
-let PLAYER_START_Y = GAME_HEIGHT / 2 - PLAYER_HEIGHT / 2;
+const PLAYER_START_Y = GAME_HEIGHT / 2 - PLAYER_HEIGHT / 2;
 const HITBOX_PADDING = 40;         // Shrink hitbox for fairness
 
 // Animation timing
@@ -120,13 +95,7 @@ const RAZOR_GAP = 470;             // Gap between top and bottom razors
 const RAZOR_SPEED = 8.5;           // Pixels per frame (at 60fps)
 const RAZOR_SPAWN_INTERVAL = 1800; // ms between razor spawns
 const MIN_RAZOR_Y = 270;           // Minimum gap position from top
-let MAX_RAZOR_Y = GAME_HEIGHT - RAZOR_GAP - 270; // Maximum gap position
-
-// Update values that depend on GAME_HEIGHT
-function updateDynamicValues() {
-    PLAYER_START_Y = GAME_HEIGHT / 2 - PLAYER_HEIGHT / 2;
-    MAX_RAZOR_Y = GAME_HEIGHT - RAZOR_GAP - 270;
-}
+const MAX_RAZOR_Y = GAME_HEIGHT - RAZOR_GAP - 270; // Maximum gap position
 
 // ============================================
 // GAME STATE
@@ -2933,6 +2902,83 @@ function toggleSound() {
 // WALLET & BLOCKCHAIN FUNCTIONS
 // ============================================
 
+// Detect if on mobile device
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+// Store pending score for submission after wallet redirect
+function storePendingScore() {
+    const playerName = document.getElementById('player-name-input')?.value || 'Anonymous';
+    const pendingData = {
+        score: score,
+        name: playerName,
+        timestamp: Date.now()
+    };
+    localStorage.setItem('pendingScoreSubmission', JSON.stringify(pendingData));
+}
+
+// Check for pending score on page load
+function checkPendingScore() {
+    try {
+        const pending = localStorage.getItem('pendingScoreSubmission');
+        if (pending) {
+            const data = JSON.parse(pending);
+            // Only use if less than 5 minutes old
+            if (Date.now() - data.timestamp < 300000) {
+                return data;
+            }
+            localStorage.removeItem('pendingScoreSubmission');
+        }
+    } catch (e) {}
+    return null;
+}
+
+// Open wallet app via deep link
+function openWalletDeepLink(walletType) {
+    storePendingScore();
+    const currentUrl = window.location.href;
+    
+    if (walletType === 'metamask') {
+        window.location.href = `https://metamask.app.link/dapp/${window.location.host}${window.location.pathname}`;
+    } else if (walletType === 'phantom') {
+        window.location.href = `https://phantom.app/ul/browse/${encodeURIComponent(currentUrl)}`;
+    } else if (walletType === 'coinbase') {
+        window.location.href = `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(currentUrl)}`;
+    } else if (walletType === 'trust') {
+        window.location.href = `https://link.trustwallet.com/open_url?coin_id=60&url=${encodeURIComponent(currentUrl)}`;
+    }
+}
+
+// Show wallet selection for mobile users
+function showMobileWalletOptions() {
+    const choice = confirm(
+        '📱 Open in Wallet App?\n\n' +
+        'To submit your score on-chain, you need to open this game in your wallet\'s browser.\n\n' +
+        'Your score will be saved!\n\n' +
+        'Click OK to open in MetaMask\n' +
+        'Click Cancel for other options'
+    );
+    
+    if (choice) {
+        openWalletDeepLink('metamask');
+    } else {
+        const otherChoice = prompt(
+            'Enter wallet name:\n\n' +
+            '1 = MetaMask\n' +
+            '2 = Phantom\n' +
+            '3 = Coinbase Wallet\n' +
+            '4 = Trust Wallet\n\n' +
+            'Or press Cancel to go back'
+        );
+        
+        if (otherChoice === '1') openWalletDeepLink('metamask');
+        else if (otherChoice === '2') openWalletDeepLink('phantom');
+        else if (otherChoice === '3') openWalletDeepLink('coinbase');
+        else if (otherChoice === '4') openWalletDeepLink('trust');
+    }
+}
+
 async function connectWallet() {
     // Check if running from file:// protocol (wallets don't work there)
     if (window.location.protocol === 'file:') {
@@ -2968,17 +3014,20 @@ async function connectWallet() {
     
     // Wait a moment if not found (provider might still be loading)
     if (!ethereumProvider) {
-        await new Promise(r => setTimeout(r, 1000));
+        await new Promise(r => setTimeout(r, 500));
         ethereumProvider = getProvider();
+    }
+    
+    // If still no provider and on mobile, offer to open in wallet app
+    if (!ethereumProvider && isMobileDevice()) {
+        showMobileWalletOptions();
+        return false;
     }
     
     if (!ethereumProvider) {
         alert('No wallet detected!\n\n' +
-            'Make sure Phantom or MetaMask is:\n' +
-            '1. Installed in your browser\n' +
-            '2. Set to an EVM network (Ethereum, not Solana)\n' +
-            '3. Unlocked\n\n' +
-            'Then refresh this page and try again.');
+            'Please install MetaMask or Phantom wallet extension,\n' +
+            'or open this page in your wallet\'s built-in browser.');
         return false;
     }
     
@@ -3278,3 +3327,26 @@ loadDarkModePreference();
 
 // Load leaderboard on page load
 setTimeout(loadLeaderboard, 1000);
+
+// Check for pending score submission (after wallet redirect)
+setTimeout(() => {
+    const pendingScore = checkPendingScore();
+    if (pendingScore && window.ethereum) {
+        console.log('Found pending score:', pendingScore);
+        // Auto-show game over with pending score
+        score = pendingScore.score;
+        const nameInput = document.getElementById('player-name-input');
+        if (nameInput) nameInput.value = pendingScore.name;
+        
+        // Clear pending data
+        localStorage.removeItem('pendingScoreSubmission');
+        
+        // Show notification
+        alert(`Welcome back! Your score of ${pendingScore.score} is ready to submit.\n\nClick "Submit Score" to submit on-chain!`);
+        
+        // Show game over screen with the score
+        finalScoreEl.textContent = pendingScore.score;
+        gameOverScreen.classList.remove('hidden');
+        gameState = GameState.GAME_OVER;
+    }
+}, 1500);

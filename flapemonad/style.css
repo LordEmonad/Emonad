@@ -69,6 +69,7 @@ body {
     width: 100vw;
     height: 100dvh; /* Dynamic viewport height - fills available space */
     height: 100vh; /* Fallback for older browsers */
+    max-width: calc(100dvh * 0.667); /* Maintain 2:3 aspect ratio */
     background-color: #000000; /* Black to prevent white lines */
     box-shadow: none;
     overflow: hidden;
@@ -82,7 +83,7 @@ body {
     
     #game-container {
         height: 100vh;
-        width: 100vw;
+        max-width: calc(100vh * 0.667);
     }
 }
 
