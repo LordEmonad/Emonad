@@ -726,6 +726,42 @@
 
     // Download file function
     async function downloadFile(url, filename) {
+      // On mobile, open the direct media file in new tab for long-press save
+      if (isMobile) {
+        // Create a temporary page showing just the image/video for easy saving
+        const newTab = window.open('', '_blank');
+        if (newTab) {
+          const isVideo = filename.endsWith('.mp4');
+          if (isVideo) {
+            newTab.document.write(`
+              <html>
+              <head><title>Save Video</title><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+              <body style="margin:0;background:#000;display:flex;justify-content:center;align-items:center;min-height:100vh;">
+                <video src="${url}" controls autoplay loop playsinline style="max-width:100%;max-height:100vh;"></video>
+              </body>
+              </html>
+            `);
+            showCopyToast('Long-press video to save');
+          } else {
+            newTab.document.write(`
+              <html>
+              <head><title>Save GIF</title><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+              <body style="margin:0;background:#000;display:flex;justify-content:center;align-items:center;min-height:100vh;">
+                <img src="${url}" style="max-width:100%;max-height:100vh;">
+              </body>
+              </html>
+            `);
+            showCopyToast('Long-press image to save');
+          }
+          newTab.document.close();
+        } else {
+          window.location.href = url;
+          showCopyToast('Long-press to save');
+        }
+        return;
+      }
+      
+      // Desktop: fetch and download
       try {
         showCopyToast('⏳ Downloading...');
         const response = await fetch(url);
@@ -738,24 +774,12 @@
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
+        URL.revokeObjectURL(blobUrl);
         
-        // Keep blob URL alive briefly for iOS
-        setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
-        
-        if (isIOS) {
-          showCopyToast('Check your Downloads or Files app');
-        } else {
-          showCopyToast('✓ Downloaded!');
-        }
+        showCopyToast('✓ Downloaded!');
       } catch (err) {
-        // Fallback: open direct media URL in new tab
-        const directUrl = url;
-        window.open(directUrl, '_blank');
-        if (isMobile) {
-          showCopyToast('Long-press image to save');
-        } else {
-          showCopyToast('Right-click to save');
-        }
+        window.open(url, '_blank');
+        showCopyToast('Right-click to save');
       }
     }
   </script>
