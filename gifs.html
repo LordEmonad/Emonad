@@ -221,7 +221,12 @@
     
     @media (max-width: 500px) {
       .gif-grid {
-        columns: 1;
+        columns: 2;
+        column-gap: 10px;
+      }
+      
+      .gif-card {
+        margin-bottom: 10px;
       }
     }
 
@@ -717,16 +722,10 @@
 
     // Check if mobile
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
     // Download file function
     async function downloadFile(url, filename) {
-      // On mobile, open directly so user can long-press to save
-      if (isMobile) {
-        window.open(url, '_blank');
-        showCopyToast('Long-press to save to photos');
-        return;
-      }
-      
       try {
         showCopyToast('⏳ Downloading...');
         const response = await fetch(url);
@@ -739,13 +738,24 @@
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        URL.revokeObjectURL(blobUrl);
         
-        showCopyToast('✓ Downloaded!');
+        // Keep blob URL alive briefly for iOS
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+        
+        if (isIOS) {
+          showCopyToast('Check your Downloads or Files app');
+        } else {
+          showCopyToast('✓ Downloaded!');
+        }
       } catch (err) {
-        // Fallback: open in new tab
-        window.open(url, '_blank');
-        showCopyToast('Long-press to save');
+        // Fallback: open direct media URL in new tab
+        const directUrl = url;
+        window.open(directUrl, '_blank');
+        if (isMobile) {
+          showCopyToast('Long-press image to save');
+        } else {
+          showCopyToast('Right-click to save');
+        }
       }
     }
   </script>
