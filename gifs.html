@@ -43,6 +43,10 @@
     
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
+    html {
+      scroll-behavior: smooth;
+    }
+    
     body {
       background-color: var(--bg-color);
       color: var(--text-color);
@@ -227,22 +231,75 @@
       overflow: hidden;
       border: 1px solid var(--contract-border);
       box-shadow: var(--card-shadow);
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       display: inline-block;
       width: 100%;
       margin-bottom: 20px;
       break-inside: avoid;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.5s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .gif-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(123, 63, 228, 0.3);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(123, 63, 228, 0.4);
+      border-color: var(--accent-color);
+    }
+
+    .gif-card .gif-wrapper {
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .gif-card .gif-wrapper::after {
+      content: '🔍';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: rgba(0, 0, 0, 0.7);
+      padding: 15px;
+      border-radius: 50%;
+      font-size: 24px;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .gif-card:hover .gif-wrapper::after {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
     }
 
     .gif-card img {
       width: 100%;
       height: auto;
       display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .gif-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .gif-card.loading .gif-wrapper {
+      min-height: 200px;
+      background: linear-gradient(90deg, var(--card-bg) 25%, var(--contract-bg) 50%, var(--card-bg) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
     }
 
     .gif-actions {
@@ -299,20 +356,98 @@
       transform: scale(1.02);
     }
 
-    /* Info Section */
-    .giphy-embed-section {
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 30px;
-      border: 1px solid var(--contract-border);
-      box-shadow: var(--card-shadow);
-      margin-bottom: 40px;
+    /* Lightbox Modal */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
-    .giphy-embed-section h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: var(--text-color);
+    .lightbox.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox-content {
+      max-width: 90vw;
+      max-height: 85vh;
+      position: relative;
+      animation: zoomIn 0.3s ease;
+    }
+
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .lightbox-content img {
+      max-width: 100%;
+      max-height: 85vh;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -50px;
+      right: 0;
+      color: white;
+      font-size: 36px;
+      cursor: pointer;
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+    }
+
+    .lightbox-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .lightbox-actions .gif-btn {
+      padding: 12px 24px;
+      font-size: 14px;
+    }
+
+    /* GIF Count Badge */
+    .gif-count {
+      display: inline-block;
+      background: var(--accent-color);
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-left: 10px;
+      vertical-align: middle;
     }
 
     /* Copy notification */
@@ -340,59 +475,87 @@
     /* Responsive */
     @media (max-width: 768px) {
       .header {
-        padding: 12px 15px;
-        flex-wrap: wrap;
-        gap: 10px;
+        padding: 10px 12px;
+        gap: 8px;
       }
 
       .page-title {
-        font-size: 1.2rem;
+        font-size: 1rem;
       }
 
-      .back-btn, .giphy-link {
-        padding: 8px 15px;
-        font-size: 12px;
+      .back-btn {
+        padding: 8px 12px;
+        font-size: 11px;
+      }
+      
+      .giphy-link {
+        padding: 8px 12px;
+        font-size: 11px;
+      }
+
+      .theme-toggle {
+        width: 34px;
+        height: 34px;
+        font-size: 14px;
       }
 
       .container {
-        padding: 90px 15px 30px;
+        padding: 80px 12px 30px;
       }
 
       .intro h1 {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
       }
 
-      .gif-grid {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 15px;
+      .gif-count {
+        font-size: 12px;
+        padding: 4px 10px;
       }
 
-      .gif-card iframe {
-        height: 200px;
+      .gif-btn {
+        padding: 8px 6px;
+        font-size: 10px;
       }
 
-      .giphy-channel-embed {
-        min-height: 400px;
+      .lightbox-close {
+        top: -40px;
+        font-size: 28px;
+        width: 36px;
+        height: 36px;
+      }
+
+      .lightbox-actions .gif-btn {
+        padding: 10px 16px;
+        font-size: 12px;
       }
     }
 
     @media (max-width: 480px) {
+      .header {
+        padding: 8px 10px;
+      }
+
       .header-left {
-        width: 100%;
-        justify-content: space-between;
+        gap: 8px;
       }
 
-      .header-right {
-        width: 100%;
-        justify-content: flex-end;
-      }
-
-      .gif-grid {
-        grid-template-columns: 1fr;
+      .page-title {
+        display: none;
       }
 
       .intro h1 {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
+      }
+
+      .gif-actions {
+        padding: 8px;
+        gap: 5px;
+      }
+
+      .gif-btn {
+        padding: 8px 4px;
+        font-size: 9px;
+        gap: 2px;
       }
     }
   </style>
@@ -416,11 +579,20 @@
   <!-- Main Content -->
   <div class="container">
     <div class="intro">
-      <h1>Emonad GIFs</h1>
+      <h1>Emonad GIFs <span class="gif-count" id="gifCount">28</span></h1>
     </div>
 
     <!-- GIF Grid -->
     <div class="gif-grid" id="gifGrid"></div>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-content">
+      <span class="lightbox-close" id="lightboxClose">×</span>
+      <img src="" alt="GIF Preview" id="lightboxImg">
+      <div class="lightbox-actions" id="lightboxActions"></div>
+    </div>
   </div>
 
   <!-- Copy Toast -->
@@ -484,25 +656,64 @@
 
     // Build GIF grid
     const gifGrid = document.getElementById('gifGrid');
+    document.getElementById('gifCount').textContent = gifs.length;
     
-    gifs.forEach(gif => {
+    gifs.forEach((gif, index) => {
       const gifUrl = `https://media.giphy.com/media/${gif.id}/giphy.gif`;
       const giphyPageUrl = `https://giphy.com/gifs/${gif.id}`;
-      const downloadUrl = `https://media.giphy.com/media/${gif.id}/giphy.gif`;
-      
       const mp4Url = `https://media.giphy.com/media/${gif.id}/giphy.mp4`;
       
       const card = document.createElement('div');
-      card.className = 'gif-card';
+      card.className = 'gif-card loading';
+      card.style.animationDelay = `${index * 0.05}s`;
       card.innerHTML = `
-        <img src="${gifUrl}" alt="Emonad GIF" loading="lazy">
+        <div class="gif-wrapper" onclick="openLightbox('${gifUrl}', '${gif.id}')">
+          <img src="${gifUrl}" alt="Emonad GIF" loading="lazy" onload="this.parentElement.parentElement.classList.remove('loading')">
+        </div>
         <div class="gif-actions">
-          <button class="gif-btn gif" onclick="downloadFile('${gifUrl}', 'emonad-${gif.id}.gif')" title="Download GIF">↓ GIF</button>
-          <button class="gif-btn mp4" onclick="downloadFile('${mp4Url}', 'emonad-${gif.id}.mp4')" title="Download MP4">↓ MP4</button>
-          <a href="${giphyPageUrl}" target="_blank" class="gif-btn open" title="Open on Giphy">↗ Giphy</a>
+          <button class="gif-btn gif" onclick="event.stopPropagation(); downloadFile('${gifUrl}', 'emonad-${gif.id}.gif')" title="Download GIF">↓ GIF</button>
+          <button class="gif-btn mp4" onclick="event.stopPropagation(); downloadFile('${mp4Url}', 'emonad-${gif.id}.mp4')" title="Download MP4">↓ MP4</button>
+          <a href="${giphyPageUrl}" target="_blank" class="gif-btn open" onclick="event.stopPropagation()" title="Open on Giphy">↗ Giphy</a>
         </div>
       `;
       gifGrid.appendChild(card);
+    });
+
+    // Lightbox functionality
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxActions = document.getElementById('lightboxActions');
+    const lightboxClose = document.getElementById('lightboxClose');
+
+    function openLightbox(gifUrl, gifId) {
+      const mp4Url = `https://media.giphy.com/media/${gifId}/giphy.mp4`;
+      const giphyUrl = `https://giphy.com/gifs/${gifId}`;
+      
+      lightboxImg.src = gifUrl;
+      lightboxActions.innerHTML = `
+        <button class="gif-btn gif" onclick="downloadFile('${gifUrl}', 'emonad-${gifId}.gif')">↓ GIF</button>
+        <button class="gif-btn mp4" onclick="downloadFile('${mp4Url}', 'emonad-${gifId}.mp4')">↓ MP4</button>
+        <a href="${giphyUrl}" target="_blank" class="gif-btn open">↗ Giphy</a>
+      `;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+        closeLightbox();
+      }
     });
 
     // Check if mobile
