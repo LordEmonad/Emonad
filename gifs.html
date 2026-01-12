@@ -440,12 +440,12 @@
     /* GIF Count Badge */
     .gif-count {
       display: inline-block;
-      background: var(--accent-color);
-      color: white;
+      background: linear-gradient(135deg, #00ff99, #00ccff);
+      color: #000;
       padding: 5px 15px;
       border-radius: 20px;
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 700;
       margin-left: 10px;
       vertical-align: middle;
     }
@@ -579,7 +579,7 @@
   <!-- Main Content -->
   <div class="container">
     <div class="intro">
-      <h1>Emonad GIFs <span class="gif-count" id="gifCount">28</span></h1>
+      <h1>Emonad GIFs</h1>
     </div>
 
     <!-- GIF Grid -->
@@ -656,7 +656,6 @@
 
     // Build GIF grid
     const gifGrid = document.getElementById('gifGrid');
-    document.getElementById('gifCount').textContent = gifs.length;
     
     gifs.forEach((gif, index) => {
       const gifUrl = `https://media.giphy.com/media/${gif.id}/giphy.gif`;
