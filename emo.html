@@ -50,6 +50,126 @@
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
       line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Scrolling GIF Background */
+    .gif-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      display: flex;
+      gap: 10px;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .gif-column {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+      min-width: 100px;
+    }
+
+    .gif-column:nth-child(odd) {
+      animation: scrollUp 50s linear infinite;
+    }
+
+    .gif-column:nth-child(even) {
+      animation: scrollDown 50s linear infinite;
+    }
+
+    /* Mobile GIF background adjustments */
+    @media (max-width: 768px) {
+      .gif-background {
+        gap: 6px;
+      }
+      
+      .gif-column {
+        min-width: 80px;
+        gap: 6px;
+      }
+      
+      .gif-column:nth-child(odd) {
+        animation: scrollUp 40s linear infinite;
+      }
+
+      .gif-column:nth-child(even) {
+        animation: scrollDown 40s linear infinite;
+      }
+      
+      .gif-column img {
+        border-radius: 6px;
+      }
+      
+      .gif-overlay {
+        background: rgba(10, 10, 10, 0.55);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .gif-column {
+        min-width: 70px;
+        gap: 5px;
+      }
+      
+      .gif-background {
+        gap: 5px;
+      }
+      
+      .gif-column img {
+        border-radius: 4px;
+        opacity: 0.5;
+      }
+      
+      .gif-overlay {
+        background: rgba(10, 10, 10, 0.6);
+      }
+    }
+
+    @keyframes scrollUp {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-50%); }
+    }
+
+    @keyframes scrollDown {
+      0% { transform: translateY(-50%); }
+      100% { transform: translateY(0); }
+    }
+
+    .gif-column img {
+      width: 100%;
+      border-radius: 8px;
+      opacity: 0.6;
+      filter: brightness(0.5) saturate(0.8);
+    }
+
+    /* Glass overlay on top of GIF background */
+    .gif-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      background: rgba(10, 10, 10, 0.5);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      pointer-events: none;
+    }
+
+    [data-theme="light"] .gif-overlay {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    [data-theme="light"] .gif-column img {
+      filter: brightness(0.5) saturate(0.5);
     }
 
     .container {
@@ -60,6 +180,8 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      position: relative;
+      z-index: 1;
       justify-content: center;
       align-items: center;
     }
@@ -138,7 +260,7 @@
       gap: 15px;
       font-size: 14px;
       font-weight: 600;
-      z-index: 99;
+      z-index: 100;
       backdrop-filter: blur(10px);
     }
 
@@ -975,6 +1097,10 @@
   </style>
 </head>
 <body>
+  <!-- Scrolling GIF Background -->
+  <div class="gif-background" id="gifBackground"></div>
+  <div class="gif-overlay"></div>
+
   <!-- Price Ticker with Audio Player and Theme Toggle -->
   <div class="price-ticker" id="priceTicker">
     <span class="token-name">$EMO</span>
@@ -1524,5 +1650,61 @@
 
 <!-- Twitter Widget Script -->
   <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+  <!-- Scrolling GIF Background -->
+  <script>
+    (function() {
+      const gifIds = [
+        '0UdC1ol3kLC8dduVmU', 'pVlA0d42jW8ssypHVC', '9wXlAThWfsqlrMuT2Y',
+        'cRxOyqeQmTTojnLN0p', 'k8XzWzNVf00x59Aa0W', 'F2RlaE2Jo00Mta9Isg',
+        'UPrfZFSYnhMS1RDdjk', '73Uo7oSZ5if39Pu7aD', 'HEomzJobGMH63l8L8T',
+        'u1GEQ7mj1aZNFhDdit', 'FX3QAOZoogibLTPsCc', '1EioINFzTLCCeHK8ni',
+        'vBSndPWgSwMmguASVn', 'a3fnw71VTEK5JTkPeN', 'ovRMFvEh1VIxibp392',
+        'DKZ72PJhbxOpvENUVz', '6p2TA9a902u6HCVtkk', 'y6mKCTN0dcXvor8KGO',
+        'FXHKmi9BiFPk0gIPfN', 'vcN1ms6GgPQzUevJHF', 'Twh9OQk4nXQ00xTA29',
+        'C4B5fhPl93xZtiX4em', '9bDLeKUP6iAkggwt8K', 'Ss0cDAsZmYjA724bvD',
+        'P6aAglneljHb2hJNDE', 'cMPuaAHxnBmFLzAMqE', 'wpI6kanWg2jNXTtsdq',
+        'cqgLesV8I2L5sXy7em'
+      ];
+
+      const container = document.getElementById('gifBackground');
+      if (!container) return;
+
+      // Calculate number of columns based on screen width
+      const isMobile = window.innerWidth < 768;
+      const isSmallMobile = window.innerWidth < 480;
+      let columnCount;
+      
+      if (isSmallMobile) {
+        columnCount = Math.max(4, Math.floor(window.innerWidth / 80));
+      } else if (isMobile) {
+        columnCount = Math.max(4, Math.floor(window.innerWidth / 100));
+      } else {
+        columnCount = Math.max(5, Math.floor(window.innerWidth / 140));
+      }
+      
+      // Shuffle GIFs
+      const shuffled = [...gifIds].sort(() => Math.random() - 0.5);
+      
+      // Create columns
+      for (let i = 0; i < columnCount; i++) {
+        const column = document.createElement('div');
+        column.className = 'gif-column';
+        
+        // Add GIFs to column (duplicate for seamless loop)
+        const gifsPerColumn = Math.ceil(shuffled.length / columnCount) + 4;
+        for (let j = 0; j < gifsPerColumn * 2; j++) {
+          const gifId = shuffled[(i + j) % shuffled.length];
+          const img = document.createElement('img');
+          img.src = `https://media.giphy.com/media/${gifId}/giphy.gif`;
+          img.alt = '';
+          img.loading = 'lazy';
+          column.appendChild(img);
+        }
+        
+        container.appendChild(column);
+      }
+    })();
+  </script>
 </body>
 </html>
