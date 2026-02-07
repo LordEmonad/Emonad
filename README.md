@@ -9,7 +9,7 @@ Source code for [escapist.lol](https://escapist.lol) — art, memes, and degen t
 | `/` | Main hub — Lord Emo art portfolio |
 | `/emo.html` | $EMO memecoin page (Monad) |
 | `/ordtisms.html` | ORDTISMS gallery — 101 on-chain generative art pieces on Bitcoin Ordinals |
-| `/rare tisms/` | ORDTISM trading cards |
+| `/rare tisms/` | Rare Tisms collectable trading cards on Bitcoin Ordinals |
 | `/memes.html` | Meme gallery |
 | `/gifs.html` | GIF collection |
 | `/tools.html` | Misc tools |
