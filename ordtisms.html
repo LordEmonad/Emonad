@@ -1824,6 +1824,7 @@
     <nav class="nav-bar">
       <div class="nav-buttons">
         <a href="index.html" class="nav-button">Home</a>
+        <a href="emo.html" class="nav-button">$EMO</a>
         <a href="https://magiceden.us/ordinals/marketplace/ordtism" target="_blank" rel="noopener noreferrer" class="nav-button marketplace-btn">Marketplace</a>
         <a href="https://stakit.com/?referral=Ordtisms" target="_blank" rel="noopener noreferrer" class="nav-button">Stake Ordtisms</a>
         <a href="rare tisms/index.html" class="nav-button">Rare Tisms</a>
@@ -1869,7 +1870,7 @@
         
         <div class="modal-iframe-wrapper">
           <div class="modal-iframe-container"> 
-            <iframe id="modalIframe" class="modal-iframe" tabindex="0" allowtransparency="true" frameborder="0" scrolling="no"></iframe>
+            <iframe id="modalIframe" class="modal-iframe" tabindex="0" allowtransparency="true" frameborder="0" scrolling="no" sandbox="allow-scripts allow-same-origin"></iframe>
           </div>
         </div>
         
@@ -1903,19 +1904,15 @@
     // Current page and piece index
     let currentPage = 1;
     let currentIndex = 1;
-    const MAX_PIECES = INSCRIPTION_IDS.length - 1; // 101 if all present
-    let hasControlsPopupBeenShownThisSession = false; // Flag for controls pop-up
-    
-    // Search functionality
+    const MAX_PIECES = INSCRIPTION_IDS.length - 1;
+    let hasControlsPopupBeenShownThisSession = false;
+
     function initializeSearch() {
       const searchInput = document.getElementById('searchInput');
       const searchButton = document.getElementById('searchButton');
       
       if (searchInput && searchButton) {
-        // Handle search button click
         searchButton.addEventListener('click', performSearch);
-        
-        // Handle Enter key press in search input
         searchInput.addEventListener('keypress', function(e) {
           if (e.key === 'Enter') {
             performSearch();
@@ -1928,40 +1925,27 @@
       const searchInput = document.getElementById('searchInput');
       const searchValue = parseInt(searchInput.value);
       
-      // Validate input
       if (isNaN(searchValue) || searchValue < 1 || searchValue > MAX_PIECES) {
         alert(`Please enter a valid Ordtism number between 1 and ${MAX_PIECES}`);
         searchInput.focus();
         return;
       }
       
-      // Open the modal with the specified ordtism
       openModal(searchValue);
-      
-      // Clear the search input
       searchInput.value = '';
     }
     
-    // Function to render gallery with direct transition
     function renderGallery(page = 1) {
-      const galleryEl = document.querySelector('.gallery');
-      
-      // Render new items directly without fading out
       renderGalleryItems(page);
     }
-    
-    // Actual function to render gallery items
+
     function renderGalleryItems(page = 1) {
       const galleryEl = document.querySelector('.gallery');
-      // Remove all previous iframes and gallery items if any remain
       galleryEl.innerHTML = '';
-
-      // Show 2 pieces per page for focused viewing
       let itemsPerPage = 2;
       const startIndex = (page - 1) * itemsPerPage + 1;
       const endIndex = Math.min(startIndex + itemsPerPage - 1, MAX_PIECES);
 
-      // Create gallery items progressively to prevent lag
       let itemsCreated = 0;
       
       function createNextItem() {
@@ -1974,14 +1958,12 @@
         item.className = 'gallery-item';
         item.setAttribute('data-index', i);
 
-        // Create an iframe showing the actual ORDTISM piece (paused by default)
         const iframe = document.createElement('iframe');
-        iframe.setAttribute('importance', 'high'); // Signal high importance to browser
+        iframe.setAttribute('importance', 'high');
         iframe.allowTransparency = true;
         iframe.scrolling = 'no';
+        iframe.sandbox = 'allow-scripts allow-same-origin';
         
-        // Add a tiny random delay to prevent all iframes from loading simultaneously
-        // This helps distribute the load and prevent lag
         const randomDelay = Math.floor(Math.random() * 50);
         setTimeout(() => {
           iframe.src = src;
@@ -1990,19 +1972,15 @@
         iframe.style.height = '100%';
         iframe.style.display = 'block';
         
-        // PAUSE animation when iframe loads
         iframe.onload = () => {
-          // Send pause message to keep the piece static
           try {
-            iframe.contentWindow.postMessage({type: 'pause'}, '*');
+            iframe.contentWindow.postMessage({type: 'pause'}, 'https://ordinals.com');
           } catch(e) {
             console.log('Could not send pause message to iframe');
           }
         };
         
-        // Add error handling for failed iframe loads
         iframe.onerror = () => {
-          // Show error message or placeholder
           const errorDiv = document.createElement('div');
           errorDiv.style.cssText = 'display: flex; align-items: center; justify-content: center; height: 100%; color: rgba(255,255,255,0.6); font-size: 0.9rem;';
           errorDiv.textContent = 'Loading failed';
@@ -2016,13 +1994,11 @@
         info.innerHTML = `<strong>ORDTISM ${i}</strong>`;
         item.appendChild(info);
 
-        // Add click event to open modal
         item.addEventListener('click', () => openModal(i));
         item.style.cursor = 'pointer';
 
         galleryEl.appendChild(item);
         
-        // Animate item in with staggered timing
         setTimeout(() => {
           item.classList.add('loaded');
         }, 100 + (itemsCreated * 50));
@@ -2032,15 +2008,9 @@
         setTimeout(createNextItem, 20);
       }
       
-      // Start the progressive loading process
       createNextItem();
-      
-      // No hidden iframes remain in the DOM. Only 6 are ever loaded at a time.
 
-      
       currentPage = page;
-      
-      // Update pagination immediately before starting progressive loading
       updatePagination(page);
     }
     
@@ -2048,23 +2018,19 @@
     function updatePagination(page) {
       const itemsPerPage = 2;
       const totalPages = Math.ceil(MAX_PIECES / itemsPerPage);
-      const paginationContainer = document.querySelector('.pagination'); // Get the main container
-      const paginationInner = document.querySelector('.pagination-inner'); // Get the inner scrollable part
-      
-      // Clear previous buttons
-      paginationInner.innerHTML = ''; // Clear all content
-      
-      // Previous button (add to inner container)
+      const paginationContainer = document.querySelector('.pagination');
+      const paginationInner = document.querySelector('.pagination-inner');
+      paginationInner.innerHTML = '';
+
       if (page > 1) {
         const prevPage = document.createElement('button');
-        prevPage.className = 'page'; // Same styling as page numbers
+        prevPage.className = 'page';
         prevPage.textContent = '←';
         prevPage.setAttribute('aria-label', 'Previous Page');
         prevPage.addEventListener('click', () => renderGallery(page - 1));
-        paginationInner.appendChild(prevPage); // Add to inner container
+        paginationInner.appendChild(prevPage);
       }
       
-      // Page numbers (append to inner container)
       const pageCount = Math.min(5, totalPages);
       let startPage = Math.max(1, page - 2);
       const endPage = Math.min(startPage + pageCount - 1, totalPages);
@@ -2079,21 +2045,20 @@
         pageButton.textContent = i;
         pageButton.setAttribute('aria-label', `Go to Page ${i}`);
         pageButton.addEventListener('click', () => renderGallery(i));
-        paginationInner.appendChild(pageButton); // Append numbers to inner container
+        paginationInner.appendChild(pageButton);
       }
       
       // Next button (add to inner container)
       if (page < totalPages) {
         const nextPage = document.createElement('button');
-        nextPage.className = 'page'; // Same styling as page numbers
+        nextPage.className = 'page';
         nextPage.textContent = '→';
         nextPage.setAttribute('aria-label', 'Next Page');
         nextPage.addEventListener('click', () => renderGallery(page + 1));
-        paginationInner.appendChild(nextPage); // Add to inner container
+        paginationInner.appendChild(nextPage);
       }
     }
     
-    // Function to open the modal
     function openModal(index) {
       const inscriptionId = INSCRIPTION_IDS[index];
       const contentSrc = `https://ordinals.com/content/${inscriptionId}`;
@@ -2104,14 +2069,12 @@
       document.getElementById('modalInfo').textContent = `ORDTISM ${index}`;
       document.getElementById('ordinalLink').href = inscriptionUrl;
       
-      // Show modal immediately
       modal.classList.add('active');
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
       
       const modalContainer = document.querySelector('.modal-iframe-container');
       
-      // Reset the container size to ensure proper proportions
       modalContainer.style.width = '100%';
       modalContainer.style.height = '100%';
       modalContainer.style.maxWidth = '100%';
@@ -2122,10 +2085,7 @@
       modalContainer.style.borderRadius = '16px'; 
       modalContainer.style.overflow = 'hidden';   
       
-      // Clear any existing content and set src immediately for better responsiveness
       const modalIframe = document.getElementById('modalIframe');
-      
-      // Set iframe size to match the container
       modalIframe.style.width = '100%';
       modalIframe.style.height = '100%';
       modalIframe.style.minHeight = '300px';
@@ -2141,46 +2101,40 @@
       modalIframe.style.aspectRatio = '1/1';
       modalIframe.style.objectFit = 'contain';
       modalIframe.sandbox = 'allow-scripts allow-same-origin';
-      modalIframe.src = 'about:blank'; // Clear first
-      
-      // Show controls popup on desktop only once per modal session
+      modalIframe.src = 'about:blank';
+
       if (window.innerWidth > 700 && !hasControlsPopupBeenShownThisSession) {
         const controlsPopup = document.getElementById('controlsPopup');
         if (controlsPopup) {
           controlsPopup.style.display = 'flex';
-          hasControlsPopupBeenShownThisSession = true; // Set flag after showing
+          hasControlsPopupBeenShownThisSession = true;
         }
       }
       
-      // Add a brief delay to ensure the clearing happens
       setTimeout(() => {
         modalIframe.src = contentSrc;
-        // Focus iframe and play after it loads
         modalIframe.onload = () => {
           modalIframe.focus();
           if (modalIframe.contentWindow) {
-            modalIframe.contentWindow.postMessage({type: 'play'}, '*');
+            modalIframe.contentWindow.postMessage({type: 'play'}, 'https://ordinals.com');
           }
         };
       }, 100);
     }
     
-    // Function to close the modal
     function closeModal() {
       const modal = document.getElementById('modal');
       modal.classList.remove('active');
       modal.style.display = 'none';
       document.body.style.overflow = 'auto';
-      // Pause modal animation before removing
       const modalIframe = document.getElementById('modalIframe');
       if (modalIframe && modalIframe.contentWindow) {
-        modalIframe.contentWindow.postMessage({type: 'pause'}, '*');
+        modalIframe.contentWindow.postMessage({type: 'pause'}, 'https://ordinals.com');
       }
       document.getElementById('modalIframe').src = 'about:blank';
-      hasControlsPopupBeenShownThisSession = false; // Reset flag when modal closes
+      hasControlsPopupBeenShownThisSession = false;
     }
     
-    // Function to show previous piece
     function showPrevious() {
       console.log('Previous clicked, currentIndex:', currentIndex);
       if (currentIndex > 1) {
@@ -2188,7 +2142,6 @@
       }
     }
     
-    // Function to show next piece
     function showNext() {
       console.log('Next clicked, currentIndex:', currentIndex, 'MAX_PIECES:', MAX_PIECES);
       if (currentIndex < MAX_PIECES) {
@@ -2196,30 +2149,20 @@
       }
     }
     
-    // Initialize the gallery rendering immediately
     renderGallery(1);
-    
-    // Initialize search functionality
     initializeSearch();
-    
-    // Mobile viewport height fix
+
     function setMobileViewportHeight() {
-      // First we get the viewport height and we multiply it by 1% to get a value for a vh unit
       let vh = window.innerHeight * 0.01;
-      // Then we set the value in the --vh custom property to the root of the document
       document.documentElement.style.setProperty('--vh', `${vh}px`);
     }
     
-    // Set the height initially
     setMobileViewportHeight();
-    
-    // Reset on resize and orientation change
     window.addEventListener('resize', setMobileViewportHeight);
     window.addEventListener('orientationchange', () => {
       setTimeout(setMobileViewportHeight, 200);
     });
     
-    // Optimize modal for mobile
     const optimizeModalForMobile = () => {
       const modal = document.querySelector('.modal');
       if (!modal) return;
@@ -2233,20 +2176,15 @@
         }
       };
       
-      // Watch for modal state changes
       const observer = new MutationObserver(toggleModalClass);
       observer.observe(modal, { attributes: true, attributeFilter: ['class'] });
     };
     
-    // Initialize modal optimization
     optimizeModalForMobile();
-    
-    // Event listeners
     document.getElementById('modalClose').addEventListener('click', closeModal);
     document.getElementById('prevButton').addEventListener('click', showPrevious);
     document.getElementById('nextButton').addEventListener('click', showNext);
     
-    // Event listener for controls pop-up OK button
     const controlsPopupOkBtn = document.getElementById('controlsPopupOkBtn');
     if (controlsPopupOkBtn) {
       controlsPopupOkBtn.addEventListener('click', () => {
@@ -2254,15 +2192,13 @@
         if (controlsPopup) {
           controlsPopup.style.display = 'none';
         }
-        // Focus the main modal iframe after closing controls popup
         const modalIframe = document.getElementById('modalIframe');
-        if (modalIframe && modalIframe.contentWindow) { // Check contentWindow to ensure iframe is loaded
+        if (modalIframe && modalIframe.contentWindow) {
             modalIframe.focus();
         }
       });
     }
     
-    // Keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (!document.getElementById('modal').classList.contains('active')) return;
       if (e.key === 'Escape') closeModal();
@@ -2270,13 +2206,12 @@
       if (e.key === 'ArrowRight') showNext();
     });
 
-    // Add swipe functionality for mobile
     let touchStartX = 0;
     let touchEndX = 0;
     let touchStartY = 0;
     let touchEndY = 0;
-    const minSwipeDistance = 50; // Minimum distance for a swipe
-    const maxVerticalDistance = 100; // Maximum vertical movement to still count as horizontal swipe
+    const minSwipeDistance = 50;
+    const maxVerticalDistance = 100;
 
     function handleSwipe() {
       const modal = document.getElementById('modal');
@@ -2285,19 +2220,15 @@
       const deltaX = touchEndX - touchStartX;
       const deltaY = Math.abs(touchEndY - touchStartY);
       
-      // Only process horizontal swipes (vertical movement should be minimal)
       if (Math.abs(deltaX) > minSwipeDistance && deltaY < maxVerticalDistance) {
         if (deltaX > 0) {
-          // Swipe right - go to previous piece
           showPrevious();
         } else {
-          // Swipe left - go to next piece
           showNext();
         }
       }
     }
 
-    // Add touch event listeners to the modal
     const modal = document.getElementById('modal');
     modal.addEventListener('touchstart', (e) => {
       touchStartX = e.changedTouches[0].screenX;
@@ -2310,28 +2241,22 @@
       handleSwipe();
     }, { passive: true });
 
-    // Ordinals-optimized mobile controls implementation
     const mobileControls = document.getElementById('modalMobileControls');
     if (mobileControls) {
-      // Ensure we're ready to receive any responses from the iframe
       window.addEventListener('message', function(event) {
-        // Log any messages from the iframe for debugging
-        console.log('Received from iframe:', event.data);
-        
-        // Handle specific responses if needed
+        if (event.origin !== 'https://ordinals.com') return;
+
         if (event.data && event.data.type === 'control-response') {
           console.log('Control response received:', event.data.success);
         }
       });
       
-      // Special function for handling mobile button clicks
       function handleMobileButtonClick(key) {
         const modalIframe = document.getElementById('modalIframe');
         if (!modalIframe || !modalIframe.contentWindow) return;
         
         console.log('Sending key to Ordinal:', key);
         
-        // Create a structured message with all needed info
         const message = {
           type: 'mobile-control',
           key: key,
@@ -2339,27 +2264,21 @@
           source: 'parent-page'
         };
         
-        // Send the message with a retry strategy
-        // Multiple retries help with mobile timing issues
         const sendMessageWithRetry = () => {
           try {
-            modalIframe.contentWindow.postMessage(message, '*');
+            modalIframe.contentWindow.postMessage(message, 'https://ordinals.com');
           } catch (err) {
             console.error('Error sending message:', err);
           }
         };
         
-        // Initial send
         sendMessageWithRetry();
-        
-        // Retry a few times with increasing delays
-        // This ensures the message is received even if iframe is loading
         setTimeout(sendMessageWithRetry, 100);
         setTimeout(sendMessageWithRetry, 300);
         setTimeout(sendMessageWithRetry, 600);
       }
       
-      // Remove mobile modal controls logic; add keyboard helper for mobile
+      // keyboard helper for mobile
       const showKeyboardBtn = document.getElementById('showKeyboardBtn');
       const keyboardHelperInput = document.getElementById('keyboardHelperInput');
       function showKeyboardHelper() {
@@ -2384,22 +2303,10 @@
 
     }
 
-    // Only re-render gallery on resize for dynamic itemsPerPage
-    // (We already call renderGallery(1) directly to initialize the page)
     window.addEventListener('resize', () => {
-      // Keep current page, but re-render for new itemsPerPage
       renderGallery(currentPage);
     });
     
-    // Secret feature: Ctrl+6 to access the meme maker (disabled - file not found)
-    // document.addEventListener('keydown', (e) => {
-    //   // Check if Ctrl+6 is pressed (keyCode 54 is '6')
-    //   if (e.ctrlKey && e.keyCode === 54) {
-    //     window.location.href = 'gmailu/mememaker.html';
-    //   }
-    // });
-
-    // Secret tap gesture for header on mobile
     const headerTitle = document.querySelector('.collection-title');
     let headerTapCount = 0;
     let tapTimer = null;
@@ -2408,34 +2315,27 @@
       headerTitle.addEventListener('click', () => {
         headerTapCount++;
         
-        // Clear previous timer if exists
         if (tapTimer) {
           clearTimeout(tapTimer);
         }
 
         if (headerTapCount === 6) {
-          // Navigate after 6 taps (disabled - file not found)
-          // window.location.href = 'gmailu/mememaker.html';
-          console.log('Secret feature activated! (File not found)');
-          headerTapCount = 0; // Reset count after navigation
+          headerTapCount = 0;
         } else {
-          // Set a timer to reset the count if no more taps occur soon
           tapTimer = setTimeout(() => {
             headerTapCount = 0;
-          }, 1500); // Reset after 1.5 seconds of inactivity
+          }, 1500);
         }
       });
     }
 
-    // Easter egg for "Bitcoin" text in subtitle
     const bitcoinEasterEgg = document.getElementById('bitcoin-easter-egg');
     let bitcoinTapCount = 0;
     let bitcoinTapTimer = null;
 
     if (bitcoinEasterEgg) {
-      bitcoinEasterEgg.style.cursor = 'pointer'; // Indicate it's clickable
+      bitcoinEasterEgg.style.cursor = 'pointer';
       bitcoinEasterEgg.addEventListener('click', () => {
-        // Only activate on non-mobile (desktop)
         if (window.innerWidth > 700) {
           bitcoinTapCount++;
 
@@ -2444,19 +2344,16 @@
           }
 
           if (bitcoinTapCount === 4) {
-            // window.location.href = 'ordtism-cards.html'; // File not found
-            console.log('Bitcoin easter egg activated! (File not found)');
-            bitcoinTapCount = 0; // Reset count
+            bitcoinTapCount = 0;
           } else {
             bitcoinTapTimer = setTimeout(() => {
               bitcoinTapCount = 0;
-            }, 1500); // Reset after 1.5 seconds
+            }, 1500);
           }
         }
       });
     }
 
-    // Search toggle functionality
     document.getElementById('searchToggle').addEventListener('click', function() {
       const searchSection = document.getElementById('searchSection');
       if (searchSection.style.display === 'none') {

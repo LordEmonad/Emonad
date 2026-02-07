@@ -27,3 +27,35 @@ Thumbs.db
 *secret*
 *token*
 *.key
+
+# Bot runtime data (contains user PII and wallet links)
+emo-bot/data/
+
+# Snapshot/holder data
+*_holders.json
+*_holders.txt
+*_holders.csv
+snapshot.txt
+*.xlsx
+
+# Large media files
+*.mov
+*.mp4
+
+# Backup/copy files
+*- Copy.*
+* - Copy.*
+
+# Unreferenced directories
+stickers/
+attachments*/
+
+# Utility scripts (not part of website, keep local only)
+monad_snapshot.py
+remove_bg.py
+resize_emojis.py
+set_sticker_thumb.py
+update_memes.ps1
+
+# Local config
+.claude/

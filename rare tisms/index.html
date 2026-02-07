@@ -1145,6 +1145,7 @@
     <nav class="nav-bar">
       <div class="nav-buttons">
         <a href="../index.html" class="nav-button">Home</a>
+        <a href="../emo.html" class="nav-button">$EMO</a>
         <a href="../ordtisms.html" class="nav-button">Ordtisms</a>
         <button id="packsButton" class="nav-button">Packs</button>
         <a href="https://www.ord-x.com/" target="_blank" rel="noopener noreferrer" class="nav-button mint-ordx-btn">Mint on OrdX</a>
@@ -1161,7 +1162,7 @@
       
       
       <div class="cards-grid" id="cardsGrid">
-        <!-- Cards will be dynamically generated -->
+        <!-- cards -->
       </div>
     </div>
   </div>
@@ -1232,7 +1233,6 @@
     // Sort cards by rarity (rarest first)
     cardData.sort((a, b) => rarityOrder[a.rarity] - rarityOrder[b.rarity]);
     
-    // Initialize pack halves when page loads
     function initializePack() {
       const packImage = document.getElementById('packImage');
       const packTopHalf = document.getElementById('packTopHalf');
@@ -1244,7 +1244,6 @@
         packTopHalf.style.backgroundImage = imageUrl;
         packBottomHalf.style.backgroundImage = imageUrl;
         
-        // Show the original image normally (no halves visible initially)
         packImage.style.opacity = '1';
         packTopHalf.style.opacity = '0';
         packBottomHalf.style.opacity = '0';
@@ -1279,13 +1278,11 @@
       packTopHalf.style.animation = 'packRipTop 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
       
       // Start cards flying out immediately when rip is triggered
-      // Update header text
       document.querySelector('.collection-subtitle').textContent = 'Digital trading cards on Bitcoin';
       
       // Generate cards first
       generateCardsWithAnimation();
       
-      // Show cards grid immediately so cards can be seen
       cardsGrid.style.display = 'grid';
       cardsGrid.style.opacity = '1';
       cardsGrid.classList.add('visible');
@@ -1321,7 +1318,6 @@
     // Current card index for modal navigation
     let currentCardIndex = 0;
     
-    // Function to flip all cards with staggered timing
     function flipAllCards() {
       const cards = document.querySelectorAll('.card-item');
       console.log('Starting flip sequence for', cards.length, 'cards');
@@ -1348,16 +1344,12 @@
     function animateCardsIn() {
       const cardsGrid = document.getElementById('cardsGrid');
       
-      // Clear any existing cards first
       cardsGrid.innerHTML = '';
-      
-      // Start dealing cards immediately when rip begins
-      // Create and animate each card individually
+
       for (let i = 0; i < cardData.length; i++) {
         setTimeout(() => {
           const card = cardData[i];
           
-          // Create card element
           const cardElement = document.createElement('div');
           cardElement.className = 'card-item face-down animate-in';
           cardElement.style.cursor = 'pointer';
@@ -1408,7 +1400,7 @@
     function generateCardsWithAnimation() {
       const cardsGrid = document.getElementById('cardsGrid');
       // Don't create cards immediately - they'll be created during animation
-      cardsGrid.innerHTML = ''; // Clear any existing cards
+      cardsGrid.innerHTML = '';
     }
     
     function generateCards() {
@@ -1444,7 +1436,6 @@
       const modalName = document.getElementById('cardModalName');
       const modalRarity = document.getElementById('cardModalRarity');
       
-      // Set card data
       modalImage.src = card.image;
       modalImage.alt = card.name;
       modalName.textContent = card.name;
@@ -1455,7 +1446,6 @@
         <span class="card-count">×${card.count} supply</span>
       `;
       
-      // Show modal
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
@@ -1491,20 +1481,17 @@
       document.documentElement.style.setProperty('--vh', `${vh}px`);
     }
     
-    // Initialize the pack and cards when page loads
     document.addEventListener('DOMContentLoaded', function() {
       initializePack();
       // Don't generate cards immediately - only when pack is opened
       setMobileViewportHeight();
     });
     
-    // Handle viewport changes
     window.addEventListener('resize', setMobileViewportHeight);
     window.addEventListener('orientationchange', () => {
       setTimeout(setMobileViewportHeight, 200);
     });
     
-    // Function to refresh the page (simplest and most reliable reset)
     function resetPack() {
       window.location.reload();
     }

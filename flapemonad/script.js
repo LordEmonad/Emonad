@@ -1,13 +1,3 @@
-// ============================================
-// FLAP EMONAD - A Flappy Bird Clone
-// With On-Chain Leaderboard on Monad
-// ============================================
-
-// ============================================
-// BLOCKCHAIN CONFIGURATION
-// ============================================
-
-// Monad Network Configuration
 const MONAD_CHAIN_ID = 143;
 const MONAD_RPC = 'https://rpc.monad.xyz';
 const MONAD_CHAIN_CONFIG = {
@@ -18,11 +8,9 @@ const MONAD_CHAIN_CONFIG = {
     blockExplorerUrls: ['https://monadvision.com']
 };
 
-// Leaderboard Contract (UPDATE AFTER DEPLOYMENT)
-const LEADERBOARD_ADDRESS = '0x7fffA7d3FF68A8781d3cc724810ddb03601D9642'; // TODO: Set after deployment
+const LEADERBOARD_ADDRESS = '0x7fffA7d3FF68A8781d3cc724810ddb03601D9642';
 const REFEREE_SERVER_URL = 'https://api.emonad.lol';
 
-// Leaderboard Contract ABI (minimal)
 const LEADERBOARD_ABI = [
     'function submitScore(uint256 _score, uint256 _nonce, string memory _name, bytes memory _signature) external',
     'function getHighScore(address _player) external view returns (uint256)',
@@ -44,13 +32,13 @@ let gameStartTime = 0;
 
 // Canvas setup
 const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d', { alpha: false }); // Disable alpha for performance
+const ctx = canvas.getContext('2d', { alpha: false });
 
-// Enable HIGH QUALITY image smoothing for best rendering
+// Image smoothing
 ctx.imageSmoothingEnabled = true;
 ctx.imageSmoothingQuality = 'high';
 
-// Set canvas resolution (internal) - Fixed 2:3 aspect ratio
+// Canvas resolution (2:3 aspect ratio)
 const GAME_WIDTH = 1080;
 const GAME_HEIGHT = 1620;
 canvas.width = GAME_WIDTH;
@@ -61,45 +49,36 @@ const gameOverScreen = document.getElementById('game-over-screen');
 const finalScoreEl = document.getElementById('final-score');
 const restartBtn = document.getElementById('restart-btn');
 
-// ============================================
-// GAME CONSTANTS - Tuned for authentic feel
-// ============================================
+// --- game constants ---
 
-// Target frame rate for consistent physics (game runs at any FPS but physics are normalized)
 const TARGET_FPS = 60;
-const TARGET_FRAME_TIME = 1000 / TARGET_FPS; // ~16.67ms - physics reference frame
+const TARGET_FRAME_TIME = 1000 / TARGET_FPS;
 
-// Physics (tuned to feel like original Flappy Bird, scaled for high res)
-const GRAVITY = 1.2;               // Gravity acceleration per frame (at 60fps)
-const JUMP_VELOCITY = -24;         // Velocity set on flap (not added)
-const MAX_FALL_SPEED = 34;         // Terminal velocity
-const ROTATION_SPEED = 4;          // Degrees per frame when falling (at 60fps)
-const JUMP_ROTATION = -25;         // Rotation on flap (degrees)
-const MAX_ROTATION = 90;           // Max nose-dive rotation
+const GRAVITY = 1.2;
+const JUMP_VELOCITY = -24;
+const MAX_FALL_SPEED = 34;
+const ROTATION_SPEED = 4;
+const JUMP_ROTATION = -25;
+const MAX_ROTATION = 90;
 
-// Player settings (scaled for high resolution - large crisp sprites)
-const PLAYER_WIDTH = 270;          // Display width (larger for detail)
-const PLAYER_HEIGHT = 270;         // Display height (larger for detail)
-const PLAYER_X = 270;              // Fixed X position
+const PLAYER_WIDTH = 270;
+const PLAYER_HEIGHT = 270;
+const PLAYER_X = 270;
 const PLAYER_START_Y = GAME_HEIGHT / 2 - PLAYER_HEIGHT / 2;
-const HITBOX_PADDING = 40;         // Shrink hitbox for fairness
+const HITBOX_PADDING = 40;
 
-// Animation timing
-const FLAP_ANIMATION_SPEED = 100;  // ms between flap frames
-const DEATH_ANIMATION_SPEED = 300; // ms between death frames (slower for visibility)
+const FLAP_ANIMATION_SPEED = 100;
+const DEATH_ANIMATION_SPEED = 300;
 
-// Razor (obstacle) settings (scaled for high resolution)
-const RAZOR_WIDTH = 170;           // Display width
-const RAZOR_HEIGHT = 680;          // Display height (will tile if needed)
-const RAZOR_GAP = 470;             // Gap between top and bottom razors
-const RAZOR_SPEED = 8.5;           // Pixels per frame (at 60fps)
-const RAZOR_SPAWN_INTERVAL = 1800; // ms between razor spawns
-const MIN_RAZOR_Y = 270;           // Minimum gap position from top
-const MAX_RAZOR_Y = GAME_HEIGHT - RAZOR_GAP - 270; // Maximum gap position
+const RAZOR_WIDTH = 170;
+const RAZOR_HEIGHT = 680;
+const RAZOR_GAP = 470;
+const RAZOR_SPEED = 8.5;
+const RAZOR_SPAWN_INTERVAL = 1800;
+const MIN_RAZOR_Y = 270;
+const MAX_RAZOR_Y = GAME_HEIGHT - RAZOR_GAP - 270;
 
-// ============================================
-// GAME STATE
-// ============================================
+// --- game state ---
 
 const GameState = {
     READY: 'ready',
@@ -136,7 +115,7 @@ let deathCertificate = {
     timestamp: null
 };
 
-// Slow-motion death effect - CINEMATIC AAA QUALITY
+// Slow-motion death effect
 let deathSlowMo = {
     active: false,
     timeScale: 1.0,      // 1.0 = normal, 0.15 = slow
@@ -225,9 +204,7 @@ let startScreenFlapFrame = 0;
 let startScreenDieFrame = 0;
 let startScreenAnimTimer = 0;
 
-// ============================================
-// PLAYER OBJECT
-// ============================================
+// --- player object ---
 
 const player = {
     x: PLAYER_X,
@@ -246,15 +223,11 @@ const player = {
     deathAnimationComplete: false
 };
 
-// ============================================
-// RAZORS (OBSTACLES) ARRAY
-// ============================================
+// --- razors (obstacles) array ---
 
 let razors = [];
 
-// ============================================
-// IMAGE LOADING
-// ============================================
+// --- image loading ---
 
 const images = {
     flap: [],
@@ -300,9 +273,7 @@ async function loadAllImages() {
     }
 }
 
-// ============================================
-// INPUT HANDLING
-// ============================================
+// --- input handling ---
 
 function handleInput() {
     if (gameState === GameState.READY) {
@@ -438,9 +409,7 @@ function goToStartScreen() {
     }
 }
 
-// ============================================
-// GAME FUNCTIONS
-// ============================================
+// --- game functions ---
 
 function startGame() {
     gameState = GameState.PLAYING;
@@ -464,7 +433,7 @@ function startGame() {
     }
 }
 
-// Initialize background particles for white background gameplay
+// Initialize background particles
 function initBackgroundParticles() {
     bgParticles = [];
     for (let i = 0; i < 25; i++) {  // More particles
@@ -479,7 +448,7 @@ function initBackgroundParticles() {
     }
 }
 
-// Draw purple floating particles during gameplay (white background)
+// Draw background particles
 function drawBackgroundParticles() {
     for (const p of bgParticles) {
         // Move particle upward
@@ -568,7 +537,7 @@ function drawStartScreenParticles() {
 // }, 2000);
 
 function flap() {
-    // Set velocity directly (authentic Flappy Bird feel)
+    // Set velocity
     player.velocity = JUMP_VELOCITY;
     player.rotation = JUMP_ROTATION;
     player.currentFrame = 0;
@@ -595,20 +564,20 @@ function die(deathType = 'razor', killerRazor = null) {
     deathCertificate.finalScore = score;
     deathCertificate.timestamp = new Date();
     
-    // Trigger screen shake - intense burst
+    // Screen shake
     screenShake.active = true;
     screenShake.intensity = 25;  // Strong shake
     screenShake.duration = 300;  // 300ms
     screenShake.elapsed = 0;
     
-    // Trigger screen flash - red impact flash
+    // Screen flash
     screenFlash.active = true;
     screenFlash.color = 'rgba(255, 50, 50, 0.7)';
     screenFlash.duration = 250;  // Total flash duration
     screenFlash.elapsed = 0;
     screenFlash.phase = 0;
     
-    // Trigger slow-motion death effect
+    // Slow-motion
     deathSlowMo.active = true;
     deathSlowMo.timeScale = 1.0;
     deathSlowMo.elapsed = 0;
@@ -627,7 +596,7 @@ function showGameOver() {
     finalScoreEl.textContent = score;
     gameOverScreen.classList.remove('hidden');
     
-    // BULLETPROOF: Force all elements visible after short delay (CSS animation fallback)
+    // Force all elements visible after short delay (CSS animation fallback)
     setTimeout(() => {
         const elements = gameOverScreen.querySelectorAll('h2, p, button, a, input, .name-input-container, .submit-hint');
         elements.forEach(el => {
@@ -653,11 +622,7 @@ function setupGameOverTapToRestart() {
     // Spacebar still works on PC (handled in keyboard input)
 }
 
-// ============================================
-// DEATH CERTIFICATE GENERATOR
-// ============================================
-
-// Certificate uses the already-loaded game images (images.die[2] and images.razor)
+// --- death certificate generator ---
 
 function generateDeathCertificate(playerName) {
     // Create offscreen canvas for the certificate - LANDSCAPE
@@ -706,7 +671,7 @@ function generateDeathCertificate(playerName) {
         certCtx.fillRect(x, y, 6, cornerSize);
     });
     
-    // === LEFT SECTION - Character ===
+    // Left section - character
     const leftCenterX = 300;
     
     // Draw character using embedded base64 image
@@ -727,7 +692,7 @@ function generateDeathCertificate(playerName) {
     certCtx.textAlign = 'center';
     certCtx.fillText(playerName || 'ANONYMOUS', leftCenterX, CERT_HEIGHT / 2 + 180);
     
-    // === CENTER SECTION - Title & Info ===
+    // Center section - title & info
     const centerX = CERT_WIDTH / 2;
     
     // Title
@@ -802,7 +767,7 @@ function generateDeathCertificate(playerName) {
     certCtx.fillStyle = '#888888';
     certCtx.fillText(`${dateStr} at ${timeStr}`, centerX, 700);
     
-    // === RIGHT SECTION - Killer Candle/Razor ===
+    // Right section - killer candle/razor
     const rightCenterX = CERT_WIDTH - 300;
     const candleY = 280;
     const candleHeight = 450;
@@ -856,7 +821,7 @@ function generateDeathCertificate(playerName) {
     );
     certCtx.restore();
     
-    // === BOTTOM - Branding ===
+    // Bottom - branding
     certCtx.font = 'bold 64px "Creepster", Georgia, cursive';
     certCtx.fillStyle = '#4a4a4a';
     certCtx.fillText('FLAP EMONAD', centerX, CERT_HEIGHT - 100);
@@ -930,9 +895,7 @@ function resetGame() {
     startGame();
 }
 
-// ============================================
-// RAZOR MANAGEMENT
-// ============================================
+// --- razor management ---
 
 function spawnRazor() {
     // Random gap position
@@ -946,7 +909,7 @@ function spawnRazor() {
 }
 
 function updateRazors(deltaTime) {
-    // Normalize delta time to target 60fps for consistent physics
+    // Normalize delta time
     const timeScale = deltaTime / TARGET_FRAME_TIME;
     
     // Spawn timer
@@ -983,9 +946,7 @@ function updateRazors(deltaTime) {
     }
 }
 
-// ============================================
-// COLLISION DETECTION
-// ============================================
+// --- collision detection ---
 
 function checkCollision() {
     // Calculate hitbox with padding for fairness
@@ -1031,12 +992,10 @@ function checkCollision() {
     }
 }
 
-// ============================================
-// UPDATE FUNCTIONS
-// ============================================
+// --- update functions ---
 
 function updatePlayer(deltaTime) {
-    // Normalize delta time to target 60fps for consistent physics
+    // Normalize delta time
     const timeScale = deltaTime / TARGET_FRAME_TIME;
     
     if (gameState === GameState.PLAYING || gameState === GameState.DYING) {
@@ -1104,12 +1063,12 @@ function update(deltaTime) {
         }
     }
     
-    // Update slow-motion death effect - CINEMATIC AAA QUALITY
+    // Update slow-motion death effect
     let effectiveDeltaTime = deltaTime;
     if (deathSlowMo.active) {
         deathSlowMo.elapsed += deltaTime;
         
-        // Cinematic easing with multiple phases
+        // Easing phases
         const progress = deathSlowMo.elapsed / deathSlowMo.duration;
         
         // Use smooth easing functions
@@ -1117,7 +1076,7 @@ function update(deltaTime) {
         const easeInOutCubic = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
         
         if (progress < 0.2) {
-            // SMOOTH IMPACT - ease into slow-mo (first 20%)
+            // Ease into slow-mo (first 20%)
             const rampProgress = easeOutQuart(progress / 0.2);
             deathSlowMo.timeScale = 1.0 - (1.0 - deathSlowMo.targetScale) * rampProgress;
             deathSlowMo.zoom = 1.0 + (deathSlowMo.targetZoom - 1.0) * rampProgress;
@@ -1125,14 +1084,14 @@ function update(deltaTime) {
             deathSlowMo.chromatic = rampProgress * 8; // Chromatic aberration
             deathSlowMo.vignette = rampProgress * 0.5;
         } else if (progress < 0.5) {
-            // HOLD - dramatic pause (10% to 50%)
+            // Hold (10% to 50%)
             deathSlowMo.timeScale = deathSlowMo.targetScale;
             deathSlowMo.zoom = deathSlowMo.targetZoom;
             deathSlowMo.desaturation = 0.7;
             deathSlowMo.chromatic = 8;
             deathSlowMo.vignette = 0.5;
         } else {
-            // RELEASE - smooth return to normal (50% to 100%)
+            // Return to normal (50% to 100%)
             const returnProgress = easeInOutCubic((progress - 0.5) / 0.5);
             deathSlowMo.timeScale = deathSlowMo.targetScale + (1.0 - deathSlowMo.targetScale) * returnProgress;
             deathSlowMo.zoom = deathSlowMo.targetZoom - (deathSlowMo.targetZoom - 1.0) * returnProgress;
@@ -1165,12 +1124,9 @@ function update(deltaTime) {
     }
 }
 
-// ============================================
-// PARTICLE & EFFECTS SYSTEMS
-// ============================================
+// --- particle & effects systems ---
 
-// Spawn particles when scoring - EPIC burst effect
-// ALL RED particles
+// Spawn score particles
 function spawnScoreParticles() {
     const centerX = GAME_WIDTH / 2;
     const centerY = 140;
@@ -1178,7 +1134,7 @@ function spawnScoreParticles() {
     // All red color palette
     const redColors = ['#FF4444', '#EF5350', '#FF6B6B', '#E53935', '#D32F2F', '#C62828'];
     
-    // RING BURST - expanding ring of particles
+    // Ring burst
     for (let i = 0; i < 24; i++) {
         const angle = (Math.PI * 2 / 24) * i;
         const speed = 18 + Math.random() * 4;
@@ -1196,7 +1152,7 @@ function spawnScoreParticles() {
         });
     }
     
-    // RED COINS - chunky red particles flying out
+    // Coins
     for (let i = 0; i < 10; i++) {
         const angle = (Math.PI * 2 / 10) * i + Math.random() * 0.3;
         const speed = 12 + Math.random() * 8;
@@ -1215,7 +1171,7 @@ function spawnScoreParticles() {
         });
     }
     
-    // SPARKLE EXPLOSION - red sparkles
+    // Sparkles
     for (let i = 0; i < 30; i++) {
         const angle = Math.random() * Math.PI * 2;
         const speed = 8 + Math.random() * 16;
@@ -1233,7 +1189,7 @@ function spawnScoreParticles() {
         });
     }
     
-    // RED BURST - medium red orbs
+    // Orbs
     for (let i = 0; i < 14; i++) {
         const angle = (Math.PI * 2 / 14) * i + Math.random() * 0.4;
         const speed = 10 + Math.random() * 6;
@@ -1251,7 +1207,7 @@ function spawnScoreParticles() {
         });
     }
     
-    // CONFETTI - all red squares tumbling
+    // Confetti
     for (let i = 0; i < 12; i++) {
         const angle = Math.random() * Math.PI * 2;
         const speed = 6 + Math.random() * 10;
@@ -1270,7 +1226,7 @@ function spawnScoreParticles() {
         });
     }
     
-    // RISING EMBERS - all red slow floaty particles going up
+    // Embers
     for (let i = 0; i < 8; i++) {
         const offsetX = (Math.random() - 0.5) * 80;
         scoreParticles.push({
@@ -1287,11 +1243,11 @@ function spawnScoreParticles() {
     }
 }
 
-// Update score particles - optimized for smooth performance
+// Update score particles
 function updateScoreParticles(deltaTime) {
     const timeScale = deltaTime / TARGET_FRAME_TIME;
     
-    // Pre-calculate decay multipliers (avoid repeated Math operations)
+    // Decay multipliers
     const shrinkFast = Math.pow(0.97, timeScale);
     const shrinkSlow = Math.pow(0.995, timeScale);
     const shrinkNormal = Math.pow(0.985, timeScale);
@@ -1340,7 +1296,7 @@ function updateScoreParticles(deltaTime) {
     }
 }
 
-// Draw score particles - EPIC rendering
+// Draw score particles
 function drawScoreParticles() {
     for (const p of scoreParticles) {
         ctx.save();
@@ -1514,7 +1470,7 @@ function updateClouds(deltaTime) {
     }
 }
 
-// Draw clouds (subtle, blurred dark clouds)
+// Draw clouds
 function drawClouds() {
     ctx.save();
     
@@ -1545,9 +1501,7 @@ function drawClouds() {
     ctx.restore();
 }
 
-// ============================================
-// RENDER FUNCTIONS
-// ============================================
+// --- render functions ---
 
 function drawPlayer() {
     ctx.save();
@@ -1585,7 +1539,7 @@ function drawPlayer() {
     
     ctx.restore();
 }
-// Pre-cached razor dimensions (calculated once on first use)
+// Cached razor dimensions
 let _cachedRazorHeight = 0;
 
 function drawRazors() {
@@ -1601,7 +1555,7 @@ function drawRazors() {
     
     for (const razor of razors) {
         
-        // ===== TOP OBSTACLE (RED) =====
+        // Top obstacle
         ctx.save();
         const topBarHeight = razor.gapY - singleRazorHeight;
         
@@ -1638,7 +1592,7 @@ function drawRazors() {
         
         ctx.restore();
         
-        // ===== BOTTOM OBSTACLE (GREEN) =====
+        // Bottom obstacle
         ctx.save();
         const bottomY = razor.gapY + RAZOR_GAP;
         const bottomRazorEnd = bottomY + singleRazorHeight;
@@ -1864,7 +1818,7 @@ function drawStartScreen(deltaTime) {
         ctx.restore();
     }
     
-    // Draw "View Leaderboard" button with PREMIUM effects - positioned below character
+    // Draw "View Leaderboard" button
     ctx.save();
     const lbBtnY = GAME_HEIGHT * 0.78;
     const lbBtnWidth = 440;
@@ -2050,7 +2004,7 @@ function drawDarkModeEdges() {
     // Disabled - using new badass dark mode instead
 }
 
-// AAA QUALITY PENTAGRAM - Single epic pentagram at top
+// Pentagram
 let pentagram = { 
     initialized: false,
     centerX: 0,
@@ -2061,7 +2015,7 @@ let pentagram = {
     bloodDrips: []
 };
 
-// Initialize the AAA pentagram
+// Initialize pentagram
 function initPentagram() {
     pentagram.centerX = GAME_WIDTH / 2;
     pentagram.centerY = 200;
@@ -2113,7 +2067,7 @@ function initPentagram() {
     pentagram.initialized = true;
 }
 
-// Draw the AAA quality pentagram - PURPLE THEMED matching aura
+// Draw pentagram
 function drawDemonicPentagram() {
     if (!pentagram.initialized) {
         initPentagram();
@@ -2140,7 +2094,7 @@ function drawDemonicPentagram() {
     ctx.save();
     ctx.translate(centerX, centerY);
     
-    // === LAYER 1: DEEP PURPLE ABYSS GLOW ===
+    // Abyss glow
     const abyssGlow = ctx.createRadialGradient(0, 0, 0, 0, 0, radius * 1.8);
     abyssGlow.addColorStop(0, `rgba(90, 40, 140, ${0.2 * slowPulse})`);
     abyssGlow.addColorStop(0.4, `rgba(60, 20, 100, ${0.12 * slowPulse})`);
@@ -2149,7 +2103,7 @@ function drawDemonicPentagram() {
     ctx.fillStyle = abyssGlow;
     ctx.fillRect(-radius * 2, -radius * 2, radius * 4, radius * 4);
     
-    // === LAYER 2: OUTER CIRCLE - DEEP PURPLE ===
+    // Outer circle
     ctx.shadowColor = '#6a2c91';
     ctx.shadowBlur = 25 * medPulse;
     ctx.strokeStyle = `rgba(120, 60, 180, ${0.4 * medPulse})`;
@@ -2158,7 +2112,7 @@ function drawDemonicPentagram() {
     ctx.arc(0, 0, radius * 1.05, 0, Math.PI * 2);
     ctx.stroke();
     
-    // === LAYER 3: MAIN CIRCLE - PURPLE ===
+    // Main circle
     ctx.shadowColor = '#9d4edd';
     ctx.shadowBlur = 20 * fastPulse;
     ctx.strokeStyle = `rgba(157, 78, 221, ${0.5 * fastPulse})`;
@@ -2167,7 +2121,7 @@ function drawDemonicPentagram() {
     ctx.arc(0, 0, radius, 0, Math.PI * 2);
     ctx.stroke();
     
-    // === LAYER 4: PENTAGRAM STAR ===
+    // Pentagram star
     const starOrder = [0, 2, 4, 1, 3, 0];
     
     // Outer purple glow
@@ -2194,7 +2148,7 @@ function drawDemonicPentagram() {
     }
     ctx.stroke();
     
-    // === LAYER 5: ENERGY PULSES along lines ===
+    // Energy pulses along lines
     for (const beam of energyBeams) {
         const p1 = points[beam.start];
         const p2 = points[beam.end];
@@ -2213,7 +2167,7 @@ function drawDemonicPentagram() {
         ctx.fill();
     }
     
-    // === LAYER 6: POINT MARKERS ===
+    // Point markers
     for (let i = 0; i < points.length; i++) {
         const point = points[i];
         const pointPulse = 0.6 + 0.4 * Math.sin(time * 2 + i * 1.2);
@@ -2236,7 +2190,7 @@ function drawDemonicPentagram() {
         ctx.fill();
     }
     
-    // === LAYER 7: CENTER GLOW for score ===
+    // Center glow for score
     const coreGlow = ctx.createRadialGradient(0, 0, 0, 0, 0, radius * 0.35);
     coreGlow.addColorStop(0, `rgba(120, 60, 180, ${0.3 * slowPulse})`);
     coreGlow.addColorStop(0.6, `rgba(80, 30, 120, ${0.15 * slowPulse})`);
@@ -2249,7 +2203,7 @@ function drawDemonicPentagram() {
     
     ctx.restore();
     
-    // === LAYER 8: RISING PARTICLES - PURPLE ===
+    // Rising particles
     ctx.save();
     for (const p of particles) {
         p.y += p.vy * 0.35;
@@ -2279,7 +2233,7 @@ function drawDemonicPentagram() {
     ctx.restore();
 }
 
-// BADASS DARK MODE AURA - Clean glowing effect around player (no circles/dots)
+// Dark mode aura around player
 function drawDarkModeAura() {
     ctx.save();
     
@@ -2291,7 +2245,7 @@ function drawDarkModeAura() {
     const pulse = 0.7 + 0.3 * Math.sin(time * 3);
     const fastPulse = 0.8 + 0.2 * Math.sin(time * 8);
     
-    // OUTER GLOW - Large soft purple halo
+    // Outer glow
     const outerGlow = ctx.createRadialGradient(
         centerX, centerY, 0,
         centerX, centerY, PLAYER_WIDTH * 2.2
@@ -2303,7 +2257,7 @@ function drawDarkModeAura() {
     ctx.fillStyle = outerGlow;
     ctx.fillRect(centerX - PLAYER_WIDTH * 2.5, centerY - PLAYER_HEIGHT * 2.5, PLAYER_WIDTH * 5, PLAYER_HEIGHT * 5);
     
-    // INNER CORE - Bright white/purple center
+    // Inner core
     const innerGlow = ctx.createRadialGradient(
         centerX, centerY, 0,
         centerX, centerY, PLAYER_WIDTH * 0.9
@@ -2463,7 +2417,7 @@ function render(deltaTime) {
         
         // Background for gameplay (dark mode or white)
         if (darkMode) {
-            // BADASS dark mode background - deep purple/black gradient
+            // Dark mode background
             const darkBgGradient = ctx.createRadialGradient(
                 GAME_WIDTH / 2, GAME_HEIGHT / 2, 0,
                 GAME_WIDTH / 2, GAME_HEIGHT / 2, GAME_HEIGHT
@@ -2603,15 +2557,13 @@ function render(deltaTime) {
     }
 }
 
-// ============================================
-// GAME LOOP
-// ============================================
+// --- game loop ---
 
-// Smoothing for delta time to prevent micro-jitter
+// Delta time smoothing
 let smoothedDeltaTime = TARGET_FRAME_TIME;
 const DELTA_SMOOTHING = 0.85; // Balanced smoothing
 
-// Frame time history for better smoothing
+// Frame time history
 let frameTimeHistory = [];
 const FRAME_HISTORY_SIZE = 5;
 
@@ -2626,8 +2578,7 @@ function gameLoop(currentTime) {
     let rawDeltaTime = currentTime - lastTime;
     lastTime = currentTime;
     
-    // Cap delta time to prevent physics explosions after tab switch/PWA resume
-    // More aggressive capping for smoother experience
+    // Cap delta time
     if (rawDeltaTime > 100) rawDeltaTime = TARGET_FRAME_TIME;
     if (rawDeltaTime < 1) rawDeltaTime = TARGET_FRAME_TIME;
     if (rawDeltaTime > 50) rawDeltaTime = 50; // Extra cap for laggy frames
@@ -2665,9 +2616,7 @@ function startGameLoop() {
     }
 }
 
-// ============================================
-// INITIALIZATION
-// ============================================
+// --- initialization ---
 
 // Loading screen progress
 let loadingProgress = 0;
@@ -2898,9 +2847,7 @@ function toggleSound() {
     }
 }
 
-// ============================================
-// WALLET & BLOCKCHAIN FUNCTIONS
-// ============================================
+// --- wallet & blockchain functions ---
 
 // Detect if on mobile device
 function isMobileDevice() {

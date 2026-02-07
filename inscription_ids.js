@@ -1,7 +1,5 @@
-// This file is auto-generated from inscription ids.csv
-// Maps piece index (1-based) to inscriptionId
 const INSCRIPTION_IDS = [
-  null, // index 0 is unused for convenience
+  null,
   "8b6303cc8139819825820ca34414544d75b6a78eda138606415999b771239325i0",
   "547421aaf67a99c82202307cd0542c7945c9c7292739d575402ca8d4509a7549i0",
   "28c0b2f4e9435ca8b1a2c5ea1487c6d39f743e60e870952152bbb3667aaeac53i0",

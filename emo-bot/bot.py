@@ -18,9 +18,13 @@ from datetime import datetime
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, InputFile, WebAppInfo, BotCommand
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 
-# ============== CONFIGURATION ==============
-BOT_TOKEN = os.getenv("BOT_TOKEN", "REDACTED_TELEGRAM_TOKEN")
-ALERT_CHAT_ID = os.getenv("ALERT_CHAT_ID", "YOUR_CHAT_ID_HERE")  # Channel/group for alerts
+# --- config ---
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+if not BOT_TOKEN:
+    raise ValueError("Set BOT_TOKEN environment variable (get from @BotFather)")
+ALERT_CHAT_ID = os.getenv("ALERT_CHAT_ID")
+if not ALERT_CHAT_ID:
+    raise ValueError("Set ALERT_CHAT_ID environment variable")
 
 # $EMO Token Config
 TOKEN_ADDRESS = "0x81A224F8A62f52BdE942dBF23A56df77A10b7777"
@@ -74,7 +78,7 @@ def get_all_memes():
         memes.extend(glob.glob(str(MEMES_DIR / ext)))
     return memes
 
-# ============== HELPER FUNCTIONS ==============
+# --- helpers ---
 
 async def fetch_price_data():
     """Fetch token data from DEXScreener API"""
@@ -100,7 +104,7 @@ def format_number(num):
     else:
         return f"${num:.2f}"
 
-# ============== DATA MANAGEMENT ==============
+# --- data ---
 
 def load_json(filepath):
     """Load JSON data from file"""
@@ -117,7 +121,7 @@ def save_json(filepath, data):
     with open(filepath, 'w') as f:
         json.dump(data, f, indent=2)
 
-# ============== WALLET TRANSACTION CACHE ==============
+# --- wallet tx cache ---
 
 class WalletTxnCache:
     """Cache for wallet transactions - scans blockchain and stores results"""
@@ -497,7 +501,7 @@ async def get_holder_rank(wallet: str) -> int:
     except:
         return 0
 
-# ============== COMMAND HANDLERS ==============
+# --- commands ---
 
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Welcome message with emonad.jpg image"""
@@ -753,7 +757,7 @@ async def meme_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=reply_markup
         )
 
-# ============== NEW COMMAND HANDLERS ==============
+# --- more commands ---
 
 async def fetch_holder_data():
     """Fetch holder data using DEXScreener + batch RPC queries (100 block limit)"""
@@ -1187,7 +1191,7 @@ async def untrack_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text("❌ Wallet not found. Use `/tracked` to see your list.", parse_mode="Markdown")
 
-# ============== HELP COMMAND ==============
+# --- help ---
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Show all available commands"""
@@ -1245,7 +1249,7 @@ _i lost it all on day 1_"""
     
     await update.message.reply_text(help_text, parse_mode="Markdown", reply_markup=reply_markup)
 
-# ============== BUY BOT COMMANDS ==============
+# --- buy bot ---
 
 async def boton_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Enable buy bot for this chat (admin only)"""
@@ -1666,7 +1670,7 @@ async def setthreshold_command(update: Update, context: ContextTypes.DEFAULT_TYP
     
     await update.message.reply_text(msg, parse_mode="Markdown")
 
-# ============== BIG BUY ALERTS ==============
+# --- buy alerts ---
 
 class AlertMonitor:
     """Background monitor for price alerts and real-time buys via WebSocket"""
@@ -2195,7 +2199,7 @@ async def start_background_tasks(app: Application):
     monitor = AlertMonitor(app)
     asyncio.create_task(monitor.start_monitoring())
 
-# ============== MAIN ==============
+# --- main ---
 
 def main():
     """Start the bot"""

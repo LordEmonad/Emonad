@@ -82,7 +82,7 @@ class ChiptunePlayer {
         return this.isMuted;
     }
 
-    // ========== CORE NOTE PLAYING ==========
+    // --- core note playing ---
     
     note(name, octave = 4) {
         const notes = {
@@ -326,7 +326,7 @@ class ChiptunePlayer {
         osc.stop(startTime + 0.2);
     }
 
-    // ========== TRACK 1: "NEON FUNERAL" - Metal/Emo at 110 BPM ==========
+    // --- track 1: neon funeral (110 bpm) ---
     // Think: My Chemical Romance meets 8-bit
     // A minor - emotional but driving
     playTrack1() {
@@ -436,7 +436,7 @@ class ChiptunePlayer {
         }, loopTime - 100);
     }
 
-    // ========== TRACK 2: "DIGITAL HEARTBREAK" - Slower emo ballad 95 BPM ==========
+    // --- track 2: digital heartbreak (95 bpm) ---
     playTrack2() {
         if (!this.audioContext || !this.isPlaying) return;
         
@@ -516,7 +516,7 @@ class ChiptunePlayer {
         }, loopTime - 100);
     }
 
-    // ========== TRACK 3: "BROKEN STATIC" - Faster punk/metal 125 BPM ==========
+    // --- track 3: broken static (125 bpm) ---
     playTrack3() {
         if (!this.audioContext || !this.isPlaying) return;
         
@@ -605,7 +605,7 @@ class ChiptunePlayer {
         }, loopTime - 100);
     }
 
-    // ========== GAME OVER TRACK - Heavy and dark ==========
+    // --- game over track ---
     playGameOverTrack() {
         if (!this.audioContext || !this.isPlaying) return;
         
@@ -688,7 +688,7 @@ class ChiptunePlayer {
         }, loopTime - 100);
     }
 
-    // ========== PLAYBACK CONTROL ==========
+    // --- playback control ---
     
     // Kill ALL audio immediately by disconnecting musicGain and recreating it
     stop() {
@@ -794,7 +794,7 @@ class ChiptunePlayer {
         this.stop();
     }
 
-    // ========== SOUND EFFECTS ==========
+    // --- sfx ---
     
     playFlap() {
         this.init();

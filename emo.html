@@ -10,41 +10,38 @@
   <link rel="apple-touch-icon" href="token image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-color: #ffffff;
-      --text-color: #333333;
+      --text-color: #1a1a1a;
       --text-secondary: #666666;
-      --accent-color: #7B3FE4;
-      --accent-light: #8D5AEC;
-      --accent-dark: #5D2BB8;
-      --button-bg: var(--accent-color);
-      --button-hover: var(--accent-light);
-      --button-text: #ffffff;
-      --card-bg: #ffffff;
-      --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      --contract-bg: #f8f0ff;
-      --contract-border: #e9d5ff;
+      --accent: #7B3FE4;
+      --accent-hover: #6930c3;
+      --accent-glow: rgba(123, 63, 228, 0.25);
+      --surface: #f5f3ff;
+      --surface-border: #e4d8f8;
+      --ticker-bg: rgba(255, 255, 255, 0.92);
+      --ticker-border: #e9e0f5;
     }
 
     [data-theme="dark"] {
       --bg-color: #0a0a0a;
       --text-color: #ffffff;
-      --text-secondary: #a0a0a0;
-      --accent-color: #9B5FFF;
-      --accent-light: #B080FF;
-      --accent-dark: #7B3FE4;
-      --card-bg: #1a1a1a;
-      --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-      --contract-bg: #1a1a2e;
-      --contract-border: #3d3d5c;
+      --text-secondary: #888888;
+      --accent: #9B5FFF;
+      --accent-hover: #b080ff;
+      --accent-glow: rgba(155, 95, 255, 0.3);
+      --surface: rgba(255, 255, 255, 0.06);
+      --surface-border: rgba(255, 255, 255, 0.1);
+      --ticker-bg: rgba(15, 15, 15, 0.92);
+      --ticker-border: rgba(255, 255, 255, 0.08);
     }
-    
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    
+
     body {
-      background-color: var(--bg-color);
+      background: radial-gradient(ellipse at 50% 0%, var(--accent-glow) 0%, transparent 55%), var(--bg-color);
       color: var(--text-color);
       font-family: 'Space Grotesk', sans-serif;
       min-height: 100vh;
@@ -53,363 +50,210 @@
       overflow-x: hidden;
     }
 
-    /* Scrolling GIF Background */
-    .gif-background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      display: flex;
-      gap: 10px;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .gif-column {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex: 1;
-      min-width: 100px;
-    }
-
-    .gif-column:nth-child(odd) {
-      animation: scrollUp 50s linear infinite;
-    }
-
-    .gif-column:nth-child(even) {
-      animation: scrollDown 50s linear infinite;
-    }
-
-    /* Mobile GIF background adjustments */
-    @media (max-width: 768px) {
-      .gif-background {
-        gap: 6px;
-      }
-      
-      .gif-column {
-        min-width: 80px;
-        gap: 6px;
-      }
-      
-      .gif-column:nth-child(odd) {
-        animation: scrollUp 40s linear infinite;
-      }
-
-      .gif-column:nth-child(even) {
-        animation: scrollDown 40s linear infinite;
-      }
-      
-      .gif-column img {
-        border-radius: 6px;
-      }
-      
-      .gif-overlay {
-        background: rgba(10, 10, 10, 0.55);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .gif-column {
-        min-width: 70px;
-        gap: 5px;
-      }
-      
-      .gif-background {
-        gap: 5px;
-      }
-      
-      .gif-column img {
-        border-radius: 4px;
-        opacity: 0.5;
-      }
-      
-      .gif-overlay {
-        background: rgba(10, 10, 10, 0.6);
-      }
-    }
-
-    @keyframes scrollUp {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-50%); }
-    }
-
-    @keyframes scrollDown {
-      0% { transform: translateY(-50%); }
-      100% { transform: translateY(0); }
-    }
-
-    .gif-column img {
-      width: 100%;
-      border-radius: 8px;
-      opacity: 0.6;
-      filter: brightness(0.5) saturate(0.8);
-    }
-
-    /* Glass overlay on top of GIF background */
-    .gif-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      background: rgba(10, 10, 10, 0.5);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      pointer-events: none;
-    }
-
-    [data-theme="light"] .gif-overlay {
-      background: rgba(255, 255, 255, 0.8);
-    }
-
-    [data-theme="light"] .gif-column img {
-      filter: brightness(0.5) saturate(0.5);
-    }
-
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-      text-align: center;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      z-index: 1;
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* Desktop three-column layout */
-    @media (min-width: 1400px) {
-      .container {
-        max-width: 100%;
-        width: 100%;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        gap: 40px;
-        padding: 60px 40px 20px;
-        min-height: calc(100vh - 60px);
-      }
-      
-      .sidebar-left,
-      .sidebar-right {
-        position: sticky;
-        top: 60px;
-        width: 320px;
-        flex-shrink: 0;
-      }
-      
-      .main-content {
-        flex: 0 0 auto;
-        width: 500px;
-        max-width: 500px;
-      }
-      
-      .twitter-section,
-      .stats-section {
-        margin-top: 0 !important;
-      }
-    }
-    
-    .sidebar-left,
-    .sidebar-right {
-      display: none;
-    }
-    
-    @media (min-width: 1400px) {
-      .sidebar-left,
-      .sidebar-right {
-        display: block;
-      }
-    }
-
-    .header-image-wrapper {
-      position: relative;
-      margin: 0 auto 20px;
-    }
-
-    .header-image {
-      width: 80%;
-      max-width: 500px;
-      margin: 0 auto;
-      display: block;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Price Ticker */
+    /* ── Price Ticker ── */
     .price-ticker {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      background: var(--card-bg);
-      border-bottom: 1px solid var(--contract-border);
-      padding: 10px 20px;
+      background: var(--ticker-bg);
+      border-bottom: 1px solid var(--ticker-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 0 24px;
+      height: 44px;
       display: flex;
-      justify-content: center;
       align-items: center;
-      gap: 15px;
-      font-size: 14px;
+      gap: 16px;
+      font-size: 13px;
       font-weight: 600;
       z-index: 100;
-      backdrop-filter: blur(10px);
+      overflow-x: auto;
+      scrollbar-width: none;
     }
 
-    .price-ticker .token-name {
-      color: var(--accent-color);
+    .price-ticker::-webkit-scrollbar { display: none; }
+
+    .ticker-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
-    .price-ticker .price {
+    .ticker-label {
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .ticker-value {
       color: var(--text-color);
-      font-size: 16px;
+      font-weight: 700;
     }
 
-    .price-ticker .change {
-      padding: 4px 10px;
+    .ticker-name {
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    .ticker-divider {
+      width: 1px;
+      height: 18px;
+      background: var(--surface-border);
+      flex-shrink: 0;
+    }
+
+    .change-badge {
+      padding: 2px 8px;
       border-radius: 20px;
-      font-size: 13px;
+      font-size: 12px;
+      font-weight: 700;
     }
 
-    .price-ticker .change.positive {
-      background: rgba(34, 197, 94, 0.15);
+    .change-badge.positive {
+      background: rgba(34, 197, 94, 0.12);
       color: #22c55e;
     }
 
-    .price-ticker .change.negative {
-      background: rgba(239, 68, 68, 0.15);
+    .change-badge.negative {
+      background: rgba(239, 68, 68, 0.12);
       color: #ef4444;
     }
 
-    .price-ticker .mcap {
-      color: var(--text-secondary);
-      font-size: 13px;
-      font-weight: 500;
-    }
+    .ticker-spacer { flex: 1; }
 
-    /* Dark Mode Toggle - in header */
-    .theme-toggle-header {
-      width: 36px;
-      height: 36px;
+    /* ── Theme Toggle ── */
+    .theme-toggle {
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      border: 1px solid var(--accent-color);
-      background: rgba(123, 63, 228, 0.2);
+      border: 1px solid var(--surface-border);
+      background: var(--surface);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
-      transition: all 0.3s ease;
-      margin-left: 10px;
+      font-size: 15px;
+      transition: all 0.25s ease;
+      flex-shrink: 0;
       position: relative;
     }
 
-    .theme-toggle-header:hover {
-      transform: scale(1.1);
-      background: rgba(123, 63, 228, 0.4);
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
     }
 
-    .theme-toggle-header .icon-sun,
-    .theme-toggle-header .icon-moon {
+    .theme-toggle .icon-sun,
+    .theme-toggle .icon-moon {
       position: absolute;
       transition: all 0.3s ease;
     }
 
-    .theme-toggle-header .icon-sun {
-      opacity: 0;
-      transform: rotate(-90deg);
-    }
+    .theme-toggle .icon-sun { opacity: 0; transform: rotate(-90deg); }
+    .theme-toggle .icon-moon { opacity: 1; transform: rotate(0deg); }
+    [data-theme="dark"] .theme-toggle .icon-sun { opacity: 1; transform: rotate(0deg); }
+    [data-theme="dark"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(90deg); }
 
-    .theme-toggle-header .icon-moon {
-      opacity: 1;
-      transform: rotate(0deg);
-    }
-
-    [data-theme="dark"] .theme-toggle-header .icon-sun {
-      opacity: 1;
-      transform: rotate(0deg);
-    }
-
-    [data-theme="dark"] .theme-toggle-header .icon-moon {
-      opacity: 0;
-      transform: rotate(90deg);
-    }
-
-    .button-group {
+    /* ── Main Layout ── */
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 64px 20px 40px;
+      text-align: center;
+      min-height: 100vh;
       display: flex;
-      gap: 15px;
-      justify-content: center;
-      margin: 20px 0;
-      flex-wrap: wrap;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
     }
 
-    .button {
-      background: var(--button-bg);
-      color: var(--button-text);
+    .header-image {
+      width: 70%;
+      max-width: 360px;
+      margin: 0 auto 24px;
+      display: block;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .title {
+      font-size: 2.4rem;
+      font-weight: 800;
+      margin: 0 0 4px;
+      color: var(--text-color);
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      margin-bottom: 28px;
+    }
+
+    /* ── Buttons ── */
+    .button-grid {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      max-width: 520px;
+    }
+
+    .btn {
+      background: var(--accent);
+      color: #ffffff;
       border: none;
-      padding: 12px 25px;
-      border-radius: 30px;
+      padding: 11px 22px;
+      border-radius: 999px;
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 600;
-      font-size: 16px;
+      font-size: 14px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
       text-decoration: none;
       text-align: center;
-      box-shadow: 0 4px 12px rgba(123, 63, 228, 0.3);
-      min-width: 140px;
       white-space: nowrap;
-    }
-
-    .button:hover {
-      background: var(--accent-light);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(138, 43, 226, 0.4);
-    }
-    
-    /* Kuru Button */
-    .button.kuru {
-      background: #a3e635;
-      box-shadow: 0 4px 12px rgba(163, 230, 53, 0.4);
-      color: #333;
-    }
-    
-    .button.kuru:hover {
-      background: #b3f043;
-      box-shadow: 0 6px 16px rgba(163, 230, 53, 0.5);
-    }
-
-    /* OpenSea Button */
-    .button.opensea-btn {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 6px;
     }
-    
-    .opensea-text {
-      color: white;
-      font-family: 'Poppins', sans-serif;
-      font-weight: 600;
+
+    .btn:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--accent-glow);
     }
 
-    /* Liquidity Dropdown */
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn.btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--surface-border);
+      color: var(--text-color);
+    }
+
+    .btn.btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-glow);
+      box-shadow: none;
+    }
+
+    /* ── Liquidity Dropdown ── */
     .liquidity-dropdown {
       position: relative;
       display: inline-block;
-    }
-
-    .liquidity-dropdown .button {
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
     }
 
     .liquidity-menu {
@@ -418,214 +262,95 @@
       top: 100%;
       left: 50%;
       transform: translateX(-50%);
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 8px;
+      background: var(--bg-color);
+      border-radius: 14px;
+      padding: 6px;
       margin-top: 8px;
       min-width: 160px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-      border: 1px solid var(--contract-border);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--surface-border);
       z-index: 100;
     }
 
     .liquidity-dropdown.active .liquidity-menu {
       display: block;
-      animation: fadeIn 0.2s ease;
+      animation: dropIn 0.2s ease;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    @keyframes dropIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
       to { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
 
     .liquidity-menu a {
-      display: block;
-      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      padding: 10px 14px;
       color: var(--text-color);
       text-decoration: none;
       border-radius: 10px;
       font-weight: 500;
       font-size: 14px;
-      transition: background 0.2s;
+      transition: background 0.15s;
     }
 
     .liquidity-menu a:hover {
-      background: var(--accent-color);
+      background: var(--accent);
       color: white;
     }
 
-    .liquidity-menu a:first-child {
-      margin-bottom: 4px;
-    }
-
-    /* Twitter Feed Section - Follows theme */
-    .twitter-section {
-      margin-top: 40px;
-      padding: 25px;
-      background: var(--card-bg);
-      border-radius: 20px;
-      border: 1px solid var(--contract-border);
-      box-shadow: var(--card-shadow);
-      min-height: 450px;
-      height: 450px;
-      overflow: hidden;
-    }
-
-    .twitter-header {
-      color: var(--text-color);
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid var(--contract-border);
-    }
-
-    .twitter-header .x-icon {
-      width: 24px;
-      height: 24px;
-      background: var(--text-color);
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--card-bg);
-    }
-    
-    /* Token Stats Section - Follows theme */
-    .stats-section {
-      margin-top: 40px;
-      padding: 25px;
-      background: var(--card-bg);
-      border-radius: 20px;
-      border: 1px solid var(--contract-border);
-      box-shadow: var(--card-shadow);
-      min-height: 450px;
-      height: 450px;
-      overflow: hidden;
-    }
-
-    .stats-header {
-      color: var(--text-color);
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid var(--contract-border);
-    }
-
-    .stats-header .stats-icon {
-      font-size: 20px;
-    }
-
-    .stat-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--contract-border);
-    }
-
-    .stat-item:last-child {
-      border-bottom: none;
-    }
-
-    .stat-label {
-      color: var(--text-secondary);
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .stat-value {
-      color: var(--text-color);
-      font-size: 16px;
-      font-weight: 700;
-    }
-
-    .stat-value.positive {
-      color: #22c55e;
-    }
-
-    .stat-value.negative {
-      color: #ef4444;
-    }
-
-    .stat-value.loading {
-      color: var(--text-secondary);
-      font-style: italic;
-    }
-
-    .twitter-feed-container {
-      height: 360px;
-      max-height: 360px;
-      overflow-y: auto;
-      overflow-x: hidden;
-      border-radius: 12px;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-
-    .twitter-feed-container::-webkit-scrollbar {
-      display: none;
-    }
-    
-
-
+    /* ── Contract Address ── */
     .contract-address {
-      background: var(--contract-bg);
-      color: var(--accent-dark);
-      padding: 10px 15px;
-      border-radius: 30px;
-      margin: 15px auto 0;
-      max-width: 90%;
+      background: var(--surface);
+      color: var(--text-secondary);
+      padding: 10px 18px;
+      border-radius: 999px;
+      margin: 0 auto;
       text-align: center;
       cursor: pointer;
-      border: 2px solid var(--contract-border);
+      border: 1px solid var(--surface-border);
       font-size: 12px;
       font-weight: 500;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       font-family: 'Space Grotesk', monospace;
-      white-space: nowrap;
-      overflow: visible;
-      text-overflow: ellipsis;
       display: inline-block;
-      letter-spacing: -0.3px;
+      letter-spacing: -0.2px;
       position: relative;
+      transition: all 0.25s ease;
+      max-width: 95%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .contract-address:hover {
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
     .contract-address.copied::after {
-      content: '✓ Copied!';
+      content: 'Copied!';
       position: absolute;
-      top: -40px;
+      top: -36px;
       left: 50%;
       transform: translateX(-50%);
-      background: linear-gradient(135deg, var(--accent-color), var(--accent-dark));
+      background: var(--accent);
       color: white;
-      padding: 8px 16px;
+      padding: 6px 14px;
       border-radius: 20px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
-      box-shadow: 0 4px 15px rgba(123, 63, 228, 0.4);
-      animation: fadeInOut 2s ease;
+      box-shadow: 0 4px 15px var(--accent-glow);
+      animation: fadeInOut 1.8s ease;
     }
 
     @keyframes fadeInOut {
       0% { opacity: 0; }
-      20% { opacity: 1; }
-      80% { opacity: 1; }
+      15% { opacity: 1; }
+      75% { opacity: 1; }
       100% { opacity: 0; }
     }
 
-    /* Chart Modal */
+    /* ── Chart Modal ── */
     .chart-modal {
       display: none;
       position: fixed;
@@ -633,26 +358,26 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
       z-index: 1000;
       justify-content: center;
       align-items: center;
       padding: 20px;
     }
 
-    .chart-modal.active {
-      display: flex;
-    }
+    .chart-modal.active { display: flex; }
 
     .chart-container {
       width: 95%;
       max-width: 1200px;
       height: 80vh;
-      background: #1a1a1a;
-      border-radius: 16px;
+      background: #111;
+      border-radius: 20px;
       overflow: hidden;
       position: relative;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .chart-container iframe {
@@ -663,570 +388,200 @@
 
     .chart-close {
       position: absolute;
-      top: 15px;
-      right: 20px;
+      top: 14px;
+      right: 14px;
       color: white;
-      font-size: 36px;
+      font-size: 28px;
       cursor: pointer;
       z-index: 1001;
-      transition: transform 0.2s;
-      background: rgba(0,0,0,0.5);
-      width: 45px;
-      height: 45px;
+      transition: all 0.2s;
+      background: rgba(255, 255, 255, 0.1);
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       line-height: 1;
+      border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
     .chart-close:hover {
+      background: rgba(255, 255, 255, 0.2);
       transform: scale(1.1);
-      background: rgba(0,0,0,0.8);
     }
 
-    /* Audio Player - in header bar */
-    .audio-player {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: transparent;
-      padding: 0;
-      margin: 0;
-      margin-left: auto;
-    }
-
-
-    .audio-player .player-btn {
-      background: rgba(123, 63, 228, 0.3);
-      border: 1px solid var(--accent-color);
-      color: var(--accent-color);
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      transition: all 0.25s ease;
-      position: relative;
-      z-index: 1;
-    }
-
-    .audio-player .player-btn:hover {
-      background: rgba(255,255,255,0.25);
-      transform: scale(1.15);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-
-    .audio-player .player-btn:active {
-      transform: scale(0.95);
-    }
-
-    .audio-player .player-btn.download-btn {
-      text-decoration: none;
-    }
-
-    .audio-player .player-btn.play-btn {
-      width: 36px;
-      height: 36px;
-      background: var(--accent-color);
-      color: white;
-      font-size: 16px;
-      border: none;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-
-    .audio-player .player-btn.play-btn:hover {
-      background: linear-gradient(135deg, #ffffff, #e8e8e8);
-      transform: scale(1.1);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-    }
-
-    .audio-player .volume-control {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .audio-player .volume-slider {
-      width: 70px;
-      height: 5px;
-      -webkit-appearance: none;
-      appearance: none;
-      background: rgba(255,255,255,0.25);
-      border-radius: 3px;
-      cursor: pointer;
-      position: relative;
-      z-index: 1;
-    }
-
-    .audio-player .volume-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 16px;
-      height: 16px;
-      background: linear-gradient(135deg, #ffffff, #e0e0e0);
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-      transition: transform 0.2s;
-    }
-
-    .audio-player .volume-slider::-webkit-slider-thumb:hover {
-      transform: scale(1.2);
-    }
-
-    .audio-player .volume-slider::-moz-range-thumb {
-      width: 16px;
-      height: 16px;
-      background: linear-gradient(135deg, #ffffff, #e0e0e0);
-      border-radius: 50%;
-      cursor: pointer;
-      border: none;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    }
-
-    .audio-player .track-info {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 2px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .audio-player .track-name {
-      color: white;
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-
-    .audio-player .track-artist {
-      color: rgba(255,255,255,0.7);
-      font-size: 11px;
-      font-weight: 500;
-    }
-
-    .audio-player .visualizer {
-      display: flex;
-      align-items: center;
-      gap: 3px;
-      height: 20px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .audio-player .visualizer .bar {
-      width: 3px;
-      background: rgba(255,255,255,0.8);
-      border-radius: 2px;
-      height: 8px;
-      transition: height 0.1s;
-    }
-
-    .audio-player.playing .visualizer .bar {
-      animation: visualizer 0.5s ease-in-out infinite alternate;
-    }
-
-    .audio-player .visualizer .bar:nth-child(1) { animation-delay: 0s; }
-    .audio-player .visualizer .bar:nth-child(2) { animation-delay: 0.1s; }
-    .audio-player .visualizer .bar:nth-child(3) { animation-delay: 0.2s; }
-    .audio-player .visualizer .bar:nth-child(4) { animation-delay: 0.15s; }
-    .audio-player .visualizer .bar:nth-child(5) { animation-delay: 0.05s; }
-
-    @keyframes visualizer {
-      0% { height: 8px; }
-      100% { height: 20px; }
-    }
-
-    @media (max-width: 768px) {
-      .button { 
-        padding: 10px 12px; 
-        font-size: 13px; 
-        min-width: 90px;
-      }
-      .contract-address {
-        font-size: 11px;
-        padding: 8px 12px;
-        max-width: 85%;
-      }
-      .button-group {
-        gap: 8px;
-        flex-wrap: wrap;
-        padding: 0 10px;
-      }
-      .chart-container {
-        width: 100%;
-        height: 70vh;
-        border-radius: 12px;
-      }
-      .chart-close {
-        top: 10px;
-        right: 10px;
-        font-size: 28px;
-        width: 38px;
-        height: 38px;
-      }
-      .audio-player {
-        padding: 10px 18px;
-        gap: 10px;
-      }
-      .audio-player .player-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 12px;
-      }
-      .audio-player .player-btn.play-btn {
-        width: 42px;
-        height: 42px;
-        font-size: 18px;
-      }
-      .audio-player .volume-slider {
-        width: 50px;
-      }
-      .audio-player .track-info {
-        display: none;
-      }
-      .audio-player .visualizer {
-        display: none;
-      }
-      .audio-player .volume-control {
-        display: none;
-      }
-      .theme-toggle {
-        width: 42px;
-        height: 42px;
-        top: 50px;
-        right: 15px;
-        font-size: 20px;
-      }
-      .price-ticker {
-        padding: 8px 10px;
-        gap: 4px;
-        font-size: 12px;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-      }
-      .price-ticker .token-name {
-        font-size: 12px;
-        font-weight: 700;
-      }
-      .price-ticker .price {
-        font-size: 13px;
-        font-weight: 600;
-      }
-      .price-ticker .mcap {
-        display: none;
-      }
-      .price-ticker .change {
-        padding: 2px 6px;
-        font-size: 10px;
-      }
-      .price-ticker .audio-player {
-        display: flex;
-        gap: 1px;
-        margin-left: auto;
-      }
-      .price-ticker .audio-player .player-btn {
-        width: 34px;
-        height: 34px;
-        font-size: 14px;
-        min-width: 34px;
-        flex-shrink: 0;
-      }
-      .price-ticker .audio-player .player-btn.play-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 15px;
-        min-width: 36px;
-      }
-      .price-ticker .audio-player #muteBtn {
-        display: none;
-      }
-      .price-ticker .theme-toggle-header {
-        width: 34px;
-        height: 34px;
-        font-size: 17px;
-        margin-left: 1px;
-        min-width: 34px;
-        flex-shrink: 0;
-      }
-      .container {
-        padding-top: 60px;
-        min-height: calc(100vh - 60px);
-        justify-content: flex-start;
-        padding-bottom: 10px;
-      }
-      .header-image-wrapper {
-        margin-top: 10px;
-      }
-      .header-image {
-        width: 60%;
-        max-width: 220px;
-        margin-bottom: 15px;
-      }
-      .opensea-btn svg {
-        width: 14px;
-        height: 14px;
-      }
-      .opensea-text {
-        font-size: 13px;
-      }
-      .main-content h1 {
-        font-size: 2.2rem !important;
-        margin: 8px 0 !important;
-      }
-      .main-content p {
-        font-size: 1.1rem !important;
-        margin-bottom: 20px !important;
-      }
-      .button-group {
-        gap: 8px;
-        margin: 15px 0;
-      }
-      .button {
-        padding: 10px 16px;
-        font-size: 13px;
-        min-width: 80px;
-      }
-      .contract-address {
-        font-size: 8px;
-        padding: 6px 10px;
-        max-width: 98%;
-        word-break: break-all;
-        margin-top: 15px;
-        white-space: normal;
-        line-height: 1.4;
-      }
-      .twitter-section {
-        display: none;
-      }
-      .stats-section {
-        display: none;
-      }
-    }
-
-    @media (max-width: 380px) {
-      .price-ticker {
-        gap: 3px;
-        font-size: 10px;
-        padding: 6px 6px;
-        flex-wrap: nowrap;
-      }
-      .price-ticker .token-name {
-        font-size: 10px;
-        font-weight: 700;
-      }
-      .price-ticker .price {
-        font-size: 11px;
-      }
-      .price-ticker .change {
-        padding: 2px 4px;
-        font-size: 8px;
-      }
-      .price-ticker .audio-player {
-        gap: 1px;
-      }
-      .price-ticker .audio-player .player-btn {
-        width: 30px;
-        height: 30px;
-        font-size: 12px;
-        min-width: 30px;
-      }
-      .price-ticker .audio-player .player-btn.play-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 13px;
-        min-width: 32px;
-      }
-      .price-ticker .theme-toggle-header {
-        width: 30px;
-        height: 30px;
-        font-size: 15px;
-        min-width: 30px;
-      }
-      .header-image {
-        width: 55%;
-        max-width: 180px;
-      }
-      .opensea-btn svg {
-        width: 12px;
-        height: 12px;
-      }
-      .opensea-text {
-        font-size: 10px;
-      }
-      .main-content h1 {
-        font-size: 1.6rem !important;
-      }
-      .main-content p {
-        font-size: 0.9rem !important;
-      }
-      .button {
-        padding: 7px 10px;
-        font-size: 10px;
-        min-width: 60px;
-      }
-      .contract-address {
-        font-size: 7px;
-        padding: 5px 6px;
-        white-space: normal;
-        line-height: 1.3;
-      }
-    }
-    
-    /* Mouse Glow Background */
+    /* ── Mouse Glow ── */
     .mouse-glow {
       position: fixed;
       top: 0;
       left: 0;
-      width: 600px;
-      height: 600px;
+      width: 500px;
+      height: 500px;
       pointer-events: none;
       z-index: 9998;
-      background: radial-gradient(circle, rgba(155, 95, 255, 0.12) 0%, rgba(155, 95, 255, 0.04) 30%, transparent 70%);
+      background: radial-gradient(circle, rgba(155, 95, 255, 0.1) 0%, rgba(155, 95, 255, 0.03) 35%, transparent 70%);
       transform: translate(-50%, -50%);
       transition: opacity 0.3s ease;
       opacity: 0;
       will-change: left, top;
       mix-blend-mode: screen;
     }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .price-ticker {
+        height: 38px;
+        padding: 0 12px;
+        gap: 10px;
+        font-size: 11px;
+      }
+
+      .ticker-label { display: none; }
+
+      .ticker-item.hide-mobile { display: none; }
+
+      .ticker-name { font-size: 12px; }
+
+      .ticker-value { font-size: 12px; }
+
+      .change-badge { font-size: 10px; padding: 2px 6px; }
+
+      .theme-toggle { width: 30px; height: 30px; font-size: 14px; }
+
+      .container {
+        padding: 54px 16px 30px;
+        justify-content: flex-start;
+      }
+
+      .header-image {
+        width: 55%;
+        max-width: 200px;
+        margin-bottom: 16px;
+      }
+
+      .title { font-size: 1.8rem; }
+      .subtitle { font-size: 0.95rem; margin-bottom: 20px; }
+
+      .button-grid { gap: 8px; }
+
+      .btn {
+        padding: 9px 16px;
+        font-size: 12px;
+      }
+
+      .contract-address {
+        font-size: 9px;
+        padding: 8px 12px;
+        white-space: normal;
+        word-break: break-all;
+        line-height: 1.4;
+        max-width: 100%;
+      }
+
+      .chart-container {
+        width: 100%;
+        height: 70vh;
+        border-radius: 14px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .price-ticker {
+        height: 34px;
+        gap: 6px;
+        padding: 0 8px;
+      }
+
+      .ticker-name { font-size: 11px; }
+      .ticker-value { font-size: 11px; }
+      .change-badge { font-size: 9px; padding: 1px 5px; }
+
+      .title { font-size: 1.5rem; }
+      .subtitle { font-size: 0.85rem; }
+
+      .btn {
+        padding: 7px 12px;
+        font-size: 11px;
+      }
+
+      .contract-address {
+        font-size: 7.5px;
+        padding: 6px 8px;
+      }
+
+      .header-image {
+        width: 50%;
+        max-width: 160px;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- Scrolling GIF Background -->
-  <div class="gif-background" id="gifBackground"></div>
-  <div class="gif-overlay"></div>
 
-  <!-- Price Ticker with Audio Player and Theme Toggle -->
+  <!-- Price Ticker -->
   <div class="price-ticker" id="priceTicker">
-    <span class="token-name">$EMO</span>
-    <span class="price" id="tokenPrice">Loading...</span>
-    <span class="change" id="priceChange">--</span>
-    <span class="mcap" id="marketCap"></span>
-    
-    <!-- Audio Player in Header -->
-    <div class="audio-player" id="audioPlayer">
-      <button class="player-btn" id="prevBtn">⏮</button>
-      <button class="player-btn play-btn" id="playBtn">▶</button>
-      <button class="player-btn" id="nextBtn">⏭</button>
-      <button class="player-btn" id="muteBtn">🔊</button>
-      <a href="emonad.mp3" download="Emonad.mp3" class="player-btn download-btn" title="Download">↓</a>
+    <span class="ticker-name">$EMO</span>
+    <div class="ticker-divider"></div>
+    <div class="ticker-item">
+      <span class="ticker-value" id="tokenPrice">--</span>
     </div>
-    
-    <!-- Dark Mode Toggle in Header -->
-    <button class="theme-toggle-header" id="themeToggle" title="Toggle dark mode">
-      <span class="icon-sun">◐</span>
-      <span class="icon-moon">◑</span>
+    <div class="ticker-item">
+      <span class="change-badge" id="priceChange">--</span>
+    </div>
+    <div class="ticker-item">
+      <span class="ticker-label">MC</span>
+      <span class="ticker-value" id="marketCap">--</span>
+    </div>
+    <div class="ticker-item hide-mobile">
+      <span class="ticker-label">Vol</span>
+      <span class="ticker-value" id="tickerVolume">--</span>
+    </div>
+    <div class="ticker-item hide-mobile">
+      <span class="ticker-label">Liq</span>
+      <span class="ticker-value" id="tickerLiquidity">--</span>
+    </div>
+    <div class="ticker-item hide-mobile">
+      <span class="ticker-label">FDV</span>
+      <span class="ticker-value" id="tickerFdv">--</span>
+    </div>
+    <span class="ticker-spacer"></span>
+    <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+      <span class="icon-sun">&#9680;</span>
+      <span class="icon-moon">&#9681;</span>
     </button>
   </div>
 
   <div class="container">
-    <audio id="themeAudio" src="emonad.mp3" loop></audio>
+    <img src="emonad.jpg" alt="Emonad" class="header-image">
 
-    <!-- Left Sidebar - Token Stats -->
-    <div class="sidebar-left">
-      <div class="stats-section">
-        <h3 class="stats-header">
-          <span class="stats-icon">📊</span>
-          Token Stats
-        </h3>
-        <div class="stat-item">
-          <span class="stat-label">Price</span>
-          <span class="stat-value" id="statPrice">Loading...</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">24h Change</span>
-          <span class="stat-value" id="stat24hChange">--</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">Market Cap</span>
-          <span class="stat-value" id="statMcap">--</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">24h Volume</span>
-          <span class="stat-value" id="statVolume">--</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">Liquidity</span>
-          <span class="stat-value" id="statLiquidity">--</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">FDV</span>
-          <span class="stat-value" id="statFdv">--</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">Pair Age</span>
-          <span class="stat-value" id="statAge">--</span>
+    <h1 class="title">$EMO</h1>
+    <p class="subtitle">i lost it all on day 1</p>
+
+    <div class="button-grid">
+      <button class="btn" id="buyBtn">Buy $EMO</button>
+      <div class="liquidity-dropdown" id="liquidityDropdown">
+        <button class="btn btn-outline">Liquidity &#9662;</button>
+        <div class="liquidity-menu">
+          <a href="https://app.uniswap.org/positions/create/v4?currencyA=NATIVE&currencyB=0x81A224F8A62f52BdE942dBF23A56df77A10b7777&chain=monad" target="_blank" rel="noopener noreferrer">Uniswap</a>
+          <a href="https://www.kuru.io/liquidity/0x81a224f8a62f52bde942dbf23a56df77a10b7777" target="_blank" rel="noopener noreferrer">Kuru</a>
         </div>
       </div>
+      <a href="https://nad.fun/tokens/0x81A224F8A62f52BdE942dBF23A56df77A10b7777" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Nad.fun</a>
+      <a href="https://www.kuru.io/token/0x81a224f8a62f52bde942dbf23a56df77a10b7777" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Kuru</a>
+      <button class="btn" id="chartBtn">Chart</button>
+      <a href="https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d" class="btn btn-outline" target="_blank" rel="noopener noreferrer">DEX</a>
+      <a href="https://twitter.com/EmonadCoin" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Twitter</a>
+      <a href="https://t.me/+8RP7jI5wA3o2N2Fh" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Telegram</a>
+      <a href="memes.html" class="btn btn-outline">Memes</a>
+      <a href="https://giphy.com/emonad" target="_blank" rel="noopener noreferrer" class="btn btn-outline">GIFs</a>
+      <a href="tools.html" class="btn btn-outline">Tools</a>
+      <a href="flapemonad/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Flap Emonad</a>
+      <a href="https://opensea.io/token/monad/0x81a224f8a62f52bde942dbf23a56df77a10b7777?timeframe=all_time&candleSize=one_day" class="btn btn-outline" target="_blank" rel="noopener noreferrer">OpenSea</a>
     </div>
 
-    <!-- Main Content Wrapper -->
-    <div class="main-content">
-      <div class="header-image-wrapper">
-        <img src="emonad.jpg" alt="Emonad" class="header-image">
-      </div>
-      
-      <div class="content-section">
-      <h1 style="font-size: 2.2rem; margin: 10px 0 25px; color: var(--text-color); letter-spacing: -0.5px;">$EMO <span style="font-size: 1.2rem; color: var(--text-secondary); font-weight: 500;">i lost it all on day 1</span></h1>
-      
-      <div class="button-group">
-        <button class="button" id="buyBtn" style="background: linear-gradient(135deg, #FF6B35, #F7931A);">Buy $EMO</button>
-        <div class="liquidity-dropdown" id="liquidityDropdown">
-          <button class="button">Liquidity Pools ▾</button>
-          <div class="liquidity-menu">
-            <a href="https://app.uniswap.org/positions/create/v4?currencyA=NATIVE&currencyB=0x81A224F8A62f52BdE942dBF23A56df77A10b7777&chain=monad" target="_blank">🦄 Uniswap</a>
-            <a href="https://www.kuru.io/liquidity/0x81a224f8a62f52bde942dbf23a56df77a10b7777" target="_blank"><img src="kuru.jpg" alt="Kuru" style="width: 18px; height: 18px; border-radius: 50%; vertical-align: middle; margin-right: 8px;">Kuru</a>
-          </div>
-        </div>
-        <a href="https://nad.fun/tokens/0x81A224F8A62f52BdE942dBF23A56df77A10b7777" class="button" target="_blank">Nad.fun</a>
-        <a href="https://www.kuru.io/token/0x81a224f8a62f52bde942dbf23a56df77a10b7777" class="button kuru" target="_blank">Kuru</a>
-        <button class="button" id="chartBtn" style="background: linear-gradient(135deg, #00d4aa, #00a085);">Chart</button>
-        <a href="https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d" class="button" target="_blank" style="background: #1a1a1a;">DEX</a>
-        <a href="https://twitter.com/EmonadCoin" class="button" target="_blank" style="background: #1DA1F2;">Twitter</a>
-        <a href="https://t.me/+8RP7jI5wA3o2N2Fh" class="button" target="_blank" style="background: #0088cc;">Telegram</a>
-        <a href="memes.html" class="button" style="background: #FF6B6B;">Memes</a>
-        <a href="gifs.html" class="button" style="background: linear-gradient(135deg, #00ff99, #00ccff); color: #000;">GIFs</a>
-        <a href="tools.html" class="button" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">🛠️ Tools</a>
-        <a href="flapemonad/index.html" class="button" target="_blank" style="background: linear-gradient(135deg, #1a1a1a, #333); border: 2px solid #666;">🎮 Flap Emonad</a>
-        <a href="https://opensea.io/token/monad/0x81a224f8a62f52bde942dbf23a56df77a10b7777?timeframe=all_time&candleSize=one_day" class="button opensea-btn" target="_blank" style="background: #2081E2;">
-          <svg width="18" height="18" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M45 0C20.151 0 0 20.151 0 45C0 69.849 20.151 90 45 90C69.849 90 90 69.849 90 45C90 20.151 69.858 0 45 0ZM22.203 46.512L22.392 46.206L34.101 27.891C34.272 27.63 34.677 27.657 34.803 27.945C36.756 32.328 38.448 37.782 37.656 41.175C37.323 42.57 36.396 44.46 35.352 46.206C35.217 46.458 35.073 46.701 34.92 46.935C34.839 47.061 34.704 47.133 34.56 47.133H22.518C22.194 47.133 22.005 46.773 22.203 46.512ZM74.376 52.812C74.376 52.983 74.277 53.127 74.133 53.19C73.224 53.577 70.119 55.008 68.832 56.799C65.538 61.38 63.027 67.932 57.402 67.932H33.948C25.632 67.932 18.9 61.173 18.9 52.83V52.56C18.9 52.344 19.08 52.164 19.305 52.164H32.373C32.634 52.164 32.823 52.398 32.805 52.659C32.706 53.505 32.868 54.378 33.273 55.17C34.047 56.745 35.658 57.726 37.395 57.726H43.866V52.677H37.467C37.134 52.677 36.936 52.29 37.134 52.02C37.206 51.921 37.287 51.813 37.368 51.696C37.971 50.823 38.835 49.491 39.699 47.97C40.284 46.944 40.851 45.846 41.31 44.739C41.4 44.55 41.472 44.352 41.544 44.163C41.67 43.794 41.796 43.452 41.886 43.101C41.976 42.804 42.048 42.489 42.12 42.192C42.336 41.247 42.426 40.248 42.426 39.213C42.426 38.799 42.408 38.367 42.372 37.953C42.354 37.494 42.3 37.035 42.246 36.576C42.21 36.18 42.138 35.793 42.066 35.397C41.976 34.848 41.85 34.308 41.706 33.768L41.661 33.579C41.553 33.201 41.463 32.841 41.337 32.463C40.986 31.269 40.581 30.114 40.14 29.04C39.969 28.575 39.771 28.128 39.573 27.69C39.285 27.036 38.988 26.436 38.718 25.872C38.583 25.614 38.466 25.383 38.349 25.143C38.214 24.867 38.079 24.591 37.944 24.333C37.845 24.126 37.728 23.937 37.647 23.748L36.828 22.32C36.72 22.131 36.891 21.906 37.098 21.96L42.174 23.283H42.192C42.201 23.283 42.201 23.283 42.21 23.283L42.885 23.472L43.623 23.688L43.866 23.76V20.574C43.866 19.152 45 18 46.404 18C47.106 18 47.754 18.288 48.213 18.756C48.672 19.224 48.942 19.863 48.942 20.574V25.227L49.491 25.38C49.536 25.398 49.581 25.416 49.617 25.443C49.752 25.542 49.95 25.695 50.202 25.884C50.4 26.037 50.616 26.226 50.877 26.424C51.399 26.838 52.029 27.378 52.713 27.99C52.902 28.152 53.082 28.323 53.253 28.494C54.144 29.313 55.143 30.276 56.097 31.365C56.358 31.671 56.61 31.986 56.871 32.319C57.132 32.661 57.411 32.994 57.654 33.336C57.969 33.786 58.311 34.254 58.599 34.74C58.725 34.956 58.878 35.181 58.995 35.397C59.337 35.964 59.634 36.549 59.913 37.134C60.03 37.395 60.156 37.683 60.255 37.962C60.552 38.709 60.786 39.474 60.93 40.239C60.975 40.41 61.002 40.599 61.02 40.77V40.833C61.074 41.103 61.092 41.391 61.11 41.688C61.182 42.498 61.146 43.308 61.002 44.118C60.93 44.523 60.831 44.91 60.714 45.315C60.588 45.702 60.462 46.098 60.291 46.476C59.958 47.259 59.571 48.015 59.103 48.708C58.959 48.951 58.788 49.203 58.617 49.446C58.428 49.698 58.239 49.941 58.068 50.175C57.825 50.49 57.564 50.823 57.294 51.12C57.051 51.435 56.799 51.741 56.529 52.02C56.142 52.461 55.773 52.875 55.386 53.271C55.197 53.487 54.99 53.712 54.774 53.919C54.567 54.144 54.351 54.342 54.162 54.531C53.847 54.828 53.577 55.071 53.343 55.269L52.803 55.719C52.704 55.8 52.578 55.845 52.443 55.845H48.942V60.894H53.91C55.017 60.894 56.07 60.498 56.925 59.778C57.213 59.535 58.482 58.437 59.985 56.943C60.039 56.889 60.102 56.853 60.174 56.835L73.863 52.56C74.124 52.479 74.376 52.677 74.376 52.956V52.812Z" fill="white"/>
-          </svg>
-          <span class="opensea-text">OpenSea</span>
-        </a>
-      </div>
-      
-      <div class="contract-address" id="contractAddress" title="Click to copy">
-        <span id="contractText">0x81A224F8A62f52BdE942dBF23A56df77A10b7777</span>
-      </div>
-      </div>
-    </div>
-
-    <!-- Right Sidebar - @EmonadCoin Feed -->
-    <div class="sidebar-right">
-      <div class="twitter-section">
-        <h3 class="twitter-header">
-          <span class="x-icon">𝕏</span>
-          Latest Updates
-        </h3>
-        <div class="twitter-feed-container">
-          <a class="twitter-timeline" 
-             id="twitterEmbed"
-             data-theme="dark"
-             data-chrome="noheader nofooter noborders transparent noscrollbar"
-             data-tweet-limit="5"
-             data-width="300"
-             data-height="350"
-             href="https://twitter.com/EmonadCoin">
-            Loading tweets...
-          </a>
-        </div>
-      </div>
+    <div class="contract-address" id="contractAddress" title="Click to copy">
+      <span id="contractText">0x81A224F8A62f52BdE942dBF23A56df77A10b7777</span>
     </div>
   </div>
 
@@ -1234,304 +589,142 @@
   <div class="chart-modal" id="chartModal">
     <div class="chart-container">
       <span class="chart-close" id="chartClose">&times;</span>
-      <iframe id="chartFrame" src="" allowfullscreen></iframe>
+      <iframe id="chartFrame" src="" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
     </div>
   </div>
 
-  <!-- Buy/Swap Modal (Official Uniswap - Safe & Secure) -->
+  <!-- Buy/Swap Modal -->
   <div class="chart-modal" id="buyModal">
     <div class="chart-container" style="max-width: 420px; width: 420px; height: 520px; border-radius: 24px;">
       <span class="chart-close" id="buyClose">&times;</span>
-      <iframe id="buyFrame" src="" allow="clipboard-write" style="background: #131313; border-radius: 24px;"></iframe>
+      <iframe id="buyFrame" src="" allow="clipboard-write" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" style="background: #131313; border-radius: 24px;"></iframe>
     </div>
   </div>
 
   <script>
-    // Price Ticker - Fetch from DEXScreener API
+    // ── Price Ticker — unified fetch ──
     async function fetchPrice() {
       try {
         const response = await fetch('https://api.dexscreener.com/latest/dex/pairs/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d');
         const data = await response.json();
         if (data.pair) {
-          const price = parseFloat(data.pair.priceUsd);
-          const change24h = parseFloat(data.pair.priceChange.h24);
-          const mcap = data.pair.marketCap;
-          
+          const pair = data.pair;
+          const price = parseFloat(pair.priceUsd);
+          const change24h = parseFloat(pair.priceChange.h24);
+
           document.getElementById('tokenPrice').textContent = '$' + price.toFixed(7);
-          
+
           const changeEl = document.getElementById('priceChange');
           changeEl.textContent = (change24h >= 0 ? '+' : '') + change24h.toFixed(2) + '%';
-          changeEl.className = 'change ' + (change24h >= 0 ? 'positive' : 'negative');
-          
-          if (mcap) {
-            const mcapFormatted = mcap >= 1000000 ? (mcap / 1000000).toFixed(2) + 'M' : (mcap / 1000).toFixed(1) + 'K';
-            document.getElementById('marketCap').textContent = 'MC: $' + mcapFormatted;
+          changeEl.className = 'change-badge ' + (change24h >= 0 ? 'positive' : 'negative');
+
+          function fmt(n) {
+            if (n == null) return '--';
+            return n >= 1000000 ? '$' + (n / 1000000).toFixed(2) + 'M' : '$' + (n / 1000).toFixed(1) + 'K';
           }
+
+          document.getElementById('marketCap').textContent = pair.marketCap ? fmt(pair.marketCap) : '--';
+          document.getElementById('tickerVolume').textContent = pair.volume && pair.volume.h24 ? fmt(pair.volume.h24) : '--';
+          document.getElementById('tickerLiquidity').textContent = pair.liquidity && pair.liquidity.usd ? fmt(pair.liquidity.usd) : '--';
+          document.getElementById('tickerFdv').textContent = pair.fdv ? fmt(pair.fdv) : '--';
         }
       } catch (error) {
         console.log('Price fetch error:', error);
-        document.getElementById('tokenPrice').textContent = '--';
       }
     }
-    
-    // Fetch price on load and every 30 seconds
+
     fetchPrice();
     setInterval(fetchPrice, 30000);
 
-    // Token Stats - Fetch detailed stats for sidebar
-    async function fetchTokenStats() {
-      try {
-        const response = await fetch('https://api.dexscreener.com/latest/dex/pairs/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d');
-        const data = await response.json();
-        if (data.pair) {
-          const pair = data.pair;
-          
-          // Price
-          const price = parseFloat(pair.priceUsd);
-          document.getElementById('statPrice').textContent = '$' + price.toFixed(7);
-          
-          // 24h Change
-          const change24h = parseFloat(pair.priceChange.h24);
-          const changeEl = document.getElementById('stat24hChange');
-          changeEl.textContent = (change24h >= 0 ? '+' : '') + change24h.toFixed(2) + '%';
-          changeEl.className = 'stat-value ' + (change24h >= 0 ? 'positive' : 'negative');
-          
-          // Market Cap
-          if (pair.marketCap) {
-            const mcap = pair.marketCap;
-            const mcapFormatted = mcap >= 1000000 ? '$' + (mcap / 1000000).toFixed(2) + 'M' : '$' + (mcap / 1000).toFixed(1) + 'K';
-            document.getElementById('statMcap').textContent = mcapFormatted;
-          }
-          
-          // 24h Volume
-          if (pair.volume && pair.volume.h24) {
-            const vol = pair.volume.h24;
-            const volFormatted = vol >= 1000000 ? '$' + (vol / 1000000).toFixed(2) + 'M' : '$' + (vol / 1000).toFixed(1) + 'K';
-            document.getElementById('statVolume').textContent = volFormatted;
-          }
-          
-          // Liquidity
-          if (pair.liquidity && pair.liquidity.usd) {
-            const liq = pair.liquidity.usd;
-            const liqFormatted = liq >= 1000000 ? '$' + (liq / 1000000).toFixed(2) + 'M' : '$' + (liq / 1000).toFixed(1) + 'K';
-            document.getElementById('statLiquidity').textContent = liqFormatted;
-          }
-          
-          // FDV
-          if (pair.fdv) {
-            const fdv = pair.fdv;
-            const fdvFormatted = fdv >= 1000000 ? '$' + (fdv / 1000000).toFixed(2) + 'M' : '$' + (fdv / 1000).toFixed(1) + 'K';
-            document.getElementById('statFdv').textContent = fdvFormatted;
-          }
-          
-          // Pair Age
-          if (pair.pairCreatedAt) {
-            const created = new Date(pair.pairCreatedAt);
-            const now = new Date();
-            const diffMs = now - created;
-            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-            const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById('statAge').textContent = diffDays > 0 ? diffDays + 'd ' + diffHours + 'h' : diffHours + 'h';
-          }
-        }
-      } catch (error) {
-        console.log('Stats fetch error:', error);
-      }
-    }
-    
-    // Fetch stats on load and every 30 seconds
-    fetchTokenStats();
-    setInterval(fetchTokenStats, 30000);
-
-    // Liquidity Dropdown
+    // ── Liquidity Dropdown ──
     const liquidityDropdown = document.getElementById('liquidityDropdown');
-    const liquidityBtn = liquidityDropdown.querySelector('.button');
-
-    liquidityBtn.addEventListener('click', (e) => {
+    liquidityDropdown.querySelector('.btn').addEventListener('click', (e) => {
       e.stopPropagation();
       liquidityDropdown.classList.toggle('active');
     });
-
-    // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
       if (!liquidityDropdown.contains(e.target)) {
         liquidityDropdown.classList.remove('active');
       }
     });
 
+    // ── Copy Contract ──
     document.getElementById('contractAddress').addEventListener('click', () => {
       navigator.clipboard.writeText(document.getElementById('contractText').textContent);
       const el = document.getElementById('contractAddress');
       el.classList.add('copied');
-      setTimeout(() => el.classList.remove('copied'), 2000);
+      setTimeout(() => el.classList.remove('copied'), 1800);
     });
 
-    // Chart Modal
+    // ── Chart Modal ──
     const chartModal = document.getElementById('chartModal');
     const chartFrame = document.getElementById('chartFrame');
-    const chartBtn = document.getElementById('chartBtn');
-    const chartClose = document.getElementById('chartClose');
 
-    chartBtn.addEventListener('click', () => {
+    document.getElementById('chartBtn').addEventListener('click', () => {
       chartFrame.src = 'https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d?embed=1&theme=dark&info=0';
       chartModal.classList.add('active');
     });
 
-    chartClose.addEventListener('click', () => {
+    document.getElementById('chartClose').addEventListener('click', () => {
       chartModal.classList.remove('active');
       chartFrame.src = '';
     });
 
     chartModal.addEventListener('click', (e) => {
-      if (e.target === chartModal) {
-        chartModal.classList.remove('active');
-        chartFrame.src = '';
-      }
+      if (e.target === chartModal) { chartModal.classList.remove('active'); chartFrame.src = ''; }
     });
 
-    // Buy/Swap Modal (Official Uniswap)
+    // ── Buy Modal ──
     const buyModal = document.getElementById('buyModal');
     const buyFrame = document.getElementById('buyFrame');
-    const buyBtn = document.getElementById('buyBtn');
-    const buyClose = document.getElementById('buyClose');
 
-    buyBtn.addEventListener('click', () => {
-      // Using official Uniswap app.uniswap.org - safe and secure
+    document.getElementById('buyBtn').addEventListener('click', () => {
       buyFrame.src = 'https://app.uniswap.org/swap?chain=monad&outputCurrency=0x81A224F8A62f52BdE942dBF23A56df77A10b7777';
       buyModal.classList.add('active');
     });
 
-    buyClose.addEventListener('click', () => {
+    document.getElementById('buyClose').addEventListener('click', () => {
       buyModal.classList.remove('active');
       buyFrame.src = '';
     });
 
     buyModal.addEventListener('click', (e) => {
-      if (e.target === buyModal) {
-        buyModal.classList.remove('active');
-        buyFrame.src = '';
-      }
+      if (e.target === buyModal) { buyModal.classList.remove('active'); buyFrame.src = ''; }
     });
 
+    // ── Escape key ──
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        if (chartModal.classList.contains('active')) {
-          chartModal.classList.remove('active');
-          chartFrame.src = '';
-        }
-        if (buyModal.classList.contains('active')) {
-          buyModal.classList.remove('active');
-          buyFrame.src = '';
-        }
+        if (chartModal.classList.contains('active')) { chartModal.classList.remove('active'); chartFrame.src = ''; }
+        if (buyModal.classList.contains('active')) { buyModal.classList.remove('active'); buyFrame.src = ''; }
       }
     });
 
-    // Audio Player
-    const audio = document.getElementById('themeAudio');
-    const audioPlayer = document.getElementById('audioPlayer');
-    const playBtn = document.getElementById('playBtn');
-    const muteBtn = document.getElementById('muteBtn');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-
-    audio.volume = 0.5;
-
-    playBtn.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play();
-        playBtn.textContent = '⏸';
-      } else {
-        audio.pause();
-        playBtn.textContent = '▶';
-      }
-    });
-
-    audio.addEventListener('ended', () => {
-      playBtn.textContent = '▶';
-    });
-
-    muteBtn.addEventListener('click', () => {
-      audio.muted = !audio.muted;
-      muteBtn.textContent = audio.muted ? '🔇' : '🔊';
-    });
-
-    // Restart track
-    prevBtn.addEventListener('click', () => {
-      audio.currentTime = 0;
-    });
-
-    // Skip to end (restart since it loops)
-    nextBtn.addEventListener('click', () => {
-      audio.currentTime = 0;
-      audio.play();
-      playBtn.textContent = '⏸';
-    });
-
-    // Dark Mode Toggle
+    // ── Theme Toggle ──
     const themeToggle = document.getElementById('themeToggle');
     const html = document.documentElement;
-    
-    // Function to reload Twitter widget with correct theme
-    function reloadTwitterWidget(theme) {
-      const container = document.querySelector('.twitter-feed-container');
-      if (container && window.twttr && window.twttr.widgets) {
-        container.innerHTML = '';
-        const link = document.createElement('a');
-        link.className = 'twitter-timeline';
-        link.setAttribute('data-theme', theme);
-        link.setAttribute('data-chrome', 'noheader nofooter noborders transparent noscrollbar');
-        link.setAttribute('data-tweet-limit', '5');
-        link.setAttribute('data-width', '300');
-        link.setAttribute('data-height', '350');
-        link.href = 'https://twitter.com/EmonadCoin';
-        link.textContent = 'Loading tweets...';
-        container.appendChild(link);
-        window.twttr.widgets.load(container);
-      }
-    }
-    
-    // Check for saved theme preference or default to dark
+
     const savedTheme = localStorage.getItem('theme') || 'dark';
-    if (savedTheme === 'dark') {
-      html.setAttribute('data-theme', 'dark');
-    } else {
-      html.removeAttribute('data-theme');
-    }
-    
-    // Set initial Twitter theme and reload widget with correct theme
-    const twitterEmbed = document.getElementById('twitterEmbed');
-    if (twitterEmbed) {
-      twitterEmbed.setAttribute('data-theme', savedTheme);
-    }
-    
-    // Twitter widget will load automatically from HTML
-    // Only reload when user toggles theme (not on page load)
+    html.setAttribute('data-theme', savedTheme);
 
     themeToggle.addEventListener('click', () => {
-      const currentTheme = html.getAttribute('data-theme');
-      if (currentTheme === 'dark') {
-        html.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'light');
-        reloadTwitterWidget('light');
-      } else {
-        html.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-        reloadTwitterWidget('dark');
-      }
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
     });
-
   </script>
 
   <!-- Particle Grid Background -->
   <canvas id="particleGrid" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
-  
+
   <script>
     (function() {
       if (window.innerWidth < 768) return;
-      
+
       const canvas = document.getElementById('particleGrid');
       const ctx = canvas.getContext('2d');
-      
+
       let width, height;
       let particles = [];
       let mouseX = -1000, mouseY = -1000;
@@ -1540,168 +733,85 @@
       const pushRadius = 150;
       const pushStrength = 1.2;
       const returnSpeed = 0.05;
-      
+
       function resize() {
         width = canvas.width = window.innerWidth;
         height = canvas.height = window.innerHeight;
         initParticles();
       }
-      
+
       function initParticles() {
         particles = [];
         for (let x = gridSpacing / 2; x < width; x += gridSpacing) {
           for (let y = gridSpacing / 2; y < height; y += gridSpacing) {
-            particles.push({
-              originX: x,
-              originY: y,
-              x: x,
-              y: y,
-              vx: 0,
-              vy: 0
-            });
+            particles.push({ originX: x, originY: y, x: x, y: y, vx: 0, vy: 0 });
           }
         }
       }
-      
+
       function animate() {
         ctx.clearRect(0, 0, width, height);
-        
+
         particles.forEach(p => {
-          // Calculate distance from mouse
           const dx = mouseX - p.x;
           const dy = mouseY - p.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          
-          // Push away from mouse
+
           if (dist < pushRadius && dist > 0) {
             const force = (pushRadius - dist) / pushRadius;
             p.vx -= (dx / dist) * force * pushStrength;
             p.vy -= (dy / dist) * force * pushStrength;
           }
-          
-          // Spring back to origin
+
           const homeX = p.originX - p.x;
           const homeY = p.originY - p.y;
           p.vx += homeX * returnSpeed;
           p.vy += homeY * returnSpeed;
-          
-          // Apply velocity with damping
+
           p.vx *= 0.9;
           p.vy *= 0.9;
           p.x += p.vx;
           p.y += p.vy;
-          
-          // Calculate opacity based on displacement
+
           const displacement = Math.sqrt(homeX * homeX + homeY * homeY);
           const alpha = Math.min(0.15 + displacement * 0.02, 0.5);
-          
-          // Draw particle
+
           ctx.beginPath();
           ctx.arc(p.x, p.y, particleRadius, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(155, 95, 255, ${alpha})`;
           ctx.fill();
         });
-        
+
         requestAnimationFrame(animate);
       }
-      
-      document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-      });
-      
-      document.addEventListener('mouseleave', () => {
-        mouseX = -1000;
-        mouseY = -1000;
-      });
-      
+
+      document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+      document.addEventListener('mouseleave', () => { mouseX = -1000; mouseY = -1000; });
       window.addEventListener('resize', resize);
       resize();
       animate();
     })();
   </script>
 
-  <!-- Mouse Glow Background Effect -->
+  <!-- Mouse Glow Effect -->
   <script>
     (function() {
       if (window.innerWidth < 768) return;
-      
+
       const glow = document.createElement('div');
       glow.className = 'mouse-glow';
       glow.style.opacity = '1';
       document.body.appendChild(glow);
-      
-      // Track mouse position globally
+
       document.addEventListener('mousemove', (e) => {
         glow.style.left = e.clientX + 'px';
         glow.style.top = e.clientY + 'px';
       }, true);
-      
-      // Only hide when leaving the entire window
-      document.documentElement.addEventListener('mouseleave', () => {
-        glow.style.opacity = '0';
-      });
-      
-      document.documentElement.addEventListener('mouseenter', () => {
-        glow.style.opacity = '1';
-      });
+
+      document.documentElement.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
+      document.documentElement.addEventListener('mouseenter', () => { glow.style.opacity = '1'; });
     })();
   </script>
 
-<!-- Twitter Widget Script -->
-  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-  <!-- Scrolling GIF Background -->
-  <script>
-    (function() {
-      const gifIds = [
-        '0UdC1ol3kLC8dduVmU', 'pVlA0d42jW8ssypHVC', '9wXlAThWfsqlrMuT2Y',
-        'cRxOyqeQmTTojnLN0p', 'k8XzWzNVf00x59Aa0W', 'F2RlaE2Jo00Mta9Isg',
-        'UPrfZFSYnhMS1RDdjk', '73Uo7oSZ5if39Pu7aD', 'HEomzJobGMH63l8L8T',
-        'u1GEQ7mj1aZNFhDdit', 'FX3QAOZoogibLTPsCc', '1EioINFzTLCCeHK8ni',
-        'vBSndPWgSwMmguASVn', 'a3fnw71VTEK5JTkPeN', 'ovRMFvEh1VIxibp392',
-        'DKZ72PJhbxOpvENUVz', '6p2TA9a902u6HCVtkk', 'y6mKCTN0dcXvor8KGO',
-        'FXHKmi9BiFPk0gIPfN', 'vcN1ms6GgPQzUevJHF', 'Twh9OQk4nXQ00xTA29',
-        'C4B5fhPl93xZtiX4em', '9bDLeKUP6iAkggwt8K', 'Ss0cDAsZmYjA724bvD',
-        'P6aAglneljHb2hJNDE', 'cMPuaAHxnBmFLzAMqE', 'wpI6kanWg2jNXTtsdq',
-        'cqgLesV8I2L5sXy7em'
-      ];
-
-      const container = document.getElementById('gifBackground');
-      if (!container) return;
-
-      // Calculate number of columns based on screen width
-      const isMobile = window.innerWidth < 768;
-      let columnCount;
-      
-      if (isMobile) {
-        columnCount = 2; // Just 2 columns on mobile for smoother experience
-      } else {
-        columnCount = Math.max(5, Math.floor(window.innerWidth / 140));
-      }
-      
-      // Shuffle GIFs
-      const shuffled = [...gifIds].sort(() => Math.random() - 0.5);
-      
-      // Create columns
-      for (let i = 0; i < columnCount; i++) {
-        const column = document.createElement('div');
-        column.className = 'gif-column';
-        
-        // Add GIFs to column (duplicate for seamless loop)
-        const gifsPerColumn = Math.ceil(shuffled.length / columnCount) + 4;
-        for (let j = 0; j < gifsPerColumn * 2; j++) {
-          const gifId = shuffled[(i + j) % shuffled.length];
-          const img = document.createElement('img');
-          img.src = `https://media.giphy.com/media/${gifId}/giphy.gif`;
-          img.alt = '';
-          img.loading = 'lazy';
-          column.appendChild(img);
-        }
-        
-        container.appendChild(column);
-      }
-    })();
-  </script>
 </body>
 </html>

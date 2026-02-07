@@ -1,5 +1,4 @@
-﻿// Auto-generated meme list - 222 memes
-const MEME_FILES = [
+﻿const MEME_FILES = [
   "G6yl7g6a0AEQ-oK.jpg",
   "G7xd2KKWAAAMwpD.jpg",
   "G8-qoipb0AIb7yQ.jpg",
