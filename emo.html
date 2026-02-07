@@ -1672,13 +1672,10 @@
 
       // Calculate number of columns based on screen width
       const isMobile = window.innerWidth < 768;
-      const isSmallMobile = window.innerWidth < 480;
       let columnCount;
       
-      if (isSmallMobile) {
-        columnCount = Math.max(4, Math.floor(window.innerWidth / 80));
-      } else if (isMobile) {
-        columnCount = Math.max(4, Math.floor(window.innerWidth / 100));
+      if (isMobile) {
+        columnCount = 2; // Just 2 columns on mobile for smoother experience
       } else {
         columnCount = Math.max(5, Math.floor(window.innerWidth / 140));
       }
