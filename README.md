@@ -40,18 +40,9 @@ Source code for [escapist.lol](https://escapist.lol) — art, memes, and degen t
 └── memes/                  # meme images
 ```
 
-## Running locally
-
-It's all static HTML/JS/CSS — just open the files in a browser or use any local server:
-
-```bash
-python -m http.server 8000
-```
-
-For the Telegram bot, see [`emo-bot/README.md`](emo-bot/README.md).
 
 ## Links
 
-- **Site**: [escapist.lol](https://escapist.lol)
+- **Site**: (https://escapist.lol) (https://emonad.lol)
 - **Twitter**: [@EmonadCoin](https://twitter.com/EmonadCoin)
-- **Chart**: [DEXScreener](https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d)
+
