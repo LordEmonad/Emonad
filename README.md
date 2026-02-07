@@ -44,5 +44,5 @@ Source code for [escapist.lol](https://escapist.lol) — art, memes, and degen t
 ## Links
 
 - **Site**: (https://escapist.lol) (https://emonad.lol)
-- **Twitter**: [@EmonadCoin](https://twitter.com/EmonadCoin)
+- **Twitter**: [@EmonadCoin](https://twitter.com/EmonadCoin) [@ordtisms](https://twitter.com/ordtisms)
 
