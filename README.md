@@ -1,6 +1,6 @@
 # escapist.lol
 
-Source code for [escapist.lol](https://escapist.lol) — art, memes, and degen tools.
+art, memes, and degeneracy on chain.
 
 ## Pages
 
