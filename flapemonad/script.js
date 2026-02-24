@@ -132,6 +132,21 @@ let deathSlowMo = {
 // Top 3 leaderboard scores for start screen
 let topScores = [];
 
+// Personal best score
+let bestScore = 0;
+function loadBestScore() {
+    try {
+        bestScore = parseInt(localStorage.getItem('flapEmonadBestScore') || '0', 10);
+    } catch (e) { bestScore = 0; }
+}
+function saveBestScore(s) {
+    bestScore = s;
+    try { localStorage.setItem('flapEmonadBestScore', s.toString()); } catch (e) {}
+}
+
+// Score count-up animation for game over
+let scoreCountUp = { active: false, current: 0, target: 0, elapsed: 0, duration: 800 };
+
 // Dark mode state
 let darkMode = false;
 
@@ -187,17 +202,24 @@ const NUM_BG_PARTICLES = 20;
 let startScreenParticles = [];
 const NUM_START_PARTICLES = 30;
 
-// Dark mode edge particles
-let darkModeEdgeParticles = [];
-const NUM_EDGE_PARTICLES = 40;
+// Per-frame cached time value
+let frameTime = 0;
 
 // Screen transition for fade effect
 let screenTransition = {
     active: false,
     alpha: 1,
-    duration: 400,
+    duration: 700,
     elapsed: 0
 };
+
+// Smooth page navigation with fade-out transition
+function navigateWithTransition(url) {
+    document.body.classList.add('page-transitioning');
+    setTimeout(() => {
+        window.location.href = url;
+    }, 650);
+}
 
 // Start screen animation state
 let startScreenFlapFrame = 0;
@@ -304,7 +326,7 @@ canvas.addEventListener('click', (e) => {
     const scaleY = GAME_HEIGHT / rect.height;
     const clickX = (e.clientX - rect.left) * scaleX;
     const clickY = (e.clientY - rect.top) * scaleY;
-    
+
     if (gameState === GameState.READY) {
         // Check settings button
         if (window.settingsBtn) {
@@ -312,17 +334,17 @@ canvas.addEventListener('click', (e) => {
             if (clickX >= sBtn.x && clickX <= sBtn.x + sBtn.width &&
                 clickY >= sBtn.y && clickY <= sBtn.y + sBtn.height) {
                 if (typeof chiptunePlayer !== 'undefined') chiptunePlayer.playClick();
-                window.location.href = 'settings.html';
+                navigateWithTransition('settings.html');
                 return;
             }
         }
-        
+
         // Check leaderboard button
         if (window.startScreenLeaderboardBtn) {
             const btn = window.startScreenLeaderboardBtn;
             if (clickX >= btn.x && clickX <= btn.x + btn.width &&
                 clickY >= btn.y && clickY <= btn.y + btn.height) {
-                window.location.href = 'leaderboard.html';
+                navigateWithTransition('leaderboard.html');
                 return;
             }
         }
@@ -346,17 +368,17 @@ canvas.addEventListener('touchstart', (e) => {
             if (touchX >= sBtn.x && touchX <= sBtn.x + sBtn.width &&
                 touchY >= sBtn.y && touchY <= sBtn.y + sBtn.height) {
                 if (typeof chiptunePlayer !== 'undefined') chiptunePlayer.playClick();
-                window.location.href = 'settings.html';
+                navigateWithTransition('settings.html');
                 return;
             }
         }
-        
+
         // Check leaderboard button
         if (window.startScreenLeaderboardBtn) {
             const btn = window.startScreenLeaderboardBtn;
             if (touchX >= btn.x && touchX <= btn.x + btn.width &&
                 touchY >= btn.y && touchY <= btn.y + btn.height) {
-                window.location.href = 'leaderboard.html';
+                navigateWithTransition('leaderboard.html');
                 return;
             }
         }
@@ -372,6 +394,15 @@ restartBtn.addEventListener('click', () => {
     resetGame();
 });
 
+// Intercept View Leaderboard link for smooth transition
+const viewLbBtn = document.querySelector('.view-lb-btn');
+if (viewLbBtn) {
+    viewLbBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        navigateWithTransition(viewLbBtn.getAttribute('href'));
+    });
+}
+
 // Home button - go back to start screen
 const homeBtn = document.getElementById('home-btn');
 if (homeBtn) {
@@ -384,29 +415,68 @@ if (homeBtn) {
 }
 
 function goToStartScreen() {
-    // Reset game state to READY (start screen)
-    gameState = GameState.READY;
-    gameOverScreen.classList.add('hidden');
-    
-    // Reset player position
-    player.y = PLAYER_START_Y;
-    player.velocity = 0;
-    player.rotation = 0;
-    player.flapFrame = 0;
-    
-    // Clear razors
-    razors.length = 0;
-    
-    // Reset score
-    score = 0;
-    
-    // Stop game music, play menu music
-    if (typeof chiptunePlayer !== 'undefined') {
-        chiptunePlayer.stopMusic();
-        if (!chiptunePlayer.isMuted) {
-            chiptunePlayer.playMenuMusic();
+    // Fade out the game over screen with a smooth transition
+    gameOverScreen.style.transition = 'opacity 0.6s ease-out';
+    gameOverScreen.style.opacity = '0';
+
+    setTimeout(() => {
+        gameOverScreen.classList.add('hidden');
+        gameOverScreen.style.transition = '';
+        gameOverScreen.style.opacity = '';
+
+        // Clear inline styles from game over elements
+        const elements = gameOverScreen.querySelectorAll('h2, p, button, a, input, .name-input-container, .best-score-text');
+        elements.forEach(el => {
+            el.style.opacity = '';
+            el.style.transform = '';
+        });
+
+        // Reset game state to READY (start screen)
+        gameState = GameState.READY;
+
+        // Reset player
+        player.x = PLAYER_X;
+        player.y = PLAYER_START_Y;
+        player.velocity = 0;
+        player.rotation = 0;
+        player.currentFrame = 0;
+        player.animationTimer = 0;
+        player.isFlapping = true;
+        player.deathFrame = 0;
+        player.deathAnimationTimer = 0;
+        player.deathAnimationComplete = false;
+
+        // Clear razors
+        razors.length = 0;
+
+        // Reset score
+        score = 0;
+
+        // Reset all effects
+        screenShake.active = false;
+        screenFlash.active = false;
+        deathSlowMo.active = false;
+        deathSlowMo.timeScale = 1.0;
+        deathSlowMo.zoom = 1.0;
+        deathSlowMo.desaturation = 0;
+        deathSlowMo.chromatic = 0;
+        deathSlowMo.vignette = 0;
+        playerTrail = [];
+        scoreParticles = [];
+
+        // Start a fade-in transition on the canvas
+        screenTransition.active = true;
+        screenTransition.alpha = 1;
+        screenTransition.elapsed = 0;
+
+        // Stop game music, play menu music
+        if (typeof chiptunePlayer !== 'undefined') {
+            chiptunePlayer.stopMusic();
+            if (!chiptunePlayer.isMuted) {
+                chiptunePlayer.playMenuMusic();
+            }
         }
-    }
+    }, 600);
 }
 
 // --- game functions ---
@@ -420,7 +490,9 @@ function startGame() {
     
     // Reset effects
     scoreParticles = [];
+    playerTrail = [];
     initBackgroundParticles();
+    initClouds();
     
     // Start fade transition from dark to white
     screenTransition.active = true;
@@ -448,20 +520,18 @@ function initBackgroundParticles() {
     }
 }
 
-// Draw background particles
-function drawBackgroundParticles() {
+// Draw background particles (delta-time aware)
+function drawBackgroundParticles(dt) {
+    const ts = (dt || TARGET_FRAME_TIME) / TARGET_FRAME_TIME;
     for (const p of bgParticles) {
-        // Move particle upward
-        p.y -= p.speed;
-        p.x += Math.sin(Date.now() / 1500 + p.y / 80) * 0.5; // Gentle sway
-        
-        // Wrap around when off top
+        p.y -= p.speed * ts;
+        p.x += Math.sin(frameTime / 1500 + p.y / 80) * 0.5 * ts;
+
         if (p.y < -20) {
             p.y = GAME_HEIGHT + 20;
             p.x = Math.random() * GAME_WIDTH;
         }
-        
-        // Draw particle with glow
+
         ctx.save();
         ctx.globalAlpha = p.opacity;
         ctx.fillStyle = p.color;
@@ -490,16 +560,17 @@ function initStartScreenParticles() {
 }
 
 // Draw start screen particles
-function drawStartScreenParticles() {
+function drawStartScreenParticles(dt) {
     // Initialize if empty
     if (startScreenParticles.length === 0) {
         initStartScreenParticles();
     }
-    
+
+    const ts = (dt || TARGET_FRAME_TIME) / TARGET_FRAME_TIME;
     for (const p of startScreenParticles) {
         // Move particle slowly upward
-        p.y -= p.speed;
-        p.x += Math.sin(Date.now() / 3000 + p.y / 150) * 0.4; // Gentle sway
+        p.y -= p.speed * ts;
+        p.x += Math.sin(frameTime / 3000 + p.y / 150) * 0.4 * ts; // Gentle sway
         
         // Wrap around
         if (p.y < -10) {
@@ -520,36 +591,18 @@ function drawStartScreenParticles() {
     }
 }
 
-// Flap counter - DISABLED FOR NOW
-// let pendingFlaps = 0;
-// setInterval(() => {
-//     if (pendingFlaps > 0) {
-//         const flapsToSend = pendingFlaps;
-//         pendingFlaps = 0;
-//         fetch(`${REFEREE_SERVER_URL}/api/flap/batch`, { 
-//             method: 'POST',
-//             headers: { 'Content-Type': 'application/json' },
-//             body: JSON.stringify({ count: flapsToSend })
-//         }).catch(() => {
-//             pendingFlaps += flapsToSend;
-//         });
-//     }
-// }, 2000);
-
 function flap() {
-    // Set velocity
     player.velocity = JUMP_VELOCITY;
     player.rotation = JUMP_ROTATION;
     player.currentFrame = 0;
     player.animationTimer = 0;
-    
-    // Play flap sound
+
+    // Haptic feedback on mobile
+    if (navigator.vibrate) navigator.vibrate(15);
+
     if (typeof chiptunePlayer !== 'undefined') {
         chiptunePlayer.playFlap();
     }
-    
-    // Flap tracking disabled
-    // pendingFlaps++;
 }
 
 function die(deathType = 'razor', killerRazor = null) {
@@ -557,7 +610,10 @@ function die(deathType = 'razor', killerRazor = null) {
     player.deathFrame = 0;
     player.deathAnimationTimer = 0;
     player.deathAnimationComplete = false;
-    
+
+    // Haptic feedback on mobile
+    if (navigator.vibrate) navigator.vibrate(50);
+
     // Store death certificate data
     deathCertificate.killerRazor = killerRazor;
     deathCertificate.deathType = deathType;
@@ -593,34 +649,58 @@ function die(deathType = 'razor', killerRazor = null) {
 
 function showGameOver() {
     gameState = GameState.GAME_OVER;
-    finalScoreEl.textContent = score;
+
+    // Start score count-up animation
+    scoreCountUp.active = true;
+    scoreCountUp.current = 0;
+    scoreCountUp.target = score;
+    scoreCountUp.elapsed = 0;
+    scoreCountUp.duration = Math.min(800, score * 80); // Scale with score, max 800ms
+    finalScoreEl.textContent = '0';
+
+    // Best score logic
+    const isNewBest = score > bestScore && score > 0;
+    if (isNewBest) saveBestScore(score);
+
+    const bestLine = document.getElementById('best-score-line');
+    const bestDisplay = document.getElementById('best-score-display');
+    if (bestLine && bestDisplay) {
+        bestLine.style.display = 'block';
+        bestDisplay.textContent = bestScore;
+        if (isNewBest) {
+            bestLine.classList.add('new-best');
+            bestLine.innerHTML = 'NEW BEST! <span id="best-score-display">' + score + '</span>';
+        } else {
+            bestLine.classList.remove('new-best');
+            bestLine.innerHTML = 'BEST: <span id="best-score-display">' + bestScore + '</span>';
+        }
+    }
+
     gameOverScreen.classList.remove('hidden');
-    
+
     // Force all elements visible after short delay (CSS animation fallback)
     setTimeout(() => {
-        const elements = gameOverScreen.querySelectorAll('h2, p, button, a, input, .name-input-container, .submit-hint');
+        const elements = gameOverScreen.querySelectorAll('h2, p, button, a, input, .name-input-container, .best-score-text');
         elements.forEach(el => {
             el.style.opacity = '1';
             el.style.transform = 'none';
         });
     }, 400);
-    
-    // Setup tap anywhere to restart on mobile
-    setupGameOverTapToRestart();
-    
-    // Play game over music quickly after death sound starts
+
+    // Autofocus name input
+    setTimeout(() => {
+        const nameInput = document.getElementById('player-name-input');
+        if (nameInput) nameInput.focus();
+    }, 600);
+
+    // Play game over music
     if (typeof chiptunePlayer !== 'undefined') {
         setTimeout(() => {
             chiptunePlayer.playGameOverMusic();
-        }, 600); // Quick transition
+        }, 600);
     }
 }
 
-// Tap anywhere to restart is DISABLED - use the restart bar at bottom instead
-function setupGameOverTapToRestart() {
-    // Disabled - restart only via the restart button bar at bottom
-    // Spacebar still works on PC (handled in keyboard input)
-}
 
 // --- death certificate generator ---
 
@@ -674,17 +754,17 @@ function generateDeathCertificate(playerName) {
     // Left section - character
     const leftCenterX = 300;
     
-    // Draw character using embedded base64 image
+    // Draw character using already-loaded sprite
     const charSize = 280;
-    const charImg = new Image();
-    charImg.src = CERT_DIE3_BASE64;
-    certCtx.drawImage(
-        charImg,
-        leftCenterX - charSize / 2,
-        CERT_HEIGHT / 2 - charSize / 2 - 30,
-        charSize,
-        charSize
-    );
+    if (images.die[2]) {
+        certCtx.drawImage(
+            images.die[2],
+            leftCenterX - charSize / 2,
+            CERT_HEIGHT / 2 - charSize / 2 - 30,
+            charSize,
+            charSize
+        );
+    }
     
     // Player name under character
     certCtx.font = 'bold 48px "Creepster", Georgia, cursive';
@@ -803,22 +883,22 @@ function generateDeathCertificate(playerName) {
     certCtx.fillStyle = '#555555';
     certCtx.fillRect(rightCenterX - 3, candleY + candleHeight - 35, 6, 35);
     
-    // Draw razor using embedded base64 image
-    const razorImg = new Image();
-    razorImg.src = CERT_RAZOR_BASE64;
+    // Draw razor using already-loaded sprite
     const razorSize = 140;
     certCtx.save();
     certCtx.translate(rightCenterX, candleY + candleHeight / 2);
     if (candleColor === '#EF5350') {
         certCtx.rotate(Math.PI);
     }
-    certCtx.drawImage(
-        razorImg,
-        -razorSize / 2,
-        -razorSize,
-        razorSize,
-        razorSize * 2
-    );
+    if (images.razor) {
+        certCtx.drawImage(
+            images.razor,
+            -razorSize / 2,
+            -razorSize,
+            razorSize,
+            razorSize * 2
+        );
+    }
     certCtx.restore();
     
     // Bottom - branding
@@ -835,7 +915,7 @@ function generateDeathCertificate(playerName) {
 
 function downloadDeathCertificate() {
     // Get player name from input
-    const nameInput = document.getElementById('death-cert-name');
+    const nameInput = document.getElementById('player-name-input');
     const playerName = nameInput ? nameInput.value.trim() : '';
     
     if (!playerName) {
@@ -866,7 +946,7 @@ function downloadDeathCertificate() {
 
 function resetGame() {
     // Clear inline styles from game over elements (reset for next death)
-    const elements = gameOverScreen.querySelectorAll('h2, p, button, a, input, .name-input-container, .submit-hint');
+    const elements = gameOverScreen.querySelectorAll('h2, p, button, a, input, .name-input-container, .best-score-text');
     elements.forEach(el => {
         el.style.opacity = '';
         el.style.transform = '';
@@ -957,13 +1037,13 @@ function checkCollision() {
     
     // Check ground collision
     if (hitboxBottom >= GAME_HEIGHT) {
-        die('ground');
+        die('floor');
         return;
     }
-    
+
     // Check ceiling collision
     if (hitboxTop <= 0) {
-        die('ceiling');
+        die('floor');
         return;
     }
     
@@ -978,13 +1058,13 @@ function checkCollision() {
         if (hitboxRight > razor.x && hitboxLeft < razor.x + RAZOR_WIDTH) {
             // Check top razor collision
             if (hitboxTop < razor.gapY) {
-                die('razor', razor);
+                die('razor-top', razor);
                 return;
             }
-            
+
             // Check bottom razor collision
             if (hitboxBottom > razor.gapY + RAZOR_GAP) {
-                die('razor', razor);
+                die('razor-bottom', razor);
                 return;
             }
         }
@@ -1116,10 +1196,12 @@ function update(deltaTime) {
     if (gameState === GameState.PLAYING) {
         updatePlayer(deltaTime);
         updateRazors(deltaTime);
+        updateClouds(deltaTime);
         updateScoreParticles(deltaTime);
         checkCollision();
     } else if (gameState === GameState.DYING) {
         updatePlayer(effectiveDeltaTime);
+        updateClouds(effectiveDeltaTime);
         updateScoreParticles(effectiveDeltaTime);
     }
 }
@@ -1291,7 +1373,9 @@ function updateScoreParticles(deltaTime) {
         p.life -= p.decay * timeScale;
         
         if (p.life <= 0 || p.size < 0.3) {
-            scoreParticles.splice(i, 1);
+            // Swap-and-pop: O(1) removal instead of splice O(n)
+            scoreParticles[i] = scoreParticles[scoreParticles.length - 1];
+            scoreParticles.pop();
         }
     }
 }
@@ -1524,9 +1608,8 @@ function drawPlayer() {
     // Draw sprite centered with outline glow in dark mode
     if (sprite) {
         if (darkMode) {
-            // Draw the sprite outline glow by drawing it multiple times offset
-            ctx.shadowColor = 'rgba(180, 130, 255, 0.9)';
-            ctx.shadowBlur = 12;
+            ctx.shadowColor = 'rgba(157, 78, 221, 0.6)';
+            ctx.shadowBlur = 8;
         }
         ctx.drawImage(
             sprite,
@@ -1632,8 +1715,8 @@ function drawScore() {
         ctx.save();
         
         const scoreText = score.toString();
-        const time = Date.now() / 1000;
-        
+        const time = frameTime / 1000;
+
         // In dark mode, score goes in center of pentagram - PURPLE THEMED
         if (darkMode && pentagram.initialized) {
             const x = pentagram.centerX;
@@ -1735,7 +1818,7 @@ function drawStartScreen(deltaTime) {
     ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
     
     // Draw background particles
-    drawStartScreenParticles();
+    drawStartScreenParticles(deltaTime);
     
     // Update animation timer
     startScreenAnimTimer += deltaTime;
@@ -1770,7 +1853,7 @@ function drawStartScreen(deltaTime) {
         const flapY = GAME_HEIGHT * 0.35;
         ctx.translate(flapX, flapY);
         // Slight bobbing motion
-        const bob = Math.sin(Date.now() / 300) * 8;
+        const bob = Math.sin(frameTime / 300) * 8;
         // Add glow to character
         ctx.shadowColor = 'rgba(157, 78, 221, 0.5)';
         ctx.shadowBlur = 25;
@@ -1790,7 +1873,7 @@ function drawStartScreen(deltaTime) {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     // Pulsing opacity
-    const pulse = 0.5 + 0.5 * Math.sin(Date.now() / 600);
+    const pulse = 0.5 + 0.5 * Math.sin(frameTime / 600);
     ctx.globalAlpha = pulse;
     ctx.fillStyle = '#e0aaff';
     ctx.shadowColor = 'rgba(157, 78, 221, 0.5)';
@@ -1806,7 +1889,7 @@ function drawStartScreen(deltaTime) {
         const dieY = GAME_HEIGHT * 0.65;
         ctx.translate(dieX, dieY);
         // Slight wobble
-        const wobble = Math.sin(Date.now() / 150) * 5;
+        const wobble = Math.sin(frameTime / 150) * 5;
         ctx.rotate(wobble * Math.PI / 180);
         ctx.drawImage(
             dieSprite,
@@ -1818,15 +1901,35 @@ function drawStartScreen(deltaTime) {
         ctx.restore();
     }
     
+    // Draw top 3 scores if available
+    if (topScores.length > 0) {
+        ctx.save();
+        const topY = GAME_HEIGHT * 0.74;
+        const medals = ['#FFD700', '#C0C0C0', '#CD7F32'];
+        const medalLabels = ['1st', '2nd', '3rd'];
+        ctx.font = '28px "Creepster", cursive';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        for (let i = 0; i < topScores.length && i < 3; i++) {
+            const rowY = topY + i * 36;
+            ctx.fillStyle = medals[i];
+            ctx.shadowColor = medals[i];
+            ctx.shadowBlur = 8;
+            const name = topScores[i].name.length > 12 ? topScores[i].name.slice(0, 12) + '..' : topScores[i].name;
+            ctx.fillText(`${medalLabels[i]}  ${name}  -  ${topScores[i].score}`, GAME_WIDTH / 2, rowY);
+        }
+        ctx.restore();
+    }
+
     // Draw "View Leaderboard" button
     ctx.save();
-    const lbBtnY = GAME_HEIGHT * 0.78;
+    const lbBtnY = topScores.length > 0 ? GAME_HEIGHT * 0.86 : GAME_HEIGHT * 0.78;
     const lbBtnWidth = 440;
     const lbBtnHeight = 70;
     const lbBtnX = GAME_WIDTH / 2 - lbBtnWidth / 2;
     
     // Multi-layer animated glow
-    const time = Date.now();
+    const time = frameTime;
     const glowPulse = 0.5 + 0.5 * Math.sin(time / 400);
     const glowPulse2 = 0.5 + 0.5 * Math.sin(time / 600 + 1);
     
@@ -1929,7 +2032,7 @@ function drawStartScreen(deltaTime) {
     const settingsBtnY = lbBtnY + lbBtnHeight + 12;
     
     // Button background with purple gradient
-    const settingsGlow = 0.5 + 0.5 * Math.sin(Date.now() / 800);
+    const settingsGlow = 0.5 + 0.5 * Math.sin(frameTime / 800);
     ctx.shadowColor = `rgba(157, 78, 221, ${0.3 + settingsGlow * 0.2})`;
     ctx.shadowBlur = 20;
     
@@ -1965,44 +2068,6 @@ function drawStartScreen(deltaTime) {
     };
 }
 
-// Initialize dark mode edge particles
-function initDarkModeEdgeParticles() {
-    darkModeEdgeParticles = [];
-    for (let i = 0; i < NUM_EDGE_PARTICLES; i++) {
-        // Spawn particles along edges
-        const edge = Math.floor(Math.random() * 4); // 0=top, 1=bottom, 2=left, 3=right
-        let x, y;
-        if (edge === 0) { // top
-            x = Math.random() * GAME_WIDTH;
-            y = Math.random() * 80;
-        } else if (edge === 1) { // bottom
-            x = Math.random() * GAME_WIDTH;
-            y = GAME_HEIGHT - Math.random() * 80;
-        } else if (edge === 2) { // left
-            x = Math.random() * 80;
-            y = Math.random() * GAME_HEIGHT;
-        } else { // right
-            x = GAME_WIDTH - Math.random() * 80;
-            y = Math.random() * GAME_HEIGHT;
-        }
-        
-        darkModeEdgeParticles.push({
-            x: x,
-            y: y,
-            size: 1 + Math.random() * 3,
-            speed: 0.2 + Math.random() * 0.4,
-            opacity: 0.2 + Math.random() * 0.4,
-            color: Math.random() > 0.5 ? '#9d4edd' : '#b48eff',
-            edge: edge,
-            offset: Math.random() * Math.PI * 2
-        });
-    }
-}
-
-// Draw dark mode edges with vignette and particles
-function drawDarkModeEdges() {
-    // Disabled - using new badass dark mode instead
-}
 
 // Pentagram
 let pentagram = { 
@@ -2074,8 +2139,8 @@ function drawDemonicPentagram() {
     }
     
     const { centerX, centerY, radius, particles, energyBeams, bloodDrips } = pentagram;
-    const time = Date.now() / 1000;
-    
+    const time = frameTime / 1000;
+
     // Pulse frequencies
     const slowPulse = 0.5 + 0.5 * Math.sin(time * 0.8);
     const medPulse = 0.6 + 0.4 * Math.sin(time * 1.5);
@@ -2233,43 +2298,6 @@ function drawDemonicPentagram() {
     ctx.restore();
 }
 
-// Dark mode aura around player
-function drawDarkModeAura() {
-    ctx.save();
-    
-    const centerX = player.x + PLAYER_WIDTH / 2;
-    const centerY = player.y + PLAYER_HEIGHT / 2;
-    const time = Date.now() / 1000;
-    
-    // Pulsing aura intensity
-    const pulse = 0.7 + 0.3 * Math.sin(time * 3);
-    const fastPulse = 0.8 + 0.2 * Math.sin(time * 8);
-    
-    // Outer glow
-    const outerGlow = ctx.createRadialGradient(
-        centerX, centerY, 0,
-        centerX, centerY, PLAYER_WIDTH * 2.2
-    );
-    outerGlow.addColorStop(0, `rgba(157, 78, 221, ${0.35 * pulse})`);
-    outerGlow.addColorStop(0.25, `rgba(123, 63, 228, ${0.25 * pulse})`);
-    outerGlow.addColorStop(0.5, `rgba(90, 24, 154, ${0.15 * pulse})`);
-    outerGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
-    ctx.fillStyle = outerGlow;
-    ctx.fillRect(centerX - PLAYER_WIDTH * 2.5, centerY - PLAYER_HEIGHT * 2.5, PLAYER_WIDTH * 5, PLAYER_HEIGHT * 5);
-    
-    // Inner core
-    const innerGlow = ctx.createRadialGradient(
-        centerX, centerY, 0,
-        centerX, centerY, PLAYER_WIDTH * 0.9
-    );
-    innerGlow.addColorStop(0, `rgba(255, 255, 255, ${0.2 * fastPulse})`);
-    innerGlow.addColorStop(0.3, `rgba(200, 150, 255, ${0.15 * fastPulse})`);
-    innerGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
-    ctx.fillStyle = innerGlow;
-    ctx.fillRect(centerX - PLAYER_WIDTH * 1.2, centerY - PLAYER_HEIGHT * 1.2, PLAYER_WIDTH * 2.4, PLAYER_HEIGHT * 2.4);
-    
-    ctx.restore();
-}
 
 // Draw dark mode toggle button
 function drawDarkModeToggle() {
@@ -2281,7 +2309,7 @@ function drawDarkModeToggle() {
     const btnRadius = btnSize / 2;
     
     // Animated glow
-    const glowPulse = 0.5 + 0.5 * Math.sin(Date.now() / 800);
+    const glowPulse = 0.5 + 0.5 * Math.sin(frameTime / 800);
     
     // Button background
     ctx.shadowColor = darkMode ? 'rgba(255, 255, 255, 0.4)' : 'rgba(157, 78, 221, 0.5)';
@@ -2441,20 +2469,25 @@ function render(deltaTime) {
             ctx.fillStyle = vignetteGrad;
             ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         } else {
-            ctx.fillStyle = '#FFFFFF';
+            // Light mode - subtle gradient instead of flat white
+            const lightBg = ctx.createRadialGradient(
+                GAME_WIDTH / 2, GAME_HEIGHT / 3, 0,
+                GAME_WIDTH / 2, GAME_HEIGHT / 2, GAME_HEIGHT
+            );
+            lightBg.addColorStop(0, '#ffffff');
+            lightBg.addColorStop(0.6, '#f8f0ff');
+            lightBg.addColorStop(1, '#f0e6ff');
+            ctx.fillStyle = lightBg;
             ctx.fillRect(-50, -50, GAME_WIDTH + 100, GAME_HEIGHT + 100);
+
         }
-        
+
         drawRazors();
         drawPlayer();
-        
-        // Draw epic aura around player in dark mode
-        if (darkMode && (gameState === GameState.PLAYING || gameState === GameState.DYING)) {
-            drawDarkModeAura();
-        }
-        
+
+
         drawScore();
-        
+
         // Draw score particles (on top)
         drawScoreParticles();
         
@@ -2596,9 +2629,26 @@ function gameLoop(currentTime) {
     // Smooth using exponential moving average on median
     smoothedDeltaTime = smoothedDeltaTime * DELTA_SMOOTHING + medianDelta * (1 - DELTA_SMOOTHING);
     
-    // Clamp to reasonable range
-    smoothedDeltaTime = Math.max(8, Math.min(smoothedDeltaTime, 25));
+    // Clamp to reasonable range (4ms min = 250Hz max, 25ms max = 40fps min)
+    smoothedDeltaTime = Math.max(4, Math.min(smoothedDeltaTime, 25));
     
+    // Cache time for this frame
+    frameTime = Date.now();
+
+    // Update score count-up animation
+    if (scoreCountUp.active) {
+        scoreCountUp.elapsed += smoothedDeltaTime;
+        const progress = Math.min(scoreCountUp.elapsed / scoreCountUp.duration, 1);
+        // Ease out cubic
+        const eased = 1 - Math.pow(1 - progress, 3);
+        scoreCountUp.current = Math.round(eased * scoreCountUp.target);
+        finalScoreEl.textContent = scoreCountUp.current;
+        if (progress >= 1) {
+            scoreCountUp.active = false;
+            finalScoreEl.textContent = scoreCountUp.target;
+        }
+    }
+
     // Update and render with smoothed delta
     update(smoothedDeltaTime);
     render(smoothedDeltaTime);
@@ -2652,12 +2702,18 @@ function showPlayButton() {
 
 function dismissLoadingScreen() {
     const loadingScreen = document.getElementById('loading-screen');
-    
+
+    // Clear the bird animation interval
+    if (window._loadingBirdInterval) {
+        clearInterval(window._loadingBirdInterval);
+        window._loadingBirdInterval = null;
+    }
+
     if (loadingScreen) {
         loadingScreen.classList.add('hidden');
         setTimeout(() => {
             loadingScreen.style.display = 'none';
-        }, 500);
+        }, 1000);
     }
     
     
@@ -2766,7 +2822,12 @@ function setupPlayButton() {
 
 async function init() {
     console.log('Initializing Flap Emonad...');
-    
+
+    // Load persisted data
+    loadBestScore();
+    loadSettings();
+    loadDarkModePreference();
+
     try {
         // Simulate loading progress
         updateLoadingBar(10);
@@ -3422,14 +3483,8 @@ window.addEventListener('pageshow', function(event) {
     }
 });
 
-// Start the game
+// Start the game (loads settings, dark mode, best score internally)
 init();
-
-// Load all settings from localStorage
-loadSettings();
-
-// Load dark mode preference
-loadDarkModePreference();
 
 // Load leaderboard on page load
 setTimeout(loadLeaderboard, 1000);
@@ -3466,7 +3521,7 @@ setTimeout(loadLeaderboard, 1000);
             
             // Force visibility of all elements
             setTimeout(() => {
-                const elements = gameOverScreen.querySelectorAll('h2, p, button, a, input, .name-input-container, .submit-hint');
+                const elements = gameOverScreen.querySelectorAll('h2, p, button, a, input, .name-input-container, .best-score-text');
                 elements.forEach(el => {
                     el.style.opacity = '1';
                     el.style.transform = 'none';

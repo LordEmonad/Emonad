@@ -82,7 +82,7 @@
         var(--bg-color);
       transform: scaleY(1);
       transform-origin: top;
-      animation: ptOverlayOut 0.55s 0.1s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+      animation: ptOverlayOut 1.1s 0.25s cubic-bezier(0.77, 0, 0.175, 1) forwards;
     }
 
     .page-transition .pt-logo {
@@ -90,7 +90,7 @@
       z-index: 1;
       opacity: 1;
       transform: scale(1) rotate(0deg);
-      animation: ptLogoOut 0.35s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+      animation: ptLogoOut 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
     }
 
     .page-transition .pt-logo svg {
@@ -105,7 +105,7 @@
       border-radius: 50%;
       background: radial-gradient(circle, rgba(155, 95, 255, 0.3) 0%, transparent 70%);
       opacity: 0.6;
-      animation: ptGlowOut 0.3s ease forwards;
+      animation: ptGlowOut 0.7s ease forwards;
     }
 
     @keyframes ptOverlayOut {
@@ -124,7 +124,7 @@
     }
 
     .page-enter {
-      animation: ptPageEnter 0.6s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation: ptPageEnter 1.1s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
     @keyframes ptPageEnter {
@@ -140,18 +140,18 @@
     .page-transition.exit-active .pt-overlay {
       transform: scaleY(0);
       transform-origin: bottom;
-      animation: ptOverlayIn 0.55s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+      animation: ptOverlayIn 1.1s cubic-bezier(0.77, 0, 0.175, 1) forwards;
     }
 
     .page-transition.exit-active .pt-logo {
       opacity: 0;
       transform: scale(0.5) rotate(-30deg);
-      animation: ptLogoIn 0.5s 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: ptLogoIn 1.0s 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .page-transition.exit-active .pt-glow {
       opacity: 0;
-      animation: ptGlowPulse 0.6s 0.3s ease forwards;
+      animation: ptGlowPulse 1.1s 0.55s ease forwards;
     }
 
     @keyframes ptOverlayIn {
@@ -173,7 +173,7 @@
 
     .page-transition.exit-active ~ .price-ticker,
     .page-transition.exit-active ~ .container {
-      animation: ptContentOut 0.45s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+      animation: ptContentOut 0.95s cubic-bezier(0.77, 0, 0.175, 1) forwards;
     }
 
     @keyframes ptContentOut {
@@ -2729,7 +2729,7 @@
         pt.querySelector('.pt-overlay').style.display = 'none';
         pt.querySelector('.pt-logo').style.display = 'none';
         pt.querySelector('.pt-glow').style.display = 'none';
-      }, 800);
+      }, 1600);
 
       // Exit: intercept back link to emo.html
       document.addEventListener('click', (e) => {
@@ -2744,10 +2744,11 @@
         pt.querySelector('.pt-glow').style.display = '';
         pt.classList.remove('enter');
         pt.classList.add('exit-active');
+        sessionStorage.setItem('pt-entering', '1');
 
         setTimeout(() => {
           window.location.href = href;
-        }, 650);
+        }, 1400);
       });
     })();
   </script>

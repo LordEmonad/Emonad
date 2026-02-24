@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=46">
+    <link rel="stylesheet" href="style.css?v=48">
     <style>
         /* Loading Screen Styles */
         #loading-screen {
@@ -26,7 +26,7 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition: opacity 1s ease-out, transform 1s ease-out;
             overflow: hidden;
         }
         
@@ -298,21 +298,17 @@
         <button id="play-btn">▶ PLAY</button>
     </div>
     <script>
-        // Audio is handled by script.js - no duplicate calls here
-    </script>
-    
-    <script>
-        // Animate the loading bird through flap frames - only 1 and 2, slower
+        // Animate the loading bird through flap frames
         const flapFrames = ['flap1.PNG', 'flap2.PNG'];
         let currentFlapFrame = 0;
         const loadingBirdImg = document.getElementById('loading-bird-img');
-        
-        setInterval(() => {
+
+        window._loadingBirdInterval = setInterval(() => {
             if (loadingBirdImg) {
                 currentFlapFrame = (currentFlapFrame + 1) % flapFrames.length;
                 loadingBirdImg.src = flapFrames[currentFlapFrame];
             }
-        }, 250); // Slower - change frame every 250ms
+        }, 250);
     </script>
 
     <div id="game-container">
@@ -322,23 +318,19 @@
         <div id="game-over-screen" class="hidden">
             <h2>GAME OVER</h2>
             <p>Score: <span id="final-score">0</span></p>
-            
-            <!-- Name input for leaderboard -->
+            <p id="best-score-line" class="best-score-text" style="display:none;">BEST: <span id="best-score-display">0</span></p>
+
             <div class="name-input-container">
                 <input type="text" id="player-name-input" placeholder="Enter your name" maxlength="20" required>
             </div>
-            
+
             <div class="game-over-buttons">
                 <button id="home-btn">🏠 HOME</button>
                 <button id="submit-score-btn" onclick="submitScoreToBlockchain()">Submit Score</button>
             </div>
-            
-            
+
             <a href="leaderboard.html" class="view-lb-btn">🏆 View Leaderboard</a>
-            <a href="settings.html" class="view-lb-btn" style="background: linear-gradient(135deg, #7B3FE4, #9B5FFF); margin-top: 10px;">⚙️ Settings</a>
-            <p class="submit-hint">Click Submit Score to connect wallet & submit on-chain</p>
-            
-            <!-- Full-width restart bar at bottom -->
+
             <button id="restart-btn">TAP TO RESTART</button>
         </div>
         
@@ -347,7 +339,7 @@
     <!-- Ethers.js for blockchain interaction -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.9.0/ethers.umd.min.js"></script>
     <script src="audio.js?v=28"></script>
-    <script src="script.js?v=56"></script>
+    <script src="script.js?v=62"></script>
     
 </body>
 </html>

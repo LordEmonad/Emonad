@@ -22,13 +22,22 @@
         
         /* Page transition */
         body {
-            animation: pageFadeIn 0.3s ease-out;
+            animation: pageFadeIn 0.7s ease-out;
             -webkit-tap-highlight-color: transparent;
         }
-        
+
         @keyframes pageFadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
+        }
+
+        .page-transitioning {
+            animation: pageTransitionOut 0.65s cubic-bezier(0.4, 0, 1, 1) forwards;
+        }
+
+        @keyframes pageTransitionOut {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(1.03); }
         }
         
         /* Touch feedback for mobile */
@@ -909,6 +918,22 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
+        // Smooth page navigation with fade-out transition
+        function navigateWithTransition(url) {
+            document.body.classList.add('page-transitioning');
+            setTimeout(() => {
+                window.location.href = url;
+            }, 650);
+        }
+
+        // Intercept back/nav links for smooth transitions
+        document.querySelectorAll('a.back-btn, a.settings-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                navigateWithTransition(link.getAttribute('href'));
+            });
+        });
+
         // Load on page load
         loadLeaderboard();
     </script>
