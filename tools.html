@@ -2,17 +2,22 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <title>$EMO Tools — Monad Utilities</title>
   <meta name="description" content="$EMO Tools — Monad token utilities for holders & builders">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    @font-face {
+      font-family: 'Space Grotesk';
+      font-style: normal;
+      font-weight: 500 800;
+      font-display: swap;
+      src: url(fonts/SpaceGrotesk-latin.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
     :root {
       --bg-color: #ffffff;
       --text-color: #1a1a1a;
@@ -1836,6 +1841,9 @@
       return `${Math.floor(seconds / 86400)}d ago`;
     }
 
+    const apiCache = {};
+    const API_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
     async function apiCall(endpoint, params = {}) {
       const apiKey = getApiKey();
       if (!apiKey) throw new Error('Please enter your BlockVision API key');
@@ -1844,6 +1852,13 @@
       Object.keys(params).forEach(key => {
         if (params[key]) url.searchParams.append(key, params[key]);
       });
+
+      // Check cache
+      const cacheKey = url.toString();
+      const cached = apiCache[cacheKey];
+      if (cached && Date.now() - cached.time < API_CACHE_TTL) {
+        return cached.data;
+      }
 
       const response = await fetch(url, {
         headers: { 'X-API-Key': apiKey, 'Accept': 'application/json' }
@@ -1857,6 +1872,8 @@
 
       const data = await response.json();
       if (data.code !== 0) throw new Error(data.reason || 'API error');
+
+      apiCache[cacheKey] = { data: data.result, time: Date.now() };
       return data.result;
     }
 
@@ -2135,6 +2152,7 @@
         for (let i = 0; i < holders.length; i++) {
           const whale = holders[i];
           showStatus('whaleStatus', `Analyzing whale ${i + 1}/${holders.length}...`, 'loading');
+          if (i > 0) await new Promise(r => setTimeout(r, 300));
 
           try {
             const tokensResult = await apiCall('account/tokens', { address: whale.holder });
@@ -2278,6 +2296,7 @@
         for (let i = 0; i < holders.length; i++) {
           const holder = holders[i];
           showStatus('diamondStatus', `Analyzing holder ${i + 1}/${holders.length}...`, 'loading');
+          if (i > 0) await new Promise(r => setTimeout(r, 300));
 
           const percentage = parseFloat(holder.percentage || 0);
           totalSupplyHeld += percentage;

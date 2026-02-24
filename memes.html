@@ -9,10 +9,15 @@
   <meta name="description" content="$EMO meme gallery — the emo kid of Monad">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    @font-face {
+      font-family: 'Space Grotesk';
+      font-style: normal;
+      font-weight: 500 800;
+      font-display: swap;
+      src: url(fonts/SpaceGrotesk-latin.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
     :root {
       --bg-color: #ffffff;
       --text-color: #1a1a1a;
@@ -564,7 +569,8 @@
 
       .back-btn {
         font-size: 12px;
-        padding: 5px 12px;
+        padding: 8px 14px;
+        min-height: 44px;
       }
 
       .meme-count { font-size: 11px; }
@@ -625,7 +631,14 @@
 
       .header h1 { font-size: 1.4rem; }
 
-      .lightbox-nav { display: none; }
+      .lightbox-nav {
+        width: 34px;
+        height: 34px;
+        font-size: 14px;
+      }
+
+      .lightbox-prev { left: 6px; }
+      .lightbox-next { right: 6px; }
     }
   </style>
 </head>
@@ -669,6 +682,7 @@
     <button class="lightbox-close" id="lightboxClose" aria-label="Close viewer">&times;</button>
     <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous meme">&#10094;</button>
     <img class="lightbox-media" src="" alt="Full size meme" id="lightboxImg">
+    <video class="lightbox-media" id="lightboxVideo" controls playsinline loop style="display:none"></video>
     <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next meme">&#10095;</button>
     <div class="lightbox-bottom">
       <div class="lightbox-counter" id="lightboxCounter"></div>
@@ -746,6 +760,7 @@
     // ── Lightbox ──
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxVideo = document.getElementById('lightboxVideo');
     const lightboxClose = document.getElementById('lightboxClose');
     const lightboxPrev = document.getElementById('lightboxPrev');
     const lightboxNext = document.getElementById('lightboxNext');
@@ -755,7 +770,10 @@
     const memeItems = Array.from(document.querySelectorAll('.meme-item'));
     const allMedia = memeItems.map(item => {
       const img = item.querySelector('img');
-      return img ? img.src : null;
+      const video = item.querySelector('video');
+      if (img) return { src: img.src, type: 'image' };
+      if (video) return { src: video.src, type: 'video' };
+      return null;
     }).filter(Boolean);
 
     let currentIndex = 0;
@@ -771,13 +789,28 @@
 
     function closeLightbox() {
       lightbox.classList.remove('active');
+      lightboxVideo.pause();
+      lightboxVideo.src = '';
       if (previousFocus) previousFocus.focus();
     }
 
     function updateLightbox() {
-      lightboxImg.src = allMedia[currentIndex];
+      const media = allMedia[currentIndex];
+      if (media.type === 'video') {
+        lightboxImg.style.display = 'none';
+        lightboxVideo.style.display = '';
+        lightboxVideo.src = media.src;
+        lightboxVideo.play();
+        lightboxImg.src = '';
+      } else {
+        lightboxVideo.pause();
+        lightboxVideo.style.display = 'none';
+        lightboxVideo.src = '';
+        lightboxImg.style.display = '';
+        lightboxImg.src = media.src;
+      }
       lightboxCounter.textContent = (currentIndex + 1) + ' / ' + allMedia.length;
-      lightboxDownload.href = allMedia[currentIndex];
+      lightboxDownload.href = media.src;
     }
 
     function showMeme(index) {
@@ -788,11 +821,9 @@
     }
 
     // Click to open
-    let imgIndex = 0;
-    memeItems.forEach(item => {
-      const img = item.querySelector('img');
-      if (!img) return;
-      const idx = imgIndex++;
+    memeItems.forEach((item, idx) => {
+      item.setAttribute('tabindex', '0');
+      item.setAttribute('role', 'button');
       item.addEventListener('click', () => openLightbox(idx));
       item.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(idx); }

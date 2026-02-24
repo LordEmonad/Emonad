@@ -2,7 +2,7 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <title>$EMO — Emonad Memecoin</title>
@@ -27,11 +27,15 @@
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="preload" as="image" href="emonad.webp" type="image/webp">
-  <link rel="preload" as="image" href="emonad.jpg" type="image/jpeg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    @font-face {
+      font-family: 'Space Grotesk';
+      font-style: normal;
+      font-weight: 500 800;
+      font-display: swap;
+      src: url(fonts/SpaceGrotesk-latin.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
     :root {
       --bg-color: #ffffff;
       --text-color: #1a1a1a;
@@ -1092,13 +1096,15 @@
       .btn-primary { max-width: 100%; width: 100%; padding: 13px 20px; }
 
       .btn {
-        padding: 7px 12px;
-        font-size: 11px;
+        padding: 10px 14px;
+        font-size: 12px;
+        min-height: 44px;
       }
 
       .contract-address {
-        font-size: 9px;
-        padding: 7px 10px;
+        font-size: 10px;
+        padding: 10px 12px;
+        min-height: 44px;
       }
 
       .header-image {
@@ -1151,8 +1157,8 @@
 
   <div class="container">
     <picture>
-      <source srcset="emonad.webp" type="image/webp">
-      <img src="emonad.jpg" alt="Emonad mascot" class="header-image animate-in" style="animation-delay:0.05s">
+      <source srcset="emonad-200.webp 200w, emonad.webp 1152w" sizes="(max-width: 380px) 160px, (max-width: 768px) 200px, 360px" type="image/webp">
+      <img src="emonad.jpg" srcset="emonad-200.jpg 200w, emonad.jpg 1152w" sizes="(max-width: 380px) 160px, (max-width: 768px) 200px, 360px" alt="Emonad mascot" class="header-image animate-in" style="animation-delay:0.05s">
     </picture>
 
     <h1 class="title animate-in" style="animation-delay:0.12s">$EMO</h1>
@@ -1291,6 +1297,7 @@
     var isFirstFetch = true;
     var lastFetchTime = null;
     var tickerLoaded = false;
+    var fetchFailCount = 0;
 
     function fmt(n) {
       if (n == null) return '--';
@@ -1337,11 +1344,20 @@
           }
           isFirstFetch = false;
           tickerLoaded = true;
+          fetchFailCount = 0;
           lastFetchTime = Date.now();
         }
       } catch (error) {
         console.log('Price fetch error:', error);
+        fetchFailCount++;
         if (!tickerLoaded) clearSkeletons();
+        if (fetchFailCount >= 3) {
+          document.getElementById('tickerUpdated').textContent = 'price unavailable';
+        }
+        // Retry sooner on failure (5s, capped at 3 retries before normal interval)
+        if (fetchFailCount <= 3) {
+          setTimeout(fetchPrice, 5000);
+        }
       }
     }
 
