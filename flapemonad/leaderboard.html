@@ -847,16 +847,32 @@
                     li.classList.add('current-user');
                 }
                 
-                const txButton = player.txHash 
-                    ? `<a href="https://monadvision.com/tx/${player.txHash}?tab=Logs" target="_blank" class="tx-btn" title="View Transaction">TX</a>`
-                    : '';
-                
-                li.innerHTML = `
-                    <span class="rank ${rankClass}">#${player.rank}</span>
-                    <span class="player-name">${player.name}</span>
-                    <span class="score">${player.score}</span>
-                    ${txButton}
-                `;
+                const rankSpan = document.createElement('span');
+                rankSpan.className = `rank ${rankClass}`;
+                rankSpan.textContent = `#${player.rank}`;
+
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'player-name';
+                nameSpan.textContent = player.name;
+
+                const scoreSpan = document.createElement('span');
+                scoreSpan.className = 'score';
+                scoreSpan.textContent = player.score;
+
+                li.appendChild(rankSpan);
+                li.appendChild(nameSpan);
+                li.appendChild(scoreSpan);
+
+                if (player.txHash && /^0x[0-9a-fA-F]{64}$/.test(player.txHash)) {
+                    const txLink = document.createElement('a');
+                    txLink.href = `https://monadvision.com/tx/${player.txHash}?tab=Logs`;
+                    txLink.target = '_blank';
+                    txLink.rel = 'noopener noreferrer';
+                    txLink.className = 'tx-btn';
+                    txLink.title = 'View Transaction';
+                    txLink.textContent = 'TX';
+                    li.appendChild(txLink);
+                }
                 
                 leaderboardList.appendChild(li);
             }

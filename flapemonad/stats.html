@@ -726,7 +726,7 @@
         const MONAD_RPC = 'https://rpc.monad.xyz';
         const LEADERBOARD_ADDRESS = '0x7fffA7d3FF68A8781d3cc724810ddb03601D9642';
         const FLAP_COUNTER_ADDRESS = '0xF68865966172F2E2C062905c936b602e39C4C4F2';
-        const REFEREE_SERVER_URL = 'https://felt-majority-alan-pair.trycloudflare.com';
+        const REFEREE_SERVER_URL = 'https://api.emonad.lol';
         
         // Extended ABI for stats
         const LEADERBOARD_ABI = [
@@ -851,13 +851,30 @@
                 const row = document.createElement('div');
                 row.className = `player-row ${rowClass}`;
                 row.style.cursor = 'pointer';
-                row.onclick = () => window.open(`https://monadvision.com/address/${player.address}`, '_blank');
-                row.innerHTML = `
-                    <span class="rank ${rankClass}">#${player.rank}</span>
-                    <span class="name">${player.name}</span>
-                    <span class="address">${shortAddress}</span>
-                    <span class="score">${player.score}</span>
-                `;
+                if (/^0x[0-9a-fA-F]{40}$/.test(player.address)) {
+                    row.onclick = () => window.open(`https://monadvision.com/address/${player.address}`, '_blank', 'noopener');
+                }
+
+                const rankSpan = document.createElement('span');
+                rankSpan.className = `rank ${rankClass}`;
+                rankSpan.textContent = `#${player.rank}`;
+
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'name';
+                nameSpan.textContent = player.name;
+
+                const addrSpan = document.createElement('span');
+                addrSpan.className = 'address';
+                addrSpan.textContent = shortAddress;
+
+                const scoreSpan = document.createElement('span');
+                scoreSpan.className = 'score';
+                scoreSpan.textContent = player.score;
+
+                row.appendChild(rankSpan);
+                row.appendChild(nameSpan);
+                row.appendChild(addrSpan);
+                row.appendChild(scoreSpan);
                 container.appendChild(row);
             }
             

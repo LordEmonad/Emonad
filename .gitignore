@@ -57,5 +57,8 @@ resize_emojis.py
 set_sticker_thumb.py
 update_memes.ps1
 
+# Node
+node_modules/
+
 # Local config
 .claude/

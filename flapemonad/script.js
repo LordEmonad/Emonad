@@ -3406,7 +3406,16 @@ async function loadLeaderboard() {
                 : players[i].slice(0, 6) + '...' + players[i].slice(-4);
             
             const li = document.createElement('li');
-            li.innerHTML = `<span class="rank">#${i + 1}</span> <span class="player-name">${displayName}</span> <span class="lb-score">${scores[i]}</span>`;
+            const rankSpan = document.createElement('span');
+            rankSpan.className = 'rank';
+            rankSpan.textContent = `#${i + 1}`;
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'player-name';
+            nameSpan.textContent = displayName;
+            const scoreSpan = document.createElement('span');
+            scoreSpan.className = 'lb-score';
+            scoreSpan.textContent = scores[i];
+            li.append(rankSpan, document.createTextNode(' '), nameSpan, document.createTextNode(' '), scoreSpan);
             
             // Highlight current user
             if (userAddress && players[i].toLowerCase() === userAddress.toLowerCase()) {
