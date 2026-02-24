@@ -19,11 +19,16 @@
   <meta name="twitter:description" content="i lost it all on day 1">
   <meta name="twitter:image" content="https://emonad.lol/og-image.jpg">
 
-  <link rel="icon" type="image/png" href="token image.png">
-  <link rel="apple-touch-icon" href="token image.png">
+  <meta name="description" content="$EMO — the emo kid of Monad. Buy, trade, and join the community.">
+  <link rel="canonical" href="https://emonad.lol/emo.html">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="preload" as="image" href="emonad.webp" type="image/webp">
+  <link rel="preload" as="image" href="emonad.jpg" type="image/jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-color: #ffffff;
@@ -303,12 +308,19 @@
       box-shadow: 0 20px 50px rgba(155, 95, 255, 0.3), 0 8px 20px rgba(0, 0, 0, 0.15);
     }
 
+    .header-image.parallax {
+      will-change: transform;
+    }
+
     .title {
       font-size: 2.4rem;
       font-weight: 800;
       margin: 0 0 6px;
-      color: var(--text-color);
       letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--accent), var(--text-color) 70%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .subtitle {
@@ -514,27 +526,77 @@
 
     .contract-address.copied .copy-icon { opacity: 1; }
 
-    .contract-address.copied::after {
-      content: 'Copied!';
-      position: absolute;
-      top: -36px;
+    .contract-full { display: inline; }
+    .contract-short { display: none; }
+
+    /* ── Toast Notification ── */
+    .toast {
+      position: fixed;
+      bottom: 32px;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translateX(-50%) translateY(20px);
       background: var(--accent);
       color: white;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 12px;
+      padding: 10px 22px;
+      border-radius: 999px;
+      font-size: 13px;
       font-weight: 600;
-      box-shadow: 0 4px 15px var(--accent-glow);
-      animation: fadeInOut 1.8s ease;
+      font-family: 'Space Grotesk', sans-serif;
+      box-shadow: 0 8px 30px var(--accent-glow);
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
     }
 
-    @keyframes fadeInOut {
-      0% { opacity: 0; }
-      15% { opacity: 1; }
-      75% { opacity: 1; }
-      100% { opacity: 0; }
+    .toast.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── Price Alert Glow ── */
+    @keyframes alertGlow {
+      0%, 100% { box-shadow: none; }
+      50% { box-shadow: 0 0 12px 2px currentColor; }
+    }
+
+    .change-badge.alert {
+      animation: alertGlow 1.5s ease 3;
+    }
+
+    /* ── Button Icons ── */
+    .btn-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    /* ── Button Ripple ── */
+    .btn, .btn-primary, .share-btn, .contract-address {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(0);
+      animation: rippleOut 0.5s ease-out;
+      pointer-events: none;
+    }
+
+    @keyframes rippleOut {
+      to { transform: scale(4); opacity: 0; }
+    }
+
+    /* ── Updated Ago ── */
+    .ticker-updated {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 500;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .monad-badge {
@@ -612,22 +674,6 @@
       outline-offset: 2px;
     }
 
-    .share-btn.shared::after {
-      content: 'Link copied!';
-      position: absolute;
-      top: -36px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--accent);
-      color: white;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      white-space: nowrap;
-      box-shadow: 0 4px 15px var(--accent-glow);
-      animation: fadeInOut 1.8s ease;
-    }
 
     /* ── Chart Modal ── */
     .modal-overlay {
@@ -811,6 +857,8 @@
       .modal-spinner { animation: none; }
       .ticker-flash { animation: none; }
       body::after { animation: none !important; }
+      .change-badge.alert { animation: none; }
+      .ripple { animation: none; display: none; }
     }
 
     /* ── Responsive ── */
@@ -858,13 +906,13 @@
       }
 
       .contract-address {
-        font-size: 10px;
+        font-size: 12px;
         padding: 9px 14px;
-        white-space: normal;
-        word-break: break-all;
-        line-height: 1.4;
         max-width: 100%;
       }
+
+      .contract-full { display: none; }
+      .contract-short { display: inline; }
 
       .modal-content {
         width: 100%;
@@ -962,6 +1010,7 @@
       <span class="ticker-value" id="tickerFdv"><span class="ticker-skeleton"></span></span>
     </div>
     <span class="ticker-spacer"></span>
+    <span class="ticker-updated" id="tickerUpdated"></span>
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark and light theme">
       <span class="icon-sun">&#9680;</span>
       <span class="icon-moon">&#9681;</span>
@@ -969,7 +1018,10 @@
   </div>
 
   <div class="container">
-    <img src="emonad.jpg" alt="Emonad mascot" class="header-image animate-in" style="animation-delay:0.05s">
+    <picture>
+      <source srcset="emonad.webp" type="image/webp">
+      <img src="emonad.jpg" alt="Emonad mascot" class="header-image animate-in" style="animation-delay:0.05s">
+    </picture>
 
     <h1 class="title animate-in" style="animation-delay:0.12s">$EMO</h1>
     <p class="subtitle" id="subtitle" style="opacity:0">i lost it all on day 1</p>
@@ -995,8 +1047,8 @@
     <div class="button-section animate-in" style="animation-delay:0.38s">
       <div class="section-label">Community</div>
       <div class="button-grid">
-        <a href="https://twitter.com/EmonadCoin" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Twitter</a>
-        <a href="https://t.me/+8RP7jI5wA3o2N2Fh" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Telegram</a>
+        <a href="https://twitter.com/EmonadCoin" class="btn btn-outline" target="_blank" rel="noopener noreferrer"><svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter</a>
+        <a href="https://t.me/+8RP7jI5wA3o2N2Fh" class="btn btn-outline" target="_blank" rel="noopener noreferrer"><svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>Telegram</a>
       </div>
     </div>
 
@@ -1015,7 +1067,7 @@
     <!-- Contract Address -->
     <div class="contract-section animate-in" style="animation-delay:0.48s">
       <div class="contract-address" id="contractAddress" role="button" tabindex="0" aria-label="Copy contract address to clipboard">
-        <span id="contractText">0x81A224F8A62f52BdE942dBF23A56df77A10b7777</span>
+        <span id="contractText"><span class="contract-full">0x81A224F8A62f52BdE942dBF23A56df77A10b7777</span><span class="contract-short">0x81A2...7777</span></span>
         <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
       </div>
       <div class="monad-badge" aria-label="Live on Monad network">
@@ -1037,7 +1089,7 @@
       <span class="footer-dot">·</span>
       <a href="https://t.me/+8RP7jI5wA3o2N2Fh" target="_blank" rel="noopener noreferrer">Telegram</a>
       <span class="footer-dot">·</span>
-      <span>Built on Monad</span>
+      <span>the emo kid of Monad</span>
     </footer>
   </div>
 
@@ -1089,8 +1141,33 @@
       el.classList.add('ticker-flash');
     }
 
+    // ── Animated Counter ──
+    function animateValue(el, newText, duration) {
+      if (el.textContent === newText) return;
+      el.style.transition = 'opacity 0.15s';
+      el.style.opacity = '0.4';
+      setTimeout(() => {
+        el.textContent = newText;
+        el.style.opacity = '1';
+      }, 150);
+    }
+
     // ── Price Ticker — unified fetch ──
     var isFirstFetch = true;
+    var lastFetchTime = null;
+    var tickerLoaded = false;
+
+    function fmt(n) {
+      if (n == null) return '--';
+      return n >= 1000000 ? '$' + (n / 1000000).toFixed(2) + 'M' : '$' + (n / 1000).toFixed(1) + 'K';
+    }
+
+    function clearSkeletons() {
+      document.querySelectorAll('.ticker-skeleton').forEach(s => {
+        s.parentElement.textContent = '--';
+      });
+    }
+
     async function fetchPrice() {
       try {
         const response = await fetch('https://api.dexscreener.com/latest/dex/pairs/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d');
@@ -1100,18 +1177,21 @@
           const price = parseFloat(pair.priceUsd);
           const change24h = parseFloat(pair.priceChange.h24);
 
-          document.getElementById('tokenPrice').textContent = formatPrice(price);
+          const priceEl = document.getElementById('tokenPrice');
+          const newPrice = formatPrice(price);
+          if (isFirstFetch) { priceEl.textContent = newPrice; }
+          else { animateValue(priceEl, newPrice, 200); }
 
           const changeEl = document.getElementById('priceChange');
           changeEl.textContent = (change24h >= 0 ? '+' : '') + change24h.toFixed(2) + '%';
-          changeEl.className = 'change-badge ' + (change24h >= 0 ? 'positive' : 'negative');
+          const alertClass = Math.abs(change24h) >= 20 ? ' alert' : '';
+          changeEl.className = 'change-badge ' + (change24h >= 0 ? 'positive' : 'negative') + alertClass;
 
-          function fmt(n) {
-            if (n == null) return '--';
-            return n >= 1000000 ? '$' + (n / 1000000).toFixed(2) + 'M' : '$' + (n / 1000).toFixed(1) + 'K';
-          }
+          const mcEl = document.getElementById('marketCap');
+          const mcText = pair.marketCap ? fmt(pair.marketCap) : '--';
+          if (isFirstFetch) { mcEl.textContent = mcText; }
+          else { animateValue(mcEl, mcText, 200); }
 
-          document.getElementById('marketCap').textContent = pair.marketCap ? fmt(pair.marketCap) : '--';
           document.getElementById('tickerVolume').textContent = pair.volume && pair.volume.h24 ? fmt(pair.volume.h24) : '--';
           document.getElementById('tickerLiquidity').textContent = pair.liquidity && pair.liquidity.usd ? fmt(pair.liquidity.usd) : '--';
           document.getElementById('tickerFdv').textContent = pair.fdv ? fmt(pair.fdv) : '--';
@@ -1121,88 +1201,128 @@
             flashTicker('marketCap');
           }
           isFirstFetch = false;
+          tickerLoaded = true;
+          lastFetchTime = Date.now();
         }
       } catch (error) {
         console.log('Price fetch error:', error);
+        if (!tickerLoaded) clearSkeletons();
       }
     }
+
+    // Timeout fallback: if API hasn't responded after 8s, clear skeletons
+    setTimeout(() => { if (!tickerLoaded) clearSkeletons(); }, 8000);
 
     fetchPrice();
     setInterval(fetchPrice, 30000);
 
+    // ── "Updated ago" timer ──
+    setInterval(() => {
+      if (!lastFetchTime) return;
+      const seconds = Math.floor((Date.now() - lastFetchTime) / 1000);
+      const el = document.getElementById('tickerUpdated');
+      if (seconds < 5) el.textContent = 'just now';
+      else if (seconds < 60) el.textContent = seconds + 's ago';
+      else el.textContent = Math.floor(seconds / 60) + 'm ago';
+    }, 1000);
+
+    // ── Toast Notification ──
+    let toastTimer;
+    function showToast(message) {
+      let toast = document.querySelector('.toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.className = 'toast';
+        document.body.appendChild(toast);
+      }
+      clearTimeout(toastTimer);
+      toast.textContent = message;
+      toast.classList.add('visible');
+      toastTimer = setTimeout(() => toast.classList.remove('visible'), 1800);
+    }
+
     // ── Copy Contract (click + keyboard) ──
     const contractEl = document.getElementById('contractAddress');
     function copyContract() {
-      navigator.clipboard.writeText(document.getElementById('contractText').textContent);
+      navigator.clipboard.writeText('0x81A224F8A62f52BdE942dBF23A56df77A10b7777');
       contractEl.classList.add('copied');
       setTimeout(() => contractEl.classList.remove('copied'), 1800);
+      showToast('Copied!');
+      if (navigator.vibrate) navigator.vibrate(10);
     }
     contractEl.addEventListener('click', copyContract);
     contractEl.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); copyContract(); }
     });
 
-    // ── Chart Modal ──
+    // ── Modals ──
     const chartModal = document.getElementById('chartModal');
     const chartFrame = document.getElementById('chartFrame');
     const chartClose = document.getElementById('chartClose');
     const chartSpinner = document.getElementById('chartSpinner');
-
-    document.getElementById('chartBtn').addEventListener('click', () => {
-      chartSpinner.style.display = 'block';
-      chartFrame.src = 'https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d?embed=1&theme=dark&info=0';
-      chartModal.classList.add('active');
-      chartClose.focus();
-    });
-
-    chartFrame.addEventListener('load', () => { chartSpinner.style.display = 'none'; });
-
-    chartClose.addEventListener('click', () => {
-      chartModal.classList.remove('active');
-      chartFrame.src = '';
-    });
-
-    chartModal.addEventListener('click', (e) => {
-      if (e.target === chartModal) { chartModal.classList.remove('active'); chartFrame.src = ''; }
-    });
-
-    // ── Buy Modal ──
     const buyModal = document.getElementById('buyModal');
     const buyFrame = document.getElementById('buyFrame');
     const buyClose = document.getElementById('buyClose');
     const buySpinner = document.getElementById('buySpinner');
 
-    document.getElementById('buyBtn').addEventListener('click', () => {
-      buySpinner.style.display = 'block';
-      buyFrame.src = 'https://app.uniswap.org/swap?chain=monad&outputCurrency=0x81A224F8A62f52BdE942dBF23A56df77A10b7777';
-      buyModal.classList.add('active');
-      buyClose.focus();
-    });
-
+    chartFrame.addEventListener('load', () => { chartSpinner.style.display = 'none'; });
     buyFrame.addEventListener('load', () => { buySpinner.style.display = 'none'; });
 
-    buyClose.addEventListener('click', () => {
-      buyModal.classList.remove('active');
-      buyFrame.src = '';
-    });
+    // ── Modal Focus Trap + Escape ──
+    let previousFocus = null;
 
-    buyModal.addEventListener('click', (e) => {
-      if (e.target === buyModal) { buyModal.classList.remove('active'); buyFrame.src = ''; }
-    });
-
-    // ── Escape key closes modals ──
-    document.addEventListener('keydown', (e) => {
+    function trapFocus(modal, e) {
       if (e.key === 'Escape') {
-        if (chartModal.classList.contains('active')) { chartModal.classList.remove('active'); chartFrame.src = ''; }
-        if (buyModal.classList.contains('active')) { buyModal.classList.remove('active'); buyFrame.src = ''; }
+        closeModal(modal === chartModal ? 'chart' : 'buy');
+        return;
       }
-    });
+      if (e.key !== 'Tab') return;
+      const focusable = modal.querySelectorAll('button, [tabindex]:not([tabindex="-1"]), iframe');
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+
+    function openModal(type) {
+      previousFocus = document.activeElement;
+      const modal = type === 'chart' ? chartModal : buyModal;
+      const frame = type === 'chart' ? chartFrame : buyFrame;
+      const spinner = type === 'chart' ? chartSpinner : buySpinner;
+      const close = type === 'chart' ? chartClose : buyClose;
+      spinner.style.display = 'block';
+      frame.src = type === 'chart'
+        ? 'https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d?embed=1&theme=dark&info=0'
+        : 'https://app.uniswap.org/swap?chain=monad&outputCurrency=0x81A224F8A62f52BdE942dBF23A56df77A10b7777';
+      modal.classList.add('active');
+      close.focus();
+      document.addEventListener('keydown', modal._trapHandler = (e) => trapFocus(modal, e));
+    }
+
+    function closeModal(type) {
+      const modal = type === 'chart' ? chartModal : buyModal;
+      const frame = type === 'chart' ? chartFrame : buyFrame;
+      modal.classList.remove('active');
+      frame.src = '';
+      if (modal._trapHandler) document.removeEventListener('keydown', modal._trapHandler);
+      if (previousFocus) previousFocus.focus();
+    }
+
+    document.getElementById('chartBtn').addEventListener('click', () => openModal('chart'));
+    document.getElementById('buyBtn').addEventListener('click', () => openModal('buy'));
+
+    chartClose.addEventListener('click', () => closeModal('chart'));
+    chartModal.addEventListener('click', (e) => { if (e.target === chartModal) closeModal('chart'); });
+
+    buyClose.addEventListener('click', () => closeModal('buy'));
+    buyModal.addEventListener('click', (e) => { if (e.target === buyModal) closeModal('buy'); });
 
     // ── Theme Toggle (smooth transition) ──
     const themeToggle = document.getElementById('themeToggle');
     const html = document.documentElement;
 
-    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const savedTheme = localStorage.getItem('theme') ||
+      (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
     html.setAttribute('data-theme', savedTheme);
 
     themeToggle.addEventListener('click', () => {
@@ -1263,14 +1383,44 @@
           await navigator.share(shareData);
         } else {
           await navigator.clipboard.writeText(window.location.href);
-          const btn = document.getElementById('shareBtn');
-          btn.classList.add('shared');
-          setTimeout(() => btn.classList.remove('shared'), 1800);
+          showToast('Link copied!');
+          if (navigator.vibrate) navigator.vibrate(10);
         }
       } catch (e) {
         // User cancelled share
       }
     });
+
+    // ── Button Ripple Effect ──
+    (function() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      document.addEventListener('click', (e) => {
+        const target = e.target.closest('.btn, .btn-primary, .share-btn, .contract-address');
+        if (!target) return;
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        const rect = target.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+        ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+        target.appendChild(ripple);
+        ripple.addEventListener('animationend', () => ripple.remove());
+      });
+    })();
+
+    // ── Hero Image Parallax (desktop only) ──
+    (function() {
+      if (window.innerWidth < 768) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const img = document.querySelector('.header-image');
+      if (!img) return;
+      img.classList.add('parallax');
+      window.addEventListener('scroll', () => {
+        const offset = window.scrollY * 0.15;
+        img.style.transform = `translateY(${Math.min(offset, 15)}px)`;
+      }, { passive: true });
+    })();
 
     // ── Scroll Hint (mobile) ──
     (function() {
@@ -1313,6 +1463,7 @@
       const pushRadius = 150;
       const pushStrength = 1.2;
       const returnSpeed = 0.05;
+      const connectionDistance = 80;
       let animationId;
       let isVisible = true;
 
@@ -1334,6 +1485,11 @@
       function animate() {
         if (!isVisible) return;
         ctx.clearRect(0, 0, width, height);
+
+        const isLight = document.documentElement.getAttribute('data-theme') !== 'dark';
+        const baseAlpha = isLight ? 0.25 : 0.15;
+        const maxAlpha = isLight ? 0.65 : 0.5;
+        const particleColor = isLight ? '123, 63, 228' : '155, 95, 255';
 
         particles.forEach(p => {
           const dx = mouseX - p.x;
@@ -1357,13 +1513,37 @@
           p.y += p.vy;
 
           const displacement = Math.sqrt(homeX * homeX + homeY * homeY);
-          const alpha = Math.min(0.15 + displacement * 0.02, 0.5);
+          const alpha = Math.min(baseAlpha + displacement * 0.02, maxAlpha);
 
           ctx.beginPath();
           ctx.arc(p.x, p.y, particleRadius, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(155, 95, 255, ${alpha})`;
+          ctx.fillStyle = `rgba(${particleColor}, ${alpha})`;
           ctx.fill();
         });
+
+        // Connection lines between displaced particles near mouse
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i < particles.length; i++) {
+          const a = particles[i];
+          const dxA = mouseX - a.x;
+          const dyA = mouseY - a.y;
+          const distA = Math.sqrt(dxA * dxA + dyA * dyA);
+          if (distA > pushRadius * 1.2) continue;
+          for (let j = i + 1; j < particles.length; j++) {
+            const b = particles[j];
+            const dx2 = a.x - b.x;
+            const dy2 = a.y - b.y;
+            const dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+            if (dist2 < connectionDistance) {
+              const lineAlpha = (1 - dist2 / connectionDistance) * 0.15;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.strokeStyle = `rgba(${particleColor}, ${lineAlpha})`;
+              ctx.stroke();
+            }
+          }
+        }
 
         animationId = requestAnimationFrame(animate);
       }

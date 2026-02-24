@@ -1,0 +1,23 @@
+{
+  "name": "$EMO — Emonad Memecoin",
+  "short_name": "$EMO",
+  "description": "the emo kid of Monad",
+  "start_url": "/emo.html",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#9B5FFF",
+  "icons": [
+    {
+      "src": "icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "token image.png",
+      "sizes": "1000x1000",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
