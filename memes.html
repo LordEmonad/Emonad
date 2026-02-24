@@ -861,9 +861,10 @@
     (function() {
       const pt = document.getElementById('pageTransition');
       if (!pt) return;
+      let navigating = false;
 
       // Entrance: hide overlay elements after animation completes
-      setTimeout(() => {
+      const hideTimeout = setTimeout(() => {
         pt.querySelector('.pt-overlay').style.display = 'none';
         pt.querySelector('.pt-logo').style.display = 'none';
         pt.querySelector('.pt-glow').style.display = 'none';
@@ -877,10 +878,12 @@
         if (href !== 'emo.html' && !href.endsWith('/emo.html')) return;
 
         e.preventDefault();
+        if (navigating) return;
+        navigating = true;
+        clearTimeout(hideTimeout);
         pt.querySelector('.pt-overlay').style.display = '';
         pt.querySelector('.pt-logo').style.display = '';
         pt.querySelector('.pt-glow').style.display = '';
-        pt.classList.remove('enter');
         pt.classList.add('exit-active');
         sessionStorage.setItem('pt-entering', '1');
 
