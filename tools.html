@@ -6,7 +6,20 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <title>$EMO Tools — Monad Utilities</title>
-  <meta name="description" content="$EMO Tools — Monad token utilities for holders & builders">
+  <meta name="description" content="$EMO Tools — Monad token utilities for holders & builders. Snapshots, whale analysis, and more.">
+  <link rel="canonical" href="https://escapist.lol/tools.html">
+
+  <!-- OG / Social Meta -->
+  <meta property="og:title" content="$EMO Tools — Monad Utilities">
+  <meta property="og:description" content="Monad token utilities for holders & builders. Snapshots, whale analysis, and more.">
+  <meta property="og:image" content="https://escapist.lol/og-image.jpg">
+  <meta property="og:url" content="https://escapist.lol/tools.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="$EMO Tools — Monad Utilities">
+  <meta name="twitter:description" content="Monad token utilities for holders & builders. Snapshots, whale analysis, and more.">
+  <meta name="twitter:image" content="https://escapist.lol/og-image.jpg">
+
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <style>
@@ -1456,7 +1469,7 @@
       <div class="form-group" style="margin-bottom: 10px;">
         <input type="password" class="input-field" id="globalApiKey" placeholder="Enter your BlockVision API key">
       </div>
-      <p class="hint" style="margin: 0;">Your key stays in your browser only. Get a free key at <a href="https://dashboard.blockvision.org/overview" target="_blank">BlockVision Dashboard</a> (10M free compute units).</p>
+      <p class="hint" style="margin: 0;">Your key stays in your browser only. Get a free key at <a href="https://dashboard.blockvision.org/overview" target="_blank" rel="noopener noreferrer">BlockVision Dashboard</a> (10M free compute units).</p>
     </div>
 
     <!-- Tool 1: Token Holder Snapshot -->
@@ -1648,7 +1661,7 @@
           <div class="notice-text">
             <strong>Need the contract address?</strong> Browse all Monad NFT collections on MonadVision to find and copy the contract address.
             <div style="margin-top: 10px;">
-              <a href="https://monadvision.com/nfts" target="_blank" class="btn" style="display: inline-flex; padding: 8px 16px; text-decoration: none; font-size: 14px;">
+              <a href="https://monadvision.com/nfts" target="_blank" rel="noopener noreferrer" class="btn" style="display: inline-flex; padding: 8px 16px; text-decoration: none; font-size: 14px;">
                 🔍 Browse NFT Collections on MonadVision
               </a>
             </div>
@@ -1701,6 +1714,13 @@
   </div>
 
   <script>
+    // --- sanitization ---
+    function esc(str) {
+      const d = document.createElement('div');
+      d.textContent = String(str);
+      return d.innerHTML;
+    }
+
     // --- state ---
     let snapshotData = [];
     let nftData = [];
@@ -1942,7 +1962,7 @@
           return `
             <tr>
               <td>${i + 1}</td>
-              <td class="address" title="${h.holder}">${icon}${h.holder}</td>
+              <td class="address" title="${esc(h.holder)}">${icon}${esc(h.holder)}</td>
               <td class="amount">${formatNumber(h.amount)}</td>
               <td class="percentage">${parseFloat(h.percentage || 0).toFixed(2)}%</td>
             </tr>
@@ -1950,9 +1970,9 @@
         }).join('');
 
         document.getElementById('snapshotResults').classList.add('active');
-        
+
         // Show token name in header
-        const tokenLabel = snapshotTokenSymbol ? `${snapshotTokenName} ($${snapshotTokenSymbol})` : (snapshotTokenName || 'Token');
+        const tokenLabel = snapshotTokenSymbol ? `${esc(snapshotTokenName)} ($${esc(snapshotTokenSymbol)})` : (esc(snapshotTokenName) || 'Token');
         document.getElementById('snapshotTokenName').innerHTML = `<span style="color: var(--accent-color);">${tokenLabel}</span> Holders`;
         
         document.getElementById('snapshotTotalHolders').textContent = `${snapshotData.length} holders`;
@@ -2035,8 +2055,8 @@
             return `
               <div class="token-card">
                 <div class="token-info">
-                  <span class="token-name">${t.symbol || 'Unknown'}</span>
-                  <span class="token-address">${t.contractAddress}</span>
+                  <span class="token-name">${esc(t.symbol || 'Unknown')}</span>
+                  <span class="token-address">${esc(t.contractAddress)}</span>
                 </div>
                 <div class="token-balance">
                   <div class="token-amount">${formatNumber(t.balance)}</div>
@@ -2066,11 +2086,11 @@
             document.getElementById('walletNftList').innerHTML = nfts.map(n => `
               <div class="token-card">
                 <div class="token-info">
-                  <span class="token-name">🖼️ ${n.collectionName || n.name || 'Unknown NFT'}</span>
-                  <span class="token-address">${n.contractAddress}</span>
+                  <span class="token-name">🖼️ ${esc(n.collectionName || n.name || 'Unknown NFT')}</span>
+                  <span class="token-address">${esc(n.contractAddress)}</span>
                 </div>
                 <div class="token-balance">
-                  <div class="token-amount">${n.tokenId ? `#${n.tokenId}` : `${n.amount || 1}x`}</div>
+                  <div class="token-amount">${n.tokenId ? `#${esc(n.tokenId)}` : `${n.amount || 1}x`}</div>
                 </div>
               </div>
             `).join('');
@@ -2179,7 +2199,7 @@
                 <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                   <div>
                     <strong>#${i + 1}</strong>
-                    <span class="token-address" style="margin-left: 10px;">${icon}${whale.holder}</span>
+                    <span class="token-address" style="margin-left: 10px;">${icon}${esc(whale.holder)}</span>
                   </div>
                   <div>
                     <span class="token-amount">${formatNumber(whale.amount)}</span>
@@ -2188,7 +2208,7 @@
                 </div>
                 ${otherTokens.length > 0 ? `
                   <div style="font-size: 0.85rem; color: var(--text-secondary);">
-                    Also holds: ${otherTokens.map(t => `<span style="color: var(--accent-color);">${t.symbol || 'Unknown'}</span>`).join(', ')}
+                    Also holds: ${otherTokens.map(t => `<span style="color: var(--accent-color);">${esc(t.symbol || 'Unknown')}</span>`).join(', ')}
                   </div>
                 ` : '<div style="font-size: 0.85rem; color: var(--text-secondary);">No other tokens found</div>'}
               </div>
@@ -2406,9 +2426,9 @@
             <div class="diamond-card" id="diamond-card-${i}">
               <div class="rank ${i < 3 ? 'top3' : ''}">#${i + 1}</div>
               <div class="holder-info">
-                <div class="holder-address">${contractIcon}${h.address}</div>
+                <div class="holder-address">${contractIcon}${esc(h.address)}</div>
                 <div class="holder-stats">
-                  <span><strong>${formatNumber(h.amount)}</strong> ${tokenLabel}</span>
+                  <span><strong>${formatNumber(h.amount)}</strong> ${esc(tokenLabel)}</span>
                   <span>${h.percentage.toFixed(2)}%</span>
                   <span>${h.otherTokenCount} other tokens</span>
                 </div>
@@ -2418,15 +2438,15 @@
                 <div class="score-value">${h.diamondScore}</div>
                 <div class="score-label">Score</div>
               </div>
-              <span class="tier-badge ${h.tier}">${tierLabels[h.tier]}</span>
-              <button class="btn secondary deep-dive-btn" id="deep-btn-${i}" onclick="deepDiveWallet('${h.address}', ${i})" title="Get buy/sell history">🔍</button>
+              <span class="tier-badge ${esc(h.tier)}">${tierLabels[h.tier]}</span>
+              <button class="btn secondary deep-dive-btn" id="deep-btn-${i}" onclick="deepDiveWallet('${esc(h.address)}', ${i})" title="Get buy/sell history">🔍</button>
             </div>
           `;
         }).join('');
 
         // Update header
         if (diamondTokenSymbol) {
-          document.getElementById('diamondTokenName').innerHTML = `<span style="color: var(--accent-color);">$${diamondTokenSymbol}</span> Diamond Rankings`;
+          document.getElementById('diamondTokenName').innerHTML = `<span style="color: var(--accent-color);">$${esc(diamondTokenSymbol)}</span> Diamond Rankings`;
         }
 
         document.getElementById('diamondResults').classList.add('active');
@@ -2573,7 +2593,7 @@
         btn.classList.remove('loading');
 
       } catch (error) {
-        resultsDiv.innerHTML = `<div style="color: var(--error-color);">Failed to load: ${error.message}</div>`;
+        resultsDiv.innerHTML = `<div style="color: var(--error-color);">Failed to load: ${esc(error.message)}</div>`;
         btn.textContent = '🔍';
         btn.classList.remove('loading');
       }
@@ -2679,7 +2699,7 @@
           return `
             <tr>
               <td>${i + 1}</td>
-              <td class="address" title="${addr}">${addr}</td>
+              <td class="address" title="${esc(addr)}">${esc(addr)}</td>
               <td class="amount">${count}</td>
               <td class="percentage">${parseFloat(pct).toFixed(2)}%</td>
             </tr>
@@ -2687,10 +2707,10 @@
         }).join('');
 
         document.getElementById('nftResults').classList.add('active');
-        
+
         // Show collection name in title
         if (nftCollectionName) {
-          document.getElementById('nftCollectionTitle').innerHTML = `<span style="color: var(--accent-color);">${nftCollectionName}</span> Holders`;
+          document.getElementById('nftCollectionTitle').innerHTML = `<span style="color: var(--accent-color);">${esc(nftCollectionName)}</span> Holders`;
         } else {
           document.getElementById('nftCollectionTitle').textContent = 'NFT Holders';
         }

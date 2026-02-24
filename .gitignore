@@ -41,6 +41,7 @@ snapshot.txt
 # Large media files
 *.mov
 *.mp4
+!memes/*.mp4
 
 # Backup/copy files
 *- Copy.*
