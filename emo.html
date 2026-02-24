@@ -6,6 +6,19 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <title>$EMO — Emonad Memecoin</title>
+
+  <!-- OG / Social Meta -->
+  <meta property="og:title" content="$EMO — Emonad Memecoin">
+  <meta property="og:description" content="i lost it all on day 1">
+  <meta property="og:image" content="https://emonad.lol/og-image.jpg">
+  <meta property="og:url" content="https://emonad.lol/emo.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@EmonadCoin">
+  <meta name="twitter:title" content="$EMO — Emonad Memecoin">
+  <meta name="twitter:description" content="i lost it all on day 1">
+  <meta name="twitter:image" content="https://emonad.lol/og-image.jpg">
+
   <link rel="icon" type="image/png" href="token image.png">
   <link rel="apple-touch-icon" href="token image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,6 +29,7 @@
       --bg-color: #ffffff;
       --text-color: #1a1a1a;
       --text-secondary: #666666;
+      --text-muted: #aaaaaa;
       --accent: #7B3FE4;
       --accent-hover: #6930c3;
       --accent-glow: rgba(123, 63, 228, 0.25);
@@ -29,6 +43,7 @@
       --bg-color: #0a0a0a;
       --text-color: #ffffff;
       --text-secondary: #888888;
+      --text-muted: #505050;
       --accent: #9B5FFF;
       --accent-hover: #b080ff;
       --accent-glow: rgba(155, 95, 255, 0.3);
@@ -48,6 +63,25 @@
       -webkit-font-smoothing: antialiased;
       line-height: 1.6;
       overflow-x: hidden;
+    }
+
+    /* ── Theme Transition ── */
+    html.theme-transition,
+    html.theme-transition *,
+    html.theme-transition *::before,
+    html.theme-transition *::after {
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+    }
+
+    /* ── Entrance Animations ── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-in {
+      opacity: 0;
+      animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     /* ── Price Ticker ── */
@@ -95,6 +129,37 @@
       font-weight: 700;
     }
 
+    .ticker-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .ticker-logo {
+      width: 24px;
+      height: 24px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 50%;
+      padding: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15), 0 2px 8px rgba(0, 0, 0, 0.15);
+      flex-shrink: 0;
+    }
+
+    .ticker-logo svg {
+      width: 100%;
+      height: 100%;
+      animation: logoSpin 12s linear infinite;
+    }
+
+    @keyframes logoSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
     .ticker-name {
       color: var(--accent);
       font-weight: 800;
@@ -128,6 +193,50 @@
 
     .ticker-spacer { flex: 1; }
 
+    /* Ticker Skeleton */
+    .ticker-skeleton {
+      display: inline-block;
+      width: 52px;
+      height: 14px;
+      background: var(--surface);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+      vertical-align: middle;
+    }
+
+    .ticker-skeleton::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+      animation: shimmer 1.5s infinite;
+    }
+
+    @keyframes shimmer {
+      to { left: 100%; }
+    }
+
+    .ticker-skeleton.wide { width: 70px; }
+    .ticker-skeleton.badge {
+      width: 48px;
+      height: 20px;
+      border-radius: 20px;
+    }
+
+    /* Ticker Refresh Flash */
+    @keyframes tickerFlash {
+      0% { color: var(--accent); }
+      100% { color: var(--text-color); }
+    }
+
+    .ticker-flash {
+      animation: tickerFlash 0.6s ease;
+    }
+
     /* ── Theme Toggle ── */
     .theme-toggle {
       width: 32px;
@@ -150,6 +259,11 @@
       background: var(--accent-glow);
     }
 
+    .theme-toggle:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
     .theme-toggle .icon-sun,
     .theme-toggle .icon-moon {
       position: absolute;
@@ -165,7 +279,7 @@
     .container {
       max-width: 600px;
       margin: 0 auto;
-      padding: 64px 20px 40px;
+      padding: 76px 20px 50px;
       text-align: center;
       min-height: 100vh;
       display: flex;
@@ -177,16 +291,22 @@
     .header-image {
       width: 70%;
       max-width: 360px;
-      margin: 0 auto 24px;
+      margin: 0 auto 28px;
       display: block;
       border-radius: 16px;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
+
+    .header-image:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 20px 50px rgba(155, 95, 255, 0.3), 0 8px 20px rgba(0, 0, 0, 0.15);
     }
 
     .title {
       font-size: 2.4rem;
       font-weight: 800;
-      margin: 0 0 4px;
+      margin: 0 0 6px;
       color: var(--text-color);
       letter-spacing: -0.5px;
     }
@@ -195,19 +315,107 @@
       font-size: 1.1rem;
       color: var(--text-secondary);
       font-weight: 500;
-      margin-bottom: 28px;
+      margin-bottom: 36px;
+      min-height: 1.6em;
     }
 
-    /* ── Buttons ── */
+    /* Typewriter Cursor */
+    .typewriter-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background: var(--accent);
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: blinkCursor 0.6s step-end infinite;
+    }
+
+    @keyframes blinkCursor {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* ── Primary Actions ── */
+    .primary-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 32px;
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      padding: 14px 36px;
+      border-radius: 999px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+      text-align: center;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex: 1;
+      max-width: 220px;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px var(--accent-glow);
+    }
+
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-primary:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .btn-primary-outline {
+      background: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-primary-outline:hover {
+      background: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 8px 28px var(--accent-glow);
+    }
+
+    /* ── Button Sections ── */
+    .button-section {
+      width: 100%;
+      max-width: 520px;
+      margin-bottom: 24px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
     .button-grid {
       display: flex;
       gap: 10px;
       justify-content: center;
       flex-wrap: wrap;
-      margin-bottom: 24px;
-      max-width: 520px;
     }
 
+    /* ── Buttons ── */
     .btn {
       background: var(--accent);
       color: #ffffff;
@@ -233,8 +441,11 @@
       box-shadow: 0 6px 20px var(--accent-glow);
     }
 
-    .btn:active {
-      transform: translateY(0);
+    .btn:active { transform: translateY(0); }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
     }
 
     .btn.btn-outline {
@@ -250,82 +461,58 @@
       box-shadow: none;
     }
 
-    /* ── Liquidity Dropdown ── */
-    .liquidity-dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .liquidity-menu {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--bg-color);
-      border-radius: 14px;
-      padding: 6px;
-      margin-top: 8px;
-      min-width: 160px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--surface-border);
-      z-index: 100;
-    }
-
-    .liquidity-dropdown.active .liquidity-menu {
-      display: block;
-      animation: dropIn 0.2s ease;
-    }
-
-    @keyframes dropIn {
-      from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
-      to { opacity: 1; transform: translateX(-50%) translateY(0); }
-    }
-
-    .liquidity-menu a {
-      display: flex;
-      align-items: center;
-      padding: 10px 14px;
-      color: var(--text-color);
-      text-decoration: none;
-      border-radius: 10px;
-      font-weight: 500;
-      font-size: 14px;
-      transition: background 0.15s;
-    }
-
-    .liquidity-menu a:hover {
-      background: var(--accent);
-      color: white;
-    }
-
     /* ── Contract Address ── */
+    .contract-section {
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     .contract-address {
       background: var(--surface);
       color: var(--text-secondary);
       padding: 10px 18px;
       border-radius: 999px;
-      margin: 0 auto;
       text-align: center;
       cursor: pointer;
       border: 1px solid var(--surface-border);
       font-size: 12px;
       font-weight: 500;
       font-family: 'Space Grotesk', monospace;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       letter-spacing: -0.2px;
       position: relative;
       transition: all 0.25s ease;
       max-width: 95%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
     }
 
     .contract-address:hover {
       border-color: var(--accent);
       color: var(--accent);
     }
+
+    .contract-address:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .copy-icon {
+      flex-shrink: 0;
+      opacity: 0.4;
+      transition: opacity 0.2s;
+    }
+
+    .contract-address:hover .copy-icon { opacity: 1; }
+
+    .contract-address.copied {
+      border-color: #22c55e;
+      color: #22c55e;
+    }
+
+    .contract-address.copied .copy-icon { opacity: 1; }
 
     .contract-address.copied::after {
       content: 'Copied!';
@@ -350,8 +537,100 @@
       100% { opacity: 0; }
     }
 
+    .monad-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 600;
+      margin-top: 16px;
+      padding: 7px 14px 7px 10px;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      letter-spacing: 0.2px;
+      transition: border-color 0.25s ease;
+    }
+
+    .monad-badge:hover {
+      border-color: #836EF9;
+    }
+
+    .monad-badge .monad-logo {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .monad-badge .live-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .monad-badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 6px rgba(34, 197, 94, 0.5);
+      animation: pulseDot 2s ease infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; box-shadow: 0 0 6px rgba(34, 197, 94, 0.5); }
+      50% { opacity: 0.4; box-shadow: 0 0 2px rgba(34, 197, 94, 0.2); }
+    }
+
+    /* ── Share Button ── */
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 600;
+      margin-top: 10px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      cursor: pointer;
+      font-family: 'Space Grotesk', sans-serif;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .share-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .share-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .share-btn.shared::after {
+      content: 'Link copied!';
+      position: absolute;
+      top: -36px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      box-shadow: 0 4px 15px var(--accent-glow);
+      animation: fadeInOut 1.8s ease;
+    }
+
     /* ── Chart Modal ── */
-    .chart-modal {
+    .modal-overlay {
       display: none;
       position: fixed;
       top: 0;
@@ -360,15 +639,16 @@
       height: 100%;
       background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       z-index: 1000;
       justify-content: center;
       align-items: center;
       padding: 20px;
     }
 
-    .chart-modal.active { display: flex; }
+    .modal-overlay.active { display: flex; }
 
-    .chart-container {
+    .modal-content {
       width: 95%;
       max-width: 1200px;
       height: 80vh;
@@ -378,15 +658,28 @@
       position: relative;
       box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
       border: 1px solid rgba(255, 255, 255, 0.08);
+      animation: modalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .chart-container iframe {
+    .modal-compact {
+      max-width: 420px;
+      width: 420px;
+      height: 520px;
+      border-radius: 24px;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.96) translateY(12px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-content iframe {
       width: 100%;
       height: 100%;
       border: none;
     }
 
-    .chart-close {
+    .modal-close {
       position: absolute;
       top: 14px;
       right: 14px;
@@ -406,9 +699,76 @@
       border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
-    .chart-close:hover {
+    .modal-close:hover {
       background: rgba(255, 255, 255, 0.2);
       transform: scale(1.1);
+    }
+
+    .modal-close:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Modal Spinner */
+    .modal-spinner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 36px;
+      height: 36px;
+      border: 3px solid rgba(255, 255, 255, 0.08);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes spin {
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    /* ── Footer ── */
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 24px 0 0;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer a:hover { color: var(--accent); }
+
+    .footer-dot {
+      opacity: 0.4;
+    }
+
+    /* ── Scroll Hint ── */
+    .scroll-hint {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--text-muted);
+      opacity: 0;
+      z-index: 50;
+      transition: opacity 0.4s ease;
+      animation: bounceHint 2s ease infinite;
+    }
+
+    @keyframes bounceHint {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-6px); }
     }
 
     /* ── Mouse Glow ── */
@@ -428,6 +788,31 @@
       mix-blend-mode: screen;
     }
 
+    /* ── Mobile Background Glow ── */
+    @keyframes mobileGlow {
+      0% { transform: scale(1); opacity: 0.5; }
+      100% { transform: scale(1.3); opacity: 1; }
+    }
+
+    /* ── Reduced Motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      .animate-in { animation: none !important; opacity: 1; }
+      .mouse-glow { display: none; }
+      #particleGrid { display: none; }
+      .btn:hover,
+      .btn-primary:hover,
+      .header-image:hover { transform: none; }
+      .modal-content { animation: none; }
+      .monad-badge .dot { animation: none; }
+      .ticker-skeleton::after { animation: none; }
+      .ticker-logo svg { animation: none; }
+      .typewriter-cursor { animation: none; opacity: 1; }
+      .scroll-hint { animation: none; }
+      .modal-spinner { animation: none; }
+      .ticker-flash { animation: none; }
+      body::after { animation: none !important; }
+    }
+
     /* ── Responsive ── */
     @media (max-width: 768px) {
       .price-ticker {
@@ -438,31 +823,33 @@
       }
 
       .ticker-label { display: none; }
-
       .ticker-item.hide-mobile { display: none; }
-
+      .ticker-brand { gap: 6px; }
+      .ticker-logo { width: 20px; height: 20px; padding: 2px; }
       .ticker-name { font-size: 12px; }
-
       .ticker-value { font-size: 12px; }
-
       .change-badge { font-size: 10px; padding: 2px 6px; }
-
       .theme-toggle { width: 30px; height: 30px; font-size: 14px; }
 
       .container {
-        padding: 54px 16px 30px;
+        padding: 60px 16px 30px;
         justify-content: flex-start;
       }
 
       .header-image {
         width: 55%;
         max-width: 200px;
-        margin-bottom: 16px;
+        margin-bottom: 18px;
       }
 
       .title { font-size: 1.8rem; }
-      .subtitle { font-size: 0.95rem; margin-bottom: 20px; }
+      .subtitle { font-size: 0.95rem; margin-bottom: 28px; }
 
+      .primary-actions { gap: 10px; margin-bottom: 26px; }
+      .btn-primary { padding: 12px 28px; font-size: 15px; }
+
+      .button-section { margin-bottom: 18px; }
+      .section-label { font-size: 9px; margin-bottom: 8px; }
       .button-grid { gap: 8px; }
 
       .btn {
@@ -471,18 +858,38 @@
       }
 
       .contract-address {
-        font-size: 9px;
-        padding: 8px 12px;
+        font-size: 10px;
+        padding: 9px 14px;
         white-space: normal;
         word-break: break-all;
         line-height: 1.4;
         max-width: 100%;
       }
 
-      .chart-container {
+      .modal-content {
         width: 100%;
         height: 70vh;
         border-radius: 14px;
+      }
+
+      .modal-compact {
+        width: 100%;
+        max-width: 100%;
+        height: 70vh;
+        border-radius: 14px;
+      }
+
+      /* Mobile background glow */
+      body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background:
+          radial-gradient(circle at 30% 20%, var(--accent-glow) 0%, transparent 50%),
+          radial-gradient(circle at 70% 80%, rgba(155, 95, 255, 0.1) 0%, transparent 50%);
+        animation: mobileGlow 8s ease-in-out infinite alternate;
       }
     }
 
@@ -493,6 +900,7 @@
         padding: 0 8px;
       }
 
+      .ticker-logo { width: 18px; height: 18px; padding: 2px; }
       .ticker-name { font-size: 11px; }
       .ticker-value { font-size: 11px; }
       .change-badge { font-size: 9px; padding: 1px 5px; }
@@ -500,14 +908,17 @@
       .title { font-size: 1.5rem; }
       .subtitle { font-size: 0.85rem; }
 
+      .primary-actions { flex-direction: column; align-items: center; }
+      .btn-primary { max-width: 100%; width: 100%; padding: 13px 20px; }
+
       .btn {
         padding: 7px 12px;
         font-size: 11px;
       }
 
       .contract-address {
-        font-size: 7.5px;
-        padding: 6px 8px;
+        font-size: 9px;
+        padding: 7px 10px;
       }
 
       .header-image {
@@ -520,90 +931,166 @@
 <body>
 
   <!-- Price Ticker -->
-  <div class="price-ticker" id="priceTicker">
-    <span class="ticker-name">$EMO</span>
+  <div class="price-ticker" id="priceTicker" role="banner" aria-label="Live token price data">
+    <div class="ticker-brand">
+      <div class="ticker-logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path fill="#836EF9" d="M12 3c-2.599 0-9 6.4-9 9s6.401 9 9 9s9-6.401 9-9s-6.401-9-9-9m-1.402 14.146c-1.097-.298-4.043-5.453-3.744-6.549s5.453-4.042 6.549-3.743c1.095.298 4.042 5.453 3.743 6.549c-.298 1.095-5.453 4.042-6.549 3.743"/></svg>
+      </div>
+      <span class="ticker-name">$EMO</span>
+    </div>
     <div class="ticker-divider"></div>
     <div class="ticker-item">
-      <span class="ticker-value" id="tokenPrice">--</span>
+      <span class="ticker-value" id="tokenPrice"><span class="ticker-skeleton wide"></span></span>
     </div>
     <div class="ticker-item">
-      <span class="change-badge" id="priceChange">--</span>
+      <span class="change-badge" id="priceChange"><span class="ticker-skeleton badge"></span></span>
     </div>
     <div class="ticker-item">
       <span class="ticker-label">MC</span>
-      <span class="ticker-value" id="marketCap">--</span>
+      <span class="ticker-value" id="marketCap"><span class="ticker-skeleton"></span></span>
     </div>
     <div class="ticker-item hide-mobile">
       <span class="ticker-label">Vol</span>
-      <span class="ticker-value" id="tickerVolume">--</span>
+      <span class="ticker-value" id="tickerVolume"><span class="ticker-skeleton"></span></span>
     </div>
     <div class="ticker-item hide-mobile">
       <span class="ticker-label">Liq</span>
-      <span class="ticker-value" id="tickerLiquidity">--</span>
+      <span class="ticker-value" id="tickerLiquidity"><span class="ticker-skeleton"></span></span>
     </div>
     <div class="ticker-item hide-mobile">
       <span class="ticker-label">FDV</span>
-      <span class="ticker-value" id="tickerFdv">--</span>
+      <span class="ticker-value" id="tickerFdv"><span class="ticker-skeleton"></span></span>
     </div>
     <span class="ticker-spacer"></span>
-    <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark and light theme">
       <span class="icon-sun">&#9680;</span>
       <span class="icon-moon">&#9681;</span>
     </button>
   </div>
 
   <div class="container">
-    <img src="emonad.jpg" alt="Emonad" class="header-image">
+    <img src="emonad.jpg" alt="Emonad mascot" class="header-image animate-in" style="animation-delay:0.05s">
 
-    <h1 class="title">$EMO</h1>
-    <p class="subtitle">i lost it all on day 1</p>
+    <h1 class="title animate-in" style="animation-delay:0.12s">$EMO</h1>
+    <p class="subtitle" id="subtitle" style="opacity:0">i lost it all on day 1</p>
 
-    <div class="button-grid">
-      <button class="btn" id="buyBtn">Buy $EMO</button>
-      <div class="liquidity-dropdown" id="liquidityDropdown">
-        <button class="btn btn-outline">Liquidity &#9662;</button>
-        <div class="liquidity-menu">
-          <a href="https://app.uniswap.org/positions/create/v4?currencyA=NATIVE&currencyB=0x81A224F8A62f52BdE942dBF23A56df77A10b7777&chain=monad" target="_blank" rel="noopener noreferrer">Uniswap</a>
-          <a href="https://www.kuru.io/liquidity/0x81a224f8a62f52bde942dbf23a56df77a10b7777" target="_blank" rel="noopener noreferrer">Kuru</a>
-        </div>
+    <!-- Primary Actions -->
+    <div class="primary-actions animate-in" style="animation-delay:0.26s">
+      <button class="btn-primary" id="buyBtn">Buy $EMO</button>
+      <button class="btn-primary btn-primary-outline" id="chartBtn">Chart</button>
+    </div>
+
+    <!-- Trade Section -->
+    <div class="button-section animate-in" style="animation-delay:0.33s">
+      <div class="section-label">Trade</div>
+      <div class="button-grid">
+        <a href="https://nad.fun/tokens/0x81A224F8A62f52BdE942dBF23A56df77A10b7777" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Nad.fun</a>
+        <a href="https://www.kuru.io/token/0x81a224f8a62f52bde942dbf23a56df77a10b7777" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Kuru</a>
+        <a href="https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d" class="btn btn-outline" target="_blank" rel="noopener noreferrer">DEX</a>
+        <a href="https://opensea.io/token/monad/0x81a224f8a62f52bde942dbf23a56df77a10b7777?timeframe=all_time&candleSize=one_day" class="btn btn-outline" target="_blank" rel="noopener noreferrer">OpenSea</a>
       </div>
-      <a href="https://nad.fun/tokens/0x81A224F8A62f52BdE942dBF23A56df77A10b7777" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Nad.fun</a>
-      <a href="https://www.kuru.io/token/0x81a224f8a62f52bde942dbf23a56df77a10b7777" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Kuru</a>
-      <button class="btn" id="chartBtn">Chart</button>
-      <a href="https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d" class="btn btn-outline" target="_blank" rel="noopener noreferrer">DEX</a>
-      <a href="https://twitter.com/EmonadCoin" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Twitter</a>
-      <a href="https://t.me/+8RP7jI5wA3o2N2Fh" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Telegram</a>
-      <a href="memes.html" class="btn btn-outline">Memes</a>
-      <a href="https://giphy.com/emonad" target="_blank" rel="noopener noreferrer" class="btn btn-outline">GIFs</a>
-      <a href="tools.html" class="btn btn-outline">Tools</a>
-      <a href="https://lordemonad.github.io/emolt-agent/heartbeat.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Moltiverse Hackathon EMOLT Agent</a>
-      <a href="flapemonad/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Flap Emonad</a>
-      <a href="https://opensea.io/token/monad/0x81a224f8a62f52bde942dbf23a56df77a10b7777?timeframe=all_time&candleSize=one_day" class="btn btn-outline" target="_blank" rel="noopener noreferrer">OpenSea</a>
     </div>
 
-    <div class="contract-address" id="contractAddress" title="Click to copy">
-      <span id="contractText">0x81A224F8A62f52BdE942dBF23A56df77A10b7777</span>
+    <!-- Community Section -->
+    <div class="button-section animate-in" style="animation-delay:0.38s">
+      <div class="section-label">Community</div>
+      <div class="button-grid">
+        <a href="https://twitter.com/EmonadCoin" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Twitter</a>
+        <a href="https://t.me/+8RP7jI5wA3o2N2Fh" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Telegram</a>
+      </div>
     </div>
+
+    <!-- Explore Section -->
+    <div class="button-section animate-in" style="animation-delay:0.43s">
+      <div class="section-label">Explore</div>
+      <div class="button-grid">
+        <a href="memes.html" class="btn btn-outline">Memes</a>
+        <a href="https://giphy.com/emonad" target="_blank" rel="noopener noreferrer" class="btn btn-outline">GIFs</a>
+        <a href="tools.html" class="btn btn-outline">Tools</a>
+        <a href="https://lordemonad.github.io/emolt-agent/heartbeat.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline">EMOLT Agent</a>
+        <a href="flapemonad/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Flap Emonad</a>
+      </div>
+    </div>
+
+    <!-- Contract Address -->
+    <div class="contract-section animate-in" style="animation-delay:0.48s">
+      <div class="contract-address" id="contractAddress" role="button" tabindex="0" aria-label="Copy contract address to clipboard">
+        <span id="contractText">0x81A224F8A62f52BdE942dBF23A56df77A10b7777</span>
+        <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </div>
+      <div class="monad-badge" aria-label="Live on Monad network">
+        <svg class="monad-logo" viewBox="0 0 24 24" aria-hidden="true"><path fill="#836EF9" d="M12 3c-2.599 0-9 6.4-9 9s6.401 9 9 9s9-6.401 9-9s-6.401-9-9-9m-1.402 14.146c-1.097-.298-4.043-5.453-3.744-6.549s5.453-4.042 6.549-3.743c1.095.298 4.042 5.453 3.743 6.549c-.298 1.095-5.453 4.042-6.549 3.743"/></svg>
+        <span class="live-indicator">
+          <span class="dot" aria-hidden="true"></span>
+          Live on Monad
+        </span>
+      </div>
+      <button class="share-btn" id="shareBtn" aria-label="Share this page">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+        Share
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer animate-in" style="animation-delay:0.53s">
+      <a href="https://twitter.com/EmonadCoin" target="_blank" rel="noopener noreferrer">Twitter</a>
+      <span class="footer-dot">·</span>
+      <a href="https://t.me/+8RP7jI5wA3o2N2Fh" target="_blank" rel="noopener noreferrer">Telegram</a>
+      <span class="footer-dot">·</span>
+      <span>Built on Monad</span>
+    </footer>
   </div>
 
   <!-- Chart Modal -->
-  <div class="chart-modal" id="chartModal">
-    <div class="chart-container">
-      <span class="chart-close" id="chartClose">&times;</span>
-      <iframe id="chartFrame" src="" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+  <div class="modal-overlay" id="chartModal" role="dialog" aria-label="Price chart" aria-modal="true">
+    <div class="modal-content">
+      <div class="modal-spinner" id="chartSpinner"></div>
+      <button class="modal-close" id="chartClose" aria-label="Close chart">&times;</button>
+      <iframe id="chartFrame" src="" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups" title="DEXScreener price chart"></iframe>
     </div>
   </div>
 
   <!-- Buy/Swap Modal -->
-  <div class="chart-modal" id="buyModal">
-    <div class="chart-container" style="max-width: 420px; width: 420px; height: 520px; border-radius: 24px;">
-      <span class="chart-close" id="buyClose">&times;</span>
-      <iframe id="buyFrame" src="" allow="clipboard-write" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" style="background: #131313; border-radius: 24px;"></iframe>
+  <div class="modal-overlay" id="buyModal" role="dialog" aria-label="Buy EMO token" aria-modal="true">
+    <div class="modal-content modal-compact">
+      <div class="modal-spinner" id="buySpinner"></div>
+      <button class="modal-close" id="buyClose" aria-label="Close swap widget">&times;</button>
+      <iframe id="buyFrame" src="" allow="clipboard-write" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" style="background: #131313; border-radius: 24px;" title="Uniswap swap widget"></iframe>
     </div>
   </div>
 
+  <!-- Scroll Hint (mobile) -->
+  <div class="scroll-hint" id="scrollHint" aria-hidden="true">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+
   <script>
+    // ── Smart Price Formatting ──
+    function formatPrice(price) {
+      if (price >= 1) return '$' + price.toFixed(2);
+      if (price >= 0.01) return '$' + price.toFixed(4);
+      var str = price.toFixed(20);
+      var match = str.match(/^0\.(0+)/);
+      if (match) {
+        var zeros = match[1].length;
+        var rest = str.slice(2 + zeros, 2 + zeros + 4).replace(/0+$/, '') || '0';
+        var sub = '\u2080\u2081\u2082\u2083\u2084\u2085\u2086\u2087\u2088\u2089';
+        var subscript = String(zeros).split('').map(function(d) { return sub[parseInt(d)]; }).join('');
+        return '$0.0' + subscript + rest;
+      }
+      return '$' + price.toFixed(7);
+    }
+
+    // ── Ticker Refresh Flash ──
+    function flashTicker(id) {
+      var el = document.getElementById(id);
+      el.classList.remove('ticker-flash');
+      void el.offsetWidth;
+      el.classList.add('ticker-flash');
+    }
+
     // ── Price Ticker — unified fetch ──
+    var isFirstFetch = true;
     async function fetchPrice() {
       try {
         const response = await fetch('https://api.dexscreener.com/latest/dex/pairs/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d');
@@ -613,7 +1100,7 @@
           const price = parseFloat(pair.priceUsd);
           const change24h = parseFloat(pair.priceChange.h24);
 
-          document.getElementById('tokenPrice').textContent = '$' + price.toFixed(7);
+          document.getElementById('tokenPrice').textContent = formatPrice(price);
 
           const changeEl = document.getElementById('priceChange');
           changeEl.textContent = (change24h >= 0 ? '+' : '') + change24h.toFixed(2) + '%';
@@ -628,6 +1115,12 @@
           document.getElementById('tickerVolume').textContent = pair.volume && pair.volume.h24 ? fmt(pair.volume.h24) : '--';
           document.getElementById('tickerLiquidity').textContent = pair.liquidity && pair.liquidity.usd ? fmt(pair.liquidity.usd) : '--';
           document.getElementById('tickerFdv').textContent = pair.fdv ? fmt(pair.fdv) : '--';
+
+          if (!isFirstFetch) {
+            flashTicker('tokenPrice');
+            flashTicker('marketCap');
+          }
+          isFirstFetch = false;
         }
       } catch (error) {
         console.log('Price fetch error:', error);
@@ -637,36 +1130,34 @@
     fetchPrice();
     setInterval(fetchPrice, 30000);
 
-    // ── Liquidity Dropdown ──
-    const liquidityDropdown = document.getElementById('liquidityDropdown');
-    liquidityDropdown.querySelector('.btn').addEventListener('click', (e) => {
-      e.stopPropagation();
-      liquidityDropdown.classList.toggle('active');
-    });
-    document.addEventListener('click', (e) => {
-      if (!liquidityDropdown.contains(e.target)) {
-        liquidityDropdown.classList.remove('active');
-      }
-    });
-
-    // ── Copy Contract ──
-    document.getElementById('contractAddress').addEventListener('click', () => {
+    // ── Copy Contract (click + keyboard) ──
+    const contractEl = document.getElementById('contractAddress');
+    function copyContract() {
       navigator.clipboard.writeText(document.getElementById('contractText').textContent);
-      const el = document.getElementById('contractAddress');
-      el.classList.add('copied');
-      setTimeout(() => el.classList.remove('copied'), 1800);
+      contractEl.classList.add('copied');
+      setTimeout(() => contractEl.classList.remove('copied'), 1800);
+    }
+    contractEl.addEventListener('click', copyContract);
+    contractEl.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); copyContract(); }
     });
 
     // ── Chart Modal ──
     const chartModal = document.getElementById('chartModal');
     const chartFrame = document.getElementById('chartFrame');
+    const chartClose = document.getElementById('chartClose');
+    const chartSpinner = document.getElementById('chartSpinner');
 
     document.getElementById('chartBtn').addEventListener('click', () => {
+      chartSpinner.style.display = 'block';
       chartFrame.src = 'https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d?embed=1&theme=dark&info=0';
       chartModal.classList.add('active');
+      chartClose.focus();
     });
 
-    document.getElementById('chartClose').addEventListener('click', () => {
+    chartFrame.addEventListener('load', () => { chartSpinner.style.display = 'none'; });
+
+    chartClose.addEventListener('click', () => {
       chartModal.classList.remove('active');
       chartFrame.src = '';
     });
@@ -678,13 +1169,19 @@
     // ── Buy Modal ──
     const buyModal = document.getElementById('buyModal');
     const buyFrame = document.getElementById('buyFrame');
+    const buyClose = document.getElementById('buyClose');
+    const buySpinner = document.getElementById('buySpinner');
 
     document.getElementById('buyBtn').addEventListener('click', () => {
+      buySpinner.style.display = 'block';
       buyFrame.src = 'https://app.uniswap.org/swap?chain=monad&outputCurrency=0x81A224F8A62f52BdE942dBF23A56df77A10b7777';
       buyModal.classList.add('active');
+      buyClose.focus();
     });
 
-    document.getElementById('buyClose').addEventListener('click', () => {
+    buyFrame.addEventListener('load', () => { buySpinner.style.display = 'none'; });
+
+    buyClose.addEventListener('click', () => {
       buyModal.classList.remove('active');
       buyFrame.src = '';
     });
@@ -693,7 +1190,7 @@
       if (e.target === buyModal) { buyModal.classList.remove('active'); buyFrame.src = ''; }
     });
 
-    // ── Escape key ──
+    // ── Escape key closes modals ──
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         if (chartModal.classList.contains('active')) { chartModal.classList.remove('active'); chartFrame.src = ''; }
@@ -701,7 +1198,7 @@
       }
     });
 
-    // ── Theme Toggle ──
+    // ── Theme Toggle (smooth transition) ──
     const themeToggle = document.getElementById('themeToggle');
     const html = document.documentElement;
 
@@ -709,19 +1206,101 @@
     html.setAttribute('data-theme', savedTheme);
 
     themeToggle.addEventListener('click', () => {
+      html.classList.add('theme-transition');
       const current = html.getAttribute('data-theme');
       const next = current === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-theme', next);
       localStorage.setItem('theme', next);
+      setTimeout(() => html.classList.remove('theme-transition'), 350);
     });
+
+    // ── Typewriter Effect ──
+    (function() {
+      const el = document.getElementById('subtitle');
+      const text = el.textContent;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (prefersReducedMotion) {
+        el.style.opacity = '1';
+        return;
+      }
+
+      el.textContent = '';
+      el.style.opacity = '1';
+
+      const cursor = document.createElement('span');
+      cursor.className = 'typewriter-cursor';
+      el.appendChild(cursor);
+
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          el.insertBefore(document.createTextNode(text.charAt(i)), cursor);
+          i++;
+          setTimeout(type, 50 + Math.random() * 40);
+        } else {
+          setTimeout(() => {
+            cursor.style.transition = 'opacity 0.4s';
+            cursor.style.opacity = '0';
+            setTimeout(() => cursor.remove(), 400);
+          }, 1500);
+        }
+      }
+
+      setTimeout(type, 700);
+    })();
+
+    // ── Share Button ──
+    document.getElementById('shareBtn').addEventListener('click', async () => {
+      const shareData = {
+        title: '$EMO — Emonad Memecoin',
+        text: 'i lost it all on day 1',
+        url: window.location.href
+      };
+
+      try {
+        if (navigator.share) {
+          await navigator.share(shareData);
+        } else {
+          await navigator.clipboard.writeText(window.location.href);
+          const btn = document.getElementById('shareBtn');
+          btn.classList.add('shared');
+          setTimeout(() => btn.classList.remove('shared'), 1800);
+        }
+      } catch (e) {
+        // User cancelled share
+      }
+    });
+
+    // ── Scroll Hint (mobile) ──
+    (function() {
+      if (window.innerWidth > 768) return;
+      const hint = document.getElementById('scrollHint');
+      setTimeout(() => {
+        if (document.body.scrollHeight > window.innerHeight + 50) {
+          hint.style.display = 'block';
+          setTimeout(() => { hint.style.opacity = '0.6'; }, 50);
+        }
+      }, 1200);
+
+      var scrolled = false;
+      window.addEventListener('scroll', () => {
+        if (!scrolled && window.scrollY > 30) {
+          scrolled = true;
+          hint.style.opacity = '0';
+          setTimeout(() => { hint.style.display = 'none'; }, 400);
+        }
+      }, { passive: true });
+    })();
   </script>
 
   <!-- Particle Grid Background -->
-  <canvas id="particleGrid" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
+  <canvas id="particleGrid" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;" aria-hidden="true"></canvas>
 
   <script>
     (function() {
       if (window.innerWidth < 768) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
       const canvas = document.getElementById('particleGrid');
       const ctx = canvas.getContext('2d');
@@ -734,6 +1313,8 @@
       const pushRadius = 150;
       const pushStrength = 1.2;
       const returnSpeed = 0.05;
+      let animationId;
+      let isVisible = true;
 
       function resize() {
         width = canvas.width = window.innerWidth;
@@ -751,6 +1332,7 @@
       }
 
       function animate() {
+        if (!isVisible) return;
         ctx.clearRect(0, 0, width, height);
 
         particles.forEach(p => {
@@ -783,12 +1365,28 @@
           ctx.fill();
         });
 
-        requestAnimationFrame(animate);
+        animationId = requestAnimationFrame(animate);
       }
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          isVisible = false;
+          cancelAnimationFrame(animationId);
+        } else {
+          isVisible = true;
+          animate();
+        }
+      });
 
       document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
       document.addEventListener('mouseleave', () => { mouseX = -1000; mouseY = -1000; });
-      window.addEventListener('resize', resize);
+
+      let resizeTimeout;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(resize, 150);
+      });
+
       resize();
       animate();
     })();
@@ -798,10 +1396,12 @@
   <script>
     (function() {
       if (window.innerWidth < 768) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
       const glow = document.createElement('div');
       glow.className = 'mouse-glow';
       glow.style.opacity = '1';
+      glow.setAttribute('aria-hidden', 'true');
       document.body.appendChild(glow);
 
       document.addEventListener('mousemove', (e) => {
