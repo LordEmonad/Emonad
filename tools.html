@@ -6,26 +6,31 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <title>$EMO Tools — Monad Utilities</title>
-  <link rel="icon" type="image/png" href="token image.png">
-  <link rel="apple-touch-icon" href="token image.png">
+  <meta name="description" content="$EMO Tools — Monad token utilities for holders & builders">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-color: #ffffff;
-      --text-color: #333333;
+      --text-color: #1a1a1a;
       --text-secondary: #666666;
+      --text-muted: #aaaaaa;
       --accent-color: #7B3FE4;
-      --accent-light: #8D5AEC;
+      --accent-light: #6930c3;
       --accent-dark: #5D2BB8;
+      --accent-glow: rgba(123, 63, 228, 0.25);
       --button-bg: var(--accent-color);
       --button-hover: var(--accent-light);
       --button-text: #ffffff;
       --card-bg: #ffffff;
-      --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      --contract-bg: #f8f0ff;
-      --contract-border: #e9d5ff;
+      --card-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      --contract-bg: #f5f3ff;
+      --contract-border: #e4d8f8;
+      --surface: #f5f3ff;
+      --surface-border: #e4d8f8;
       --success-color: #22c55e;
       --error-color: #ef4444;
     }
@@ -33,20 +38,24 @@
     [data-theme="dark"] {
       --bg-color: #0a0a0a;
       --text-color: #ffffff;
-      --text-secondary: #a0a0a0;
+      --text-secondary: #888888;
+      --text-muted: #505050;
       --accent-color: #9B5FFF;
-      --accent-light: #B080FF;
+      --accent-light: #b080ff;
       --accent-dark: #7B3FE4;
-      --card-bg: #1a1a1a;
-      --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-      --contract-bg: #1a1a2e;
-      --contract-border: #3d3d5c;
+      --accent-glow: rgba(155, 95, 255, 0.3);
+      --card-bg: rgba(255, 255, 255, 0.04);
+      --card-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      --contract-bg: rgba(255, 255, 255, 0.06);
+      --contract-border: rgba(255, 255, 255, 0.1);
+      --surface: rgba(255, 255, 255, 0.06);
+      --surface-border: rgba(255, 255, 255, 0.1);
     }
     
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body {
-      background-color: var(--bg-color);
+      background: radial-gradient(ellipse at 50% 0%, var(--accent-glow) 0%, transparent 55%), var(--bg-color);
       color: var(--text-color);
       font-family: 'Space Grotesk', sans-serif;
       min-height: 100vh;
@@ -54,10 +63,18 @@
       line-height: 1.6;
     }
 
+    /* Theme Transition */
+    html.theme-transition,
+    html.theme-transition *,
+    html.theme-transition *::before,
+    html.theme-transition *::after {
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+    }
+
     .container {
       max-width: 900px;
       margin: 0 auto;
-      padding: 80px 20px 40px;
+      padding: 72px 20px 40px;
     }
 
     /* Price Ticker Header */
@@ -66,17 +83,18 @@
       top: 0;
       left: 0;
       right: 0;
-      background: var(--card-bg);
-      border-bottom: 1px solid var(--contract-border);
-      padding: 10px 20px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--surface-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 0 20px;
+      height: 52px;
       display: flex;
-      justify-content: center;
       align-items: center;
-      gap: 15px;
-      font-size: 14px;
+      gap: 16px;
+      font-size: 13px;
       font-weight: 600;
-      z-index: 99;
-      backdrop-filter: blur(10px);
+      z-index: 100;
     }
 
     .price-ticker .token-name {
@@ -110,66 +128,31 @@
       font-weight: 500;
     }
 
-    /* Audio Player */
-    .audio-player {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-left: auto;
-    }
-
-    .audio-player .player-btn {
-      background: rgba(123, 63, 228, 0.3);
-      border: 1px solid var(--accent-color);
-      color: var(--accent-color);
+    /* Theme Toggle in Header */
+    .theme-toggle-header {
       width: 32px;
       height: 32px;
       border-radius: 50%;
+      border: 1px solid var(--surface-border);
+      background: var(--surface);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 15px;
       transition: all 0.25s ease;
-    }
-
-    .audio-player .player-btn:hover {
-      background: rgba(255,255,255,0.25);
-      transform: scale(1.15);
-    }
-
-    .audio-player .player-btn.play-btn {
-      width: 36px;
-      height: 36px;
-      background: var(--accent-color);
-      color: white;
-      font-size: 18px;
-    }
-
-    .audio-player .player-btn.download-btn {
-      text-decoration: none;
-    }
-
-    /* Theme Toggle in Header */
-    .theme-toggle-header {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 1px solid var(--accent-color);
-      background: rgba(123, 63, 228, 0.2);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      transition: all 0.3s ease;
-      margin-left: 10px;
+      flex-shrink: 0;
       position: relative;
     }
 
     .theme-toggle-header:hover {
-      transform: scale(1.1);
-      background: rgba(123, 63, 228, 0.4);
+      border-color: var(--accent-color);
+      background: var(--accent-glow);
+    }
+
+    .theme-toggle-header:focus-visible {
+      outline: 2px solid var(--accent-color);
+      outline-offset: 2px;
     }
 
     .theme-toggle-header .icon-sun,
@@ -199,69 +182,44 @@
     }
 
     .back-btn {
-      background: var(--accent-color);
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-family: 'Space Grotesk', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-color);
+      text-decoration: none;
       font-weight: 600;
       font-size: 14px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      margin-left: 10px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--surface-border);
+      background: transparent;
+      transition: all 0.25s ease;
     }
 
     .back-btn:hover {
-      background: var(--accent-light);
-      transform: translateY(-1px);
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+      background: var(--accent-glow);
+    }
+
+    .back-btn:focus-visible {
+      outline: 2px solid var(--accent-color);
+      outline-offset: 2px;
     }
 
     @media (max-width: 768px) {
       .price-ticker {
-        flex-wrap: wrap;
-        gap: 8px;
-        padding: 8px 10px;
+        height: 46px;
+        gap: 10px;
+        padding: 0 12px;
+        font-size: 11px;
       }
       .price-ticker .mcap {
         display: none;
       }
-      .audio-player {
-        margin-left: 0;
-      }
+      .back-btn { font-size: 12px; padding: 5px 12px; }
+      .theme-toggle-header { width: 30px; height: 30px; font-size: 14px; }
     }
-
-    .theme-toggle {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 1px solid var(--accent-color);
-      background: rgba(123, 63, 228, 0.2);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      transition: all 0.3s ease;
-    }
-
-    .theme-toggle:hover {
-      transform: scale(1.1);
-      background: rgba(123, 63, 228, 0.4);
-    }
-
-    .theme-toggle .icon-sun,
-    .theme-toggle .icon-moon {
-      position: absolute;
-      transition: all 0.3s ease;
-    }
-
-    .theme-toggle .icon-sun { opacity: 0; transform: rotate(-90deg); }
-    .theme-toggle .icon-moon { opacity: 1; transform: rotate(0deg); }
-
-    [data-theme="dark"] .theme-toggle .icon-sun { opacity: 1; transform: rotate(0deg); }
-    [data-theme="dark"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(90deg); }
 
     /* Page Title */
     .page-title {
@@ -270,14 +228,18 @@
     }
 
     .page-title h1 {
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       font-weight: 800;
-      color: var(--text-color);
+      letter-spacing: -0.5px;
       margin-bottom: 10px;
+      background: linear-gradient(135deg, var(--accent-color), var(--text-color) 70%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .page-title h1 span {
-      color: var(--accent-color);
+      -webkit-text-fill-color: inherit;
     }
 
     .page-title p {
@@ -586,7 +548,7 @@
     /* Responsive */
     @media (max-width: 768px) {
       .container {
-        padding: 70px 15px 30px;
+        padding: 62px 15px 30px;
       }
 
       .page-title h1 {
@@ -1327,32 +1289,22 @@
   </style>
 </head>
 <body>
-  <!-- Price Ticker Header -->
+  <!-- Top Bar -->
   <div class="price-ticker">
+    <a href="emo.html" class="back-btn" aria-label="Back to main site">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      $EMO
+    </a>
     <span class="token-name">$EMO</span>
     <span class="price" id="tokenPrice">Loading...</span>
     <span class="change" id="priceChange">--</span>
     <span class="mcap" id="marketCap"></span>
-    
-    <!-- Audio Player -->
-    <div class="audio-player" id="audioPlayer">
-      <button class="player-btn" id="prevBtn">⏮</button>
-      <button class="player-btn play-btn" id="playBtn">▶</button>
-      <button class="player-btn" id="nextBtn">⏭</button>
-      <button class="player-btn" id="muteBtn">🔊</button>
-      <a href="emonad.mp3" download="Emonad.mp3" class="player-btn download-btn" title="Download">↓</a>
-    </div>
-    
-    <a href="emo.html" class="back-btn">← Back</a>
-    
-    <!-- Dark Mode Toggle -->
-    <button class="theme-toggle-header" id="themeToggle" title="Toggle dark mode">
-      <span class="icon-sun">◐</span>
-      <span class="icon-moon">◑</span>
+    <span style="flex:1"></span>
+    <button class="theme-toggle-header" id="themeToggle" aria-label="Toggle dark and light theme">
+      <span class="icon-sun">&#9680;</span>
+      <span class="icon-moon">&#9681;</span>
     </button>
   </div>
-  
-  <audio id="themeAudio" src="emonad.mp3" loop></audio>
 
   <div class="container">
     <!-- Page Title -->
@@ -1650,51 +1602,21 @@
     fetchPrice();
     setInterval(fetchPrice, 30000);
 
-    // --- audio player ---
-    const audio = document.getElementById('themeAudio');
-    const playBtn = document.getElementById('playBtn');
-    const muteBtn = document.getElementById('muteBtn');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    let isPlaying = false;
-
-    playBtn.addEventListener('click', () => {
-      if (isPlaying) {
-        audio.pause();
-        playBtn.textContent = '▶';
-        isPlaying = false;
-      } else {
-        audio.play();
-        playBtn.textContent = '⏸';
-        isPlaying = true;
-      }
-    });
-
-    muteBtn.addEventListener('click', () => {
-      audio.muted = !audio.muted;
-      muteBtn.textContent = audio.muted ? '🔇' : '🔊';
-    });
-
-    prevBtn.addEventListener('click', () => {
-      audio.currentTime = Math.max(0, audio.currentTime - 10);
-    });
-
-    nextBtn.addEventListener('click', () => {
-      audio.currentTime = Math.min(audio.duration, audio.currentTime + 10);
-    });
-
     // --- theme toggle ---
     const themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener('click', () => {
-      const html = document.documentElement;
-      const currentTheme = html.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-    });
+    const html = document.documentElement;
 
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', savedTheme);
+    const savedTheme = localStorage.getItem('theme') ||
+      (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    html.setAttribute('data-theme', savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      html.classList.add('theme-transition');
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      setTimeout(() => html.classList.remove('theme-transition'), 350);
+    });
 
     // --- api key ---
     const apiKeyInput = document.getElementById('globalApiKey');
