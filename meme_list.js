@@ -323,4 +323,5 @@ const MEME_FILES = [
   "which meme.jpg",
   "wow.jpg",
   "write.jpg",
+  "huang.jpg",
 ];

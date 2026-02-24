@@ -716,8 +716,8 @@
 
     // ── Build Grid ──
     const memeGrid = document.getElementById('memeGrid');
-    const mediaFiles = MEME_FILES.filter(f => !f.endsWith('.mp4'));
-    const videoFiles = MEME_FILES.filter(f => f.endsWith('.mp4'));
+    const mediaFiles = MEME_FILES.filter(f => !f.endsWith('.mp4')).reverse();
+    const videoFiles = MEME_FILES.filter(f => f.endsWith('.mp4')).reverse();
 
     // Show count
     document.getElementById('memeCount').textContent = MEME_FILES.length + ' memes';
