@@ -11,10 +11,25 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,maximum-scale=1,viewport-fit=cover">
-<title>EMO CRUSH — $EMO on Monad</title>
-<meta property="og:title" content="EMO CRUSH — $EMO on Monad">
-<meta property="og:description" content="crush your feelings — a match-3 game by $EMO">
-<meta property="og:image" content="https://emonad.lol/emonad.jpg">
+<title>EMO CRUSH - $EMO on Monad</title>
+<meta name="description" content="crush your feelings">
+<link rel="canonical" href="https://emonad.lol/emo-crush/index.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="EMONAD">
+<meta property="og:url" content="https://emonad.lol/emo-crush/index.html">
+<meta property="og:title" content="EMO CRUSH - $EMO on Monad">
+<meta property="og:description" content="crush your feelings">
+<meta property="og:image" content="https://emonad.lol/emo-crush/emo-crush-og.png">
+<meta property="og:image:secure_url" content="https://emonad.lol/emo-crush/emo-crush-og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="EMO CRUSH game art featuring the Emonad character.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="EMO CRUSH - $EMO on Monad">
+<meta name="twitter:description" content="crush your feelings">
+<meta name="twitter:image" content="https://emonad.lol/emo-crush/emo-crush-og.png">
+<meta name="twitter:image:alt" content="EMO CRUSH game art featuring the Emonad character.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -134,13 +149,13 @@ animation:boardAuraDrift 12s ease-in-out infinite alternate}
 @property --board-glow-angle{syntax:'<angle>';initial-value:0deg;inherits:false}
 #gc{display:block;position:relative;z-index:2;will-change:transform;touch-action:none}
 
-/* ── OVERLAYS ── */
+/* â”€â”€ OVERLAYS â”€â”€ */
 .ov{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
 z-index:50;background:rgba(255,255,255,.55);backdrop-filter:blur(40px) saturate(1.3);-webkit-backdrop-filter:blur(40px) saturate(1.3);
 transition:opacity .5s ease;padding:var(--safe-t) max(24px,var(--safe-r)) var(--safe-b) max(24px,var(--safe-l));overflow:hidden}
 .ov.hidden{opacity:0;pointer-events:none}
 
-/* ── START SCREEN ── */
+/* â”€â”€ START SCREEN â”€â”€ */
 #scrS{justify-content:flex-start;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;
 -webkit-overflow-scrolling:touch;
 padding:0 max(10px,var(--safe-r)) 0 max(10px,var(--safe-l));
@@ -176,7 +191,7 @@ mask-composite:exclude;animation:cardSpin 12s linear infinite;pointer-events:non
 @keyframes cardSpin{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(360deg)}}
 @keyframes cardBorder{0%,100%{border-color:rgba(255,176,208,.3)}25%{border-color:rgba(200,230,248,.3)}
 50%{border-color:rgba(221,208,248,.3)}75%{border-color:rgba(192,240,224,.3)}}
-.ss-faces{display:grid;grid-template-columns:repeat(3,1fr);gap:16px 12px;width:100%;justify-items:center}
+.ss-faces{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 12px;width:min(100%,252px);margin:0 auto;padding:2px 4px 6px;justify-items:center;align-items:center}
 .ss-face-wrap{display:flex;align-items:center;justify-content:center;position:relative}
 .ss-face{width:clamp(60px,16vw,76px);height:clamp(60px,16vw,76px);border-radius:clamp(15px,4vw,20px);
 box-shadow:0 6px 20px rgba(0,0,0,.08),0 0 0 1px rgba(255,255,255,.3);transition:transform .3s ease,box-shadow .3s ease}
@@ -270,7 +285,7 @@ background:rgba(255,255,255,.42);border:1px solid rgba(255,255,255,.45)}
 .lb-meta{font-size:9px;color:var(--tx2);opacity:.78;margin-top:1px}
 .lb-empty{font-size:10px;color:var(--tx2);opacity:.8;padding:6px 2px}
 
-/* ── WIN/LOSE ── */
+/* â”€â”€ WIN/LOSE â”€â”€ */
 .ov-card{background:rgba(255,255,255,.2);backdrop-filter:blur(28px) saturate(1.4);-webkit-backdrop-filter:blur(28px) saturate(1.4);
 border:1px solid rgba(255,255,255,.3);border-radius:28px;padding:36px 32px 28px;
 box-shadow:0 20px 60px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.5);
@@ -324,7 +339,7 @@ background:linear-gradient(135deg,var(--accent),var(--accent-h),#FFD0E4);-webkit
 filter:drop-shadow(0 0 12px var(--accent-g)) drop-shadow(0 0 24px rgba(255,94,148,.1));z-index:15;animation:pfA .8s cubic-bezier(.16,1,.3,1) forwards}
 @keyframes pfA{0%{opacity:1;transform:translateY(0) scale(1.3)}20%{opacity:1;transform:translateY(-12px) scale(1)}100%{opacity:0;transform:translateY(-40px) scale(.75)}}
 
-/* ── DARK MODE ── */
+/* â”€â”€ DARK MODE â”€â”€ */
 body.dark{background:#0a0812}
 body.dark .back-link{background:rgba(20,20,30,.4);border-color:rgba(255,255,255,.06);box-shadow:0 2px 12px rgba(0,0,0,.25)}
 body.dark .hc{background:rgba(14,14,22,.4);border-color:rgba(255,255,255,.06);
@@ -386,7 +401,7 @@ body.dark .mode-toggle{background:rgba(20,20,30,.45);border-color:rgba(255,255,2
 body.dark .mode-toggle .ico-moon{display:none}
 body.dark .mode-toggle .ico-sun{display:block}
 
-/* ── MOBILE RESPONSIVE ── */
+/* â”€â”€ MOBILE RESPONSIVE â”€â”€ */
 @media(max-height:700px){
   .ss-content{padding-top:max(52px,calc(var(--safe-t) + 44px))}
   .ss-mascot{width:118px;height:118px;margin-bottom:18px}
@@ -394,7 +409,7 @@ body.dark .mode-toggle .ico-sun{display:block}
   .ss-sub{margin-bottom:14px}
   .ss-divider{margin-bottom:16px}
   .ss-card{padding:18px 16px 14px;margin-bottom:20px}
-  .ss-faces{gap:12px 9px}
+  .ss-faces{gap:12px 9px;width:min(100%,234px);padding:2px 4px 6px}
   .ss-face{width:clamp(52px,14vw,66px)!important;height:clamp(52px,14vw,66px)!important}
   .ss-actions{gap:8px}
   .ss-play,.ss-select{height:48px;min-height:48px;padding:0 14px;font-size:13px;letter-spacing:1.15px}
@@ -420,7 +435,7 @@ body.dark .mode-toggle .ico-sun{display:block}
   .ss-sub{margin-bottom:8px;font-size:11px}
   .ss-divider{margin-bottom:10px}
   .ss-card{padding:14px 14px 10px;margin-bottom:14px;border-radius:16px}
-  .ss-faces{gap:10px 8px}
+  .ss-faces{gap:10px 8px;width:min(100%,216px);padding:2px 3px 5px}
   .ss-face{width:clamp(44px,12vw,54px)!important;height:clamp(44px,12vw,54px)!important}
   .ss-actions{gap:8px}
   .ss-play,.ss-select{height:44px;min-height:44px;padding:0 14px;font-size:12px;letter-spacing:1.1px}
@@ -429,7 +444,7 @@ body.dark .mode-toggle .ico-sun{display:block}
   .ov-title{font-size:clamp(1.6rem,6vw,2rem)}
   .star{width:32px;height:32px}
 }
-/* ── SMALL PHONE (iPhone SE, 320px) ── */
+/* â”€â”€ SMALL PHONE (iPhone SE, 320px) â”€â”€ */
 @media(max-width:360px){
   #scrS{padding:0 max(8px,var(--safe-r)) 0 max(8px,var(--safe-l))}
   .ss-content{padding-left:12px;padding-right:12px}
@@ -444,7 +459,7 @@ body.dark .mode-toggle .ico-sun{display:block}
   .ss-title{font-size:clamp(2rem,9vw,3rem)}
   .ss-mascot{width:100px;height:100px;border-radius:24px;margin-bottom:16px}
   .ss-card{padding:14px 12px 10px;margin-bottom:16px;border-radius:16px}
-  .ss-faces{gap:8px 6px}
+  .ss-faces{gap:8px 6px;width:min(100%,204px);padding:2px 3px 5px}
   .ss-actions{gap:8px}
   .ss-play,.ss-select{height:44px;min-height:44px;padding:0 12px;font-size:12px;letter-spacing:1.05px}
   .ov-card{padding:24px 16px 20px;max-width:280px}
@@ -463,7 +478,7 @@ body.dark .mode-toggle .ico-sun{display:block}
 @media(max-width:360px){
   .ls-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
-/* ── LANDSCAPE ORIENTATION ── */
+/* â”€â”€ LANDSCAPE ORIENTATION â”€â”€ */
 @media(orientation:landscape) and (max-height:500px){
   #hud{flex-direction:row;gap:3px;margin:54px 6px 0}
   .hc{padding:4px 8px 3px;border-radius:8px}
@@ -481,7 +496,7 @@ body.dark .mode-toggle .ico-sun{display:block}
   .ss-sub{font-size:10px;margin-bottom:4px}
   .ss-divider{margin-bottom:6px}
   .ss-card{padding:8px 10px 6px;margin-bottom:10px;border-radius:12px}
-  .ss-faces{gap:6px 4px}
+  .ss-faces{gap:6px 4px;width:min(100%,176px);padding:1px 2px 4px}
   .ss-face{width:clamp(36px,8vw,44px)!important;height:clamp(36px,8vw,44px)!important}
   .ss-actions{gap:6px}
   .ss-play,.ss-select{height:38px;min-height:38px;padding:0 10px;font-size:10px;letter-spacing:.9px}
@@ -495,14 +510,14 @@ body.dark .mode-toggle .ico-sun{display:block}
   .ls-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
   .lv-btn{min-height:44px}
 }
-/* ── VERY SHORT LANDSCAPE (ultra-compact) ── */
+/* â”€â”€ VERY SHORT LANDSCAPE (ultra-compact) â”€â”€ */
 @media(orientation:landscape) and (max-height:380px){
   #hud{margin:52px 4px 0}
   .hc{padding:3px 6px 2px}
   .hud-val{font-size:16px}
   .ss-content{transform:scale(.85);transform-origin:center top}
 }
-/* ── URGENCY STATES ── */
+/* â”€â”€ URGENCY STATES â”€â”€ */
 .moves-warn .hud-val.accent{animation:warnPulse 1.2s ease-in-out infinite;filter:drop-shadow(0 0 8px rgba(255,94,148,.3))}
 .moves-critical .hud-val.accent{animation:critPulse .6s ease-in-out infinite;font-size:38px!important;filter:drop-shadow(0 0 16px rgba(255,40,40,.5))}
 .moves-critical .hc.hr{animation:cardShake .4s ease-in-out infinite;border-color:rgba(255,60,60,.3)!important;background:rgba(255,60,60,.06)!important}
@@ -512,10 +527,10 @@ body.dark .mode-toggle .ico-sun{display:block}
 .score-bump{animation:scoreBump .3s cubic-bezier(.16,1,.3,1)}
 @keyframes scoreBump{0%{transform:scale(1)}40%{transform:scale(1.22)}100%{transform:scale(1)}}
 
-/* ── SCREEN FLASH ── */
+/* â”€â”€ SCREEN FLASH â”€â”€ */
 #screenFlash{position:fixed;inset:0;pointer-events:none;z-index:45;opacity:0;transition:none;mix-blend-mode:screen}
 
-/* ── CHAIN COUNTER ── */
+/* â”€â”€ CHAIN COUNTER â”€â”€ */
 #chainCounter{position:absolute;top:-8px;left:50%;transform:translateX(-50%) scale(0);z-index:25;
 font-size:16px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:6px 18px;
 border-radius:999px;white-space:nowrap;pointer-events:none;
@@ -529,7 +544,7 @@ box-shadow:0 4px 32px rgba(255,215,0,.6),0 0 60px rgba(255,215,0,.25),inset 0 1p
 animation:megaPulse .5s ease-in-out infinite alternate}
 @keyframes megaPulse{0%{transform:translateX(-50%) scale(1)}100%{transform:translateX(-50%) scale(1.08);filter:brightness(1.15)}}
 
-/* ── ENHANCED COMBO POPUPS ── */
+/* â”€â”€ ENHANCED COMBO POPUPS â”€â”€ */
 .cpop{font-size:28px;text-shadow:0 2px 8px rgba(0,0,0,.15)}
 .cpop.t2{font-size:36px;animation:cpA2 1.1s cubic-bezier(.16,1,.3,1) forwards}
 .cpop.t3{font-size:48px;animation:cpA3 1.3s cubic-bezier(.16,1,.3,1) forwards}
@@ -544,10 +559,10 @@ animation:megaPulse .5s ease-in-out infinite alternate}
 28%{transform:translateX(-50%) scale(1.15) translateY(-35px)}
 100%{opacity:0;transform:translateX(-50%) scale(.6) translateY(-110px)}}
 
-/* ── CONFETTI ── */
+/* â”€â”€ CONFETTI â”€â”€ */
 .confetti-piece{position:fixed;width:10px;height:10px;pointer-events:none;z-index:55;will-change:transform}
 
-/* ── INVALID SWAP FLASH ── */
+/* â”€â”€ INVALID SWAP FLASH â”€â”€ */
 @keyframes invalidFlash{0%{box-shadow:inset 0 0 0 3px rgba(255,60,60,.5)}50%{box-shadow:inset 0 0 30px rgba(255,60,60,.2)}100%{box-shadow:inset 0 0 0 0 transparent}}
 .invalid-flash{animation:invalidFlash .35s ease-out}
 
@@ -567,7 +582,7 @@ animation:megaPulse .5s ease-in-out infinite alternate}
   .ss-face-wrap:hover .ss-face{transform:scale(1.1);box-shadow:0 8px 28px rgba(0,0,0,.12),0 0 20px rgba(255,94,148,.1)}
 }
 
-/* ── OVERLAY ENTRANCE ANIMATIONS ── */
+/* â”€â”€ OVERLAY ENTRANCE ANIMATIONS â”€â”€ */
 @keyframes cardEnter{0%{transform:translateY(50px) scale(.8);opacity:0}
 55%{transform:translateY(-10px) scale(1.03);opacity:1}
 80%{transform:translateY(3px) scale(.99)}100%{transform:translateY(0) scale(1);opacity:1}}
@@ -581,7 +596,7 @@ animation:megaPulse .5s ease-in-out infinite alternate}
 .ov:not(.hidden) .stat-row{animation:cardEnter .4s ease-out .45s both}
 .ov:not(.hidden) .btn-row{animation:cardEnter .4s ease-out .55s both}
 
-/* ── TILE PRESS SQUISH ── */
+/* â”€â”€ TILE PRESS SQUISH â”€â”€ */
 @keyframes tileSquish{0%{transform:scale(1)}50%{transform:scale(.88)}100%{transform:scale(1)}}
 
 @media(max-height:600px){
@@ -607,19 +622,19 @@ animation:megaPulse .5s ease-in-out infinite alternate}
   .lb-item{padding:4px 6px}
   .lb-meta{display:none}
 }
-/* ── LOW MOVES BOARD EFFECTS ── */
+/* â”€â”€ LOW MOVES BOARD EFFECTS â”€â”€ */
 .moves-critical #board{border-color:rgba(255,60,60,.2)!important}
 .moves-critical #board::before{background:conic-gradient(from var(--board-glow-angle,0deg),rgba(255,50,50,.45),rgba(255,94,148,.3),rgba(255,50,50,.45),rgba(255,94,148,.3),rgba(255,50,50,.45))!important;
 animation:boardGlowSpin 2s linear infinite!important;opacity:1!important}
 
-/* ── SCREEN VIGNETTE FOR LOW MOVES ── */
+/* â”€â”€ SCREEN VIGNETTE FOR LOW MOVES â”€â”€ */
 #movesVignette{position:fixed;inset:0;pointer-events:none;z-index:44;opacity:0;transition:opacity .4s ease;
 background:radial-gradient(ellipse at center,transparent 55%,rgba(255,30,30,.12) 100%)}
 .moves-warn #movesVignette{opacity:.5}
 .moves-critical #movesVignette{opacity:1;animation:vigPulse 1.2s ease-in-out infinite}
 @keyframes vigPulse{0%,100%{opacity:.8}50%{opacity:1}}
 
-/* ── ENHANCED SCORE BUMP ── */
+/* â”€â”€ ENHANCED SCORE BUMP â”€â”€ */
 .score-pop{animation:scorePop .35s cubic-bezier(.16,1,.3,1)}
 @keyframes scorePop{0%{transform:scale(1)}35%{transform:scale(1.3)}100%{transform:scale(1)}}
 </style>
@@ -701,7 +716,7 @@ background:radial-gradient(ellipse at center,transparent 55%,rgba(255,30,30,.12)
   </div>
 </div>
 <script>
-// ─── PARTICLE GRID (desktop only) ───
+// â”€â”€â”€ PARTICLE GRID (desktop only) â”€â”€â”€
 (function(){
 if(window.innerWidth<768||window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
 const cv=document.getElementById('pgrid'),cx=cv.getContext('2d');
@@ -725,11 +740,11 @@ document.addEventListener('mouseleave',()=>{mx=-1e3;my=-1e3});
 let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(rz,150)});rz();draw()
 })();
 
-// ─── AMBIENT BACKGROUND — layered orbs + mesh gradient + light rays ───
+// â”€â”€â”€ AMBIENT BACKGROUND â€” layered orbs + mesh gradient + light rays â”€â”€â”€
 (function(){
 const cv=document.getElementById('ambientBg'),cx=cv.getContext('2d');
 let W,H;
-// 7 primary orbs — HSL-based with slow hue cycling
+// 7 primary orbs â€” HSL-based with slow hue cycling
 const orbs=[
   {x:.18,y:.12,r:.55, h:330,s:80,l:78, sx:.00007,sy:.00006, ph:0,   phy:0,   hr:.4},
   {x:.82,y:.88,r:.50, h:210,s:75,l:82, sx:.00006,sy:.00008, ph:2.1, phy:1.3, hr:.6},
@@ -739,7 +754,7 @@ const orbs=[
   {x:.40,y:.92,r:.40, h:350,s:75,l:82, sx:.00008,sy:.00006, ph:5.5, phy:4.2, hr:.4},
   {x:.65,y:.15,r:.44, h:190,s:70,l:80, sx:.00006,sy:.00008, ph:2.5, phy:3.7, hr:.55},
 ];
-// 5 small accent orbs — brighter, faster, punchier
+// 5 small accent orbs â€” brighter, faster, punchier
 const accents=[
   {x:.3, y:.2, r:.18, h:340,s:90,l:72, sx:.00018,sy:.00015, ph:0.5, phy:1.2, hr:1.2},
   {x:.7, y:.7, r:.16, h:200,s:85,l:75, sx:.00015,sy:.00019, ph:2.0, phy:0.8, hr:1.0},
@@ -781,12 +796,12 @@ function draw(t){
   cx.globalCompositeOperation='source-over';
   cx.fillStyle=dk?'#0a0812':'#f9f4ff';
   cx.fillRect(0,0,W,H);
-  // Primary orbs — additive in dark mode for aurora
+  // Primary orbs â€” additive in dark mode for aurora
   cx.globalCompositeOperation=dk?'screen':'source-over';
   for(let i=0;i<orbs.length;i++) drawOrb(orbs[i],t,dk,false);
-  // Accent orbs — same blending
+  // Accent orbs â€” same blending
   for(let i=0;i<accents.length;i++) drawOrb(accents[i],t,dk,true);
-  // Light rays — overlay blend for subtle streaks
+  // Light rays â€” overlay blend for subtle streaks
   cx.globalCompositeOperation='overlay';
   const diag=Math.sqrt(W*W+H*H);
   for(let i=0;i<rays.length;i++){
@@ -805,7 +820,7 @@ function draw(t){
     cx.fillRect(-rw,-diag,rw*2,diag*2);
     cx.restore();
   }
-  // Mesh noise layer — subtle perlin-like color variation
+  // Mesh noise layer â€” subtle perlin-like color variation
   cx.globalCompositeOperation=dk?'screen':'overlay';
   const meshT=t*.0001;
   for(let i=0;i<3;i++){
@@ -824,7 +839,7 @@ let rt2;window.addEventListener('resize',()=>{clearTimeout(rt2);rt2=setTimeout(r
 rz();requestAnimationFrame(draw);
 })();
 
-// ─── AUDIO ENGINE (Web Audio API synth) ───
+// â”€â”€â”€ AUDIO ENGINE (Web Audio API synth) â”€â”€â”€
 const SFX=(()=>{
 let ac=null,muted=localStorage.getItem('emocrush-mute')==='1';
 const ctx=()=>{if(muted)return null;if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();return ac};
@@ -862,22 +877,30 @@ return{
 }})();
 function haptic(ms=12){try{navigator.vibrate(ms)}catch(e){}}
 
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // CONFIG
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 const COLS=7,ROWS=8,NT=6;
+let MOBILE_RENDER_STABLE=false;
+function updateRenderFlags(){
+  const vv=window.visualViewport;
+  const vw=Math.floor(vv&&vv.width?vv.width:window.innerWidth);
+  const vh=Math.floor(vv&&vv.height?vv.height:window.innerHeight);
+  const coarse=window.matchMedia&&window.matchMedia('(pointer: coarse)').matches;
+  MOBILE_RENDER_STABLE=coarse||vw<=820||(vw>vh&&vh<560);
+}
 
 /*
  * TILE DESIGN: Rounded-rect pastel tiles with expressive face drawings.
- * Bright, unique colors — each face has its own personality.
+ * Bright, unique colors â€” each face has its own personality.
  * Each tile has: bg gradient, glass highlight, specular shine, face art.
  *
- * 0: Happy    — warm yellow
- * 1: Sad      — sky blue
- * 2: Angry    — coral red
- * 3: Shocked  — mint green
- * 4: Love     — hot pink
- * 5: Cool     — lavender
+ * 0: Happy    â€” warm yellow
+ * 1: Sad      â€” sky blue
+ * 2: Angry    â€” coral red
+ * 3: Shocked  â€” mint green
+ * 4: Love     â€” hot pink
+ * 5: Cool     â€” lavender
  */
 const GEMS=[
   {n:'Happy',   bg1:'#FFF8C0',bg2:'#FFD060',bg3:'#F0B420',bg4:'#D09808',bdr:'rgba(210,160,20,.5)',  g:'rgba(255,208,96,.5)',  dot:'#FFD060'},
@@ -910,7 +933,7 @@ const COMBO_TXT=['nice','emotional','UNHINGED','BLACK PARADE','VOID WALKER','MAX
 const LSUB_T=['the feelings won','darkness prevails','try crying harder','emotional defeat','need more mascara','the void consumes','eyeliner running','tears depleted','crushed by feelings','the emo gods frown'];
 
 const LVS=[
-// ── TUTORIAL (1-10): generous moves, simple goals ──
+// â”€â”€ TUTORIAL (1-10): generous moves, simple goals â”€â”€
 {mv:28,goal:{t:'score',n:800},st:[800,1400,2200]},          // 1  Emotional Awakening
 {mv:26,goal:{t:'score',n:1200},st:[1200,2000,3000]},        // 2  Mascara Tears
 {mv:25,goal:{t:'clear',e:0,n:18},st:[700,1400,2400]},       // 3  Black Parade
@@ -921,7 +944,7 @@ const LVS=[
 {mv:23,goal:{t:'score',n:2400},st:[2400,3800,5800]},        // 8  Scene Kid Serenade
 {mv:22,goal:{t:'clear',e:3,n:26},st:[1100,2100,3400]},      // 9  My Chemical Crush
 {mv:22,goal:{t:'score',n:2800},st:[2800,4400,6800]},        // 10 Funeral for Feelings
-// ── EASY (11-20): introduces multi goals ──
+// â”€â”€ EASY (11-20): introduces multi goals â”€â”€
 {mv:22,goal:{t:'clear',e:4,n:28},st:[1200,2300,3800]},      // 11 Heartbreak Hotel
 {mv:22,goal:{t:'multi',ts:[{e:0,n:16},{e:1,n:16}]},st:[1400,2600,4200]},  // 12 Razor Fringe
 {mv:21,goal:{t:'score',n:3200},st:[3200,5000,7500]},        // 13 Tears in the Rain
@@ -932,7 +955,7 @@ const LVS=[
 {mv:20,goal:{t:'multi',ts:[{e:4,n:20},{e:5,n:20}]},st:[1800,3200,5200]},  // 18 Rainy Windowsill
 {mv:20,goal:{t:'score',n:4200},st:[4200,6500,9500]},        // 19 Shattered Vinyl
 {mv:19,goal:{t:'clear',e:1,n:34},st:[1500,2900,4700]},      // 20 Coffin Confetti
-// ── MEDIUM (21-30): tighter moves, higher targets ──
+// â”€â”€ MEDIUM (21-30): tighter moves, higher targets â”€â”€
 {mv:19,goal:{t:'multi',ts:[{e:0,n:22},{e:2,n:22}]},st:[2000,3600,5600]},  // 21 Void Walker
 {mv:19,goal:{t:'score',n:4800},st:[4800,7200,10500]},       // 22 Neon Graveyard
 {mv:18,goal:{t:'clear',e:2,n:36},st:[1600,3100,5000]},      // 23 Crimson Tears
@@ -943,7 +966,7 @@ const LVS=[
 {mv:17,goal:{t:'score',n:6200},st:[6200,9200,13500]},       // 28 Chrome Despair
 {mv:17,goal:{t:'clear',e:4,n:40},st:[2000,3800,6000]},      // 29 Violet Vendetta
 {mv:17,goal:{t:'multi',ts:[{e:0,n:20},{e:2,n:20},{e:4,n:20}]},st:[2800,5000,7800]},  // 30 Bleeding Stars
-// ── HARD (31-40): low moves, 3-type multi goals ──
+// â”€â”€ HARD (31-40): low moves, 3-type multi goals â”€â”€
 {mv:17,goal:{t:'score',n:7000},st:[7000,10500,15000]},      // 31 Abyss Gazer
 {mv:16,goal:{t:'clear',e:5,n:42},st:[2200,4200,6600]},      // 32 Phantom Requiem
 {mv:16,goal:{t:'multi',ts:[{e:1,n:22},{e:3,n:22},{e:5,n:22}]},st:[3000,5400,8400]},  // 33 Nuclear Tears
@@ -954,7 +977,7 @@ const LVS=[
 {mv:15,goal:{t:'clear',e:1,n:45},st:[2600,5000,7800]},      // 38 Shatter Point
 {mv:15,goal:{t:'multi',ts:[{e:2,n:26},{e:4,n:26},{e:5,n:26}]},st:[3500,6200,9600]},  // 39 Dark Matter Crush
 {mv:15,goal:{t:'score',n:9500},st:[9500,14000,20000]},      // 40 Venom Valentine
-// ── EXPERT (41-50): minimal moves, extreme targets ──
+// â”€â”€ EXPERT (41-50): minimal moves, extreme targets â”€â”€
 {mv:15,goal:{t:'clear',e:2,n:48},st:[2800,5400,8400]},      // 41 Event Horizon
 {mv:15,goal:{t:'multi',ts:[{e:0,n:28},{e:1,n:28},{e:2,n:28}]},st:[3800,6800,10500]}, // 42 Antimatter Heart
 {mv:14,goal:{t:'score',n:10500},st:[10500,15500,22000]},    // 43 Supernova Tears
@@ -972,9 +995,9 @@ function gLv(n){if(n<LVS.length)return LVS[n];
   if(m===1){const e=n%NT,c=40+d*2;return{mv,goal:{t:'clear',e,n:c},st:[Math.round(c*80),Math.round(c*140),Math.round(c*210)]}}
   const e1=n%NT,e2=(n+2)%NT,ct=28+d*2;return{mv,goal:{t:'multi',ts:[{e:e1,n:ct},{e:e2,n:ct}]},st:[Math.round(ct*120),Math.round(ct*200),Math.round(ct*300)]}}
 
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // PROGRESS PERSISTENCE
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function loadProgress(){
   try{const d=JSON.parse(localStorage.getItem('emocrush-progress'));
     return d&&typeof d.maxLevel==='number'?d:{maxLevel:0,stars:{}}
@@ -1022,10 +1045,10 @@ function updatePersonalBest(didWin=false){
 async function submitLeaderboardScore(didWin=false){updatePersonalBest(didWin)}
 
 
-// ═══════════════════════════════════════════════════════
-// ANIMATED FACES — drawn live each frame
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ANIMATED FACES â€” drawn live each frame
 // Each takes (ctx, radius, time, gridRow, gridCol)
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 function drawHeart(c,cx,cy,s){
   c.save();c.translate(cx,cy);
@@ -1038,20 +1061,20 @@ function drawHeart(c,cx,cy,s){
   c.closePath();c.restore();
 }
 
-// Utility: smooth 0→1→0 pulse within a repeating cycle
+// Utility: smooth 0â†’1â†’0 pulse within a repeating cycle
 function aPulse(t,period,onset,dur){
   const cy=t%period;if(cy<onset||cy>onset+dur)return 0;
   const p=(cy-onset)/dur;return p<.3?p/.3:p>.7?(1-p)/.3:1;
 }
 
-// ── HAPPY: joyful squinty eyes, rosy cheeks, beaming smile, occasional sparkle ──
+// â”€â”€ HAPPY: joyful squinty eyes, rosy cheeks, beaming smile, occasional sparkle â”€â”€
 function animHappy(c,r,t,row,col){
   const dk='rgba(70,40,0,.8)',ph=row*7+col*13;
   c.lineCap='round';c.lineJoin='round';
   // Blink open periodically
   const eo=aPulse((t+ph*97)%4200,4200,3800,350);
   if(eo>.5){
-    // Eyes wide open — bright, excited
+    // Eyes wide open â€” bright, excited
     c.fillStyle='#fff';
     c.beginPath();c.arc(-r*.3,-r*.1,r*.14,0,Math.PI*2);c.fill();
     c.beginPath();c.arc(r*.3,-r*.1,r*.14,0,Math.PI*2);c.fill();
@@ -1066,13 +1089,13 @@ function animHappy(c,r,t,row,col){
     c.beginPath();c.arc(-r*.27,-r*.16,r*.025,0,Math.PI*2);c.fill();
     c.beginPath();c.arc(r*.33,-r*.16,r*.025,0,Math.PI*2);c.fill();
   } else {
-    // Squinty happy eyes — upward arcs
+    // Squinty happy eyes â€” upward arcs
     const sq=Math.sin(t*.003+ph)*.015;
     c.strokeStyle=dk;c.lineWidth=r*.12;
     c.beginPath();c.arc(-r*.3,-r*.1,r*(.15+sq),Math.PI*.85,Math.PI*.15,true);c.stroke();
     c.beginPath();c.arc(r*.3,-r*.1,r*(.15+sq),Math.PI*.85,Math.PI*.15,true);c.stroke();
   }
-  // Rosy cheeks — warm pulse
+  // Rosy cheeks â€” warm pulse
   const ca=.2+Math.sin(t*.003+ph)*.08;
   c.fillStyle=`rgba(255,110,70,${ca})`;
   c.beginPath();c.arc(-r*.5,r*.12,r*.15,0,Math.PI*2);c.fill();
@@ -1094,11 +1117,11 @@ function animHappy(c,r,t,row,col){
   }
 }
 
-// ── SAD: worried brows, dewy eyes, quivering frown, rolling tear ──
+// â”€â”€ SAD: worried brows, dewy eyes, quivering frown, rolling tear â”€â”€
 function animSad(c,r,t,row,col){
   const dk='rgba(15,35,75,.85)',ph=row*7+col*13;
   c.lineCap='round';c.lineJoin='round';
-  // Worried brows — angled inward-up
+  // Worried brows â€” angled inward-up
   const bl=Math.sin(t*.002+ph)*.015;
   c.strokeStyle=dk;c.lineWidth=r*.08;
   c.beginPath();c.moveTo(-r*.48,-r*(.3+bl));c.lineTo(-r*.2,-r*(.42+bl));c.stroke();
@@ -1117,7 +1140,7 @@ function animSad(c,r,t,row,col){
     c.strokeStyle=dk;c.lineWidth=r*.04;
     c.beginPath();c.arc(-r*.28,-r*.06,r*.14,0,Math.PI*2);c.stroke();
     c.beginPath();c.arc(r*.28,-r*.06,r*.14,0,Math.PI*2);c.stroke();
-    // Pupils — looking down-left (sad)
+    // Pupils â€” looking down-left (sad)
     const pd=Math.sin(t*.001+ph*.5)*r*.02;
     c.fillStyle=dk;
     c.beginPath();c.arc(-r*.3+pd,r*.0,r*.06,0,Math.PI*2);c.fill();
@@ -1137,7 +1160,7 @@ function animSad(c,r,t,row,col){
   c.strokeStyle=dk;c.lineWidth=r*.09;
   c.beginPath();c.moveTo(-r*.2+fq,r*(.36+fw));c.quadraticCurveTo(0,r*(.2-fw),r*.2-fq,r*(.36+fw));c.stroke();
 
-  // ── Tear from right eye — smooth 3.5s cycle ──
+  // â”€â”€ Tear from right eye â€” smooth 3.5s cycle â”€â”€
   const tCyc=3500,tPh=(t+ph*137)%tCyc,tP=tPh/tCyc;
   const eyeX=r*.28,eyeBot=r*.08; // bottom of right eye
   if(tP<.12){
@@ -1178,7 +1201,7 @@ function animSad(c,r,t,row,col){
   }
 }
 
-// ── ANGRY: fierce V-brows, glaring slit eyes, gnashing teeth, rage shake ──
+// â”€â”€ ANGRY: fierce V-brows, glaring slit eyes, gnashing teeth, rage shake â”€â”€
 function animAngry(c,r,t,row,col){
   const dk='rgba(70,15,5,.9)',ph=row*7+col*13;
   c.lineCap='round';c.lineJoin='round';
@@ -1191,12 +1214,12 @@ function animAngry(c,r,t,row,col){
     c.fillStyle=`rgba(255,30,0,${shkOn*.08})`;
     c.beginPath();c.arc(0,0,r*.8,0,Math.PI*2);c.fill();
   }
-  // V-brows — thick, angry, tighter during shake
+  // V-brows â€” thick, angry, tighter during shake
   const bDip=shkOn*.06;
   c.strokeStyle=dk;c.lineWidth=r*.14;
   c.beginPath();c.moveTo(-r*.56,-r*.28);c.lineTo(-r*.16,-r*(.1-bDip));c.stroke();
   c.beginPath();c.moveTo(r*.56,-r*.28);c.lineTo(r*.16,-r*(.1-bDip));c.stroke();
-  // Slit eyes — narrower during shake
+  // Slit eyes â€” narrower during shake
   const slitH=r*(.06-shkOn*.015),slitW=r*.17;
   c.fillStyle='#fff';
   c.beginPath();c.ellipse(-r*.3,-r*.02,slitW,slitH,-.05,0,Math.PI*2);c.fill();
@@ -1204,7 +1227,7 @@ function animAngry(c,r,t,row,col){
   c.strokeStyle=dk;c.lineWidth=r*.035;
   c.beginPath();c.ellipse(-r*.3,-r*.02,slitW,slitH,-.05,0,Math.PI*2);c.stroke();
   c.beginPath();c.ellipse(r*.3,-r*.02,slitW,slitH,.05,0,Math.PI*2);c.stroke();
-  // Intense pupils — tiny, glaring
+  // Intense pupils â€” tiny, glaring
   c.fillStyle=dk;
   c.beginPath();c.arc(-r*.3,-r*.02,r*.045,0,Math.PI*2);c.fill();
   c.beginPath();c.arc(r*.3,-r*.02,r*.045,0,Math.PI*2);c.fill();
@@ -1212,14 +1235,14 @@ function animAngry(c,r,t,row,col){
   c.fillStyle=`rgba(255,60,30,${.2+shkOn*.25})`;
   c.beginPath();c.arc(-r*.27,-r*.04,r*.02,0,Math.PI*2);c.fill();
   c.beginPath();c.arc(r*.33,-r*.04,r*.02,0,Math.PI*2);c.fill();
-  // Mouth — gritted teeth, opens during shake
+  // Mouth â€” gritted teeth, opens during shake
   const mOpen=r*(.18+shkOn*.12);
   c.fillStyle='rgba(50,10,5,.7)';
   c.beginPath();
   c.moveTo(-r*.32,r*.2);c.lineTo(r*.32,r*.2);
   c.lineTo(r*.28,r*.2+mOpen);c.lineTo(-r*.28,r*.2+mOpen);
   c.closePath();c.fill();
-  // Top teeth — jagged
+  // Top teeth â€” jagged
   c.fillStyle='rgba(255,255,255,.92)';
   const tw2=r*.11;
   for(let i=-1;i<=1;i++){
@@ -1242,15 +1265,15 @@ function animAngry(c,r,t,row,col){
   c.restore();
 }
 
-// ── SHOCKED: static raised brows, big round eyes, darting pupils, O mouth ──
+// â”€â”€ SHOCKED: static raised brows, big round eyes, darting pupils, O mouth â”€â”€
 function animShocked(c,r,t,row,col){
   const dk='rgba(15,55,45,.8)',ph=row*7+col*13;
   c.lineCap='round';c.lineJoin='round';
-  // Static raised eyebrows — NO bounce
+  // Static raised eyebrows â€” NO bounce
   c.strokeStyle=dk;c.lineWidth=r*.09;
   c.beginPath();c.arc(-r*.3,-r*.4,r*.14,Math.PI*.82,Math.PI*.18,true);c.stroke();
   c.beginPath();c.arc(r*.3,-r*.4,r*.14,Math.PI*.82,Math.PI*.18,true);c.stroke();
-  // Big round eyes — gentle pulse
+  // Big round eyes â€” gentle pulse
   const ep=1+Math.sin(t*.003+ph)*.05;
   c.fillStyle='#fff';
   c.beginPath();c.arc(-r*.28,-r*.1,r*.17*ep,0,Math.PI*2);c.fill();
@@ -1267,7 +1290,7 @@ function animShocked(c,r,t,row,col){
   c.fillStyle='rgba(255,255,255,.7)';
   c.beginPath();c.arc(-r*.23+pdx,-r*.15+pdy,r*.04,0,Math.PI*2);c.fill();
   c.beginPath();c.arc(r*.33+pdx,-r*.15+pdy,r*.04,0,Math.PI*2);c.fill();
-  // O-shaped mouth — gentle pulse
+  // O-shaped mouth â€” gentle pulse
   const mp=1+Math.sin(t*.0035+ph*.8)*.04;
   c.fillStyle='rgba(15,55,45,.55)';
   c.beginPath();c.arc(0,r*.32,r*.15*mp,0,Math.PI*2);c.fill();
@@ -1277,7 +1300,7 @@ function animShocked(c,r,t,row,col){
   c.beginPath();c.arc(0,r*.32,r*.09*mp,0,Math.PI*2);c.fill();
 }
 
-// ── LOVE: heart eyes with lub-dub heartbeat, dreamy sway, blush, floating hearts ──
+// â”€â”€ LOVE: heart eyes with lub-dub heartbeat, dreamy sway, blush, floating hearts â”€â”€
 function animLove(c,r,t,row,col){
   const dk='rgba(80,10,40,.8)',ph=row*7+col*13;
   c.lineCap='round';c.lineJoin='round';
@@ -1289,7 +1312,7 @@ function animLove(c,r,t,row,col){
   // Dreamy sway
   const sway=Math.sin(t*.0015+ph)*.025;
   c.save();c.rotate(sway);
-  // Heart eyes — vibrant, pulsing
+  // Heart eyes â€” vibrant, pulsing
   const hFill=`rgba(230,35,85,${.75+thump1*.15})`;
   c.fillStyle=hFill;
   drawHeart(c,-r*.3,-r*.13,r*.6*beat);c.fill();
@@ -1302,17 +1325,17 @@ function animLove(c,r,t,row,col){
   c.fillStyle='rgba(255,255,255,.45)';
   c.beginPath();c.arc(-r*.36,-r*.21,r*.06,0,Math.PI*2);c.fill();
   c.beginPath();c.arc(r*.24,-r*.21,r*.06,0,Math.PI*2);c.fill();
-  // Heavy blush — pulse with beat
+  // Heavy blush â€” pulse with beat
   const ba=.2+(thump1+thump2)*.15;
   c.fillStyle=`rgba(255,70,100,${ba})`;
   c.beginPath();c.arc(-r*.48,r*.15,r*.17,0,Math.PI*2);c.fill();
   c.beginPath();c.arc(r*.48,r*.15,r*.17,0,Math.PI*2);c.fill();
-  // Smile — widens and deepens with beat
+  // Smile â€” widens and deepens with beat
   const smW=r*(.26+(thump1+thump2)*.08);
   const smD=r*(.52+(thump1+thump2)*.08);
   c.strokeStyle=dk;c.lineWidth=r*.09;
   c.beginPath();c.moveTo(-smW,r*.32);c.quadraticCurveTo(0,smD,smW,r*.32);c.stroke();
-  // Floating mini heart — rises from top
+  // Floating mini heart â€” rises from top
   const mhCyc=3800,mhPh=(t+ph*199)%mhCyc,mhP=mhPh/mhCyc;
   if(mhP<.6){
     const rise=mhP/.6;
@@ -1328,7 +1351,7 @@ function animLove(c,r,t,row,col){
   c.restore();
 }
 
-// ── COOL: glossy sunglasses, subtle brow, lens shine, confident smirk ──
+// â”€â”€ COOL: glossy sunglasses, subtle brow, lens shine, confident smirk â”€â”€
 function animCool(c,r,t,row,col){
   const dk='rgba(25,12,55,.88)',ph=row*7+col*13;
   c.lineCap='round';c.lineJoin='round';
@@ -1336,7 +1359,7 @@ function animCool(c,r,t,row,col){
   const br=aPulse((t+ph*71)%3500,3500,3000,400)*r*.018;
   c.strokeStyle=dk;c.lineWidth=r*.085;
   c.beginPath();c.moveTo(-r*.48,-r*(.35+br));c.quadraticCurveTo(-r*.32,-r*(.42+br),-r*.12,-r*(.35+br));c.stroke();
-  // Sunglasses — glossy dark lenses with gradient
+  // Sunglasses â€” glossy dark lenses with gradient
   c.save();
   rr(c,-r*.58,-r*.24,r*.52,r*.32,r*.08);
   const lg=c.createLinearGradient(-r*.58,-r*.24,-r*.58,-r*.24+r*.32);
@@ -1358,7 +1381,7 @@ function animCool(c,r,t,row,col){
   c.lineWidth=r*.045;
   c.beginPath();c.moveTo(-r*.58,-r*.12);c.lineTo(-r*.72,-r*.2);c.stroke();
   c.beginPath();c.moveTo(r*.58,-r*.12);c.lineTo(r*.72,-r*.2);c.stroke();
-  // Lens shine sweep — diagonal glint
+  // Lens shine sweep â€” diagonal glint
   const sp2=((t*.00035+ph*.1)%1);
   c.save();
   // Left lens shine
@@ -1374,7 +1397,7 @@ function animCool(c,r,t,row,col){
   c.strokeStyle='rgba(255,255,255,.35)';c.lineWidth=r*.06;
   c.beginPath();c.moveTo(sx4,-r*.26);c.lineTo(sx4+r*.12,r*.1);c.stroke();
   c.restore();
-  // Confident smirk — slight tilt, thicker
+  // Confident smirk â€” slight tilt, thicker
   const sa=Math.sin(t*.0018+ph)*.012;
   c.save();c.rotate(sa);
   c.strokeStyle=dk;c.lineWidth=r*.09;
@@ -1382,11 +1405,11 @@ function animCool(c,r,t,row,col){
   c.restore();
 }
 
-// ── MOVING: startled expression on ANY tile being dragged/swapped ──
+// â”€â”€ MOVING: startled expression on ANY tile being dragged/swapped â”€â”€
 function animMoving(c,r,t){
   const dk='rgba(45,25,10,.82)';
   c.lineCap='round';c.lineJoin='round';
-  // Raised brows — high and worried
+  // Raised brows â€” high and worried
   c.strokeStyle=dk;c.lineWidth=r*.075;
   c.beginPath();c.arc(-r*.28,-r*.38,r*.13,Math.PI*.85,Math.PI*.15,true);c.stroke();
   c.beginPath();c.arc(r*.28,-r*.38,r*.13,Math.PI*.85,Math.PI*.15,true);c.stroke();
@@ -1397,7 +1420,7 @@ function animMoving(c,r,t){
   c.strokeStyle=dk;c.lineWidth=r*.04;
   c.beginPath();c.arc(-r*.26,-r*.08,r*.17,0,Math.PI*2);c.stroke();
   c.beginPath();c.arc(r*.26,-r*.08,r*.17,0,Math.PI*2);c.stroke();
-  // Shrunken pupils — pinpricks of shock
+  // Shrunken pupils â€” pinpricks of shock
   c.fillStyle=dk;
   c.beginPath();c.arc(-r*.26,-r*.08,r*.04,0,Math.PI*2);c.fill();
   c.beginPath();c.arc(r*.26,-r*.08,r*.04,0,Math.PI*2);c.fill();
@@ -1405,7 +1428,7 @@ function animMoving(c,r,t){
   c.fillStyle='rgba(255,255,255,.7)';
   c.beginPath();c.arc(-r*.22,-r*.14,r*.035,0,Math.PI*2);c.fill();
   c.beginPath();c.arc(r*.3,-r*.14,r*.035,0,Math.PI*2);c.fill();
-  // Gasp mouth — small O
+  // Gasp mouth â€” small O
   c.fillStyle='rgba(45,25,10,.5)';
   c.beginPath();c.ellipse(0,r*.28,r*.1,r*.12,0,0,Math.PI*2);c.fill();
   c.strokeStyle=dk;c.lineWidth=r*.035;
@@ -1422,9 +1445,9 @@ function animMoving(c,r,t){
 
 const ANIM_FACES=[animHappy,animSad,animAngry,animShocked,animLove,animCool];
 
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // SPECIAL GEM INDICATORS
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function drawSp(c,sp,r,d,pad){
   c.save();c.lineCap='round';
   if(sp===1){ // Line blast: cross lines with layered glow (no shadowBlur)
@@ -1473,9 +1496,9 @@ function drawSp(c,sp,r,d,pad){
   c.restore();
 }
 
-// ═══════════════════════════════════════════════════════
-// PRE-RENDER — rounded-rect tile + face
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// PRE-RENDER â€” rounded-rect tile + face
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 let gemCvs=[],gemSz=48,gemPad=0,dpr=1,boardBg;
 
 function rr(c,x,y,w,h,rd){c.beginPath();c.moveTo(x+rd,y);c.arcTo(x+w,y,x+w,y+h,rd);c.arcTo(x+w,y+h,x,y+h,rd);c.arcTo(x,y+h,x,y,rd);c.arcTo(x,y,x+w,y,rd);c.closePath()}
@@ -1497,13 +1520,13 @@ function prerenderGems(logSz){
       const tx=pad+margin,ty=pad+margin;
       const cx=tx+ts/2,cy=ty+ts/2;
 
-      // ── L0: Colored ambient halo — warm glow surrounding the tile ──
+      // â”€â”€ L0: Colored ambient halo â€” warm glow surrounding the tile â”€â”€
       c.save();c.globalAlpha=.28;
       const ah=c.createRadialGradient(cx,cy+2*dpr,ts*.15,cx,cy+2*dpr,ts*.75);
       ah.addColorStop(0,g.bg2);ah.addColorStop(.35,g.bg2);ah.addColorStop(.65,g.bg3);ah.addColorStop(1,'rgba(0,0,0,0)');
       c.fillStyle=ah;c.fillRect(tx-ts*.25,ty-ts*.2,ts*1.5,ts*1.5);c.restore();
 
-      // ── L1: Drop shadow — soft dark with color hint ──
+      // â”€â”€ L1: Drop shadow â€” soft dark with color hint â”€â”€
       c.save();c.globalAlpha=.2;
       const ds=c.createRadialGradient(cx,cy+3*dpr,ts*.2,cx,cy+4*dpr,ts*.62);
       ds.addColorStop(0,'rgba(0,0,0,.5)');ds.addColorStop(.4,'rgba(0,0,0,.2)');
@@ -1515,7 +1538,7 @@ function prerenderGems(logSz){
       dsc.addColorStop(0,g.bg3);dsc.addColorStop(.6,g.bg3);dsc.addColorStop(1,'rgba(0,0,0,0)');
       c.fillStyle=dsc;c.fillRect(tx-ts*.1,ty,ts*1.2,ts*1.2);c.restore();
 
-      // ── L2: Tile body — rich 7-stop diagonal gradient ──
+      // â”€â”€ L2: Tile body â€” rich 7-stop diagonal gradient â”€â”€
       c.save();rr(c,tx,ty,ts,ts,cr);
       const gr=c.createLinearGradient(tx+ts*.08,ty,tx+ts*.22,ty+ts);
       gr.addColorStop(0,g.bg1);gr.addColorStop(.1,g.bg1);gr.addColorStop(.28,g.bg2);
@@ -1523,21 +1546,21 @@ function prerenderGems(logSz){
       gr.addColorStop(.9,g.bg4||g.bg3);gr.addColorStop(1,g.bg4||g.bg3);
       c.fillStyle=gr;c.fill();c.restore();
 
-      // ── L3: Subsurface scattering — warm translucent inner glow ──
+      // â”€â”€ L3: Subsurface scattering â€” warm translucent inner glow â”€â”€
       c.save();rr(c,tx,ty,ts,ts,cr);c.clip();c.globalAlpha=.22;
       const sss=c.createRadialGradient(cx-ts*.06,cy-ts*.1,0,cx,cy,ts*.58);
       sss.addColorStop(0,g.bg1);sss.addColorStop(.3,g.bg1);
       sss.addColorStop(.6,'rgba(255,255,255,.04)');sss.addColorStop(1,'rgba(0,0,0,0)');
       c.fillStyle=sss;c.fillRect(tx,ty,ts,ts);c.restore();
 
-      // ── L4: Ambient occlusion — darkened edges for 3D pillow effect ──
+      // â”€â”€ L4: Ambient occlusion â€” darkened edges for 3D pillow effect â”€â”€
       c.save();rr(c,tx,ty,ts,ts,cr);c.clip();
       const ao=c.createRadialGradient(cx-ts*.05,cy-ts*.08,ts*.25,cx,cy,ts*.56);
       ao.addColorStop(0,'rgba(0,0,0,0)');ao.addColorStop(.6,'rgba(0,0,0,0)');
       ao.addColorStop(.82,'rgba(0,0,0,.06)');ao.addColorStop(1,'rgba(0,0,0,.14)');
       c.fillStyle=ao;c.fillRect(tx,ty,ts,ts);c.restore();
 
-      // ── L5: Central radiance — bright inner area ──
+      // â”€â”€ L5: Central radiance â€” bright inner area â”€â”€
       c.save();rr(c,tx,ty,ts,ts,cr);c.clip();
       const ir=c.createRadialGradient(cx-ts*.08,cy-ts*.12,0,cx,cy,ts*.55);
       ir.addColorStop(0,'rgba(255,255,255,.3)');ir.addColorStop(.12,'rgba(255,255,255,.2)');
@@ -1545,20 +1568,20 @@ function prerenderGems(logSz){
       ir.addColorStop(1,'rgba(0,0,0,0)');
       c.fillStyle=ir;c.fillRect(tx,ty,ts,ts);c.restore();
 
-      // ── L6: Glass sheen — frosted top highlight with curved falloff ──
+      // â”€â”€ L6: Glass sheen â€” frosted top highlight with curved falloff â”€â”€
       c.save();rr(c,tx,ty,ts,ts,cr);c.clip();
       const gh=c.createLinearGradient(tx,ty,tx,ty+ts*.52);
       gh.addColorStop(0,'rgba(255,255,255,.72)');gh.addColorStop(.03,'rgba(255,255,255,.58)');
       gh.addColorStop(.1,'rgba(255,255,255,.35)');gh.addColorStop(.2,'rgba(255,255,255,.18)');
       gh.addColorStop(.38,'rgba(255,255,255,.06)');gh.addColorStop(1,'rgba(255,255,255,0)');
       c.fillStyle=gh;c.fillRect(tx,ty,ts,ts*.52);
-      // Curved glass edge — soft elliptical highlight at sheen boundary
+      // Curved glass edge â€” soft elliptical highlight at sheen boundary
       const ge=c.createRadialGradient(cx,ty+ts*.35,ts*.08,cx,ty+ts*.35,ts*.42);
       ge.addColorStop(0,'rgba(255,255,255,.08)');ge.addColorStop(.5,'rgba(255,255,255,.03)');
       ge.addColorStop(1,'rgba(0,0,0,0)');
       c.fillStyle=ge;c.fillRect(tx,ty+ts*.15,ts,ts*.35);c.restore();
 
-      // ── L7: Specular crescent — sharp arc highlight near top ──
+      // â”€â”€ L7: Specular crescent â€” sharp arc highlight near top â”€â”€
       c.save();rr(c,tx,ty,ts,ts,cr);c.clip();c.globalAlpha=.5;
       c.beginPath();c.ellipse(cx-ts*.04,ty+ts*.13,ts*.28,ts*.07,-.08,0,Math.PI,true);
       const scg=c.createLinearGradient(cx-ts*.32,ty+ts*.06,cx+ts*.24,ty+ts*.2);
@@ -1567,7 +1590,7 @@ function prerenderGems(logSz){
       scg.addColorStop(1,'rgba(255,255,255,0)');
       c.strokeStyle=scg;c.lineWidth=ts*.03;c.stroke();c.restore();
 
-      // ── L8: Primary specular hotspot — sun reflection ──
+      // â”€â”€ L8: Primary specular hotspot â€” sun reflection â”€â”€
       c.save();rr(c,tx,ty,ts,ts,cr);c.clip();
       const sp1=c.createRadialGradient(tx+ts*.22,ty+ts*.15,0,tx+ts*.24,ty+ts*.18,ts*.22);
       sp1.addColorStop(0,'rgba(255,255,255,.72)');sp1.addColorStop(.12,'rgba(255,255,255,.4)');
@@ -1575,14 +1598,14 @@ function prerenderGems(logSz){
       sp1.addColorStop(1,'rgba(0,0,0,0)');
       c.fillStyle=sp1;c.fillRect(tx,ty,ts,ts);c.restore();
 
-      // ── L9: Secondary specular — fill light (bottom-right) ──
+      // â”€â”€ L9: Secondary specular â€” fill light (bottom-right) â”€â”€
       c.save();rr(c,tx,ty,ts,ts,cr);c.clip();c.globalAlpha=.12;
       const sp2=c.createRadialGradient(tx+ts*.74,ty+ts*.72,0,tx+ts*.74,ty+ts*.72,ts*.18);
       sp2.addColorStop(0,'rgba(255,255,255,.55)');sp2.addColorStop(.35,'rgba(255,255,255,.2)');
       sp2.addColorStop(1,'rgba(0,0,0,0)');
       c.fillStyle=sp2;c.fillRect(tx,ty,ts,ts);c.restore();
 
-      // ── L10: Bottom depth shadow — enhanced falloff ──
+      // â”€â”€ L10: Bottom depth shadow â€” enhanced falloff â”€â”€
       c.save();rr(c,tx,ty,ts,ts,cr);c.clip();
       const bsh=c.createLinearGradient(tx,ty+ts*.42,tx,ty+ts);
       bsh.addColorStop(0,'rgba(0,0,0,0)');bsh.addColorStop(.25,'rgba(0,0,0,.02)');
@@ -1590,14 +1613,14 @@ function prerenderGems(logSz){
       bsh.addColorStop(1,'rgba(0,0,0,.2)');
       c.fillStyle=bsh;c.fillRect(tx,ty+ts*.42,ts,ts*.58);c.restore();
 
-      // ── L11: Rim light — bright top-left edge highlight ──
+      // â”€â”€ L11: Rim light â€” bright top-left edge highlight â”€â”€
       c.save();rr(c,tx,ty,ts,ts,cr);c.clip();c.globalAlpha=.14;
       const rl=c.createLinearGradient(tx,ty,tx+ts*.45,ty+ts*.45);
       rl.addColorStop(0,'rgba(255,255,255,.85)');rl.addColorStop(.06,'rgba(255,255,255,.4)');
       rl.addColorStop(.16,'rgba(255,255,255,.1)');rl.addColorStop(1,'rgba(0,0,0,0)');
       c.fillStyle=rl;c.fillRect(tx,ty,ts*.45,ts*.45);c.restore();
 
-      // ── L12: Candy texture — subtle concentric shimmer rings ──
+      // â”€â”€ L12: Candy texture â€” subtle concentric shimmer rings â”€â”€
       c.save();rr(c,tx,ty,ts,ts,cr);c.clip();c.globalAlpha=.035;
       c.lineWidth=ts*.012;
       for(let ring=3;ring<=5;ring++){
@@ -1607,19 +1630,19 @@ function prerenderGems(logSz){
       }
       c.restore();
 
-      // ── L13: Border with directional bevel ──
+      // â”€â”€ L13: Border with directional bevel â”€â”€
       c.save();
-      // Outer border — gem-tinted
+      // Outer border â€” gem-tinted
       rr(c,tx+.5,ty+.5,ts-1,ts-1,cr);
       c.strokeStyle=g.bdr;c.lineWidth=1.2*dpr;c.stroke();
-      // Inner bevel — light top-left, shadow bottom-right
+      // Inner bevel â€” light top-left, shadow bottom-right
       rr(c,tx+1.5*dpr,ty+1*dpr,ts-3*dpr,ts-2.5*dpr,cr-1);
       const bvl=c.createLinearGradient(tx,ty,tx+ts,ty+ts);
       bvl.addColorStop(0,'rgba(255,255,255,.55)');bvl.addColorStop(.25,'rgba(255,255,255,.35)');
       bvl.addColorStop(.55,'rgba(255,255,255,.1)');bvl.addColorStop(1,'rgba(0,0,0,.06)');
       c.strokeStyle=bvl;c.lineWidth=.7*dpr;c.stroke();c.restore();
 
-      // ── L14: Multi-point specular pin highlights ──
+      // â”€â”€ L14: Multi-point specular pin highlights â”€â”€
       c.save();
       // Primary (brightest)
       c.globalAlpha=.72;c.fillStyle='#fff';
@@ -1632,7 +1655,7 @@ function prerenderGems(logSz){
       c.beginPath();c.arc(tx+ts*.14,ty+ts*.26,ts*.016,0,Math.PI*2);c.fill();
       c.restore();
 
-      // ── Special indicator ──
+      // â”€â”€ Special indicator â”€â”€
       if(sp>0){c.save();c.translate(cx,cy);drawSp(c,sp,ts*.42,dpr,ts/2);c.restore()}
 
       gemCvs[t][sp]=cv;
@@ -1645,7 +1668,7 @@ function prerenderBoard(){
   const c=boardBg.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);
   const dk=document.body.classList.contains('dark');
 
-  // Base surface — very subtle tinted glass
+  // Base surface â€” very subtle tinted glass
   if(dk){
     const vig=c.createRadialGradient(CW/2,CH/2,0,CW/2,CH/2,Math.max(CW,CH)*.72);
     vig.addColorStop(0,'rgba(18,16,30,.45)');vig.addColorStop(.6,'rgba(12,12,22,.5)');vig.addColorStop(1,'rgba(6,6,12,.55)');c.fillStyle=vig;
@@ -1655,7 +1678,7 @@ function prerenderBoard(){
   }
   c.fillRect(0,0,CW,CH);
 
-  // Subtle color wash — warm pink top-left, cool purple bottom-right
+  // Subtle color wash â€” warm pink top-left, cool purple bottom-right
   c.save();c.globalAlpha=dk?.035:.025;
   const w1=c.createRadialGradient(CW*.15,CH*.15,0,CW*.15,CH*.15,Math.max(CW,CH)*.6);
   w1.addColorStop(0,'#FF5E94');w1.addColorStop(.6,'rgba(255,94,148,.3)');w1.addColorStop(1,'transparent');c.fillStyle=w1;c.fillRect(0,0,CW,CH);
@@ -1663,13 +1686,13 @@ function prerenderBoard(){
   w2.addColorStop(0,'#8E6EFF');w2.addColorStop(.6,'rgba(142,110,255,.3)');w2.addColorStop(1,'transparent');c.fillStyle=w2;c.fillRect(0,0,CW,CH);
   c.restore();
 
-  // Cell sockets — soft frosted-glass dimples
+  // Cell sockets â€” soft frosted-glass dimples
   const sm=CELL*.05,sr=CELL*.22;
   for(let r=0;r<ROWS;r++)for(let co=0;co<COLS;co++){
     const sx=co*CELL+sm,sy=r*CELL+sm,sw=CELL-sm*2,sh=CELL-sm*2;
     const cx2=sx+sw/2,cy2=sy+sh/2;
 
-    // Soft radial dimple — glass-like indent
+    // Soft radial dimple â€” glass-like indent
     c.save();rr(c,sx,sy,sw,sh,sr);c.clip();
     const dg=c.createRadialGradient(cx2,cy2-sh*.1,0,cx2,cy2,sw*.55);
     if(dk){
@@ -1685,45 +1708,47 @@ function prerenderBoard(){
     }
     c.fillStyle=dg;c.fillRect(sx,sy,sw,sh);
 
-    // Top-edge inner highlight — frosted rim
+    // Top-edge inner highlight â€” frosted rim
     const th=c.createLinearGradient(sx,sy,sx,sy+sh*.25);
     th.addColorStop(0,dk?'rgba(255,255,255,.04)':'rgba(255,255,255,.12)');
     th.addColorStop(1,'rgba(255,255,255,0)');
     c.fillStyle=th;c.fillRect(sx,sy,sw,sh*.25);
 
-    // Bottom-edge shadow — subtle depth
+    // Bottom-edge shadow â€” subtle depth
     const bs=c.createLinearGradient(sx,sy+sh*.75,sx,sy+sh);
     bs.addColorStop(0,'rgba(0,0,0,0)');
     bs.addColorStop(1,dk?'rgba(0,0,0,.06)':'rgba(0,0,0,.015)');
     c.fillStyle=bs;c.fillRect(sx,sy+sh*.75,sw,sh*.25);
     c.restore();
 
-    // Thin glass border — barely visible
+    // Thin glass border â€” barely visible
     rr(c,sx+.5,sy+.5,sw-1,sh-1,sr-.5);
     c.strokeStyle=dk?'rgba(255,255,255,.03)':'rgba(255,255,255,.2)';c.lineWidth=.5;c.stroke();
   }
 
-  // Subtle grid lines — faint separators for structure
-  c.save();c.globalAlpha=dk?.03:.04;c.strokeStyle=dk?'rgba(255,255,255,1)':'rgba(0,0,0,1)';c.lineWidth=.5;
-  for(let co=1;co<COLS;co++){c.beginPath();c.moveTo(co*CELL,CELL*.15);c.lineTo(co*CELL,CH-CELL*.15);c.stroke()}
-  for(let r=1;r<ROWS;r++){c.beginPath();c.moveTo(CELL*.15,r*CELL);c.lineTo(CW-CELL*.15,r*CELL);c.stroke()}
-  c.restore();
+    // Subtle grid lines — skip on mobile/coarse pointers to avoid shimmer flicker.
+  if(!MOBILE_RENDER_STABLE){
+    c.save();c.globalAlpha=dk?.03:.04;c.strokeStyle=dk?'rgba(255,255,255,1)':'rgba(0,0,0,1)';c.lineWidth=.5;
+    for(let co=1;co<COLS;co++){c.beginPath();c.moveTo(co*CELL,CELL*.15);c.lineTo(co*CELL,CH-CELL*.15);c.stroke()}
+    for(let r=1;r<ROWS;r++){c.beginPath();c.moveTo(CELL*.15,r*CELL);c.lineTo(CW-CELL*.15,r*CELL);c.stroke()}
+    c.restore();
+  }
 
-  // Vignette — softer, refined
+  // Vignette â€” softer, refined
   const vig2=c.createRadialGradient(CW/2,CH/2,Math.min(CW,CH)*.3,CW/2,CH/2,Math.max(CW,CH)*.7);
   vig2.addColorStop(0,'rgba(0,0,0,0)');vig2.addColorStop(.75,'rgba(0,0,0,0)');
   vig2.addColorStop(1,dk?'rgba(0,0,0,.18)':'rgba(0,0,0,.04)');
   c.fillStyle=vig2;c.fillRect(0,0,CW,CH);
 
-  // Inner top highlight — gentle frosted sheen
+  // Inner top highlight â€” gentle frosted sheen
   c.save();const thl=c.createLinearGradient(0,0,0,CH*.1);
   thl.addColorStop(0,dk?'rgba(255,255,255,.03)':'rgba(255,255,255,.12)');
   thl.addColorStop(1,'rgba(255,255,255,0)');c.fillStyle=thl;c.fillRect(0,0,CW,CH*.1);c.restore();
 }
 
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // EASING + TWEENS + PARTICLES
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 const E={out:t=>1-Math.pow(1-t,3),inQ:t=>t*t*t,
 oB:t=>{const c=1.7;return 1+c*Math.pow(t-1,3)+c*Math.pow(t-1,2)},
 oBn:t=>{if(t<1/2.75)return 7.5625*t*t;if(t<2/2.75)return 7.5625*(t-=1.5/2.75)*t+.75;if(t<2.5/2.75)return 7.5625*(t-=2.25/2.75)*t+.9375;return 7.5625*(t-=2.625/2.75)*t+.984375}};
@@ -1745,15 +1770,15 @@ function burst(x,y,col,n=30){
   for(let i=0;i<n;i++){const a=Math.PI*2*i/n+Math.random()*.5,sp=Math.random()*6+3;
   const r=Math.random();const pc=r>.75?'#fff':r>.3?col:GEMS[Math.floor(Math.random()*NT)].bg2;
   particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-2,sz:Math.random()*4+1.5,col:pc,life:1,dec:Math.random()*.012+.008})}
-  // Sparkle halo — white accents
+  // Sparkle halo â€” white accents
   for(let i=0;i<8;i++){const a=Math.PI*2*i/8+Math.random()*.4;
   particles.push({x,y,vx:Math.cos(a)*1.8,vy:Math.sin(a)*1.8-1.2,sz:Math.random()*2.5+2,col:'#fff',life:.85,dec:.018})}
-  // Core burst — tiny fast specks
+  // Core burst â€” tiny fast specks
   for(let i=0;i<6;i++){const a=Math.random()*Math.PI*2,sp=Math.random()*2.5+1;
   particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-.5,sz:Math.random()*1.5+.5,col:'rgba(255,255,255,.9)',life:.5,dec:.028})}}
 function updPt(){for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.12;p.vx*=.97;p.life-=p.dec;p.sz*=.96;if(p.life<=0)particles.splice(i,1)}}
 
-// ── SHOCKWAVE RINGS ──
+// â”€â”€ SHOCKWAVE RINGS â”€â”€
 let shockwaves=[];
 function addShockwave(x,y,col,maxR=80,dur=350){shockwaves.push({x,y,col,maxR,dur,age:0})}
 function updShockwaves(dt){for(let i=shockwaves.length-1;i>=0;i--){shockwaves[i].age+=dt;if(shockwaves[i].age>=shockwaves[i].dur)shockwaves.splice(i,1)}}
@@ -1762,21 +1787,21 @@ c.save();
 // Outer soft glow ring (replaces shadowBlur)
 c.globalAlpha=a*.25;c.strokeStyle=s.col;c.lineWidth=8*(1-p)+2;
 c.beginPath();c.arc(s.x,s.y,r,0,Math.PI*2);c.stroke();
-// Primary ring — crisp
+// Primary ring â€” crisp
 c.globalAlpha=a;c.lineWidth=2.5*(1-p)+.5;
 c.beginPath();c.arc(s.x,s.y,r,0,Math.PI*2);c.stroke();
 // Inner secondary ring
 if(p<.5){c.globalAlpha=a*.25;c.lineWidth=1;c.beginPath();c.arc(s.x,s.y,r*.6,0,Math.PI*2);c.stroke()}
 c.restore()}}
 
-// ── SCREEN FLASH ──
+// â”€â”€ SCREEN FLASH â”€â”€
 let flashAlpha=0,flashCol='#fff';
 function screenFlash(col='rgba(255,255,255,.7)',intensity=.6){flashAlpha=intensity;flashCol=col;
 const el=document.getElementById('screenFlash');el.style.background=col;el.style.opacity=intensity}
 function updFlash(){if(flashAlpha>0){flashAlpha*=.88;if(flashAlpha<.01)flashAlpha=0;
 document.getElementById('screenFlash').style.opacity=flashAlpha}}
 
-// ── ANIMATED SCORE DISPLAY ──
+// â”€â”€ ANIMATED SCORE DISPLAY â”€â”€
 let displayScore=0;
 function updDisplayScore(){
   if(displayScore<score){
@@ -1789,7 +1814,7 @@ function updDisplayScore(){
   document.getElementById('hSc').textContent=displayScore;
 }
 
-// ── CONFETTI SYSTEM ──
+// â”€â”€ CONFETTI SYSTEM â”€â”€
 let confetti=[];
 function launchConfetti(n=120){const colors=['#FF5E94','#FF3070','#FFD700','#4AABEF','#9A7AFF','#3CC49E','#FFB0D4','#FF80B8','#A488F0','#fff'];
 for(let i=0;i<n;i++){confetti.push({x:Math.random()*CW,y:-15-Math.random()*60,
@@ -1808,21 +1833,21 @@ c.lineTo(hw,hh-cr2);c.arcTo(hw,hh,hw-cr2,hh,cr2);c.lineTo(-hw+cr2,hh);c.arcTo(-h
 c.lineTo(-hw,-hh+cr2);c.arcTo(-hw,-hh,-hw+cr2,-hh,cr2);c.closePath();c.fill();
 c.restore()}c.restore()}
 
-// ── BOARD GLOW INTENSITY (cascade escalation) ──
+// â”€â”€ BOARD GLOW INTENSITY (cascade escalation) â”€â”€
 let boardGlow=0;
 function updBoardGlow(){if(boardGlow>0){boardGlow*=.96;if(boardGlow<.01)boardGlow=0;
 document.getElementById('board').style.filter=boardGlow>.01?`brightness(${1+boardGlow*.15}) saturate(${1+boardGlow*.3})`:''}}
 
-// ── CHAIN COUNTER DISPLAY ──
+// â”€â”€ CHAIN COUNTER DISPLAY â”€â”€
 function showChain(n){const el=document.getElementById('chainCounter');el.textContent=n>=5?`CHAIN x${n} !!!`:n>=3?`CHAIN x${n} !`:`chain x${n}`;
 el.className=n>=5?'show mega':'show';el.style.display='block';
 if(n>=3)haptic(n*8)}
 function hideChain(){const el=document.getElementById('chainCounter');el.className='';setTimeout(()=>{el.style.display='none'},300)}
 
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // INIT + RESIZE
-// ═══════════════════════════════════════════════════════
-// Pre-render tile backgrounds for start screen (no faces — faces drawn live)
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// Pre-render tile backgrounds for start screen (no faces â€” faces drawn live)
 const SS_FSZ=78,SS_FPAD=5;
 let ssFaceBgs=[];
 function prerenderSSBgs(){
@@ -1885,14 +1910,14 @@ function buildLevelSelect(){
     const b=document.createElement('button');b.type='button';
     const open=i<=unlocked,stars=Math.max(0,Math.min(3,p.stars&&p.stars[i]?p.stars[i]:0));
     b.className='lv-btn'+(i===current?' current':'')+(open?'':' locked');
-    b.innerHTML=open?`<span class="n">${i+1}</span><span class="s">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</span>`:`<span class="n">${i+1}</span><span class="s">Locked</span>`;
+    b.innerHTML=open?`<span class="n">${i+1}</span><span class="s">${'â˜…'.repeat(stars)}${'â˜†'.repeat(3-stars)}</span>`:`<span class="n">${i+1}</span><span class="s">Locked</span>`;
     if(open)b.addEventListener('click',()=>{SFX.click();closeLevelSelect();sLv(i)});
     else b.disabled=true;
     g.appendChild(b);
   }
   if(unlocked>=LVS.length){
     const e=document.createElement('button');e.type='button';e.className='lv-btn endless';
-    e.innerHTML='<span class="n">∞</span><span class="s">Endless</span>';
+    e.innerHTML='<span class="n">âˆž</span><span class="s">Endless</span>';
     e.addEventListener('click',()=>{SFX.click();closeLevelSelect();sLv(unlocked)});
     g.appendChild(e);
   }
@@ -2043,6 +2068,7 @@ function syncHudTopInset(){
   hud.style.marginTop=mt+'px';
 }
 function resize(){
+  updateRenderFlags();
   dpr=Math.min(window.devicePixelRatio||1,2);
   // Account for safe area insets + visual viewport changes on mobile
   const sl=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--safe-l'))||0;
@@ -2068,9 +2094,9 @@ function resize(){
   prerenderGems(CELL);prerenderBoard();updObj();
 }
 
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // LEVEL
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function sLv(n){
   level=n;const l=gLv(n);score=0;displayScore=0;moves=l.mv;mxMv=l.mv;combo=0;bstCo=0;
   SFX.levelStart();haptic(15);
@@ -2098,9 +2124,9 @@ function sLv(n){
   updHUD();document.querySelectorAll('.ov').forEach(o=>o.classList.add('hidden'));
 }
 
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // HUD
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function updHUD(){
   if(moves<0)moves=0;
   document.getElementById('hMv').textContent=moves;
@@ -2124,9 +2150,9 @@ function mkPill(r,e,n){const d=clr[e]>=n,p=document.createElement('div');p.class
 function chkWin(){const g=gLv(level).goal;if(g.t==='score')return score>=g.n;if(g.t==='clear')return clr[g.e]>=g.n;if(g.t==='multi')return g.ts.every(t=>clr[t.e]>=t.n);return false}
 function gSt(){const s=gLv(level).st;if(score>=s[2])return 3;if(score>=s[1])return 2;if(score>=s[0])return 1;return 0}
 
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // MATCHING + RESOLVE + GRAVITY
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function findM(){
   const m=[];
   for(let r=0;r<ROWS;r++){let c=0;while(c<COLS){if(!grid[r]||!grid[r][c]){c++;continue}let n=1;while(c+n<COLS&&grid[r][c+n]&&grid[r][c].type===grid[r][c+n].type)n++;if(n>=3){const cs=[];for(let i=0;i<n;i++)cs.push({r,c:c+i});m.push({cs,d:'h'})}c+=Math.max(n,1)}}
@@ -2230,7 +2256,7 @@ async function proc(){
 function slp(ms){return new Promise(r=>setTimeout(r,ms))}
 
 // SWAP + INPUT
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function tryS(r1,c1,r2,c2){
   if(anim||!active||Math.abs(r1-r2)+Math.abs(c1-c2)!==1)return;
   if(moves<=0){moves=0;active=false;anim=false;updHUD();shLose();return}
@@ -2259,9 +2285,9 @@ function hD(x,y){hintTimer=0;hintCells=null;const cl=gCA(x,y);if(!cl)return;swS=
 function hM(x,y){if(!swS)return;const dx=x-swS.x,dy=y-swS.y,th=CELL*.3;if(Math.abs(dx)>th||Math.abs(dy)>th){let dr=0,dc=0;Math.abs(dx)>Math.abs(dy)?dc=dx>0?1:-1:dr=dy>0?1:-1;const nr=swS.r+dr,nc=swS.c+dc;if(nr>=0&&nr<ROWS&&nc>=0&&nc<COLS)tryS(swS.r,swS.c,nr,nc);swS=null;sel=null}}
 function hU(){swS=null}
 
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // UI POPUPS + WIN/LOSE + SHARE
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function shCo(t,cls=''){const el=document.createElement('div');el.className='cpop '+cls;el.textContent=t;document.getElementById('bwrap').appendChild(el);setTimeout(()=>el.remove(),850)}
 function shPt(x,y,t){const el=document.createElement('div');el.className='pf';el.textContent=t;el.style.left=(x+BPAD)+'px';el.style.top=(y+BPAD)+'px';document.getElementById('board').appendChild(el);setTimeout(()=>el.remove(),650)}
 function shWin(){const st=gSt();
@@ -2290,19 +2316,19 @@ function share(){const st=gSt(),hearts='\u{1F49C}'.repeat(st)+'\u{1F5A4}'.repeat
   const t=`\u{1F494} EMO CRUSH \u{1F494}\n\n${name} (Level ${level+1})\n${hearts} \u2014 ${score} pts\nBest combo: x${bstCo}\n\ncrush your feelings\n\n$EMO on Monad\nemonad.lol`;
   if(navigator.share)navigator.share({text:t}).catch(()=>{});else if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>shCo('copied'))}
 
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // RENDER
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function render(){
   let sx=0,sy=0;
   if(shakeAmt>.3){sx=(Math.random()-.5)*shakeAmt;sy=(Math.random()-.5)*shakeAmt;shakeAmt*=.85}else shakeAmt=0;
 
   // Clear canvas
   ctx.clearRect(0,0,CW+BPAD*2,CH+BPAD*2);
-  const camAmp=active?1:.35;
-  const camX=Math.sin(lt*.0008)*.8*camAmp;
-  const camY=Math.cos(lt*.00062)*.55*camAmp;
-  const camRot=Math.sin(lt*.00045)*.003*camAmp;
+  const camAmp=(active&&!MOBILE_RENDER_STABLE)?1:.35;
+  const camX=MOBILE_RENDER_STABLE?0:Math.sin(lt*.0008)*.8*camAmp;
+  const camY=MOBILE_RENDER_STABLE?0:Math.cos(lt*.00062)*.55*camAmp;
+  const camRot=MOBILE_RENDER_STABLE?0:Math.sin(lt*.00045)*.003*camAmp;
   ctx.save();
   ctx.translate(sx+BPAD+camX,sy+BPAD+camY);
   ctx.translate(CW/2,CH/2);ctx.rotate(camRot);ctx.translate(-CW/2,-CH/2);
@@ -2317,16 +2343,16 @@ function render(){
   ctx.globalAlpha=.04+boardPulse*.05;ctx.fillStyle=bgPulse2;ctx.fillRect(0,0,CW,CH);
   ctx.restore();
 
-  // Shine sweep — periodic highlight wave across the board
+  // Shine sweep â€” periodic highlight wave across the board
   const sweepCyc=12000,sweepT=(lt%sweepCyc)/sweepCyc;
-  const sweepX=-CW*.32+sweepT*CW*1.64;const sweepOn=sweepT<.2&&!hintCells;
+  const sweepX=-CW*.32+sweepT*CW*1.64;const sweepOn=!MOBILE_RENDER_STABLE&&sweepT<.2&&!hintCells;
 
   for(let r=0;r<ROWS;r++){if(!grid[r])continue;for(let c=0;c<COLS;c++){
     const cl=grid[r][c];if(!cl||cl.alpha<=0)continue;
     const cx2=c*CELL+CELL/2+cl.offX,cy2=r*CELL+CELL/2+cl.offY;
     const isMoving=Math.abs(cl.offX)>.5||Math.abs(cl.offY)>.5;
     const isSel=sel&&sel.r===r&&sel.c===c;
-    // Per-tile breathing wave — unique phase per tile
+    // Per-tile breathing wave â€” unique phase per tile
     const tPh=r*.8+c*.5;
     const bScale=isMoving?1:1+Math.sin(lt*.003+tPh)*.008;
     // Subtle idle rotation wobble
@@ -2356,7 +2382,7 @@ function render(){
     if(isMoving)animMoving(ctx,_fr,lt);
     else ANIM_FACES[cl.type](ctx,_fr,lt,r,c);
 
-    // Flash — radial burst + expanding ring
+    // Flash â€” radial burst + expanding ring
     if(cl.flash>0){
       ctx.globalAlpha=cl.flash*.7;
       const fRad=gemSz*.42;
@@ -2370,7 +2396,7 @@ function render(){
     ctx.restore();if(cl.glow>0)cl.glow=Math.max(0,cl.glow-.02);
   }}
 
-  // Selection — clean pulsing ring
+  // Selection â€” clean pulsing ring
   if(sel&&grid[sel.r]&&grid[sel.r][sel.c]){
     const cl=grid[sel.r][sel.c],pad=CELL*.06,ts=CELL-pad*2;
     const sx2=sel.c*CELL+pad+cl.offX,sy2=sel.r*CELL+pad+cl.offY;
@@ -2411,7 +2437,7 @@ function render(){
     }
     ctx.restore();
   }
-  // Particles — motion trails + glow
+  // Particles â€” motion trails + glow
   ctx.save();ctx.shadowBlur=0;
   for(const p of particles){
     // Motion trail
@@ -2439,10 +2465,10 @@ function render(){
   ctx.globalAlpha=1;ctx.restore();
 }
 
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 // MAIN LOOP
-// ═══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 let lt=0;
 function loop(ts){const dt=Math.min(ts-lt,33);lt=ts;updTw(dt);updPt();updShockwaves(dt);updConfetti();updDisplayScore();updBoardGlow();updFlash();
   if(active&&!anim){hintTimer+=dt;if(hintTimer>=IDLE_HINT_DELAY&&!hintCells){hintCells=findHint();hintPulse=0}if(hintCells)hintPulse+=dt*.0024}
