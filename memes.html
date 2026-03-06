@@ -913,14 +913,43 @@
     (function() {
       const pt = document.getElementById('pageTransition');
       if (!pt) return;
+      const overlay = pt.querySelector('.pt-overlay');
+      const logo = pt.querySelector('.pt-logo');
+      const glow = pt.querySelector('.pt-glow');
       let navigating = false;
+      let hideTimeout;
+
+      function showTransition() {
+        overlay.style.display = '';
+        logo.style.display = '';
+        glow.style.display = '';
+      }
+
+      function hideTransitionAfterDelay() {
+        clearTimeout(hideTimeout);
+        hideTimeout = setTimeout(() => {
+          overlay.style.display = 'none';
+          logo.style.display = 'none';
+          glow.style.display = 'none';
+        }, 1600);
+      }
+
+      function resetTransitionState() {
+        clearTimeout(hideTimeout);
+        pt.classList.remove('exit-active');
+        navigating = false;
+        hideTransitionAfterDelay();
+      }
 
       // Entrance: hide overlay elements after animation completes
-      const hideTimeout = setTimeout(() => {
-        pt.querySelector('.pt-overlay').style.display = 'none';
-        pt.querySelector('.pt-logo').style.display = 'none';
-        pt.querySelector('.pt-glow').style.display = 'none';
-      }, 1600);
+      hideTransitionAfterDelay();
+
+      // BFCache restore can bring back stale exit-active state.
+      window.addEventListener('pageshow', (event) => {
+        if (!event.persisted) return;
+        showTransition();
+        resetTransitionState();
+      });
 
       // Exit: intercept back link to emo.html
       document.addEventListener('click', (e) => {
@@ -933,9 +962,7 @@
         if (navigating) return;
         navigating = true;
         clearTimeout(hideTimeout);
-        pt.querySelector('.pt-overlay').style.display = '';
-        pt.querySelector('.pt-logo').style.display = '';
-        pt.querySelector('.pt-glow').style.display = '';
+        showTransition();
         pt.classList.add('exit-active');
         sessionStorage.setItem('pt-entering', '1');
 
