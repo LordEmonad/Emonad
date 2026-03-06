@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>EMO CRUSH Personal Best</title>
+<meta name="theme-color" content="#F8F5FF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#08080E" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/webp" href="emonad-200.webp">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#F8F5FF;--tx:#1E1E2E;--tx2:#5E5E76;--card:rgba(255,255,255,.46);--line:rgba(255,255,255,.55);
+--acc:#FF5E94;--acc2:#FF7DAE;--safe-t:env(safe-area-inset-top,0px);--safe-b:env(safe-area-inset-bottom,0px);
+--safe-l:env(safe-area-inset-left,0px);--safe-r:env(safe-area-inset-right,0px)
+}
+body.dark{--bg:#090913;--tx:#F2F2F8;--tx2:#A0A0B8;--card:rgba(20,20,30,.55);--line:rgba(255,255,255,.15)}
+html,body{width:100%;height:100%;background:var(--bg);font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--tx);overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch}
+body{position:relative}
+.bg{position:fixed;inset:0;pointer-events:none;z-index:0;background:
+radial-gradient(40% 34% at 14% 10%,rgba(255,94,148,.28),rgba(255,94,148,0) 70%),
+radial-gradient(32% 30% at 84% 85%,rgba(120,210,255,.22),rgba(120,210,255,0) 72%),
+radial-gradient(40% 34% at 58% 30%,rgba(188,150,255,.2),rgba(188,150,255,0) 76%);
+animation:bgDrift 14s ease-in-out infinite alternate}
+@keyframes bgDrift{0%{transform:translate3d(-2%,0,0) scale(1)}100%{transform:translate3d(2%,2%,0) scale(1.03)}}
+.app{position:relative;z-index:1;min-height:100dvh;display:flex;flex-direction:column;padding:calc(10px + var(--safe-t)) calc(12px + var(--safe-r)) calc(12px + var(--safe-b)) calc(12px + var(--safe-l));gap:10px;max-width:560px;margin:0 auto}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.btn-icon{height:42px;min-width:42px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--tx2);display:inline-flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.brand{font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--tx2)}
+.brand b{color:var(--acc)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:14px;backdrop-filter:blur(22px) saturate(1.2);-webkit-backdrop-filter:blur(22px) saturate(1.2);box-shadow:0 14px 34px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.35)}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+.title{font-size:clamp(24px,8vw,34px);font-weight:800;line-height:.95;letter-spacing:-1.3px;background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sub{font-size:11px;color:var(--tx2)}
+.profile{display:grid;gap:8px;margin-top:12px}
+.profile-name{font-size:12px;font-weight:700;color:var(--tx)}
+.profile-msg{min-height:14px;font-size:10px;color:var(--tx2)}
+.profile-msg.ok{color:#1f9d59}.profile-msg.err{color:#c62855}
+.row{display:grid;grid-template-columns:1fr auto auto;gap:7px}
+.input{height:40px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.5);padding:0 12px;color:var(--tx);font:600 12px 'Space Grotesk',sans-serif;outline:none}
+.btn{height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.35);color:var(--tx);font:800 11px 'Space Grotesk',sans-serif;letter-spacing:.8px;text-transform:uppercase;cursor:pointer}
+.btn.secondary{background:transparent}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.stat{background:rgba(255,255,255,.34);border:1px solid var(--line);border-radius:14px;padding:10px}
+.k{font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--tx2)}
+.v{font-size:clamp(18px,5.2vw,26px);font-weight:800;letter-spacing:-.6px;margin-top:2px;color:var(--tx)}
+.v.acc{color:var(--acc)}
+.meta{display:grid;gap:7px}
+.meta-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 10px;border-radius:12px;background:rgba(255,255,255,.3);border:1px solid var(--line);font-size:12px}
+.meta-row .label{color:var(--tx2);font-weight:600}
+.meta-row .value{font-weight:800}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:10px;color:var(--tx2)}
+.foot a{color:var(--acc);text-decoration:none;font-weight:700}
+@media(max-width:420px){
+.app{padding:calc(8px + var(--safe-t)) calc(10px + var(--safe-r)) calc(10px + var(--safe-b)) calc(10px + var(--safe-l))}
+.panel{padding:12px;border-radius:18px}
+.btn{font-size:10px;letter-spacing:.5px}
+.stats{gap:7px}
+.stat{padding:9px}
+}
+@media(max-width:380px){
+.row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<div class="app">
+  <div class="top">
+    <a class="btn-icon" href="index.html" aria-label="Back to game">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </a>
+    <div class="brand"><b>$EMO</b> Personal Best</div>
+    <button class="btn-icon" id="modeToggle" aria-label="Toggle dark mode">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+    </button>
+  </div>
+
+  <div class="panel">
+    <div class="head">
+      <div>
+        <div class="title">Personal Best</div>
+        <div class="sub">Local only. No global leaderboard.</div>
+      </div>
+      <a class="btn" href="index.html">Play</a>
+    </div>
+
+    <div class="profile">
+      <div class="profile-name" id="profileName">Guest mode</div>
+      <div class="row">
+        <input class="input" id="profileInput" type="text" inputmode="text" autocomplete="nickname" placeholder="username">
+        <button class="btn" id="profileSave" type="button">Save</button>
+        <button class="btn secondary" id="profileClear" type="button">Clear</button>
+      </div>
+      <div class="profile-msg" id="profileMsg"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="stats">
+      <div class="stat"><div class="k">Best Score</div><div class="v acc" id="bestScore">0</div></div>
+      <div class="stat"><div class="k">Best Combo</div><div class="v" id="bestCombo">x0</div></div>
+      <div class="stat"><div class="k">Best Level</div><div class="v" id="bestLevel">0</div></div>
+      <div class="stat"><div class="k">Total Stars</div><div class="v" id="totalStars">0</div></div>
+      <div class="stat"><div class="k">Games Played</div><div class="v" id="gamesPlayed">0</div></div>
+      <div class="stat"><div class="k">Wins</div><div class="v" id="wins">0</div></div>
+    </div>
+  </div>
+
+  <div class="panel meta">
+    <div class="meta-row"><span class="label">Unlocked Level</span><span class="value" id="unlockedLevel">1</span></div>
+    <div class="meta-row"><span class="label">Last Score</span><span class="value" id="lastScore">0</span></div>
+    <div class="meta-row"><span class="label">Last Level</span><span class="value" id="lastLevel">0</span></div>
+    <div class="meta-row"><span class="label">Updated</span><span class="value" id="updatedAt">Never</span></div>
+  </div>
+
+  <div class="foot">
+    <span>Saved only on this device/browser.</span>
+    <a href="index.html">Back To Game</a>
+  </div>
+</div>
+
+<script>
+const BEST_KEY='emocrush-personal-best';
+const PROGRESS_KEY='emocrush-progress';
+const PROFILE_KEY='emocrush-player-name';
+
+function cleanName(raw){return String(raw||'').trim().replace(/\s+/g,' ').replace(/[^\w .-]/g,'').trim().slice(0,26)}
+function getProfileName(){return(localStorage.getItem(PROFILE_KEY)||'').trim().slice(0,26)}
+function setProfileMessage(msg='',type=''){
+  const el=document.getElementById('profileMsg');
+  el.textContent=msg;el.className='profile-msg'+(type?' '+type:'');
+}
+function saveProfileName(raw){
+  const nm=cleanName(raw);
+  if(!nm){setProfileMessage('Enter a valid username.','err');return false}
+  localStorage.setItem(PROFILE_KEY,nm);
+  setProfileMessage('Name saved on this device.','ok');
+  return true;
+}
+function clearProfileName(){localStorage.removeItem(PROFILE_KEY);setProfileMessage('Name cleared.','')}
+function loadProgress(){
+  try{
+    const p=JSON.parse(localStorage.getItem(PROGRESS_KEY)||'{}');
+    return{maxLevel:Math.max(0,Number(p.maxLevel)||0),stars:(p&&typeof p.stars==='object'&&p.stars)?p.stars:{}};
+  }catch(e){return{maxLevel:0,stars:{}}}
+}
+function countStars(starsObj){let total=0;for(const k in starsObj)total+=Math.max(0,Number(starsObj[k])||0);return total}
+function loadBest(){
+  try{
+    const b=JSON.parse(localStorage.getItem(BEST_KEY)||'{}');
+    return{
+      best_score:Math.max(0,Number(b.best_score)||0),
+      best_combo:Math.max(0,Number(b.best_combo)||0),
+      best_level:Math.max(0,Number(b.best_level)||0),
+      games_played:Math.max(0,Number(b.games_played)||0),
+      wins:Math.max(0,Number(b.wins)||0),
+      last_score:Math.max(0,Number(b.last_score)||0),
+      last_level:Math.max(0,Number(b.last_level)||0),
+      updated_at:typeof b.updated_at==='string'?b.updated_at:'',
+    };
+  }catch(e){return{best_score:0,best_combo:0,best_level:0,games_played:0,wins:0,last_score:0,last_level:0,updated_at:''}}
+}
+function fmtDate(iso){if(!iso)return'Never';const d=new Date(iso);return Number.isNaN(d.getTime())?'Never':d.toLocaleString()}
+function render(){
+  const best=loadBest(),p=loadProgress(),nm=getProfileName();
+  document.getElementById('profileName').textContent=nm?('Profile: '+nm):'Guest mode';
+  const inp=document.getElementById('profileInput');if(!inp.value&&nm)inp.value=nm;
+  document.getElementById('bestScore').textContent=(best.best_score||0).toLocaleString();
+  document.getElementById('bestCombo').textContent='x'+Math.max(0,best.best_combo||0);
+  document.getElementById('bestLevel').textContent=String(Math.max(0,best.best_level||0));
+  document.getElementById('totalStars').textContent=String(countStars(p.stars));
+  document.getElementById('gamesPlayed').textContent=String(Math.max(0,best.games_played||0));
+  document.getElementById('wins').textContent=String(Math.max(0,best.wins||0));
+  document.getElementById('unlockedLevel').textContent=String(Math.max(1,(p.maxLevel||0)+1));
+  document.getElementById('lastScore').textContent=(best.last_score||0).toLocaleString();
+  document.getElementById('lastLevel').textContent=String(Math.max(0,best.last_level||0));
+  document.getElementById('updatedAt').textContent=fmtDate(best.updated_at);
+}
+
+document.getElementById('profileSave').addEventListener('click',()=>{if(saveProfileName(document.getElementById('profileInput').value||''))render()});
+document.getElementById('profileClear').addEventListener('click',()=>{clearProfileName();document.getElementById('profileInput').value='';render()});
+document.getElementById('profileInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();if(saveProfileName(e.target.value||''))render()}});
+document.getElementById('modeToggle').addEventListener('click',()=>{
+  document.body.classList.toggle('dark');
+  localStorage.setItem('emocrush-dark',document.body.classList.contains('dark')?'1':'0');
+});
+if(localStorage.getItem('emocrush-dark')==='1')document.body.classList.add('dark');
+render();
+</script>
+</body>
+</html>

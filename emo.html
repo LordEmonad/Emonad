@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4QWLXTDH20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4QWLXTDH20');
+</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1198,7 +1206,7 @@
         <a href="memes.html" class="btn btn-outline">Memes</a>
         <a href="https://giphy.com/emonad" target="_blank" rel="noopener noreferrer" class="btn btn-outline">GIFs</a>
         <a href="tools.html" class="btn btn-outline">Tools</a>
-
+        <a href="emo-crush/index.html" class="btn btn-outline">Emo Crush</a>
         <a href="flapemonad/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Flap Emonad</a>
       </div>
     </div>
@@ -1736,7 +1744,7 @@
     // ── Page Transition for internal links ──
     (function() {
       const transition = document.getElementById('pageTransition');
-      const internalLinks = ['memes.html', 'tools.html'];
+      const internalLinks = ['memes.html', 'tools.html', 'emo-crush/index.html'];
       let navigating = false;
       let enterTimeout;
 

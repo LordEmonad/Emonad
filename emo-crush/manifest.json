@@ -1,0 +1,22 @@
+{
+  "name": "EMO CRUSH",
+  "short_name": "EMO CRUSH",
+  "description": "crush your feelings — a match-3 game by $EMO",
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F8F5FF",
+  "theme_color": "#FF5E94",
+  "icons": [
+    {
+      "src": "emonad-200.webp",
+      "sizes": "200x200",
+      "type": "image/webp"
+    },
+    {
+      "src": "emonad.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
