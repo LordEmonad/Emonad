@@ -15,19 +15,19 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#1a0a2e">
-    <title>Flap Emonad — On-Chain Flappy Bird</title>
-    <meta name="description" content="Flap Emonad — flappy bird on Monad. Play, submit scores on-chain, and compete on the leaderboard.">
+    <title>Flap Emonad</title>
+    <meta name="description" content="Flap Emonad - flappy bird with local best score tracking.">
     <link rel="canonical" href="https://escapist.lol/flapemonad/">
 
     <!-- OG / Social Meta -->
-    <meta property="og:title" content="Flap Emonad — On-Chain Flappy Bird">
-    <meta property="og:description" content="Flappy bird on Monad. Play, submit scores on-chain, and compete on the leaderboard.">
+    <meta property="og:title" content="Flap Emonad">
+    <meta property="og:description" content="Flappy bird with local best score tracking.">
     <meta property="og:image" content="https://escapist.lol/og-image.jpg">
     <meta property="og:url" content="https://escapist.lol/flapemonad/">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Flap Emonad — On-Chain Flappy Bird">
-    <meta name="twitter:description" content="Flappy bird on Monad. Play, submit scores on-chain, and compete on the leaderboard.">
+    <meta name="twitter:title" content="Flap Emonad">
+    <meta name="twitter:description" content="Flappy bird with local best score tracking.">
     <meta name="twitter:image" content="https://escapist.lol/og-image.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -317,7 +317,7 @@
         <div class="loading-bar-container">
             <div class="loading-bar" id="loading-bar"></div>
         </div>
-        <button id="play-btn">▶ PLAY</button>
+        <button id="play-btn">PLAY</button>
     </div>
     <script>
         // Animate the loading bird through flap frames
@@ -341,27 +341,12 @@
             <h2>GAME OVER</h2>
             <p>Score: <span id="final-score">0</span></p>
             <p id="best-score-line" class="best-score-text" style="display:none;">BEST: <span id="best-score-display">0</span></p>
-
-            <div class="name-input-container">
-                <input type="text" id="player-name-input" placeholder="Enter your name" maxlength="20" required>
-            </div>
-
-            <div class="game-over-buttons">
-                <button id="home-btn">🏠 HOME</button>
-                <button id="submit-score-btn" onclick="submitScoreToBlockchain()">Submit Score</button>
-            </div>
-
-            <a href="leaderboard.html" class="view-lb-btn">🏆 View Leaderboard</a>
-
             <button id="restart-btn">TAP TO RESTART</button>
         </div>
         
     </div>
-    
-    <!-- Ethers.js for blockchain interaction -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.9.0/ethers.umd.min.js" integrity="sha384-ro/pNP1sfmhdbpq60NKzKAYve9JahlgCklXcKvudVEd/osRAYz2RlPG5TvB7Q04t" crossorigin="anonymous"></script>
     <script src="audio.js?v=28"></script>
-    <script src="script.js?v=62"></script>
+    <script src="script.js?v=63"></script>
     
 </body>
 </html>

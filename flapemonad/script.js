@@ -1,35 +1,3 @@
-const MONAD_CHAIN_ID = 143;
-const MONAD_RPC = 'https://rpc.monad.xyz';
-const MONAD_CHAIN_CONFIG = {
-    chainId: '0x8f', // 143 in hex
-    chainName: 'Monad',
-    nativeCurrency: { name: 'MON', symbol: 'MON', decimals: 18 },
-    rpcUrls: ['https://rpc.monad.xyz'],
-    blockExplorerUrls: ['https://monadvision.com']
-};
-
-const LEADERBOARD_ADDRESS = '0x7fffA7d3FF68A8781d3cc724810ddb03601D9642';
-const REFEREE_SERVER_URL = 'https://api.emonad.lol';
-
-const LEADERBOARD_ABI = [
-    'function submitScore(uint256 _score, uint256 _nonce, string memory _name, bytes memory _signature) external',
-    'function getHighScore(address _player) external view returns (uint256)',
-    'function getNonce(address _player) external view returns (uint256)',
-    'function getName(address _player) external view returns (string memory)',
-    'function getTopScores(uint256 _count) external view returns (address[] memory, string[] memory, uint256[] memory)',
-    'function getPlayerCount() external view returns (uint256)',
-    'event NewHighScore(address indexed player, string name, uint256 score, uint256 timestamp)'
-];
-
-// Wallet state
-let provider = null;
-let signer = null;
-let userAddress = null;
-let isWalletConnected = false;
-
-// Game timing for anti-cheat
-let gameStartTime = 0;
-
 // Canvas setup
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d', { alpha: false });
@@ -128,9 +96,6 @@ let deathSlowMo = {
     chromatic: 0,        // Chromatic aberration intensity
     vignette: 0          // Vignette intensity
 };
-
-// Top 3 leaderboard scores for start screen
-let topScores = [];
 
 // Personal best score
 let bestScore = 0;
@@ -328,7 +293,6 @@ canvas.addEventListener('click', (e) => {
     const clickY = (e.clientY - rect.top) * scaleY;
 
     if (gameState === GameState.READY) {
-        // Check settings button
         if (window.settingsBtn) {
             const sBtn = window.settingsBtn;
             if (clickX >= sBtn.x && clickX <= sBtn.x + sBtn.width &&
@@ -338,17 +302,8 @@ canvas.addEventListener('click', (e) => {
                 return;
             }
         }
-
-        // Check leaderboard button
-        if (window.startScreenLeaderboardBtn) {
-            const btn = window.startScreenLeaderboardBtn;
-            if (clickX >= btn.x && clickX <= btn.x + btn.width &&
-                clickY >= btn.y && clickY <= btn.y + btn.height) {
-                navigateWithTransition('leaderboard.html');
-                return;
-            }
-        }
     }
+
     handleInput();
 });
 
@@ -362,7 +317,6 @@ canvas.addEventListener('touchstart', (e) => {
     const touchY = e.touches.length > 0 ? (e.touches[0].clientY - rect.top) * scaleY : 0;
     
     if (gameState === GameState.READY && e.touches.length > 0) {
-        // Check settings button
         if (window.settingsBtn) {
             const sBtn = window.settingsBtn;
             if (touchX >= sBtn.x && touchX <= sBtn.x + sBtn.width &&
@@ -372,17 +326,8 @@ canvas.addEventListener('touchstart', (e) => {
                 return;
             }
         }
-
-        // Check leaderboard button
-        if (window.startScreenLeaderboardBtn) {
-            const btn = window.startScreenLeaderboardBtn;
-            if (touchX >= btn.x && touchX <= btn.x + btn.width &&
-                touchY >= btn.y && touchY <= btn.y + btn.height) {
-                navigateWithTransition('leaderboard.html');
-                return;
-            }
-        }
     }
+
     handleInput();
 }, { passive: false });
 
@@ -394,91 +339,6 @@ restartBtn.addEventListener('click', () => {
     resetGame();
 });
 
-// Intercept View Leaderboard link for smooth transition
-const viewLbBtn = document.querySelector('.view-lb-btn');
-if (viewLbBtn) {
-    viewLbBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        navigateWithTransition(viewLbBtn.getAttribute('href'));
-    });
-}
-
-// Home button - go back to start screen
-const homeBtn = document.getElementById('home-btn');
-if (homeBtn) {
-    homeBtn.addEventListener('click', () => {
-        if (typeof chiptunePlayer !== 'undefined') {
-            chiptunePlayer.playClick();
-        }
-        goToStartScreen();
-    });
-}
-
-function goToStartScreen() {
-    // Fade out the game over screen with a smooth transition
-    gameOverScreen.style.transition = 'opacity 0.6s ease-out';
-    gameOverScreen.style.opacity = '0';
-
-    setTimeout(() => {
-        gameOverScreen.classList.add('hidden');
-        gameOverScreen.style.transition = '';
-        gameOverScreen.style.opacity = '';
-
-        // Clear inline styles from game over elements
-        const elements = gameOverScreen.querySelectorAll('h2, p, button, a, input, .name-input-container, .best-score-text');
-        elements.forEach(el => {
-            el.style.opacity = '';
-            el.style.transform = '';
-        });
-
-        // Reset game state to READY (start screen)
-        gameState = GameState.READY;
-
-        // Reset player
-        player.x = PLAYER_X;
-        player.y = PLAYER_START_Y;
-        player.velocity = 0;
-        player.rotation = 0;
-        player.currentFrame = 0;
-        player.animationTimer = 0;
-        player.isFlapping = true;
-        player.deathFrame = 0;
-        player.deathAnimationTimer = 0;
-        player.deathAnimationComplete = false;
-
-        // Clear razors
-        razors.length = 0;
-
-        // Reset score
-        score = 0;
-
-        // Reset all effects
-        screenShake.active = false;
-        screenFlash.active = false;
-        deathSlowMo.active = false;
-        deathSlowMo.timeScale = 1.0;
-        deathSlowMo.zoom = 1.0;
-        deathSlowMo.desaturation = 0;
-        deathSlowMo.chromatic = 0;
-        deathSlowMo.vignette = 0;
-        playerTrail = [];
-        scoreParticles = [];
-
-        // Start a fade-in transition on the canvas
-        screenTransition.active = true;
-        screenTransition.alpha = 1;
-        screenTransition.elapsed = 0;
-
-        // Stop game music, play menu music
-        if (typeof chiptunePlayer !== 'undefined') {
-            chiptunePlayer.stopMusic();
-            if (!chiptunePlayer.isMuted) {
-                chiptunePlayer.playMenuMusic();
-            }
-        }
-    }, 600);
-}
-
 // --- game functions ---
 
 function startGame() {
@@ -486,7 +346,6 @@ function startGame() {
     gameOverScreen.classList.add('hidden');
     score = 0;
     razorSpawnTimer = RAZOR_SPAWN_INTERVAL; // Spawn first razor immediately
-    gameStartTime = Date.now(); // Track start time for anti-cheat
     
     // Reset effects
     scoreParticles = [];
@@ -680,18 +539,12 @@ function showGameOver() {
 
     // Force all elements visible after short delay (CSS animation fallback)
     setTimeout(() => {
-        const elements = gameOverScreen.querySelectorAll('h2, p, button, a, input, .name-input-container, .best-score-text');
+        const elements = gameOverScreen.querySelectorAll('h2, p, button, .best-score-text');
         elements.forEach(el => {
             el.style.opacity = '1';
             el.style.transform = 'none';
         });
     }, 400);
-
-    // Autofocus name input
-    setTimeout(() => {
-        const nameInput = document.getElementById('player-name-input');
-        if (nameInput) nameInput.focus();
-    }, 600);
 
     // Play game over music
     if (typeof chiptunePlayer !== 'undefined') {
@@ -908,45 +761,14 @@ function generateDeathCertificate(playerName) {
     
     certCtx.font = '24px Georgia, serif';
     certCtx.fillStyle = '#555555';
-    certCtx.fillText('emonad.lol  •  Play on Monad', centerX, CERT_HEIGHT - 55);
+    certCtx.fillText('emonad.lol - Play on Monad', centerX, CERT_HEIGHT - 55);
     
     return certCanvas;
 }
 
-function downloadDeathCertificate() {
-    // Get player name from input
-    const nameInput = document.getElementById('player-name-input');
-    const playerName = nameInput ? nameInput.value.trim() : '';
-    
-    if (!playerName) {
-        nameInput.style.borderColor = '#ff4444';
-        nameInput.placeholder = 'Please enter your name!';
-        nameInput.focus();
-        setTimeout(() => {
-            nameInput.style.borderColor = '#8B0000';
-            nameInput.placeholder = 'Enter your name for certificate';
-        }, 2000);
-        return;
-    }
-    
-    const certCanvas = generateDeathCertificate(playerName);
-    
-    // Convert to data URL and download
-    const dataURL = certCanvas.toDataURL('image/png');
-    const link = document.createElement('a');
-    link.download = `flap-emonad-death-certificate-${playerName}-${deathCertificate.finalScore}.png`;
-    link.href = dataURL;
-    link.click();
-    
-    // Play a sound effect
-    if (typeof chiptunePlayer !== 'undefined') {
-        chiptunePlayer.playClick();
-    }
-}
-
 function resetGame() {
     // Clear inline styles from game over elements (reset for next death)
-    const elements = gameOverScreen.querySelectorAll('h2, p, button, a, input, .name-input-container, .best-score-text');
+    const elements = gameOverScreen.querySelectorAll('h2, p, button, .best-score-text');
     elements.forEach(el => {
         el.style.opacity = '';
         el.style.transform = '';
@@ -1901,141 +1723,17 @@ function drawStartScreen(deltaTime) {
         ctx.restore();
     }
     
-    // Draw top 3 scores if available
-    if (topScores.length > 0) {
-        ctx.save();
-        const topY = GAME_HEIGHT * 0.74;
-        const medals = ['#FFD700', '#C0C0C0', '#CD7F32'];
-        const medalLabels = ['1st', '2nd', '3rd'];
-        ctx.font = '28px "Creepster", cursive';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        for (let i = 0; i < topScores.length && i < 3; i++) {
-            const rowY = topY + i * 36;
-            ctx.fillStyle = medals[i];
-            ctx.shadowColor = medals[i];
-            ctx.shadowBlur = 8;
-            const name = topScores[i].name.length > 12 ? topScores[i].name.slice(0, 12) + '..' : topScores[i].name;
-            ctx.fillText(`${medalLabels[i]}  ${name}  -  ${topScores[i].score}`, GAME_WIDTH / 2, rowY);
-        }
-        ctx.restore();
-    }
-
-    // Draw "View Leaderboard" button
+        // Draw Settings button
     ctx.save();
-    const lbBtnY = topScores.length > 0 ? GAME_HEIGHT * 0.86 : GAME_HEIGHT * 0.78;
-    const lbBtnWidth = 440;
-    const lbBtnHeight = 70;
-    const lbBtnX = GAME_WIDTH / 2 - lbBtnWidth / 2;
-    
-    // Multi-layer animated glow
-    const time = frameTime;
-    const glowPulse = 0.5 + 0.5 * Math.sin(time / 400);
-    const glowPulse2 = 0.5 + 0.5 * Math.sin(time / 600 + 1);
-    
-    // Outer glow layer 1 (large, soft)
-    ctx.shadowColor = `rgba(255, 215, 0, ${0.3 + glowPulse * 0.3})`;
-    ctx.shadowBlur = 40 + glowPulse * 20;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 0;
-    ctx.fillStyle = 'rgba(255, 215, 0, 0.1)';
-    ctx.beginPath();
-    ctx.roundRect(lbBtnX - 10, lbBtnY - 10, lbBtnWidth + 20, lbBtnHeight + 20, 25);
-    ctx.fill();
-    
-    // Outer glow layer 2 (medium)
-    ctx.shadowColor = `rgba(255, 180, 0, ${0.4 + glowPulse2 * 0.3})`;
-    ctx.shadowBlur = 25 + glowPulse2 * 15;
-    ctx.shadowOffsetY = 5;
-    
-    // Button background with animated shimmer gradient
-    const shimmerPos = (time / 15) % (lbBtnWidth * 2);
-    const gradient = ctx.createLinearGradient(lbBtnX, lbBtnY, lbBtnX + lbBtnWidth, lbBtnY + lbBtnHeight);
-    gradient.addColorStop(0, '#FFD700');
-    gradient.addColorStop(0.2, '#FFC107');
-    gradient.addColorStop(0.4, '#FFEB3B');
-    gradient.addColorStop(0.6, '#FFD700');
-    gradient.addColorStop(0.8, '#FFA000');
-    gradient.addColorStop(1, '#FFD700');
-    ctx.fillStyle = gradient;
-    ctx.beginPath();
-    ctx.roundRect(lbBtnX, lbBtnY, lbBtnWidth, lbBtnHeight, 20);
-    ctx.fill();
-    
-    // Animated shimmer sweep
-    ctx.shadowBlur = 0;
-    const shimmerGrad = ctx.createLinearGradient(lbBtnX + shimmerPos - lbBtnWidth, lbBtnY, lbBtnX + shimmerPos, lbBtnY);
-    shimmerGrad.addColorStop(0, 'rgba(255, 255, 255, 0)');
-    shimmerGrad.addColorStop(0.4, 'rgba(255, 255, 255, 0)');
-    shimmerGrad.addColorStop(0.5, 'rgba(255, 255, 255, 0.5)');
-    shimmerGrad.addColorStop(0.6, 'rgba(255, 255, 255, 0)');
-    shimmerGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-    ctx.fillStyle = shimmerGrad;
-    ctx.beginPath();
-    ctx.roundRect(lbBtnX, lbBtnY, lbBtnWidth, lbBtnHeight, 20);
-    ctx.fill();
-    
-    // Inner highlight (top edge - glass effect)
-    const highlightGrad = ctx.createLinearGradient(lbBtnX, lbBtnY, lbBtnX, lbBtnY + 35);
-    highlightGrad.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
-    highlightGrad.addColorStop(0.5, 'rgba(255, 255, 255, 0.2)');
-    highlightGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-    ctx.fillStyle = highlightGrad;
-    ctx.beginPath();
-    ctx.roundRect(lbBtnX + 4, lbBtnY + 4, lbBtnWidth - 8, 30, [16, 16, 0, 0]);
-    ctx.fill();
-    
-    // Premium border with gradient
-    const borderGrad = ctx.createLinearGradient(lbBtnX, lbBtnY, lbBtnX, lbBtnY + lbBtnHeight);
-    borderGrad.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
-    borderGrad.addColorStop(0.5, 'rgba(255, 215, 0, 0.6)');
-    borderGrad.addColorStop(1, 'rgba(255, 180, 0, 0.4)');
-    ctx.strokeStyle = borderGrad;
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.roundRect(lbBtnX, lbBtnY, lbBtnWidth, lbBtnHeight, 20);
-    ctx.stroke();
-    
-    // Button text with multiple layers for depth
-    ctx.font = 'bold 38px "Creepster", cursive';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    const textY = lbBtnY + lbBtnHeight / 2;
-    
-    // Text shadow (deep)
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-    ctx.fillText('🏆 VIEW LEADERBOARD', GAME_WIDTH / 2 + 3, textY + 3);
-    
-    // Text shadow (soft)
-    ctx.fillStyle = 'rgba(100, 50, 0, 0.3)';
-    ctx.fillText('🏆 VIEW LEADERBOARD', GAME_WIDTH / 2 + 1, textY + 1);
-    
-    // Main text with slight gradient effect
-    ctx.fillStyle = '#1a1a1a';
-    ctx.fillText('🏆 VIEW LEADERBOARD', GAME_WIDTH / 2, textY);
-    
-    ctx.restore();
-    
-    // Store button bounds for click detection
-    window.startScreenLeaderboardBtn = {
-        x: lbBtnX,
-        y: lbBtnY,
-        width: lbBtnWidth,
-        height: lbBtnHeight
-    };
-    
-    // Draw Settings button below leaderboard button
-    ctx.save();
-    const settingsBtnWidth = 280;
-    const settingsBtnHeight = 50;
+    const settingsBtnWidth = 320;
+    const settingsBtnHeight = 58;
     const settingsBtnX = GAME_WIDTH / 2 - settingsBtnWidth / 2;
-    const settingsBtnY = lbBtnY + lbBtnHeight + 12;
-    
-    // Button background with purple gradient
+    const settingsBtnY = GAME_HEIGHT * 0.79;
+
     const settingsGlow = 0.5 + 0.5 * Math.sin(frameTime / 800);
-    ctx.shadowColor = `rgba(157, 78, 221, ${0.3 + settingsGlow * 0.2})`;
+    ctx.shadowColor = 'rgba(157, 78, 221, ' + (0.3 + settingsGlow * 0.2) + ')';
     ctx.shadowBlur = 20;
-    
+
     const settingsGrad = ctx.createLinearGradient(settingsBtnX, settingsBtnY, settingsBtnX + settingsBtnWidth, settingsBtnY + settingsBtnHeight);
     settingsGrad.addColorStop(0, '#7B3FE4');
     settingsGrad.addColorStop(0.5, '#9B5FFF');
@@ -2044,21 +1742,19 @@ function drawStartScreen(deltaTime) {
     ctx.beginPath();
     ctx.roundRect(settingsBtnX, settingsBtnY, settingsBtnWidth, settingsBtnHeight, 15);
     ctx.fill();
-    
-    // Border
+
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
     ctx.lineWidth = 2;
     ctx.stroke();
-    
-    // Button text
+
     ctx.shadowBlur = 0;
-    ctx.font = 'bold 26px "Creepster", cursive';
+    ctx.font = 'bold 28px "Creepster", cursive';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillStyle = '#ffffff';
-    ctx.fillText('⚙️ SETTINGS', GAME_WIDTH / 2, settingsBtnY + settingsBtnHeight / 2);
+    ctx.fillText('SETTINGS', GAME_WIDTH / 2, settingsBtnY + settingsBtnHeight / 2);
     ctx.restore();
-    
+
     // Store settings button bounds
     window.settingsBtn = {
         x: settingsBtnX,
@@ -2344,7 +2040,7 @@ function drawDarkModeToggle() {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillStyle = '#ffffff';
-    ctx.fillText(darkMode ? '☀️' : '🌙', btnX + btnRadius, btnY + btnRadius);
+    ctx.fillText(darkMode ? 'L' : 'D', btnX + btnRadius, btnY + btnRadius);
     
     ctx.restore();
     
@@ -2367,7 +2063,7 @@ function toggleDarkMode() {
     // Update dark mode button icon on game over screen
     const darkModeBtn = document.getElementById('dark-mode-btn-gameover');
     if (darkModeBtn) {
-        darkModeBtn.textContent = darkMode ? '☀️' : '🌙';
+        darkModeBtn.textContent = darkMode ? 'L' : 'D';
     }
     
     // Save preference to localStorage for persistence across pages
@@ -2386,7 +2082,7 @@ function loadDarkModePreference() {
         darkMode = true;
         document.body.classList.add('dark-mode');
         const darkModeBtn = document.getElementById('dark-mode-btn-gameover');
-        if (darkModeBtn) darkModeBtn.textContent = '☀️';
+        if (darkModeBtn) darkModeBtn.textContent = 'L';
     }
 }
 
@@ -2841,9 +2537,6 @@ async function init() {
         
         updateLoadingBar(60);
         
-        // Fetch top 3 leaderboard scores for start screen
-        fetchTopScores();
-        
         // DON'T initialize audio here - must be done on user tap for mobile!
         // Audio will be initialized in startGameFromLoading() when user taps PLAY
         
@@ -2870,29 +2563,6 @@ async function init() {
     }
 }
 
-// Fetch top 3 scores from leaderboard contract
-async function fetchTopScores() {
-    try {
-        const provider = new ethers.JsonRpcProvider(MONAD_RPC);
-        const contract = new ethers.Contract(LEADERBOARD_ADDRESS, LEADERBOARD_ABI, provider);
-        const [addresses, names, scores] = await contract.getTopScores(3);
-        
-        topScores = [];
-        for (let i = 0; i < addresses.length && i < 3; i++) {
-            if (scores[i] > 0) {
-                topScores.push({
-                    name: names[i] || 'Anonymous',
-                    score: Number(scores[i])
-                });
-            }
-        }
-        console.log('Top scores loaded:', topScores);
-    } catch (error) {
-        console.log('Could not fetch leaderboard:', error.message);
-        topScores = [];
-    }
-}
-
 // Toggle sound on/off
 function toggleSound() {
     if (typeof chiptunePlayer !== 'undefined') {
@@ -2900,568 +2570,13 @@ function toggleSound() {
         const isMuted = chiptunePlayer.toggleMute();
         
         // Update button icons
-        const icon = isMuted ? '🔇' : '🔊';
+        const icon = isMuted ? 'OFF' : 'ON';
         const btn1 = document.getElementById('sound-toggle-btn');
         const btn2 = document.getElementById('sound-toggle-btn-gameover');
         if (btn1) btn1.textContent = icon;
         if (btn2) btn2.textContent = icon;
     }
 }
-
-// --- wallet & blockchain functions ---
-
-// Detect if on mobile device
-function isMobileDevice() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-}
-
-// Generate unique score token (one-time use)
-let currentScoreToken = null;
-
-function generateScoreToken() {
-    // Create unique token: timestamp + random + score
-    const token = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${score}`;
-    currentScoreToken = token;
-    // Store in localStorage to track used tokens
-    return token;
-}
-
-function isTokenUsed(token) {
-    try {
-        const usedTokens = JSON.parse(localStorage.getItem('usedScoreTokens') || '[]');
-        return usedTokens.includes(token);
-    } catch (e) {
-        return false;
-    }
-}
-
-function markTokenUsed(token) {
-    try {
-        const usedTokens = JSON.parse(localStorage.getItem('usedScoreTokens') || '[]');
-        usedTokens.push(token);
-        // Keep only last 50 tokens to prevent localStorage bloat
-        if (usedTokens.length > 50) usedTokens.shift();
-        localStorage.setItem('usedScoreTokens', JSON.stringify(usedTokens));
-    } catch (e) {}
-}
-
-// Check for pending score from URL parameters
-function checkPendingScore() {
-    try {
-        const urlParams = new URLSearchParams(window.location.search);
-        const pendingScore = urlParams.get('pendingScore');
-        const pendingName = urlParams.get('pendingName');
-        const token = urlParams.get('token');
-        
-        if (pendingScore && token) {
-            // Check if token already used
-            if (isTokenUsed(token)) {
-                console.log('Score token already used');
-                return null;
-            }
-            
-            // Mark token as used immediately
-            markTokenUsed(token);
-            
-            return {
-                score: parseInt(pendingScore, 10),
-                name: pendingName ? decodeURIComponent(pendingName) : 'Anonymous',
-                token: token
-            };
-        }
-    } catch (e) {
-        console.error('Error checking pending score:', e);
-    }
-    return null;
-}
-
-// Open wallet app via deep link - pass score in URL with one-time token
-function openWalletDeepLink(walletType) {
-    const playerName = document.getElementById('player-name-input')?.value || 'Anonymous';
-    // Generate one-time token for this score
-    const token = generateScoreToken();
-    
-    // Build URL with score parameters and token
-    const baseUrl = window.location.origin + window.location.pathname;
-    const params = `pendingScore=${score}&pendingName=${encodeURIComponent(playerName)}&token=${encodeURIComponent(token)}`;
-    const scoreUrl = `${baseUrl}?${params}`;
-    
-    if (walletType === 'metamask') {
-        window.location.href = `https://metamask.app.link/dapp/${window.location.host}${window.location.pathname}?${params}`;
-    } else if (walletType === 'phantom') {
-        window.location.href = `https://phantom.app/ul/browse/${encodeURIComponent(scoreUrl)}`;
-    } else if (walletType === 'backpack') {
-        window.location.href = `https://backpack.app/ul/browse/?url=${encodeURIComponent(scoreUrl)}&ref=${encodeURIComponent(baseUrl)}`;
-    }
-}
-
-// Show wallet selection modal for mobile users
-function showMobileWalletOptions() {
-    // Create modal overlay
-    const overlay = document.createElement('div');
-    overlay.id = 'wallet-modal-overlay';
-    overlay.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.9);
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        font-family: 'Creepster', cursive;
-    `;
-    
-    // Modal content
-    overlay.innerHTML = `
-        <div style="
-            background: linear-gradient(135deg, #1a0a2e 0%, #2d1a4a 50%, #1a0a2e 100%);
-            border-radius: 20px;
-            padding: 30px;
-            max-width: 320px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 0 0 40px rgba(157, 78, 221, 0.5), 0 0 80px rgba(123, 63, 228, 0.3);
-            border: 2px solid rgba(157, 78, 221, 0.5);
-        ">
-            <h2 style="
-                color: #e0aaff;
-                font-size: 28px;
-                margin-bottom: 10px;
-                text-shadow: 0 0 20px rgba(224, 170, 255, 0.7);
-            ">📱 Open in Wallet</h2>
-            
-            <p style="
-                color: rgba(224, 170, 255, 0.8);
-                font-size: 16px;
-                margin-bottom: 25px;
-                font-family: Arial, sans-serif;
-            ">Your score will be saved!<br>Choose your wallet app:</p>
-            
-            <button id="wallet-btn-metamask" style="
-                width: 100%;
-                padding: 18px 20px;
-                margin-bottom: 12px;
-                font-size: 20px;
-                font-family: 'Creepster', cursive;
-                color: white;
-                background: linear-gradient(135deg, #f6851b 0%, #e2761b 50%, #cd6116 100%);
-                border: none;
-                border-radius: 12px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 12px;
-                box-shadow: 0 4px 20px rgba(246, 133, 27, 0.4);
-                transition: transform 0.2s, box-shadow 0.2s;
-            ">
-                <span style="font-size: 28px;">🦊</span> MetaMask
-            </button>
-            
-            <button id="wallet-btn-phantom" style="
-                width: 100%;
-                padding: 18px 20px;
-                margin-bottom: 12px;
-                font-size: 20px;
-                font-family: 'Creepster', cursive;
-                color: white;
-                background: linear-gradient(135deg, #ab9ff2 0%, #7c3aed 50%, #5b21b6 100%);
-                border: none;
-                border-radius: 12px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 12px;
-                box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
-                transition: transform 0.2s, box-shadow 0.2s;
-            ">
-                <span style="font-size: 28px;">👻</span> Phantom
-            </button>
-            
-            <button id="wallet-btn-backpack" style="
-                width: 100%;
-                padding: 18px 20px;
-                margin-bottom: 20px;
-                font-size: 20px;
-                font-family: 'Creepster', cursive;
-                color: white;
-                background: linear-gradient(135deg, #e33d3d 0%, #c41e3a 50%, #8b0000 100%);
-                border: none;
-                border-radius: 12px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 12px;
-                box-shadow: 0 4px 20px rgba(196, 30, 58, 0.4);
-                transition: transform 0.2s, box-shadow 0.2s;
-            ">
-                <span style="font-size: 28px;">🎒</span> Backpack
-            </button>
-            
-            <button id="wallet-btn-cancel" style="
-                width: 100%;
-                padding: 12px 20px;
-                font-size: 16px;
-                font-family: Arial, sans-serif;
-                color: rgba(224, 170, 255, 0.7);
-                background: transparent;
-                border: 1px solid rgba(224, 170, 255, 0.3);
-                border-radius: 8px;
-                cursor: pointer;
-            ">Cancel</button>
-        </div>
-    `;
-    
-    document.body.appendChild(overlay);
-    
-    // Add button handlers
-    document.getElementById('wallet-btn-metamask').onclick = () => {
-        overlay.remove();
-        openWalletDeepLink('metamask');
-    };
-    
-    document.getElementById('wallet-btn-phantom').onclick = () => {
-        overlay.remove();
-        openWalletDeepLink('phantom');
-    };
-    
-    document.getElementById('wallet-btn-backpack').onclick = () => {
-        overlay.remove();
-        openWalletDeepLink('backpack');
-    };
-    
-    document.getElementById('wallet-btn-cancel').onclick = () => {
-        overlay.remove();
-    };
-    
-    // Close on overlay click
-    overlay.onclick = (e) => {
-        if (e.target === overlay) overlay.remove();
-    };
-}
-
-async function connectWallet() {
-    // Check if running from file:// protocol (wallets don't work there)
-    if (window.location.protocol === 'file:') {
-        alert('⚠️ Wallet connection requires a web server!\n\n' +
-            'Wallets cannot connect when opening HTML files directly.\n\n' +
-            'To enable wallet connection:\n' +
-            '1. Deploy this site to a hosting service, OR\n' +
-            '2. Run a local server:\n' +
-            '   - Open terminal in this folder\n' +
-            '   - Run: python -m http.server 8080\n' +
-            '   - Open: http://localhost:8080\n\n' +
-            'You can still play the game - just can\'t submit scores on-chain.');
-        return false;
-    }
-    
-    // Get the Ethereum provider
-    const getProvider = () => {
-        // Phantom's dedicated namespace
-        if (window.phantom?.ethereum) {
-            return window.phantom.ethereum;
-        }
-        // Standard ethereum provider
-        if (window.ethereum) {
-            if (window.ethereum.providers?.length) {
-                return window.ethereum.providers.find(p => p.isPhantom) || window.ethereum.providers[0];
-            }
-            return window.ethereum;
-        }
-        return null;
-    };
-    
-    let ethereumProvider = getProvider();
-    
-    // Wait a moment if not found (provider might still be loading)
-    if (!ethereumProvider) {
-        await new Promise(r => setTimeout(r, 500));
-        ethereumProvider = getProvider();
-    }
-    
-    // If still no provider and on mobile, offer to open in wallet app
-    if (!ethereumProvider && isMobileDevice()) {
-        showMobileWalletOptions();
-        return false;
-    }
-    
-    if (!ethereumProvider) {
-        alert('No wallet detected!\n\n' +
-            'Please install MetaMask or Phantom wallet extension,\n' +
-            'or open this page in your wallet\'s built-in browser.');
-        return false;
-    }
-    
-    console.log('Using provider:', ethereumProvider);
-    
-    try {
-        // Request account access
-        const accounts = await ethereumProvider.request({ method: 'eth_requestAccounts' });
-        userAddress = accounts[0];
-        
-        // Create provider and signer
-        provider = new ethers.BrowserProvider(ethereumProvider);
-        signer = await provider.getSigner();
-        
-        // Check if on Monad network
-        const network = await provider.getNetwork();
-        if (Number(network.chainId) !== MONAD_CHAIN_ID) {
-            // Try to switch to Monad
-            try {
-                await ethereumProvider.request({
-                    method: 'wallet_switchEthereumChain',
-                    params: [{ chainId: MONAD_CHAIN_CONFIG.chainId }]
-                });
-            } catch (switchError) {
-                // Chain not added, try to add it
-                if (switchError.code === 4902) {
-                    await ethereumProvider.request({
-                        method: 'wallet_addEthereumChain',
-                        params: [MONAD_CHAIN_CONFIG]
-                    });
-                } else {
-                    throw switchError;
-                }
-            }
-            // Refresh provider after network switch
-            provider = new ethers.BrowserProvider(ethereumProvider);
-            signer = await provider.getSigner();
-        }
-        
-        isWalletConnected = true;
-        updateWalletUI();
-        console.log('Wallet connected:', userAddress);
-        return true;
-        
-    } catch (err) {
-        console.error('Wallet connection failed:', err);
-        alert('Failed to connect wallet: ' + err.message);
-        return false;
-    }
-}
-
-function disconnectWallet() {
-    provider = null;
-    signer = null;
-    userAddress = null;
-    isWalletConnected = false;
-    updateWalletUI();
-}
-
-function updateWalletUI() {
-    const connectBtn = document.getElementById('connect-wallet-btn');
-    const walletInfo = document.getElementById('wallet-info');
-    const submitBtn = document.getElementById('submit-score-btn');
-    
-    if (isWalletConnected && userAddress) {
-        const shortAddress = userAddress.slice(0, 6) + '...' + userAddress.slice(-4);
-        if (connectBtn) connectBtn.textContent = shortAddress;
-        if (walletInfo) walletInfo.textContent = shortAddress;
-        if (submitBtn) submitBtn.disabled = false;
-    } else {
-        if (connectBtn) connectBtn.textContent = 'Connect Wallet';
-        if (walletInfo) walletInfo.textContent = '';
-        if (submitBtn) submitBtn.disabled = true;
-    }
-}
-
-async function submitScoreToBlockchain() {
-    if (!isWalletConnected) {
-        const connected = await connectWallet();
-        if (!connected) return;
-    }
-    
-    if (LEADERBOARD_ADDRESS === '0x0000000000000000000000000000000000000000') {
-        alert('Leaderboard contract not deployed yet!');
-        return;
-    }
-    
-    // Get player name from input
-    const nameInput = document.getElementById('player-name-input');
-    let playerName = nameInput ? nameInput.value.trim() : '';
-    
-    // Require name if input is not disabled (first time submitting)
-    if (nameInput && !nameInput.disabled && playerName.length === 0) {
-        alert('Please enter a name for the leaderboard!');
-        nameInput.focus();
-        return;
-    }
-    
-    // Validate name length
-    if (playerName.length > 20) {
-        playerName = playerName.substring(0, 20);
-    }
-    
-    const gameDuration = Date.now() - gameStartTime;
-    const currentScore = score;
-    
-    try {
-        // Show loading state
-        const submitBtn = document.getElementById('submit-score-btn');
-        if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Validating...';
-        }
-        
-        // 1. Get current nonce from server
-        const nonceResponse = await fetch(`${REFEREE_SERVER_URL}/api/nonce/${userAddress}`);
-        const nonceData = await nonceResponse.json();
-        const nonce = parseInt(nonceData.nonce);
-        
-        // 2. Request signature from referee server
-        const signResponse = await fetch(`${REFEREE_SERVER_URL}/api/sign-score`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                playerAddress: userAddress,
-                score: currentScore,
-                gameDurationMs: gameDuration,
-                nonce: nonce
-            })
-        });
-        
-        const signData = await signResponse.json();
-        
-        if (signData.error) {
-            alert('Score rejected: ' + signData.error);
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Submit Score';
-            }
-            return;
-        }
-        
-        const signature = signData.signature;
-        
-        // 3. Submit to blockchain with name
-        if (submitBtn) submitBtn.textContent = 'Submitting...';
-        
-        const contract = new ethers.Contract(LEADERBOARD_ADDRESS, LEADERBOARD_ABI, signer);
-        const tx = await contract.submitScore(currentScore, nonce, playerName, signature);
-        
-        if (submitBtn) submitBtn.textContent = 'Confirming...';
-        await tx.wait();
-        
-        // Store TX hash on server for leaderboard display
-        try {
-            await fetch(`${REFEREE_SERVER_URL}/api/tx-hash`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    playerAddress: userAddress,
-                    txHash: tx.hash,
-                    score: currentScore
-                })
-            });
-        } catch (e) {
-            console.warn('Could not store TX hash:', e);
-        }
-        
-        alert('Score submitted on-chain! 🎉');
-        
-        // Refresh leaderboard
-        await loadLeaderboard();
-        
-    } catch (err) {
-        console.error('Score submission failed:', err);
-        alert('Failed to submit score: ' + (err.reason || err.message));
-    } finally {
-        const submitBtn = document.getElementById('submit-score-btn');
-        if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Submit Score';
-        }
-    }
-}
-
-async function loadLeaderboard() {
-    if (LEADERBOARD_ADDRESS === '0x0000000000000000000000000000000000000000') {
-        return;
-    }
-    
-    try {
-        const readProvider = new ethers.JsonRpcProvider(MONAD_RPC);
-        const contract = new ethers.Contract(LEADERBOARD_ADDRESS, LEADERBOARD_ABI, readProvider);
-        
-        // Get top 10 scores with names
-        const [players, names, scores] = await contract.getTopScores(10);
-        
-        const leaderboardList = document.getElementById('leaderboard-list');
-        if (!leaderboardList) return;
-        
-        leaderboardList.innerHTML = '';
-        
-        for (let i = 0; i < players.length; i++) {
-            if (players[i] === '0x0000000000000000000000000000000000000000') continue;
-            
-            // Use name if set, otherwise show shortened address
-            const displayName = names[i] && names[i].length > 0 
-                ? names[i] 
-                : players[i].slice(0, 6) + '...' + players[i].slice(-4);
-            
-            const li = document.createElement('li');
-            const rankSpan = document.createElement('span');
-            rankSpan.className = 'rank';
-            rankSpan.textContent = `#${i + 1}`;
-            const nameSpan = document.createElement('span');
-            nameSpan.className = 'player-name';
-            nameSpan.textContent = displayName;
-            const scoreSpan = document.createElement('span');
-            scoreSpan.className = 'lb-score';
-            scoreSpan.textContent = scores[i];
-            li.append(rankSpan, document.createTextNode(' '), nameSpan, document.createTextNode(' '), scoreSpan);
-            
-            // Highlight current user
-            if (userAddress && players[i].toLowerCase() === userAddress.toLowerCase()) {
-                li.classList.add('current-user');
-            }
-            
-            leaderboardList.appendChild(li);
-        }
-        
-        // Get player's high score and name if connected
-        if (userAddress) {
-            const myHighScore = await contract.getHighScore(userAddress);
-            const myScoreEl = document.getElementById('my-high-score');
-            if (myScoreEl) myScoreEl.textContent = myHighScore.toString();
-            
-            // Check if player already has a name set
-            const myName = await contract.getName(userAddress);
-            const nameInput = document.getElementById('player-name-input');
-            if (nameInput && myName && myName.length > 0) {
-                nameInput.value = myName;
-                nameInput.disabled = true;
-                nameInput.placeholder = myName;
-            }
-        }
-        
-    } catch (err) {
-        console.error('Failed to load leaderboard:', err);
-    }
-}
-
-// Listen for account changes
-if (typeof window.ethereum !== 'undefined') {
-    window.ethereum.on('accountsChanged', (accounts) => {
-        if (accounts.length === 0) {
-            disconnectWallet();
-        } else {
-            userAddress = accounts[0];
-            updateWalletUI();
-        }
-    });
-    
-    window.ethereum.on('chainChanged', () => {
-        window.location.reload();
-    });
-}
-
 
 // Handle visibility change (iOS PWA backgrounding)
 document.addEventListener('visibilitychange', function() {
@@ -3495,55 +2610,3 @@ window.addEventListener('pageshow', function(event) {
 // Start the game (loads settings, dark mode, best score internally)
 init();
 
-// Load leaderboard on page load
-setTimeout(loadLeaderboard, 1000);
-
-// Check for pending score submission (after wallet redirect)
-// This runs immediately and bypasses normal game flow if pending score exists
-(function checkPendingScoreOnLoad() {
-    const pendingScore = checkPendingScore();
-    if (pendingScore) {
-        console.log('Found pending score from URL:', pendingScore);
-        
-        // Clean up URL (remove query params) without reloading
-        if (window.history && window.history.replaceState) {
-            window.history.replaceState({}, document.title, window.location.pathname);
-        }
-        
-        // Wait for page to be ready
-        const showScoreScreen = () => {
-            // Set the score
-            score = pendingScore.score;
-            const nameInput = document.getElementById('player-name-input');
-            if (nameInput) nameInput.value = pendingScore.name;
-            
-            // Hide loading screen if visible
-            const loadingScreen = document.getElementById('loading-screen');
-            if (loadingScreen) {
-                loadingScreen.style.display = 'none';
-            }
-            
-            // Show game over screen with the score
-            finalScoreEl.textContent = pendingScore.score;
-            gameOverScreen.classList.remove('hidden');
-            gameState = GameState.GAME_OVER;
-            
-            // Force visibility of all elements
-            setTimeout(() => {
-                const elements = gameOverScreen.querySelectorAll('h2, p, button, a, input, .name-input-container, .best-score-text');
-                elements.forEach(el => {
-                    el.style.opacity = '1';
-                    el.style.transform = 'none';
-                });
-            }, 100);
-            
-            // Show notification
-            setTimeout(() => {
-                alert(`🎮 Score Restored!\n\nYour score of ${pendingScore.score} is ready.\n\nClick "Submit Score" to submit on-chain!`);
-            }, 300);
-        };
-        
-        // Run after a short delay for page to load
-        setTimeout(showScoreScreen, 800);
-    }
-})();
