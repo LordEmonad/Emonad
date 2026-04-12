@@ -1215,7 +1215,7 @@
 
     <!-- Primary Actions -->
     <div class="primary-actions animate-in" style="animation-delay:0.46s">
-      <button class="btn-primary" id="buyBtn">Buy $EMO</button>
+      <a href="https://nad.fun/tokens/0x81A224F8A62f52BdE942dBF23A56df77A10b7777" class="btn-primary" target="_blank" rel="noopener noreferrer">Buy $EMO</a>
       <button class="btn-primary btn-primary-outline" id="chartBtn">Chart</button>
     </div>
 
@@ -1259,14 +1259,6 @@
     </div>
   </div>
 
-  <!-- Buy/Swap Modal -->
-  <div class="modal-overlay" id="buyModal" role="dialog" aria-label="Buy EMO token" aria-modal="true">
-    <div class="modal-content modal-compact">
-      <div class="modal-spinner" id="buySpinner"></div>
-      <button class="modal-close" id="buyClose" aria-label="Close swap widget">&times;</button>
-      <iframe id="buyFrame" src="" allow="clipboard-write" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" style="background: #131313; border-radius: 24px;" title="Uniswap swap widget"></iframe>
-    </div>
-  </div>
 
   <!-- Scroll Hint (mobile) -->
   <div class="scroll-hint" id="scrollHint" aria-hidden="true">
@@ -1427,22 +1419,14 @@
     const chartFrame = document.getElementById('chartFrame');
     const chartClose = document.getElementById('chartClose');
     const chartSpinner = document.getElementById('chartSpinner');
-    const buyModal = document.getElementById('buyModal');
-    const buyFrame = document.getElementById('buyFrame');
-    const buyClose = document.getElementById('buyClose');
-    const buySpinner = document.getElementById('buySpinner');
 
     chartFrame.addEventListener('load', () => { chartSpinner.style.display = 'none'; });
-    buyFrame.addEventListener('load', () => { buySpinner.style.display = 'none'; });
 
     // ── Modal Focus Trap + Escape ──
     let previousFocus = null;
 
     function trapFocus(modal, e) {
-      if (e.key === 'Escape') {
-        closeModal(modal === chartModal ? 'chart' : 'buy');
-        return;
-      }
+      if (e.key === 'Escape') { closeModal(); return; }
       if (e.key !== 'Tab') return;
       const focusable = modal.querySelectorAll('button, [tabindex]:not([tabindex="-1"]), iframe');
       const first = focusable[0];
@@ -1451,38 +1435,26 @@
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     }
 
-    function openModal(type) {
+    function openModal() {
       previousFocus = document.activeElement;
-      const modal = type === 'chart' ? chartModal : buyModal;
-      const frame = type === 'chart' ? chartFrame : buyFrame;
-      const spinner = type === 'chart' ? chartSpinner : buySpinner;
-      const close = type === 'chart' ? chartClose : buyClose;
-      spinner.style.display = 'block';
-      frame.src = type === 'chart'
-        ? 'https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d?embed=1&theme=dark&info=0'
-        : 'https://app.uniswap.org/swap?chain=monad&outputCurrency=0x81A224F8A62f52BdE942dBF23A56df77A10b7777';
-      modal.classList.add('active');
-      close.focus();
-      document.addEventListener('keydown', modal._trapHandler = (e) => trapFocus(modal, e));
+      chartSpinner.style.display = 'block';
+      chartFrame.src = 'https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d?embed=1&theme=dark&info=0';
+      chartModal.classList.add('active');
+      chartClose.focus();
+      document.addEventListener('keydown', chartModal._trapHandler = (e) => trapFocus(chartModal, e));
     }
 
-    function closeModal(type) {
-      const modal = type === 'chart' ? chartModal : buyModal;
-      const frame = type === 'chart' ? chartFrame : buyFrame;
-      modal.classList.remove('active');
-      frame.src = '';
-      if (modal._trapHandler) document.removeEventListener('keydown', modal._trapHandler);
+    function closeModal() {
+      chartModal.classList.remove('active');
+      chartFrame.src = '';
+      if (chartModal._trapHandler) document.removeEventListener('keydown', chartModal._trapHandler);
       if (previousFocus) previousFocus.focus();
     }
 
-    document.getElementById('chartBtn').addEventListener('click', () => openModal('chart'));
-    document.getElementById('buyBtn').addEventListener('click', () => openModal('buy'));
+    document.getElementById('chartBtn').addEventListener('click', () => openModal());
 
-    chartClose.addEventListener('click', () => closeModal('chart'));
-    chartModal.addEventListener('click', (e) => { if (e.target === chartModal) closeModal('chart'); });
-
-    buyClose.addEventListener('click', () => closeModal('buy'));
-    buyModal.addEventListener('click', (e) => { if (e.target === buyModal) closeModal('buy'); });
+    chartClose.addEventListener('click', () => closeModal());
+    chartModal.addEventListener('click', (e) => { if (e.target === chartModal) closeModal(); });
 
     // ── Theme Toggle (smooth transition) ──
     const themeToggle = document.getElementById('themeToggle');
