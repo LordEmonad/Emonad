@@ -30,7 +30,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <!-- Sticker manifest (script tag works under file:// unlike fetch) -->
-  <script src="stickers/stickers.js"></script>
+  <script src="stickers/stickers.js?v=68daef0273"></script>
   <style>
     /* Self-hosted fonts — external font hosts are blocked by the site's CSP
        (img-src/style-src restrict to 'self'), so we bundle them. */
@@ -720,13 +720,13 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           Copy
         </button>
-        <button class="btn" id="shareBtn" title="Share">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-          Share
-        </button>
-        <button class="btn primary" id="downloadBtn" title="Download as PNG">
+        <button class="btn" id="downloadBtn" title="Download as PNG">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Download
+        </button>
+        <button class="btn primary" id="saveBtn" title="Save to Photos / Share">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Save
         </button>
       </div>
     </div>
@@ -1913,27 +1913,78 @@ async function saveViaAnchor(blob, filename) {
   a.remove();
 }
 
-async function handleDownload() {
+// Save — primary mobile-friendly action. Uses the native share sheet, which
+// exposes "Save to Photos" / "Save Image" / "Download" as top-level actions.
+// On desktop (no file-share support), falls back to the anchor download so
+// Save still works as a single reliable button.
+async function handleSave() {
   const blob = await exportBlob();
   if (!blob) return;
   const filename = 'emo-meme-' + Date.now() + '.png';
   const file = new File([blob], filename, { type: 'image/png' });
-
-  // On touch devices, route through the native share sheet — it exposes
-  // "Save to Photos" (iOS) / "Save" / "Download" (Android) as first-class
-  // actions, which is far more reliable than <a download> on mobile.
-  if (isTouchDevice() && navigator.canShare && navigator.canShare({ files: [file] })) {
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
     try {
-      await navigator.share({ files: [file] });
-      return; // user picked a destination; we're done
+      await navigator.share({
+        files: [file],
+        title: '$EMO meme',
+        text: 'made with emonad meme maker',
+      });
+      return; // user picked destination
     } catch (err) {
-      if (err && err.name === 'AbortError') return; // user cancelled — that's fine
-      console.warn('Share failed, falling back to anchor download:', err);
-      // fall through to the anchor approach
+      if (err && err.name === 'AbortError') return; // user cancelled — fine
+      console.warn('Share failed, falling back to anchor:', err);
     }
   }
+  try {
+    await saveViaAnchor(blob, filename);
+    toast('Saved');
+  } catch (err) {
+    console.error('Save error:', err);
+    toast('Save failed');
+  }
+}
 
-  // Desktop / fallback path.
+function showMobileSaveViewer(dataUrl) {
+  // In-page viewer so the user can long-press the image to save.
+  // Avoids popup blockers that fire on window.open after an async await.
+  const overlay = document.createElement('div');
+  overlay.className = 'dl-viewer';
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-label', 'Saved image — long-press to save to Photos');
+  overlay.innerHTML = `
+    <div class="dl-tip">Long-press the image, then <b>Save to Photos</b></div>
+    <img alt="Your meme" draggable="false">
+    <button class="dl-close" type="button" aria-label="Close">Done</button>
+  `;
+  // Set src via property to avoid HTML-injection risks from the data URL string.
+  overlay.querySelector('img').src = dataUrl;
+  const close = () => overlay.remove();
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+  overlay.querySelector('.dl-close').addEventListener('click', close);
+  document.body.appendChild(overlay);
+}
+
+// Download — explicit "get the file" action.
+// Desktop: writes straight to Downloads folder via anchor.
+// Mobile: shows an in-page full-screen viewer; user long-presses the image and
+// picks "Save to Photos" / "Save Image" from the system menu. Mobile browsers
+// ignore the `download` attribute for data: URLs and serve a broken "View /
+// Download" prompt, so we route around that entirely.
+async function handleDownload() {
+  const blob = await exportBlob();
+  if (!blob) return;
+  const filename = 'emo-meme-' + Date.now() + '.png';
+  if (isTouchDevice()) {
+    try {
+      const dataUrl = await blobToDataUrl(blob);
+      showMobileSaveViewer(dataUrl);
+    } catch (err) {
+      console.error('Download viewer error:', err);
+      toast('Download failed');
+    }
+    return;
+  }
+  // Desktop: standard anchor download.
   try {
     await saveViaAnchor(blob, filename);
     toast('Downloaded');
@@ -1947,7 +1998,7 @@ async function handleCopy() {
   const blob = await exportBlob();
   if (!blob) return;
   if (!navigator.clipboard || !window.ClipboardItem) {
-    toast('Clipboard not supported here — use Download');
+    toast('Clipboard not supported — use Save');
     return;
   }
   try {
@@ -1956,34 +2007,16 @@ async function handleCopy() {
     if (navigator.vibrate) navigator.vibrate(10);
   } catch (err) {
     console.error('Copy error:', err);
-    toast('Copy failed — try Download');
+    // Most mobile browsers block image clipboard writes — point the user at Save.
+    toast(isTouchDevice()
+      ? 'Copy isn\u2019t supported on mobile — use Save'
+      : 'Copy failed — try Save');
   }
 }
 
-async function handleShare() {
-  const blob = await exportBlob();
-  if (!blob) return;
-  const file = new File([blob], 'emo-meme.png', { type: 'image/png' });
-  try {
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      await navigator.share({ files: [file], title: '$EMO meme', text: 'made with emonad meme maker' });
-      return;
-    }
-  } catch (e) { /* user cancelled or unavailable */ }
-  // Fallback: copy to clipboard
-  if (navigator.clipboard && window.ClipboardItem) {
-    try {
-      await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-      toast('Copied to clipboard');
-      return;
-    } catch (e) { /* fall through to download */ }
-  }
-  handleDownload();
-}
-
+document.getElementById('saveBtn').addEventListener('click', handleSave);
 document.getElementById('downloadBtn').addEventListener('click', handleDownload);
 document.getElementById('copyBtn').addEventListener('click', handleCopy);
-document.getElementById('shareBtn').addEventListener('click', handleShare);
 
 // ───────────── Resize stage on viewport change ─────────────
 let lastStageWidth = 0;

@@ -6,6 +6,7 @@ blocks exports when images come from cross-origin sources, and data: URLs are al
 safe. Run after adding new sticker images:  python update-stickers.py
 """
 import base64
+import hashlib
 import json
 import mimetypes
 import os
@@ -83,6 +84,24 @@ def main() -> int:
             indent=2,
         )
         f.write("\n")
+
+    # Cache-bust: stamp meme-maker.html's <script src="stickers/stickers.js"> with a
+    # content hash so GitHub Pages / browser caches pick up new stickers immediately.
+    version = hashlib.md5(js_body.encode("utf-8")).hexdigest()[:10]
+    meme_path = os.path.join(ROOT, "meme-maker.html")
+    if os.path.isfile(meme_path):
+        with open(meme_path, "r", encoding="utf-8") as f:
+            html = f.read()
+        new_html, n = re.subn(
+            r'<script src="stickers/stickers\.js(?:\?v=[^"]*)?"',
+            f'<script src="stickers/stickers.js?v={version}"',
+            html,
+            count=1,
+        )
+        if n and new_html != html:
+            with open(meme_path, "w", encoding="utf-8", newline="\n") as f:
+                f.write(new_html)
+            print(f"Stamped meme-maker.html with ?v={version}")
 
     kb = total_bytes / 1024
     print(f"Wrote {len(names)} stickers to stickers.js ({kb:.0f} KB raw):")
