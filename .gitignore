@@ -48,7 +48,6 @@ snapshot.txt
 * - Copy.*
 
 # Unreferenced directories
-stickers/
 attachments*/
 
 # Utility scripts (not part of website, keep local only)
@@ -63,3 +62,6 @@ node_modules/
 
 # Local config
 .claude/
+
+# iOS App (developed locally, separate repo later)
+EmonadApp/
