@@ -796,35 +796,69 @@ const toolbar = document.getElementById('toolbar');
 const selector = document.getElementById('selector');
 
 // ───────────── Image load ─────────────
-function loadImageFromFile(file) {
-  if (!file || !file.type.startsWith('image/')) { toast('Not an image'); return; }
-  const url = URL.createObjectURL(file);
-  loadImageFromUrl(url);
+// Formats browsers universally support in <img>. HEIC/HEIF is iOS-Safari-only
+// and comes from iPhone cameras by default — we reject it with a clear message.
+const HEIC_RE = /\.(heic|heif)$/i;
+function isLikelyHeic(file) {
+  if (!file) return false;
+  const type = (file.type || '').toLowerCase();
+  if (type.includes('heic') || type.includes('heif')) return true;
+  if (file.name && HEIC_RE.test(file.name)) return true;
+  return false;
 }
-function loadImageFromUrl(url) {
+
+function loadImageFromFile(file) {
+  if (!file) { toast('No file selected'); return; }
+  const type = (file.type || '').toLowerCase();
+  const name = file.name || 'image';
+  // Some Android pickers strip type; accept anything that looks image-y.
+  const looksImage = type.startsWith('image/') || /\.(png|jpe?g|gif|webp|avif|bmp|svg)$/i.test(name);
+  if (!looksImage) { toast('Not an image (' + (type || 'unknown') + ')'); return; }
+  if (isLikelyHeic(file)) {
+    toast('iPhone HEIC photos aren\u2019t supported. Take a new photo with JPEG/PNG, or convert first.');
+    return;
+  }
+  // Extreme size guard — phones can produce 50+ MP images that fail to decode.
+  if (file.size > 40 * 1024 * 1024) {
+    toast('Image is too large (' + Math.round(file.size / 1024 / 1024) + 'MB). Try under 40MB.');
+    return;
+  }
+  const url = URL.createObjectURL(file);
+  loadImageFromUrl(url, file);
+}
+
+function loadImageFromUrl(url, file) {
   const img = new Image();
   if (/^https?:\/\//i.test(url) && !url.startsWith(location.origin)) {
     img.crossOrigin = 'anonymous';
   }
   img.onload = () => {
-    if (state.bgUrl && state.bgUrl.startsWith('blob:')) URL.revokeObjectURL(state.bgUrl);
+    if (!img.naturalWidth || !img.naturalHeight) {
+      console.error('Image loaded with zero dimensions:', file);
+      toast('Image loaded but has no dimensions.');
+      return;
+    }
+    if (state.bgUrl && state.bgUrl.startsWith('blob:') && state.bgUrl !== url) {
+      URL.revokeObjectURL(state.bgUrl);
+    }
     state.bgImage = img;
     state.bgUrl = url;
     state.naturalW = img.naturalWidth;
     state.naturalH = img.naturalHeight;
     // wait until <img> has rendered size so stage has dimensions
+    stageBg.onerror = () => {
+      console.error('stageBg failed to render', url);
+      toast('Preview failed to render.');
+    };
     stageBg.onload = () => {
       drop.style.display = 'none';
       stageWrap.classList.add('active');
       toolbar.style.display = 'flex';
-      // Set stage aspect-ratio so it fits both width and height of the available area
       stage.style.aspectRatio = state.naturalW + ' / ' + state.naturalH;
-      // Reset layers on new image
       clearAllLayers();
       setSelected(null);
       state.history = [];
       state.historyIndex = -1;
-      // Give the browser one frame to compute stage dimensions
       requestAnimationFrame(() => {
         lastStageWidth = stageRect().width;
         pushHistory();
@@ -832,7 +866,15 @@ function loadImageFromUrl(url) {
     };
     stageBg.src = url;
   };
-  img.onerror = () => toast('Failed to load image');
+  img.onerror = (e) => {
+    console.error('Image decode failed:', { url, file, event: e });
+    const detail = file
+      ? (file.type || 'unknown type') + ', ' + Math.round((file.size || 0) / 1024) + 'KB'
+      : url.slice(0, 60);
+    toast('Couldn\u2019t decode image (' + detail + ')');
+    // Clean up the blob URL since nothing will use it.
+    if (url.startsWith('blob:')) { try { URL.revokeObjectURL(url); } catch (_) {} }
+  };
   img.src = url;
 }
 
