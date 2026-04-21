@@ -1894,18 +1894,48 @@ function blobToDataUrl(blob) {
   });
 }
 
+// Detects touch-first devices (phones, tablets). Used to prefer the native share
+// sheet over <a download>, which is unreliable on mobile (browsers often open the
+// image inline instead of saving it).
+const isTouchDevice = () => (
+  ('ontouchstart' in window) ||
+  (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0)
+);
+
+async function saveViaAnchor(blob, filename) {
+  const dataUrl = await blobToDataUrl(blob);
+  const a = document.createElement('a');
+  a.href = dataUrl;
+  a.download = filename;
+  // Some browsers need the element in the DOM for the click to trigger a download
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
 async function handleDownload() {
   const blob = await exportBlob();
   if (!blob) return;
+  const filename = 'emo-meme-' + Date.now() + '.png';
+  const file = new File([blob], filename, { type: 'image/png' });
+
+  // On touch devices, route through the native share sheet — it exposes
+  // "Save to Photos" (iOS) / "Save" / "Download" (Android) as first-class
+  // actions, which is far more reliable than <a download> on mobile.
+  if (isTouchDevice() && navigator.canShare && navigator.canShare({ files: [file] })) {
+    try {
+      await navigator.share({ files: [file] });
+      return; // user picked a destination; we're done
+    } catch (err) {
+      if (err && err.name === 'AbortError') return; // user cancelled — that's fine
+      console.warn('Share failed, falling back to anchor download:', err);
+      // fall through to the anchor approach
+    }
+  }
+
+  // Desktop / fallback path.
   try {
-    // Use a data: URL (not blob:) so the site's CSP can't block the download.
-    const dataUrl = await blobToDataUrl(blob);
-    const a = document.createElement('a');
-    a.href = dataUrl;
-    a.download = 'emo-meme-' + Date.now() + '.png';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+    await saveViaAnchor(blob, filename);
     toast('Downloaded');
   } catch (err) {
     console.error('Download error:', err);
