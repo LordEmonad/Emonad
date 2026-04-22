@@ -512,6 +512,52 @@
     }
     .sticker-empty { color: var(--text-muted); font-size: 12px; grid-column: 1/-1; text-align: center; padding: 18px; }
 
+    /* Upload-your-own-sticker tile — always renders at the top of the grid. */
+    .sticker-item.sticker-upload {
+      background: rgba(255, 255, 255, 0.03);
+      background-image: none;
+      border-style: dashed;
+      border-color: var(--surface-border);
+      color: var(--text-muted);
+    }
+    .sticker-item.sticker-upload:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.06);
+    }
+    /* User-uploaded stickers get a small × badge for removal. Position it
+       inside the tile's padding so it doesn't get clipped. */
+    .sticker-item { position: relative; }
+    .sticker-item-user .sticker-remove {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #ef4444;
+      color: #fff;
+      font-size: 13px;
+      line-height: 16px;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transition: opacity .15s;
+      user-select: none;
+      z-index: 2;
+    }
+    .sticker-item-user:hover .sticker-remove { opacity: 1; }
+    /* On touch, reveal the remove badge always so users can tap it. */
+    @media (hover: none) {
+      .sticker-item-user .sticker-remove { opacity: 1; }
+    }
+    /* Highlight the stickers card while the user drags an image over it. */
+    .stickers-card.drag-over {
+      outline: 2px dashed var(--accent);
+      outline-offset: -2px;
+    }
+
     /* ─── Templates ─── */
     .template-tabs {
       display: flex;
@@ -1402,6 +1448,7 @@
       <!-- Stickers -->
       <div class="card stickers-card">
         <h3>Stickers <span id="stickerCount" style="color:var(--text-muted);font-weight:500;text-transform:none;letter-spacing:0;"></span></h3>
+        <input type="file" id="userStickerInput" accept="image/png,image/jpeg,image/webp" multiple hidden>
         <div class="sticker-grid" id="stickerGrid">
           <div class="sticker-empty">Loading…</div>
         </div>
@@ -2529,37 +2576,168 @@ function normalizeEntry(e) {
   return null;
 }
 
-function renderStickerList(entries) {
-  stickerGrid.innerHTML = '';
-  if (!entries.length) {
-    stickerGrid.innerHTML = '<div class="sticker-empty">Drop images into the /stickers folder and run <code>python update-stickers.py</code> to see them here.</div>';
-    stickerCountEl.textContent = '';
-    return;
+// User stickers live in localStorage as data URLs so they stay private to
+// the device and survive reloads. Kept in memory as state.userStickers for
+// quick access; re-saved whenever mutated. Max-dim resize keeps per-sticker
+// payload low so the quota (~5 MB) isn't eaten by one giant upload.
+const USER_STICKERS_KEY = 'emonad:userStickers:v1';
+const USER_STICKER_MAX_DIM = 800;
+state.userStickers = loadUserStickers();
+let _lastBuiltInStickers = [];
+
+function loadUserStickers() {
+  try {
+    const raw = localStorage.getItem(USER_STICKERS_KEY);
+    const arr = raw ? JSON.parse(raw) : [];
+    return Array.isArray(arr) ? arr : [];
+  } catch (_) { return []; }
+}
+function saveUserStickers() {
+  try { localStorage.setItem(USER_STICKERS_KEY, JSON.stringify(state.userStickers)); }
+  catch (e) {
+    console.warn('userStickers save failed (quota?)', e);
+    toast('Sticker storage is full — remove some to add more');
   }
-  stickerCountEl.textContent = '· ' + entries.length;
-  entries.forEach(entry => {
-    const btn = document.createElement('button');
-    btn.className = 'sticker-item';
-    btn.type = 'button';
-    btn.title = entry.name;
-    const img = new Image();
-    img.loading = 'lazy';
-    img.src = entry.src;
-    img.alt = entry.name;
-    img.onerror = () => { btn.style.opacity = '0.4'; btn.title = entry.name + ' (failed to load)'; };
-    btn.appendChild(img);
-    btn.addEventListener('click', () => {
-      if (!state.bgImage) { toast('Upload an image first'); return; }
-      const l = createStickerLayer(entry.src);
-      setSelected(l.id);
-      pushHistory();
-      // Close the drawer on mobile so the user can immediately see and resize
-      // the sticker they just added (no-op on desktop).
-      closeDrawer();
-    });
-    stickerGrid.appendChild(btn);
+}
+
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.onerror = () => reject(r.error);
+    r.readAsDataURL(file);
   });
 }
+function resizeDataUrl(dataUrl, maxDim) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const w = img.naturalWidth, h = img.naturalHeight;
+      if (!w || !h) { resolve(dataUrl); return; }
+      if (w <= maxDim && h <= maxDim) { resolve(dataUrl); return; }
+      const s = maxDim / Math.max(w, h);
+      const cw = Math.round(w * s), ch = Math.round(h * s);
+      const c = document.createElement('canvas');
+      c.width = cw; c.height = ch;
+      const ctx = c.getContext('2d');
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(img, 0, 0, cw, ch);
+      // PNG preserves transparency (important for typical cutout stickers).
+      try { resolve(c.toDataURL('image/png')); }
+      catch (_) { resolve(dataUrl); }
+    };
+    img.onerror = () => resolve(dataUrl);
+    img.src = dataUrl;
+  });
+}
+async function addUserStickerFromFile(file) {
+  if (!file || !file.type || !file.type.startsWith('image/')) {
+    toast('Not an image'); return;
+  }
+  if (file.size > 20 * 1024 * 1024) {
+    toast('Sticker too large (max 20 MB)'); return;
+  }
+  try {
+    const raw = await readFileAsDataUrl(file);
+    const src = await resizeDataUrl(raw, USER_STICKER_MAX_DIM);
+    const name = (file.name || 'sticker').replace(/\.[^.]+$/, '').slice(0, 40) || 'sticker';
+    state.userStickers.unshift({ id: 'u_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6), name, src });
+    saveUserStickers();
+    renderStickerList(_lastBuiltInStickers);
+  } catch (e) {
+    console.error('user sticker add failed', e);
+    toast('Couldn’t add that sticker');
+  }
+}
+function removeUserSticker(id) {
+  state.userStickers = state.userStickers.filter(s => s.id !== id);
+  saveUserStickers();
+  renderStickerList(_lastBuiltInStickers);
+}
+
+function makeStickerTile(entry, { removable } = {}) {
+  const btn = document.createElement('button');
+  btn.className = 'sticker-item' + (removable ? ' sticker-item-user' : '');
+  btn.type = 'button';
+  btn.title = entry.name;
+  const img = new Image();
+  img.loading = 'lazy';
+  img.decoding = 'async';
+  img.src = entry.src;
+  img.alt = entry.name;
+  img.onerror = () => { btn.style.opacity = '0.4'; btn.title = entry.name + ' (failed to load)'; };
+  btn.appendChild(img);
+  btn.addEventListener('click', () => {
+    if (!state.bgImage) { toast('Upload an image first'); return; }
+    const l = createStickerLayer(entry.src);
+    setSelected(l.id);
+    pushHistory();
+    // Close the drawer on mobile so the user can immediately see and resize
+    // the sticker they just added (no-op on desktop).
+    closeDrawer();
+  });
+  if (removable) {
+    const rm = document.createElement('span');
+    rm.className = 'sticker-remove';
+    rm.textContent = '×';
+    rm.title = 'Remove';
+    rm.setAttribute('aria-label', 'Remove sticker');
+    rm.addEventListener('click', (e) => {
+      e.stopPropagation();
+      removeUserSticker(entry.id);
+    });
+    btn.appendChild(rm);
+  }
+  return btn;
+}
+
+function renderStickerList(entries) {
+  _lastBuiltInStickers = entries || _lastBuiltInStickers;
+  stickerGrid.innerHTML = '';
+
+  // Upload tile always renders first so users can discover the feature.
+  const uploadBtn = document.createElement('button');
+  uploadBtn.type = 'button';
+  uploadBtn.className = 'sticker-item sticker-upload';
+  uploadBtn.title = 'Upload your own sticker';
+  uploadBtn.setAttribute('aria-label', 'Upload your own sticker');
+  uploadBtn.innerHTML = '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+  uploadBtn.addEventListener('click', () => userStickerInput.click());
+  stickerGrid.appendChild(uploadBtn);
+
+  // User stickers next (most-recent first from unshift).
+  state.userStickers.forEach(us => stickerGrid.appendChild(makeStickerTile(us, { removable: true })));
+
+  // Built-in stickers last.
+  if (_lastBuiltInStickers.length) {
+    _lastBuiltInStickers.forEach(entry => stickerGrid.appendChild(makeStickerTile(entry, { removable: false })));
+  }
+
+  const total = state.userStickers.length + _lastBuiltInStickers.length;
+  stickerCountEl.textContent = total ? '· ' + total : '';
+}
+
+// Wire the hidden file input and drag-and-drop onto the stickers panel.
+const userStickerInput = document.getElementById('userStickerInput');
+userStickerInput.addEventListener('change', async (e) => {
+  const files = Array.from(e.target.files || []);
+  for (const f of files) { await addUserStickerFromFile(f); }
+  userStickerInput.value = '';
+});
+(function setupStickerDrop() {
+  const card = document.querySelector('.stickers-card');
+  if (!card) return;
+  ['dragenter','dragover'].forEach(ev => card.addEventListener(ev, e => {
+    e.preventDefault(); card.classList.add('drag-over');
+  }));
+  ['dragleave','drop'].forEach(ev => card.addEventListener(ev, e => {
+    e.preventDefault(); card.classList.remove('drag-over');
+  }));
+  card.addEventListener('drop', async e => {
+    const files = Array.from(e.dataTransfer?.files || []).filter(f => f.type.startsWith('image/'));
+    for (const f of files) { await addUserStickerFromFile(f); }
+  });
+})();
 
 async function loadStickers() {
   // Primary: embedded manifest from stickers/stickers.js. Entries are {name, src} where
