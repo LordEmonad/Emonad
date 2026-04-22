@@ -855,6 +855,22 @@
         z-index: 150;
       }
       .side-backdrop.visible { opacity: 1; pointer-events: all; }
+
+      /* When the drawer is opened via a specific button, show only the
+         relevant card on mobile so the user isn't overwhelmed. */
+      .side[data-focus="stickers"] .inspector,
+      .side[data-focus="stickers"] .tips-card,
+      .side[data-focus="edit"] .stickers-card,
+      .side[data-focus="edit"] .tips-card { display: none; }
+
+      /* Bigger, fat-finger-friendly selection handles on mobile */
+      .selector .handle { width: 22px; height: 22px; }
+      .selector .handle.tl { top: -11px; left: -11px; }
+      .selector .handle.tr { top: -11px; right: -11px; }
+      .selector .handle.bl { bottom: -11px; left: -11px; }
+      .selector .handle.br { bottom: -11px; right: -11px; }
+      .selector .handle.rot { top: -44px; width: 24px; height: 24px; }
+      .selector .del-btn { width: 32px; height: 32px; top: -42px; right: -42px; font-size: 18px; }
     }
 
     @media (max-width: 600px) {
@@ -944,6 +960,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
           Stickers
         </button>
+        <button class="btn mobile-only" id="openEditBtn" title="Edit selected layer" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          Edit
+        </button>
         <button class="btn" id="uploadNewBtn" title="Replace image">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
           Replace
@@ -975,7 +995,7 @@
       <button class="side-close" id="sideCloseBtn" aria-label="Close panel">&times;</button>
 
       <!-- Stickers -->
-      <div class="card">
+      <div class="card stickers-card">
         <h3>Stickers <span id="stickerCount" style="color:var(--text-muted);font-weight:500;text-transform:none;letter-spacing:0;"></span></h3>
         <div class="sticker-grid" id="stickerGrid">
           <div class="sticker-empty">Loading…</div>
@@ -991,7 +1011,7 @@
       </div>
 
       <!-- Tips -->
-      <div class="card">
+      <div class="card tips-card">
         <h3>Shortcuts</h3>
         <div style="font-size:12px; color:var(--text-secondary); line-height:1.9;">
           <div><b style="color:var(--text-color)">Drag</b> — move · <b style="color:var(--text-color)">Corner</b> — resize · <b style="color:var(--text-color)">Top dot</b> — rotate</div>
@@ -1240,16 +1260,18 @@ function clearAllLayers() {
 }
 
 function setSelected(id) {
-  const prev = state.selectedId;
   state.selectedId = id;
   updateSelectorFrame();
   renderInspector();
-  // On mobile, auto-open drawer so user can edit the selected layer;
-  // auto-close when the user deselects.
-  if (typeof isMobile === 'function' && isMobile()) {
-    if (id != null && prev !== id) openDrawer();
-    else if (id == null && prev != null) closeDrawer();
-  }
+  updateEditBtnVisibility();
+  // Note: previously auto-opened the mobile drawer on selection. Removed —
+  // it was covering the canvas and interfering with resizing. The toolbar
+  // "Edit" button (mobile, shown when a layer is selected) opens it on demand.
+}
+function updateEditBtnVisibility() {
+  const btn = document.getElementById('openEditBtn');
+  if (!btn) return;
+  btn.style.display = state.selectedId != null ? '' : 'none';
 }
 
 // Re-append all layer elements in z-order (so DOM stacking matches state.layers).
@@ -1806,8 +1828,11 @@ document.getElementById('addTopBottomBtn').addEventListener('click', () => {
 const sidePanel = document.getElementById('sidePanel');
 const sideBackdrop = document.getElementById('sideBackdrop');
 const isMobile = () => window.matchMedia('(max-width: 960px)').matches;
-function openDrawer() {
+function openDrawer(focus) {
   if (!isMobile()) return;
+  // focus = 'stickers' | 'edit' — hides the other cards via CSS (mobile only).
+  // Omitted/falsy shows everything (desktop-style side panel behaviour).
+  sidePanel.dataset.focus = focus || '';
   sidePanel.classList.add('open');
   sideBackdrop.classList.add('visible');
 }
@@ -1815,8 +1840,10 @@ function closeDrawer() {
   sidePanel.classList.remove('open');
   sideBackdrop.classList.remove('visible');
 }
-document.getElementById('openStickersBtn').addEventListener('click', openDrawer);
+document.getElementById('openStickersBtn').addEventListener('click', () => openDrawer('stickers'));
 document.getElementById('sideCloseBtn').addEventListener('click', closeDrawer);
+const openEditBtn = document.getElementById('openEditBtn');
+if (openEditBtn) openEditBtn.addEventListener('click', () => openDrawer('edit'));
 sideBackdrop.addEventListener('click', closeDrawer);
 
 // ───────────── Stickers panel ─────────────
@@ -1883,6 +1910,9 @@ function renderStickerList(entries) {
       const l = createStickerLayer(entry.src);
       setSelected(l.id);
       pushHistory();
+      // Close the drawer on mobile so the user can immediately see and resize
+      // the sticker they just added (no-op on desktop).
+      closeDrawer();
     });
     stickerGrid.appendChild(btn);
   });
