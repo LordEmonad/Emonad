@@ -591,9 +591,82 @@
     .tpl-modal .template-grid {
       grid-template-columns: repeat(5, 1fr);
     }
+
+    /* ─── Mobile: bottom-sheet pattern ─── */
     @media (max-width: 720px) {
-      .tpl-modal .template-grid { grid-template-columns: repeat(3, 1fr); }
-      .tpl-modal { max-height: 92vh; }
+      .tpl-overlay {
+        align-items: flex-end;
+        padding: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+      .tpl-overlay.visible .tpl-modal {
+        animation: tpl-slide-up 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .tpl-modal {
+        width: 100%;
+        max-width: none;
+        max-height: 88vh;
+        border-radius: 20px 20px 0 0;
+        border-left: 0;
+        border-right: 0;
+        border-bottom: 0;
+      }
+      /* Drag handle lives inside the header so swipe touches cover it */
+      .tpl-header {
+        position: relative;
+        padding: 20px 16px 12px;
+        touch-action: none;
+      }
+      .tpl-header::before {
+        content: '';
+        position: absolute;
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 4px;
+        border-radius: 2px;
+        background: rgba(255, 255, 255, 0.3);
+        pointer-events: none;
+      }
+      .tpl-header h3 { font-size: 13px; }
+      .tpl-close {
+        width: 36px;
+        height: 36px;
+        font-size: 22px;
+      }
+      .tpl-modal .template-tabs {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        padding: 10px 16px 10px;
+        background: var(--surface-2);
+        border-bottom: 1px solid var(--surface-border);
+      }
+      .tpl-body {
+        padding: 14px 16px calc(16px + env(safe-area-inset-bottom));
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+      }
+      .tpl-modal .template-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+      .template-item { border-radius: 12px; }
+    }
+    @keyframes tpl-slide-up {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    /* Prevent background scroll while the sheet/modal is open.
+       position:fixed is the only way to fully lock scroll on iOS Safari;
+       overflow:hidden alone is ignored there. Scroll position is restored
+       in JS on close. */
+    body.tpl-open {
+      position: fixed;
+      left: 0;
+      right: 0;
+      width: 100%;
+      overflow: hidden;
     }
 
     /* Drop-area "or pick a template" button */
@@ -608,6 +681,23 @@
     .drop-templates-btn {
       width: 100%;
       justify-content: center;
+    }
+    @media (max-width: 720px) {
+      .drop-or { margin: 8px 0 4px; letter-spacing: 1.5px; }
+      .drop-templates-btn {
+        width: auto;
+        margin: 0 auto;
+        padding: 8px 14px;
+        font-size: 12px;
+        background: transparent;
+        border: 1px solid var(--surface-border);
+        color: var(--text-secondary);
+      }
+      .drop-templates-btn:hover,
+      .drop-templates-btn:active {
+        color: var(--text-color);
+        border-color: var(--accent);
+      }
     }
 
     /* ─── Inspector ─── */
@@ -1914,14 +2004,21 @@ async function loadTemplates() {
   }
 }
 
+let savedScrollY = 0;
 function openTemplateModal() {
   if (!templateState.rendered) loadTemplates();
+  savedScrollY = window.scrollY || window.pageYOffset || 0;
   templateOverlay.classList.add('visible');
   templateOverlay.setAttribute('aria-hidden', 'false');
+  document.body.style.top = -savedScrollY + 'px';
+  document.body.classList.add('tpl-open');
 }
 function closeTemplateModal() {
   templateOverlay.classList.remove('visible');
   templateOverlay.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('tpl-open');
+  document.body.style.top = '';
+  window.scrollTo(0, savedScrollY);
 }
 
 if (openTemplatesBtn) openTemplatesBtn.addEventListener('click', openTemplateModal);
@@ -1929,6 +2026,53 @@ if (openTemplatesBtnDrop) openTemplatesBtnDrop.addEventListener('click', openTem
 templateModalClose.addEventListener('click', closeTemplateModal);
 templateOverlay.addEventListener('click', e => { if (e.target === templateOverlay) closeTemplateModal(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && templateOverlay.classList.contains('visible')) closeTemplateModal(); });
+
+// Swipe-down-to-dismiss on the sheet's drag area (mobile bottom-sheet UX).
+// Only intercepts touches on the header region so the template grid can
+// scroll freely. If the user drags past a threshold, we close the sheet.
+(function setupSheetSwipe() {
+  const modal = templateOverlay.querySelector('.tpl-modal');
+  const header = templateOverlay.querySelector('.tpl-header');
+  if (!modal || !header) return;
+  let startY = null;
+  let dy = 0;
+  let dragging = false;
+
+  const onStart = (e) => {
+    if (window.matchMedia('(min-width: 721px)').matches) return;
+    startY = e.touches[0].clientY;
+    dy = 0;
+    dragging = true;
+    modal.style.transition = 'none';
+  };
+  const onMove = (e) => {
+    if (!dragging || startY == null) return;
+    dy = Math.max(0, e.touches[0].clientY - startY);
+    modal.style.transform = 'translateY(' + dy + 'px)';
+  };
+  const onEnd = () => {
+    if (!dragging) return;
+    dragging = false;
+    if (dy > 90) {
+      // Past threshold — snap to 0 and close (overlay hides instantly so
+      // the user doesn't see the jump-back).
+      modal.style.transform = '';
+      modal.style.transition = '';
+      closeTemplateModal();
+    } else {
+      // Under threshold — smooth return to open position.
+      modal.style.transition = 'transform 0.22s ease-out';
+      modal.style.transform = '';
+      setTimeout(() => { modal.style.transition = ''; }, 240);
+    }
+    startY = null;
+    dy = 0;
+  };
+  header.addEventListener('touchstart', onStart, { passive: true });
+  header.addEventListener('touchmove', onMove, { passive: true });
+  header.addEventListener('touchend', onEnd);
+  header.addEventListener('touchcancel', onEnd);
+})();
 
 // ───────────── History ─────────────
 let historyDebounce;
