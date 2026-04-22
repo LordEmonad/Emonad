@@ -36,15 +36,23 @@ def scan(category: str) -> list[dict]:
         ),
         key=str.lower,
     )
-    return [
-        {
+    entries = []
+    for n in names:
+        entry = {
             "name": pretty_name(n),
             "file": n,
             "src": f"templates/{category}/{n}",
             "category": category,
         }
-        for n in names
-    ]
+        # If a matching thumb exists (static first-frame PNG for GIFs), point
+        # the picker at it so the grid stays fast and doesn't spin up dozens
+        # of simultaneous GIF decoders. See make-gif-thumbs.py.
+        stem, _ = os.path.splitext(n)
+        thumb_path = os.path.join(folder, "thumbs", stem + ".png")
+        if os.path.isfile(thumb_path):
+            entry["thumb"] = f"templates/{category}/thumbs/{stem}.png"
+        entries.append(entry)
+    return entries
 
 
 def main() -> int:

@@ -31,7 +31,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <!-- Manifests (script tags work under file:// unlike fetch) -->
   <script src="stickers/stickers.js?v=68daef0273"></script>
-  <script src="templates/templates.js?v=3f129c0142"></script>
+  <script src="templates/templates.js?v=392015fd1a"></script>
   <script src="emojis.js"></script>
   <!-- GIF decode (omggif -> global GifReader) + encode (gif.js -> global GIF). -->
   <script src="vendor/omggif.js"></script>
@@ -2619,7 +2619,11 @@ function renderTemplateList() {
     btn.title = t.name;
     const img = new Image();
     img.loading = 'lazy';
-    img.src = t.src;
+    img.decoding = 'async';
+    // Prefer the static thumbnail if the manifest ships one (GIFs do). The
+    // grid then loads ~5 MB of small PNGs instead of ~100 MB of animating
+    // GIFs — the full GIF only downloads when the user clicks.
+    img.src = t.thumb || t.src;
     img.alt = t.name;
     img.onerror = () => { btn.style.opacity = '0.4'; btn.title = t.name + ' (failed to load)'; };
     btn.appendChild(img);
@@ -3491,6 +3495,14 @@ function waitForLayerImages() {
 // script block isn't present.
 let gifWorkerUrl = 'vendor/gif.worker.js';
 (function resolveGifWorkerUrl() {
+  // On http(s): use the direct same-origin path. This satisfies any
+  // `script-src 'self'` CSP (which worker-src falls back to) that would
+  // reject a blob: URL.
+  // On file://: every local file is its own unique origin, so Workers
+  // can't load vendor/gif.worker.js from cross-file. Instead we read the
+  // inlined worker source and make a blob URL (origin 'null' = same as
+  // the page), which Workers accept.
+  if (location.protocol !== 'file:') return;
   const inline = document.getElementById('gifWorkerSource');
   if (inline && inline.textContent) {
     try {

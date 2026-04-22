@@ -730,277 +730,323 @@
       "name": "1",
       "file": "1.gif",
       "src": "templates/gifs/1.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/1.png"
     },
     {
       "name": "2",
       "file": "2.gif",
       "src": "templates/gifs/2.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/2.png"
     },
     {
       "name": "3",
       "file": "3.gif",
       "src": "templates/gifs/3.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/3.png"
     },
     {
       "name": "3d Smoking",
       "file": "3d-smoking.gif",
       "src": "templates/gifs/3d-smoking.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/3d-smoking.png"
     },
     {
       "name": "4",
       "file": "4.gif",
       "src": "templates/gifs/4.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/4.png"
     },
     {
       "name": "Aiming Bow And Arrow 1",
       "file": "aiming-bow-and-arrow-1.gif",
       "src": "templates/gifs/aiming-bow-and-arrow-1.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/aiming-bow-and-arrow-1.png"
     },
     {
       "name": "Aiming Bow And Arrow",
       "file": "aiming-bow-and-arrow.gif",
       "src": "templates/gifs/aiming-bow-and-arrow.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/aiming-bow-and-arrow.png"
     },
     {
       "name": "Animation Sticker",
       "file": "animation-sticker.gif",
       "src": "templates/gifs/animation-sticker.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/animation-sticker.png"
     },
     {
       "name": "Animation Ugh",
       "file": "animation-ugh.gif",
       "src": "templates/gifs/animation-ugh.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/animation-ugh.png"
     },
     {
       "name": "Cat Feels",
       "file": "cat-feels.gif",
       "src": "templates/gifs/cat-feels.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/cat-feels.png"
     },
     {
       "name": "Cry Crying",
       "file": "cry-crying.gif",
       "src": "templates/gifs/cry-crying.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/cry-crying.png"
     },
     {
       "name": "Dog Feels",
       "file": "dog-feels.gif",
       "src": "templates/gifs/dog-feels.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/dog-feels.png"
     },
     {
       "name": "Emo Pats",
       "file": "emo-pats.gif",
       "src": "templates/gifs/emo-pats.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/emo-pats.png"
     },
     {
       "name": "Emonad",
       "file": "emonad.gif",
       "src": "templates/gifs/emonad.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/emonad.png"
     },
     {
       "name": "Feels Rock Band",
       "file": "feels-rock-band.gif",
       "src": "templates/gifs/feels-rock-band.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/feels-rock-band.png"
     },
     {
       "name": "Fight Feels",
       "file": "fight-feels.gif",
       "src": "templates/gifs/fight-feels.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/fight-feels.png"
     },
     {
       "name": "Fly Plane",
       "file": "fly-plane.gif",
       "src": "templates/gifs/fly-plane.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/fly-plane.png"
     },
     {
       "name": "For You Crypto",
       "file": "for-you-crypto.gif",
       "src": "templates/gifs/for-you-crypto.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/for-you-crypto.png"
     },
     {
       "name": "Happy Mood",
       "file": "happy-mood.gif",
       "src": "templates/gifs/happy-mood.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/happy-mood.png"
     },
     {
       "name": "Love Letter Valentines",
       "file": "love-letter-valentines.gif",
       "src": "templates/gifs/love-letter-valentines.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/love-letter-valentines.png"
     },
     {
       "name": "Money Feels",
       "file": "money-feels.gif",
       "src": "templates/gifs/money-feels.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/money-feels.png"
     },
     {
       "name": "Mood Cooking",
       "file": "mood-cooking.gif",
       "src": "templates/gifs/mood-cooking.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/mood-cooking.png"
     },
     {
       "name": "Mood Feels 1",
       "file": "mood-feels-1.gif",
       "src": "templates/gifs/mood-feels-1.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/mood-feels-1.png"
     },
     {
       "name": "Mood Feels",
       "file": "mood-feels.gif",
       "src": "templates/gifs/mood-feels.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/mood-feels.png"
     },
     {
       "name": "Mood Rage 1",
       "file": "mood-rage-1.gif",
       "src": "templates/gifs/mood-rage-1.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/mood-rage-1.png"
     },
     {
       "name": "Mood Rage",
       "file": "mood-rage.gif",
       "src": "templates/gifs/mood-rage.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/mood-rage.png"
     },
     {
       "name": "On Fire Running",
       "file": "on-fire-running.gif",
       "src": "templates/gifs/on-fire-running.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/on-fire-running.png"
     },
     {
       "name": "Pew Pew Animation",
       "file": "pew-pew-animation.gif",
       "src": "templates/gifs/pew-pew-animation.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/pew-pew-animation.png"
     },
     {
       "name": "Pixel Feels",
       "file": "pixel-feels.gif",
       "src": "templates/gifs/pixel-feels.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/pixel-feels.png"
     },
     {
       "name": "Red Carpet Camera",
       "file": "red-carpet-camera.gif",
       "src": "templates/gifs/red-carpet-camera.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/red-carpet-camera.png"
     },
     {
       "name": "Sad Animation",
       "file": "sad-animation.gif",
       "src": "templates/gifs/sad-animation.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/sad-animation.png"
     },
     {
       "name": "Sad Fire",
       "file": "sad-fire.gif",
       "src": "templates/gifs/sad-fire.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/sad-fire.png"
     },
     {
       "name": "Sad Give Up",
       "file": "sad-give-up.gif",
       "src": "templates/gifs/sad-give-up.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/sad-give-up.png"
     },
     {
       "name": "Sad Mood 1",
       "file": "sad-mood-1.gif",
       "src": "templates/gifs/sad-mood-1.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/sad-mood-1.png"
     },
     {
       "name": "Sad Mood 2",
       "file": "sad-mood-2.gif",
       "src": "templates/gifs/sad-mood-2.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/sad-mood-2.png"
     },
     {
       "name": "Sad Mood 3",
       "file": "sad-mood-3.gif",
       "src": "templates/gifs/sad-mood-3.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/sad-mood-3.png"
     },
     {
       "name": "Sad Mood 4",
       "file": "sad-mood-4.gif",
       "src": "templates/gifs/sad-mood-4.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/sad-mood-4.png"
     },
     {
       "name": "Sad Mood",
       "file": "sad-mood.gif",
       "src": "templates/gifs/sad-mood.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/sad-mood.png"
     },
     {
       "name": "Sad Olive Garden 1",
       "file": "sad-olive-garden-1.gif",
       "src": "templates/gifs/sad-olive-garden-1.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/sad-olive-garden-1.png"
     },
     {
       "name": "Sad Olive Garden",
       "file": "sad-olive-garden.gif",
       "src": "templates/gifs/sad-olive-garden.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/sad-olive-garden.png"
     },
     {
       "name": "Scared Emo 1",
       "file": "scared-emo-1.gif",
       "src": "templates/gifs/scared-emo-1.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/scared-emo-1.png"
     },
     {
       "name": "Scared Emo",
       "file": "scared-emo.gif",
       "src": "templates/gifs/scared-emo.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/scared-emo.png"
     },
     {
       "name": "Valentines Day Crypto",
       "file": "valentines-day-crypto.gif",
       "src": "templates/gifs/valentines-day-crypto.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/valentines-day-crypto.png"
     },
     {
       "name": "Valentines Day Kiss",
       "file": "valentines-day-kiss.gif",
       "src": "templates/gifs/valentines-day-kiss.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/valentines-day-kiss.png"
     },
     {
       "name": "Walk Emo",
       "file": "walk-emo.gif",
       "src": "templates/gifs/walk-emo.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/walk-emo.png"
     },
     {
       "name": "Work Feels",
       "file": "work-feels.gif",
       "src": "templates/gifs/work-feels.gif",
-      "category": "gifs"
+      "category": "gifs",
+      "thumb": "templates/gifs/thumbs/work-feels.png"
     }
   ]
 }
