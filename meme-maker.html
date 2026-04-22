@@ -3709,6 +3709,80 @@ function hideGifProgress() {
   if (p) p.classList.remove('visible');
 }
 
+// Median-cut colour quantizer. gif.js's built-in NeuQuant analyses ONLY the
+// first frame when globalPalette=true, so a GIF that introduces new colours
+// in later frames gets those colours approximated (the subtle flicker you
+// can sometimes still see). Sampling pixels across every frame and handing
+// gif.js a pre-built palette makes every frame get an equally good match.
+function buildGlobalPaletteFromFrames(frames, numColors) {
+  numColors = numColors || 256;
+  // Sample ~2000 pixels per frame. For typical meme GIFs (40 frames, 480p),
+  // that's ~80k samples — plenty for a good median-cut split without being
+  // slow. Skip fully-transparent pixels.
+  const targetSamplesPerFrame = 2000;
+  const samples = [];
+  for (const f of frames) {
+    const d = f.imageData.data;
+    const pixelsInFrame = d.length / 4;
+    const stride = Math.max(1, Math.floor(pixelsInFrame / targetSamplesPerFrame)) * 4;
+    for (let i = 0; i < d.length; i += stride) {
+      if (d[i + 3] < 128) continue;
+      samples.push(d[i], d[i + 1], d[i + 2]);
+    }
+  }
+  if (!samples.length) {
+    // Degenerate input — let gif.js fall back to its default behaviour.
+    return null;
+  }
+  // Convert flat samples to [r,g,b] tuples for median cut.
+  const pixels = new Array(samples.length / 3);
+  for (let i = 0, j = 0; i < samples.length; i += 3, j++) {
+    pixels[j] = [samples[i], samples[i + 1], samples[i + 2]];
+  }
+  // Iteratively split the bucket with the widest colour-channel range,
+  // cutting at the median of that channel. Stops when we have numColors
+  // buckets or no bucket is big enough to split further.
+  let buckets = [pixels];
+  while (buckets.length < numColors) {
+    let targetIdx = -1, targetChan = 0, targetRange = 0;
+    for (let i = 0; i < buckets.length; i++) {
+      const b = buckets[i];
+      if (b.length < 2) continue;
+      let rMin = 255, rMax = 0, gMin = 255, gMax = 0, bMin = 255, bMax = 0;
+      for (const p of b) {
+        if (p[0] < rMin) rMin = p[0]; if (p[0] > rMax) rMax = p[0];
+        if (p[1] < gMin) gMin = p[1]; if (p[1] > gMax) gMax = p[1];
+        if (p[2] < bMin) bMin = p[2]; if (p[2] > bMax) bMax = p[2];
+      }
+      const ranges = [rMax - rMin, gMax - gMin, bMax - bMin];
+      for (let c = 0; c < 3; c++) {
+        if (ranges[c] > targetRange) {
+          targetRange = ranges[c]; targetIdx = i; targetChan = c;
+        }
+      }
+    }
+    if (targetIdx < 0) break;
+    const bucket = buckets[targetIdx];
+    bucket.sort((a, b) => a[targetChan] - b[targetChan]);
+    const mid = Math.floor(bucket.length / 2);
+    buckets[targetIdx] = bucket.slice(0, mid);
+    buckets.push(bucket.slice(mid));
+  }
+  // Average each bucket to produce the final palette colour.
+  const palette = new Uint8Array(numColors * 3);
+  for (let i = 0; i < numColors; i++) {
+    const b = buckets[i];
+    if (b && b.length) {
+      let r = 0, g = 0, bb = 0;
+      for (const p of b) { r += p[0]; g += p[1]; bb += p[2]; }
+      palette[i * 3]     = Math.round(r / b.length);
+      palette[i * 3 + 1] = Math.round(g / b.length);
+      palette[i * 3 + 2] = Math.round(bb / b.length);
+    } // else: remaining entries stay 0 (black) — doesn't hurt
+  }
+  return palette;
+}
+
 async function exportAnimatedGifBlob() {
   const frames = state.gifFrames;
   const W = state.gifWidth;
@@ -3728,12 +3802,16 @@ async function exportAnimatedGifBlob() {
   outCanvas.width = W; outCanvas.height = H;
   const octx = outCanvas.getContext('2d');
 
-  showGifProgress('Rendering frames…');
+  showGifProgress('Building palette…');
+  // Yield once so the progress overlay renders before we hog the thread.
+  await new Promise(r => setTimeout(r, 0));
+  const sharedPalette = buildGlobalPaletteFromFrames(frames, 256);
+  updateGifProgress(0.08, 'palette ready');
 
   const gif = new GIF({
     workers: 4,                // parallelise frame encoding
     workerScript: gifWorkerUrl,
-    quality: 1,                // 1 = best palette; samples every pixel instead of skipping
+    quality: 1,                // ignored when globalPalette is a pre-built array, kept for dither path
     width: W,
     height: H,
     transparent: null,
@@ -3742,9 +3820,10 @@ async function exportAnimatedGifBlob() {
     // palette entry. Snapping varies slightly frame-to-frame in flat
     // regions (which reads as subtle flicker); dithering eliminates that.
     dither: 'FloydSteinberg',
-    // Single shared palette across all frames so the encoder doesn't
-    // rebuild a palette per frame (another flicker source).
-    globalPalette: true,
+    // Hand gif.js an explicit 256-colour palette built from samples across
+    // ALL frames. The default globalPalette:true behaviour samples only
+    // frame 0, so new colours appearing later get poorly approximated.
+    globalPalette: sharedPalette || true,
   });
 
   for (let i = 0; i < frames.length; i++) {
@@ -3765,7 +3844,7 @@ async function exportAnimatedGifBlob() {
     octx.filter = 'none';
 
     gif.addFrame(outCanvas, { delay: f.delayMs, copy: true });
-    updateGifProgress(0.3 * (i + 1) / frames.length, 'rendering frame ' + (i + 1) + ' / ' + frames.length);
+    updateGifProgress(0.08 + 0.22 * (i + 1) / frames.length, 'rendering frame ' + (i + 1) + ' / ' + frames.length);
     // Yield to the UI so the progress bar updates and the tab stays responsive.
     if (i % 4 === 3) await new Promise(r => setTimeout(r, 0));
   }
