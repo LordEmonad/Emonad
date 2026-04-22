@@ -14,7 +14,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 TEMPLATES_DIR = os.path.join(ROOT, "templates")
-CATEGORIES = ["classic", "emo"]
+CATEGORIES = ["classic", "emo", "gifs"]
 IMG_RE = re.compile(r"\.(png|jpe?g|webp|gif|svg|avif)$", re.I)
 
 
