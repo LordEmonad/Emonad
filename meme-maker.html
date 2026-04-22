@@ -3553,15 +3553,19 @@ async function exportAnimatedGifBlob() {
   showGifProgress('Rendering frames…');
 
   const gif = new GIF({
-    workers: 4,              // parallelise frame encoding
+    workers: 4,                // parallelise frame encoding
     workerScript: gifWorkerUrl,
-    quality: 5,              // lower = finer palette (default 10); trade speed for sharper colour
+    quality: 1,                // 1 = best palette; samples every pixel instead of skipping
     width: W,
     height: H,
     transparent: null,
-    dither: false,           // keep off so overlay text/stickers stay crisp
-    // Single shared palette across all frames — eliminates the slight
-    // frame-to-frame colour drift that reads as flicker in plain backgrounds.
+    // Floyd-Steinberg error diffusion spreads quantisation error across
+    // neighbouring pixels instead of snapping each pixel to its nearest
+    // palette entry. Snapping varies slightly frame-to-frame in flat
+    // regions (which reads as subtle flicker); dithering eliminates that.
+    dither: 'FloydSteinberg',
+    // Single shared palette across all frames so the encoder doesn't
+    // rebuild a palette per frame (another flicker source).
     globalPalette: true,
   });
 
