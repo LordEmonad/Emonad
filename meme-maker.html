@@ -258,7 +258,7 @@
       user-drag: none;
     }
     /* Filter overlays — their opacity is driven by state.filters.{noise,vignette}. */
-    .stage-noise, .stage-vignette {
+    .stage-noise, .stage-vignette, .stage-scanlines {
       position: absolute;
       inset: 0;
       pointer-events: none;
@@ -273,6 +273,18 @@
     }
     .stage-vignette {
       background: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,1) 100%);
+    }
+    .stage-scanlines {
+      /* CRT/VHS horizontal lines. Density via repeating-linear-gradient; the
+         opacity of the overlay scales the effect strength. */
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.55) 0px,
+        rgba(0,0,0,0.55) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      mix-blend-mode: multiply;
     }
 
     .layer {
@@ -840,6 +852,67 @@
       border-color: var(--accent);
       color: #fff;
     }
+    .filter-section {
+      border-top: 1px solid var(--surface-border);
+    }
+    .filter-section:first-child { border-top: 0; }
+    .filter-section-head {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 2px;
+      background: transparent;
+      border: 0;
+      color: var(--text-muted);
+      cursor: pointer;
+      text-align: left;
+    }
+    .filter-section-head .name {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+    .filter-section-head .arrow {
+      font-size: 10px;
+      opacity: 0.6;
+      transition: transform 0.18s ease;
+      display: inline-block;
+    }
+    .filter-section.open .filter-section-head .arrow { transform: rotate(90deg); }
+    .filter-section-head:hover { color: var(--text-color); }
+    .filter-section-body {
+      display: none;
+      padding: 2px 0 10px;
+    }
+    .filter-section.open .filter-section-body { display: block; }
+    .filter-select-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .filter-select-row .fs-label {
+      flex: 0 0 86px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      color: var(--text-secondary);
+    }
+    .filter-select-row select {
+      flex: 1;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--surface-border);
+      background: rgba(0,0,0,0.35);
+      color: var(--text-color);
+      font: inherit;
+      font-size: 12px;
+      outline: none;
+    }
+    .filter-select-row select:focus { border-color: var(--accent); }
     .filter-slider-row {
       display: flex;
       align-items: center;
@@ -1119,6 +1192,39 @@
   </style>
 </head>
 <body>
+  <!-- SVG filter defs used by both the live stage preview (via CSS filter:
+       url(#..)) and the canvas export (via ctx.filter = 'url(#..)'). JS updates
+       attribute values as sliders move. Kept offscreen but must stay in the
+       rendered document for ctx.filter to resolve the url references. -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true"
+       style="position:absolute;width:0;height:0;pointer-events:none;overflow:hidden">
+    <defs>
+      <filter id="emoTemperature" color-interpolation-filters="sRGB">
+        <feColorMatrix id="emoTemperatureMatrix" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
+      </filter>
+      <filter id="emoFade" color-interpolation-filters="sRGB">
+        <feComponentTransfer>
+          <feFuncR id="emoFadeR" type="linear" slope="1" intercept="0"/>
+          <feFuncG id="emoFadeG" type="linear" slope="1" intercept="0"/>
+          <feFuncB id="emoFadeB" type="linear" slope="1" intercept="0"/>
+        </feComponentTransfer>
+      </filter>
+      <filter id="emoSharpen" color-interpolation-filters="sRGB">
+        <feConvolveMatrix id="emoSharpenMatrix" order="3" preserveAlpha="true" kernelMatrix="0 0 0  0 1 0  0 0 0"/>
+      </filter>
+      <!-- Chromatic aberration: splits R and B channels horizontally. Offsets
+           are updated from JS. -->
+      <filter id="emoChromatic" color-interpolation-filters="sRGB" x="-10%" y="-10%" width="120%" height="120%">
+        <feColorMatrix in="SourceGraphic" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="rc"/>
+        <feOffset id="emoChromaticROffset" in="rc" dx="0" dy="0" result="r"/>
+        <feColorMatrix in="SourceGraphic" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="bc"/>
+        <feOffset id="emoChromaticBOffset" in="bc" dx="0" dy="0" result="b"/>
+        <feColorMatrix in="SourceGraphic" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+        <feBlend in="r" in2="g" mode="screen" result="rg"/>
+        <feBlend in="rg" in2="b" mode="screen"/>
+      </filter>
+    </defs>
+  </svg>
 
   <div class="topbar">
     <a href="emo.html" class="back-link" aria-label="Back to Emoverse">
@@ -1158,10 +1264,11 @@
         <div class="stage" id="stage">
           <img class="stage-bg" id="stageBg" alt="">
           <!-- layers get inserted here -->
-          <!-- Noise + vignette overlays sit above layers, below selector,
-               via syncLayerDom re-appending them after each layer change. -->
+          <!-- Filter overlays sit above layers, below selector, via
+               syncLayerDom re-appending them after each layer change. -->
           <div class="stage-noise" id="stageNoise" aria-hidden="true"></div>
           <div class="stage-vignette" id="stageVignette" aria-hidden="true"></div>
+          <div class="stage-scanlines" id="stageScanlines" aria-hidden="true"></div>
           <div class="selector" id="selector" aria-hidden="true">
             <button class="del-btn" id="delBtn" aria-label="Delete selected">&times;</button>
             <div class="handle rot" data-handle="rot" aria-hidden="true"></div>
@@ -1348,12 +1455,21 @@ function toast(msg) {
 
 // ───────────── State ─────────────
 const DEFAULT_FILTERS = Object.freeze({
+  // CSS filter functions (native — brightness..invert).
   brightness: 1, contrast: 1, saturate: 1, hueRotate: 0,
   blur: 0, grayscale: 0, sepia: 0, invert: 0,
-  // Pixel-op effects (noise, vignette) live as DOM overlays in the stage for
-  // live preview, and are baked into the canvas on export. They are applied
-  // BEFORE the CSS filter stack so deep-fry noise gets amplified by contrast/sat.
-  noise: 0, vignette: 0,
+  // SVG-backed colour/tone/effect filters. Values default to no-op; the SVG
+  // <filter> elements in the DOM get their attributes updated from JS when
+  // these change. The CSS filter chain only includes url(#..) refs when the
+  // value is non-default, so a bypassed filter costs nothing at runtime.
+  temperature: 0,  // -100 cool/blue to +100 warm/orange
+  fade: 0,         // 0..1 — lifts blacks + softens contrast (VSCO/film look)
+  sharpen: 0,      // 0..1 — unsharp-mask amount
+  chromatic: 0,    // 0..20 px — RGB channel offset (glitch/VHS)
+  // DOM-overlay effects — rendered above layers, below selector. Baked into
+  // the canvas on export. Applied BEFORE the CSS filter chain so deep-fry
+  // noise gets dyed by contrast/saturate.
+  noise: 0, vignette: 0, scanlines: 0,
 });
 const state = {
   layers: [],          // {id,type,el,x,y,w,h,rot, ...type-specific}
@@ -1369,25 +1485,73 @@ const state = {
   filters: { ...DEFAULT_FILTERS },
 };
 
+// Push the current filter values into the SVG <filter> elements. The SVG
+// filter chain then reflects the chosen temperature/fade/sharpen/chromatic
+// strengths; url(#..) refs in the CSS filter chain pick those up live.
+function updateSvgFilters(f) {
+  // Temperature — shift red up / blue down (warm) or red down / blue up (cool).
+  const t = (f.temperature || 0) / 100;              // -1 to 1
+  const tR = (t * 0.15).toFixed(3);                  // add/subtract red
+  const tB = (-t * 0.15).toFixed(3);                 // opposite for blue
+  const tempMat = document.getElementById('emoTemperatureMatrix');
+  if (tempMat) tempMat.setAttribute('values',
+    '1 0 0 0 ' + tR + '  0 1 0 0 0  0 0 1 0 ' + tB + '  0 0 0 1 0');
+
+  // Fade — lift blacks (positive intercept), reduce contrast (slope < 1).
+  const fd = f.fade || 0;
+  const slope = (1 - fd * 0.35).toFixed(3);
+  const intercept = (fd * 0.15).toFixed(3);
+  ['emoFadeR','emoFadeG','emoFadeB'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.setAttribute('slope', slope); el.setAttribute('intercept', intercept); }
+  });
+
+  // Sharpen — unsharp-mask kernel scaled by amount. sum stays at 1 so output
+  // brightness doesn't shift: center = 1 + 4a, edges = -a.
+  const s = f.sharpen || 0;
+  const center = (1 + 4 * s).toFixed(3);
+  const edge = (-s).toFixed(3);
+  const sharpMat = document.getElementById('emoSharpenMatrix');
+  if (sharpMat) sharpMat.setAttribute('kernelMatrix',
+    '0 ' + edge + ' 0  ' + edge + ' ' + center + ' ' + edge + '  0 ' + edge + ' 0');
+
+  // Chromatic aberration — R offset right, B offset left.
+  const c = f.chromatic || 0;
+  const rOff = document.getElementById('emoChromaticROffset');
+  const bOff = document.getElementById('emoChromaticBOffset');
+  if (rOff) rOff.setAttribute('dx', c);
+  if (bOff) bOff.setAttribute('dx', -c);
+}
+
 function buildFilterString(f) {
   const parts = [];
-  if (f.brightness !== 1) parts.push(`brightness(${f.brightness})`);
-  if (f.contrast !== 1) parts.push(`contrast(${f.contrast})`);
-  if (f.saturate !== 1) parts.push(`saturate(${f.saturate})`);
-  if (f.hueRotate !== 0) parts.push(`hue-rotate(${f.hueRotate}deg)`);
-  if (f.blur !== 0) parts.push(`blur(${f.blur}px)`);
-  if (f.grayscale !== 0) parts.push(`grayscale(${f.grayscale})`);
-  if (f.sepia !== 0) parts.push(`sepia(${f.sepia})`);
-  if (f.invert !== 0) parts.push(`invert(${f.invert})`);
+  // SVG-backed colour/tone/effect filters come first so subsequent CSS
+  // adjustments (brightness/contrast/etc) operate on the corrected image.
+  if (f.temperature && f.temperature !== 0) parts.push('url(#emoTemperature)');
+  if (f.fade && f.fade > 0) parts.push('url(#emoFade)');
+  if (f.sharpen && f.sharpen > 0) parts.push('url(#emoSharpen)');
+  // Chromatic goes near the end so other colour ops don't distort it further.
+  // Native CSS filter functions
+  if (f.brightness !== 1) parts.push('brightness(' + f.brightness + ')');
+  if (f.contrast !== 1) parts.push('contrast(' + f.contrast + ')');
+  if (f.saturate !== 1) parts.push('saturate(' + f.saturate + ')');
+  if (f.hueRotate !== 0) parts.push('hue-rotate(' + f.hueRotate + 'deg)');
+  if (f.blur !== 0) parts.push('blur(' + f.blur + 'px)');
+  if (f.grayscale !== 0) parts.push('grayscale(' + f.grayscale + ')');
+  if (f.sepia !== 0) parts.push('sepia(' + f.sepia + ')');
+  if (f.invert !== 0) parts.push('invert(' + f.invert + ')');
+  if (f.chromatic && f.chromatic > 0) parts.push('url(#emoChromatic)');
   return parts.length ? parts.join(' ') : 'none';
 }
 function applyFiltersToStage() {
   applyFiltersTo(state.filters);
 }
 function applyFiltersTo(f) {
+  updateSvgFilters(f);
   stage.style.filter = buildFilterString(f);
   stageNoise.style.opacity = f.noise;
   stageVignette.style.opacity = f.vignette;
+  stageScanlines.style.opacity = f.scanlines;
 }
 
 const stage = document.getElementById('stage');
@@ -1395,6 +1559,7 @@ const stageWrap = document.getElementById('stageWrap');
 const stageBg = document.getElementById('stageBg');
 const stageNoise = document.getElementById('stageNoise');
 const stageVignette = document.getElementById('stageVignette');
+const stageScanlines = document.getElementById('stageScanlines');
 const drop = document.getElementById('drop');
 const fileInput = document.getElementById('fileInput');
 const toolbar = document.getElementById('toolbar');
@@ -1546,6 +1711,7 @@ function addLayerEl(l) {
   // Keep filter overlays above layers and the selector above everything.
   stage.appendChild(stageNoise);
   stage.appendChild(stageVignette);
+  stage.appendChild(stageScanlines);
   stage.appendChild(selector);
   applyLayerTransform(l);
 }
@@ -1595,6 +1761,7 @@ function syncLayerDom() {
   // overlays, and handles stay visible on top of everything.
   stage.appendChild(stageNoise);
   stage.appendChild(stageVignette);
+  stage.appendChild(stageScanlines);
   stage.appendChild(selector);
 }
 
@@ -2381,27 +2548,62 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && templateOv
 // than the full-width of a text layer.
 const EMOJI_FONT = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",system-ui,sans-serif';
 
+// Rasterize an emoji to a data URL, cropped to the glyph's actual painted
+// extent. Using this as a sticker image (instead of a text layer) avoids all
+// the font-metrics / asymmetric-em-box issues that caused emoji to render
+// off-centre inside the selector frame and drift on canvas export.
+function emojiToDataUrl(emoji) {
+  const fs = 256;
+  const buf = 400;                    // enough headroom for any single-glyph extent
+  const c = document.createElement('canvas');
+  c.width = buf; c.height = buf;
+  const cx = c.getContext('2d');
+  cx.font = '400 ' + fs + 'px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",system-ui,sans-serif';
+  cx.textAlign = 'center';
+  cx.textBaseline = 'middle';
+  cx.fillText(emoji, buf / 2, buf / 2);
+  let data;
+  try { data = cx.getImageData(0, 0, buf, buf).data; }
+  catch (e) { return null; }          // should never throw — no cross-origin data was drawn
+  // Find alpha bbox.
+  let minX = buf, minY = buf, maxX = -1, maxY = -1;
+  for (let y = 0; y < buf; y++) {
+    for (let x = 0; x < buf; x++) {
+      if (data[(y * buf + x) * 4 + 3] > 8) {
+        if (x < minX) minX = x;
+        if (y < minY) minY = y;
+        if (x > maxX) maxX = x;
+        if (y > maxY) maxY = y;
+      }
+    }
+  }
+  if (maxX < 0) return null;          // nothing rendered (unknown emoji on this system)
+  // Small transparent margin so the sticker doesn't butt right up to the edge.
+  const pad = Math.round(fs * 0.04);
+  const sx = Math.max(0, minX - pad);
+  const sy = Math.max(0, minY - pad);
+  const sw = Math.min(buf - sx, (maxX - minX + 1) + pad * 2);
+  const sh = Math.min(buf - sy, (maxY - minY + 1) + pad * 2);
+  const out = document.createElement('canvas');
+  out.width = sw; out.height = sh;
+  out.getContext('2d').drawImage(c, sx, sy, sw, sh, 0, 0, sw, sh);
+  return { url: out.toDataURL('image/png'), w: sw, h: sh };
+}
+
 function addEmojiLayer(emoji) {
+  const result = emojiToDataUrl(emoji);
+  if (!result) { toast('Could not render that emoji'); return; }
   const r = stageRect();
-  const size = Math.min(r.width * 0.28, r.height * 0.35, 260);
-  const l = createTextLayer({
-    text: emoji,
-    fontFamily: EMOJI_FONT,
-    fontSize: Math.round(size * 0.85),
-    strokeWidth: 0,
-    upper: false,
-    color: '#000000',
-    w: size,
-    h: size,
-    x: (r.width - size) / 2,
-    y: (r.height - size) / 2,
-  });
-  // createTextLayer runs autosizeText, which snaps h to the measured text
-  // height (~fontSize × line-height). That leaves the layer taller/shorter
-  // than wide for a single glyph. Force back to a perfect square so the
-  // canvas export draws the emoji centered inside a consistent box.
-  l.w = size;
-  l.h = size;
+  const target = Math.min(r.width * 0.28, r.height * 0.35, 260);
+  const aspect = result.h / result.w;
+  // Create the sticker and pin its display size. createStickerLayer's
+  // applyAspect (on img.onload) will land on the same aspect ratio because
+  // we pass it a same-aspect rendered image, so it won't fight our values.
+  const l = createStickerLayer(result.url);
+  l.w = target;
+  l.h = target * aspect;
+  l.x = (r.width - l.w) / 2;
+  l.y = (r.height - l.h) / 2;
   applyLayerTransform(l);
   setSelected(l.id);
   pushHistory();
@@ -2516,30 +2718,71 @@ if (emojiSearchInput) {
 // filter applied live. On Apply, state.filters is updated and both the stage
 // (live) and canvas export (via ctx.filter) reflect the new settings.
 const FILTER_PRESETS = {
-  'Deep Fry':  { contrast: 2,    saturate: 3.2, brightness: 1.15, noise: 0.35 },
-  'Glitch':    { contrast: 1.5,  saturate: 1.6, hueRotate: 30,    noise: 0.25 },
-  'VHS':       { contrast: 1.1,  saturate: 0.85, hueRotate: 15,   noise: 0.15, vignette: 0.25 },
-  'Emo B&W':   { grayscale: 1,   contrast: 1.35, vignette: 0.35 },
-  'Dream':     { blur: 2.5,      brightness: 1.15, saturate: 1.3 },
-  'Faded':     { contrast: 0.82, sepia: 0.55, blur: 0.5, vignette: 0.2 },
-  'Neon':      { contrast: 1.3,  saturate: 3.8, hueRotate: 60, brightness: 1.05 },
-  'Sunset':    { contrast: 1.1,  saturate: 1.5, sepia: 0.35, hueRotate: 345 },
-  'Old Photo': { contrast: 0.95, sepia: 0.85, blur: 0.4, vignette: 0.45, noise: 0.1 },
+  'Deep Fry':  { contrast: 2.1,  saturate: 3.3, brightness: 1.15, noise: 0.38, sharpen: 0.4, chromatic: 2 },
+  'Glitch':    { contrast: 1.5,  saturate: 1.6, hueRotate: 30,    noise: 0.2,  chromatic: 7, scanlines: 0.25 },
+  'VHS':       { contrast: 1.1,  saturate: 0.85, hueRotate: 15,   noise: 0.15, vignette: 0.25, scanlines: 0.45, chromatic: 3 },
+  'CRT':       { contrast: 1.15, saturate: 1.2,  brightness: 0.95, scanlines: 0.7,  chromatic: 4, vignette: 0.2 },
+  'Emo B&W':   { grayscale: 1,   contrast: 1.35, vignette: 0.4, fade: 0.12 },
+  'Cinematic': { contrast: 1.2,  saturate: 1.1,  fade: 0.2,  vignette: 0.35, sharpen: 0.25, temperature: 12 },
+  'Dream':     { blur: 2.5,      brightness: 1.12, saturate: 1.3, fade: 0.22 },
+  'Faded':     { contrast: 0.82, sepia: 0.45, blur: 0.4, vignette: 0.22, fade: 0.45 },
+  'Neon':      { contrast: 1.3,  saturate: 3.8, hueRotate: 60, brightness: 1.05, sharpen: 0.45 },
+  'Sunset':    { contrast: 1.1,  saturate: 1.5, sepia: 0.3, temperature: 55 },
+  'Old Photo': { contrast: 0.95, sepia: 0.85, blur: 0.35, vignette: 0.5, noise: 0.12, fade: 0.3, temperature: 25 },
+  'Cold':      { temperature: -55, contrast: 1.1, saturate: 0.9 },
+  'Warm':      { temperature: 45,  saturate: 1.25, brightness: 1.04 },
   'Invert':    { invert: 1 },
   'Clear':     {},
 };
-const FILTER_SLIDERS = [
-  { key: 'brightness', label: 'Brightness', min: 0.2, max: 2.5, step: 0.05, format: v => v.toFixed(2) },
-  { key: 'contrast',   label: 'Contrast',   min: 0.2, max: 3,   step: 0.05, format: v => v.toFixed(2) },
-  { key: 'saturate',   label: 'Saturation', min: 0,   max: 5,   step: 0.05, format: v => v.toFixed(2) },
-  { key: 'hueRotate',  label: 'Hue',        min: 0,   max: 360, step: 1,    format: v => Math.round(v) + '°' },
-  { key: 'blur',       label: 'Blur',       min: 0,   max: 20,  step: 0.5,  format: v => v.toFixed(1) + 'px' },
-  { key: 'noise',      label: 'Noise',      min: 0,   max: 1,   step: 0.02, format: v => Math.round(v * 100) + '%' },
-  { key: 'vignette',   label: 'Vignette',   min: 0,   max: 1,   step: 0.02, format: v => Math.round(v * 100) + '%' },
-  { key: 'grayscale',  label: 'B&W',        min: 0,   max: 1,   step: 0.05, format: v => Math.round(v * 100) + '%' },
-  { key: 'sepia',      label: 'Sepia',      min: 0,   max: 1,   step: 0.05, format: v => Math.round(v * 100) + '%' },
-  { key: 'invert',     label: 'Invert',     min: 0,   max: 1,   step: 0.05, format: v => Math.round(v * 100) + '%' },
+// Controls grouped into sections. Each section collapses independently so the
+// panel never shows more knobs than the user is currently thinking about.
+const pct = v => Math.round(v * 100) + '%';
+const fix2 = v => v.toFixed(2);
+const FILTER_SECTIONS = [
+  {
+    name: 'Basic',
+    open: true,
+    controls: [
+      { type: 'slider', key: 'brightness',  label: 'Brightness',  min: 0.2,  max: 2.5, step: 0.05, format: fix2 },
+      { type: 'slider', key: 'contrast',    label: 'Contrast',    min: 0.2,  max: 3,   step: 0.05, format: fix2 },
+      { type: 'slider', key: 'saturate',    label: 'Saturation',  min: 0,    max: 5,   step: 0.05, format: fix2 },
+      { type: 'slider', key: 'temperature', label: 'Temperature', min: -100, max: 100, step: 1,    format: v => (v > 0 ? '+' : '') + Math.round(v) },
+      { type: 'slider', key: 'hueRotate',   label: 'Hue',         min: 0,    max: 360, step: 1,    format: v => Math.round(v) + '°' },
+      { type: 'slider', key: 'fade',        label: 'Fade',        min: 0,    max: 1,   step: 0.02, format: pct },
+    ],
+  },
+  {
+    name: 'Detail',
+    open: false,
+    controls: [
+      { type: 'slider', key: 'sharpen', label: 'Sharpen', min: 0, max: 1,  step: 0.02, format: pct },
+      { type: 'slider', key: 'blur',    label: 'Blur',    min: 0, max: 20, step: 0.5,  format: v => v.toFixed(1) + 'px' },
+    ],
+  },
+  {
+    name: 'Effects',
+    open: false,
+    controls: [
+      { type: 'slider', key: 'noise',     label: 'Noise',     min: 0, max: 1,  step: 0.02, format: pct },
+      { type: 'slider', key: 'vignette',  label: 'Vignette',  min: 0, max: 1,  step: 0.02, format: pct },
+      { type: 'slider', key: 'scanlines', label: 'Scanlines', min: 0, max: 1,  step: 0.02, format: pct },
+      { type: 'slider', key: 'chromatic', label: 'Chromatic', min: 0, max: 20, step: 0.5,  format: v => v.toFixed(1) + 'px' },
+    ],
+  },
+  {
+    name: 'Color Style',
+    open: false,
+    controls: [
+      { type: 'slider', key: 'grayscale', label: 'B&W',    min: 0, max: 1, step: 0.05, format: pct },
+      { type: 'slider', key: 'sepia',     label: 'Sepia',  min: 0, max: 1, step: 0.05, format: pct },
+      { type: 'slider', key: 'invert',    label: 'Invert', min: 0, max: 1, step: 0.05, format: pct },
+    ],
+  },
 ];
+// Flat lookup of every numeric slider — still used by preset diffing and by
+// the reset-all helper.
+const FILTER_SLIDERS = FILTER_SECTIONS.flatMap(s => s.controls.filter(c => c.type === 'slider'));
+const FILTER_CONTROLS = FILTER_SECTIONS.flatMap(s => s.controls);
 
 const filterOverlay = document.getElementById('filterOverlay');
 const filterPresetsEl = document.getElementById('filterPresets');
@@ -2550,7 +2793,7 @@ let filtersOnOpen = { ...DEFAULT_FILTERS };  // snapshot so Cancel can revert
 let filterSavedScrollY = 0;
 
 function filtersEqual(a, b) {
-  return FILTER_SLIDERS.every(d => a[d.key] === b[d.key]);
+  return Object.keys(DEFAULT_FILTERS).every(k => a[k] === b[k]);
 }
 function applyTempFilters() {
   // Live preview = the stage itself. Pushing tempFilters onto stage.style.filter
@@ -2568,13 +2811,70 @@ function applyTempFilters() {
   });
 }
 function syncFilterSliders() {
-  FILTER_SLIDERS.forEach(def => {
+  FILTER_CONTROLS.forEach(def => {
     const input = document.getElementById('fs_' + def.key);
-    const val = document.getElementById('fv_' + def.key);
-    if (input) input.value = tempFilters[def.key];
-    if (val) val.textContent = def.format(tempFilters[def.key]);
+    if (!input) return;
+    input.value = tempFilters[def.key];
+    if (def.type === 'slider') {
+      const val = document.getElementById('fv_' + def.key);
+      if (val) val.textContent = def.format(tempFilters[def.key]);
+    }
   });
 }
+
+function buildSliderRow(def) {
+  const row = document.createElement('div');
+  row.className = 'filter-slider-row';
+  row.innerHTML =
+    '<span class="fs-label">' + def.label + '</span>' +
+    '<input type="range" id="fs_' + def.key + '" min="' + def.min + '" max="' + def.max + '" step="' + def.step + '">' +
+    '<span class="fs-value" id="fv_' + def.key + '"></span>';
+  const input = row.querySelector('input');
+  const val = row.querySelector('.fs-value');
+  input.addEventListener('input', () => {
+    tempFilters[def.key] = parseFloat(input.value);
+    val.textContent = def.format(tempFilters[def.key]);
+    applyTempFilters();
+  });
+  return row;
+}
+function buildSelectRow(def) {
+  const row = document.createElement('div');
+  row.className = 'filter-select-row';
+  const opts = def.options.map(o => '<option value="' + o[0] + '">' + o[1] + '</option>').join('');
+  row.innerHTML =
+    '<span class="fs-label">' + def.label + '</span>' +
+    '<select id="fs_' + def.key + '">' + opts + '</select>';
+  const input = row.querySelector('select');
+  input.addEventListener('change', () => {
+    tempFilters[def.key] = input.value;
+    applyTempFilters();
+  });
+  return row;
+}
+
+// Pull sections with at least one non-default value to the top of the panel
+// and expand them; push the rest down and collapse. Called after preset
+// click and on modal open. User can still toggle sections manually after.
+function reorderSectionsForActive() {
+  const children = Array.from(filterSlidersEl.children);
+  const bySection = new Map();
+  children.forEach(el => bySection.set(el.dataset.name, el));
+  const active = [];
+  const inactive = [];
+  FILTER_SECTIONS.forEach(section => {
+    const el = bySection.get(section.name);
+    if (!el) return;
+    const isActive = section.controls.some(c =>
+      tempFilters[c.key] !== DEFAULT_FILTERS[c.key]
+    );
+    if (isActive) active.push(el); else inactive.push(el);
+  });
+  filterSlidersEl.innerHTML = '';
+  active.forEach(el => { el.classList.add('open'); filterSlidersEl.appendChild(el); });
+  inactive.forEach(el => { el.classList.remove('open'); filterSlidersEl.appendChild(el); });
+}
+
 function buildFilterUi() {
   // Presets
   filterPresetsEl.innerHTML = '';
@@ -2586,28 +2886,37 @@ function buildFilterUi() {
     b.textContent = name;
     b.addEventListener('click', () => {
       tempFilters = { ...DEFAULT_FILTERS, ...FILTER_PRESETS[name] };
+      // Surface whatever sliders this preset actually touches — move those
+      // sections to the top of the panel and expand them, collapse the rest.
+      reorderSectionsForActive();
       syncFilterSliders();
       applyTempFilters();
     });
     filterPresetsEl.appendChild(b);
   });
-  // Sliders
+
+  // Sectioned controls
   filterSlidersEl.innerHTML = '';
-  FILTER_SLIDERS.forEach(def => {
-    const row = document.createElement('div');
-    row.className = 'filter-slider-row';
-    row.innerHTML =
-      '<span class="fs-label">' + def.label + '</span>' +
-      '<input type="range" id="fs_' + def.key + '" min="' + def.min + '" max="' + def.max + '" step="' + def.step + '">' +
-      '<span class="fs-value" id="fv_' + def.key + '"></span>';
-    filterSlidersEl.appendChild(row);
-    const input = row.querySelector('input');
-    const val = row.querySelector('.fs-value');
-    input.addEventListener('input', () => {
-      tempFilters[def.key] = parseFloat(input.value);
-      val.textContent = def.format(tempFilters[def.key]);
-      applyTempFilters();
+  FILTER_SECTIONS.forEach(section => {
+    const sec = document.createElement('div');
+    sec.className = 'filter-section' + (section.open ? ' open' : '');
+    sec.dataset.name = section.name;
+    const head = document.createElement('button');
+    head.type = 'button';
+    head.className = 'filter-section-head';
+    head.innerHTML =
+      '<span class="name">' + section.name + '</span>' +
+      '<span class="arrow" aria-hidden="true">▸</span>';
+    head.addEventListener('click', () => sec.classList.toggle('open'));
+    sec.appendChild(head);
+
+    const body = document.createElement('div');
+    body.className = 'filter-section-body';
+    section.controls.forEach(ctrl => {
+      body.appendChild(ctrl.type === 'select' ? buildSelectRow(ctrl) : buildSliderRow(ctrl));
     });
+    sec.appendChild(body);
+    filterSlidersEl.appendChild(sec);
   });
 }
 buildFilterUi();
@@ -2617,6 +2926,7 @@ function openFilterModal() {
   filtersOnOpen = { ...state.filters };
   tempFilters = { ...state.filters };
   syncFilterSliders();
+  reorderSectionsForActive();
   applyTempFilters();  // mirrors state.filters onto stage (no-op if already there)
   filterOverlay.classList.add('visible');
   filterOverlay.setAttribute('aria-hidden', 'false');
@@ -2839,9 +3149,23 @@ function drawMemeLayersTo(ctx, scale) {
       }
     } else if (l.type === 'text') {
       const fs = l.fontSize * scale;
-      ctx.font = `${l.fontWeight} ${fs}px ${l.fontFamily}`;
+      // Colour-emoji fonts only ship at weight 400. CSS fuzzy-matches in the
+      // DOM so weight 700 still picks the emoji glyph, but canvas ctx.font is
+      // stricter and can silently fall through to a generic text font which
+      // shifts advance widths. Force weight 400 when rendering an emoji layer
+      // so canvas uses the same font the DOM uses.
+      const isEmojiLayer = typeof l.fontFamily === 'string' && l.fontFamily.indexOf('Color Emoji') !== -1;
+      const weight = isEmojiLayer ? 400 : l.fontWeight;
+      ctx.font = `${weight} ${fs}px ${l.fontFamily}`;
       ctx.textAlign = l.align;
-      ctx.textBaseline = 'middle';
+      // Match DOM flex-centering precisely: CSS positions the baseline at
+      // `lineBoxTop + halfLeading + fontAscent`, i.e. `fontAscent - fs/2`
+      // below the line-box centre. Using per-glyph actualBoundingBox* is
+      // WRONG for emoji — it centres the glyph's visual bbox instead of
+      // the em-box, which is not what the DOM does. fontBoundingBox* is
+      // a font-level metric (not glyph-specific) and gives us the same
+      // layout the browser uses for text flow.
+      ctx.textBaseline = 'alphabetic';
       ctx.fillStyle = l.color;
       ctx.strokeStyle = l.stroke;
       ctx.lineWidth = l.strokeWidth * scale * 2;
@@ -2856,8 +3180,15 @@ function drawMemeLayersTo(ctx, scale) {
       if (l.align === 'left') xAlign = -lw/2 + 6*scale;
       else if (l.align === 'right') xAlign = lw/2 - 6*scale;
       for (const line of lines) {
-        if (l.strokeWidth > 0) ctx.strokeText(line, xAlign, y);
-        ctx.fillText(line, xAlign, y);
+        // Read the font's ascent so we can place the baseline the same
+        // place DOM would. fontBoundingBoxAscent is supported across all
+        // modern browsers; if missing, approximate with 0.78 * fs which
+        // matches most emoji/text fonts' sTypoAscender ratio.
+        const m = ctx.measureText(line);
+        const fontAsc = isFinite(m.fontBoundingBoxAscent) ? m.fontBoundingBoxAscent : fs * 0.78;
+        const yBase = y + fontAsc - fs / 2;
+        if (l.strokeWidth > 0) ctx.strokeText(line, xAlign, yBase);
+        ctx.fillText(line, xAlign, yBase);
         y += lineH;
       }
     }
@@ -2891,6 +3222,21 @@ function applyVignetteToCtx(ctx, w, h, amount) {
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, w, h);
 }
+function applyScanlinesToCtx(ctx, w, h, amount) {
+  // Dark horizontal lines every 3px. Line opacity scales with amount so the
+  // effect ranges from barely-there to CRT-heavy.
+  ctx.save();
+  ctx.globalCompositeOperation = 'multiply';
+  ctx.fillStyle = 'rgba(0,0,0,' + (amount * 0.55).toFixed(3) + ')';
+  // Lines are 1px tall, 2px gap. Scale to canvas resolution so the texture
+  // reads the same regardless of export size.
+  const lineEvery = Math.max(3, Math.round(h / 480));
+  const lineThickness = Math.max(1, Math.round(lineEvery / 3));
+  for (let y = 0; y < h; y += lineEvery) {
+    ctx.fillRect(0, y, w, lineThickness);
+  }
+  ctx.restore();
+}
 
 function renderCanvas(options) {
   options = options || {};
@@ -2912,14 +3258,15 @@ function renderCanvas(options) {
 
   const f = state.filters;
   const skipFilters = !!options.skipFilters;
-  const hasPixelOps = !skipFilters && (f.noise > 0 || f.vignette > 0);
+  const hasOverlay = !skipFilters && (f.noise > 0 || f.vignette > 0 || f.scanlines > 0);
 
-  if (hasPixelOps) {
-    // Live preview composites bg + layers + noise + vignette FIRST, then the
-    // CSS filter stack applies on top of that composite. We mirror that order
-    // on export by drawing to a temp canvas, overlaying noise/vignette, then
-    // blitting into the final canvas with ctx.filter set so colour ops apply
-    // to the whole stack (noise pixels get dyed by hue/saturate, etc.).
+  if (hasOverlay) {
+    // Live preview composites bg + layers + overlays (noise/vignette/scan)
+    // FIRST, then the CSS/SVG filter stack applies on top of that composite.
+    // We mirror that order on export by drawing to a temp canvas, stacking
+    // the overlays, then blitting to the final canvas with ctx.filter set
+    // so colour ops (temperature, contrast, saturate, etc.) apply to the
+    // whole stack — noise pixels get dyed, scanlines darken with shadows.
     const temp = document.createElement('canvas');
     temp.width = W; temp.height = H;
     const tctx = temp.getContext('2d');
@@ -2929,6 +3276,7 @@ function renderCanvas(options) {
     drawMemeLayersTo(tctx, scale);
     if (f.noise > 0) applyNoiseToCtx(tctx, W, H, f.noise);
     if (f.vignette > 0) applyVignetteToCtx(tctx, W, H, f.vignette);
+    if (f.scanlines > 0) applyScanlinesToCtx(tctx, W, H, f.scanlines);
     ctx.filter = buildFilterString(f);
     ctx.drawImage(temp, 0, 0);
   } else {
