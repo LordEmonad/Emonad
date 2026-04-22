@@ -32,6 +32,7 @@
   <!-- Manifests (script tags work under file:// unlike fetch) -->
   <script src="stickers/stickers.js?v=68daef0273"></script>
   <script src="templates/templates.js?v=a4b5c64915"></script>
+  <script src="emojis.js"></script>
   <style>
     /* Self-hosted fonts — external font hosts are blocked by the site's CSP
        (img-src/style-src restrict to 'self'), so we bundle them. */
@@ -255,6 +256,23 @@
       pointer-events: none;
       -webkit-user-drag: none;
       user-drag: none;
+    }
+    /* Filter overlays — their opacity is driven by state.filters.{noise,vignette}. */
+    .stage-noise, .stage-vignette {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+    }
+    .stage-noise {
+      /* Inline SVG noise data-URI. 200x200 tile repeats, mix-blend-mode:overlay
+         makes grain read naturally against the underlying image. */
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 2 -0.5'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      background-size: 240px 240px;
+      mix-blend-mode: overlay;
+    }
+    .stage-vignette {
+      background: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,1) 100%);
     }
 
     .layer {
@@ -669,6 +687,215 @@
       overflow: hidden;
     }
 
+    /* ─── Emoji modal ─── */
+    .emoji-modal {
+      width: 460px;
+      max-width: 460px;
+      max-height: min(78vh, 640px);
+    }
+    .emoji-search {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--surface-border);
+    }
+    .emoji-search input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 9px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--surface-border);
+      background: rgba(0,0,0,0.25);
+      color: var(--text-color);
+      font: inherit;
+      font-size: 13px;
+      outline: none;
+    }
+    .emoji-search input:focus {
+      border-color: var(--accent);
+      background: rgba(0,0,0,0.4);
+    }
+    .emoji-body {
+      padding: 10px 14px calc(14px + env(safe-area-inset-bottom));
+      overflow-y: auto;
+      flex: 1;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
+    .emoji-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 6px;
+    }
+    .emoji-cat {
+      grid-column: 1 / -1;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--text-muted);
+      padding: 10px 2px 4px;
+      /* Make category headers stick while scrolling so users always know
+         where they are in the catalog. */
+      position: sticky;
+      top: -10px;
+      background: #14141a;
+      z-index: 1;
+    }
+    .emoji-cat:first-child { padding-top: 4px; }
+    .emoji-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+      padding: 24px 10px;
+    }
+    .emoji-btn {
+      aspect-ratio: 1/1;
+      background: transparent;
+      border: 1px solid var(--surface-border);
+      border-radius: 8px;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.15s, transform 0.1s, background 0.15s;
+      padding: 0;
+      color: inherit;
+      font-family: "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",system-ui,sans-serif;
+    }
+    .emoji-btn:hover { border-color: var(--accent); transform: scale(1.1); background: rgba(255,255,255,0.04); }
+    @media (max-width: 720px) {
+      .emoji-modal { max-height: 78vh; }
+      .emoji-grid { grid-template-columns: repeat(7, 1fr); }
+      .emoji-btn { font-size: 22px; }
+    }
+    /* Toolbar "Emojis" button uses a real emoji glyph instead of an SVG icon. */
+    .btn-emoji {
+      font-size: 16px;
+      line-height: 1;
+      display: inline-block;
+    }
+
+    /* ─── Filters modal ─── */
+    /* The stage itself is the live preview. On desktop we dock the modal in
+       the bottom-right corner with NO backdrop dim so the user sees the stage
+       updating at full clarity. On mobile it stays a bottom-sheet (via shared
+       .tpl-* rules). pointer-events:none on the overlay lets clicks reach the
+       stage while it's open; the modal re-enables pointer-events on itself. */
+    #filterOverlay {
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      align-items: flex-end;
+      justify-content: flex-end;
+      padding: 16px;
+      pointer-events: none;
+    }
+    #filterOverlay .filter-modal {
+      pointer-events: auto;
+    }
+    .filter-modal {
+      /* Explicit solid bg — .tpl-modal's var(--surface-2) is 4% opaque and
+         only looks solid when stacked on a dark backdrop, which we don't have. */
+      background: #14141a;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55);
+      width: 400px;
+      max-width: 400px;
+      max-height: min(82vh, 640px);
+    }
+    .filter-body {
+      padding: 16px 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .filter-section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .filter-section-label + .filter-sliders,
+    .filter-section-label + .filter-presets { margin-bottom: 14px; }
+    .filter-presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .filter-preset {
+      padding: 6px 11px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--surface-border);
+      background: transparent;
+      color: var(--text-color);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background .15s, border-color .15s, color .15s;
+    }
+    .filter-preset:hover { border-color: var(--accent); }
+    .filter-preset.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .filter-slider-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .filter-slider-row .fs-label {
+      flex: 0 0 86px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      color: var(--text-secondary);
+    }
+    .filter-slider-row input[type=range] {
+      flex: 1;
+      min-width: 0;
+    }
+    .filter-slider-row .fs-value {
+      flex: 0 0 40px;
+      text-align: right;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+    .filter-footer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
+      border-top: 1px solid var(--surface-border);
+      background: var(--surface-2);
+    }
+
+    @media (max-width: 720px) {
+      /* Mobile reverts to full bottom-sheet: backdrop dim, tap-outside-to-close. */
+      #filterOverlay {
+        background: rgba(0, 0, 0, 0.6);
+        align-items: flex-end;
+        justify-content: center;
+        padding: 0;
+        pointer-events: auto;
+      }
+      .filter-modal {
+        width: 100%;
+        max-width: none;
+        max-height: 70vh;
+      }
+      .filter-body {
+        padding: 12px 14px;
+      }
+      .filter-footer {
+        padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+      }
+    }
+
     /* Drop-area "or pick a template" button */
     .drop-or {
       text-align: center;
@@ -931,6 +1158,10 @@
         <div class="stage" id="stage">
           <img class="stage-bg" id="stageBg" alt="">
           <!-- layers get inserted here -->
+          <!-- Noise + vignette overlays sit above layers, below selector,
+               via syncLayerDom re-appending them after each layer change. -->
+          <div class="stage-noise" id="stageNoise" aria-hidden="true"></div>
+          <div class="stage-vignette" id="stageVignette" aria-hidden="true"></div>
           <div class="selector" id="selector" aria-hidden="true">
             <button class="del-btn" id="delBtn" aria-label="Delete selected">&times;</button>
             <div class="handle rot" data-handle="rot" aria-hidden="true"></div>
@@ -952,9 +1183,17 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
           Top + Bottom
         </button>
+        <button class="btn" id="openEmojisBtn" title="Insert an emoji">
+          <span class="btn-emoji" aria-hidden="true">😀</span>
+          Emojis
+        </button>
         <button class="btn" id="openTemplatesBtn" title="Pick a meme template">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
           Templates
+        </button>
+        <button class="btn" id="openFiltersBtn" title="Apply filters to your meme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4"/><circle cx="17" cy="17" r="4"/><circle cx="17" cy="7" r="4" opacity="0.4"/><circle cx="7" cy="17" r="4" opacity="0.4"/></svg>
+          Filters
         </button>
         <button class="btn mobile-only" id="openStickersBtn" title="Open stickers">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
@@ -1024,6 +1263,44 @@
 
   <div class="side-backdrop" id="sideBackdrop" aria-hidden="true"></div>
 
+  <!-- Emoji picker modal -->
+  <div class="tpl-overlay" id="emojiOverlay" aria-hidden="true">
+    <div class="tpl-modal emoji-modal" role="dialog" aria-modal="true" aria-labelledby="emojiModalTitle">
+      <div class="tpl-header">
+        <h3 id="emojiModalTitle">Emojis</h3>
+        <button class="tpl-close" id="emojiModalClose" aria-label="Close">&times;</button>
+      </div>
+      <div class="emoji-search">
+        <input type="search" id="emojiSearch" placeholder="Search emojis…" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="emoji-body">
+        <div class="emoji-grid" id="emojiGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters modal -->
+  <div class="tpl-overlay" id="filterOverlay" aria-hidden="true">
+    <div class="tpl-modal filter-modal" role="dialog" aria-modal="true" aria-labelledby="filterModalTitle">
+      <div class="tpl-header">
+        <h3 id="filterModalTitle">Filters</h3>
+        <button class="tpl-close" id="filterModalClose" aria-label="Close">&times;</button>
+      </div>
+      <div class="filter-body">
+        <div class="filter-section-label">Presets</div>
+        <div class="filter-presets" id="filterPresets"></div>
+        <div class="filter-section-label">Adjustments</div>
+        <div class="filter-sliders" id="filterSliders"></div>
+      </div>
+      <div class="filter-footer">
+        <button class="btn" id="filterResetBtn" type="button">Reset</button>
+        <span style="flex:1"></span>
+        <button class="btn" id="filterCancelBtn" type="button">Cancel</button>
+        <button class="btn primary" id="filterApplyBtn" type="button">Apply</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Templates modal -->
   <div class="tpl-overlay" id="templateOverlay" aria-hidden="true">
     <div class="tpl-modal" role="dialog" aria-modal="true" aria-labelledby="templateModalTitle">
@@ -1070,6 +1347,14 @@ function toast(msg) {
 }
 
 // ───────────── State ─────────────
+const DEFAULT_FILTERS = Object.freeze({
+  brightness: 1, contrast: 1, saturate: 1, hueRotate: 0,
+  blur: 0, grayscale: 0, sepia: 0, invert: 0,
+  // Pixel-op effects (noise, vignette) live as DOM overlays in the stage for
+  // live preview, and are baked into the canvas on export. They are applied
+  // BEFORE the CSS filter stack so deep-fry noise gets amplified by contrast/sat.
+  noise: 0, vignette: 0,
+});
 const state = {
   layers: [],          // {id,type,el,x,y,w,h,rot, ...type-specific}
   selectedId: null,
@@ -1081,11 +1366,35 @@ const state = {
   history: [],
   historyIndex: -1,
   isRestoring: false,
+  filters: { ...DEFAULT_FILTERS },
 };
+
+function buildFilterString(f) {
+  const parts = [];
+  if (f.brightness !== 1) parts.push(`brightness(${f.brightness})`);
+  if (f.contrast !== 1) parts.push(`contrast(${f.contrast})`);
+  if (f.saturate !== 1) parts.push(`saturate(${f.saturate})`);
+  if (f.hueRotate !== 0) parts.push(`hue-rotate(${f.hueRotate}deg)`);
+  if (f.blur !== 0) parts.push(`blur(${f.blur}px)`);
+  if (f.grayscale !== 0) parts.push(`grayscale(${f.grayscale})`);
+  if (f.sepia !== 0) parts.push(`sepia(${f.sepia})`);
+  if (f.invert !== 0) parts.push(`invert(${f.invert})`);
+  return parts.length ? parts.join(' ') : 'none';
+}
+function applyFiltersToStage() {
+  applyFiltersTo(state.filters);
+}
+function applyFiltersTo(f) {
+  stage.style.filter = buildFilterString(f);
+  stageNoise.style.opacity = f.noise;
+  stageVignette.style.opacity = f.vignette;
+}
 
 const stage = document.getElementById('stage');
 const stageWrap = document.getElementById('stageWrap');
 const stageBg = document.getElementById('stageBg');
+const stageNoise = document.getElementById('stageNoise');
+const stageVignette = document.getElementById('stageVignette');
 const drop = document.getElementById('drop');
 const fileInput = document.getElementById('fileInput');
 const toolbar = document.getElementById('toolbar');
@@ -1161,6 +1470,9 @@ function loadImageFromUrl(url, file) {
       stage.style.aspectRatio = state.naturalW + ' / ' + state.naturalH;
       clearAllLayers();
       setSelected(null);
+      // Reset filters when swapping in a new background so each meme starts fresh.
+      state.filters = { ...DEFAULT_FILTERS };
+      applyFiltersToStage();
       state.history = [];
       state.historyIndex = -1;
       requestAnimationFrame(() => {
@@ -1231,7 +1543,9 @@ function updateSelectorFrame() {
 
 function addLayerEl(l) {
   stage.appendChild(l.el);
-  // keep selector on top
+  // Keep filter overlays above layers and the selector above everything.
+  stage.appendChild(stageNoise);
+  stage.appendChild(stageVignette);
   stage.appendChild(selector);
   applyLayerTransform(l);
 }
@@ -1277,6 +1591,10 @@ function updateEditBtnVisibility() {
 // Re-append all layer elements in z-order (so DOM stacking matches state.layers).
 function syncLayerDom() {
   state.layers.forEach(l => stage.appendChild(l.el));
+  // Overlays and selector go last so stickers/text sit under the filter
+  // overlays, and handles stay visible on top of everything.
+  stage.appendChild(stageNoise);
+  stage.appendChild(stageVignette);
   stage.appendChild(selector);
 }
 
@@ -2057,12 +2375,295 @@ templateModalClose.addEventListener('click', closeTemplateModal);
 templateOverlay.addEventListener('click', e => { if (e.target === templateOverlay) closeTemplateModal(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && templateOverlay.classList.contains('visible')) closeTemplateModal(); });
 
-// Swipe-down-to-dismiss on the sheet's drag area (mobile bottom-sheet UX).
-// Only intercepts touches on the header region so the template grid can
-// scroll freely. If the user drags past a threshold, we close the sheet.
-(function setupSheetSwipe() {
-  const modal = templateOverlay.querySelector('.tpl-modal');
-  const header = templateOverlay.querySelector('.tpl-header');
+// ───────────── Emoji picker ─────────────
+// Emojis become text layers with an emoji-first font stack so colour glyphs
+// render on every OS. They're sized for a "standalone sticker" feel rather
+// than the full-width of a text layer.
+const EMOJI_FONT = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",system-ui,sans-serif';
+
+function addEmojiLayer(emoji) {
+  const r = stageRect();
+  const size = Math.min(r.width * 0.28, r.height * 0.35, 260);
+  const l = createTextLayer({
+    text: emoji,
+    fontFamily: EMOJI_FONT,
+    fontSize: Math.round(size * 0.85),
+    strokeWidth: 0,
+    upper: false,
+    color: '#000000',
+    w: size,
+    h: size,
+    x: (r.width - size) / 2,
+    y: (r.height - size) / 2,
+  });
+  // createTextLayer runs autosizeText, which snaps h to the measured text
+  // height (~fontSize × line-height). That leaves the layer taller/shorter
+  // than wide for a single glyph. Force back to a perfect square so the
+  // canvas export draws the emoji centered inside a consistent box.
+  l.w = size;
+  l.h = size;
+  applyLayerTransform(l);
+  setSelected(l.id);
+  pushHistory();
+}
+
+const emojiOverlay = document.getElementById('emojiOverlay');
+const emojiGrid = document.getElementById('emojiGrid');
+const emojiSearchInput = document.getElementById('emojiSearch');
+const openEmojisBtn = document.getElementById('openEmojisBtn');
+let emojiSavedScrollY = 0;
+
+// Resolve the catalog: prefer window.EMOJIS (from emojis.js), fall back to a
+// tiny hardcoded set so the picker still renders if the script tag failed.
+function getEmojiCatalog() {
+  if (Array.isArray(window.EMOJIS) && window.EMOJIS.length) return window.EMOJIS;
+  return [{
+    name: 'Common',
+    items: [
+      ['😂','tears of joy lol'],['💀','skull dead'],['🔥','fire'],['🚀','rocket'],['💎','diamond'],
+      ['❤️','red heart love'],['🤡','clown'],['💯','hundred'],['✨','sparkles'],['👀','eyes'],
+    ],
+  }];
+}
+
+function renderEmojiSection(catName, items) {
+  const header = document.createElement('div');
+  header.className = 'emoji-cat';
+  header.textContent = catName;
+  emojiGrid.appendChild(header);
+  items.forEach(pair => {
+    const emoji = pair[0];
+    const name = pair[1] || '';
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'emoji-btn';
+    b.textContent = emoji;
+    b.title = name ? (emoji + ' · ' + name) : emoji;
+    b.addEventListener('click', () => {
+      if (!state.bgImage) { toast('Upload an image or pick a template first'); return; }
+      addEmojiLayer(emoji);
+      closeEmojiModal();
+    });
+    emojiGrid.appendChild(b);
+  });
+}
+
+function renderEmojiGrid(query) {
+  emojiGrid.innerHTML = '';
+  const catalog = getEmojiCatalog();
+  const q = (query || '').trim().toLowerCase();
+  if (!q) {
+    catalog.forEach(cat => renderEmojiSection(cat.name, cat.items));
+    return;
+  }
+  // Flattened search: tokenize the query so "happy cat" matches "crying cat".
+  // Every token has to appear somewhere in the emoji's name.
+  const tokens = q.split(/\s+/).filter(Boolean);
+  const matches = [];
+  catalog.forEach(cat => {
+    cat.items.forEach(pair => {
+      const name = (pair[1] || '').toLowerCase();
+      if (tokens.every(t => name.includes(t))) matches.push(pair);
+    });
+  });
+  if (!matches.length) {
+    const empty = document.createElement('div');
+    empty.className = 'emoji-empty';
+    empty.textContent = 'No emojis match "' + query + '"';
+    emojiGrid.appendChild(empty);
+    return;
+  }
+  renderEmojiSection('Results · ' + matches.length, matches);
+}
+renderEmojiGrid('');
+
+function openEmojiModal() {
+  // Reset search each open so users start with the full catalog visible.
+  if (emojiSearchInput) emojiSearchInput.value = '';
+  renderEmojiGrid('');
+  emojiOverlay.classList.add('visible');
+  emojiOverlay.setAttribute('aria-hidden', 'false');
+  emojiSavedScrollY = window.scrollY || window.pageYOffset || 0;
+  document.body.style.top = -emojiSavedScrollY + 'px';
+  document.body.classList.add('tpl-open');
+  // Focus the search only on desktop — focusing an <input> on mobile pops the
+  // software keyboard, which pushes the bottom-sheet halfway up and feels awful.
+  if (emojiSearchInput && window.matchMedia('(min-width: 721px)').matches) {
+    setTimeout(() => emojiSearchInput.focus(), 50);
+  }
+}
+function closeEmojiModal() {
+  emojiOverlay.classList.remove('visible');
+  emojiOverlay.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('tpl-open');
+  document.body.style.top = '';
+  window.scrollTo(0, emojiSavedScrollY);
+}
+
+if (openEmojisBtn) openEmojisBtn.addEventListener('click', openEmojiModal);
+document.getElementById('emojiModalClose').addEventListener('click', closeEmojiModal);
+emojiOverlay.addEventListener('click', e => { if (e.target === emojiOverlay) closeEmojiModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && emojiOverlay.classList.contains('visible')) closeEmojiModal(); });
+if (emojiSearchInput) {
+  // Debounce light — the filter is cheap (flat loop), but skip re-render on
+  // duplicate input events when the user holds a key.
+  emojiSearchInput.addEventListener('input', () => renderEmojiGrid(emojiSearchInput.value));
+}
+
+// ───────────── Filters modal ─────────────
+// CSS-backed filters (brightness/contrast/saturate/hue/blur/grayscale/sepia/invert).
+// Preview shows a render of the current meme (sans filters) and gets the CSS
+// filter applied live. On Apply, state.filters is updated and both the stage
+// (live) and canvas export (via ctx.filter) reflect the new settings.
+const FILTER_PRESETS = {
+  'Deep Fry':  { contrast: 2,    saturate: 3.2, brightness: 1.15, noise: 0.35 },
+  'Glitch':    { contrast: 1.5,  saturate: 1.6, hueRotate: 30,    noise: 0.25 },
+  'VHS':       { contrast: 1.1,  saturate: 0.85, hueRotate: 15,   noise: 0.15, vignette: 0.25 },
+  'Emo B&W':   { grayscale: 1,   contrast: 1.35, vignette: 0.35 },
+  'Dream':     { blur: 2.5,      brightness: 1.15, saturate: 1.3 },
+  'Faded':     { contrast: 0.82, sepia: 0.55, blur: 0.5, vignette: 0.2 },
+  'Neon':      { contrast: 1.3,  saturate: 3.8, hueRotate: 60, brightness: 1.05 },
+  'Sunset':    { contrast: 1.1,  saturate: 1.5, sepia: 0.35, hueRotate: 345 },
+  'Old Photo': { contrast: 0.95, sepia: 0.85, blur: 0.4, vignette: 0.45, noise: 0.1 },
+  'Invert':    { invert: 1 },
+  'Clear':     {},
+};
+const FILTER_SLIDERS = [
+  { key: 'brightness', label: 'Brightness', min: 0.2, max: 2.5, step: 0.05, format: v => v.toFixed(2) },
+  { key: 'contrast',   label: 'Contrast',   min: 0.2, max: 3,   step: 0.05, format: v => v.toFixed(2) },
+  { key: 'saturate',   label: 'Saturation', min: 0,   max: 5,   step: 0.05, format: v => v.toFixed(2) },
+  { key: 'hueRotate',  label: 'Hue',        min: 0,   max: 360, step: 1,    format: v => Math.round(v) + '°' },
+  { key: 'blur',       label: 'Blur',       min: 0,   max: 20,  step: 0.5,  format: v => v.toFixed(1) + 'px' },
+  { key: 'noise',      label: 'Noise',      min: 0,   max: 1,   step: 0.02, format: v => Math.round(v * 100) + '%' },
+  { key: 'vignette',   label: 'Vignette',   min: 0,   max: 1,   step: 0.02, format: v => Math.round(v * 100) + '%' },
+  { key: 'grayscale',  label: 'B&W',        min: 0,   max: 1,   step: 0.05, format: v => Math.round(v * 100) + '%' },
+  { key: 'sepia',      label: 'Sepia',      min: 0,   max: 1,   step: 0.05, format: v => Math.round(v * 100) + '%' },
+  { key: 'invert',     label: 'Invert',     min: 0,   max: 1,   step: 0.05, format: v => Math.round(v * 100) + '%' },
+];
+
+const filterOverlay = document.getElementById('filterOverlay');
+const filterPresetsEl = document.getElementById('filterPresets');
+const filterSlidersEl = document.getElementById('filterSliders');
+const openFiltersBtn = document.getElementById('openFiltersBtn');
+let tempFilters = { ...DEFAULT_FILTERS };
+let filtersOnOpen = { ...DEFAULT_FILTERS };  // snapshot so Cancel can revert
+let filterSavedScrollY = 0;
+
+function filtersEqual(a, b) {
+  return FILTER_SLIDERS.every(d => a[d.key] === b[d.key]);
+}
+function applyTempFilters() {
+  // Live preview = the stage itself. Pushing tempFilters onto stage.style.filter
+  // (and the noise/vignette overlays) makes the canvas update in real time as
+  // sliders move, no tainted-canvas round-trip required. state.filters is NOT
+  // touched until Apply is pressed.
+  applyFiltersTo(tempFilters);
+  // Highlight whichever preset chip matches the current combination, if any.
+  const activeName = Object.keys(FILTER_PRESETS).find(name => {
+    const f = { ...DEFAULT_FILTERS, ...FILTER_PRESETS[name] };
+    return filtersEqual(tempFilters, f);
+  });
+  filterPresetsEl.querySelectorAll('.filter-preset').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.preset === activeName);
+  });
+}
+function syncFilterSliders() {
+  FILTER_SLIDERS.forEach(def => {
+    const input = document.getElementById('fs_' + def.key);
+    const val = document.getElementById('fv_' + def.key);
+    if (input) input.value = tempFilters[def.key];
+    if (val) val.textContent = def.format(tempFilters[def.key]);
+  });
+}
+function buildFilterUi() {
+  // Presets
+  filterPresetsEl.innerHTML = '';
+  Object.keys(FILTER_PRESETS).forEach(name => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'filter-preset';
+    b.dataset.preset = name;
+    b.textContent = name;
+    b.addEventListener('click', () => {
+      tempFilters = { ...DEFAULT_FILTERS, ...FILTER_PRESETS[name] };
+      syncFilterSliders();
+      applyTempFilters();
+    });
+    filterPresetsEl.appendChild(b);
+  });
+  // Sliders
+  filterSlidersEl.innerHTML = '';
+  FILTER_SLIDERS.forEach(def => {
+    const row = document.createElement('div');
+    row.className = 'filter-slider-row';
+    row.innerHTML =
+      '<span class="fs-label">' + def.label + '</span>' +
+      '<input type="range" id="fs_' + def.key + '" min="' + def.min + '" max="' + def.max + '" step="' + def.step + '">' +
+      '<span class="fs-value" id="fv_' + def.key + '"></span>';
+    filterSlidersEl.appendChild(row);
+    const input = row.querySelector('input');
+    const val = row.querySelector('.fs-value');
+    input.addEventListener('input', () => {
+      tempFilters[def.key] = parseFloat(input.value);
+      val.textContent = def.format(tempFilters[def.key]);
+      applyTempFilters();
+    });
+  });
+}
+buildFilterUi();
+
+function openFilterModal() {
+  if (!state.bgImage) { toast('Upload an image or pick a template first'); return; }
+  filtersOnOpen = { ...state.filters };
+  tempFilters = { ...state.filters };
+  syncFilterSliders();
+  applyTempFilters();  // mirrors state.filters onto stage (no-op if already there)
+  filterOverlay.classList.add('visible');
+  filterOverlay.setAttribute('aria-hidden', 'false');
+  filterSavedScrollY = window.scrollY || window.pageYOffset || 0;
+  document.body.style.top = -filterSavedScrollY + 'px';
+  document.body.classList.add('tpl-open');
+}
+function hideFilterOverlay() {
+  filterOverlay.classList.remove('visible');
+  filterOverlay.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('tpl-open');
+  document.body.style.top = '';
+  window.scrollTo(0, filterSavedScrollY);
+}
+function applyFilterChanges() {
+  const changed = !filtersEqual(filtersOnOpen, tempFilters);
+  state.filters = { ...tempFilters };
+  applyFiltersToStage();
+  if (changed) pushHistory();
+  hideFilterOverlay();
+}
+function cancelFilterModal() {
+  // Revert the stage to whatever filters were committed before the user opened
+  // this modal session; state.filters was never mutated while editing.
+  applyFiltersTo(filtersOnOpen);
+  hideFilterOverlay();
+}
+function resetTempFilters() {
+  tempFilters = { ...DEFAULT_FILTERS };
+  syncFilterSliders();
+  applyTempFilters();
+}
+
+if (openFiltersBtn) openFiltersBtn.addEventListener('click', openFilterModal);
+document.getElementById('filterModalClose').addEventListener('click', cancelFilterModal);
+document.getElementById('filterCancelBtn').addEventListener('click', cancelFilterModal);
+document.getElementById('filterApplyBtn').addEventListener('click', applyFilterChanges);
+document.getElementById('filterResetBtn').addEventListener('click', resetTempFilters);
+filterOverlay.addEventListener('click', e => { if (e.target === filterOverlay) cancelFilterModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && filterOverlay.classList.contains('visible')) cancelFilterModal(); });
+
+// Swipe-down-to-dismiss on a bottom-sheet's drag area (mobile UX).
+// Only intercepts touches on the header so the body can scroll freely.
+// If the user drags past a threshold, we invoke the provided close fn.
+function setupSheetSwipe(overlay, closeFn) {
+  const modal = overlay.querySelector('.tpl-modal');
+  const header = overlay.querySelector('.tpl-header');
   if (!modal || !header) return;
   let startY = null;
   let dy = 0;
@@ -2088,7 +2689,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && templateOv
       // the user doesn't see the jump-back).
       modal.style.transform = '';
       modal.style.transition = '';
-      closeTemplateModal();
+      closeFn();
     } else {
       // Under threshold — smooth return to open position.
       modal.style.transition = 'transform 0.22s ease-out';
@@ -2102,7 +2703,10 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && templateOv
   header.addEventListener('touchmove', onMove, { passive: true });
   header.addEventListener('touchend', onEnd);
   header.addEventListener('touchcancel', onEnd);
-})();
+}
+setupSheetSwipe(templateOverlay, closeTemplateModal);
+setupSheetSwipe(filterOverlay, cancelFilterModal);
+setupSheetSwipe(emojiOverlay, closeEmojiModal);
 
 // ───────────── History ─────────────
 let historyDebounce;
@@ -2121,7 +2725,8 @@ function snapshot() {
       });
       if (l.type === 'sticker') Object.assign(base, { src: l.src, flipH: !!l.flipH, flipV: !!l.flipV });
       return base;
-    })
+    }),
+    filters: { ...state.filters },
   };
 }
 function pushHistory() {
@@ -2136,6 +2741,8 @@ function pushHistory() {
 }
 function restore(snap) {
   state.isRestoring = true;
+  state.filters = { ...DEFAULT_FILTERS, ...(snap.filters || {}) };
+  applyFiltersToStage();
   clearAllLayers();
   snap.layers.forEach(s => {
     let l;
@@ -2214,25 +2821,7 @@ function wrapTextCanvas(ctx, text, maxWidth) {
   return lines;
 }
 
-function renderCanvas() {
-  if (!state.bgImage) return null;
-  // Export at the greater of (natural image size) and (1600 px wide) so text &
-  // stickers stay sharp even when the uploaded image is small. Large images
-  // export at their native resolution — no downscaling.
-  const MIN_EXPORT_W = 1600;
-  const exportW = Math.max(state.naturalW, MIN_EXPORT_W);
-  const upscale = exportW / state.naturalW;
-  const W = Math.round(state.naturalW * upscale);
-  const H = Math.round(state.naturalH * upscale);
-  // Display→export coordinate scale (display px to canvas px).
-  const scale = W / stageRect().width;
-  const c = document.createElement('canvas');
-  c.width = W; c.height = H;
-  const ctx = c.getContext('2d');
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = 'high';
-  ctx.drawImage(state.bgImage, 0, 0, W, H);
-  // Draw layers in dom order
+function drawMemeLayersTo(ctx, scale) {
   state.layers.forEach(l => {
     ctx.save();
     const cx = (l.x + l.w/2) * scale;
@@ -2274,6 +2863,79 @@ function renderCanvas() {
     }
     ctx.restore();
   });
+}
+
+function applyNoiseToCtx(ctx, w, h, amount) {
+  // Random per-pixel RGB offset. Cheap and matches the "deep fry" feel.
+  // On file:// the temp canvas may be tainted — we handle that by catching
+  // the SecurityError and skipping noise rather than throwing away the export.
+  let img;
+  try { img = ctx.getImageData(0, 0, w, h); }
+  catch (e) { console.warn('noise skipped (tainted canvas)', e); return; }
+  const d = img.data;
+  const strength = amount * 70;
+  for (let i = 0; i < d.length; i += 4) {
+    const n = (Math.random() - 0.5) * strength;
+    d[i]   = Math.max(0, Math.min(255, d[i]   + n));
+    d[i+1] = Math.max(0, Math.min(255, d[i+1] + n));
+    d[i+2] = Math.max(0, Math.min(255, d[i+2] + n));
+  }
+  ctx.putImageData(img, 0, 0);
+}
+function applyVignetteToCtx(ctx, w, h, amount) {
+  const r1 = Math.min(w, h) * 0.35;
+  const r2 = Math.hypot(w, h) * 0.55;
+  const g = ctx.createRadialGradient(w/2, h/2, r1, w/2, h/2, r2);
+  g.addColorStop(0, 'rgba(0,0,0,0)');
+  g.addColorStop(1, 'rgba(0,0,0,' + (amount * 0.95).toFixed(3) + ')');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, w, h);
+}
+
+function renderCanvas(options) {
+  options = options || {};
+  if (!state.bgImage) return null;
+  // Export at the greater of (natural image size) and (1600 px wide) so text &
+  // stickers stay sharp even when the uploaded image is small. Large images
+  // export at their native resolution — no downscaling.
+  const MIN_EXPORT_W = 1600;
+  const targetW = options.previewWidth || Math.max(state.naturalW, MIN_EXPORT_W);
+  const upscale = targetW / state.naturalW;
+  const W = Math.round(state.naturalW * upscale);
+  const H = Math.round(state.naturalH * upscale);
+  const scale = W / stageRect().width;
+  const c = document.createElement('canvas');
+  c.width = W; c.height = H;
+  const ctx = c.getContext('2d');
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+
+  const f = state.filters;
+  const skipFilters = !!options.skipFilters;
+  const hasPixelOps = !skipFilters && (f.noise > 0 || f.vignette > 0);
+
+  if (hasPixelOps) {
+    // Live preview composites bg + layers + noise + vignette FIRST, then the
+    // CSS filter stack applies on top of that composite. We mirror that order
+    // on export by drawing to a temp canvas, overlaying noise/vignette, then
+    // blitting into the final canvas with ctx.filter set so colour ops apply
+    // to the whole stack (noise pixels get dyed by hue/saturate, etc.).
+    const temp = document.createElement('canvas');
+    temp.width = W; temp.height = H;
+    const tctx = temp.getContext('2d');
+    tctx.imageSmoothingEnabled = true;
+    tctx.imageSmoothingQuality = 'high';
+    tctx.drawImage(state.bgImage, 0, 0, W, H);
+    drawMemeLayersTo(tctx, scale);
+    if (f.noise > 0) applyNoiseToCtx(tctx, W, H, f.noise);
+    if (f.vignette > 0) applyVignetteToCtx(tctx, W, H, f.vignette);
+    ctx.filter = buildFilterString(f);
+    ctx.drawImage(temp, 0, 0);
+  } else {
+    if (!skipFilters) ctx.filter = buildFilterString(f);
+    ctx.drawImage(state.bgImage, 0, 0, W, H);
+    drawMemeLayersTo(ctx, scale);
+  }
   return c;
 }
 
@@ -2440,22 +3102,45 @@ async function handleDownload() {
 }
 
 async function handleCopy() {
-  const blob = await exportBlob();
-  if (!blob) return;
+  if (!state.bgImage) { toast('Upload an image first'); return; }
   if (!navigator.clipboard || !window.ClipboardItem) {
     toast('Clipboard not supported — use Save');
     return;
   }
+  // iOS Safari requires clipboard.write to be called inside the same user
+  // gesture as the click. Awaiting a blob first (exportBlob waits on fonts
+  // and image decodes) breaks that chain and the write gets rejected. The
+  // fix: hand the blob-producing Promise to ClipboardItem so the write is
+  // queued synchronously and the browser resolves the Promise itself.
+  const blobPromise = exportBlob().then(b => {
+    if (!b) throw new Error('Export produced no blob');
+    return b;
+  });
+  // Swallow rejections so unhandled-rejection warnings don't fire if the
+  // clipboard.write below surfaces the same error.
+  blobPromise.catch(() => {});
   try {
-    await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+    await navigator.clipboard.write([new ClipboardItem({ 'image/png': blobPromise })]);
     toast('Copied to clipboard');
     if (navigator.vibrate) navigator.vibrate(10);
   } catch (err) {
     console.error('Copy error:', err);
-    // Most mobile browsers block image clipboard writes — point the user at Save.
-    toast(isTouchDevice()
-      ? 'Copy isn\u2019t supported on mobile — use Save'
-      : 'Copy failed — try Save');
+    // Some Android browsers still refuse clipboard image writes. Fall back to
+    // the native share sheet so the user can route the meme anywhere (most
+    // share targets expose a "Copy" action of their own).
+    if (isTouchDevice() && navigator.share && navigator.canShare) {
+      try {
+        const blob = await blobPromise;
+        const file = new File([blob], 'emo-meme.png', { type: 'image/png' });
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({ files: [file], title: 'Meme' });
+          return;
+        }
+      } catch (shareErr) {
+        console.error('Share fallback error:', shareErr);
+      }
+    }
+    toast(isTouchDevice() ? 'Copy failed — use Save' : 'Copy failed');
   }
 }
 
