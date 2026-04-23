@@ -673,13 +673,6 @@
         
         <!-- Key Stats -->
         <div class="stats-grid">
-<!-- Global Flaps temporarily hidden while testing
-            <div class="stat-card" style="background: linear-gradient(135deg, rgba(157, 78, 221, 0.3), rgba(200, 100, 255, 0.2));">
-                <div class="icon">🦅</div>
-                <div class="value loading" id="total-flaps" style="color: #FF6B6B;">...</div>
-                <div class="label">Global Flaps</div>
-            </div>
--->
             <div class="stat-card">
                 <div class="icon">👥</div>
                 <div class="value loading" id="total-players">...</div>
@@ -747,8 +740,6 @@
         // Monad Network Configuration
         const MONAD_RPC = 'https://rpc.monad.xyz';
         const LEADERBOARD_ADDRESS = '0x7fffA7d3FF68A8781d3cc724810ddb03601D9642';
-        const FLAP_COUNTER_ADDRESS = '0xF68865966172F2E2C062905c936b602e39C4C4F2';
-        const REFEREE_SERVER_URL = 'https://api.emonad.lol';
         
         // Extended ABI for stats
         const LEADERBOARD_ABI = [
@@ -920,26 +911,6 @@
                 renderLeaderboardPage();
             }
         }
-        
-        // Load global flap count from server
-        async function loadFlapCount() {
-            try {
-                const response = await fetch(`${REFEREE_SERVER_URL}/api/flaps`);
-                if (response.ok) {
-                    const data = await response.json();
-                    document.getElementById('total-flaps').textContent = parseInt(data.totalFlaps).toLocaleString();
-                    document.getElementById('total-flaps').classList.remove('loading');
-                } else {
-                    document.getElementById('total-flaps').textContent = '—';
-                    document.getElementById('total-flaps').classList.remove('loading');
-                }
-            } catch (err) {
-                console.error('Failed to load flap count:', err);
-                document.getElementById('total-flaps').textContent = '—';
-                document.getElementById('total-flaps').classList.remove('loading');
-            }
-        }
-        
         // Initialize on page load
         async function init() {
             provider = new ethers.JsonRpcProvider(MONAD_RPC);
@@ -949,8 +920,7 @@
             await Promise.all([
                 loadStats(),
                 loadLeaderboard(),
-                loadContractInfo(),
-                loadFlapCount()
+                loadContractInfo()
             ]);
         }
         
