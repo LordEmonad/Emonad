@@ -1,0 +1,2649 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4QWLXTDH20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4QWLXTDH20');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Emonad ($EMO) — Emo Memecoin on Monad</title>
+  <meta name="description" content="Emonad ($EMO) is the emo memecoin on Monad. Live price, charts, where to buy, community memes, Emo Tarot readings, and the upcoming Emo Nads PFP collection. The emo kid of the Monad ecosystem.">
+  <meta name="keywords" content="emonad, $emo, emo memecoin, monad memecoin, monad meme coin, emo monad, monad community coin, emo coin">
+  <meta name="author" content="Emonad">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://emonad.lol/">
+
+  <!-- OG / Social Meta -->
+  <meta property="og:title" content="Emonad ($EMO) — Emo Memecoin on Monad">
+  <meta property="og:description" content="The emo kid of Monad. Live charts, memes, tarot, and the Emo Nads PFP collection.">
+  <meta property="og:image" content="https://emonad.lol/og-image.jpg">
+  <meta property="og:url" content="https://emonad.lol/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Emonad">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Emonad ($EMO) — Emo Memecoin on Monad">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@EmonadCoin">
+  <meta name="twitter:creator" content="@EmonadCoin">
+  <meta name="twitter:title" content="Emonad ($EMO) — Emo Memecoin on Monad">
+  <meta name="twitter:description" content="The emo kid of Monad. Live charts, memes, tarot, and the Emo Nads PFP collection.">
+  <meta name="twitter:image" content="https://emonad.lol/og-image.jpg">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://emonad.lol/#org",
+        "name": "Emonad",
+        "alternateName": ["$EMO", "Emonad Coin", "Emo Memecoin"],
+        "url": "https://emonad.lol/",
+        "logo": "https://emonad.lol/emonad-200.webp",
+        "description": "Emo memecoin on Monad. Community-driven, meme-forward.",
+        "sameAs": [
+          "https://x.com/EmonadCoin",
+          "https://t.me/emonadcoin",
+          "https://www.coingecko.com/en/coins/emonad"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://emonad.lol/#website",
+        "url": "https://emonad.lol/",
+        "name": "Emonad",
+        "description": "Emonad ($EMO) — Emo memecoin on Monad. Memes, tarot, and the Emo Nads PFP collection.",
+        "publisher": { "@id": "https://emonad.lol/#org" },
+        "inLanguage": "en-US"
+      }
+    ]
+  }
+  </script>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="preload" as="image" href="site%20banner.webp" type="image/webp">
+  <style>
+    @font-face {
+      font-family: 'Space Grotesk';
+      font-style: normal;
+      font-weight: 500 800;
+      font-display: swap;
+      src: url(fonts/SpaceGrotesk-latin.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #1a1a1a;
+      --text-secondary: #666666;
+      --text-muted: #aaaaaa;
+      --accent: #7B3FE4;
+      --accent-hover: #6930c3;
+      --accent-glow: rgba(123, 63, 228, 0.25);
+      --surface: #f5f3ff;
+      --surface-border: #e4d8f8;
+      --ticker-bg: rgba(255, 255, 255, 0.92);
+      --ticker-border: #e9e0f5;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #0a0a0a;
+      --text-color: #ffffff;
+      --text-secondary: #888888;
+      --text-muted: #505050;
+      --accent: #9B5FFF;
+      --accent-hover: #b080ff;
+      --accent-glow: rgba(155, 95, 255, 0.3);
+      --surface: rgba(255, 255, 255, 0.06);
+      --surface-border: rgba(255, 255, 255, 0.1);
+      --ticker-bg: rgba(15, 15, 15, 0.92);
+      --ticker-border: rgba(255, 255, 255, 0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: radial-gradient(ellipse at 50% 0%, var(--accent-glow) 0%, transparent 55%), var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Theme Transition ── */
+    html.theme-transition,
+    html.theme-transition *,
+    html.theme-transition *::before,
+    html.theme-transition *::after {
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+    }
+
+    /* ── Entrance Animations ── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-in {
+      opacity: 0;
+      animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* ── Price Ticker ── */
+    .price-ticker {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--ticker-bg);
+      border-bottom: 1px solid var(--ticker-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 0 24px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 100;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .price-ticker::-webkit-scrollbar { display: none; }
+
+    .ticker-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .ticker-label {
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .ticker-value {
+      color: var(--text-color);
+      font-weight: 700;
+    }
+
+    .ticker-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .ticker-logo {
+      width: 24px;
+      height: 24px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 50%;
+      padding: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15), 0 2px 8px rgba(0, 0, 0, 0.15);
+      flex-shrink: 0;
+    }
+
+    .ticker-logo svg {
+      width: 100%;
+      height: 100%;
+      animation: logoSpin 12s linear infinite;
+    }
+
+    @keyframes logoSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .ticker-name {
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    .ticker-divider {
+      width: 1px;
+      height: 18px;
+      background: var(--surface-border);
+      flex-shrink: 0;
+    }
+
+    .change-badge {
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .change-badge.positive {
+      background: rgba(34, 197, 94, 0.12);
+      color: #22c55e;
+    }
+
+    .change-badge.negative {
+      background: rgba(239, 68, 68, 0.12);
+      color: #ef4444;
+    }
+
+    .ticker-spacer { flex: 1; }
+
+    /* Ticker Skeleton */
+    .ticker-skeleton {
+      display: inline-block;
+      width: 52px;
+      height: 14px;
+      background: var(--surface);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+      vertical-align: middle;
+    }
+
+    .ticker-skeleton::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+      animation: shimmer 1.5s infinite;
+    }
+
+    @keyframes shimmer {
+      to { left: 100%; }
+    }
+
+    .ticker-skeleton.wide { width: 70px; }
+    .ticker-skeleton.badge {
+      width: 48px;
+      height: 20px;
+      border-radius: 20px;
+    }
+
+    /* Ticker Refresh Flash */
+    @keyframes tickerFlash {
+      0% { color: var(--accent); }
+      100% { color: var(--text-color); }
+    }
+
+    .ticker-flash {
+      animation: tickerFlash 0.6s ease;
+    }
+
+    /* ── Theme Toggle ── */
+    .theme-toggle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--surface-border);
+      background: var(--surface);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      transition: all 0.25s ease;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .theme-toggle:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .theme-toggle .icon-sun,
+    .theme-toggle .icon-moon {
+      position: absolute;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle .icon-sun { opacity: 0; transform: rotate(-90deg); }
+    .theme-toggle .icon-moon { opacity: 1; transform: rotate(0deg); }
+    [data-theme="dark"] .theme-toggle .icon-sun { opacity: 1; transform: rotate(0deg); }
+    [data-theme="dark"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(90deg); }
+
+    /* ── Main Layout ── */
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 60px 20px 18px;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .container picture {
+      display: block;
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto 22px;
+    }
+    .header-image {
+      width: 100%;
+      max-width: 720px;
+      aspect-ratio: 3 / 1;
+      height: auto;
+      object-fit: cover;
+      margin: 0 auto;
+      display: block;
+      border-radius: 24px;
+      box-shadow:
+        0 16px 48px rgba(0, 0, 0, 0.4),
+        0 6px 16px rgba(155, 95, 255, 0.22);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
+
+    .header-image:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 20px 50px rgba(155, 95, 255, 0.3), 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .header-image.parallax {
+      will-change: transform;
+    }
+
+    .title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin: 0 0 2px;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--accent), var(--text-color) 70%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      margin-bottom: 18px;
+      min-height: 1.5em;
+    }
+
+    /* Typewriter Cursor */
+    .typewriter-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background: var(--accent);
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: blinkCursor 0.6s step-end infinite;
+    }
+
+    @keyframes blinkCursor {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* ── Primary Actions ── */
+    .primary-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 16px;
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(155, 95, 255, 0.95) 0%, rgba(123, 63, 228, 0.95) 100%);
+      backdrop-filter: blur(28px) saturate(200%);
+      -webkit-backdrop-filter: blur(28px) saturate(200%);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 11px 30px;
+      border-radius: 999px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+      text-align: center;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex: 1;
+      max-width: 220px;
+      box-shadow:
+        0 6px 22px rgba(155, 95, 255, 0.32),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, rgba(176, 128, 255, 0.95) 0%, rgba(155, 95, 255, 0.95) 100%);
+      transform: translateY(-2px);
+      box-shadow:
+        0 12px 32px rgba(155, 95, 255, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-primary:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .btn-primary-outline {
+      background: rgba(155, 95, 255, 0.22);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border: 1.5px solid rgba(155, 95, 255, 0.55);
+      color: var(--accent);
+      box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-primary-outline:hover {
+      background: rgba(155, 95, 255, 0.18);
+      color: var(--text-color);
+      border-color: rgba(155, 95, 255, 0.75);
+      box-shadow:
+        0 12px 32px rgba(155, 95, 255, 0.38),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    }
+
+    [data-theme="light"] .btn-primary-outline {
+      background: rgba(255, 255, 255, 0.55);
+    }
+
+    [data-theme="light"] .contract-address,
+    [data-theme="light"] .monad-badge,
+    [data-theme="light"] .share-btn {
+      background: rgba(255, 255, 255, 0.55);
+      border-color: rgba(0, 0, 0, 0.06);
+      box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.07),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+
+    /* ── Button Sections ── */
+    .button-section {
+      width: 100%;
+      max-width: 520px;
+      margin-bottom: 12px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .button-grid {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+      text-align: center;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--accent-glow);
+    }
+
+    .btn:active { transform: translateY(0); }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .btn.btn-outline {
+      background: rgba(255, 255, 255, 0.28);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: var(--text-color);
+      box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .btn.btn-outline:hover {
+      background: rgba(155, 95, 255, 0.14);
+      border-color: rgba(155, 95, 255, 0.45);
+      color: var(--accent);
+      box-shadow:
+        0 8px 24px rgba(155, 95, 255, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    }
+
+    [data-theme="light"] .btn.btn-outline {
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.07),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+    [data-theme="light"] .btn.btn-outline:hover {
+      background: rgba(123, 63, 228, 0.10);
+      border-color: rgba(123, 63, 228, 0.4);
+    }
+
+    /* ── Contract Address ── */
+    .contract-section {
+      margin-top: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .contract-address {
+      background: rgba(255, 255, 255, 0.24);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      color: var(--text-secondary);
+      padding: 8px 16px;
+      border-radius: 999px;
+      text-align: center;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 12px;
+      font-weight: 500;
+      font-family: 'Space Grotesk', monospace;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.2px;
+      position: relative;
+      transition: all 0.25s ease;
+      max-width: 95%;
+      box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .contract-address:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .contract-address:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .copy-icon {
+      flex-shrink: 0;
+      opacity: 0.4;
+      transition: opacity 0.2s;
+    }
+
+    .contract-address:hover .copy-icon { opacity: 1; }
+
+    .contract-address.copied {
+      border-color: #22c55e;
+      color: #22c55e;
+    }
+
+    .contract-address.copied .copy-icon { opacity: 1; }
+
+    .contract-full { display: inline; }
+    .contract-short { display: none; }
+
+    /* ── Toast Notification ── */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--accent);
+      color: white;
+      padding: 10px 22px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Space Grotesk', sans-serif;
+      box-shadow: 0 8px 30px var(--accent-glow);
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .toast.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── Price Alert Glow ── */
+    @keyframes alertGlow {
+      0%, 100% { box-shadow: none; }
+      50% { box-shadow: 0 0 12px 2px currentColor; }
+    }
+
+    .change-badge.alert {
+      animation: alertGlow 1.5s ease 3;
+    }
+
+    /* ── Button Icons ── */
+    .btn-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    /* ── Button Ripple ── */
+    .btn, .btn-primary, .share-btn, .contract-address {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(0);
+      animation: rippleOut 0.5s ease-out;
+      pointer-events: none;
+    }
+
+    @keyframes rippleOut {
+      to { transform: scale(4); opacity: 0; }
+    }
+
+    /* ── Updated Ago ── */
+    .ticker-updated {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 500;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .monad-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 600;
+      margin-top: 0;
+      padding: 6px 14px 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.24);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      letter-spacing: 0.2px;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+      box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .monad-badge:hover {
+      border-color: #836EF9;
+    }
+
+    .monad-badge .monad-logo {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .monad-badge .live-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .monad-badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 6px rgba(34, 197, 94, 0.5);
+      animation: pulseDot 2s ease infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; box-shadow: 0 0 6px rgba(34, 197, 94, 0.5); }
+      50% { opacity: 0.4; box-shadow: 0 0 2px rgba(34, 197, 94, 0.2); }
+    }
+
+    /* ── Share Button ── */
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 600;
+      margin-top: 0;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.24);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      font-family: 'Space Grotesk', sans-serif;
+      transition: all 0.25s ease;
+      position: relative;
+      box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .share-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .share-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+
+    /* ── Chart Modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-content {
+      width: 95%;
+      max-width: 1200px;
+      height: 80vh;
+      background: #111;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      animation: modalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-compact {
+      max-width: 420px;
+      width: 420px;
+      height: 520px;
+      border-radius: 24px;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.96) translateY(12px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-content iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      z-index: 1001;
+      transition: all 0.2s;
+      background: rgba(255, 255, 255, 0.1);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+    }
+
+    .modal-close:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Modal Spinner */
+    .modal-spinner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 36px;
+      height: 36px;
+      border: 3px solid rgba(255, 255, 255, 0.08);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes spin {
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    /* ── Footer ── */
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 14px 0 0;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer a:hover { color: var(--accent); }
+
+    .footer-dot {
+      opacity: 0.4;
+    }
+
+    /* ── Scroll Hint ── */
+    .scroll-hint {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--text-muted);
+      opacity: 0;
+      z-index: 50;
+      transition: opacity 0.4s ease;
+      animation: bounceHint 2s ease infinite;
+    }
+
+    @keyframes bounceHint {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-6px); }
+    }
+
+    /* ── Mouse Glow ── */
+    .mouse-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 500px;
+      height: 500px;
+      pointer-events: none;
+      z-index: 9998;
+      background: radial-gradient(circle, rgba(155, 95, 255, 0.1) 0%, rgba(155, 95, 255, 0.03) 35%, transparent 70%);
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s ease;
+      opacity: 0;
+      will-change: left, top;
+      mix-blend-mode: screen;
+    }
+
+    /* ── Mobile Background Glow ── */
+    @keyframes mobileGlow {
+      0% { transform: scale(1); opacity: 0.5; }
+      100% { transform: scale(1.3); opacity: 1; }
+    }
+
+    /* ── Page Transition ── */
+    .page-transition {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page-transition .pt-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(155, 95, 255, 0.15) 0%, transparent 60%),
+        var(--bg-color);
+      transform: scaleY(0);
+      transform-origin: bottom;
+    }
+
+    .page-transition .pt-logo {
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      transform: scale(0.5) rotate(-30deg);
+    }
+
+    .page-transition .pt-logo svg {
+      width: 80px;
+      height: 80px;
+      filter: drop-shadow(0 0 30px rgba(155, 95, 255, 0.6));
+    }
+
+    .page-transition .pt-glow {
+      position: absolute;
+      inset: -20px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(155, 95, 255, 0.3) 0%, transparent 70%);
+      opacity: 0;
+    }
+
+    /* ── Exit (leaving page) ── */
+    .page-transition.exit-active {
+      pointer-events: all;
+    }
+
+    .page-transition.exit-active .pt-overlay {
+      animation: ptOverlayIn 1.1s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    }
+
+    .page-transition.exit-active .pt-logo {
+      animation: ptLogoIn 1.0s 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .page-transition.exit-active .pt-glow {
+      animation: ptGlowPulse 1.1s 0.55s ease forwards;
+    }
+
+    @keyframes ptOverlayIn {
+      0% { transform: scaleY(0); transform-origin: bottom; }
+      100% { transform: scaleY(1); transform-origin: bottom; }
+    }
+
+    @keyframes ptLogoIn {
+      0% { opacity: 0; transform: scale(0.5) rotate(-30deg); }
+      60% { opacity: 1; transform: scale(1.08) rotate(5deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+
+    @keyframes ptGlowPulse {
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0.6; transform: scale(1); }
+    }
+
+    .page-transition.exit-active ~ .container,
+    .page-transition.exit-active ~ .price-ticker {
+      animation: ptContentOut 0.95s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    }
+
+    @keyframes ptContentOut {
+      0% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+      100% { opacity: 0; transform: translateY(-40px) scale(0.97); filter: blur(4px); }
+    }
+
+    /* ── Entrance (arriving on page) ── */
+    .page-transition.enter .pt-overlay {
+      transform: scaleY(1);
+      transform-origin: top;
+      animation: ptOverlayReveal 1.1s 0.25s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    }
+
+    .page-transition.enter .pt-logo {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+      animation: ptLogoReveal 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    }
+
+    .page-transition.enter .pt-glow {
+      opacity: 0.6;
+      animation: ptGlowOut 0.7s ease forwards;
+    }
+
+    @keyframes ptOverlayReveal {
+      0% { transform: scaleY(1); }
+      100% { transform: scaleY(0); }
+    }
+
+    @keyframes ptLogoReveal {
+      0% { opacity: 1; transform: scale(1) rotate(0deg); }
+      100% { opacity: 0; transform: scale(1.3) rotate(15deg); }
+    }
+
+    @keyframes ptGlowOut {
+      0% { opacity: 0.6; transform: scale(1); }
+      100% { opacity: 0; transform: scale(2); }
+    }
+
+    .page-enter {
+      animation: ptPageEnter 1.1s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes ptPageEnter {
+      0% { opacity: 0; transform: translateY(25px); filter: blur(3px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+
+    /* ── Falling tiles canvas (emo-crush gems with animated faces) ── */
+    #tileCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.6s ease-out;
+    }
+    body.app-ready #tileCanvas { opacity: 1; }
+
+    /* Hold the bird until the page is fully loaded; then fade in and play */
+    body:not(.app-ready) .flying-emonad,
+    body:not(.app-ready) .flying-emonad-bob {
+      animation-play-state: paused;
+    }
+    body:not(.app-ready) .flying-emonad { opacity: 0; }
+    body.app-ready .flying-emonad { transition: opacity 0.6s ease-out; opacity: 1; }
+
+    /* ── Flying Emonad (background mascot) ── */
+    .flying-emonad {
+      position: fixed;
+      top: calc(50% - 80px);
+      left: 0;
+      width: 160px;
+      height: 160px;
+      z-index: -1;
+      pointer-events: auto;
+      cursor: pointer;
+      animation: emonadFlyAcross 14s linear infinite;
+      will-change: transform;
+    }
+    .flying-emonad-fall {
+      width: 100%;
+      height: 100%;
+      will-change: transform;
+    }
+    .flying-emonad-bob {
+      width: 100%;
+      height: 100%;
+      animation: emonadBob 1.6s ease-in-out infinite;
+      will-change: transform;
+    }
+    .flying-emonad img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 18px rgba(155, 95, 255, 0.35)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));
+      -webkit-user-drag: none;
+      user-select: none;
+    }
+    @keyframes emonadFlyAcross {
+      0%   { transform: translateX(-130%); }
+      100% { transform: translateX(calc(100vw + 30px)); }
+    }
+    @keyframes emonadBob {
+      0%, 100% { transform: translateY(-6px) rotate(-3deg); }
+      50%      { transform: translateY(6px)  rotate(3deg);  }
+    }
+
+    /* Death: outer wrapper is frozen at click X via inline style; inner falls + tumbles */
+    .flying-emonad.dying {
+      animation: none !important;
+      cursor: default;
+    }
+    .flying-emonad.dying img {
+      filter: drop-shadow(0 6px 18px rgba(255, 80, 80, 0.4)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+      transition: filter 0.15s ease;
+    }
+    .flying-emonad.dying .flying-emonad-fall {
+      /* Single ease-in curve → pure gravity. Rotation is monotonic so it spins clean to the bottom.
+         Applied to a wrapper so the bob keeps running underneath without snapping to zero. */
+      animation: emonadFall 1.1s cubic-bezier(0.5, 0, 0.9, 0.55) forwards;
+    }
+    @keyframes emonadFall {
+      0%   { transform: translateY(0)     rotate(0deg);   }
+      100% { transform: translateY(130vh) rotate(720deg); }
+    }
+
+    /* Container is a stacking context so its negative-z descendants (canvas + bird)
+       are inside the same backdrop root as the buttons — that's what lets the
+       buttons' backdrop-filter actually blur them. */
+    .container { position: relative; z-index: 2; pointer-events: none; }
+    /* Container itself + non-interactive layout wrappers let clicks fall through to the bird; only real controls catch them */
+    .container .button-section,
+    .container .button-grid,
+    .container .primary-actions,
+    .container .contract-section,
+    .container .footer { pointer-events: none; }
+    .container .btn,
+    .container .btn-primary,
+    .container .contract-address,
+    .container .share-btn,
+    .container .monad-badge,
+    .container .footer a,
+    .container .header-image { pointer-events: auto; }
+    .price-ticker { z-index: 10; }
+
+    /* ── Reduced Motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      .flying-emonad { display: none; }
+      .tile-rain { display: none; }
+      .animate-in { animation: none !important; opacity: 1; }
+      .mouse-glow { display: none; }
+      #particleGrid { display: none; }
+      .btn:hover,
+      .btn-primary:hover,
+      .header-image:hover { transform: none; }
+      .modal-content { animation: none; }
+      .monad-badge .dot { animation: none; }
+      .ticker-skeleton::after { animation: none; }
+      .ticker-logo svg { animation: none; }
+      .typewriter-cursor { animation: none; opacity: 1; }
+      .scroll-hint { animation: none; }
+      .modal-spinner { animation: none; }
+      .ticker-flash { animation: none; }
+      body::after { animation: none !important; }
+      .change-badge.alert { animation: none; }
+      .ripple { animation: none; display: none; }
+      .page-transition { display: none; }
+      .page-enter { animation: none; opacity: 1; }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .price-ticker {
+        height: 38px;
+        padding: 0 10px;
+        gap: 8px;
+        font-size: 11px;
+      }
+
+      .ticker-label { display: none; }
+      .ticker-item.hide-mobile { display: none; }
+      .ticker-updated { display: none; }
+      .ticker-brand { gap: 6px; }
+      .ticker-logo { width: 20px; height: 20px; padding: 2px; }
+      .ticker-name { font-size: 12px; }
+      .ticker-value { font-size: 12px; }
+      .change-badge { font-size: 10px; padding: 2px 6px; }
+      .theme-toggle { width: 30px; height: 30px; font-size: 14px; }
+      .emo-auth-host { margin-left: auto; }
+    }
+
+    @media (max-width: 480px) {
+      .price-ticker { padding: 0 8px; gap: 6px; }
+      .ticker-brand { flex-shrink: 0; }
+    }
+
+      .container {
+        padding: 60px 16px 30px;
+        justify-content: flex-start;
+      }
+
+      .container picture {
+        max-width: 100%;
+        margin-bottom: 16px;
+      }
+      .header-image {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 0;
+        border-radius: 16px;
+      }
+
+      /* Lighter blur on mobile so the GPU doesn't choke on backdrop-filter */
+      .btn.btn-outline,
+      .btn-primary,
+      .btn-primary-outline,
+      .contract-address,
+      .monad-badge,
+      .share-btn {
+        backdrop-filter: blur(22px) saturate(170%);
+        -webkit-backdrop-filter: blur(22px) saturate(170%);
+      }
+
+      .title { font-size: 1.8rem; }
+      .subtitle { font-size: 0.95rem; margin-bottom: 28px; }
+
+      .primary-actions { gap: 10px; margin-bottom: 26px; }
+      .btn-primary { padding: 12px 28px; font-size: 15px; }
+
+      .button-section { margin-bottom: 18px; }
+      .section-label { font-size: 9px; margin-bottom: 8px; }
+      .button-grid { gap: 8px; }
+
+      .btn {
+        padding: 9px 16px;
+        font-size: 12px;
+      }
+
+      .contract-address {
+        font-size: 12px;
+        padding: 9px 14px;
+        max-width: 100%;
+      }
+
+      .contract-full { display: none; }
+      .contract-short { display: inline; }
+
+      .modal-content {
+        width: 100%;
+        height: 70vh;
+        border-radius: 14px;
+      }
+
+      .modal-compact {
+        width: 100%;
+        max-width: 100%;
+        height: 70vh;
+        border-radius: 14px;
+      }
+
+      /* Mobile background glow */
+      body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background:
+          radial-gradient(circle at 30% 20%, var(--accent-glow) 0%, transparent 50%),
+          radial-gradient(circle at 70% 80%, rgba(155, 95, 255, 0.1) 0%, transparent 50%);
+        animation: mobileGlow 8s ease-in-out infinite alternate;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .price-ticker {
+        height: 34px;
+        gap: 6px;
+        padding: 0 8px;
+      }
+
+      .ticker-logo { width: 18px; height: 18px; padding: 2px; }
+      .ticker-name { font-size: 11px; }
+      .ticker-value { font-size: 11px; }
+      .change-badge { font-size: 9px; padding: 1px 5px; }
+
+      .title { font-size: 1.5rem; }
+      .subtitle { font-size: 0.85rem; }
+
+      .primary-actions { flex-direction: column; align-items: center; }
+      .btn-primary { max-width: 100%; width: 100%; padding: 13px 20px; }
+
+      .btn {
+        padding: 10px 14px;
+        font-size: 12px;
+        min-height: 44px;
+      }
+
+      .contract-address {
+        font-size: 10px;
+        padding: 10px 12px;
+        min-height: 44px;
+      }
+
+      .header-image {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Price Ticker -->
+  <div class="price-ticker" id="priceTicker" role="banner" aria-label="Live token price data">
+    <div class="ticker-brand">
+      <div class="ticker-logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path fill="#836EF9" d="M12 3c-2.599 0-9 6.4-9 9s6.401 9 9 9s9-6.401 9-9s-6.401-9-9-9m-1.402 14.146c-1.097-.298-4.043-5.453-3.744-6.549s5.453-4.042 6.549-3.743c1.095.298 4.042 5.453 3.743 6.549c-.298 1.095-5.453 4.042-6.549 3.743"/></svg>
+      </div>
+      <span class="ticker-name">$EMO</span>
+    </div>
+    <div class="ticker-divider"></div>
+    <div class="ticker-item">
+      <span class="ticker-value" id="tokenPrice"><span class="ticker-skeleton wide"></span></span>
+    </div>
+    <div class="ticker-item">
+      <span class="change-badge" id="priceChange"><span class="ticker-skeleton badge"></span></span>
+    </div>
+    <div class="ticker-item">
+      <span class="ticker-label">MC</span>
+      <span class="ticker-value" id="marketCap"><span class="ticker-skeleton"></span></span>
+    </div>
+    <div class="ticker-item hide-mobile">
+      <span class="ticker-label">Vol</span>
+      <span class="ticker-value" id="tickerVolume"><span class="ticker-skeleton"></span></span>
+    </div>
+    <div class="ticker-item hide-mobile">
+      <span class="ticker-label">Liq</span>
+      <span class="ticker-value" id="tickerLiquidity"><span class="ticker-skeleton"></span></span>
+    </div>
+    <div class="ticker-item hide-mobile">
+      <span class="ticker-label">FDV</span>
+      <span class="ticker-value" id="tickerFdv"><span class="ticker-skeleton"></span></span>
+    </div>
+    <span class="ticker-spacer"></span>
+    <span class="ticker-updated" id="tickerUpdated"></span>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark and light theme">
+      <span class="icon-sun">&#9680;</span>
+      <span class="icon-moon">&#9681;</span>
+    </button>
+    <span id="emoAuthSlot" class="emo-auth-host"></span>
+  </div>
+
+  <div class="container">
+    <!-- Background mascot + falling gems live INSIDE the container so buttons can blur them -->
+    <canvas id="tileCanvas" aria-hidden="true"></canvas>
+    <div class="flying-emonad" aria-hidden="true">
+      <div class="flying-emonad-fall">
+        <div class="flying-emonad-bob">
+          <img id="flyingEmonadImg" src="flapemonad/flap1.PNG" alt="">
+        </div>
+      </div>
+    </div>
+    <picture>
+      <source srcset="site%20banner.webp" type="image/webp">
+      <img src="site%20banner.png" alt="Emonad" width="1500" height="500" class="header-image animate-in" style="animation-delay:0.05s" decoding="async" fetchpriority="high">
+    </picture>
+
+    <h1 class="title animate-in" style="animation-delay:0.12s">The Emoverse</h1>
+    <p class="subtitle" id="subtitle" style="opacity:0">i lost it all on day 1</p>
+
+    
+    <!-- Explore Section -->
+    <div class="button-section animate-in" style="animation-delay:0.26s">
+      <div class="section-label">Explore</div>
+      <div class="button-grid">
+        <a href="memes.html" class="btn btn-outline">Memes</a>
+        <a href="meme-maker.html" class="btn btn-outline">Meme Maker</a>
+        <a href="https://giphy.com/emonad" target="_blank" rel="noopener noreferrer" class="btn btn-outline">GIFs</a>
+        <a href="https://chromewebstore.google.com/detail/emo-meme-picker/fhabdopcgbnnijmbmhfijlohheipckoe" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Meme Picker Extension</a>
+        <a href="https://chromewebstore.google.com/detail/emo-theme/hlhjidmdpgiigmjobbaalnnjgpmkipin" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Browser Theme</a>
+      </div>
+    </div>
+
+    <!-- Games Section -->
+    <div class="button-section animate-in" style="animation-delay:0.31s">
+      <div class="section-label">Games</div>
+      <div class="button-grid">
+        <a href="emo-crush/index.html" class="btn btn-outline">Emo Crush</a>
+        <a href="flapemonad/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Flap Emonad</a>
+        <a href="tarot/" class="btn btn-outline">Emo Tarot</a>
+      </div>
+    </div>
+
+    <!-- Community Section -->
+    <div class="button-section animate-in" style="animation-delay:0.36s">
+      <div class="section-label">Community</div>
+      <div class="button-grid">
+        <a href="https://twitter.com/EmonadCoin" class="btn btn-outline" target="_blank" rel="noopener noreferrer"><svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter</a>
+        <a href="https://t.me/+8RP7jI5wA3o2N2Fh" class="btn btn-outline" target="_blank" rel="noopener noreferrer"><svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>Telegram</a>
+
+      </div>
+    </div>
+
+    <!-- Trade Section -->
+    <div class="button-section animate-in" style="animation-delay:0.41s">
+      <div class="section-label">Trade</div>
+      <div class="button-grid">
+        <a href="https://nad.fun/tokens/0x81A224F8A62f52BdE942dBF23A56df77A10b7777" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Nad.fun</a>
+        <a href="https://www.kuru.io/token/0x81a224f8a62f52bde942dbf23a56df77a10b7777" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Kuru</a>
+        <a href="https://dex.dirol.io/token/0x81a224f8a62f52bde942dbf23a56df77a10b7777" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Dirol</a>
+        <a href="https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d" class="btn btn-outline" target="_blank" rel="noopener noreferrer">DEX</a>
+        <a href="https://opensea.io/token/monad/0x81a224f8a62f52bde942dbf23a56df77a10b7777?timeframe=all_time&candleSize=one_day" class="btn btn-outline" target="_blank" rel="noopener noreferrer">OpenSea</a>
+      </div>
+    </div>
+
+    <!-- Primary Actions -->
+    <div class="primary-actions animate-in" style="animation-delay:0.46s">
+      <a href="https://nad.fun/tokens/0x81A224F8A62f52BdE942dBF23A56df77A10b7777" class="btn-primary" target="_blank" rel="noopener noreferrer">Buy $EMO</a>
+      <button class="btn-primary btn-primary-outline" id="chartBtn">Chart</button>
+    </div>
+
+    <!-- Contract Address -->
+    <div class="contract-section animate-in" style="animation-delay:0.51s">
+      <div class="contract-address" id="contractAddress" role="button" tabindex="0" aria-label="Copy contract address to clipboard">
+        <span id="contractText"><span class="contract-full">0x81A224F8A62f52BdE942dBF23A56df77A10b7777</span><span class="contract-short">0x81A2...7777</span></span>
+        <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </div>
+      <div class="monad-badge" aria-label="Live on Monad network">
+        <svg class="monad-logo" viewBox="0 0 24 24" aria-hidden="true"><path fill="#836EF9" d="M12 3c-2.599 0-9 6.4-9 9s6.401 9 9 9s9-6.401 9-9s-6.401-9-9-9m-1.402 14.146c-1.097-.298-4.043-5.453-3.744-6.549s5.453-4.042 6.549-3.743c1.095.298 4.042 5.453 3.743 6.549c-.298 1.095-5.453 4.042-6.549 3.743"/></svg>
+        <span class="live-indicator">
+          <span class="dot" aria-hidden="true"></span>
+          Live on Monad
+        </span>
+      </div>
+      <button class="share-btn" id="shareBtn" aria-label="Share this page">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+        Share
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer animate-in" style="animation-delay:0.56s">
+      <a href="https://twitter.com/EmonadCoin" target="_blank" rel="noopener noreferrer">Twitter</a>
+      <span class="footer-dot">·</span>
+      <a href="https://t.me/+8RP7jI5wA3o2N2Fh" target="_blank" rel="noopener noreferrer">Telegram</a>
+      <span class="footer-dot">·</span>
+      <span>the emo kid of Monad</span>
+    </footer>
+  </div>
+
+  <script>
+    // ── Falling emo-crush tiles with live-animated faces (ported from emo-crush) ──
+    (function() {
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var canvas = document.getElementById('tileCanvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var NT = 6;
+
+      var GEMS = [
+        {n:'Happy',   bg1:'#FFF8C0',bg2:'#FFD060',bg3:'#F0B420',bg4:'#D09808',bdr:'rgba(210,160,20,.5)',  g:'rgba(255,208,96,.5)',  dot:'#FFD060'},
+        {n:'Sad',     bg1:'#CCE8FF',bg2:'#70B4F0',bg3:'#4C94E0',bg4:'#2C74C4',bdr:'rgba(60,130,210,.5)', g:'rgba(112,180,240,.5)', dot:'#70B4F0'},
+        {n:'Angry',   bg1:'#FFD0D0',bg2:'#FF7878',bg3:'#EE4848',bg4:'#CC2828',bdr:'rgba(220,60,60,.5)',  g:'rgba(255,120,120,.5)',  dot:'#FF7878'},
+        {n:'Shocked', bg1:'#B0F8E0',bg2:'#50D8A8',bg3:'#30B888',bg4:'#1C9870',bdr:'rgba(40,168,120,.5)', g:'rgba(80,216,168,.5)', dot:'#50D8A8'},
+        {n:'Love',    bg1:'#FFCCE8',bg2:'#FF80B8',bg3:'#F04890',bg4:'#D02870',bdr:'rgba(220,60,130,.5)', g:'rgba(255,128,184,.5)', dot:'#FF80B8'},
+        {n:'Cool',    bg1:'#DCD0FF',bg2:'#A488F0',bg3:'#7C58E0',bg4:'#5C38C4',bdr:'rgba(110,70,210,.5)', g:'rgba(164,136,240,.5)',dot:'#A488F0'}
+      ];
+
+      function rr(c,x,y,w,h,rd){c.beginPath();c.moveTo(x+rd,y);c.arcTo(x+w,y,x+w,y+h,rd);c.arcTo(x+w,y+h,x,y+h,rd);c.arcTo(x,y+h,x,y,rd);c.arcTo(x,y,x+w,y,rd);c.closePath();}
+
+      // Pre-render tile bodies (sp=0, no special indicator)
+      var gemCvs = [], gemPad = 0;
+      function prerenderGems(logSz) {
+        gemCvs = [];
+        var pad = Math.round(logSz * dpr * 0.22);
+        var sz = Math.round(logSz * dpr) + pad * 2;
+        gemPad = pad;
+        var tileArea = Math.round(logSz * dpr);
+        var margin = Math.round(tileArea * 0.07);
+        var ts = tileArea - margin * 2;
+        var cr = ts * 0.26;
+
+        for (var t = 0; t < NT; t++) {
+          gemCvs[t] = {};
+          var cv = document.createElement('canvas'); cv.width = sz; cv.height = sz;
+          var c = cv.getContext('2d'), g = GEMS[t];
+          var tx = pad + margin, ty = pad + margin;
+          var cx = tx + ts/2, cy = ty + ts/2;
+
+          c.save(); c.globalAlpha = 0.28;
+          var ah = c.createRadialGradient(cx, cy + 2*dpr, ts*0.15, cx, cy + 2*dpr, ts*0.75);
+          ah.addColorStop(0, g.bg2); ah.addColorStop(0.35, g.bg2); ah.addColorStop(0.65, g.bg3); ah.addColorStop(1, 'rgba(0,0,0,0)');
+          c.fillStyle = ah; c.fillRect(tx - ts*0.25, ty - ts*0.2, ts*1.5, ts*1.5); c.restore();
+
+          c.save(); c.globalAlpha = 0.2;
+          var ds = c.createRadialGradient(cx, cy + 3*dpr, ts*0.2, cx, cy + 4*dpr, ts*0.62);
+          ds.addColorStop(0, 'rgba(0,0,0,.5)'); ds.addColorStop(0.4, 'rgba(0,0,0,.2)');
+          ds.addColorStop(0.75, 'rgba(0,0,0,.06)'); ds.addColorStop(1, 'rgba(0,0,0,0)');
+          c.fillStyle = ds; c.fillRect(tx - ts*0.15, ty - ts*0.05, ts*1.3, ts*1.3);
+          c.globalAlpha = 0.06;
+          var dsc = c.createRadialGradient(cx, cy + 3*dpr, 0, cx, cy + 3*dpr, ts*0.5);
+          dsc.addColorStop(0, g.bg3); dsc.addColorStop(0.6, g.bg3); dsc.addColorStop(1, 'rgba(0,0,0,0)');
+          c.fillStyle = dsc; c.fillRect(tx - ts*0.1, ty, ts*1.2, ts*1.2); c.restore();
+
+          c.save(); rr(c, tx, ty, ts, ts, cr);
+          var gr = c.createLinearGradient(tx + ts*0.08, ty, tx + ts*0.22, ty + ts);
+          gr.addColorStop(0, g.bg1); gr.addColorStop(0.1, g.bg1); gr.addColorStop(0.28, g.bg2);
+          gr.addColorStop(0.5, g.bg2); gr.addColorStop(0.72, g.bg3);
+          gr.addColorStop(0.9, g.bg4 || g.bg3); gr.addColorStop(1, g.bg4 || g.bg3);
+          c.fillStyle = gr; c.fill(); c.restore();
+
+          c.save(); rr(c, tx, ty, ts, ts, cr); c.clip(); c.globalAlpha = 0.22;
+          var sss = c.createRadialGradient(cx - ts*0.06, cy - ts*0.1, 0, cx, cy, ts*0.58);
+          sss.addColorStop(0, g.bg1); sss.addColorStop(0.3, g.bg1);
+          sss.addColorStop(0.6, 'rgba(255,255,255,.04)'); sss.addColorStop(1, 'rgba(0,0,0,0)');
+          c.fillStyle = sss; c.fillRect(tx, ty, ts, ts); c.restore();
+
+          c.save(); rr(c, tx, ty, ts, ts, cr); c.clip();
+          var ao = c.createRadialGradient(cx - ts*0.05, cy - ts*0.08, ts*0.25, cx, cy, ts*0.56);
+          ao.addColorStop(0, 'rgba(0,0,0,0)'); ao.addColorStop(0.6, 'rgba(0,0,0,0)');
+          ao.addColorStop(0.82, 'rgba(0,0,0,.06)'); ao.addColorStop(1, 'rgba(0,0,0,.14)');
+          c.fillStyle = ao; c.fillRect(tx, ty, ts, ts); c.restore();
+
+          c.save(); rr(c, tx, ty, ts, ts, cr); c.clip();
+          var ir = c.createRadialGradient(cx - ts*0.08, cy - ts*0.12, 0, cx, cy, ts*0.55);
+          ir.addColorStop(0, 'rgba(255,255,255,.3)'); ir.addColorStop(0.12, 'rgba(255,255,255,.2)');
+          ir.addColorStop(0.35, 'rgba(255,255,255,.08)'); ir.addColorStop(0.65, 'rgba(255,255,255,.02)');
+          ir.addColorStop(1, 'rgba(0,0,0,0)');
+          c.fillStyle = ir; c.fillRect(tx, ty, ts, ts); c.restore();
+
+          c.save(); rr(c, tx, ty, ts, ts, cr); c.clip();
+          var gh = c.createLinearGradient(tx, ty, tx, ty + ts*0.52);
+          gh.addColorStop(0, 'rgba(255,255,255,.72)'); gh.addColorStop(0.03, 'rgba(255,255,255,.58)');
+          gh.addColorStop(0.1, 'rgba(255,255,255,.35)'); gh.addColorStop(0.2, 'rgba(255,255,255,.18)');
+          gh.addColorStop(0.38, 'rgba(255,255,255,.06)'); gh.addColorStop(1, 'rgba(255,255,255,0)');
+          c.fillStyle = gh; c.fillRect(tx, ty, ts, ts*0.52);
+          var ge = c.createRadialGradient(cx, ty + ts*0.35, ts*0.08, cx, ty + ts*0.35, ts*0.42);
+          ge.addColorStop(0, 'rgba(255,255,255,.08)'); ge.addColorStop(0.5, 'rgba(255,255,255,.03)');
+          ge.addColorStop(1, 'rgba(0,0,0,0)');
+          c.fillStyle = ge; c.fillRect(tx, ty + ts*0.15, ts, ts*0.35); c.restore();
+
+          c.save(); rr(c, tx, ty, ts, ts, cr); c.clip(); c.globalAlpha = 0.5;
+          c.beginPath(); c.ellipse(cx - ts*0.04, ty + ts*0.13, ts*0.28, ts*0.07, -0.08, 0, Math.PI, true);
+          var scg = c.createLinearGradient(cx - ts*0.32, ty + ts*0.06, cx + ts*0.24, ty + ts*0.2);
+          scg.addColorStop(0, 'rgba(255,255,255,0)'); scg.addColorStop(0.2, 'rgba(255,255,255,.45)');
+          scg.addColorStop(0.5, 'rgba(255,255,255,.85)'); scg.addColorStop(0.8, 'rgba(255,255,255,.45)');
+          scg.addColorStop(1, 'rgba(255,255,255,0)');
+          c.strokeStyle = scg; c.lineWidth = ts*0.03; c.stroke(); c.restore();
+
+          c.save(); rr(c, tx, ty, ts, ts, cr); c.clip();
+          var sp1 = c.createRadialGradient(tx + ts*0.22, ty + ts*0.15, 0, tx + ts*0.24, ty + ts*0.18, ts*0.22);
+          sp1.addColorStop(0, 'rgba(255,255,255,.72)'); sp1.addColorStop(0.12, 'rgba(255,255,255,.4)');
+          sp1.addColorStop(0.3, 'rgba(255,255,255,.14)'); sp1.addColorStop(0.55, 'rgba(255,255,255,.04)');
+          sp1.addColorStop(1, 'rgba(0,0,0,0)');
+          c.fillStyle = sp1; c.fillRect(tx, ty, ts, ts); c.restore();
+
+          c.save(); rr(c, tx, ty, ts, ts, cr); c.clip(); c.globalAlpha = 0.12;
+          var sp2 = c.createRadialGradient(tx + ts*0.74, ty + ts*0.72, 0, tx + ts*0.74, ty + ts*0.72, ts*0.18);
+          sp2.addColorStop(0, 'rgba(255,255,255,.55)'); sp2.addColorStop(0.35, 'rgba(255,255,255,.2)');
+          sp2.addColorStop(1, 'rgba(0,0,0,0)');
+          c.fillStyle = sp2; c.fillRect(tx, ty, ts, ts); c.restore();
+
+          c.save(); rr(c, tx, ty, ts, ts, cr); c.clip();
+          var bsh = c.createLinearGradient(tx, ty + ts*0.42, tx, ty + ts);
+          bsh.addColorStop(0, 'rgba(0,0,0,0)'); bsh.addColorStop(0.25, 'rgba(0,0,0,.02)');
+          bsh.addColorStop(0.55, 'rgba(0,0,0,.06)'); bsh.addColorStop(0.8, 'rgba(0,0,0,.13)');
+          bsh.addColorStop(1, 'rgba(0,0,0,.2)');
+          c.fillStyle = bsh; c.fillRect(tx, ty + ts*0.42, ts, ts*0.58); c.restore();
+
+          c.save(); rr(c, tx, ty, ts, ts, cr); c.clip(); c.globalAlpha = 0.14;
+          var rl = c.createLinearGradient(tx, ty, tx + ts*0.45, ty + ts*0.45);
+          rl.addColorStop(0, 'rgba(255,255,255,.85)'); rl.addColorStop(0.06, 'rgba(255,255,255,.4)');
+          rl.addColorStop(0.16, 'rgba(255,255,255,.1)'); rl.addColorStop(1, 'rgba(0,0,0,0)');
+          c.fillStyle = rl; c.fillRect(tx, ty, ts*0.45, ts*0.45); c.restore();
+
+          c.save(); rr(c, tx, ty, ts, ts, cr); c.clip(); c.globalAlpha = 0.035;
+          c.lineWidth = ts*0.012;
+          for (var ring = 3; ring <= 5; ring++) {
+            var rRad = ts * ring * 0.1;
+            c.beginPath(); c.arc(cx - ts*0.05, cy - ts*0.08, rRad, 0, Math.PI*2);
+            c.strokeStyle = ring % 2 ? 'rgba(255,255,255,.6)' : 'rgba(0,0,0,.3)'; c.stroke();
+          }
+          c.restore();
+
+          c.save();
+          rr(c, tx + 0.5, ty + 0.5, ts - 1, ts - 1, cr);
+          c.strokeStyle = g.bdr; c.lineWidth = 1.2 * dpr; c.stroke();
+          rr(c, tx + 1.5*dpr, ty + 1*dpr, ts - 3*dpr, ts - 2.5*dpr, cr - 1);
+          var bvl = c.createLinearGradient(tx, ty, tx + ts, ty + ts);
+          bvl.addColorStop(0, 'rgba(255,255,255,.55)'); bvl.addColorStop(0.25, 'rgba(255,255,255,.35)');
+          bvl.addColorStop(0.55, 'rgba(255,255,255,.1)'); bvl.addColorStop(1, 'rgba(0,0,0,.06)');
+          c.strokeStyle = bvl; c.lineWidth = 0.7 * dpr; c.stroke(); c.restore();
+
+          c.save();
+          c.globalAlpha = 0.72; c.fillStyle = '#fff';
+          c.beginPath(); c.arc(tx + ts*0.19, ty + ts*0.14, ts*0.042, 0, Math.PI*2); c.fill();
+          c.globalAlpha = 0.3;
+          c.beginPath(); c.arc(tx + ts*0.31, ty + ts*0.1, ts*0.022, 0, Math.PI*2); c.fill();
+          c.globalAlpha = 0.14;
+          c.beginPath(); c.arc(tx + ts*0.14, ty + ts*0.26, ts*0.016, 0, Math.PI*2); c.fill();
+          c.restore();
+
+          gemCvs[t][0] = cv;
+        }
+      }
+
+      // ── Animated faces (ported from emo-crush) ──
+      function aPulse(t, period, onset, dur) {
+        var cy = t % period;
+        if (cy < onset || cy > onset + dur) return 0;
+        var p = (cy - onset) / dur;
+        return p < 0.3 ? p / 0.3 : p > 0.7 ? (1 - p) / 0.3 : 1;
+      }
+
+      function drawHeart(c, cx, cy, s) {
+        c.save(); c.translate(cx, cy);
+        var w = s * 0.5, h = s * 0.5;
+        c.beginPath(); c.moveTo(0, h);
+        c.bezierCurveTo(-w*0.3, h*0.55, -w, h*0.15, -w, -h*0.25);
+        c.bezierCurveTo(-w, -h*0.7, 0, -h*0.75, 0, -h*0.2);
+        c.bezierCurveTo(0, -h*0.75, w, -h*0.7, w, -h*0.25);
+        c.bezierCurveTo(w, h*0.15, w*0.3, h*0.55, 0, h);
+        c.closePath(); c.restore();
+      }
+
+      function animHappy(c,r,t,row,col){var dk='rgba(70,40,0,.8)',ph=row*7+col*13;c.lineCap='round';c.lineJoin='round';var eo=aPulse((t+ph*97)%4200,4200,3800,350);if(eo>.5){c.fillStyle='#fff';c.beginPath();c.arc(-r*.3,-r*.1,r*.14,0,Math.PI*2);c.fill();c.beginPath();c.arc(r*.3,-r*.1,r*.14,0,Math.PI*2);c.fill();c.strokeStyle=dk;c.lineWidth=r*.045;c.beginPath();c.arc(-r*.3,-r*.1,r*.14,0,Math.PI*2);c.stroke();c.beginPath();c.arc(r*.3,-r*.1,r*.14,0,Math.PI*2);c.stroke();c.fillStyle=dk;c.beginPath();c.arc(-r*.3,-r*.13,r*.06,0,Math.PI*2);c.fill();c.beginPath();c.arc(r*.3,-r*.13,r*.06,0,Math.PI*2);c.fill();c.fillStyle='rgba(255,255,255,.65)';c.beginPath();c.arc(-r*.27,-r*.16,r*.025,0,Math.PI*2);c.fill();c.beginPath();c.arc(r*.33,-r*.16,r*.025,0,Math.PI*2);c.fill();}else{var sq=Math.sin(t*.003+ph)*.015;c.strokeStyle=dk;c.lineWidth=r*.12;c.beginPath();c.arc(-r*.3,-r*.1,r*(.15+sq),Math.PI*.85,Math.PI*.15,true);c.stroke();c.beginPath();c.arc(r*.3,-r*.1,r*(.15+sq),Math.PI*.85,Math.PI*.15,true);c.stroke();}var ca=.2+Math.sin(t*.003+ph)*.08;c.fillStyle='rgba(255,110,70,'+ca+')';c.beginPath();c.arc(-r*.5,r*.12,r*.15,0,Math.PI*2);c.fill();c.beginPath();c.arc(r*.5,r*.12,r*.15,0,Math.PI*2);c.fill();var sw=r*(.34+Math.sin(t*.002+ph*.7)*.02);c.strokeStyle=dk;c.lineWidth=r*.1;c.beginPath();c.moveTo(-sw,r*.25);c.quadraticCurveTo(0,r*.58,sw,r*.25);c.stroke();c.fillStyle='rgba(255,120,130,.6)';c.beginPath();c.arc(0,r*.4,r*.08,0,Math.PI);c.fill();var spk=aPulse((t+ph*61)%5000,5000,4200,600);if(spk>.1){c.save();c.globalAlpha=spk*.7;c.strokeStyle='#fff';c.lineWidth=r*.04;var sx2=r*.5,sy2=-r*.3;c.beginPath();c.moveTo(sx2,sy2-r*.08);c.lineTo(sx2,sy2+r*.08);c.moveTo(sx2-r*.08,sy2);c.lineTo(sx2+r*.08,sy2);c.stroke();c.restore();}}
+
+      function animSad(c,r,t,row,col){var dk='rgba(15,35,75,.85)',ph=row*7+col*13;c.lineCap='round';c.lineJoin='round';var bl=Math.sin(t*.002+ph)*.015;c.strokeStyle=dk;c.lineWidth=r*.08;c.beginPath();c.moveTo(-r*.48,-r*(.3+bl));c.lineTo(-r*.2,-r*(.42+bl));c.stroke();c.beginPath();c.moveTo(r*.48,-r*(.3+bl));c.lineTo(r*.2,-r*(.42+bl));c.stroke();var bk=aPulse((t+ph*83)%3500,3500,3200,250);if(bk>.5){c.strokeStyle=dk;c.lineWidth=r*.1;c.beginPath();c.moveTo(-r*.42,-r*.06);c.lineTo(-r*.14,-r*.06);c.stroke();c.beginPath();c.moveTo(r*.14,-r*.06);c.lineTo(r*.42,-r*.06);c.stroke();}else{c.fillStyle='#fff';c.beginPath();c.arc(-r*.28,-r*.06,r*.14,0,Math.PI*2);c.fill();c.beginPath();c.arc(r*.28,-r*.06,r*.14,0,Math.PI*2);c.fill();c.strokeStyle=dk;c.lineWidth=r*.04;c.beginPath();c.arc(-r*.28,-r*.06,r*.14,0,Math.PI*2);c.stroke();c.beginPath();c.arc(r*.28,-r*.06,r*.14,0,Math.PI*2);c.stroke();var pd=Math.sin(t*.001+ph*.5)*r*.02;c.fillStyle=dk;c.beginPath();c.arc(-r*.3+pd,r*.0,r*.06,0,Math.PI*2);c.fill();c.beginPath();c.arc(r*.26+pd,r*.0,r*.06,0,Math.PI*2);c.fill();c.fillStyle='rgba(255,255,255,.7)';c.beginPath();c.arc(-r*.24,-r*.12,r*.04,0,Math.PI*2);c.fill();c.beginPath();c.arc(r*.32,-r*.12,r*.04,0,Math.PI*2);c.fill();c.fillStyle='rgba(150,210,255,.25)';c.beginPath();c.arc(-r*.28,r*.04,r*.1,0,Math.PI);c.fill();c.beginPath();c.arc(r*.28,r*.04,r*.1,0,Math.PI);c.fill();}var fw=Math.sin(t*.004+ph)*.02;var fq=Math.sin(t*.012+ph)*r*.005;c.strokeStyle=dk;c.lineWidth=r*.09;c.beginPath();c.moveTo(-r*.2+fq,r*(.36+fw));c.quadraticCurveTo(0,r*(.2-fw),r*.2-fq,r*(.36+fw));c.stroke();var tCyc=3500,tPh=(t+ph*137)%tCyc,tP=tPh/tCyc;var eyeX=r*.28,eyeBot=r*.08;if(tP<.12){var g=tP/.12;c.fillStyle='rgba(120,190,255,'+(.3+g*.55)+')';c.beginPath();c.arc(eyeX,eyeBot+r*.02*g,r*.035*g,0,Math.PI*2);c.fill();}else if(tP<.5){var g2=(tP-.12)/.38;var dropY=eyeBot+r*.03+g2*r*.5;var sz2=r*(.045+g2*.015);var alpha=.75-g2*.3;var trLen=Math.min(r*.15,g2*r*.3);c.save();var tg=c.createLinearGradient(eyeX,dropY-trLen,eyeX,dropY);tg.addColorStop(0,'rgba(120,190,255,0)');tg.addColorStop(1,'rgba(120,190,255,'+(alpha*.35)+')');c.strokeStyle=tg;c.lineWidth=r*.02;c.beginPath();c.moveTo(eyeX,dropY-trLen);c.lineTo(eyeX,dropY);c.stroke();c.restore();c.fillStyle='rgba(120,190,255,'+alpha+')';c.beginPath();c.moveTo(eyeX,dropY-sz2*2.2);c.quadraticCurveTo(eyeX+sz2*1.4,dropY+sz2*.2,eyeX,dropY+sz2*1.6);c.quadraticCurveTo(eyeX-sz2*1.4,dropY+sz2*.2,eyeX,dropY-sz2*2.2);c.closePath();c.fill();c.fillStyle='rgba(255,255,255,'+(alpha*.6)+')';c.beginPath();c.arc(eyeX-sz2*.3,dropY-sz2*.8,sz2*.22,0,Math.PI*2);c.fill();}else if(tP<.62){var g3=(tP-.5)/.12;var alpha2=.45*(1-g3);c.fillStyle='rgba(120,190,255,'+alpha2+')';c.beginPath();c.arc(eyeX,eyeBot+r*.55,r*.03*(1-g3*.5),0,Math.PI*2);c.fill();}}
+
+      function animAngry(c,r,t,row,col){var dk='rgba(70,15,5,.9)',ph=row*7+col*13;c.lineCap='round';c.lineJoin='round';var shkCyc=2500,shkOn=aPulse((t+ph*53)%shkCyc,shkCyc,0,400);var shk=shkOn*Math.sin(t*.07+ph)*r*.05;c.save();c.translate(shk,shk*.3);if(shkOn>.05){c.fillStyle='rgba(255,30,0,'+(shkOn*.08)+')';c.beginPath();c.arc(0,0,r*.8,0,Math.PI*2);c.fill();}var bDip=shkOn*.06;c.strokeStyle=dk;c.lineWidth=r*.14;c.beginPath();c.moveTo(-r*.56,-r*.28);c.lineTo(-r*.16,-r*(.1-bDip));c.stroke();c.beginPath();c.moveTo(r*.56,-r*.28);c.lineTo(r*.16,-r*(.1-bDip));c.stroke();var slitH=r*(.06-shkOn*.015),slitW=r*.17;c.fillStyle='#fff';c.beginPath();c.ellipse(-r*.3,-r*.02,slitW,slitH,-.05,0,Math.PI*2);c.fill();c.beginPath();c.ellipse(r*.3,-r*.02,slitW,slitH,.05,0,Math.PI*2);c.fill();c.strokeStyle=dk;c.lineWidth=r*.035;c.beginPath();c.ellipse(-r*.3,-r*.02,slitW,slitH,-.05,0,Math.PI*2);c.stroke();c.beginPath();c.ellipse(r*.3,-r*.02,slitW,slitH,.05,0,Math.PI*2);c.stroke();c.fillStyle=dk;c.beginPath();c.arc(-r*.3,-r*.02,r*.045,0,Math.PI*2);c.fill();c.beginPath();c.arc(r*.3,-r*.02,r*.045,0,Math.PI*2);c.fill();c.fillStyle='rgba(255,60,30,'+(.2+shkOn*.25)+')';c.beginPath();c.arc(-r*.27,-r*.04,r*.02,0,Math.PI*2);c.fill();c.beginPath();c.arc(r*.33,-r*.04,r*.02,0,Math.PI*2);c.fill();var mOpen=r*(.18+shkOn*.12);c.fillStyle='rgba(50,10,5,.7)';c.beginPath();c.moveTo(-r*.32,r*.2);c.lineTo(r*.32,r*.2);c.lineTo(r*.28,r*.2+mOpen);c.lineTo(-r*.28,r*.2+mOpen);c.closePath();c.fill();c.fillStyle='rgba(255,255,255,.92)';var tw2=r*.11;for(var i=-1;i<=1;i++){var tx2=-tw2*.5+i*tw2,tH=r*(.07+Math.abs(i)*.02);c.beginPath();c.moveTo(tx2,r*.2);c.lineTo(tx2+tw2*.85,r*.2);c.lineTo(tx2+tw2*.42,r*.2+tH);c.closePath();c.fill();}if(shkOn>.2){var bth=r*.05*shkOn;for(var j=-1;j<=1;j++){var tx3=-tw2*.5+j*tw2;c.beginPath();c.moveTo(tx3,r*.2+mOpen);c.lineTo(tx3+tw2*.85,r*.2+mOpen);c.lineTo(tx3+tw2*.42,r*.2+mOpen-bth);c.closePath();c.fill();}}if(shkOn>.3){c.strokeStyle='rgba(200,40,30,'+(shkOn*.35)+')';c.lineWidth=r*.025;c.beginPath();c.moveTo(-r*.15,-r*.42);c.lineTo(-r*.08,-r*.5);c.lineTo(-r*.02,-r*.44);c.stroke();}c.restore();}
+
+      function animShocked(c,r,t,row,col){var dk='rgba(15,55,45,.8)',ph=row*7+col*13;c.lineCap='round';c.lineJoin='round';c.strokeStyle=dk;c.lineWidth=r*.09;c.beginPath();c.arc(-r*.3,-r*.4,r*.14,Math.PI*.82,Math.PI*.18,true);c.stroke();c.beginPath();c.arc(r*.3,-r*.4,r*.14,Math.PI*.82,Math.PI*.18,true);c.stroke();var ep=1+Math.sin(t*.003+ph)*.05;c.fillStyle='#fff';c.beginPath();c.arc(-r*.28,-r*.1,r*.17*ep,0,Math.PI*2);c.fill();c.beginPath();c.arc(r*.28,-r*.1,r*.17*ep,0,Math.PI*2);c.fill();c.strokeStyle=dk;c.lineWidth=r*.045;c.beginPath();c.arc(-r*.28,-r*.1,r*.17*ep,0,Math.PI*2);c.stroke();c.beginPath();c.arc(r*.28,-r*.1,r*.17*ep,0,Math.PI*2);c.stroke();var pdx=Math.sin(t*.005+ph*2)*r*.04;var pdy=Math.cos(t*.004+ph*3)*r*.03;c.fillStyle=dk;c.beginPath();c.arc(-r*.28+pdx,-r*.1+pdy,r*.065,0,Math.PI*2);c.fill();c.beginPath();c.arc(r*.28+pdx,-r*.1+pdy,r*.065,0,Math.PI*2);c.fill();c.fillStyle='rgba(255,255,255,.7)';c.beginPath();c.arc(-r*.23+pdx,-r*.15+pdy,r*.04,0,Math.PI*2);c.fill();c.beginPath();c.arc(r*.33+pdx,-r*.15+pdy,r*.04,0,Math.PI*2);c.fill();var mp=1+Math.sin(t*.0035+ph*.8)*.04;c.fillStyle='rgba(15,55,45,.55)';c.beginPath();c.arc(0,r*.32,r*.15*mp,0,Math.PI*2);c.fill();c.strokeStyle=dk;c.lineWidth=r*.045;c.beginPath();c.arc(0,r*.32,r*.15*mp,0,Math.PI*2);c.stroke();c.fillStyle='rgba(0,0,0,.12)';c.beginPath();c.arc(0,r*.32,r*.09*mp,0,Math.PI*2);c.fill();}
+
+      function animLove(c,r,t,row,col){var dk='rgba(80,10,40,.8)',ph=row*7+col*13;c.lineCap='round';c.lineJoin='round';var hbT=(t*.001*Math.PI*2/1.2+ph)%(Math.PI*2);var thump1=Math.pow(Math.max(0,Math.sin(hbT)),8);var thump2=Math.pow(Math.max(0,Math.sin(hbT+.8)),10)*.6;var beat=1+(thump1+thump2)*.3;var sway=Math.sin(t*.0015+ph)*.025;c.save();c.rotate(sway);var hFill='rgba(230,35,85,'+(.75+thump1*.15)+')';c.fillStyle=hFill;drawHeart(c,-r*.3,-r*.13,r*.6*beat);c.fill();drawHeart(c,r*.3,-r*.13,r*.6*beat);c.fill();c.strokeStyle='rgba(160,15,50,.3)';c.lineWidth=r*.025;drawHeart(c,-r*.3,-r*.13,r*.6*beat);c.stroke();drawHeart(c,r*.3,-r*.13,r*.6*beat);c.stroke();c.fillStyle='rgba(255,255,255,.45)';c.beginPath();c.arc(-r*.36,-r*.21,r*.06,0,Math.PI*2);c.fill();c.beginPath();c.arc(r*.24,-r*.21,r*.06,0,Math.PI*2);c.fill();var ba=.2+(thump1+thump2)*.15;c.fillStyle='rgba(255,70,100,'+ba+')';c.beginPath();c.arc(-r*.48,r*.15,r*.17,0,Math.PI*2);c.fill();c.beginPath();c.arc(r*.48,r*.15,r*.17,0,Math.PI*2);c.fill();var smW=r*(.26+(thump1+thump2)*.08);var smD=r*(.52+(thump1+thump2)*.08);c.strokeStyle=dk;c.lineWidth=r*.09;c.beginPath();c.moveTo(-smW,r*.32);c.quadraticCurveTo(0,smD,smW,r*.32);c.stroke();var mhCyc=3800,mhPh=(t+ph*199)%mhCyc,mhP=mhPh/mhCyc;if(mhP<.6){var rise=mhP/.6;var mhY=-r*.35-rise*r*.4;var mhX=r*(.4+Math.sin(rise*Math.PI)*.15);var mhA=rise<.15?rise/.15:rise>.45?(1-rise)/.55:1;var mhS=r*(.2+Math.sin(rise*Math.PI)*.05)*(1-rise*.3);c.save();c.globalAlpha=mhA*.6;c.fillStyle='rgba(255,80,120,.7)';drawHeart(c,mhX,mhY,mhS);c.fill();c.restore();}c.restore();}
+
+      function animCool(c,r,t,row,col){var dk='rgba(25,12,55,.88)',ph=row*7+col*13;c.lineCap='round';c.lineJoin='round';var br=aPulse((t+ph*71)%3500,3500,3000,400)*r*.018;c.strokeStyle=dk;c.lineWidth=r*.085;c.beginPath();c.moveTo(-r*.48,-r*(.35+br));c.quadraticCurveTo(-r*.32,-r*(.42+br),-r*.12,-r*(.35+br));c.stroke();c.save();rr(c,-r*.58,-r*.24,r*.52,r*.32,r*.08);var lg=c.createLinearGradient(-r*.58,-r*.24,-r*.58,-r*.24+r*.32);lg.addColorStop(0,'rgba(40,20,70,.7)');lg.addColorStop(.5,'rgba(20,8,45,.85)');lg.addColorStop(1,'rgba(35,15,60,.75)');c.fillStyle=lg;c.fill();c.strokeStyle=dk;c.lineWidth=r*.05;c.stroke();c.restore();c.save();rr(c,r*.06,-r*.24,r*.52,r*.32,r*.08);var lg2=c.createLinearGradient(r*.06,-r*.24,r*.06,-r*.24+r*.32);lg2.addColorStop(0,'rgba(40,20,70,.7)');lg2.addColorStop(.5,'rgba(20,8,45,.85)');lg2.addColorStop(1,'rgba(35,15,60,.75)');c.fillStyle=lg2;c.fill();c.strokeStyle=dk;c.lineWidth=r*.05;c.stroke();c.restore();c.strokeStyle=dk;c.lineWidth=r*.065;c.beginPath();c.moveTo(-r*.06,-r*.1);c.lineTo(r*.06,-r*.1);c.stroke();c.lineWidth=r*.045;c.beginPath();c.moveTo(-r*.58,-r*.12);c.lineTo(-r*.72,-r*.2);c.stroke();c.beginPath();c.moveTo(r*.58,-r*.12);c.lineTo(r*.72,-r*.2);c.stroke();var sp2=((t*.00035+ph*.1)%1);c.save();rr(c,-r*.58,-r*.24,r*.52,r*.32,r*.08);c.clip();var sx3=-r*.7+sp2*r*.9;c.strokeStyle='rgba(255,255,255,.35)';c.lineWidth=r*.06;c.beginPath();c.moveTo(sx3,-r*.26);c.lineTo(sx3+r*.12,r*.1);c.stroke();c.restore();c.save();rr(c,r*.06,-r*.24,r*.52,r*.32,r*.08);c.clip();var sx4=r*-.06+sp2*r*.9;c.strokeStyle='rgba(255,255,255,.35)';c.lineWidth=r*.06;c.beginPath();c.moveTo(sx4,-r*.26);c.lineTo(sx4+r*.12,r*.1);c.stroke();c.restore();var sa=Math.sin(t*.0018+ph)*.012;c.save();c.rotate(sa);c.strokeStyle=dk;c.lineWidth=r*.09;c.beginPath();c.moveTo(-r*.18,r*.3);c.quadraticCurveTo(r*.1,r*.42,r*.3,r*.22);c.stroke();c.restore();}
+
+      var ANIM_FACES = [animHappy, animSad, animAngry, animShocked, animLove, animCool];
+
+      // ── Tile state + animation loop ──
+      var TILE_LOG = 60;       // logical px (size on screen)
+      var W = 0, H = 0;        // physical canvas size
+      var WL = 0, HL = 0;      // logical viewport size
+      var TILES = [];
+
+      function resize() {
+        WL = window.innerWidth;
+        HL = window.innerHeight;
+        W = Math.floor(WL * dpr);
+        H = Math.floor(HL * dpr);
+        canvas.width = W; canvas.height = H;
+        canvas.style.width = WL + 'px';
+        canvas.style.height = HL + 'px';
+      }
+
+      function makeTile(initialY) {
+        return {
+          type: Math.floor(Math.random() * NT),
+          x: Math.random() * WL * dpr,
+          y: initialY != null ? initialY : -120 * dpr,
+          vy: (95 + Math.random() * 75) * dpr,
+          rot: (Math.random() - 0.5) * 0.5,
+          vRot: (Math.random() - 0.5) * 0.6,
+          phRow: Math.floor(Math.random() * 7),
+          phCol: Math.floor(Math.random() * 7),
+          alpha: 0.75 + Math.random() * 0.18
+        };
+      }
+
+      function recycle(tile) {
+        tile.type = Math.floor(Math.random() * NT);
+        tile.x = Math.random() * WL * dpr;
+        tile.y = -120 * dpr - Math.random() * 60 * dpr;
+        tile.vy = (95 + Math.random() * 75) * dpr;
+        tile.rot = (Math.random() - 0.5) * 0.5;
+        tile.vRot = (Math.random() - 0.5) * 0.6;
+        tile.phRow = Math.floor(Math.random() * 7);
+        tile.phCol = Math.floor(Math.random() * 7);
+        tile.alpha = 0.75 + Math.random() * 0.18;
+      }
+
+      // ── Burst + shockwave (ported from emo-crush) ──
+      var particles = [];
+      var shockwaves = [];
+      // Hard ceiling so rapid-clicking tiles can't grow the particle pool
+      // unbounded. Each burst pushes ~46 — at MAX_PARTICLES = 240 we cap
+      // around 5 simultaneous bursts, more than enough for the visual
+      // without putting a per-frame loop into 4-digit territory.
+      var MAX_PARTICLES = 240;
+
+      function burst(x, y, col, n) {
+        n = n || 30;
+        for (var i = 0; i < n; i++) {
+          var a = Math.PI * 2 * i / n + Math.random() * 0.5;
+          var sp = (Math.random() * 6 + 3) * dpr;
+          var r = Math.random();
+          var pc = r > 0.75 ? '#fff' : r > 0.3 ? col : GEMS[Math.floor(Math.random() * NT)].bg2;
+          particles.push({
+            x: x, y: y,
+            vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 2 * dpr,
+            sz: (Math.random() * 4 + 1.5) * dpr,
+            col: pc, life: 1, dec: Math.random() * 0.012 + 0.008
+          });
+        }
+        for (var k = 0; k < 8; k++) {
+          var a2 = Math.PI * 2 * k / 8 + Math.random() * 0.4;
+          particles.push({
+            x: x, y: y,
+            vx: Math.cos(a2) * 1.8 * dpr, vy: (Math.sin(a2) * 1.8 - 1.2) * dpr,
+            sz: (Math.random() * 2.5 + 2) * dpr,
+            col: '#fff', life: 0.85, dec: 0.018
+          });
+        }
+        for (var m = 0; m < 6; m++) {
+          var a3 = Math.random() * Math.PI * 2;
+          var sp3 = (Math.random() * 2.5 + 1) * dpr;
+          particles.push({
+            x: x, y: y,
+            vx: Math.cos(a3) * sp3, vy: Math.sin(a3) * sp3 - 0.5 * dpr,
+            sz: (Math.random() * 1.5 + 0.5) * dpr,
+            col: 'rgba(255,255,255,.9)', life: 0.5, dec: 0.028
+          });
+        }
+        // Drop oldest particles if we've blown past the cap. Dropping from
+        // the head (oldest first) preserves the most recent burst visually.
+        if (particles.length > MAX_PARTICLES) {
+          particles.splice(0, particles.length - MAX_PARTICLES);
+        }
+      }
+
+      function addShockwave(x, y, col, maxR, dur) {
+        shockwaves.push({ x: x, y: y, col: col, maxR: maxR, dur: dur, age: 0 });
+      }
+
+      function updateParticles() {
+        for (var i = particles.length - 1; i >= 0; i--) {
+          var p = particles[i];
+          p.x += p.vx; p.y += p.vy;
+          p.vy += 0.12 * dpr;
+          p.vx *= 0.97;
+          p.life -= p.dec;
+          p.sz *= 0.96;
+          if (p.life <= 0 || p.sz < 0.3) particles.splice(i, 1);
+        }
+      }
+
+      function drawParticles(c) {
+        for (var i = 0; i < particles.length; i++) {
+          var p = particles[i];
+          c.globalAlpha = Math.max(0, Math.min(1, p.life));
+          c.fillStyle = p.col;
+          c.beginPath();
+          c.arc(p.x, p.y, p.sz, 0, Math.PI * 2);
+          c.fill();
+        }
+        c.globalAlpha = 1;
+      }
+
+      function updateShockwaves(dtMs) {
+        for (var i = shockwaves.length - 1; i >= 0; i--) {
+          shockwaves[i].age += dtMs;
+          if (shockwaves[i].age >= shockwaves[i].dur) shockwaves.splice(i, 1);
+        }
+      }
+
+      function drawShockwaves(c) {
+        for (var i = 0; i < shockwaves.length; i++) {
+          var s = shockwaves[i];
+          var p = s.age / s.dur;
+          var easeOut = 1 - Math.pow(1 - p, 3);
+          var r = s.maxR * easeOut;
+          var a = (1 - p) * 0.55;
+          c.save();
+          c.globalAlpha = a * 0.25; c.strokeStyle = s.col;
+          c.lineWidth = 8 * (1 - p) + 2;
+          c.beginPath(); c.arc(s.x, s.y, r, 0, Math.PI * 2); c.stroke();
+          c.globalAlpha = a;
+          c.lineWidth = 2.5 * (1 - p) + 0.5;
+          c.beginPath(); c.arc(s.x, s.y, r, 0, Math.PI * 2); c.stroke();
+          if (p < 0.5) {
+            c.globalAlpha = a * 0.25; c.lineWidth = 1;
+            c.beginPath(); c.arc(s.x, s.y, r * 0.6, 0, Math.PI * 2); c.stroke();
+          }
+          c.restore();
+        }
+      }
+
+      function explodeTile(idx) {
+        var tile = TILES[idx];
+        if (tile.exploding) return;
+        tile.exploding = true;
+        var col = GEMS[tile.type].bg2;
+        burst(tile.x, tile.y, col, 32);
+        addShockwave(tile.x, tile.y, col, 90 * dpr, 380);
+        // Recycle quickly so the explosion replaces the tile in the flow
+        setTimeout(function() {
+          recycle(tile);
+          tile.exploding = false;
+        }, 30);
+      }
+
+      function hitTile(physX, physY) {
+        // Visible tile is ~0.86 * TILE_LOG square; half-diagonal ≈ 0.6 * TILE_LOG.
+        // 0.5 left rotating corners outside the click zone, causing rare misses.
+        var hitR = (TILE_LOG * 0.6) * dpr;
+        var hitR2 = hitR * hitR;
+        // Iterate newest-first so overlapping tiles match the visual stacking order.
+        for (var i = TILES.length - 1; i >= 0; i--) {
+          var t = TILES[i];
+          if (t.exploding) continue;
+          var dx = t.x - physX;
+          var dy = t.y - physY;
+          if (dx * dx + dy * dy < hitR2) return i;
+        }
+        return -1;
+      }
+
+      var lastTime = 0;
+      function loop(now) {
+        var dt = lastTime === 0 ? 0 : Math.min(0.05, (now - lastTime) / 1000);
+        var dtMs = lastTime === 0 ? 16 : Math.min(50, now - lastTime);
+        lastTime = now;
+        ctx.clearRect(0, 0, W, H);
+
+        var faceR = (TILE_LOG * dpr) * 0.42;
+        for (var i = 0; i < TILES.length; i++) {
+          var tile = TILES[i];
+          if (tile.exploding) continue;
+          tile.y += tile.vy * dt;
+          tile.rot += tile.vRot * dt;
+          if (tile.y > H + 120 * dpr) recycle(tile);
+
+          var cv = gemCvs[tile.type] && gemCvs[tile.type][0];
+          if (!cv) continue;
+
+          ctx.save();
+          ctx.globalAlpha = tile.alpha;
+          ctx.translate(tile.x, tile.y);
+          ctx.rotate(tile.rot);
+          ctx.drawImage(cv, -cv.width / 2, -cv.height / 2);
+          ANIM_FACES[tile.type](ctx, faceR, now, tile.phRow, tile.phCol);
+          ctx.restore();
+        }
+
+        // Effects on top of tiles
+        updateShockwaves(dtMs);
+        updateParticles();
+        drawShockwaves(ctx);
+        drawParticles(ctx);
+
+        requestAnimationFrame(loop);
+      }
+
+      // Click / tap on a tile triggers the explosion. Skip clicks on real UI.
+      function handleTileClick(clientX, clientY, target) {
+        if (target && target.closest && target.closest('a, button, input, .header-image, .price-ticker, .emo-modal-backdrop, .emo-auth-host')) return false;
+        var idx = hitTile(clientX * dpr, clientY * dpr);
+        if (idx >= 0) {
+          explodeTile(idx);
+          document.dispatchEvent(new CustomEvent('emo:track', {
+            detail: { type: 'block', x: clientX, y: clientY }
+          }));
+          return true;
+        }
+        return false;
+      }
+      document.addEventListener('click', function(e) {
+        if (handleTileClick(e.clientX, e.clientY, e.target)) e.stopImmediatePropagation();
+      }, true);
+      document.addEventListener('touchstart', function(e) {
+        var t = e.touches && e.touches[0]; if (!t) return;
+        if (handleTileClick(t.clientX, t.clientY, e.target)) {
+          e.preventDefault(); e.stopImmediatePropagation();
+        }
+      }, { capture: true, passive: false });
+
+      function start() {
+        prerenderGems(TILE_LOG);
+        resize();
+        TILES = [];
+        // Scale tile count with viewport width — half-density rain so the
+        // page feels alive without becoming a particle storm. ~1 tile per
+        // 400 logical px, clamped to [3, 7].
+        var n = Math.max(3, Math.min(7, Math.round(WL / 400)));
+        for (var i = 0; i < n; i++) {
+          TILES.push(makeTile((-120 - i * (HL / n)) * dpr));
+        }
+        lastTime = 0;
+        requestAnimationFrame(loop);
+      }
+
+      window.addEventListener('resize', function() {
+        resize();
+        // Re-clamp existing tiles into the new viewport horizontally
+        for (var i = 0; i < TILES.length; i++) {
+          if (TILES[i].x > WL * dpr) TILES[i].x = Math.random() * WL * dpr;
+        }
+      });
+
+      // Start once the DOM is parsed — don't wait for the full load event.
+      // Tile rendering is self-contained (no external assets needed) so
+      // gating on `load` just delays the visual for as long as DEXScreener
+      // / images / fonts take to settle. A 2.5s failsafe also fires `start`
+      // in case DOMContentLoaded never reaches us (rare browser quirk under
+      // long synchronous work).
+      var started = false;
+      function safeStart() { if (started) return; started = true; start(); }
+      if (document.readyState !== 'loading') {
+        safeStart();
+      } else {
+        document.addEventListener('DOMContentLoaded', safeStart, { once: true });
+      }
+      setTimeout(safeStart, 2500);
+    })();
+  </script>
+
+  <script>
+    (function() {
+      var flapFrames = ['flapemonad/flap1.PNG', 'flapemonad/flap2.PNG', 'flapemonad/flap3.PNG'];
+      var deathFrame = 'flapemonad/die1.PNG';
+      var wrapper = document.querySelector('.flying-emonad');
+      var img = document.getElementById('flyingEmonadImg');
+      if (!wrapper || !img) return;
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      // Preload all frames so frame-swap is instant
+      flapFrames.concat([deathFrame]).forEach(function(src) { var p = new Image(); p.src = src; });
+
+      var flapIdx = 0;
+      var flapTimer = null;
+      var dying = false;
+
+      function startFlap() {
+        if (flapTimer) clearInterval(flapTimer);
+        flapIdx = 0;
+        img.src = flapFrames[0];
+        flapTimer = setInterval(function() {
+          flapIdx = (flapIdx + 1) % flapFrames.length;
+          img.src = flapFrames[flapIdx];
+        }, 220);
+      }
+
+      function die() {
+        if (dying) return;
+        dying = true;
+
+        // Stop the wing-flap cycler
+        if (flapTimer) { clearInterval(flapTimer); flapTimer = null; }
+
+        // Capture current X from the running flyAcross animation, freeze it as inline transform
+        var matrix = window.getComputedStyle(wrapper).transform;
+        var currentX = 0;
+        if (matrix && matrix !== 'none') {
+          // matrix(a, b, c, d, tx, ty)
+          var parts = matrix.match(/matrix.*\((.+)\)/);
+          if (parts) {
+            var values = parts[1].split(', ');
+            currentX = parseFloat(values[values.length - 2]);
+          }
+        }
+        wrapper.style.transform = 'translateX(' + currentX + 'px)';
+        // Lock to the single death frame and let CSS spin + drop him
+        img.src = deathFrame;
+        wrapper.classList.add('dying');
+
+        // After fall completes, reset and respawn from the left
+        setTimeout(function() {
+          // Move offscreen left BEFORE we restart the animation so there's no flash mid-screen
+          wrapper.classList.remove('dying');
+          wrapper.style.animation = 'none';
+          wrapper.style.transform = 'translateX(-130%)';
+          // Force reflow so the next animation reset takes effect
+          void wrapper.offsetWidth;
+          wrapper.style.transform = '';
+          wrapper.style.animation = '';
+          dying = false;
+          startFlap();
+        }, 1100);
+      }
+
+      // Document-level hit-testing: bird is inside the container's stacking context for
+      // backdrop-filter to work, but that confines its hit area to the container's 600px
+      // column. So we check the bird's bbox manually for any click outside an interactive
+      // target.
+      function isInteractiveTarget(el) {
+        return !!(el && el.closest && el.closest('a, button, input, .header-image, .price-ticker, .emo-modal-backdrop, .emo-auth-host'));
+      }
+      function hitBird(x, y) {
+        var r = wrapper.getBoundingClientRect();
+        return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+      }
+      document.addEventListener('click', function(e) {
+        if (dying) return;
+        if (isInteractiveTarget(e.target)) return;
+        if (hitBird(e.clientX, e.clientY)) {
+          die();
+          document.dispatchEvent(new CustomEvent('emo:track', {
+            detail: { type: 'emonad', x: e.clientX, y: e.clientY }
+          }));
+        }
+      });
+      document.addEventListener('touchstart', function(e) {
+        if (dying) return;
+        if (isInteractiveTarget(e.target)) return;
+        var t = e.touches && e.touches[0];
+        if (t && hitBird(t.clientX, t.clientY)) {
+          e.preventDefault();
+          die();
+          document.dispatchEvent(new CustomEvent('emo:track', {
+            detail: { type: 'emonad', x: t.clientX, y: t.clientY }
+          }));
+        }
+      }, { passive: false });
+
+      var booted = false;
+      function bootBird() {
+        if (booted) return;
+        booted = true;
+        document.body.classList.add('app-ready');
+        startFlap();
+      }
+      // Boot as soon as the DOM is parsed instead of waiting for the full
+      // `load` event. The bird's frames are preloaded above so flap doesn't
+      // need them on disk; gating on `load` just delayed app-ready (and
+      // therefore the canvas opacity transition) until external resources
+      // resolved. 2.5s setTimeout is a belt-and-braces failsafe so the page
+      // never gets stuck without `app-ready`.
+      if (document.readyState !== 'loading') {
+        bootBird();
+      } else {
+        document.addEventListener('DOMContentLoaded', bootBird, { once: true });
+      }
+      setTimeout(bootBird, 2500);
+    })();
+  </script>
+
+  <script type="module">
+    import EmoProfile from './emo-profile.js';
+    EmoProfile.init({ page: 'emo' })
+      .then(() => EmoProfile.mount('#emoAuthSlot'))
+      .catch(err => console.warn('EmoProfile init failed:', err));
+  </script>
+
+  <!-- Chart Modal -->
+  <div class="modal-overlay" id="chartModal" role="dialog" aria-label="Price chart" aria-modal="true">
+    <div class="modal-content">
+      <div class="modal-spinner" id="chartSpinner"></div>
+      <button class="modal-close" id="chartClose" aria-label="Close chart">&times;</button>
+      <iframe id="chartFrame" src="" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups" title="DEXScreener price chart"></iframe>
+    </div>
+  </div>
+
+
+  <!-- Scroll Hint (mobile) -->
+  <div class="scroll-hint" id="scrollHint" aria-hidden="true">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+
+  <script>
+    // ── Smart Price Formatting ──
+    function formatPrice(price) {
+      if (price >= 1) return '$' + price.toFixed(2);
+      if (price >= 0.01) return '$' + price.toFixed(4);
+      var str = price.toFixed(20);
+      var match = str.match(/^0\.(0+)/);
+      if (match) {
+        var zeros = match[1].length;
+        var rest = str.slice(2 + zeros, 2 + zeros + 4).replace(/0+$/, '') || '0';
+        var sub = '\u2080\u2081\u2082\u2083\u2084\u2085\u2086\u2087\u2088\u2089';
+        var subscript = String(zeros).split('').map(function(d) { return sub[parseInt(d)]; }).join('');
+        return '$0.0' + subscript + rest;
+      }
+      return '$' + price.toFixed(7);
+    }
+
+    // ── Ticker Refresh Flash ──
+    function flashTicker(id) {
+      var el = document.getElementById(id);
+      el.classList.remove('ticker-flash');
+      void el.offsetWidth;
+      el.classList.add('ticker-flash');
+    }
+
+    // ── Animated Counter ──
+    function animateValue(el, newText, duration) {
+      if (el.textContent === newText) return;
+      el.style.transition = 'opacity 0.15s';
+      el.style.opacity = '0.4';
+      setTimeout(() => {
+        el.textContent = newText;
+        el.style.opacity = '1';
+      }, 150);
+    }
+
+    // ── Price Ticker — unified fetch ──
+    var isFirstFetch = true;
+    var lastFetchTime = null;
+    var tickerLoaded = false;
+    var fetchFailCount = 0;
+
+    function fmt(n) {
+      if (n == null) return '--';
+      return n >= 1000000 ? '$' + (n / 1000000).toFixed(2) + 'M' : '$' + (n / 1000).toFixed(1) + 'K';
+    }
+
+    function clearSkeletons() {
+      document.querySelectorAll('.ticker-skeleton').forEach(s => {
+        s.parentElement.textContent = '--';
+      });
+    }
+
+    async function fetchPrice() {
+      try {
+        const response = await fetch('https://api.dexscreener.com/latest/dex/pairs/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d');
+        const data = await response.json();
+        if (data.pair) {
+          const pair = data.pair;
+          const price = parseFloat(pair.priceUsd);
+          const change24h = parseFloat(pair.priceChange.h24);
+
+          const priceEl = document.getElementById('tokenPrice');
+          const newPrice = formatPrice(price);
+          if (isFirstFetch) { priceEl.textContent = newPrice; }
+          else { animateValue(priceEl, newPrice, 200); }
+
+          const changeEl = document.getElementById('priceChange');
+          changeEl.textContent = (change24h >= 0 ? '+' : '') + change24h.toFixed(2) + '%';
+          const alertClass = Math.abs(change24h) >= 20 ? ' alert' : '';
+          changeEl.className = 'change-badge ' + (change24h >= 0 ? 'positive' : 'negative') + alertClass;
+
+          const mcEl = document.getElementById('marketCap');
+          const mcText = pair.marketCap ? fmt(pair.marketCap) : '--';
+          if (isFirstFetch) { mcEl.textContent = mcText; }
+          else { animateValue(mcEl, mcText, 200); }
+
+          document.getElementById('tickerVolume').textContent = pair.volume && pair.volume.h24 ? fmt(pair.volume.h24) : '--';
+          document.getElementById('tickerLiquidity').textContent = pair.liquidity && pair.liquidity.usd ? fmt(pair.liquidity.usd) : '--';
+          document.getElementById('tickerFdv').textContent = pair.fdv ? fmt(pair.fdv) : '--';
+
+          if (!isFirstFetch) {
+            flashTicker('tokenPrice');
+            flashTicker('marketCap');
+          }
+          isFirstFetch = false;
+          tickerLoaded = true;
+          fetchFailCount = 0;
+          lastFetchTime = Date.now();
+        }
+      } catch (error) {
+        console.log('Price fetch error:', error);
+        fetchFailCount++;
+        if (!tickerLoaded) clearSkeletons();
+        if (fetchFailCount >= 3) {
+          document.getElementById('tickerUpdated').textContent = 'price unavailable';
+        }
+        // Retry sooner on failure (5s, capped at 3 retries before normal interval)
+        if (fetchFailCount <= 3) {
+          setTimeout(fetchPrice, 5000);
+        }
+      }
+    }
+
+    // Timeout fallback: if API hasn't responded after 8s, clear skeletons
+    setTimeout(() => { if (!tickerLoaded) clearSkeletons(); }, 8000);
+
+    fetchPrice();
+    setInterval(fetchPrice, 30000);
+
+    // ── "Updated ago" timer ──
+    setInterval(() => {
+      if (!lastFetchTime) return;
+      const seconds = Math.floor((Date.now() - lastFetchTime) / 1000);
+      const el = document.getElementById('tickerUpdated');
+      if (seconds < 5) el.textContent = 'just now';
+      else if (seconds < 60) el.textContent = seconds + 's ago';
+      else el.textContent = Math.floor(seconds / 60) + 'm ago';
+    }, 1000);
+
+    // ── Toast Notification ──
+    let toastTimer;
+    function showToast(message) {
+      let toast = document.querySelector('.toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.className = 'toast';
+        document.body.appendChild(toast);
+      }
+      clearTimeout(toastTimer);
+      toast.textContent = message;
+      toast.classList.add('visible');
+      toastTimer = setTimeout(() => toast.classList.remove('visible'), 1800);
+    }
+
+    // ── Copy Contract (click + keyboard) ──
+    const contractEl = document.getElementById('contractAddress');
+    function copyContract() {
+      navigator.clipboard.writeText('0x81A224F8A62f52BdE942dBF23A56df77A10b7777');
+      contractEl.classList.add('copied');
+      setTimeout(() => contractEl.classList.remove('copied'), 1800);
+      showToast('Copied!');
+      if (navigator.vibrate) navigator.vibrate(10);
+    }
+    contractEl.addEventListener('click', copyContract);
+    contractEl.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); copyContract(); }
+    });
+
+    // ── Modals ──
+    const chartModal = document.getElementById('chartModal');
+    const chartFrame = document.getElementById('chartFrame');
+    const chartClose = document.getElementById('chartClose');
+    const chartSpinner = document.getElementById('chartSpinner');
+
+    chartFrame.addEventListener('load', () => { chartSpinner.style.display = 'none'; });
+
+    // ── Modal Focus Trap + Escape ──
+    let previousFocus = null;
+
+    function trapFocus(modal, e) {
+      if (e.key === 'Escape') { closeModal(); return; }
+      if (e.key !== 'Tab') return;
+      const focusable = modal.querySelectorAll('button, [tabindex]:not([tabindex="-1"]), iframe');
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+
+    function openModal() {
+      previousFocus = document.activeElement;
+      chartSpinner.style.display = 'block';
+      chartFrame.src = 'https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d?embed=1&theme=dark&info=0';
+      chartModal.classList.add('active');
+      chartClose.focus();
+      document.addEventListener('keydown', chartModal._trapHandler = (e) => trapFocus(chartModal, e));
+    }
+
+    function closeModal() {
+      chartModal.classList.remove('active');
+      chartFrame.src = '';
+      if (chartModal._trapHandler) document.removeEventListener('keydown', chartModal._trapHandler);
+      if (previousFocus) previousFocus.focus();
+    }
+
+    document.getElementById('chartBtn').addEventListener('click', () => openModal());
+
+    chartClose.addEventListener('click', () => closeModal());
+    chartModal.addEventListener('click', (e) => { if (e.target === chartModal) closeModal(); });
+
+    // ── Theme Toggle (smooth transition) ──
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+
+    const savedTheme = localStorage.getItem('theme') ||
+      (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    html.setAttribute('data-theme', savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      html.classList.add('theme-transition');
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      setTimeout(() => html.classList.remove('theme-transition'), 350);
+    });
+
+    // ── Typewriter Effect ──
+    (function() {
+      const el = document.getElementById('subtitle');
+      const text = el.textContent;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (prefersReducedMotion) {
+        el.style.opacity = '1';
+        return;
+      }
+
+      el.textContent = '';
+      el.style.opacity = '1';
+
+      const cursor = document.createElement('span');
+      cursor.className = 'typewriter-cursor';
+      el.appendChild(cursor);
+
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          el.insertBefore(document.createTextNode(text.charAt(i)), cursor);
+          i++;
+          setTimeout(type, 50 + Math.random() * 40);
+        } else {
+          setTimeout(() => {
+            cursor.style.transition = 'opacity 0.4s';
+            cursor.style.opacity = '0';
+            setTimeout(() => cursor.remove(), 400);
+          }, 1500);
+        }
+      }
+
+      setTimeout(type, 700);
+    })();
+
+    // ── Share Button ──
+    document.getElementById('shareBtn').addEventListener('click', async () => {
+      const shareData = {
+        title: '$EMO — Emonad Memecoin',
+        text: 'i lost it all on day 1',
+        url: window.location.href
+      };
+
+      try {
+        if (navigator.share) {
+          await navigator.share(shareData);
+        } else {
+          await navigator.clipboard.writeText(window.location.href);
+          showToast('Link copied!');
+          if (navigator.vibrate) navigator.vibrate(10);
+        }
+      } catch (e) {
+        // User cancelled share
+      }
+    });
+
+    // ── Button Ripple Effect ──
+    (function() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      document.addEventListener('click', (e) => {
+        const target = e.target.closest('.btn, .btn-primary, .share-btn, .contract-address');
+        if (!target) return;
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        const rect = target.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+        ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+        target.appendChild(ripple);
+        ripple.addEventListener('animationend', () => ripple.remove());
+      });
+    })();
+
+    // (Hero parallax removed — page fits one viewport, and parallax inline-transform
+    //  was overwriting the banner's hover lift effect.)
+
+    // ── Scroll Hint (mobile) ──
+    (function() {
+      if (window.innerWidth > 768) return;
+      const hint = document.getElementById('scrollHint');
+      setTimeout(() => {
+        if (document.body.scrollHeight > window.innerHeight + 50) {
+          hint.style.display = 'block';
+          setTimeout(() => { hint.style.opacity = '0.6'; }, 50);
+        }
+      }, 1200);
+
+      var scrolled = false;
+      window.addEventListener('scroll', () => {
+        if (!scrolled && window.scrollY > 30) {
+          scrolled = true;
+          hint.style.opacity = '0';
+          setTimeout(() => { hint.style.display = 'none'; }, 400);
+        }
+      }, { passive: true });
+    })();
+  </script>
+
+  <!-- Particle Grid Background -->
+  <canvas id="particleGrid" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;" aria-hidden="true"></canvas>
+
+  <script>
+    (function() {
+      if (window.innerWidth < 768) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const canvas = document.getElementById('particleGrid');
+      const ctx = canvas.getContext('2d');
+
+      let width, height;
+      let particles = [];
+      let mouseX = -1000, mouseY = -1000;
+      const gridSpacing = 50;
+      const particleRadius = 1.5;
+      const pushRadius = 150;
+      const pushStrength = 1.2;
+      const returnSpeed = 0.05;
+      const connectionDistance = 80;
+      let animationId;
+      let isVisible = true;
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        initParticles();
+      }
+
+      function initParticles() {
+        particles = [];
+        for (let x = gridSpacing / 2; x < width; x += gridSpacing) {
+          for (let y = gridSpacing / 2; y < height; y += gridSpacing) {
+            particles.push({ originX: x, originY: y, x: x, y: y, vx: 0, vy: 0 });
+          }
+        }
+      }
+
+      function animate() {
+        if (!isVisible) return;
+        ctx.clearRect(0, 0, width, height);
+
+        const isLight = document.documentElement.getAttribute('data-theme') !== 'dark';
+        const baseAlpha = isLight ? 0.25 : 0.15;
+        const maxAlpha = isLight ? 0.65 : 0.5;
+        const particleColor = isLight ? '123, 63, 228' : '155, 95, 255';
+
+        particles.forEach(p => {
+          const dx = mouseX - p.x;
+          const dy = mouseY - p.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < pushRadius && dist > 0) {
+            const force = (pushRadius - dist) / pushRadius;
+            p.vx -= (dx / dist) * force * pushStrength;
+            p.vy -= (dy / dist) * force * pushStrength;
+          }
+
+          const homeX = p.originX - p.x;
+          const homeY = p.originY - p.y;
+          p.vx += homeX * returnSpeed;
+          p.vy += homeY * returnSpeed;
+
+          p.vx *= 0.9;
+          p.vy *= 0.9;
+          p.x += p.vx;
+          p.y += p.vy;
+
+          const displacement = Math.sqrt(homeX * homeX + homeY * homeY);
+          const alpha = Math.min(baseAlpha + displacement * 0.02, maxAlpha);
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, particleRadius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${particleColor}, ${alpha})`;
+          ctx.fill();
+        });
+
+        // Connection lines between displaced particles near mouse
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i < particles.length; i++) {
+          const a = particles[i];
+          const dxA = mouseX - a.x;
+          const dyA = mouseY - a.y;
+          const distA = Math.sqrt(dxA * dxA + dyA * dyA);
+          if (distA > pushRadius * 1.2) continue;
+          for (let j = i + 1; j < particles.length; j++) {
+            const b = particles[j];
+            const dx2 = a.x - b.x;
+            const dy2 = a.y - b.y;
+            const dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+            if (dist2 < connectionDistance) {
+              const lineAlpha = (1 - dist2 / connectionDistance) * 0.15;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.strokeStyle = `rgba(${particleColor}, ${lineAlpha})`;
+              ctx.stroke();
+            }
+          }
+        }
+
+        animationId = requestAnimationFrame(animate);
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          isVisible = false;
+          cancelAnimationFrame(animationId);
+        } else {
+          isVisible = true;
+          animate();
+        }
+      });
+
+      document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+      document.addEventListener('mouseleave', () => { mouseX = -1000; mouseY = -1000; });
+
+      let resizeTimeout;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(resize, 150);
+      });
+
+      resize();
+      animate();
+    })();
+  </script>
+
+  <!-- Page Transition Overlay -->
+  <div class="page-transition" id="pageTransition" aria-hidden="true">
+    <div class="pt-overlay"></div>
+    <div class="pt-logo">
+      <div class="pt-glow"></div>
+      <svg viewBox="0 0 24 24"><path fill="#836EF9" d="M12 3c-2.599 0-9 6.4-9 9s6.401 9 9 9s9-6.401 9-9s-6.401-9-9-9m-1.402 14.146c-1.097-.298-4.043-5.453-3.744-6.549s5.453-4.042 6.549-3.743c1.095.298 4.042 5.453 3.743 6.549c-.298 1.095-5.453 4.042-6.549 3.743"/></svg>
+    </div>
+  </div>
+
+  <script>
+    // ── Page Transition for internal links ──
+    (function() {
+      const transition = document.getElementById('pageTransition');
+      if (!transition) return;
+      const pageContainer = document.querySelector('.container');
+      const ticker = document.querySelector('.price-ticker');
+      const internalLinks = ['memes.html', 'meme-maker.html', 'emo-crush/index.html'];
+      let navigating = false;
+      let enterTimeout;
+
+      function isBackForwardNavigation() {
+        if (!(performance.getEntriesByType && performance.getEntriesByType('navigation').length)) return false;
+        return performance.getEntriesByType('navigation')[0].type === 'back_forward';
+      }
+
+      function playEnterTransition() {
+        clearTimeout(enterTimeout);
+        transition.classList.remove('exit-active');
+        transition.classList.add('enter');
+        if (pageContainer) pageContainer.classList.add('page-enter');
+        if (ticker) ticker.classList.add('page-enter');
+        enterTimeout = setTimeout(() => {
+          transition.classList.remove('enter');
+        }, 1600);
+      }
+
+      function resetTransitionState() {
+        clearTimeout(enterTimeout);
+        transition.classList.remove('exit-active');
+        transition.classList.remove('enter');
+        navigating = false;
+      }
+
+      // Entrance: if arriving from internal page or back navigation, play reveal
+      var fromInternal = sessionStorage.getItem('pt-entering');
+      if (fromInternal) sessionStorage.removeItem('pt-entering');
+
+      if (fromInternal || isBackForwardNavigation()) playEnterTransition();
+
+      // BFCache restore can bring back a stale exit-active class.
+      window.addEventListener('pageshow', (event) => {
+        resetTransitionState();
+        if (event.persisted) playEnterTransition();
+      });
+
+      // Exit: intercept clicks to internal pages
+      document.addEventListener('click', (e) => {
+        const link = e.target.closest('a[href]');
+        if (!link) return;
+        const href = link.getAttribute('href');
+        if (!internalLinks.some(p => href === p || href.endsWith('/' + p))) return;
+
+        e.preventDefault();
+        if (navigating) return;
+        navigating = true;
+        clearTimeout(enterTimeout);
+        transition.classList.remove('enter');
+        transition.classList.add('exit-active');
+        sessionStorage.setItem('pt-entering', '1');
+
+        setTimeout(() => {
+          window.location.href = href;
+        }, 1400);
+      });
+    })();
+  </script>
+
+  <!-- Mouse Glow Effect -->
+  <script>
+    (function() {
+      if (window.innerWidth < 768) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const glow = document.createElement('div');
+      glow.className = 'mouse-glow';
+      glow.style.opacity = '1';
+      glow.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(glow);
+
+      document.addEventListener('mousemove', (e) => {
+        glow.style.left = e.clientX + 'px';
+        glow.style.top = e.clientY + 'px';
+      }, true);
+
+      document.documentElement.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
+      document.documentElement.addEventListener('mouseenter', () => { glow.style.opacity = '1'; });
+    })();
+  </script>
+
+</body>
+</html>

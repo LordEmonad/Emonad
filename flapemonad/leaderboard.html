@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4QWLXTDH20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4QWLXTDH20');
+</script>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https:; connect-src 'self' https://xgqitkqhruitdviegnqb.supabase.co https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; media-src 'self' blob:;">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1a0a2e">
+    <title>Flap Emonad — Leaderboard</title>
+    <meta name="description" content="Flap Emonad leaderboard — top scores submitted on-chain on Monad.">
+    <link rel="canonical" href="https://escapist.lol/flapemonad/leaderboard.html">
+
+    <!-- OG / Social Meta -->
+    <meta property="og:title" content="Flap Emonad — Leaderboard">
+    <meta property="og:description" content="Top scores submitted on-chain on Monad. See who's leading.">
+    <meta property="og:image" content="https://escapist.lol/og-image.jpg">
+    <meta property="og:url" content="https://escapist.lol/flapemonad/leaderboard.html">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Flap Emonad — Leaderboard">
+    <meta name="twitter:description" content="Top scores submitted on-chain on Monad. See who's leading.">
+    <meta name="twitter:image" content="https://escapist.lol/og-image.jpg">
+
+    <style>
+        @font-face {
+            font-family: 'Creepster';
+            font-style: normal;
+            font-weight: 400;
+            font-display: block;
+            src: url('Creepster.woff2') format('woff2');
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Page transition */
+        body {
+            animation: pageFadeIn 0.7s ease-out;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        @keyframes pageFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .page-transitioning {
+            animation: pageTransitionOut 0.65s cubic-bezier(0.4, 0, 1, 1) forwards;
+        }
+
+        @keyframes pageTransitionOut {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(1.03); }
+        }
+        
+        /* Touch feedback for mobile */
+        @media (hover: none) and (pointer: coarse) {
+            button:active, a:active, .back-btn:active, .connect-btn:active {
+                transform: scale(0.95) !important;
+                transition: transform 0.1s ease !important;
+            }
+        }
+        
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            background: radial-gradient(ellipse at center, #1a0a2e 0%, #0d0515 50%, #050208 100%);
+            font-family: 'Creepster', cursive;
+            color: #FFFFFF;
+            overflow-x: hidden;
+            transition: background 0.3s ease;
+        }
+        
+        /* Dark mode styles */
+        body.dark-mode {
+            background: radial-gradient(ellipse at center, #1a1a1a 0%, #0d0d0d 50%, #050505 100%);
+        }
+        
+        body.dark-mode .header h1 {
+            color: #ffffff;
+            text-shadow: 
+                0 0 10px rgba(255, 255, 255, 0.5),
+                0 0 25px rgba(255, 255, 255, 0.3);
+        }
+        
+        body.dark-mode .leaderboard-list li {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        body.dark-mode .leaderboard-list li:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+        
+        body.dark-mode .connect-section {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        
+        body.dark-mode::before,
+        body.dark-mode::after {
+            opacity: 0.3;
+        }
+        
+        /* Particle layer 1 - slow, large */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(3px 3px at 10% 20%, rgba(255, 215, 0, 0.4), transparent),
+                radial-gradient(4px 4px at 80% 10%, rgba(157, 78, 221, 0.5), transparent),
+                radial-gradient(3px 3px at 30% 80%, rgba(255, 215, 0, 0.4), transparent),
+                radial-gradient(5px 5px at 70% 60%, rgba(224, 170, 255, 0.3), transparent),
+                radial-gradient(3px 3px at 50% 40%, rgba(255, 215, 0, 0.4), transparent),
+                radial-gradient(4px 4px at 90% 90%, rgba(157, 78, 221, 0.5), transparent);
+            background-repeat: repeat;
+            background-size: 400px 400px;
+            animation: particleFloat 25s linear infinite;
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        /* Particle layer 2 - fast, small stars */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(2px 2px at 15% 25%, rgba(255, 255, 255, 0.5), transparent),
+                radial-gradient(1px 1px at 85% 15%, rgba(255, 255, 255, 0.4), transparent),
+                radial-gradient(2px 2px at 25% 75%, rgba(255, 255, 255, 0.5), transparent),
+                radial-gradient(1px 1px at 65% 55%, rgba(255, 255, 255, 0.4), transparent);
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            animation: particleFloatFast 12s linear infinite;
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        @keyframes particleFloat {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); }
+            100% { transform: translateY(-300px) translateX(100px) rotate(10deg); }
+        }
+        
+        @keyframes particleFloatFast {
+            0% { transform: translateY(0) translateX(0); }
+            100% { transform: translateY(-200px) translateX(-50px); }
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 52px;
+            color: #FFD700;
+            text-shadow: 
+                0 0 10px rgba(255, 215, 0, 0.5),
+                0 0 25px rgba(255, 215, 0, 0.3);
+            margin-bottom: 20px;
+            animation: titleGlow 4s ease-in-out infinite;
+            letter-spacing: 4px;
+        }
+        
+        @keyframes titleGlow {
+            0%, 100% { 
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.5), 0 0 25px rgba(255, 215, 0, 0.3);
+            }
+            50% { 
+                text-shadow: 0 0 15px rgba(255, 215, 0, 0.6), 0 0 35px rgba(255, 215, 0, 0.4);
+            }
+        }
+        
+        .back-btn {
+            display: inline-block;
+            font-family: 'Creepster', cursive;
+            padding: 14px 32px;
+            font-size: 20px;
+            color: #FFFFFF;
+            background: linear-gradient(135deg, #444, #222, #333);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 4px 15px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+                0 1px 0 rgba(255, 255, 255, 0.1) inset;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+        }
+        
+        .back-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .back-btn:hover::before {
+            left: 100%;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                0 1px 0 rgba(255, 255, 255, 0.15) inset;
+            border-color: rgba(255, 255, 255, 0.25);
+            background: linear-gradient(135deg, #555, #333, #444);
+        }
+        
+        .back-btn:active {
+            transform: translateY(1px) scale(0.98);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            transition: all 0.1s ease;
+        }
+        
+                
+        .leaderboard-list {
+            list-style: none;
+        }
+        
+        .leaderboard-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            transition: all 0.2s;
+        }
+        
+        .leaderboard-list li:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+        
+        .leaderboard-list li.current-user {
+            background: rgba(123, 63, 228, 0.4);
+            border: 2px solid #9B5FFF;
+        }
+        
+        .leaderboard-list li.loading {
+            justify-content: center;
+            color: #888888;
+        }
+        
+        .leaderboard-list li.gold {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 165, 0, 0.2));
+            border: 2px solid #FFD700;
+        }
+        
+        .leaderboard-list li.silver {
+            background: linear-gradient(135deg, rgba(192, 192, 192, 0.3), rgba(169, 169, 169, 0.2));
+            border: 2px solid #C0C0C0;
+        }
+        
+        .leaderboard-list li.bronze {
+            background: linear-gradient(135deg, rgba(205, 127, 50, 0.3), rgba(184, 115, 51, 0.2));
+            border: 2px solid #CD7F32;
+        }
+        
+        .rank {
+            font-size: 24px;
+            font-weight: bold;
+            min-width: 50px;
+        }
+        
+        .rank.gold { color: #FFD700; }
+        .rank.silver { color: #C0C0C0; }
+        .rank.bronze { color: #CD7F32; }
+        .rank.normal { color: #888; }
+        
+        .player-name {
+            flex: 1;
+            text-align: center;
+            font-size: 20px;
+            padding: 0 15px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .score {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00FF88;
+            min-width: 60px;
+            text-align: right;
+        }
+        
+        .connect-section {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+        }
+        
+        .connect-section p {
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 16px;
+        }
+        
+        .connect-btn {
+            font-family: 'Creepster', cursive;
+            padding: 16px 40px;
+            font-size: 24px;
+            color: #FFFFFF;
+            background: linear-gradient(135deg, #7B3FE4, #9B5FFF, #7B3FE4);
+            background-size: 200% 200%;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 4px 20px rgba(123, 63, 228, 0.5),
+                0 0 40px rgba(123, 63, 228, 0.2),
+                0 1px 0 rgba(255, 255, 255, 0.2) inset;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 2px;
+            animation: connectBtnPulse 3s ease infinite;
+        }
+        
+        @keyframes connectBtnPulse {
+            0%, 100% { background-position: 0% 50%; box-shadow: 0 4px 20px rgba(123, 63, 228, 0.5), 0 0 40px rgba(123, 63, 228, 0.2); }
+            50% { background-position: 100% 50%; box-shadow: 0 4px 30px rgba(123, 63, 228, 0.6), 0 0 60px rgba(123, 63, 228, 0.3); }
+        }
+        
+        .connect-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .connect-btn:hover::before {
+            left: 100%;
+        }
+        
+        .connect-btn:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 
+                0 8px 35px rgba(123, 63, 228, 0.6),
+                0 0 60px rgba(123, 63, 228, 0.3),
+                0 1px 0 rgba(255, 255, 255, 0.3) inset;
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .connect-btn:active {
+            transform: translateY(1px) scale(0.98);
+            box-shadow: 0 2px 15px rgba(123, 63, 228, 0.4);
+            transition: all 0.1s ease;
+        }
+        
+        .wallet-address {
+            color: #9B5FFF;
+            font-size: 18px;
+        }
+        
+        .no-scores {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 20px;
+        }
+        
+        @media (max-width: 500px) {
+            .header h1 {
+                font-size: 36px;
+            }
+            
+            .leaderboard-list li {
+                padding: 14px 15px;
+            }
+            
+            .rank {
+                font-size: 20px;
+                min-width: 40px;
+            }
+            
+            .player-name {
+                font-size: 16px;
+            }
+            
+            .score {
+                font-size: 20px;
+            }
+        }
+        /* Search Box */
+        .search-container {
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 14px 20px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(157, 78, 221, 0.3);
+            border-radius: 12px;
+            color: #fff;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .search-input:focus {
+            border-color: rgba(157, 78, 221, 0.6);
+            box-shadow: 0 0 20px rgba(157, 78, 221, 0.3);
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .page-btn {
+            font-family: 'Creepster', cursive;
+            padding: 10px 18px;
+            font-size: 18px;
+            background: linear-gradient(135deg, #444, #222);
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .page-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #555, #333);
+            transform: translateY(-2px);
+        }
+        
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .page-btn.active {
+            background: linear-gradient(135deg, #7B3FE4, #9B5FFF);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .page-info {
+            font-size: 18px;
+            color: #888;
+        }
+        
+        /* Your Rank Box */
+        .your-rank-box {
+            background: linear-gradient(135deg, rgba(123, 63, 228, 0.3), rgba(157, 78, 221, 0.2));
+            border: 2px solid #9B5FFF;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .your-rank-box .rank-label {
+            font-size: 20px;
+            color: #e0aaff;
+        }
+        
+        .your-rank-box .rank-value {
+            font-size: 28px;
+            color: #FFD700;
+            font-weight: bold;
+        }
+        
+        .your-rank-box .score-value {
+            font-size: 24px;
+            color: #00FF88;
+        }
+        
+        /* Settings link */
+        .settings-link {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #7B3FE4, #9B5FFF);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-size: 24px;
+            z-index: 100;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(123, 63, 228, 0.4);
+        }
+        
+        .settings-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(123, 63, 228, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <a href="settings.html" class="settings-link">⚙️</a>
+    <div class="container">
+        <div class="header">
+            <h1>🏆 LEADERBOARD</h1>
+            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                <a href="index.html" class="back-btn">← Back to Game</a>
+            </div>
+        </div>
+        
+        <!-- Your Rank (shown when this device has a submitted score) -->
+        <div class="your-rank-box" id="your-rank-box" style="display: none;">
+            <div>
+                <div class="rank-label">Your Rank</div>
+                <div class="rank-value" id="your-rank">#--</div>
+            </div>
+            <div>
+                <div class="rank-label">Your Best</div>
+                <div class="score-value" id="your-score">--</div>
+            </div>
+        </div>
+
+        <!-- Search Box -->
+        <div class="search-container">
+            <input type="text" class="search-input" id="search-input" placeholder="🔍 Search by name..." oninput="filterLeaderboard()">
+        </div>
+        
+        <ul class="leaderboard-list" id="leaderboard-list">
+            <li class="loading">Loading...</li>
+        </ul>
+        
+        <!-- Pagination -->
+        <div class="pagination" id="pagination"></div>
+    </div>
+    
+    <script src="audio.js?v=28"></script>
+    <script>
+        // Load dark mode preference on page load
+        (function() {
+            try {
+                const saved = localStorage.getItem('flapEmonadSettings');
+                if (saved) {
+                    const settings = JSON.parse(saved);
+                    if (settings.darkMode) {
+                        document.body.classList.add('dark-mode');
+                    }
+                }
+            } catch (e) {}
+        })();
+        
+        // Start leaderboard music on first interaction
+        const startMusic = () => {
+            if (typeof chiptunePlayer !== 'undefined') {
+                chiptunePlayer.init();
+                if (chiptunePlayer.audioContext && chiptunePlayer.audioContext.state === 'suspended') {
+                    chiptunePlayer.audioContext.resume();
+                }
+                if (!chiptunePlayer.isMuted) {
+                    chiptunePlayer.playLeaderboardMusic();
+                }
+            }
+            document.removeEventListener('click', startMusic);
+            document.removeEventListener('touchstart', startMusic);
+        };
+        document.addEventListener('click', startMusic);
+        document.addEventListener('touchstart', startMusic);
+        
+        // Supabase config
+        const SUPABASE_URL = 'https://xgqitkqhruitdviegnqb.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhncWl0a3FocnVpdGR2aWVnbnFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNjY5NzIsImV4cCI6MjA5Mjc0Mjk3Mn0.c-_SS6_y4aNKlnzTu1UVvOyDZWh6PmuKkjynJ2P5AjQ';
+
+        // Per-device id (matches the one used in the game)
+        function getClientId() {
+            try {
+                let id = localStorage.getItem('flapEmonadClientId');
+                if (!id) {
+                    id = (crypto.randomUUID && crypto.randomUUID()) ||
+                         (Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
+                    localStorage.setItem('flapEmonadClientId', id);
+                }
+                return id;
+            } catch (e) { return null; }
+        }
+
+        let allPlayers = [];
+        let filteredPlayers = [];
+        let currentPage = 1;
+        const ITEMS_PER_PAGE = 10;
+        const myClientId = getClientId();
+
+        // XHR bypasses wallet extensions that hook window.fetch
+        function xhrGet(url, headers) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', url, true);
+                for (const k in headers) xhr.setRequestHeader(k, headers[k]);
+                xhr.onload = () => xhr.status >= 200 && xhr.status < 300
+                    ? resolve(xhr.responseText)
+                    : reject(new Error('HTTP ' + xhr.status));
+                xhr.onerror = () => reject(new Error('Network error'));
+                xhr.send();
+            });
+        }
+
+        async function loadLeaderboard() {
+            const leaderboardList = document.getElementById('leaderboard-list');
+            try {
+                const url = SUPABASE_URL +
+                    '/rest/v1/scores?select=name,score,client_id,created' +
+                    '&order=score.desc,created.asc&limit=500';
+                const text = await xhrGet(url, {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + SUPABASE_KEY
+                });
+                const rows = JSON.parse(text);
+
+                // Dedupe to best score per name (case-insensitive)
+                const seen = new Set();
+                allPlayers = [];
+                let rank = 0;
+                for (const r of rows) {
+                    const key = (r.name || '').toLowerCase();
+                    if (seen.has(key)) continue;
+                    seen.add(key);
+                    rank++;
+                    allPlayers.push({
+                        rank,
+                        clientId: r.client_id,
+                        name: r.name,
+                        score: r.score,
+                        isMe: r.client_id === myClientId
+                    });
+                    if (rank >= 100) break;
+                }
+
+                filteredPlayers = [...allPlayers];
+                updateUserRank();
+                renderLeaderboard();
+            } catch (err) {
+                console.error('Failed to load leaderboard:', err);
+                leaderboardList.innerHTML = '<li class="no-scores">Failed to load leaderboard</li>';
+            }
+        }
+
+        function updateUserRank() {
+            const me = allPlayers.find(p => p.isMe);
+            const rankBox = document.getElementById('your-rank-box');
+            if (me) {
+                rankBox.style.display = 'flex';
+                document.getElementById('your-rank').textContent = '#' + me.rank;
+                document.getElementById('your-score').textContent = me.score;
+            } else {
+                rankBox.style.display = 'none';
+            }
+        }
+
+        function filterLeaderboard() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
+            if (!searchTerm) {
+                filteredPlayers = [...allPlayers];
+            } else {
+                filteredPlayers = allPlayers.filter(p => p.name.toLowerCase().includes(searchTerm));
+            }
+            currentPage = 1;
+            renderLeaderboard();
+        }
+        
+        function renderLeaderboard() {
+            const leaderboardList = document.getElementById('leaderboard-list');
+            leaderboardList.innerHTML = '';
+            
+            if (filteredPlayers.length === 0) {
+                leaderboardList.innerHTML = '<li class="no-scores">No players found</li>';
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+            
+            // Calculate pagination
+            const totalPages = Math.ceil(filteredPlayers.length / ITEMS_PER_PAGE);
+            const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
+            const endIdx = Math.min(startIdx + ITEMS_PER_PAGE, filteredPlayers.length);
+            const pageItems = filteredPlayers.slice(startIdx, endIdx);
+            
+            // Render items
+            for (const player of pageItems) {
+                const li = document.createElement('li');
+                
+                // Add medal classes for top 3
+                let rankClass = 'normal';
+                let rowClass = '';
+                if (player.rank === 1) { rankClass = 'gold'; rowClass = 'gold'; }
+                else if (player.rank === 2) { rankClass = 'silver'; rowClass = 'silver'; }
+                else if (player.rank === 3) { rankClass = 'bronze'; rowClass = 'bronze'; }
+                
+                if (rowClass) li.classList.add(rowClass);
+                
+                // Highlight this device
+                if (player.isMe) {
+                    li.classList.add('current-user');
+                }
+                
+                const rankSpan = document.createElement('span');
+                rankSpan.className = `rank ${rankClass}`;
+                rankSpan.textContent = `#${player.rank}`;
+
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'player-name';
+                nameSpan.textContent = player.name;
+
+                const scoreSpan = document.createElement('span');
+                scoreSpan.className = 'score';
+                scoreSpan.textContent = player.score;
+
+                li.appendChild(rankSpan);
+                li.appendChild(nameSpan);
+                li.appendChild(scoreSpan);
+
+                leaderboardList.appendChild(li);
+            }
+            
+            // Render pagination
+            renderPagination(totalPages);
+        }
+        
+        function renderPagination(totalPages) {
+            const pagination = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+            
+            let html = '';
+            
+            // Previous button
+            html += `<button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>←</button>`;
+            
+            // Page numbers
+            const maxVisible = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+            
+            if (endPage - startPage < maxVisible - 1) {
+                startPage = Math.max(1, endPage - maxVisible + 1);
+            }
+            
+            if (startPage > 1) {
+                html += `<button class="page-btn" onclick="goToPage(1)">1</button>`;
+                if (startPage > 2) html += `<span class="page-info">...</span>`;
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            }
+            
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) html += `<span class="page-info">...</span>`;
+                html += `<button class="page-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+            }
+            
+            // Next button
+            html += `<button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>→</button>`;
+            
+            // Page info
+            html += `<span class="page-info">${filteredPlayers.length} players</span>`;
+            
+            pagination.innerHTML = html;
+        }
+        
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredPlayers.length / ITEMS_PER_PAGE);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderLeaderboard();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // Smooth page navigation with fade-out transition
+        function navigateWithTransition(url) {
+            document.body.classList.add('page-transitioning');
+            setTimeout(() => {
+                window.location.href = url;
+            }, 650);
+        }
+
+        // Intercept back/nav links for smooth transitions
+        document.querySelectorAll('a.back-btn, a.settings-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                navigateWithTransition(link.getAttribute('href'));
+            });
+        });
+
+        // Load on page load
+        loadLeaderboard();
+    </script>
+</body>
+</html>

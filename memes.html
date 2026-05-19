@@ -1,0 +1,2226 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4QWLXTDH20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-4QWLXTDH20');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>$EMO Memes — Emonad Meme Gallery on Monad</title>
+  <meta name="description" content="The official Emonad ($EMO) meme gallery — community-curated memes, art, and the Emo Tarot Major Arcana. The emo kid of Monad's meme stash.">
+  <meta name="keywords" content="emonad memes, $emo memes, monad memes, emo memes, monad memecoin memes">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://emonad.lol/memes.html">
+
+  <!-- OG / Social Meta -->
+  <meta property="og:title" content="$EMO Memes — Emonad Meme Gallery on Monad">
+  <meta property="og:description" content="Community-curated memes for Emonad ($EMO), the emo memecoin on Monad. Plus the full Emo Tarot Major Arcana.">
+  <meta property="og:image" content="https://emonad.lol/og-image.jpg">
+  <meta property="og:url" content="https://emonad.lol/memes.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Emonad">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@EmonadCoin">
+  <meta name="twitter:title" content="$EMO Memes — Emonad Meme Gallery on Monad">
+  <meta name="twitter:description" content="Community-curated memes for Emonad ($EMO). The emo memecoin on Monad.">
+  <meta name="twitter:image" content="https://emonad.lol/og-image.jpg">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ImageGallery",
+    "name": "$EMO Memes — Emonad Meme Gallery",
+    "url": "https://emonad.lol/memes.html",
+    "description": "Community-curated meme gallery for Emonad ($EMO), the emo memecoin on Monad.",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Emonad",
+      "url": "https://emonad.lol/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Emonad",
+      "url": "https://emonad.lol/"
+    }
+  }
+  </script>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <style>
+    @font-face {
+      font-family: 'Space Grotesk';
+      font-style: normal;
+      font-weight: 500 800;
+      font-display: swap;
+      src: url(fonts/SpaceGrotesk-latin.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #1a1a1a;
+      --text-secondary: #666666;
+      --text-muted: #aaaaaa;
+      --accent: #7B3FE4;
+      --accent-hover: #6930c3;
+      --accent-glow: rgba(123, 63, 228, 0.25);
+      --surface: #f5f3ff;
+      --surface-border: #e4d8f8;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #0a0a0a;
+      --text-color: #ffffff;
+      --text-secondary: #888888;
+      --text-muted: #505050;
+      --accent: #9B5FFF;
+      --accent-hover: #b080ff;
+      --accent-glow: rgba(155, 95, 255, 0.3);
+      --surface: rgba(255, 255, 255, 0.06);
+      --surface-border: rgba(255, 255, 255, 0.1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: radial-gradient(ellipse at 50% 0%, var(--accent-glow) 0%, transparent 55%), var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    /* ── Page Transition ── */
+    .page-transition {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page-transition .pt-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(155, 95, 255, 0.15) 0%, transparent 60%),
+        var(--bg-color);
+      transform: scaleY(1);
+      transform-origin: top;
+      animation: ptOverlayOut 1.1s 0.25s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    }
+
+    .page-transition .pt-logo {
+      position: relative;
+      z-index: 1;
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+      animation: ptLogoOut 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    }
+
+    .page-transition .pt-logo svg {
+      width: 80px;
+      height: 80px;
+      filter: drop-shadow(0 0 30px rgba(155, 95, 255, 0.6));
+    }
+
+    .page-transition .pt-glow {
+      position: absolute;
+      inset: -20px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(155, 95, 255, 0.3) 0%, transparent 70%);
+      opacity: 0.6;
+      animation: ptGlowOut 0.7s ease forwards;
+    }
+
+    @keyframes ptOverlayOut {
+      0% { transform: scaleY(1); }
+      100% { transform: scaleY(0); }
+    }
+
+    @keyframes ptLogoOut {
+      0% { opacity: 1; transform: scale(1) rotate(0deg); }
+      100% { opacity: 0; transform: scale(1.3) rotate(15deg); }
+    }
+
+    @keyframes ptGlowOut {
+      0% { opacity: 0.6; transform: scale(1); }
+      100% { opacity: 0; transform: scale(2); }
+    }
+
+    .page-enter {
+      animation: ptPageEnter 1.1s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes ptPageEnter {
+      0% { opacity: 0; transform: translateY(25px); filter: blur(3px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+
+    /* ── Exit transition (back to emo) ── */
+    .page-transition.exit-active {
+      pointer-events: all;
+    }
+
+    .page-transition.exit-active .pt-overlay {
+      transform: scaleY(0);
+      transform-origin: bottom;
+      animation: ptOverlayIn 1.1s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    }
+
+    .page-transition.exit-active .pt-logo {
+      opacity: 0;
+      transform: scale(0.5) rotate(-30deg);
+      animation: ptLogoIn 1.0s 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .page-transition.exit-active .pt-glow {
+      opacity: 0;
+      animation: ptGlowPulse 1.1s 0.55s ease forwards;
+    }
+
+    @keyframes ptOverlayIn {
+      0% { transform: scaleY(0); transform-origin: bottom; }
+      100% { transform: scaleY(1); transform-origin: bottom; }
+    }
+
+    @keyframes ptLogoIn {
+      0% { opacity: 0; transform: scale(0.5) rotate(-30deg); }
+      60% { opacity: 1; transform: scale(1.08) rotate(5deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+
+    @keyframes ptGlowPulse {
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0.6; transform: scale(1); }
+    }
+
+    .page-transition.exit-active ~ .top-bar,
+    .page-transition.exit-active ~ .container {
+      animation: ptContentOut 0.95s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    }
+
+    @keyframes ptContentOut {
+      0% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+      100% { opacity: 0; transform: translateY(-40px) scale(0.97); filter: blur(4px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .page-transition { display: none; }
+      .page-enter { animation: none; opacity: 1; }
+    }
+
+    /* ── Theme Transition ── */
+    html.theme-transition,
+    html.theme-transition *,
+    html.theme-transition *::before,
+    html.theme-transition *::after {
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+    }
+
+    /* ── Top Bar ── */
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 52px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--surface-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 100;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--surface-border);
+      background: transparent;
+      transition: all 0.25s ease;
+    }
+
+    .back-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .back-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .top-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .meme-count {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .theme-toggle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--surface-border);
+      background: var(--surface);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      transition: all 0.25s ease;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .theme-toggle:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .theme-toggle .icon-sun,
+    .theme-toggle .icon-moon {
+      position: absolute;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle .icon-sun { opacity: 0; transform: rotate(-90deg); }
+    .theme-toggle .icon-moon { opacity: 1; transform: rotate(0deg); }
+    [data-theme="dark"] .theme-toggle .icon-sun { opacity: 1; transform: rotate(0deg); }
+    [data-theme="dark"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(90deg); }
+
+    /* ── Header ── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 68px 16px 40px;
+    }
+
+    .header {
+      text-align: center;
+      padding: 12px 0 16px;
+    }
+
+    .header h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--accent), var(--text-color) 70%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    /* ── Search & Filter Bar ── */
+    .filter-bar {
+      position: sticky;
+      top: 58px;
+      z-index: 50;
+      background: rgba(10, 10, 10, 0.55);
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      border: 1px solid var(--surface-border);
+      border-radius: 18px;
+      padding: 10px 14px 12px;
+      margin-bottom: 14px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    }
+    [data-theme="light"] .filter-bar {
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    .search-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .search-wrap {
+      flex: 1;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 36px 10px 38px;
+      border-radius: 999px;
+      border: 1px solid var(--surface-border);
+      background: var(--surface);
+      color: var(--text-color);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      outline: none;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+      background: var(--bg-color);
+    }
+
+    .search-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+      pointer-events: none;
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: none;
+      background: var(--surface-border);
+      color: var(--text-color);
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .search-clear.visible { display: flex; }
+    .search-clear:hover { background: var(--accent); color: white; }
+
+    /* Category pills */
+    .category-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 2px 2px 6px;
+    }
+
+    .pill {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--surface-border);
+      background: var(--surface);
+      color: var(--text-color);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-transform: capitalize;
+      white-space: nowrap;
+    }
+
+    .pill:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .pill.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    .pill-count {
+      font-size: 11px;
+      font-weight: 700;
+      opacity: 0.7;
+    }
+
+    .pill.active .pill-count { opacity: 0.9; }
+
+    /* ── Meme Grid ── */
+    .meme-grid {
+      column-count: 3;
+      column-gap: 14px;
+    }
+
+    .meme-item {
+      background: var(--surface);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+      cursor: pointer;
+      break-inside: avoid;
+      margin-bottom: 14px;
+      display: inline-block;
+      width: 100%;
+      border: 1px solid var(--surface-border);
+      position: relative;
+    }
+
+    .meme-item.hidden { display: none; }
+
+    .meme-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      border-color: var(--accent);
+    }
+
+    .meme-item:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .meme-item img,
+    .meme-item video {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--surface);
+    }
+
+    /* Bottom action overlay on each grid item */
+    .meme-actions {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      gap: 6px;
+      padding: 8px;
+      background: linear-gradient(to top, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.15) 60%, rgba(0,0,0,0) 100%);
+      opacity: 1;
+      pointer-events: auto;
+      justify-content: flex-end;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .meme-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.95);
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    }
+    .meme-action:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+    .meme-action svg { width: 13px; height: 13px; flex-shrink: 0; }
+    .meme-action.copied { background: #2ecc71; border-color: #2ecc71; color: white; }
+
+    /* Skeleton placeholder */
+    .meme-item img[data-loading="true"] {
+      min-height: 150px;
+      background: linear-gradient(90deg, var(--surface) 25%, var(--accent-glow) 50%, var(--surface) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+
+    @keyframes shimmer {
+      to { background-position: -200% 0; }
+    }
+
+    /* Error state */
+    .meme-item.error {
+      display: none;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-secondary);
+      display: none;
+    }
+
+    .empty-state.visible { display: block; }
+
+    .empty-state svg {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 14px;
+      opacity: 0.4;
+    }
+
+    .empty-state h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--text-color);
+    }
+
+    .empty-state p {
+      font-size: 0.9rem;
+    }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .lightbox.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .lightbox-media {
+      max-width: 90%;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transform: scale(0.95);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .lightbox.active .lightbox-media {
+      transform: scale(1);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      z-index: 1001;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      transition: all 0.2s ease;
+      line-height: 1;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+    }
+
+    .lightbox-close:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 1001;
+      user-select: none;
+      opacity: 0.7;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .lightbox-nav:hover {
+      opacity: 1;
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .lightbox-nav:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .lightbox-prev { left: 16px; }
+    .lightbox-next { right: 16px; }
+
+    .lightbox-bottom {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      max-width: 90%;
+    }
+
+    .lightbox-caption {
+      display: none;
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+    }
+
+    .lightbox-caption-tags {
+      display: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 4px;
+      margin-top: 4px;
+    }
+    /* Show only when editing */
+    body.edit-mode .lightbox-caption,
+    body.edit-mode .lightbox-caption-tags { display: flex; }
+    body.edit-mode .lightbox-caption { display: block; }
+
+    .lightbox-caption-tag {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.9);
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .lightbox-caption-tag:hover {
+      background: var(--accent);
+      color: white;
+    }
+
+    .lightbox-controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lightbox-counter {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .lightbox-download {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .lightbox-download:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    .lightbox-download:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .lightbox-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, 0.85);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .lightbox-action:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+    .lightbox-action:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .lightbox-action svg { width: 14px; height: 14px; }
+    .lightbox-action.copied { background: #2ecc71; border-color: #2ecc71; color: white; }
+
+    /* ── Back to Top ── */
+    .back-to-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px var(--accent-glow);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      z-index: 50;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .back-to-top:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+    }
+
+    .back-to-top:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* ── Reduced Motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      .meme-item:hover { transform: none; }
+      .meme-item img[data-loading="true"] { animation: none; }
+      .lightbox-media { transition: none; }
+      .lightbox { transition: none; }
+      .back-to-top { transition: none; }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .top-bar {
+        height: 46px;
+        padding: 0 12px;
+      }
+
+      .filter-bar { top: 52px; padding: 9px 12px 11px; border-radius: 14px; }
+
+      .back-btn {
+        font-size: 12px;
+        padding: 8px 14px;
+        min-height: 44px;
+      }
+
+      .meme-count { font-size: 11px; }
+      .theme-toggle { width: 30px; height: 30px; font-size: 14px; }
+
+      .container { padding: 58px 10px 30px; }
+
+      .header { padding: 8px 0 10px; }
+      .header h1 { font-size: 1.6rem; }
+      .header p { font-size: 0.85rem; }
+
+      .search-input { padding: 9px 32px 9px 34px; font-size: 13px; }
+      .pill { padding: 6px 12px; font-size: 12px; }
+
+      .meme-grid {
+        column-count: 2;
+        column-gap: 10px;
+      }
+
+      .meme-item {
+        border-radius: 10px;
+        margin-bottom: 10px;
+      }
+
+      .lightbox-close {
+        top: 12px;
+        right: 12px;
+        width: 38px;
+        height: 38px;
+        font-size: 24px;
+      }
+
+      .lightbox-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+      }
+
+      .lightbox-prev { left: 10px; }
+      .lightbox-next { right: 10px; }
+
+      .lightbox-counter { font-size: 11px; padding: 5px 11px; }
+      .lightbox-caption { font-size: 13px; }
+      .lightbox-caption-tag { font-size: 10px; padding: 2px 7px; }
+      .lightbox-action { font-size: 11px; padding: 6px 11px; }
+      .lightbox-action svg { width: 12px; height: 12px; }
+      .lightbox-bottom { max-width: calc(100% - 60px); width: calc(100% - 60px); }
+
+      /* Compact icon-only grid overlay on mobile so 3 buttons fit on small thumbnails */
+      .meme-actions { padding: 8px 6px; gap: 6px; }
+      .meme-action { padding: 9px; font-size: 0; gap: 0; min-width: 36px; min-height: 36px; justify-content: center; }
+      .meme-action svg { width: 16px; height: 16px; }
+      .meme-action span { display: none; }
+
+      .back-to-top {
+        bottom: 16px;
+        right: 16px;
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .meme-grid {
+        column-gap: 6px;
+      }
+
+      .meme-item {
+        margin-bottom: 6px;
+        border-radius: 8px;
+      }
+
+      .header h1 { font-size: 1.4rem; }
+
+      .lightbox-nav {
+        width: 34px;
+        height: 34px;
+        font-size: 14px;
+      }
+
+      .lightbox-prev { left: 6px; }
+      .lightbox-next { right: 6px; }
+    }
+
+    /* ── Tag Editor ── */
+    .edit-toggle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--surface-border);
+      background: var(--surface);
+      color: var(--text-color);
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .edit-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    body.edit-mode .edit-toggle {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+    .edit-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    .edit-badge {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: var(--accent);
+      color: white;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 999px;
+      pointer-events: none;
+      display: none;
+      z-index: 2;
+    }
+    body.edit-mode .meme-item.edited .edit-badge { display: block; }
+
+    .lightbox-edit {
+      display: none;
+      position: absolute;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(820px, 95vw);
+      max-height: 38vh;
+      overflow-y: auto;
+      background: rgba(20, 20, 30, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 14px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 1002;
+      color: white;
+    }
+    body.edit-mode .lightbox.active .lightbox-edit { display: block; }
+    body.edit-mode .lightbox.active .lightbox-bottom { bottom: 8px; }
+    body.edit-mode .lightbox.active .lightbox-media { max-height: 45vh; }
+
+    .edit-section { margin-bottom: 10px; }
+    .edit-section-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 6px;
+    }
+    .edit-current-tags, .edit-preset-row {
+      display: flex; flex-wrap: wrap; gap: 5px;
+    }
+
+    .edit-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+    }
+    .edit-tag .remove { font-size: 14px; line-height: 1; opacity: 0.7; }
+    .edit-tag:hover .remove { opacity: 1; }
+    .edit-tag.empty {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.5);
+      cursor: default;
+    }
+
+    .preset-tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.85);
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background 0.15s ease;
+    }
+    .preset-tag:hover { background: rgba(255,255,255,0.16); }
+    .preset-tag.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    .edit-add-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+    .edit-add-input {
+      flex: 1;
+      min-width: 180px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(0,0,0,0.4);
+      color: white;
+      font-family: inherit;
+      font-size: 12px;
+      outline: none;
+    }
+    .edit-add-input:focus { border-color: var(--accent); }
+
+    .edit-action-btn {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06);
+      color: white;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .edit-action-btn:hover { background: rgba(255,255,255,0.14); }
+    .edit-action-btn.primary { background: var(--accent); border-color: var(--accent); }
+    .edit-action-btn.primary:hover { background: var(--accent-hover); }
+
+    .edit-cat-row { display: flex; gap: 5px; flex-wrap: wrap; }
+
+    .edit-help {
+      font-size: 10px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Page Entrance Transition -->
+  <div class="page-transition" id="pageTransition" aria-hidden="true">
+    <div class="pt-overlay"></div>
+    <div class="pt-logo">
+      <div class="pt-glow"></div>
+      <svg viewBox="0 0 24 24"><path fill="#836EF9" d="M12 3c-2.599 0-9 6.4-9 9s6.401 9 9 9s9-6.401 9-9s-6.401-9-9-9m-1.402 14.146c-1.097-.298-4.043-5.453-3.744-6.549s5.453-4.042 6.549-3.743c1.095.298 4.042 5.453 3.743 6.549c-.298 1.095-5.453 4.042-6.549 3.743"/></svg>
+    </div>
+  </div>
+
+  <!-- Top Bar -->
+  <div class="top-bar page-enter">
+    <a href="emo.html" class="back-btn" aria-label="Back to main site">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      $EMO
+    </a>
+    <div class="top-bar-right">
+      <span class="meme-count" id="memeCount"></span>
+      <button class="edit-toggle" id="editToggle" aria-label="Toggle tag editor" title="Edit tags (E)">&#9998;</button>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark and light theme">
+        <span class="icon-sun">&#9680;</span>
+        <span class="icon-moon">&#9681;</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="container page-enter" style="animation-delay: 0.05s">
+    <div class="header">
+      <h1>$EMO Memes</h1>
+      <p>i lost it all on day 1</p>
+    </div>
+
+    <div class="filter-bar">
+      <div class="search-row">
+        <div class="search-wrap">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="search" id="searchInput" class="search-input" placeholder="Search memes by name or tag…" aria-label="Search memes">
+          <button class="search-clear" id="searchClear" aria-label="Clear search">&times;</button>
+        </div>
+      </div>
+      <div class="category-pills" id="categoryPills" role="tablist" aria-label="Filter by category"></div>
+    </div>
+
+    <div class="meme-grid" id="memeGrid"></div>
+    <div class="empty-state" id="emptyState">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+      <h3>No memes match</h3>
+      <p>Try a different search or category.</p>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-label="Meme viewer" aria-modal="true">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close viewer">&times;</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous meme">&#10094;</button>
+    <img class="lightbox-media" src="" alt="Full size meme" id="lightboxImg">
+    <video class="lightbox-media" id="lightboxVideo" controls playsinline loop style="display:none"></video>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next meme">&#10095;</button>
+    <div class="lightbox-edit" id="lightboxEdit">
+      <div class="edit-section">
+        <div class="edit-section-title">Category</div>
+        <div class="edit-cat-row" id="editCatRow"></div>
+        <div class="edit-add-row" style="margin-top:6px">
+          <input type="text" id="editNewCatInput" class="edit-add-input" placeholder="+ new category (Enter)">
+          <button class="edit-action-btn" id="editClearCatBtn">Clear category</button>
+        </div>
+      </div>
+      <div class="edit-section">
+        <div class="edit-section-title">Current tags (click to remove)</div>
+        <div class="edit-current-tags" id="editCurrentTags"></div>
+      </div>
+      <div class="edit-section">
+        <div class="edit-section-title">Add custom</div>
+        <div class="edit-add-row">
+          <input type="text" id="editAddInput" class="edit-add-input" placeholder="type a tag, press Enter">
+          <button class="edit-action-btn" id="editResetBtn">Reset this meme</button>
+          <button class="edit-action-btn primary" id="editExportBtn">Export all edits</button>
+        </div>
+        <div class="edit-help" id="editHelp">Edits saved to this browser. Click Export to copy the full updated meme_data.js.</div>
+      </div>
+      <div class="edit-section" id="editPresetsContainer"></div>
+    </div>
+    <div class="lightbox-bottom">
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+      <div class="lightbox-caption-tags" id="lightboxCaptionTags"></div>
+      <div class="lightbox-controls">
+        <div class="lightbox-counter" id="lightboxCounter"></div>
+        <a class="lightbox-action" id="lightboxDownload" href="" download target="_blank" rel="noopener" aria-label="Download meme (opens in new tab)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Download</span>
+        </a>
+        <button class="lightbox-action" id="lightboxCopy" type="button" aria-label="Copy image to clipboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span>Copy</span>
+        </button>
+        <a class="lightbox-action" id="lightboxEditBtn" href="meme-maker.html" aria-label="Edit in meme maker">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+          <span>Edit with Meme Maker</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <script src="meme_data.js?v=20260501b"></script>
+
+  <script>
+    // ── Theme ──
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem('theme') ||
+      (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    html.setAttribute('data-theme', savedTheme);
+
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      html.classList.add('theme-transition');
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      setTimeout(() => html.classList.remove('theme-transition'), 350);
+    });
+
+    // ── Build Grid from MEMES ──
+    // Categories are user-defined. Persist custom list across sessions.
+    const STORAGE_CATS_KEY = 'memeCustomCategories_v2';
+    try { localStorage.removeItem('memeCustomCategories_v1'); } catch (e) {}
+    let CUSTOM_CATS = [];
+    try { CUSTOM_CATS = JSON.parse(localStorage.getItem(STORAGE_CATS_KEY) || '[]'); } catch (e) { CUSTOM_CATS = []; }
+    function saveCats() { localStorage.setItem(STORAGE_CATS_KEY, JSON.stringify(CUSTOM_CATS)); }
+    function normalizeCat(name) { return String(name || '').trim().toLowerCase(); }
+    // memeSrc: returns the URL for a meme. By default `'memes/' + file`, but if
+    // the entry has an explicit `path` it's used as-is so memes can live in
+    // other directories (e.g. tarot cards under `tarot/cards/`).
+    function memeSrc(m) { return m.path ? m.path : ('memes/' + m.file); }
+    function addCustomCategory(name) {
+      name = normalizeCat(name);
+      if (!name) return false;
+      if (!CUSTOM_CATS.includes(name)) {
+        CUSTOM_CATS.push(name);
+        saveCats();
+        return true;
+      }
+      return false;
+    }
+    function removeCustomCategory(name) {
+      name = normalizeCat(name);
+      const i = CUSTOM_CATS.indexOf(name);
+      if (i >= 0) { CUSTOM_CATS.splice(i, 1); saveCats(); return true; }
+      return false;
+    }
+    function allCategories() {
+      const set = new Set(CUSTOM_CATS);
+      memes.forEach(m => {
+        effectiveMeme(m).categories.forEach(c => { if (c) set.add(c); });
+      });
+      return Array.from(set).sort();
+    }
+    function labelize(cat) { return cat ? cat.charAt(0).toUpperCase() + cat.slice(1) : ''; }
+
+    // ── Tag editor: persistent per-file overrides {file: {tags:[...], category:"..."}} ──
+    const STORAGE_KEY = 'memeTagEdits_v2';
+    // One-time cleanup of legacy keys
+    try { localStorage.removeItem('memeTagEdits_v1'); } catch (e) {}
+    let TAG_EDITS = {};
+    try { TAG_EDITS = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch (e) { TAG_EDITS = {}; }
+    function saveEdits() { localStorage.setItem(STORAGE_KEY, JSON.stringify(TAG_EDITS)); }
+    function memeCategories(m) {
+      if (!m) return [];
+      if (Array.isArray(m.categories)) return m.categories.map(normalizeCat).filter(Boolean);
+      if (typeof m.categories === 'string' && m.categories) return [normalizeCat(m.categories)];
+      if (typeof m.category === 'string' && m.category) return [normalizeCat(m.category)];
+      return [];
+    }
+    function effectiveMeme(meme) {
+      const e = TAG_EDITS[meme.file];
+      const merged = e ? Object.assign({}, meme, e) : Object.assign({}, meme);
+      merged.categories = memeCategories(merged);
+      return merged;
+    }
+
+    // Preset tag groups for the editor
+    const PRESET_GROUPS = [
+      ['Mood', ['crying','tears','sad','frowning','smug','smiling','happy','laughing','angry','scared','shocked','screaming','tired','sleeping','dead','deadpan','exhausted','depressed','drunk','confused']],
+      ['Action', ['standing','sitting','lying','running','holding','drinking','eating','smoking','pointing','hugging','cooking','gambling','fighting','dancing','riding','falling']],
+      ['Subject', ['chart','candlestick','money','dollar','bags','food','phone','computer','tv','car','motorcycle','gun','knife','sword','weapon','rope','noose','cigarette','smoke','fire','blood','crown','beanie','hat','sunglasses','glasses','headphones','guitar','drums','microphone','ring','ticket','cup','bottle','lamp','candle','balloons','flowers','heart','skull','christmas-tree','sleigh','axe','spatula','apron','chef-hat','plush','toy','mask','sign']],
+      ['Character', ['pepe','wojak','frog','kermit','pikachu','anime-girl','anime-boy','baby','alien','robot','skeleton','cat','dog','bird','horse','sheep','whale']],
+      ['Person', ['elon','cz','trump','dokwon','kaled','huang','ozzy','frank']],
+      ['Crypto', ['crypto','bitcoin','monad','dip','pump','dump','hold','hodl','buy','sell','rugged','shilling','bags','moon','lambo','cope','rekt','fud','early','wen','hopium','gm','gn','gmonad']],
+      ['Scene', ['kitchen','bathroom','bedroom','living-room','cafe','restaurant','bar','club','garage','office','classroom','city','street','alley','field','forest','beach','mountain','desert','snow','space','indoor','outdoor','rooftop']],
+      ['Color', ['red','green','blue','pink','yellow','purple','black','white','orange','rainbow','neon']],
+      ['Format', ['photo','photo-edit','comic','panel','screenshot','text-meme','pixel-art','3d']],
+      ['Theme', ['christmas','halloween','winter','summer','valentine']],
+      ['Vibe', ['wholesome','cursed','funny','classic-meme','doomer','cute']]
+    ];
+
+    const memes = MEMES.slice().sort((a, b) => {
+      const av = a.file.endsWith('.mp4') ? 1 : 0;
+      const bv = b.file.endsWith('.mp4') ? 1 : 0;
+      if (av !== bv) return av - bv; // images first, videos last
+      return 0; // preserve original order otherwise
+    });
+
+    const memeGrid = document.getElementById('memeGrid');
+    const emptyState = document.getElementById('emptyState');
+    const memeCountEl = document.getElementById('memeCount');
+
+    memes.forEach((meme, idx) => {
+      const div = document.createElement('div');
+      div.className = 'meme-item';
+      div.setAttribute('tabindex', '0');
+      div.setAttribute('role', 'button');
+      div.setAttribute('aria-label', 'View meme: ' + meme.name);
+      div.dataset.index = idx;
+      div.dataset.file = meme.file;
+      // Index built from CURRENT (= base + user edits)
+      const cur = effectiveMeme(meme);
+      const cats = cur.categories || [];
+      div.dataset.categories = cats.join(',');
+      const tagsLower = (cur.tags || []).map(t => String(t).toLowerCase());
+      div._strong = (cur.name || '').toLowerCase() + ' ' + tagsLower.join(' ') + ' ' + cats.join(' ');
+      div._weak = ((cur.text || '') + ' ' + (cur.description || '')).toLowerCase();
+      div._tagSet = new Set(tagsLower);
+      // Edited badge
+      const badge = document.createElement('span');
+      badge.className = 'edit-badge';
+      badge.textContent = 'edited';
+      div.appendChild(badge);
+      if (TAG_EDITS[meme.file]) div.classList.add('edited');
+
+      const isVideo = meme.file.endsWith('.mp4');
+      let mediaEl = null;
+      if (isVideo) {
+        const video = document.createElement('video');
+        video.src = memeSrc(meme);
+        video.muted = true;
+        video.loop = true;
+        video.playsInline = true;
+        video.preload = 'metadata';
+        video.addEventListener('mouseenter', () => video.play().catch(() => {}));
+        video.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
+        video.addEventListener('error', () => div.classList.add('error'));
+        div.appendChild(video);
+      } else {
+        const img = document.createElement('img');
+        img.src = memeSrc(meme);
+        img.alt = meme.name;
+        img.loading = 'lazy';
+        img.setAttribute('data-loading', 'true');
+        img.addEventListener('load', () => img.removeAttribute('data-loading'));
+        img.addEventListener('error', () => div.classList.add('error'));
+        div.appendChild(img);
+        mediaEl = img;
+      }
+
+      div.appendChild(buildActionsOverlay(memeSrc(meme), meme.file, mediaEl));
+
+      memeGrid.appendChild(div);
+    });
+
+    function buildActionsOverlay(src, filename, imgEl) {
+      const wrap = document.createElement('div');
+      wrap.className = 'meme-actions';
+
+      const dl = document.createElement('a');
+      dl.className = 'meme-action';
+      dl.href = src;
+      dl.download = filename;
+      dl.target = '_blank';
+      dl.rel = 'noopener';
+      dl.title = 'Download (opens in new tab)';
+      dl.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Download</span>';
+      dl.addEventListener('click', e => e.stopPropagation());
+
+      const cp = document.createElement('button');
+      cp.type = 'button';
+      cp.className = 'meme-action';
+      cp.title = 'Copy image';
+      cp.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span>';
+      cp.addEventListener('click', async e => {
+        e.stopPropagation();
+        await copyImageToClipboard(imgEl || src, cp);
+      });
+
+      const ed = document.createElement('a');
+      ed.className = 'meme-action';
+      ed.href = 'meme-maker.html?img=' + encodeURIComponent(src);
+      ed.title = 'Edit with Meme Maker';
+      ed.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg><span>Edit</span>';
+      ed.addEventListener('click', e => e.stopPropagation());
+
+      wrap.appendChild(dl);
+      wrap.appendChild(cp);
+      wrap.appendChild(ed);
+      return wrap;
+    }
+
+    // Accepts either an HTMLImageElement (preferred — no fetch needed, keeps the
+    // user gesture intact for Safari/iOS) or a URL string fallback.
+    async function copyImageToClipboard(imgOrSrc, btn) {
+      const span = btn && btn.querySelector('span');
+      if (btn && span && btn._origText === undefined) btn._origText = span.textContent;
+      const flash = (text, ok = true) => {
+        if (!btn || !span) return;
+        span.textContent = text;
+        btn.classList.toggle('copied', ok);
+        setTimeout(() => {
+          span.textContent = btn._origText;
+          btn.classList.remove('copied');
+        }, 1400);
+      };
+
+      const isImg = imgOrSrc instanceof HTMLImageElement;
+      const src = isImg ? (imgOrSrc.currentSrc || imgOrSrc.src) : imgOrSrc;
+      const imgReady = isImg && imgOrSrc.complete && imgOrSrc.naturalWidth > 0;
+
+      if (!navigator.clipboard || !window.ClipboardItem) {
+        try {
+          await navigator.clipboard.writeText(new URL(src, location.href).href);
+          flash('URL copied');
+        } catch (_) { alert('Clipboard not supported in this browser.'); }
+        return;
+      }
+
+      // Build the PNG blob inside a Promise that we hand to ClipboardItem
+      // synchronously, so navigator.clipboard.write fires in the same tick as
+      // the click. iOS Safari rejects with "not allowed" if the gesture has
+      // already been lost to an awaited fetch.
+      const pngBlobPromise = (async () => {
+        if (imgReady) {
+          // Fast path: read pixels straight off the already-loaded element. No
+          // fetch, no decode. Same-origin so the canvas isn't tainted.
+          const c = document.createElement('canvas');
+          c.width = imgOrSrc.naturalWidth;
+          c.height = imgOrSrc.naturalHeight;
+          c.getContext('2d').drawImage(imgOrSrc, 0, 0);
+          return await new Promise((resolve, reject) => {
+            c.toBlob(b => b ? resolve(b) : reject(new Error('toBlob failed')), 'image/png');
+          });
+        }
+        // Fallback path (image not ready yet): fetch it. May lose the gesture
+        // on Safari and fall through to the URL-copy fallback below — that's
+        // still better than silently failing.
+        const resp = await fetch(src, { mode: 'cors', credentials: 'omit' });
+        if (!resp.ok) throw new Error('fetch ' + resp.status);
+        const blob = await resp.blob();
+        if (blob.type === 'image/png') return blob;
+        return await new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => {
+            const c = document.createElement('canvas');
+            c.width = img.naturalWidth; c.height = img.naturalHeight;
+            c.getContext('2d').drawImage(img, 0, 0);
+            c.toBlob(b => b ? resolve(b) : reject(new Error('toBlob failed')), 'image/png');
+          };
+          img.onerror = () => reject(new Error('image decode failed'));
+          img.src = URL.createObjectURL(blob);
+        });
+      })();
+      pngBlobPromise.catch(() => {});
+
+      try {
+        await navigator.clipboard.write([new ClipboardItem({ 'image/png': pngBlobPromise })]);
+        flash('Copied!');
+      } catch (err) {
+        try {
+          await navigator.clipboard.writeText(new URL(src, location.href).href);
+          flash('URL copied');
+        } catch (_) {
+          alert('Copy failed: ' + (err && err.message ? err.message : err));
+        }
+      }
+    }
+
+    // ── Category pills (dynamic) ──
+    const pillsEl = document.getElementById('categoryPills');
+    function rebuildCategoryPills() {
+      const counts = { all: memes.length };
+      memes.forEach(m => {
+        effectiveMeme(m).categories.forEach(c => { counts[c] = (counts[c] || 0) + 1; });
+      });
+      const cats = ['all', ...allCategories()];
+      const previousActive = activeCategory || 'all';
+      pillsEl.innerHTML = '';
+      cats.forEach(cat => {
+        const btn = document.createElement('button');
+        const isActive = cat === previousActive;
+        btn.className = 'pill' + (isActive ? ' active' : '');
+        btn.dataset.cat = cat;
+        btn.setAttribute('role', 'tab');
+        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        const count = counts[cat] || 0;
+        btn.innerHTML = (cat === 'all' ? 'All' : labelize(cat)) + ' <span class="pill-count">' + count + '</span>';
+        pillsEl.appendChild(btn);
+      });
+      // If active category no longer exists, fall back to "all"
+      if (previousActive !== 'all' && !counts[previousActive]) {
+        activeCategory = 'all';
+        const allBtn = pillsEl.querySelector('.pill[data-cat="all"]');
+        if (allBtn) { allBtn.classList.add('active'); allBtn.setAttribute('aria-selected', 'true'); }
+      }
+    }
+    let activeCategory = 'all';
+    rebuildCategoryPills();
+
+    // ── Filter logic ──
+    const searchInput = document.getElementById('searchInput');
+    const searchClear = document.getElementById('searchClear');
+    let searchTerm = '';
+
+    // Word-boundary regex builder (escapes regex metachars in user input)
+    function termRegex(term) {
+      const esc = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return new RegExp('\\b' + esc + '\\b', 'i');
+    }
+
+    function applyFilters() {
+      const rawQ = searchTerm.trim().toLowerCase();
+      const items = memeGrid.querySelectorAll('.meme-item');
+      let visible = 0;
+      let regex = null;
+      let containsQ = '';
+      if (rawQ) {
+        // Try word-boundary regex first (handles "crying" → matches the word, not "carrying").
+        // For very short queries (<3 chars) or queries with non-letter chars, fall back to substring.
+        if (rawQ.length >= 3 && /^[a-z0-9-]+$/.test(rawQ)) {
+          regex = termRegex(rawQ);
+        } else {
+          containsQ = rawQ;
+        }
+      }
+      // Score-then-sort: items with strong-field hits rank above weak-field-only hits.
+      const scored = [];
+      items.forEach(item => {
+        const cats = (item.dataset.categories || '').split(',').filter(Boolean);
+        const matchesCat = activeCategory === 'all' || cats.includes(activeCategory);
+        if (!matchesCat) { item.classList.add('hidden'); return; }
+        let score = 0;
+        if (!rawQ) {
+          score = 1; // no query: show all matching category
+        } else {
+          // Strong field (name + tags + category): word-boundary match
+          if (regex) {
+            if (item._tagSet && item._tagSet.has(rawQ)) score += 10; // exact tag
+            if (regex.test(item._strong)) score += 5;
+            if (regex.test(item._weak)) score += 2;
+          } else {
+            if (item._strong.includes(containsQ)) score += 5;
+            if (item._weak.includes(containsQ)) score += 2;
+          }
+        }
+        if (score > 0) {
+          item.classList.remove('hidden');
+          scored.push([item, score]);
+          visible++;
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+      // Re-order DOM only when a query is active (so no-query state preserves original order)
+      if (rawQ && scored.length > 1) {
+        scored.sort((a, b) => b[1] - a[1]);
+        const frag = document.createDocumentFragment();
+        scored.forEach(([el]) => frag.appendChild(el));
+        memeGrid.appendChild(frag);
+      }
+      memeCountEl.textContent = visible + ' / ' + memes.length;
+      emptyState.classList.toggle('visible', visible === 0);
+    }
+
+    pillsEl.addEventListener('click', e => {
+      const btn = e.target.closest('.pill');
+      if (!btn) return;
+      pillsEl.querySelectorAll('.pill').forEach(p => {
+        const isActive = p === btn;
+        p.classList.toggle('active', isActive);
+        p.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+      activeCategory = btn.dataset.cat;
+      applyFilters();
+    });
+
+    searchInput.addEventListener('input', () => {
+      searchTerm = searchInput.value;
+      searchClear.classList.toggle('visible', searchTerm.length > 0);
+      applyFilters();
+    });
+
+    searchClear.addEventListener('click', () => {
+      searchInput.value = '';
+      searchTerm = '';
+      searchClear.classList.remove('visible');
+      applyFilters();
+      searchInput.focus();
+    });
+
+    applyFilters(); // initial count
+
+    // ── Lightbox ──
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxVideo = document.getElementById('lightboxVideo');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+    const lightboxCounter = document.getElementById('lightboxCounter');
+    const lightboxDownload = document.getElementById('lightboxDownload');
+    const lightboxCopy = document.getElementById('lightboxCopy');
+    const lightboxEditBtn = document.getElementById('lightboxEditBtn');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const lightboxCaptionTags = document.getElementById('lightboxCaptionTags');
+
+    let lightboxCurrentSrc = '';
+    lightboxCopy.addEventListener('click', () => {
+      // Prefer the loaded <img> bitmap so clipboard.write stays in the user gesture (no fetch).
+      const ready = lightboxImg && lightboxImg.style.display !== 'none' && lightboxImg.complete && lightboxImg.naturalWidth;
+      copyImageToClipboard(ready ? lightboxImg : lightboxCurrentSrc, lightboxCopy);
+    });
+
+    let visibleMemes = [];
+    let currentIndex = 0;
+    let previousFocus = null;
+
+    function refreshVisibleMemes() {
+      visibleMemes = Array.from(memeGrid.querySelectorAll('.meme-item:not(.hidden):not(.error)'))
+        .map(el => memes[parseInt(el.dataset.index, 10)]);
+    }
+
+    function openLightboxByMeme(meme) {
+      refreshVisibleMemes();
+      const idx = visibleMemes.indexOf(meme);
+      if (idx === -1) return;
+      previousFocus = document.activeElement;
+      currentIndex = idx;
+      updateLightbox();
+      lightbox.classList.add('active');
+      lightboxClose.focus();
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      lightboxVideo.pause();
+      lightboxVideo.src = '';
+      if (previousFocus) previousFocus.focus();
+    }
+
+    function reindexItem(file) {
+      const item = memeGrid.querySelector('.meme-item[data-file="' + CSS.escape(file) + '"]');
+      if (!item) return;
+      const idx = parseInt(item.dataset.index, 10);
+      const cur = effectiveMeme(memes[idx]);
+      const cats = cur.categories || [];
+      const tagsLower = (cur.tags || []).map(t => String(t).toLowerCase());
+      item.dataset.categories = cats.join(',');
+      item._strong = (cur.name || '').toLowerCase() + ' ' + tagsLower.join(' ') + ' ' + cats.join(' ');
+      item._weak = ((cur.text || '') + ' ' + (cur.description || '')).toLowerCase();
+      item._tagSet = new Set(tagsLower);
+      item.classList.toggle('edited', !!TAG_EDITS[file]);
+    }
+
+    function updateLightbox() {
+      const meme = visibleMemes[currentIndex];
+      if (!meme) return;
+      const src = memeSrc(meme);
+      const isVideo = meme.file.endsWith('.mp4');
+      if (isVideo) {
+        lightboxImg.style.display = 'none';
+        lightboxVideo.style.display = '';
+        lightboxVideo.src = src;
+        lightboxVideo.play().catch(() => {});
+        lightboxImg.src = '';
+      } else {
+        lightboxVideo.pause();
+        lightboxVideo.style.display = 'none';
+        lightboxVideo.src = '';
+        lightboxImg.style.display = '';
+        lightboxImg.src = src;
+        lightboxImg.alt = meme.name;
+      }
+      const cur = effectiveMeme(meme);
+      lightboxCounter.textContent = (currentIndex + 1) + ' / ' + visibleMemes.length;
+      lightboxDownload.href = src;
+      lightboxDownload.setAttribute('download', meme.file);
+      lightboxCurrentSrc = src;
+      lightboxEditBtn.href = 'meme-maker.html?img=' + encodeURIComponent(src);
+      lightboxCaption.textContent = cur.name;
+      lightboxCaptionTags.innerHTML = '';
+      // Render editor panel
+      renderEditor(meme);
+      (cur.tags || []).forEach(t => {
+        const chip = document.createElement('span');
+        chip.className = 'lightbox-caption-tag';
+        chip.textContent = t;
+        chip.addEventListener('click', () => {
+          // Click a tag to filter by it
+          searchInput.value = t;
+          searchTerm = t;
+          searchClear.classList.add('visible');
+          // Reset category to 'all' so search has full reach
+          pillsEl.querySelectorAll('.pill').forEach(p => {
+            const isAll = p.dataset.cat === 'all';
+            p.classList.toggle('active', isAll);
+            p.setAttribute('aria-selected', isAll ? 'true' : 'false');
+          });
+          activeCategory = 'all';
+          applyFilters();
+          closeLightbox();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        lightboxCaptionTags.appendChild(chip);
+      });
+    }
+
+    function showMeme(delta) {
+      if (!visibleMemes.length) return;
+      currentIndex = (currentIndex + delta + visibleMemes.length) % visibleMemes.length;
+      updateLightbox();
+    }
+
+    // Click to open
+    memeGrid.addEventListener('click', (e) => {
+      const item = e.target.closest('.meme-item');
+      if (!item || item.classList.contains('hidden') || item.classList.contains('error')) return;
+      const meme = memes[parseInt(item.dataset.index, 10)];
+      openLightboxByMeme(meme);
+    });
+
+    memeGrid.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const item = e.target.closest('.meme-item');
+      if (!item) return;
+      e.preventDefault();
+      const meme = memes[parseInt(item.dataset.index, 10)];
+      openLightboxByMeme(meme);
+    });
+
+    // Navigation
+    lightboxPrev.addEventListener('click', (e) => { e.stopPropagation(); showMeme(-1); });
+    lightboxNext.addEventListener('click', (e) => { e.stopPropagation(); showMeme(1); });
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+
+    // Keyboard
+    document.addEventListener('keydown', (e) => {
+      // Slash focuses search when not in an input
+      if (e.key === '/' && !lightbox.classList.contains('active')
+          && document.activeElement.tagName !== 'INPUT'
+          && document.activeElement.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        searchInput.focus();
+        return;
+      }
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      else if (e.key === 'ArrowLeft') showMeme(-1);
+      else if (e.key === 'ArrowRight') showMeme(1);
+      else if (e.key === 'Tab') {
+        const focusable = lightbox.querySelectorAll('button, a');
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    // ── Tag Editor ──
+    const editToggleBtn = document.getElementById('editToggle');
+    const lightboxEdit = document.getElementById('lightboxEdit');
+    const editCurrentTags = document.getElementById('editCurrentTags');
+    const editPresetsContainer = document.getElementById('editPresetsContainer');
+    const editAddInput = document.getElementById('editAddInput');
+    const editResetBtn = document.getElementById('editResetBtn');
+    const editExportBtn = document.getElementById('editExportBtn');
+    const editCatRow = document.getElementById('editCatRow');
+    const editHelp = document.getElementById('editHelp');
+
+    // Build preset groups once
+    PRESET_GROUPS.forEach(([groupName, tags]) => {
+      const sec = document.createElement('div');
+      sec.className = 'edit-section';
+      sec.innerHTML = '<div class="edit-section-title">' + groupName + '</div>';
+      const row = document.createElement('div');
+      row.className = 'edit-preset-row';
+      row.dataset.group = groupName;
+      tags.forEach(t => {
+        const btn = document.createElement('button');
+        btn.className = 'preset-tag';
+        btn.dataset.tag = t;
+        btn.textContent = t;
+        btn.addEventListener('click', () => togglePresetTag(t));
+        row.appendChild(btn);
+      });
+      sec.appendChild(row);
+      editPresetsContainer.appendChild(sec);
+    });
+
+    // Build category row dynamically; rebuild whenever categories change
+    function rebuildEditorCatRow() {
+      editCatRow.innerHTML = '';
+      const cats = allCategories();
+      if (cats.length === 0) {
+        const empty = document.createElement('span');
+        empty.className = 'edit-tag empty';
+        empty.textContent = '(no categories yet — add one below)';
+        editCatRow.appendChild(empty);
+        return;
+      }
+      cats.forEach(c => {
+        const wrap = document.createElement('span');
+        wrap.style.display = 'inline-flex';
+        wrap.style.alignItems = 'center';
+        const btn = document.createElement('button');
+        btn.className = 'preset-tag';
+        btn.dataset.cat = c;
+        btn.textContent = c;
+        btn.addEventListener('click', () => toggleCategory(c));
+        wrap.appendChild(btn);
+        // Trash button: only if no meme uses this category in current data (custom-only)
+        const usedCount = memes.reduce((n, m) => n + (effectiveMeme(m).categories.includes(c) ? 1 : 0), 0);
+        if (usedCount === 0) {
+          const del = document.createElement('button');
+          del.className = 'preset-tag';
+          del.style.marginLeft = '2px';
+          del.style.padding = '4px 6px';
+          del.style.fontSize = '10px';
+          del.title = 'Remove unused category';
+          del.textContent = '×';
+          del.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (removeCustomCategory(c)) {
+              rebuildEditorCatRow();
+              rebuildCategoryPills();
+            }
+          });
+          wrap.appendChild(del);
+        }
+        editCatRow.appendChild(wrap);
+      });
+    }
+    rebuildEditorCatRow();
+
+    const editNewCatInput = document.getElementById('editNewCatInput');
+    const editClearCatBtn = document.getElementById('editClearCatBtn');
+    editNewCatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const v = normalizeCat(editNewCatInput.value);
+        if (v) {
+          addCustomCategory(v);
+          // Add (don't replace) to current meme
+          const meme = getCurrentMeme();
+          if (meme) {
+            const cur = effectiveMeme(meme);
+            if (!cur.categories.includes(v)) {
+              const cats = cur.categories.slice();
+              cats.push(v);
+              setEdit(meme.file, { categories: cats });
+              renderEditor(meme);
+            }
+          }
+          editNewCatInput.value = '';
+          rebuildEditorCatRow();
+          rebuildCategoryPills();
+        }
+      } else if (e.key === 'Escape') {
+        editNewCatInput.blur();
+      }
+      e.stopPropagation();
+    });
+    editClearCatBtn.addEventListener('click', () => {
+      const meme = getCurrentMeme(); if (!meme) return;
+      setEdit(meme.file, { categories: [] });
+      const updated = effectiveMeme(meme);
+      renderEditor(meme);
+      refreshLightboxTagChips(updated);
+      rebuildEditorCatRow();
+      rebuildCategoryPills();
+    });
+
+    function getCurrentMeme() { return visibleMemes[currentIndex]; }
+
+    function setEdit(file, patch) {
+      const baseMeme = memes.find(m => m.file === file);
+      if (!baseMeme) return;
+      const existing = TAG_EDITS[file] || {};
+      const merged = Object.assign({}, existing, patch);
+      // Always normalize categories to a deduped array
+      let newCats;
+      if ('categories' in merged || 'category' in merged) {
+        newCats = memeCategories(merged);
+      } else {
+        newCats = memeCategories(existing).length ? memeCategories(existing) : memeCategories(baseMeme);
+      }
+      const baseCats = memeCategories(baseMeme);
+      const newTags = (merged.tags || []).map(t => String(t).toLowerCase());
+      const baseTags = (baseMeme.tags || []).map(t => String(t).toLowerCase());
+      const isDefault = arraysEqual(newCats, baseCats) && arraysEqual(newTags, baseTags);
+      if (isDefault) {
+        delete TAG_EDITS[file];
+      } else {
+        merged.categories = newCats;
+        delete merged.category; // drop legacy single-string field
+        TAG_EDITS[file] = merged;
+      }
+      saveEdits();
+      reindexItem(file);
+    }
+    function arraysEqual(a, b) { if (a.length !== b.length) return false; for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false; return true; }
+
+    function refreshLightboxTagChips(cur) {
+      lightboxCaption.textContent = cur.name || '';
+      lightboxCaptionTags.innerHTML = '';
+      (cur.tags || []).forEach(t => {
+        const chip = document.createElement('span');
+        chip.className = 'lightbox-caption-tag';
+        chip.textContent = t;
+        chip.addEventListener('click', () => {
+          searchInput.value = t;
+          searchTerm = t;
+          searchClear.classList.add('visible');
+          pillsEl.querySelectorAll('.pill').forEach(p => {
+            const isAll = p.dataset.cat === 'all';
+            p.classList.toggle('active', isAll);
+            p.setAttribute('aria-selected', isAll ? 'true' : 'false');
+          });
+          activeCategory = 'all';
+          applyFilters();
+          closeLightbox();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        lightboxCaptionTags.appendChild(chip);
+      });
+    }
+
+    function addTag(tag) {
+      const meme = getCurrentMeme(); if (!meme) return;
+      tag = String(tag || '').trim().toLowerCase().replace(/\s+/g, '-');
+      if (!tag) return;
+      const cur = effectiveMeme(meme);
+      const tags = (cur.tags || []).slice();
+      if (tags.includes(tag)) return;
+      tags.push(tag);
+      setEdit(meme.file, { tags });
+      const updated = effectiveMeme(meme);
+      renderEditor(meme);
+      refreshLightboxTagChips(updated);
+    }
+    function removeTag(tag) {
+      const meme = getCurrentMeme(); if (!meme) return;
+      const cur = effectiveMeme(meme);
+      const tags = (cur.tags || []).filter(t => t !== tag);
+      setEdit(meme.file, { tags });
+      const updated = effectiveMeme(meme);
+      renderEditor(meme);
+      refreshLightboxTagChips(updated);
+    }
+    function togglePresetTag(tag) {
+      const meme = getCurrentMeme(); if (!meme) return;
+      const cur = effectiveMeme(meme);
+      if ((cur.tags || []).includes(tag)) removeTag(tag);
+      else addTag(tag);
+    }
+    function toggleCategory(cat) {
+      const meme = getCurrentMeme(); if (!meme) return;
+      cat = normalizeCat(cat);
+      if (!cat) return;
+      const cur = effectiveMeme(meme);
+      const cats = cur.categories.slice();
+      const i = cats.indexOf(cat);
+      if (i >= 0) cats.splice(i, 1);
+      else cats.push(cat);
+      setEdit(meme.file, { categories: cats });
+      renderEditor(meme);
+      rebuildCategoryPills();
+    }
+    // Back-compat alias (any old reference)
+    const setCategory = toggleCategory;
+    function resetMeme() {
+      const meme = getCurrentMeme(); if (!meme) return;
+      delete TAG_EDITS[meme.file];
+      saveEdits();
+      reindexItem(meme.file);
+      const updated = effectiveMeme(meme);
+      renderEditor(meme);
+      refreshLightboxTagChips(updated);
+    }
+
+    function renderEditor(meme) {
+      const cur = effectiveMeme(meme);
+      const tags = cur.tags || [];
+      // Current tags
+      editCurrentTags.innerHTML = '';
+      if (tags.length === 0) {
+        const empty = document.createElement('span');
+        empty.className = 'edit-tag empty';
+        empty.textContent = '(no tags)';
+        editCurrentTags.appendChild(empty);
+      } else {
+        tags.forEach(t => {
+          const chip = document.createElement('button');
+          chip.className = 'edit-tag';
+          chip.innerHTML = t + '<span class="remove">&times;</span>';
+          chip.addEventListener('click', () => removeTag(t));
+          editCurrentTags.appendChild(chip);
+        });
+      }
+      // Presets: highlight active
+      const tagSet = new Set(tags);
+      editPresetsContainer.querySelectorAll('.preset-tag').forEach(btn => {
+        btn.classList.toggle('active', tagSet.has(btn.dataset.tag));
+      });
+      // Categories: highlight all currently-applied
+      const curCatSet = new Set(cur.categories || []);
+      editCatRow.querySelectorAll('.preset-tag').forEach(btn => {
+        if (btn.dataset.cat) btn.classList.toggle('active', curCatSet.has(btn.dataset.cat));
+      });
+      // Edit help count
+      const editCount = Object.keys(TAG_EDITS).length;
+      editHelp.textContent = editCount === 0
+        ? 'Edits saved to this browser. Click "Export all edits" to download updated meme_data.js.'
+        : editCount + ' meme(s) edited. Click "Export all edits" to download updated meme_data.js.';
+    }
+
+    editAddInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addTag(editAddInput.value);
+        editAddInput.value = '';
+      } else if (e.key === 'Escape') {
+        editAddInput.blur();
+      }
+      e.stopPropagation();
+    });
+    editResetBtn.addEventListener('click', resetMeme);
+
+    // Export: bake current TAG_EDITS into a fresh meme_data.js and download as a file
+    editExportBtn.addEventListener('click', () => {
+      const out = memes.map(m => {
+        const cur = effectiveMeme(m);
+        return {
+          file: cur.file,
+          name: cur.name || '',
+          categories: cur.categories || [],
+          text: cur.text || '',
+          description: cur.description || '',
+          tags: cur.tags || []
+        };
+      });
+      const js = '// Auto-generated meme metadata. Each entry: { file, name, category, text, description, tags }\n'
+               + 'const MEMES = ' + JSON.stringify(out, null, 2) + ';\n';
+      const blob = new Blob([js], { type: 'text/javascript' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'meme_data.js';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    // Flip to true to re-enable the in-page tag/category editor.
+    const EDIT_MODE_ENABLED = false;
+
+    function setEditMode(on) {
+      if (!EDIT_MODE_ENABLED) on = false;
+      document.body.classList.toggle('edit-mode', on);
+      localStorage.setItem('memeEditMode', on ? '1' : '0');
+    }
+    if (EDIT_MODE_ENABLED) {
+      editToggleBtn.addEventListener('click', () => setEditMode(!document.body.classList.contains('edit-mode')));
+      if (localStorage.getItem('memeEditMode') === '1') setEditMode(true);
+
+      // E key toggles edit mode (when not in an input)
+      document.addEventListener('keydown', (e) => {
+        if (e.key !== 'e' && e.key !== 'E') return;
+        if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
+        if (lightbox.classList.contains('active')) return; // arrow-key navigation already handles lightbox
+        setEditMode(!document.body.classList.contains('edit-mode'));
+      });
+    } else {
+      editToggleBtn.style.display = 'none';
+      setEditMode(false);
+    }
+
+    // ── Touch Swipe ──
+    (function() {
+      let startX = 0;
+      let startY = 0;
+      let swiping = false;
+
+      lightbox.addEventListener('touchstart', (e) => {
+        if (e.target === lightboxClose || e.target.closest('.lightbox-nav') || e.target.closest('.lightbox-action') || e.target.closest('.lightbox-caption-tag')) return;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        swiping = true;
+      }, { passive: true });
+
+      lightbox.addEventListener('touchend', (e) => {
+        if (!swiping) return;
+        swiping = false;
+        const dx = e.changedTouches[0].clientX - startX;
+        const dy = e.changedTouches[0].clientY - startY;
+        if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return;
+        if (dx > 0) showMeme(-1);
+        else showMeme(1);
+      }, { passive: true });
+    })();
+
+    // ── Back to Top ──
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      backToTop.classList.toggle('visible', window.scrollY > 400);
+    }, { passive: true });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+
+  <script>
+    // ── Page Transition ──
+    (function() {
+      const pt = document.getElementById('pageTransition');
+      if (!pt) return;
+      const overlay = pt.querySelector('.pt-overlay');
+      const logo = pt.querySelector('.pt-logo');
+      const glow = pt.querySelector('.pt-glow');
+      let navigating = false;
+      let hideTimeout;
+
+      function showTransition() {
+        overlay.style.display = '';
+        logo.style.display = '';
+        glow.style.display = '';
+      }
+
+      function hideTransitionAfterDelay() {
+        clearTimeout(hideTimeout);
+        hideTimeout = setTimeout(() => {
+          overlay.style.display = 'none';
+          logo.style.display = 'none';
+          glow.style.display = 'none';
+        }, 1600);
+      }
+
+      function resetTransitionState() {
+        clearTimeout(hideTimeout);
+        pt.classList.remove('exit-active');
+        navigating = false;
+        hideTransitionAfterDelay();
+      }
+
+      hideTransitionAfterDelay();
+
+      window.addEventListener('pageshow', (event) => {
+        if (!event.persisted) return;
+        showTransition();
+        resetTransitionState();
+      });
+
+      document.addEventListener('click', (e) => {
+        const link = e.target.closest('a[href]');
+        if (!link) return;
+        const href = link.getAttribute('href');
+        if (href !== 'emo.html' && !href.endsWith('/emo.html')) return;
+
+        e.preventDefault();
+        if (navigating) return;
+        navigating = true;
+        clearTimeout(hideTimeout);
+        showTransition();
+        pt.classList.add('exit-active');
+        sessionStorage.setItem('pt-entering', '1');
+
+        setTimeout(() => {
+          window.location.href = href;
+        }, 1400);
+      });
+    })();
+  </script>
+
+</body>
+</html>

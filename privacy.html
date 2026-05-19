@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy — Emo Meme Picker</title>
+  <meta name="description" content="Privacy policy for the Emo Meme Picker browser extension." />
+  <style>
+    :root {
+      --bg: #0a0613;
+      --surface: #16102a;
+      --surface-2: #1f1838;
+      --border: #2b1d4a;
+      --accent: #7856ff;
+      --accent-2: #b388ff;
+      --text: #ece4ff;
+      --text-dim: #8c83a8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background:
+        radial-gradient(ellipse 70% 50% at 20% 0%, rgba(120,86,255,0.20), transparent 65%),
+        radial-gradient(ellipse 80% 60% at 100% 100%, rgba(255,107,255,0.10), transparent 65%),
+        linear-gradient(135deg, #0a0613 0%, #15092a 50%, #0a0613 100%);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      padding: 60px 24px;
+    }
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    header {
+      margin-bottom: 48px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 28px;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .brand:hover { color: var(--text); }
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 14px rgba(120, 86, 255, 0.5);
+    }
+    h1 {
+      font-size: 44px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, #fff 0%, #b388ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .effective {
+      color: var(--text-dim);
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+    main { display: flex; flex-direction: column; gap: 28px; }
+    section {
+      background: rgba(22, 16, 42, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 28px;
+      backdrop-filter: blur(8px);
+    }
+    h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    p { color: var(--text-dim); margin-bottom: 12px; }
+    p:last-child { margin-bottom: 0; }
+    p strong { color: var(--text); font-weight: 600; }
+    a {
+      color: var(--accent-2);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(179, 136, 255, 0.4);
+      transition: border-color 0.15s;
+    }
+    a:hover { border-color: var(--accent-2); }
+    ul {
+      color: var(--text-dim);
+      padding-left: 20px;
+      margin-bottom: 12px;
+    }
+    ul li { margin-bottom: 6px; }
+    footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 13px;
+      text-align: center;
+    }
+    @media (max-width: 640px) {
+      body { padding: 40px 16px; }
+      h1 { font-size: 32px; }
+      section { padding: 18px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a href="/" class="brand">
+        <span class="brand-mark"></span>
+        <span>Emonad</span>
+      </a>
+      <h1>Privacy Policy</h1>
+      <div class="effective">Emo Meme Picker · Effective May 2, 2026</div>
+    </header>
+
+    <main>
+      <section>
+        <h2>What we collect</h2>
+        <p><strong>Nothing.</strong> The Emo Meme Picker browser extension does not collect, store, log, or transmit any personal information. There is no analytics, telemetry, fingerprinting, or tracking of any kind.</p>
+      </section>
+
+      <section>
+        <h2>How the extension works</h2>
+        <p>All meme files are bundled inside the extension package. When you click a meme, it is loaded from the extension's local storage and attached to your tweet, reply, quote tweet, or DM through X's standard upload mechanism. No data is sent to any server we control.</p>
+      </section>
+
+      <section>
+        <h2>Where the extension runs</h2>
+        <p>The extension only activates on:</p>
+        <ul>
+          <li><strong>x.com</strong></li>
+          <li><strong>twitter.com</strong></li>
+        </ul>
+        <p>On those pages, it adds a meme picker button to the tweet composer toolbar and DM message input. It does not read tweet contents, DM contents, account information, or any other data from those pages.</p>
+      </section>
+
+      <section>
+        <h2>Permissions</h2>
+        <p>The extension requests host permissions for x.com and twitter.com solely to inject the meme picker button into compose toolbars and to programmatically attach selected memes via the standard paste / file-input mechanism. No other permissions are requested.</p>
+      </section>
+
+      <section>
+        <h2>Third parties</h2>
+        <p>The extension does not communicate with any third-party servers, advertising networks, or analytics services. It does not load any remote code, fonts, or images at runtime.</p>
+      </section>
+
+      <section>
+        <h2>Changes</h2>
+        <p>If this policy ever changes, the new effective date will appear at the top of this page and a note will be included in the extension's release notes.</p>
+      </section>
+
+      <section>
+        <h2>Contact</h2>
+        <p>Questions or concerns about this policy? Reach out to <a href="mailto:emonad@emonad.lol">emonad@emonad.lol</a>.</p>
+      </section>
+    </main>
+
+    <footer>
+      Made by the Emonad community.
+    </footer>
+  </div>
+</body>
+</html>

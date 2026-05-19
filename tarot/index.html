@@ -1,0 +1,3692 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <!-- Force a base of /tarot/ so all relative URLs resolve correctly when the
+       page is accessed at /tarot (no trailing slash) — GitHub Pages serves
+       index.html for that path without redirecting, which makes the browser
+       treat /tarot as a file and resolve relative paths against / (root). -->
+  <base href="/tarot/">
+  <title>Emo Tarot — Free Online Tarot Reading | Emonad</title>
+  <meta name="description" content="Free online emo tarot reading. Pull all 22 Major Arcana cards in three spreads — past/present/future, single card, or 10-card depth — themed for the emo aesthetic. Built by Emonad on Monad.">
+  <meta name="keywords" content="emo tarot, tarot reading, free tarot, online tarot, alternative tarot, gothic tarot, dark tarot, major arcana, monad tarot">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+
+  <meta property="og:title" content="Emo Tarot — Free Online Tarot Reading">
+  <meta property="og:description" content="Twenty-two arcana drawn in your name. Three spreads, ritual energy. Free emo tarot reading by Emonad.">
+  <meta property="og:image" content="https://emonad.lol/tarot/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Emo Tarot — Free Online Tarot Reading">
+  <meta property="og:url" content="https://emonad.lol/tarot">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Emonad">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@EmonadCoin">
+  <meta name="twitter:creator" content="@EmonadCoin">
+  <meta name="twitter:title" content="Emo Tarot — Free Online Tarot Reading">
+  <meta name="twitter:description" content="Twenty-two arcana drawn in your name. Free emo tarot reading by Emonad.">
+  <meta name="twitter:image" content="https://emonad.lol/tarot/og.jpg">
+  <link rel="canonical" href="https://emonad.lol/tarot">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Emo Tarot",
+    "url": "https://emonad.lol/tarot",
+    "applicationCategory": "EntertainmentApplication",
+    "operatingSystem": "Web Browser",
+    "description": "A free interactive tarot reading featuring all 22 Major Arcana cards, themed for the emo aesthetic. Three spreads available — single card, three-card past/present/future, and ten-card Celtic Cross.",
+    "browserRequirements": "Requires JavaScript",
+    "isAccessibleForFree": true,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Emonad",
+      "url": "https://emonad.lol/"
+    },
+    "image": "https://emonad.lol/tarot/og.jpg"
+  }
+  </script>
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+
+  <style>
+    @font-face {
+      font-family: 'Space Grotesk';
+      font-style: normal;
+      font-weight: 400 800;
+      font-display: swap;
+      src: url(../fonts/SpaceGrotesk-latin.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+    :root {
+      --bg-0: #f8f3ea;
+      --bg-1: #fff8e8;
+      --text:  #1c1530;
+      --text-2: #4a3f5d;
+      --text-3: #8a7fa3;
+      --accent: #6b2dd4;
+      --accent-2: #b07cff;
+      --accent-3: rgba(123, 63, 228, 0.16);
+      --gold:   #b88a2e;
+      --gold-2: #d8a64a;
+      --gold-3: #ff9a3c;
+      --line:   rgba(48,30,80,0.10);
+      --line-2: rgba(48,30,80,0.18);
+      --surface: rgba(255,251,240,0.85);
+      --shadow-card: 0 28px 56px rgba(80, 30, 180, 0.18), 0 8px 18px rgba(0,0,0,0.10);
+      --vignette:
+        radial-gradient(ellipse at 50% 0%, rgba(176, 124, 255, 0.18), transparent 50%),
+        radial-gradient(ellipse at 100% 100%, rgba(232, 168, 74, 0.14), transparent 60%);
+      --tb: rgba(255,250,236,0.82);
+    }
+    [data-theme="dark"] {
+      /* Deep midnight indigo with candlelight gold and electric purple */
+      --bg-0: #060218;
+      --bg-1: #120732;
+      --bg-2: #1d0f4a;
+      --text: #f4ecd7;       /* warm parchment cream */
+      --text-2: #b9a8d8;     /* soft lavender */
+      --text-3: #6e5e8c;     /* muted dusk */
+      --accent: #c084ff;     /* electric purple */
+      --accent-2: #e8d4ff;
+      --accent-3: rgba(192, 132, 255, 0.22);
+      --gold:   #e8c87a;     /* candlelight */
+      --gold-2: #ffdf9a;     /* warm flame */
+      --gold-3: #ff9a3c;     /* amber ember */
+      --line:   rgba(232, 200, 122, 0.10);
+      --line-2: rgba(232, 200, 122, 0.22);
+      --surface: rgba(28, 14, 56, 0.62);
+      --shadow-card:
+        0 36px 72px rgba(0,0,0,0.7),
+        0 0 0 1px rgba(232,200,122,0.22),
+        0 0 80px rgba(192, 132, 255, 0.22);
+      --vignette:
+        radial-gradient(ellipse at 50% -10%, rgba(192, 132, 255, 0.34), transparent 52%),
+        radial-gradient(ellipse at 95% 90%, rgba(255, 154, 60, 0.18), transparent 55%),
+        radial-gradient(ellipse at 5% 60%, rgba(120, 50, 230, 0.18), transparent 55%),
+        radial-gradient(ellipse at 50% 105%, rgba(232, 200, 122, 0.12), transparent 60%);
+      --tb: rgba(12, 6, 30, 0.82);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background: var(--vignette), var(--bg-0);
+      color: var(--text);
+      font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.55;
+      letter-spacing: 0.01em;
+      position: relative;
+    }
+    body::before {
+      /* Sealed vignette frame — draws the eye to center */
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background: radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(0,0,0,0.55) 100%);
+      opacity: 0.6;
+    }
+    [data-theme="light"] body::before { opacity: 0.18; }
+
+    /* Drifting fog/aurora layers — creates an atmosphere of mist and candlelight */
+    .fog {
+      position: fixed;
+      inset: -10%;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(60px);
+      mix-blend-mode: screen;
+      will-change: transform;
+    }
+    .fog-1 {
+      background:
+        radial-gradient(ellipse 60% 40% at 30% 35%, rgba(192, 132, 255, 0.18), transparent 55%),
+        radial-gradient(ellipse 50% 35% at 70% 65%, rgba(255, 154, 60, 0.12), transparent 55%);
+      animation: fogDrift1 38s ease-in-out infinite;
+    }
+    .fog-2 {
+      background:
+        radial-gradient(ellipse 55% 35% at 65% 30%, rgba(232, 200, 122, 0.14), transparent 55%),
+        radial-gradient(ellipse 50% 35% at 25% 75%, rgba(160, 80, 255, 0.16), transparent 55%);
+      animation: fogDrift2 52s ease-in-out infinite;
+    }
+    @keyframes fogDrift1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33%      { transform: translate(-2%, 1.5%) scale(1.06); }
+      66%      { transform: translate(1.5%, -2%) scale(1.03); }
+    }
+    @keyframes fogDrift2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      40%      { transform: translate(2%, 2%) scale(1.05); }
+      80%      { transform: translate(-1.5%, -1.5%) scale(1.04); }
+    }
+    [data-theme="light"] .fog { opacity: 0.45; mix-blend-mode: multiply; }
+
+    /* Candlelight flicker for accent elements */
+    @keyframes candleFlicker {
+      0%, 100% { opacity: 1; filter: brightness(1); }
+      18% { opacity: 0.92; filter: brightness(0.94); }
+      32% { opacity: 1; filter: brightness(1.05); }
+      55% { opacity: 0.96; filter: brightness(0.99); }
+      78% { opacity: 1; filter: brightness(1.03); }
+    }
+
+    html.theme-transition,
+    html.theme-transition *,
+    html.theme-transition *::before,
+    html.theme-transition *::after {
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease !important;
+    }
+
+    /* ── Starfield ── */
+    #stars {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    [data-theme="dark"] #stars { opacity: 0.85; }
+
+    /* ── Top bar ── */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 52px;
+      background: var(--tb);
+      backdrop-filter: blur(20px) saturate(140%);
+      -webkit-backdrop-filter: blur(20px) saturate(140%);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      padding: 0 22px;
+      gap: 14px;
+      z-index: 50;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.4px;
+    }
+    .brand-mark {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 30% 30%, var(--gold-2), var(--gold) 50%, #5a3a08 90%);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.18), 0 0 18px rgba(232,200,122,0.55);
+      display: grid; place-items: center;
+      color: #221502;
+      font-size: 12px;
+      animation: candleFlicker 5s ease-in-out infinite;
+    }
+    .brand-mark::before { content: "✦"; }
+    .brand-name {
+      background: linear-gradient(110deg, var(--text), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .topbar-spacer { flex: 1; }
+    .topbar-link {
+      color: var(--text-2);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 999px;
+      transition: all 0.2s ease;
+    }
+    .topbar-link:hover {
+      color: var(--accent);
+      background: var(--accent-3);
+    }
+    .theme-toggle {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      border: 1px solid var(--line-2);
+      background: transparent;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.25s ease;
+      position: relative;
+      flex-shrink: 0;
+      color: var(--text);
+    }
+    .theme-toggle:hover { border-color: var(--accent); background: var(--accent-3); }
+    .theme-toggle .icon-sun, .theme-toggle .icon-moon {
+      position: absolute;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+    .theme-toggle .icon-sun { opacity: 0; transform: rotate(-90deg); }
+    .theme-toggle .icon-moon { opacity: 1; transform: rotate(0deg); }
+    [data-theme="dark"] .theme-toggle .icon-sun { opacity: 1; transform: rotate(0deg); }
+    [data-theme="dark"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(90deg); }
+
+    /* ── Scene (single-viewport) ── */
+    .scene {
+      position: fixed;
+      top: 52px; left: 0; right: 0; bottom: 0;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .phase {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .phase.active {
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    /* ── PHASE 1: Intro ── */
+    .phase-intro {
+      flex-direction: column;
+      gap: 20px;
+      padding: 20px;
+      transform: translateY(0);
+    }
+    .scene[data-phase="shuffling"] .phase-intro,
+    .scene[data-phase="picking"] .phase-intro,
+    .scene[data-phase="revealed"] .phase-intro {
+      transform: translateY(-30px);
+    }
+
+    .intro-title {
+      font-size: clamp(2.2rem, 5.2vw, 3.6rem);
+      font-weight: 800;
+      letter-spacing: -1.4px;
+      line-height: 1;
+      text-align: center;
+      background: linear-gradient(110deg, var(--gold-2) 0%, var(--gold) 18%, var(--accent-2) 38%, var(--accent) 58%, var(--gold) 82%, var(--gold-2) 100%);
+      background-size: 220% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: titleShimmer 9s ease-in-out infinite;
+      filter: drop-shadow(0 0 22px rgba(232, 200, 122, 0.18));
+    }
+    @keyframes titleShimmer {
+      0%, 100% { background-position: 0% 50%; }
+      50%      { background-position: 100% 50%; }
+    }
+    .intro-eyebrow {
+      font-size: 11px;
+      letter-spacing: 4.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      animation: candleFlicker 6s ease-in-out infinite;
+    }
+    .intro-eyebrow::before, .intro-eyebrow::after {
+      content: "";
+      width: 36px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .intro-deck {
+      width: 156px;
+      height: 250px;
+      position: relative;
+      perspective: 1200px;
+    }
+    .intro-deck .stack-card {
+      position: absolute;
+      inset: 0;
+      transform: rotate(var(--r,0deg)) translate(var(--tx,0), var(--ty,0));
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      /* drop-shadow follows the actual rounded image silhouette, not the
+         invisible chassis rectangle */
+      filter:
+        drop-shadow(0 22px 38px rgba(0, 0, 0, 0.55))
+        drop-shadow(0 0 26px rgba(232, 200, 122, 0.22));
+    }
+    [data-theme="light"] .intro-deck .stack-card {
+      filter:
+        drop-shadow(0 22px 38px rgba(80, 30, 180, 0.18))
+        drop-shadow(0 6px 12px rgba(0, 0, 0, 0.12));
+    }
+    .intro-deck:hover .stack-card:nth-child(1) { --r: -7deg; --tx: -10px; }
+    .intro-deck:hover .stack-card:nth-child(3) { --r: 7deg; --tx: 10px; }
+    .intro-deck::after {
+      content: "";
+      position: absolute;
+      bottom: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70%;
+      height: 18px;
+      background: radial-gradient(ellipse, rgba(0,0,0,0.4), transparent 70%);
+      filter: blur(8px);
+      z-index: -1;
+    }
+
+    .intro-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      max-width: 540px;
+      align-items: center;
+    }
+
+    .question-input {
+      width: 100%;
+      padding: 14px 20px;
+      background: var(--surface);
+      border: 1px solid var(--line-2);
+      border-radius: 999px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 15px;
+      transition: all 0.2s ease;
+      outline: none;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .question-input::placeholder { color: var(--text-3); font-style: italic; }
+    .question-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-3);
+    }
+
+    .spread-tabs {
+      display: inline-flex;
+      gap: 4px;
+      padding: 4px;
+      background: var(--surface);
+      border: 1px solid var(--line-2);
+      border-radius: 999px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .spread-tab {
+      background: transparent;
+      border: none;
+      color: var(--text-2);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .spread-tab:hover { color: var(--text); }
+    .spread-tab[aria-pressed="true"] {
+      background: linear-gradient(135deg, var(--accent), #6930c3);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(123, 63, 228, 0.4);
+    }
+    .spread-tab .tab-count {
+      opacity: 0.7;
+      font-weight: 600;
+      margin-left: 4px;
+      font-size: 10px;
+    }
+
+    .begin-btn {
+      margin-top: 6px;
+      background:
+        linear-gradient(135deg, #2e1660 0%, #6b2dd4 50%, #4d1f99 100%);
+      color: var(--gold-2);
+      border: 1px solid rgba(232, 200, 122, 0.45);
+      padding: 16px 40px;
+      border-radius: 999px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 13.5px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow:
+        0 14px 36px rgba(123, 63, 228, 0.45),
+        0 0 28px rgba(232, 200, 122, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+      position: relative;
+      overflow: hidden;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.45);
+    }
+    .begin-btn::before {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border-radius: 999px;
+      border: 1px solid rgba(232, 200, 122, 0.18);
+      pointer-events: none;
+    }
+    .begin-btn::after {
+      content: "";
+      position: absolute;
+      top: 0; left: -120%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 230, 180, 0.5), transparent);
+      transition: left 0.9s ease;
+    }
+    .begin-btn:hover {
+      transform: translateY(-2px);
+      color: #fff5d8;
+      box-shadow:
+        0 22px 48px rgba(123, 63, 228, 0.6),
+        0 0 50px rgba(232, 200, 122, 0.32),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+    }
+    .begin-btn:hover::after { left: 130%; }
+    .begin-btn:active { transform: translateY(0); }
+
+    .intro-hint {
+      font-size: 11px;
+      color: var(--text-3);
+      max-width: 420px;
+      text-align: center;
+      letter-spacing: 0.2px;
+    }
+    .intro-hint em { color: var(--text-2); font-style: normal; }
+
+    /* ── PHASE 2-4: Stage with cards ── */
+    .phase-stage {
+      width: 100%;
+      height: 100%;
+    }
+
+    .stage-table {
+      position: absolute;
+      inset: 0;
+      transition: right 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+                  bottom 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* When reading panel opens, cards take only the left portion (desktop) */
+    .scene[data-panel="open"] .stage-table {
+      right: 420px;
+    }
+    @media (max-width: 900px) {
+      .scene[data-panel="open"] .stage-table {
+        right: 0;
+        bottom: 55%;
+      }
+    }
+
+    /* HUD top */
+    .hud {
+      position: absolute;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 5;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .hud.visible { opacity: 1; pointer-events: auto; }
+
+    .hud-dots {
+      display: flex;
+      gap: 9px;
+      padding: 11px 18px;
+      background: var(--surface);
+      border: 1px solid var(--line-2);
+      border-radius: 999px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.22);
+    }
+    .hud-dot {
+      width: 11px; height: 11px;
+      border-radius: 50%;
+      background: var(--line-2);
+      transition: background 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .hud-dot.filled {
+      background: radial-gradient(circle at 35% 30%, var(--gold-2), var(--gold) 70%);
+      box-shadow: 0 0 12px var(--gold), 0 0 0 1px rgba(232,200,122,0.5);
+      transform: scale(1.18);
+    }
+
+    .hud-back {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      background: var(--surface);
+      border: 1px solid var(--line-2);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-2);
+      cursor: pointer;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: all 0.2s ease;
+      z-index: 5;
+      opacity: 0;
+      pointer-events: none;
+      font-family: inherit;
+      font-weight: 700;
+    }
+    .hud-back.visible { opacity: 1; pointer-events: auto; }
+    .hud-back:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ── Card (universal) ── */
+    .card {
+      position: absolute;
+      width: var(--cw, 130px);
+      height: var(--ch, 208px);
+      transform-style: preserve-3d;
+      transition:
+        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        left 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        top 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.4s ease;
+      cursor: pointer;
+      will-change: transform, left, top;
+      filter: drop-shadow(0 16px 28px rgba(0,0,0,0.3));
+    }
+    .card.no-anim { transition: none; }
+    .card.dim { opacity: 0.18; pointer-events: none; filter: grayscale(0.5) blur(1px); }
+
+    .card-inner {
+      position: relative;
+      width: 100%; height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .card.flipped .card-inner { transform: rotateY(180deg); }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .card-face.front {
+      transform: rotateY(180deg);
+      /* Default (placeholder) styling: parchment frame, used only when no
+         image art is loaded for this card. */
+      background: linear-gradient(160deg, #fbf3df 0%, #efe1bd 100%);
+      border: 1px solid rgba(201, 161, 74, 0.55);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    }
+    [data-theme="dark"] .card-face.front {
+      background: linear-gradient(160deg, #fbf3df 0%, #e8d5a8 100%);
+      border-color: rgba(232, 200, 122, 0.55);
+    }
+    /* When real art is loaded, kill the chassis border/bg — the user's art
+       already has its own ornate frame baked in, and double-bordering looks
+       cheap. The drop-shadow on .card still hugs the image silhouette. */
+    .card-face.front.has-image {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+    .card-face.back.has-image {
+      background: transparent;
+      border: none;
+    }
+    .card-face.back.has-image .card-back-ornament {
+      display: none;
+    }
+
+    /* Reversed cards flip ONLY the actual artwork — placeholder text stays readable.
+       The override for has-image lives further down (it must compose with translate). */
+
+    .card-face.back {
+      background: var(--bg-1);
+      border: 1px solid var(--line-2);
+      display: grid;
+      place-items: center;
+    }
+
+    /* Card-back ornate design (SVG-based) */
+    .card-back-ornament {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background:
+        radial-gradient(circle at 50% 50%, #2a1a55 0%, #14092e 50%, #07020f 100%);
+    }
+    .card-back-ornament::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(232, 200, 122, 0.55);
+      border-radius: 6px;
+      pointer-events: none;
+    }
+    .card-back-ornament::after {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border: 1px solid rgba(232, 200, 122, 0.25);
+      border-radius: 4px;
+      pointer-events: none;
+    }
+    .card-back-ornament svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .card-back-img {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      border-radius: 12px;
+    }
+
+    /* Card front art / placeholder */
+    .art-layer {
+      position: absolute;
+      inset: 0;
+      transition: transform 0.3s ease;
+    }
+    /* Image auto-sizes to its native aspect, centered, with its OWN rounded
+       corners. The .card has a drop-shadow filter that hugs this silhouette
+       since the surrounding chassis is transparent when has-image. */
+    .art-layer img {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      border-radius: 12px;
+      transition: opacity 0.3s ease;
+    }
+    .art-layer img.broken { opacity: 0; }
+    .card.reversed .card-face.front.has-image .art-layer img {
+      transform: translate(-50%, -50%) scaleY(-1);
+    }
+
+    .placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 10px 10px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 50% 25%, rgba(232,200,122,0.12) 0%, transparent 55%),
+        radial-gradient(circle at 50% 80%, rgba(155,95,255,0.18) 0%, transparent 60%);
+    }
+    [data-theme="light"] .placeholder {
+      background:
+        radial-gradient(circle at 50% 25%, rgba(201,161,74,0.18) 0%, transparent 55%),
+        radial-gradient(circle at 50% 80%, rgba(123,63,228,0.10) 0%, transparent 60%);
+    }
+    .placeholder::before {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      border: 1px solid rgba(232, 200, 122, 0.32);
+      border-radius: 6px;
+      pointer-events: none;
+    }
+    [data-theme="light"] .placeholder::before { border-color: rgba(201, 161, 74, 0.45); }
+    .placeholder .ph-num {
+      font-size: 9px;
+      letter-spacing: 3px;
+      font-weight: 800;
+      color: var(--gold);
+      padding: 2px 8px;
+      border: 1px solid rgba(232, 200, 122, 0.35);
+      border-radius: 999px;
+      line-height: 1;
+      z-index: 1;
+    }
+    [data-theme="light"] .placeholder .ph-num { border-color: rgba(201, 161, 74, 0.5); }
+    .placeholder .ph-center {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      z-index: 1;
+    }
+    .placeholder .ph-glyph {
+      font-size: clamp(34px, 22%, 88px);
+      color: var(--accent-2);
+      filter: drop-shadow(0 0 16px var(--accent-3));
+      animation: floaty 4s ease-in-out infinite;
+      line-height: 1;
+    }
+    [data-theme="light"] .placeholder .ph-glyph { color: var(--accent); }
+    .placeholder .ph-title {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--text);
+      max-width: 95%;
+      line-height: 1.15;
+      z-index: 1;
+    }
+    .placeholder .ph-hint {
+      font-size: 7px;
+      letter-spacing: 1.5px;
+      color: var(--text-3);
+      text-transform: uppercase;
+      margin-top: 3px;
+      z-index: 1;
+    }
+    @keyframes floaty {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    /* Card name strip is shown ONLY for the placeholder fallback (no real art).
+       When the real image loads, the user's card art already has the name
+       baked in, so we hide this strip via .has-image. */
+    .card-name-strip {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 6px 8px;
+      background: linear-gradient(to top, rgba(0,0,0,0.55), transparent);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      text-align: center;
+      pointer-events: none;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+      transition: opacity 0.2s ease;
+    }
+    .card-face.front.has-image .card-name-strip { opacity: 0; }
+
+    .reversed-tag {
+      position: absolute;
+      top: 6px; right: 6px;
+      background: rgba(20,10,40,0.7);
+      color: var(--gold-2);
+      font-size: 8px;
+      letter-spacing: 1px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      backdrop-filter: blur(6px);
+      z-index: 2;
+      font-weight: 700;
+    }
+
+    /* Snappy hover transition that overrides the default slow flip transition
+       on .card-inner — only while .hover-lift is on. Once a card is picked,
+       .hover-lift is removed and .card-inner reverts to the flip easing. */
+    .card.hover-lift .card-inner {
+      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .card.hover-lift {
+      transition:
+        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        left 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        top 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.4s ease,
+        filter 0.32s ease;
+    }
+    .card.hover-lift:hover {
+      /* Crucial: must beat the fan's z-index (100..121) so the hovered card
+         sits on TOP of its neighbors; otherwise neighbors swallow the click. */
+      z-index: 300 !important;
+      filter:
+        drop-shadow(0 0 36px rgba(232, 200, 122, 0.6))
+        drop-shadow(0 28px 44px rgba(192, 132, 255, 0.55)) !important;
+    }
+    .card.hover-lift:hover .card-inner {
+      transform: var(--hover-pop, translateY(-26px) scale(1.08));
+    }
+
+    /* Position label (faded slot text under each spread position when revealed) */
+    .pos-label {
+      position: absolute;
+      pointer-events: none;
+      transform: translate(-50%, 0);
+      text-align: center;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--text-3);
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      z-index: 1;
+    }
+    .pos-label.visible { opacity: 0.8; }
+
+    /* ── Reading panel (drawer) ── */
+    .reading-panel {
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 420px;
+      background:
+        linear-gradient(180deg, rgba(28, 14, 56, 0.82) 0%, rgba(18, 8, 36, 0.86) 60%, rgba(10, 4, 24, 0.92) 100%);
+      border-left: 1px solid var(--line-2);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      transform: translateX(100%);
+      transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      display: flex;
+      flex-direction: column;
+      z-index: 6;
+      box-shadow:
+        -20px 0 60px rgba(0,0,0,0.45),
+        inset 1px 0 0 rgba(232, 200, 122, 0.18);
+    }
+    [data-theme="light"] .reading-panel {
+      background: linear-gradient(180deg, rgba(255, 250, 236, 0.92) 0%, rgba(248, 240, 220, 0.95) 100%);
+      box-shadow: -20px 0 60px rgba(80, 30, 180, 0.12), inset 1px 0 0 rgba(184, 138, 46, 0.25);
+    }
+    /* Decorative gold band at the top of the reading panel */
+    .reading-panel::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 24px; right: 24px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.6;
+    }
+    .reading-panel.open { transform: translateX(0); }
+
+    @media (max-width: 900px) {
+      .reading-panel {
+        top: auto;
+        bottom: 0; left: 0; right: 0;
+        width: 100%;
+        height: 55%;
+        border-left: none;
+        border-top: 1px solid var(--line-2);
+        transform: translateY(100%);
+        box-shadow: 0 -20px 50px rgba(0,0,0,0.3);
+      }
+      .reading-panel.open { transform: translateY(0); }
+    }
+
+    .reading-head {
+      flex-shrink: 0;
+      padding: 22px 26px 16px;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+    }
+    .reading-head .eyebrow {
+      font-size: 11px;
+      letter-spacing: 3.2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .reading-head .spread-name {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+    .reading-head .question-echo {
+      font-size: 14px;
+      color: var(--text-2);
+      font-style: italic;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .reading-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px 26px 24px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent) transparent;
+    }
+    .reading-body::-webkit-scrollbar { width: 6px; }
+    .reading-body::-webkit-scrollbar-thumb { background: var(--accent-3); border-radius: 3px; }
+    .reading-body::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+    .read-card {
+      padding: 14px 0;
+      border-bottom: 1px dashed var(--line);
+      animation: cardEnter 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .read-card:last-of-type { border-bottom: none; }
+    @keyframes cardEnter {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .read-card .pos {
+      font-size: 11px;
+      letter-spacing: 2.8px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .read-card .name {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+      color: var(--text);
+    }
+    .read-card .name .orient {
+      font-size: 0.6em;
+      color: var(--text-2);
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      margin-left: 8px;
+      text-transform: uppercase;
+    }
+    .read-card .frame {
+      font-size: 13.5px;
+      color: var(--text-2);
+      font-style: italic;
+      margin-top: 6px;
+      line-height: 1.55;
+    }
+    .read-card .keys {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin: 10px 0 12px;
+    }
+    .read-card .key {
+      font-size: 10.5px; letter-spacing: 1.4px; text-transform: uppercase;
+      padding: 4px 10px;
+      background: var(--accent-3);
+      color: var(--accent);
+      border-radius: 999px;
+      font-weight: 700;
+    }
+    [data-theme="dark"] .read-card .key { color: var(--accent-2); }
+    .read-card .meaning {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text);
+    }
+
+    .synthesis {
+      margin-top: 18px;
+      padding: 18px 20px;
+      background:
+        linear-gradient(160deg, rgba(232, 200, 122, 0.10), transparent 70%),
+        radial-gradient(ellipse at 30% 0%, rgba(192, 132, 255, 0.18), transparent 60%);
+      border: 1px solid rgba(232, 200, 122, 0.32);
+      border-radius: 16px;
+      animation: cardEnter 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-delay: 0.15s;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 36px rgba(192, 132, 255, 0.12) inset;
+    }
+    .synthesis::before {
+      content: "✦";
+      position: absolute;
+      top: 10px; right: 16px;
+      color: var(--gold);
+      font-size: 18px;
+      opacity: 0.7;
+      animation: candleFlicker 6s ease-in-out infinite;
+    }
+    .synthesis h3 {
+      font-size: 11px;
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .synthesis p {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text);
+    }
+    .synthesis p + p { margin-top: 10px; }
+
+    .reading-actions {
+      flex-shrink: 0;
+      display: flex;
+      gap: 8px;
+      padding: 12px 18px;
+      border-top: 1px solid var(--line);
+      background: var(--surface);
+    }
+    .ra-btn {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1px solid var(--line-2);
+      background: transparent;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .ra-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-3); }
+    .ra-btn.primary {
+      background: linear-gradient(135deg, var(--accent), #6930c3);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 14px rgba(123, 63, 228, 0.35);
+    }
+    .ra-btn.primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 22px rgba(123, 63, 228, 0.5);
+    }
+
+    /* ── Card zoom modal ── */
+    .card-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 2, 12, 0.86);
+      backdrop-filter: blur(12px) saturate(140%);
+      -webkit-backdrop-filter: blur(12px) saturate(140%);
+      z-index: 250;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .card-modal.open { opacity: 1; pointer-events: auto; }
+    .card-modal-content {
+      display: flex;
+      gap: 28px;
+      max-width: min(900px, 95vw);
+      max-height: 88vh;
+      background:
+        linear-gradient(165deg, rgba(28, 14, 56, 0.96), rgba(10, 4, 24, 0.98));
+      border: 1px solid rgba(232, 200, 122, 0.35);
+      border-radius: 22px;
+      padding: 26px 28px;
+      position: relative;
+      box-shadow:
+        0 36px 90px rgba(0, 0, 0, 0.72),
+        0 0 80px rgba(192, 132, 255, 0.22),
+        inset 0 0 0 1px rgba(232, 200, 122, 0.12);
+      transform: scale(0.94);
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      overflow: hidden;
+    }
+    [data-theme="light"] .card-modal-content {
+      background: linear-gradient(165deg, rgba(255, 250, 236, 0.98), rgba(248, 240, 220, 1));
+      box-shadow: 0 30px 80px rgba(80, 30, 180, 0.25), inset 0 0 0 1px rgba(184, 138, 46, 0.25);
+    }
+    .card-modal.open .card-modal-content { transform: scale(1); }
+
+    .card-modal-image {
+      flex: 0 0 auto;
+      width: min(340px, 38vw);
+      align-self: center;
+      position: relative;
+    }
+    .card-modal-image img {
+      width: 100%;
+      height: auto;
+      max-height: 80vh;
+      border-radius: 12px;
+      display: block;
+      filter: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.6))
+              drop-shadow(0 0 32px rgba(232, 200, 122, 0.18));
+    }
+    .card-modal-image.reversed img { transform: scaleY(-1); }
+    .card-modal-image .rev-tag {
+      position: absolute;
+      top: 8px; right: 8px;
+      background: rgba(20, 10, 40, 0.85);
+      color: var(--gold-2);
+      font-size: 9px;
+      letter-spacing: 1.4px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      font-weight: 800;
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(232, 200, 122, 0.45);
+    }
+
+    .card-modal-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      overflow-y: auto;
+      padding-right: 6px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent) transparent;
+    }
+    .card-modal-info::-webkit-scrollbar { width: 6px; }
+    .card-modal-info::-webkit-scrollbar-thumb { background: var(--accent-3); border-radius: 3px; }
+
+    .card-modal-pos {
+      font-size: 11px;
+      letter-spacing: 3.2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 800;
+    }
+    .card-modal-name {
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      line-height: 1.1;
+      background: linear-gradient(135deg, var(--gold-2), var(--accent-2) 50%, var(--text));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .card-modal-orient {
+      font-size: 10px;
+      letter-spacing: 2.4px;
+      text-transform: uppercase;
+      color: var(--text-2);
+      font-weight: 700;
+      margin-top: 2px;
+    }
+    .card-modal-frame {
+      font-style: italic;
+      color: var(--text-2);
+      font-size: 13.5px;
+      margin-top: 8px;
+      line-height: 1.55;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed var(--line);
+    }
+    .card-modal-keys {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin: 10px 0 4px;
+    }
+    .card-modal-keys .k {
+      font-size: 10.5px; letter-spacing: 1.4px; text-transform: uppercase;
+      padding: 4px 10px;
+      background: var(--accent-3);
+      color: var(--accent-2);
+      border-radius: 999px;
+      font-weight: 700;
+    }
+    [data-theme="light"] .card-modal-keys .k { color: var(--accent); }
+    .card-modal-meaning {
+      font-size: 14.5px;
+      line-height: 1.7;
+      color: var(--text);
+      margin-top: 6px;
+    }
+    .card-modal-close {
+      position: absolute;
+      top: 14px; right: 14px;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--line-2);
+      background: rgba(20, 10, 40, 0.6);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 22px;
+      cursor: pointer;
+      display: grid; place-items: center;
+      transition: all 0.2s ease;
+      z-index: 2;
+    }
+    [data-theme="light"] .card-modal-close { background: rgba(255, 255, 255, 0.7); }
+    .card-modal-close:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+      transform: rotate(90deg);
+    }
+
+    @media (max-width: 700px) {
+      .card-modal-content {
+        flex-direction: column;
+        align-items: center;
+        padding: 22px;
+        gap: 16px;
+      }
+      .card-modal-image { width: min(220px, 60vw); }
+      .card-modal-info { width: 100%; padding-right: 0; }
+      .card-modal-name { font-size: 1.4rem; text-align: center; }
+      .card-modal-pos { text-align: center; }
+      .card-modal-orient { text-align: center; }
+    }
+
+    /* ── Share modal ── */
+    .share-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 2, 12, 0.78);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .share-modal.open { opacity: 1; pointer-events: auto; }
+    .share-card {
+      background: var(--bg-1);
+      border: 1px solid var(--line-2);
+      border-radius: 24px;
+      padding: 22px;
+      max-width: min(560px, 92vw);
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+      transform: scale(0.94);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .share-modal.open .share-card { transform: scale(1); }
+    .share-close {
+      position: absolute;
+      top: 14px; right: 14px;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--line-2);
+      cursor: pointer;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 18px;
+      display: grid; place-items: center;
+      transition: all 0.2s ease;
+    }
+    .share-close:hover { color: var(--accent); border-color: var(--accent); }
+    .share-head {
+      text-align: center;
+    }
+    .share-head .eyebrow {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .share-head h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+    .share-preview {
+      flex: 1;
+      min-height: 200px;
+      max-height: 56vh;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #0a0518;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border: 1px solid var(--line);
+    }
+    .share-preview canvas, .share-preview img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      display: block;
+    }
+    .share-preview .spinner {
+      width: 40px; height: 40px;
+      border: 3px solid var(--line-2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .share-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .share-actions .ra-btn { flex: 1; min-width: 100px; }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 24px; left: 50%;
+      transform: translate(-50%, 20px);
+      background: var(--bg-1);
+      color: var(--text);
+      border: 1px solid var(--line-2);
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.35);
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 200;
+      pointer-events: none;
+    }
+    .toast.visible { opacity: 1; transform: translate(-50%, 0); }
+
+    /* ── Responsive — full mobile pass ── */
+
+    /* Cards have native touch behavior with no double-tap-zoom delay */
+    .card { touch-action: manipulation; }
+
+    @media (max-height: 760px) {
+      .intro-deck { width: 130px; height: 208px; }
+      .intro-title { font-size: 2rem; }
+      .phase-intro { gap: 14px; }
+    }
+
+    @media (max-width: 900px) {
+      /* Reading panel becomes a bottom sheet covering 60% of the screen so
+         the cards stay clearly visible above. */
+      .reading-panel {
+        height: 60%;
+      }
+      /* On phone-width screens the topbar trims down */
+      .topbar { height: 48px; padding: 0 14px; gap: 6px; }
+      .scene { top: 48px; }
+    }
+
+    @media (max-width: 720px) {
+      .topbar-link[data-hide-mobile] { display: none; }
+      .stage { padding: 16px 12px; }
+
+      /* Intro */
+      .intro-eyebrow { font-size: 10px; letter-spacing: 3.5px; gap: 10px; }
+      .intro-eyebrow::before, .intro-eyebrow::after { width: 32px; }
+      .intro-title { font-size: 2rem; letter-spacing: -1px; }
+      .intro-deck { width: 124px; height: 198px; }
+      .spread-tabs {
+        flex-wrap: wrap;
+        justify-content: center;
+        max-width: 100%;
+      }
+      .spread-tab {
+        padding: 9px 13px;       /* min 36px touch height */
+        font-size: 12px;
+      }
+      .spread-tab .tab-count { display: inline; }
+      .begin-btn {
+        padding: 14px 30px;       /* min 44px touch height */
+        font-size: 13px;
+        letter-spacing: 2.4px;
+        width: auto;
+      }
+
+      /* HUD dots — tap targets aren't interactive but the pill itself can be
+         wider for legibility */
+      .hud { top: 12px; }
+      .hud-dots { padding: 9px 14px; }
+      .hud-back { top: 12px; left: 12px; padding: 7px 12px; font-size: 10px; }
+
+      /* Reading panel bottom sheet */
+      .reading-head { padding: 14px 18px 10px; }
+      .reading-body { padding: 12px 18px 16px; }
+      .reading-actions { padding: 10px 14px; gap: 6px; }
+      .ra-btn { font-size: 11.5px; padding: 11px 10px; }   /* taller touch targets */
+
+      .read-card { padding: 12px 0; }
+      .read-card .name { font-size: 1.15rem; }
+      .read-card .frame { font-size: 12.5px; }
+      .read-card .meaning { font-size: 13.5px; line-height: 1.6; }
+      .read-card .key { font-size: 10px; }
+
+      .reading-head .spread-name { font-size: 1.15rem; }
+
+      .synthesis { padding: 14px 16px; }
+      .synthesis p { font-size: 13.5px; line-height: 1.6; }
+
+      /* Topbar brand */
+      .brand-name { display: inline; font-size: 12px; max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+      /* Card hover lift can't trigger on touch — give a quick :active feedback */
+      .card.hover-lift:active {
+        filter:
+          drop-shadow(0 0 22px rgba(232, 200, 122, 0.55))
+          drop-shadow(0 18px 28px rgba(192, 132, 255, 0.5)) !important;
+        z-index: 300 !important;
+      }
+      .card.hover-lift:active .card-inner {
+        transform: var(--hover-pop, translateY(-12px) scale(1.04));
+      }
+
+      /* Pos labels under revealed cards: tighter on mobile */
+      .pos-label { font-size: 8px; letter-spacing: 1.2px; }
+
+      /* Card modal */
+      .card-modal { padding: 14px; }
+      .card-modal-close { width: 32px; height: 32px; font-size: 20px; top: 10px; right: 10px; }
+      .card-modal-content { padding: 18px 16px 16px; gap: 14px; max-height: 92vh; }
+      .card-modal-image { width: min(180px, 50vw); }
+      .card-modal-name { font-size: 1.3rem; }
+      .card-modal-frame { font-size: 12.5px; }
+      .card-modal-meaning { font-size: 13.5px; line-height: 1.6; }
+
+      /* Share modal */
+      .share-modal { padding: 12px; }
+      .share-card { padding: 16px; gap: 10px; max-width: 100vw; max-height: 95vh; }
+      .share-actions { flex-direction: column; }
+      .share-actions .ra-btn { flex: none; width: 100%; }
+    }
+
+    @media (max-width: 420px) {
+      .topbar { padding: 0 10px; gap: 6px; }
+      .brand-name { display: none; }
+      .topbar-link { padding: 5px 10px; font-size: 11px; }
+      .theme-toggle { width: 28px; height: 28px; }
+      .intro-title { font-size: 1.7rem; }
+      .intro-deck { width: 110px; height: 176px; }
+      .spread-tab { padding: 8px 10px; font-size: 11px; }
+      .spread-tab .tab-count { font-size: 9px; }
+      .begin-btn { padding: 13px 24px; font-size: 12px; letter-spacing: 2px; }
+    }
+
+    /* Very short mobile screens (landscape phone) */
+    @media (max-height: 520px) and (max-width: 900px) {
+      .phase-intro { gap: 8px; padding: 8px; }
+      .intro-eyebrow { font-size: 9px; letter-spacing: 2.5px; }
+      .intro-eyebrow::before, .intro-eyebrow::after { width: 22px; }
+      .intro-title { font-size: 1.4rem; margin: 0; }
+      .intro-deck { width: 78px; height: 124px; }
+      .begin-btn { padding: 10px 22px; font-size: 11px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card, .card-inner, #stars, .placeholder .ph-glyph,
+      .fog, .intro-title { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="stars" aria-hidden="true"></canvas>
+  <div class="fog fog-1" aria-hidden="true"></div>
+  <div class="fog fog-2" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="../emo.html">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">Emo Tarot</span>
+    </a>
+    <div class="topbar-spacer"></div>
+    <a class="topbar-link" href="../emo.html">← Emoverse</a>
+    <a class="topbar-link" href="../memes.html" data-hide-mobile>Memes</a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark and light theme">
+      <span class="icon-sun">☀</span>
+      <span class="icon-moon">☾</span>
+    </button>
+  </header>
+
+  <main class="scene" id="scene" data-phase="intro" data-panel="closed">
+
+    <!-- PHASE 1: INTRO -->
+    <section class="phase phase-intro active" id="phaseIntro">
+      <div class="intro-eyebrow">Major Arcana · Live Reading</div>
+      <h1 class="intro-title">Emo Tarot</h1>
+
+      <div class="intro-deck" id="introDeck" aria-hidden="true">
+        <!-- 3 stacked card-back ornaments rendered here by JS -->
+      </div>
+
+      <div class="intro-form">
+        <div class="spread-tabs" role="tablist" id="spreadTabs">
+          <button class="spread-tab" role="tab" data-spread="daily" aria-pressed="false">Daily<span class="tab-count">·1</span></button>
+          <button class="spread-tab" role="tab" data-spread="ppf" aria-pressed="true">Past · Present · Future<span class="tab-count">·3</span></button>
+          <button class="spread-tab" role="tab" data-spread="horseshoe" aria-pressed="false">Horseshoe<span class="tab-count">·7</span></button>
+          <button class="spread-tab" role="tab" data-spread="celtic" aria-pressed="false">Celtic Cross<span class="tab-count">·10</span></button>
+        </div>
+
+        <button id="beginBtn" class="begin-btn">✦ Begin Reading</button>
+      </div>
+    </section>
+
+    <!-- PHASE 2-4: STAGE -->
+    <section class="phase phase-stage" id="phaseStage">
+      <button class="hud-back" id="hudBack" aria-label="Back to start">← Restart</button>
+      <div class="hud" id="hud" role="status" aria-live="polite">
+        <div class="hud-dots" id="hudDots"></div>
+      </div>
+      <div class="stage-table" id="stageTable"></div>
+    </section>
+
+    <!-- READING PANEL (drawer) -->
+    <aside class="reading-panel" id="readingPanel" aria-label="Reading">
+      <div class="reading-head">
+        <div class="eyebrow" id="readingEyebrow">Your Reading</div>
+        <div class="spread-name" id="readingSpreadName"></div>
+        <div class="question-echo" id="readingQuestion"></div>
+      </div>
+      <div class="reading-body" id="readingBody"></div>
+      <div class="reading-actions">
+        <button class="ra-btn primary" id="newReadingBtn">✦ New</button>
+        <button class="ra-btn" id="shareImageBtn">Share Image</button>
+        <button class="ra-btn" id="copyBtn">Copy Text</button>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Card zoom modal -->
+  <div class="card-modal" id="cardModal" aria-hidden="true" role="dialog" aria-labelledby="cardModalName">
+    <div class="card-modal-content">
+      <button class="card-modal-close" id="cardModalClose" aria-label="Close">×</button>
+      <div class="card-modal-image" id="cardModalImageWrap">
+        <img id="cardModalImg" alt="" />
+      </div>
+      <div class="card-modal-info">
+        <div class="card-modal-pos" id="cardModalPos"></div>
+        <div class="card-modal-name" id="cardModalName"></div>
+        <div class="card-modal-orient" id="cardModalOrient"></div>
+        <div class="card-modal-frame" id="cardModalFrame"></div>
+        <div class="card-modal-keys" id="cardModalKeys"></div>
+        <div class="card-modal-meaning" id="cardModalMeaning"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Share modal -->
+  <div class="share-modal" id="shareModal" aria-hidden="true" role="dialog" aria-labelledby="shareTitle">
+    <div class="share-card">
+      <button class="share-close" id="shareClose" aria-label="Close">×</button>
+      <div class="share-head">
+        <div class="eyebrow">Share your reading</div>
+        <h3 id="shareTitle">A card you can post anywhere</h3>
+      </div>
+      <div class="share-preview" id="sharePreview">
+        <div class="spinner"></div>
+      </div>
+      <div class="share-actions">
+        <button class="ra-btn primary" id="shareDownload">Download PNG</button>
+        <button class="ra-btn" id="shareTweet">Post to X</button>
+        <button class="ra-btn" id="shareCopyImg">Copy Image</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- SVG defs (card back ornament) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="cardBackArt" viewBox="0 0 100 160" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <radialGradient id="cb-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#e8c87a" stop-opacity="0.5"/>
+            <stop offset="50%" stop-color="#9b5fff" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="cb-ring" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#e8c87a"/>
+            <stop offset="50%" stop-color="#c9a14a"/>
+            <stop offset="100%" stop-color="#7a5a18"/>
+          </linearGradient>
+        </defs>
+        <rect width="100" height="160" fill="url(#cb-glow)"/>
+        <!-- mandala -->
+        <g transform="translate(50,80)">
+          <circle r="28" fill="none" stroke="url(#cb-ring)" stroke-width="0.6" opacity="0.85"/>
+          <circle r="22" fill="none" stroke="url(#cb-ring)" stroke-width="0.4" opacity="0.55"/>
+          <circle r="14" fill="none" stroke="url(#cb-ring)" stroke-width="0.5" opacity="0.7"/>
+          <!-- 8-point star -->
+          <g stroke="url(#cb-ring)" stroke-width="0.5" opacity="0.7">
+            <line x1="0" y1="-26" x2="0" y2="26"/>
+            <line x1="-26" y1="0" x2="26" y2="0"/>
+            <line x1="-18" y1="-18" x2="18" y2="18"/>
+            <line x1="-18" y1="18" x2="18" y2="-18"/>
+          </g>
+          <!-- inner sun -->
+          <circle r="6" fill="url(#cb-ring)" opacity="0.85"/>
+          <circle r="3" fill="#fff" opacity="0.8"/>
+          <!-- corner rosettes -->
+          <g opacity="0.55" stroke="url(#cb-ring)" stroke-width="0.4" fill="none">
+            <circle cx="0" cy="-50" r="3"/>
+            <circle cx="0" cy="50" r="3"/>
+            <circle cx="-30" cy="0" r="3"/>
+            <circle cx="30" cy="0" r="3"/>
+          </g>
+        </g>
+      </symbol>
+    </defs>
+  </svg>
+
+  <script>
+  (() => {
+    'use strict';
+
+    // ─────────────────────────────────────────────────────────
+    //  Major Arcana data
+    // ─────────────────────────────────────────────────────────
+    const CARDS = [
+      { n:0,  slug:"00-the-fool",            name:"The Fool",            el:"air",
+        keys:["beginnings","leap of faith","innocence","spontaneity"],
+        upright:"A doorway opens and you walk through it without checking the weather. Innocent, brave, a little reckless — the universe rewards the leap when the heart is honest.",
+        reversed:"Hesitation dressed up as wisdom. You're holding a ticket you won't punch. Either step off the cliff or stop pretending you're standing near it." },
+      { n:1,  slug:"01-the-magician",        name:"The Magician",        el:"air",
+        keys:["manifestation","willpower","skill","resourcefulness"],
+        upright:"Every tool you need is on the table. Will, words, action — channel them through one clear intention and watch reality reshape itself around it.",
+        reversed:"Power scattered across ten browser tabs. Talent is real but the focus isn't, or worse, the trick is being run on you. Audit your motives." },
+      { n:2,  slug:"02-the-high-priestess",  name:"The High Priestess",  el:"water",
+        keys:["intuition","subconscious","mystery","inner voice"],
+        upright:"You already know. The answer is in the hum behind your thoughts, not in any feed. Sit with the silence — it's not empty, it's full.",
+        reversed:"The signal is being drowned by noise — opinions, scrolls, second-guessing. Step away from the input until your own voice comes back." },
+      { n:3,  slug:"03-the-empress",         name:"The Empress",         el:"earth",
+        keys:["abundance","fertility","nurturing","sensuality"],
+        upright:"Something is ripening. Tend it gently — the project, the bond, the body. Soft attention is the fertilizer here, not force.",
+        reversed:"Creative current is dammed. Burnout, neglect, or self-rejection. Return to the senses — eat, walk, touch grass — before forcing more output." },
+      { n:4,  slug:"04-the-emperor",         name:"The Emperor",         el:"fire",
+        keys:["authority","structure","control","fatherhood"],
+        upright:"Build the frame. Set the rules. The chaos doesn't need more freedom right now, it needs walls and a clear hand on the throne — yours.",
+        reversed:"Either rigidity that's choking growth or weakness pretending to be authority. Soften the iron, or pick it up — but stop hovering between." },
+      { n:5,  slug:"05-the-hierophant",      name:"The Hierophant",      el:"earth",
+        keys:["tradition","conformity","institution","spiritual teaching"],
+        upright:"There's a path others have walked here, and the map works. Mentorship, doctrine, ritual — borrow the form before you remix it.",
+        reversed:"The old story doesn't fit anymore. Time to leave the temple, question the teacher, and find your own scripture — even if it scares the elders." },
+      { n:6,  slug:"06-the-lovers",          name:"The Lovers",          el:"air",
+        keys:["union","values","choice","partnership"],
+        upright:"A choice that matters — between two paths, two people, two versions of you. Pick the one that aligns with what you actually love, not what looks good.",
+        reversed:"Misalignment. Either with a partner, an idea, or your own values. The fracture is small now and growing — name it before it grows teeth." },
+      { n:7,  slug:"07-the-chariot",         name:"The Chariot",         el:"water",
+        keys:["willpower","determination","control","victory"],
+        upright:"Two wild horses, one set of reins, your hands. Discipline turns conflict into momentum. Win this one by refusing to slow down.",
+        reversed:"All gas, no steering. Or all steering, no gas. The drive is misdirected — slow down long enough to confirm the destination is real." },
+      { n:8,  slug:"08-strength",            name:"Strength",            el:"fire",
+        keys:["courage","compassion","inner strength","self-control"],
+        upright:"Power that doesn't have to raise its voice. Tame the wild thing — addiction, anger, fear — with patience, not force. The lion lays down for soft hands.",
+        reversed:"Self-doubt or self-bullying. You're either underestimating your strength or wielding it like a club. Steady the breath; the rest follows." },
+      { n:9,  slug:"09-the-hermit",          name:"The Hermit",          el:"earth",
+        keys:["introspection","solitude","soul-searching","inner guidance"],
+        upright:"The lantern is yours. Step back from the crowd — the noise was hiding the answer. Solitude isn't loneliness here, it's clarity.",
+        reversed:"Isolation that's gone past useful. The cave became a hiding place. Time to come down the mountain and let people in again." },
+      { n:10, slug:"10-wheel-of-fortune",    name:"Wheel of Fortune",    el:"fire",
+        keys:["cycles","turning point","fate","destiny"],
+        upright:"The wheel turns and it's turning your way. A lucky break, a cycle closing, an opening that wasn't there last week. Move with the spin, not against it.",
+        reversed:"Bad timing or a streak that's run its course. Don't double down on the trend — sit out a round, let the wheel reset." },
+      { n:11, slug:"11-justice",             name:"Justice",             el:"air",
+        keys:["fairness","truth","cause-and-effect","accountability"],
+        upright:"What you sent out is coming back. If it's good, receive it without flinching. If it isn't, take the lesson on the chin and adjust the math.",
+        reversed:"Something is unfair, dishonest, or unaccounted for. Yours, theirs, or the system's. Don't let it pass — silence is consent here." },
+      { n:12, slug:"12-the-hanged-man",      name:"The Hanged Man",      el:"water",
+        keys:["surrender","new perspective","suspension","sacrifice"],
+        upright:"The way forward is to stop forcing forward. Hang upside-down for a beat — the picture you've been staring at looks completely different from this angle.",
+        reversed:"Stuck waiting for a sign that's already arrived. Stalling dressed as patience. Move — even one inch — and the energy unsticks." },
+      { n:13, slug:"13-death",               name:"Death",               el:"water",
+        keys:["endings","transformation","transition","release"],
+        upright:"A version of something has to die so the next thing can live. A habit, a self-image, a relationship past its date. Let it go cleanly — what's coming is bigger. (This card is never literal.)",
+        reversed:"You're white-knuckling something that ended already. Funeral postponed indefinitely. Closure is yours to give, not theirs." },
+      { n:14, slug:"14-temperance",          name:"Temperance",          el:"fire",
+        keys:["balance","moderation","patience","alchemy"],
+        upright:"Two opposites becoming one thing. The art is in the slow pour — not too much, not too fast. Mix work and rest, ambition and ease, until something rare drops out.",
+        reversed:"Extremes. Burnout swinging into binge swinging back. The middle path isn't boring — it's where the magic actually happens." },
+      { n:15, slug:"15-the-devil",           name:"The Devil",           el:"earth",
+        keys:["attachment","bondage","shadow","materialism"],
+        upright:"A chain that's looser than it looks. Examine what you say you can't quit — the substance, the scroll, the dynamic. The exit isn't locked, you're just used to the room.",
+        reversed:"Liberation. The grip is breaking, the chain falls. Walk while the door is open — don't romanticize the cage on the way out." },
+      { n:16, slug:"16-the-tower",           name:"The Tower",           el:"fire",
+        keys:["sudden upheaval","revelation","collapse","awakening"],
+        upright:"Lightning hits. Something built on a shaky foundation is coming down whether you helped or not. It feels like loss; it's actually clearing. Don't try to rebuild the same tower.",
+        reversed:"A collapse you've been bracing for is happening in slow motion — or being averted at the last beat. Stop white-knuckling the structure; the shake-out is the medicine." },
+      { n:17, slug:"17-the-star",            name:"The Star",            el:"air",
+        keys:["hope","faith","renewal","serenity"],
+        upright:"After the storm, the sky clears and one star is already out. Hope is back. So is your sense of who you are. Drink the calm in slow sips.",
+        reversed:"Faith is leaking. Burnout, disillusion, or a dimmed dream. The light isn't gone — you're just standing too close to your own shadow." },
+      { n:18, slug:"18-the-moon",            name:"The Moon",            el:"water",
+        keys:["illusion","fear","subconscious","deception"],
+        upright:"Things aren't what they seem, and part of you knows it. Don't trust the surface; trust the part of you that woke up uneasy. The fog will lift — wait for daylight before deciding.",
+        reversed:"A confusion is finally clearing. The story you were told (or told yourself) doesn't survive daylight. Welcome back to ground." },
+      { n:19, slug:"19-the-sun",             name:"The Sun",             el:"fire",
+        keys:["joy","success","vitality","positivity"],
+        upright:"Sun's out. Whatever you've been waiting on is here, and it's plain. Take the win without flinching — joy is a serious skill.",
+        reversed:"The sun is behind a cloud, briefly. The good thing is real, you just can't feel it yet. Celebrate small until big lands." },
+      { n:20, slug:"20-judgement",           name:"Judgement",           el:"fire",
+        keys:["rebirth","awakening","inner calling","absolution"],
+        upright:"A bell rings and you can't unhear it. The old self stands up to be counted, and so does the new one. Choose forward.",
+        reversed:"You're hearing the call and pretending you didn't. Self-judgment dressed as humility. Answer the phone — the universe is on the line." },
+      { n:21, slug:"21-the-world",           name:"The World",           el:"earth",
+        keys:["completion","achievement","integration","fulfillment"],
+        upright:"A circle closes. You've actually done the thing. Stand in it for a beat before the next chapter — the lap was long, the lap was real.",
+        reversed:"So close you can taste it, but you're skipping the last step. Don't fumble the landing — finish, then leave." },
+    ];
+
+    const ELEMENT_FRIENDS = { fire:'air', air:'fire', water:'earth', earth:'water' };
+    const ELEMENT_HOSTILES = { fire:'water', water:'fire', air:'earth', earth:'air' };
+    const dignity = (a,b) => !a||!b ? 'neutral' : a===b ? 'compound' : ELEMENT_FRIENDS[a]===b ? 'friendly' : ELEMENT_HOSTILES[a]===b ? 'hostile' : 'neutral';
+
+    // ── Named card pairings (researched from Biddy/Labyrinthos/Pollack) ──
+    // Key = "lowN-highN" (sorted). Surfaces an established combo meaning when
+    // both cards appear in a spread.
+    const NAMED_PAIRS = {
+      '0-1':   "pure potential meets focused will — manifestation hour",
+      '1-21':  "mastery completed — the work has succeeded",
+      '2-9':   "the answer wants silence and solitude — both cards point inward",
+      '2-18':  "intuition and illusion — trust the inner voice, then verify",
+      '3-4':   "nurture meets structure — balanced creation, often partnership",
+      '3-13':  "fertility through loss — creation emerging from grief",
+      '5-6':   "a committed bond, a vow worth making",
+      '6-11':  "a choice that will be judged — decisions with consequences",
+      '6-15':  "the chain and the choice — what you call inevitable is a daily decision in disguise",
+      '7-16':  "willpower meets forced redirection — control must yield",
+      '8-10':  "a destined challenge that builds resilience — the right hard thing at the right time",
+      '9-17':  "quiet hope — healing in solitude",
+      '11-20': "karmic accounting — a reckoning with consequences",
+      '12-13': "surrender enables transformation — release before rebirth",
+      '13-21': "a true ending opens a true arrival — close the chapter cleanly, the next is already written",
+      '14-20': "divine guidance during a calling — both angels at the door",
+      '15-16': "compulsion meets forced collapse — the chain is breaking, even if it costs",
+      '16-17': "after the storm, hope returns — let what is falling fall, then keep believing",
+      '16-19': "blessing in disguise — the collapse opens a brighter path",
+      '17-19': "sustained joy and clarity — a luminous stretch of road",
+    };
+
+    // Sum-to-21 archetypal axes (the Fool's Journey complements). When the
+    // numbers of two cards in a spread sum to 21, the spread is sitting on a
+    // canonical archetypal axis and we name it.
+    const SUM21_AXES = {
+      '0-21':  "beginning meets end — the Fool steps off, the World opens up",
+      '1-20':  "will and reckoning — the Magician's craft meets the bell of Judgement",
+      '2-19':  "hidden becomes visible — the Priestess's secret meets the Sun's daylight",
+      '3-18':  "fertility and illusion — the Empress holds what the Moon distorts",
+      '4-17':  "structure and hope — the Emperor's frame and the Star's light",
+      '5-16':  "institution and its collapse — the Hierophant's form, the Tower's fall",
+      '6-15':  "free choice vs bondage — the Lovers' union, the Devil's chain",
+      '7-14':  "force and flow — the Chariot's drive against Temperance's slow pour",
+      '8-13':  "courage and surrender — Strength's lion, Death's release",
+      '9-12':  "withdrawal and suspension — the Hermit's lantern, the Hanged Man's pause",
+      '10-11': "fate and accountability — the Wheel turns, Justice keeps the books",
+    };
+
+    // Per-card essence sentence — second-person imperative, ≤15 words. Used
+    // as the closing line of a reading. Pulled from the existing card copy
+    // and tightened to action verbs.
+    const CARD_ESSENCE = {
+      0:  "Step off the cliff or stop pretending you're standing near it.",
+      1:  "You have every tool — finish the thing you keep almost-finishing.",
+      2:  "Sit with the silence; the answer is in the hum, not the feed.",
+      3:  "Tend it gently — soft attention is the fertilizer here, not force.",
+      4:  "Build the frame; the chaos doesn't need more freedom right now.",
+      5:  "Borrow the form before you remix it — the map works.",
+      6:  "Pick the option that matches what you actually love, not what looks good.",
+      7:  "Hold the reins; discipline turns the conflict into momentum.",
+      8:  "Tame the wild thing with patience — the lion lays down for soft hands.",
+      9:  "The answer is already inside you — stop asking other people for it.",
+      10: "Move with the spin; the wheel is turning your way this round.",
+      11: "Take the lesson on the chin and adjust the math; the books are open.",
+      12: "Stop forcing forward — the picture changes when you hang upside-down.",
+      13: "Close the chapter cleanly; the next one is already written.",
+      14: "Mix the opposites slowly — the middle path is where the magic lands.",
+      15: "The chains are choices; pick once, in daylight, and the lock opens.",
+      16: "Let what is falling fall; don't rebuild the same tower.",
+      17: "Drink the calm in slow sips — hope is back, let it work on you.",
+      18: "Wait for daylight before deciding; the fog will lift on its own.",
+      19: "Take the win without flinching — joy is a serious skill.",
+      20: "Answer the bell — you can't unhear it, so move with it.",
+      21: "Stand in it for a beat — the lap was long, the lap was real.",
+    };
+
+    // Look up a named pair by card numbers
+    function pairKey(a, b) {
+      const lo = Math.min(a, b), hi = Math.max(a, b);
+      return `${lo}-${hi}`;
+    }
+    function findNamedPair(picks) {
+      for (let i = 0; i < picks.length; i++) {
+        for (let j = i + 1; j < picks.length; j++) {
+          const k = pairKey(picks[i].card.n, picks[j].card.n);
+          if (NAMED_PAIRS[k]) return { meaning: NAMED_PAIRS[k], a: picks[i], b: picks[j] };
+        }
+      }
+      return null;
+    }
+    function findSum21Axis(picks) {
+      for (let i = 0; i < picks.length; i++) {
+        for (let j = i + 1; j < picks.length; j++) {
+          const a = picks[i].card.n, b = picks[j].card.n;
+          if (a + b === 21) {
+            const k = pairKey(a, b);
+            if (SUM21_AXES[k]) return { meaning: SUM21_AXES[k], a: picks[i], b: picks[j] };
+          }
+        }
+      }
+      return null;
+    }
+    function theosophicSum(picks) {
+      let sum = picks.reduce((s, p) => s + p.card.n, 0);
+      while (sum > 21) sum = String(sum).split('').reduce((s, d) => s + +d, 0);
+      return sum;
+    }
+    function theoCardName(n) {
+      const c = CARDS.find(x => x.n === n);
+      return c ? c.name : null;
+    }
+
+    const SPREADS = {
+      daily: {
+        name: "Daily Pull", count: 1,
+        positions: [{ label: "Today's Energy", frame: "What's pressing on you right now — the air the day is breathing." }],
+        layout: [{ x: 0.5, y: 0.5 }],
+      },
+      ppf: {
+        name: "Past · Present · Future", count: 3,
+        positions: [
+          { label: "Past",    frame: "What got you here. The undercurrent under the question." },
+          { label: "Present", frame: "Where you stand now. The shape of this exact moment." },
+          { label: "Future",  frame: "Where this is heading if the current flow continues." },
+        ],
+        layout: [{ x: 0.22, y: 0.5 }, { x: 0.50, y: 0.5 }, { x: 0.78, y: 0.5 }],
+      },
+      horseshoe: {
+        name: "Horseshoe", count: 7,
+        positions: [
+          { label: "1. Past",          frame: "What's brought you to this question." },
+          { label: "2. Present",       frame: "The energy of right now." },
+          { label: "3. Hidden",        frame: "What you don't yet see — the unconscious or unspoken." },
+          { label: "4. The Querent",   frame: "Your stance and the catalyst inside you." },
+          { label: "5. Others",        frame: "How the people around this are seeing it." },
+          { label: "6. Advice",        frame: "What the cards are pointing you to do." },
+          { label: "7. Likely Outcome",frame: "Where this lands if you take the advice in #6 — not a verdict." },
+        ],
+        // Clean 4 + 3 grid (top row 4 cards, bottom row 3 centered)
+        layout: [
+          { x: 0.155, y: 0.30 },  // 1 Past
+          { x: 0.385, y: 0.30 },  // 2 Present
+          { x: 0.615, y: 0.30 },  // 3 Hidden
+          { x: 0.845, y: 0.30 },  // 4 Querent
+          { x: 0.270, y: 0.74 },  // 5 Others
+          { x: 0.500, y: 0.74 },  // 6 Advice
+          { x: 0.730, y: 0.74 },  // 7 Outcome
+        ],
+      },
+      celtic: {
+        name: "Celtic Cross", count: 10,
+        positions: [
+          { label: "1. Heart",       frame: "The core of the matter — what this reading is really about." },
+          { label: "2. Crossing",    frame: "Laid across the heart: the obstacle or supporting force, head-on." },
+          { label: "3. Foundation",  frame: "Beneath the cross: the root, the subconscious basis, what underlies all this." },
+          { label: "4. Past",        frame: "Behind: what is passing away from the situation." },
+          { label: "5. Crown",       frame: "Above: what may yet come into being — possibility, not promise." },
+          { label: "6. Near Future", frame: "Before: what is approaching in the next stretch of road." },
+          { label: "7. Self",        frame: "Bottom of the staff: how you're approaching this — your stance." },
+          { label: "8. Environment", frame: "How others see this. The room you're walking into." },
+          { label: "9. Hopes/Fears", frame: "What you carry quietly — Waite paired these because they're often the same energy." },
+          { label: "10. Outcome",    frame: "Top of the staff: the culmination if this line is held." },
+        ],
+        // Clean 5 × 2 grid
+        layout: [
+          { x: 0.13, y: 0.30 },  // 1 Heart
+          { x: 0.31, y: 0.30 },  // 2 Crossing
+          { x: 0.50, y: 0.30 },  // 3 Foundation
+          { x: 0.69, y: 0.30 },  // 4 Past
+          { x: 0.87, y: 0.30 },  // 5 Crown
+          { x: 0.13, y: 0.74 },  // 6 Near Future
+          { x: 0.31, y: 0.74 },  // 7 Self
+          { x: 0.50, y: 0.74 },  // 8 Environment
+          { x: 0.69, y: 0.74 },  // 9 Hopes/Fears
+          { x: 0.87, y: 0.74 },  // 10 Outcome
+        ],
+      },
+    };
+
+    // ─────────────────────────────────────────────────────────
+    //  Theme + starfield
+    // ─────────────────────────────────────────────────────────
+    const themeToggle = document.getElementById('themeToggle');
+    const root = document.documentElement;
+    const savedTheme = localStorage.getItem('emo:theme');
+    if (savedTheme === 'light' || savedTheme === 'dark') root.setAttribute('data-theme', savedTheme);
+    themeToggle.addEventListener('click', () => {
+      root.classList.add('theme-transition');
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('emo:theme', next);
+      setTimeout(() => root.classList.remove('theme-transition'), 350);
+    });
+
+    const starsCanvas = document.getElementById('stars');
+    const sctx = starsCanvas.getContext('2d');
+    let stars = [], embers = [];
+
+    // Pre-render ember halo sprites once. Per-frame createRadialGradient was the
+    // jank source; now each ember is a single drawImage with global alpha.
+    function makeEmberSprite(warm) {
+      const SZ = 64;
+      const cv = document.createElement('canvas');
+      cv.width = cv.height = SZ;
+      const cx = cv.getContext('2d');
+      const grad = cx.createRadialGradient(SZ/2, SZ/2, 0, SZ/2, SZ/2, SZ/2);
+      if (warm) {
+        grad.addColorStop(0,    'rgba(255, 230, 170, 0.95)');
+        grad.addColorStop(0.18, 'rgba(255, 200, 120, 0.55)');
+        grad.addColorStop(0.5,  'rgba(255, 150, 70, 0.18)');
+        grad.addColorStop(1,    'rgba(255, 120, 40, 0)');
+      } else {
+        grad.addColorStop(0,    'rgba(240, 220, 255, 0.9)');
+        grad.addColorStop(0.18, 'rgba(200, 160, 255, 0.5)');
+        grad.addColorStop(0.5,  'rgba(160, 100, 255, 0.15)');
+        grad.addColorStop(1,    'rgba(120, 60, 220, 0)');
+      }
+      cx.fillStyle = grad;
+      cx.fillRect(0, 0, SZ, SZ);
+      // bright core
+      cx.fillStyle = warm ? '#fff0c8' : '#f0e0ff';
+      cx.beginPath();
+      cx.arc(SZ/2, SZ/2, 2.2, 0, Math.PI * 2);
+      cx.fill();
+      return cv;
+    }
+    const warmSprite = makeEmberSprite(true);
+    const coolSprite = makeEmberSprite(false);
+
+    function sizeStars() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      starsCanvas.width = window.innerWidth * dpr;
+      starsCanvas.height = window.innerHeight * dpr;
+      starsCanvas.style.width = window.innerWidth + 'px';
+      starsCanvas.style.height = window.innerHeight + 'px';
+      sctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // Scale particle counts to viewport area but cap conservatively to avoid
+      // perf cliffs on lower-end devices.
+      const starCount  = Math.min(180, Math.floor(window.innerWidth * window.innerHeight / 9000));
+      const emberCount = Math.min(28,  Math.floor(window.innerWidth * window.innerHeight / 60000));
+      stars = Array.from({ length: starCount }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        r: Math.random() * 1.4 + 0.25,
+        a: Math.random() * 0.65 + 0.2,
+        p: Math.random() * Math.PI * 2,
+        gold: Math.random() < 0.07,
+      }));
+      embers = Array.from({ length: emberCount }, () => spawnEmber(true));
+    }
+    function spawnEmber(initial) {
+      return {
+        x: Math.random() * window.innerWidth,
+        y: initial ? Math.random() * window.innerHeight : window.innerHeight + 14,
+        size: Math.random() * 26 + 14,           // sprite render size
+        a: Math.random() * 0.55 + 0.32,
+        vy: -(Math.random() * 0.22 + 0.10),       // gentle upward drift
+        vx: (Math.random() - 0.5) * 0.10,
+        p: Math.random() * Math.PI * 2,
+        warm: Math.random() < 0.72,
+        life: 1,
+        decay: 0.00032 + Math.random() * 0.00032, // slow fade
+      };
+    }
+
+    let lastFrame = performance.now();
+    function drawStars(now) {
+      sctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      if (root.getAttribute('data-theme') !== 'dark') {
+        lastFrame = now;
+        return;
+      }
+      const dt = Math.min(50, now - lastFrame); // ms; clamp on tab refocus
+      lastFrame = now;
+      const t = now / 1000;
+
+      // Stars
+      for (const s of stars) {
+        const tw = (Math.sin(t * 1.3 + s.p) + 1) * 0.5;
+        sctx.globalAlpha = s.a * (0.45 + tw * 0.55);
+        sctx.fillStyle = s.gold ? '#f3d27a' : '#cbb3ff';
+        sctx.beginPath();
+        sctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        sctx.fill();
+      }
+
+      // Embers — drift upward, gentle horizontal sway, fade as they rise.
+      for (let i = 0; i < embers.length; i++) {
+        const e = embers[i];
+        // Time-based motion (so behavior is consistent regardless of fps)
+        e.y += e.vy * (dt / 16);
+        e.x += (e.vx + Math.sin(t * 0.7 + e.p) * 0.12) * (dt / 16);
+        e.life -= e.decay * dt;
+        if (e.life <= 0 || e.y < -e.size) {
+          embers[i] = spawnEmber(false);
+          continue;
+        }
+        const flick = (Math.sin(t * 2 + e.p) + 1) * 0.5;
+        sctx.globalAlpha = Math.max(0, e.a * e.life * (0.6 + flick * 0.4));
+        const sprite = e.warm ? warmSprite : coolSprite;
+        sctx.drawImage(sprite, e.x - e.size / 2, e.y - e.size / 2, e.size, e.size);
+      }
+      sctx.globalAlpha = 1;
+    }
+    sizeStars();
+    window.addEventListener('resize', sizeStars);
+    function loop(ts) { drawStars(ts || performance.now()); requestAnimationFrame(loop); }
+    requestAnimationFrame(loop);
+
+    // ─────────────────────────────────────────────────────────
+    //  Helpers
+    // ─────────────────────────────────────────────────────────
+    function el(tag, cls, attrs = {}) {
+      const e = document.createElement(tag);
+      if (cls) e.className = cls;
+      for (const k in attrs) {
+        if (k === 'text') e.textContent = attrs[k];
+        else if (k === 'html') e.innerHTML = attrs[k];
+        else e.setAttribute(k, attrs[k]);
+      }
+      return e;
+    }
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+    function shuffleArr(a) { a = a.slice(); for (let i = a.length-1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; } return a; }
+    function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    function toRoman(n) { if (n===0) return '0'; const map=[[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']]; let v=n,o=''; for(const[k,s] of map) while(v>=k){o+=s;v-=k;} return o; }
+    function cardGlyph(n) { return ['☼','✦','☾','✿','♕','✶','♥','⚡','♌','✺','◯','⚖','☥','✝','✧','☠','⛤','★','☽','☀','♎','◉'][n] || '✦'; }
+
+    // ─────────────────────────────────────────────────────────
+    //  Card factory
+    // ─────────────────────────────────────────────────────────
+    function makeCardBack() {
+      const back = el('div', 'card-face back');
+      const orn = el('div', 'card-back-ornament');
+      orn.innerHTML = '<svg viewBox="0 0 100 160" preserveAspectRatio="xMidYMid meet"><use href="#cardBackArt" /></svg>';
+      back.appendChild(orn);
+      const img = el('img', 'card-back-img', { alt: '', loading: 'lazy' });
+      img.onerror = () => img.remove();
+      img.addEventListener('load', () => back.classList.add('has-image'));
+      img.src = 'card-back.jpg';
+      back.appendChild(img);
+      return back;
+    }
+    function makeCardFront(card) {
+      const front = el('div', 'card-face front');
+      const art = el('div', 'art-layer');
+      const img = el('img', '', { alt: card.name, loading: 'lazy' });
+      const ph = el('div', 'placeholder');
+      const phCenter = el('div', 'ph-center');
+      phCenter.appendChild(el('div', 'ph-glyph', { text: cardGlyph(card.n) }));
+      const phBottom = el('div', '');
+      phBottom.style.zIndex = '1';
+      phBottom.appendChild(el('div', 'ph-title', { text: card.name }));
+      phBottom.appendChild(el('div', 'ph-hint', { text: 'art incoming' }));
+      ph.append(
+        el('div', 'ph-num', { text: toRoman(card.n) }),
+        phCenter,
+        phBottom,
+      );
+      art.append(ph, img);
+      img.addEventListener('load', () => {
+        ph.style.display = 'none';
+        front.classList.add('has-image');
+      });
+      img.addEventListener('error', () => { img.classList.add('broken'); });
+      img.src = `cards/${card.slug}.jpg`;
+      front.appendChild(art);
+      const strip = el('div', 'card-name-strip', { text: card.name });
+      front.appendChild(strip);
+      return front;
+    }
+    function makeCard(entry, opts = {}) {
+      const wrap = el('div', 'card');
+      if (opts.faceUp) wrap.classList.add('flipped');
+      if (entry.reversed) wrap.classList.add('reversed');
+      wrap.dataset.slug = entry.card.slug;
+      const inner = el('div', 'card-inner');
+      inner.appendChild(makeCardBack());
+      inner.appendChild(makeCardFront(entry.card));
+      if (entry.reversed) {
+        const tag = el('div', 'reversed-tag', { text: 'Rev' });
+        wrap.appendChild(tag);
+      }
+      wrap.appendChild(inner);
+      return wrap;
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  Intro deck (3 stacked card-backs, decorative)
+    // ─────────────────────────────────────────────────────────
+    const introDeck = document.getElementById('introDeck');
+    [-2, 0, 2].forEach((rot, i) => {
+      const stk = el('div', 'stack-card');
+      stk.style.setProperty('--r', rot + 'deg');
+      stk.style.zIndex = i;
+      const back = makeCardBack();
+      back.style.borderRadius = '12px';
+      back.style.position = 'absolute';
+      back.style.inset = '0';
+      stk.appendChild(back);
+      introDeck.appendChild(stk);
+    });
+
+    // ─────────────────────────────────────────────────────────
+    //  State machine
+    // ─────────────────────────────────────────────────────────
+    const scene = document.getElementById('scene');
+    const phaseIntro = document.getElementById('phaseIntro');
+    const phaseStage = document.getElementById('phaseStage');
+    const stageTable = document.getElementById('stageTable');
+    const hud = document.getElementById('hud');
+    const hudDots = document.getElementById('hudDots');
+    const hudBack = document.getElementById('hudBack');
+    const readingPanel = document.getElementById('readingPanel');
+
+    const state = {
+      phase: 'intro',  // intro | shuffling | picking | revealed
+      spread: 'ppf',
+      deck: [],
+      picks: [],
+      cardEls: [],
+      stageDims: { w: 0, h: 0 },
+    };
+
+    function setPhase(p) {
+      state.phase = p;
+      scene.dataset.phase = p;
+      // toggle .active classes
+      phaseIntro.classList.toggle('active', p === 'intro');
+      phaseStage.classList.toggle('active', p !== 'intro');
+      hud.classList.toggle('visible', p === 'picking' || p === 'shuffling');
+      hudBack.classList.toggle('visible', p !== 'intro');
+    }
+
+    function openPanel(open) {
+      scene.dataset.panel = open ? 'open' : 'closed';
+      readingPanel.classList.toggle('open', open);
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  Spread tab buttons
+    // ─────────────────────────────────────────────────────────
+    document.querySelectorAll('.spread-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.spread-tab').forEach(b => b.setAttribute('aria-pressed', 'false'));
+        btn.setAttribute('aria-pressed', 'true');
+        state.spread = btn.dataset.spread;
+      });
+    });
+
+    // ─────────────────────────────────────────────────────────
+    //  Begin / Restart
+    // ─────────────────────────────────────────────────────────
+    document.getElementById('beginBtn').addEventListener('click', startReading);
+    hudBack.addEventListener('click', backToIntro);
+
+    function backToIntro() {
+      clearStage();
+      openPanel(false);
+      setPhase('intro');
+    }
+
+    function clearStage() {
+      [...stageTable.querySelectorAll('.card, .pos-label')].forEach(n => n.remove());
+      state.cardEls = [];
+      state.picks = [];
+      state.deck = [];
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  Reading flow
+    // ─────────────────────────────────────────────────────────
+    async function startReading() {
+      setPhase('shuffling');
+      openPanel(false);
+      clearStage();
+      await sleep(60);
+      measureStage();
+      await spawnDeckAtCenter();
+      await shuffleAnim();
+      await fanCards();
+      enterPickPhase();
+    }
+
+    function measureStage() {
+      // Compute the area available to cards. When the reading panel is open, the
+      // panel covers either the right ~420px (desktop) or bottom 55% (mobile),
+      // so cards must fit inside the remaining region. Compute that target up
+      // front so cards don't briefly overflow during the panel's slide-in.
+      const r = stageTable.getBoundingClientRect();
+      let w = r.width, h = r.height;
+      if (state.phase === 'revealed') {
+        if (window.innerWidth <= 900) h = h * 0.45;
+        else w = Math.max(360, w - 420);
+      }
+      state.stageDims = { w, h };
+    }
+
+    function getCardSize(forSpread = state.spread) {
+      const sp = SPREADS[forSpread];
+      const n = sp.count;
+      const W = state.stageDims.w, H = state.stageDims.h;
+      const isPhone = window.innerWidth <= 720;
+      let cw;
+      if (n === 1)       cw = Math.min(W * 0.32, H * 0.40);
+      else if (n === 3)  cw = Math.min(W * 0.22, H * 0.34);
+      else if (n === 7)  cw = Math.min(W * 0.13, H * 0.26);
+      else               cw = Math.min(W * 0.10, H * 0.20); // celtic
+      // Phone-aware floor: small enough to fit the spread but readable.
+      const minCw = isPhone ? (n >= 7 ? 50 : 64) : 72;
+      cw = Math.max(minCw, cw);
+      return { cw, ch: cw * 8 / 5 };
+    }
+
+    async function spawnDeckAtCenter() {
+      // Reversals off by default — every card is drawn upright. The data
+      // model still supports reversed; flip this to `Math.random() < 0.3` to
+      // re-enable.
+      state.deck = shuffleArr(CARDS).map(c => ({ card: c, reversed: false }));
+      const W = state.stageDims.w, H = state.stageDims.h;
+      const { cw, ch } = getCardSize();
+      const els = [];
+      for (let i = 0; i < state.deck.length; i++) {
+        const c = makeCard(state.deck[i]);
+        c.classList.add('no-anim');
+        c.style.setProperty('--cw', cw + 'px');
+        c.style.setProperty('--ch', ch + 'px');
+        c.style.left = (W/2 - cw/2) + 'px';
+        c.style.top = (H/2 - ch/2) + 'px';
+        c.style.transform = `translate(${(Math.random()-0.5)*1.5}px, ${(Math.random()-0.5)*1.5}px) rotate(${(i-state.deck.length/2)*0.18}deg)`;
+        c.style.zIndex = i;
+        stageTable.appendChild(c);
+        els.push(c);
+      }
+      state.cardEls = els;
+      renderHudDots(0, 0);
+      await sleep(80);
+      // remove no-anim
+      els.forEach(c => c.classList.remove('no-anim'));
+    }
+
+    async function shuffleAnim() {
+      const { cw, ch } = getCardSize();
+      const W = state.stageDims.w, H = state.stageDims.h;
+      const cx = W/2 - cw/2, cy = H/2 - ch/2;
+      const els = state.cardEls;
+      // pass 1: explode out
+      for (let i = 0; i < els.length; i++) {
+        const c = els[i];
+        const a = Math.random() * Math.PI * 2;
+        const r = 80 + Math.random() * 70;
+        c.style.transition = 'transform 0.55s cubic-bezier(0.4, 0, 0.4, 1)';
+        c.style.transform = `translate(${Math.cos(a)*r}px, ${Math.sin(a)*r*0.6}px) rotate(${(Math.random()-0.5)*60}deg)`;
+      }
+      await sleep(540);
+      // pass 2: collapse back & jiggle
+      for (let pass = 0; pass < 2; pass++) {
+        for (let i = 0; i < els.length; i++) {
+          const c = els[i];
+          c.style.transition = 'transform 0.22s cubic-bezier(0.5, 0, 0.5, 1)';
+          c.style.transform = `translate(${(Math.random()-0.5)*10}px, ${(Math.random()-0.5)*8}px) rotate(${(Math.random()-0.5)*18}deg)`;
+        }
+        await sleep(220);
+      }
+    }
+
+    // Mobile-only: lay all 22 face-down cards out in a clean grid that fills
+    // the visible stage. Tapping a card behaves identically to the desktop
+    // fan, but the layout is non-rotated and tap-target friendly.
+    async function placeMobileGrid(els, W, H) {
+      const n = els.length;
+      const cols = 5;                      // 5 wide → 22 fits in 5×5 grid (last row has 2)
+      const rows = Math.ceil(n / cols);
+      const gap = 8;
+      const sideM = 12;
+      const topM = 64;                     // clearance for HUD dots
+      const bottomM = 14;
+
+      const availW = W - 2 * sideM;
+      const availH = H - topM - bottomM;
+
+      // Width-first sizing, then scale down if rows exceed available height.
+      let cardW = (availW - (cols - 1) * gap) / cols;
+      let cardH = cardW * 8 / 5;
+      const totalRowsH = rows * cardH + (rows - 1) * gap;
+      if (totalRowsH > availH) {
+        cardH = (availH - (rows - 1) * gap) / rows;
+        cardW = cardH * 5 / 8;
+      }
+
+      const totalH = rows * cardH + (rows - 1) * gap;
+      const startY = topM + (availH - totalH) / 2;
+
+      for (let i = 0; i < n; i++) {
+        const r = Math.floor(i / cols);
+        const c = i % cols;
+        const itemsThisRow = (r === rows - 1) ? (n - r * cols) : cols;
+        const rowW = itemsThisRow * cardW + (itemsThisRow - 1) * gap;
+        const rowStartX = (W - rowW) / 2;
+        const x = rowStartX + c * (cardW + gap);
+        const y = startY + r * (cardH + gap);
+
+        const card = els[i];
+        card.style.setProperty('--cw', cardW + 'px');
+        card.style.setProperty('--ch', cardH + 'px');
+        card.style.transition = 'transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), left 0.7s cubic-bezier(0.22, 1, 0.36, 1), top 0.7s cubic-bezier(0.22, 1, 0.36, 1)';
+        card.style.left = x + 'px';
+        card.style.top = y + 'px';
+        card.style.transform = 'rotate(0deg)';
+        card.style.zIndex = 100 + i;
+        card.dataset.fanIndex = i;
+        card.dataset.fanRot = 0;
+        card.style.setProperty('--hover-pop', `translateY(-${Math.round(cardH * 0.14)}px) scale(1.06)`);
+      }
+      await sleep(720);
+    }
+
+    async function fanCards() {
+      const els = state.cardEls;
+      const W = state.stageDims.w, H = state.stageDims.h;
+      const fanCount = els.length;
+      const isPhone = window.innerWidth <= 720;
+
+      // On phones, picking is a flat grid — no fan, no rotation.
+      if (isPhone) return placeMobileGrid(els, W, H);
+
+      // Desktop: classic fan / hand-of-cards.
+      const fanCw = Math.max(78, Math.min(130, W * 0.088, H * 0.20));
+      const fanCh = fanCw * 8 / 5;
+
+      const margin = 22;
+      const topMargin = 72;
+      const arcCx = W / 2;
+      const arcCy = H + fanCh * 0.35;
+      const radius = Math.max(220, arcCy - topMargin - fanCh / 2);
+
+      const safeHalfW = (fanCw + fanCh) / 2 + margin;
+      const sinHalfMax = Math.max(0.05, Math.min(0.55, (arcCx - safeHalfW) / radius));
+      const halfAngle = Math.asin(sinHalfMax);
+      const totalAngle = halfAngle * 2;
+      const startAngle = -Math.PI / 2 - totalAngle / 2;
+
+      for (let i = 0; i < fanCount; i++) {
+        const t = fanCount === 1 ? 0.5 : i / (fanCount - 1);
+        const angle = startAngle + t * totalAngle;
+        const px = arcCx + Math.cos(angle) * radius;
+        const py = arcCy + Math.sin(angle) * radius;
+        const rot = (angle + Math.PI / 2) * 180 / Math.PI;
+        const c = els[i];
+        c.style.setProperty('--cw', fanCw + 'px');
+        c.style.setProperty('--ch', fanCh + 'px');
+        c.style.transition = 'transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), left 0.85s cubic-bezier(0.22, 1, 0.36, 1), top 0.85s cubic-bezier(0.22, 1, 0.36, 1)';
+        c.style.left = (px - fanCw / 2) + 'px';
+        c.style.top  = (py - fanCh / 2) + 'px';
+        c.style.transform = `rotate(${rot}deg)`;
+        // Fan cards sit at high z so they ALWAYS overlay picked cards during
+        // the picking phase (picked cards slip beneath the spread).
+        c.style.zIndex = 100 + i;
+        c.dataset.fanIndex = i;
+        c.dataset.fanRot = rot;
+        c.style.setProperty('--hover-pop', `translateY(-${Math.round(fanCh * 0.18)}px) scale(1.08)`);
+      }
+      await sleep(880);
+    }
+
+    function enterPickPhase() {
+      setPhase('picking');
+      const need = SPREADS[state.spread].count;
+      renderHudDots(0, need);
+      state.cardEls.forEach(c => {
+        c.classList.add('hover-lift');
+        c.addEventListener('click', onPickCard);
+      });
+    }
+
+    function renderHudDots(filled, total) {
+      hudDots.innerHTML = '';
+      for (let i = 0; i < total; i++) {
+        const d = el('div', 'hud-dot' + (i < filled ? ' filled' : ''));
+        hudDots.appendChild(d);
+      }
+    }
+
+    async function onPickCard(e) {
+      if (state.phase !== 'picking') return;
+      const c = e.currentTarget;
+      if (c.classList.contains('picked')) return;
+      const need = SPREADS[state.spread].count;
+      if (state.picks.length >= need) return;
+      const fanIdx = parseInt(c.dataset.fanIndex, 10);
+      c.classList.add('picked');
+      c.classList.remove('hover-lift');
+      c.style.pointerEvents = 'none';
+      state.picks.push(fanIdx);
+      const slotIdx = state.picks.length - 1;
+      animateToSlot(c, slotIdx);
+      renderHudDots(state.picks.length, need);
+      if (state.picks.length === need) {
+        // dim leftovers and fade them out
+        state.cardEls.forEach(other => {
+          if (!other.classList.contains('picked')) {
+            other.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            other.style.opacity = '0';
+            other.style.transform += ' scale(0.92)';
+          }
+        });
+        await sleep(520);
+        state.cardEls.forEach(c => { if (!c.classList.contains('picked')) c.remove(); });
+        await revealAll();
+        await sleep(300);
+        renderReading();
+      }
+    }
+
+    function getSlotMetrics(slotIdx) {
+      const sp = SPREADS[state.spread];
+      const layout = sp.layout[slotIdx];
+      const W = state.stageDims.w, H = state.stageDims.h;
+      const { cw, ch } = getCardSize();
+      const px = W * layout.x;
+      const py = H * layout.y;
+      return { cw, ch, px, py, rot: layout.rot || 0, cross: !!layout.cross };
+    }
+
+    function animateToSlot(cardEl, slotIdx) {
+      const { cw, ch, px, py, rot } = getSlotMetrics(slotIdx);
+      cardEl.style.setProperty('--cw', cw + 'px');
+      cardEl.style.setProperty('--ch', ch + 'px');
+      cardEl.style.transition = 'left 0.85s cubic-bezier(0.22,1,0.36,1), top 0.85s cubic-bezier(0.22,1,0.36,1), transform 0.85s cubic-bezier(0.22,1,0.36,1)';
+      cardEl.style.left = (px - cw/2) + 'px';
+      cardEl.style.top = (py - ch/2) + 'px';
+      cardEl.style.transform = `rotate(${rot}deg)`;
+      // Picked cards slip BENEATH the fan during picking. Within picked
+      // cards, later picks sit on top of earlier ones (matters for the
+      // Celtic Cross, where slot 2 visually crosses slot 1).
+      cardEl.style.zIndex = 1 + slotIdx;
+      cardEl.dataset.slot = slotIdx;
+    }
+
+    async function revealAll() {
+      const sp = SPREADS[state.spread];
+      const sortedPicks = state.cardEls
+        .filter(c => c.classList.contains('picked'))
+        .sort((a, b) => (+a.dataset.slot) - (+b.dataset.slot));
+      // add position labels
+      sortedPicks.forEach((c, i) => {
+        const layout = sp.layout[i];
+        if (layout.cross) return;
+        const { cw, ch, px, py } = getSlotMetrics(i);
+        const lab = el('div', 'pos-label', { text: sp.positions[i].label });
+        lab.style.left = px + 'px';
+        lab.style.top = (py + ch / 2 + 8) + 'px';
+        lab.style.width = (cw + 30) + 'px';
+        stageTable.appendChild(lab);
+        setTimeout(() => lab.classList.add('visible'), 260 * i + 1100);
+      });
+      // flip with stagger
+      for (let i = 0; i < sortedPicks.length; i++) {
+        await sleep(220);
+        sortedPicks[i].classList.add('flipped');
+      }
+      // After reveal, make cards tappable to open the zoom viewer.
+      sortedPicks.forEach(c => {
+        c.style.pointerEvents = 'auto';
+        c.style.cursor = 'zoom-in';
+        c.addEventListener('click', onRevealedCardClick);
+      });
+    }
+
+    function onRevealedCardClick(e) {
+      const c = e.currentTarget;
+      const slot = parseInt(c.dataset.slot, 10);
+      const fanIdx = parseInt(c.dataset.fanIndex, 10);
+      const entry = state.deck[fanIdx];
+      const position = SPREADS[state.spread].positions[slot];
+      openCardModal(entry, position);
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  Reading panel render
+    // ─────────────────────────────────────────────────────────
+    function renderReading() {
+      setPhase('revealed');
+      const sp = SPREADS[state.spread];
+      const question = ''; // question input removed — readings are unprompted
+      const picks = state.cardEls
+        .filter(c => c.classList.contains('picked'))
+        .sort((a, b) => (+a.dataset.slot) - (+b.dataset.slot))
+        .map(c => state.deck[parseInt(c.dataset.fanIndex, 10)]);
+
+      document.getElementById('readingSpreadName').textContent = sp.name;
+      const qEl = document.getElementById('readingQuestion');
+      qEl.textContent = '';
+      qEl.style.display = 'none';
+
+      const body = document.getElementById('readingBody');
+      body.innerHTML = '';
+      picks.forEach((entry, i) => {
+        const r = el('div', 'read-card');
+        r.style.animationDelay = (i * 0.08) + 's';
+        const meaning = entry.reversed ? entry.card.reversed : entry.card.upright;
+        r.innerHTML = `
+          <div class="pos">${escapeHtml(sp.positions[i].label)}</div>
+          <div class="name">${escapeHtml(entry.card.name)}<span class="orient">${entry.reversed ? '· Reversed' : '· Upright'}</span></div>
+          <div class="frame">${escapeHtml(sp.positions[i].frame)}</div>
+          <div class="keys">${entry.card.keys.map(k => `<span class="key">${escapeHtml(k)}</span>`).join('')}</div>
+          <div class="meaning">${escapeHtml(meaning)}</div>`;
+        body.appendChild(r);
+      });
+      const synth = el('div', 'synthesis');
+      synth.innerHTML = `<h3>The thread</h3>${synthesize(picks, sp, question)}`;
+      body.appendChild(synth);
+
+      openPanel(true);
+
+      // Re-measure for the panel-open layout and reposition cards immediately.
+      // Both the stage-table and the cards use 0.85s transitions, so they
+      // animate into their final positions in sync.
+      relayoutCards();
+
+      // Save
+      try {
+        localStorage.setItem('emo:tarot:last', JSON.stringify({
+          ts: Date.now(), spread: state.spread, question,
+          picks: picks.map(p => ({ slug: p.card.slug, reversed: p.reversed })),
+        }));
+      } catch (_) {}
+    }
+
+    function relayoutCards() {
+      measureStage();
+      state.cardEls.forEach(c => {
+        if (!c.classList.contains('picked')) return;
+        const slotIdx = parseInt(c.dataset.slot, 10);
+        if (Number.isNaN(slotIdx)) return;
+        const { cw, ch, px, py, rot } = getSlotMetrics(slotIdx);
+        c.style.setProperty('--cw', cw + 'px');
+        c.style.setProperty('--ch', ch + 'px');
+        c.style.left = (px - cw/2) + 'px';
+        c.style.top = (py - ch/2) + 'px';
+        c.style.transform = `rotate(${rot}deg)`;
+      });
+      // re-position position labels
+      const sp = SPREADS[state.spread];
+      stageTable.querySelectorAll('.pos-label').forEach((lab, i) => {
+        const layout = sp.layout[i];
+        if (!layout || layout.cross) { lab.remove(); return; }
+        const { cw, ch, px, py } = getSlotMetrics(i);
+        lab.style.left = px + 'px';
+        lab.style.top = (py + ch / 2 + 8) + 'px';
+        lab.style.width = (cw + 30) + 'px';
+      });
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  Synthesis (uses elemental dignities + spread signature)
+    // ─────────────────────────────────────────────────────────
+    function elementSignature(picks) {
+      const c = { fire:0, water:0, air:0, earth:0 };
+      picks.forEach(p => { c[p.card.el] = (c[p.card.el] || 0) + 1; });
+      const sorted = Object.entries(c).filter(([,n]) => n > 0).sort((a,b) => b[1] - a[1]);
+      if (!sorted.length) return null;
+      const total = picks.length;
+      const [domEl, domN] = sorted[0];
+      const phr = {
+        fire:  "runs hot — action, will, urgency",
+        water: "runs deep — feelings, intuition, undercurrent",
+        air:   "runs sharp — thought, communication, clarity",
+        earth: "runs grounded — body, money, slow-build",
+      };
+      const dominance = domN >= Math.ceil(total * 0.6)
+        ? `the reading <strong>${phr[domEl]}</strong> — pace yourself accordingly`
+        : (sorted.length >= 3 ? `mixed elements — there's no single weather, the answer is in the blend` : `${phr[domEl]}, with ${sorted[1][0]} as a counterweight`);
+      return { dominance, breakdown: sorted.map(([el,n]) => `${n} ${el}`).join(' · ') };
+    }
+    function dignityNote(a, b) {
+      const r = dignity(a.card.el, b.card.el);
+      return r === 'friendly' ? 'amplifying each other'
+           : r === 'hostile'  ? 'pulling in opposite directions'
+           : r === 'compound' ? 'doubling down on the same note'
+                              : 'side by side, neither helping nor hurting';
+    }
+    function reversalNote(rc, total) {
+      if (rc === 0) return "";
+      if (rc / total >= 0.6) return ` Most cards landed reversed — read them as <em>blocked, delayed, or pointing inward</em>, not negative. The whole reading is asking for an internal pivot before an external one.`;
+      if (rc === 1) return ` One card is reversed — read it as <em>blocked, internalized, or running quiet</em>, not as a curse.`;
+      return ` Several cards reversed. Reversed isn't bad — it's <em>blocked, internal, delayed, or shadow-side</em>. Honesty before action.`;
+    }
+    // Build a "thesis sentence" — one line that ties all cards together up
+    // front. Uses each card's first keyword + spread-specific connective glue.
+    function buildThesis(picks, sp) {
+      const first = (p) => p.card.keys[0];
+      if (picks.length === 1) {
+        return `Today's air is <em>${escapeHtml(first(picks[0]))}</em> — that's the lens for everything you'll touch.`;
+      }
+      if (picks.length === 3) {
+        const [p1, p2, p3] = picks;
+        return `What was <em>${escapeHtml(first(p1))}</em> is becoming <em>${escapeHtml(first(p2))}</em>, pointing toward <em>${escapeHtml(first(p3))}</em>.`;
+      }
+      if (picks.length === 7) {
+        const present = picks[1], advice = picks[5], outcome = picks[6];
+        return `You're standing in <em>${escapeHtml(first(present))}</em>; the move is <em>${escapeHtml(first(advice))}</em>, the destination is <em>${escapeHtml(first(outcome))}</em>.`;
+      }
+      // Celtic Cross
+      const heart = picks[0], self = picks[6], outcome = picks[9];
+      return `At the heart: <em>${escapeHtml(first(heart))}</em>. Your stance: <em>${escapeHtml(first(self))}</em>. Where this lands: <em>${escapeHtml(first(outcome))}</em>.`;
+    }
+
+    // Closing essence sentence — derived from the most "outcome-like" card
+    // for each spread. Always second person, present tense, action verb.
+    function buildEssence(picks, sp) {
+      // For named pairs, prefer that combo's flavor.
+      const np = findNamedPair(picks);
+      if (np && picks.length >= 3) {
+        // Use the card that's later in the spread for the essence (more
+        // forward-looking).
+        const focus = (np.a.card.n + np.b.card.n >= 16) ? np.b : np.a;
+        return CARD_ESSENCE[focus.card.n];
+      }
+      let outcomeCard;
+      if (picks.length === 1)      outcomeCard = picks[0];
+      else if (picks.length === 3) outcomeCard = picks[2];   // future
+      else if (picks.length === 7) outcomeCard = picks[5];   // advice (more actionable than outcome)
+      else                         outcomeCard = picks[9];   // celtic outcome
+      return CARD_ESSENCE[outcomeCard.card.n];
+    }
+
+    // Trajectory shape detection for 3-card spread (Pollack/Greer)
+    function trajectoryShape(p1, p2, p3) {
+      const e1 = p1.card.el, e2 = p2.card.el, e3 = p3.card.el;
+      if (e1 === e2 && e2 === e3) return { kind: 'stagnation', text: "Same element across all three positions — you're swimming in one current. The lesson is what you do <em>inside</em> the constant, not how to escape it." };
+      if (e1 === e3 && e1 !== e2) return { kind: 'pivot',      text: "Past and future share an element with the present pivoting through a different current — this is a true turning point, not a smooth arc." };
+      if (e1 === e3)              return { kind: 'cyclic',     text: "Past and future share the same energy — a pattern is repeating. Notice it before it becomes a habit." };
+      if (dignity(e1, e3) === 'hostile') return { kind: 'reversal', text: "Past and future are in opposing elements — genuine change is underway. The middle card is the lever." };
+      if (dignity(e1, e3) === 'friendly') return { kind: 'flowing',  text: "Past and future are friendly elements — momentum is on your side, no fight needed." };
+      return { kind: 'mixed', text: "Three different elements — a varied arc, no single weather pattern. Trust the through-line, not any one position." };
+    }
+
+    function reversedHint(p, force) {
+      if (!p.reversed) return '';
+      return force ? ' reversed' : ' (rev)';
+    }
+
+    function synthesize(picks, sp, question) {
+      const sig = elementSignature(picks);
+      const rc = picks.filter(p => p.reversed).length;
+      const allUpright = rc === 0;
+
+      // Meta — element signature + archetypal axis if present
+      const namedPair = findNamedPair(picks);
+      const sum21 = findSum21Axis(picks);
+      const theo = picks.length > 1 ? theosophicSum(picks) : null;
+      let metaBits = [];
+      if (sig)    metaBits.push(`${sig.breakdown}; ${sig.dominance}`);
+      if (sum21)  metaBits.push(`<strong style="color:var(--gold)">Archetypal axis.</strong> ${sum21.meaning}`);
+      else if (namedPair) metaBits.push(`<strong style="color:var(--gold)">A named pair sits in this reading.</strong> ${namedPair.meaning}`);
+      if (theo && picks.length >= 3) {
+        const tn = theoCardName(theo);
+        if (tn) metaBits.push(`<strong style="color:var(--gold)">Soul card.</strong> The numbers reduce to <strong>${escapeHtml(tn)}</strong> — the deeper archetype underneath the surface question.`);
+      }
+      if (allUpright && picks.length > 1) {
+        metaBits.push(`Every card landed upright — the energies are running in the open here, no hidden sabotage. What you see is what's actually moving.`);
+      }
+      const sigLine = metaBits.length
+        ? `<p style="color:var(--text-2);font-size:13.5px"><strong style="color:var(--gold);letter-spacing:0.5px">Signature.</strong> ${metaBits.join('. ')}.${reversalNote(rc, picks.length)}</p>`
+        : "";
+
+      // Thesis (always first)
+      const thesis = `<p>${buildThesis(picks, sp)}</p>`;
+
+      // Body — per spread
+      let body = '';
+      if (picks.length === 1) {
+        const p = picks[0];
+        body = `<p><strong>${escapeHtml(p.card.name)}</strong>${reversedHint(p, true)} sits with you today. ${p.reversed ? "Reversed here reads as <em>blocked, internal, or running quiet</em> — not as a curse." : "It's the air the day is breathing — lean into it where you can."}</p>`;
+
+      } else if (picks.length === 3) {
+        const [p1, p2, p3] = picks;
+        const traj = trajectoryShape(p1, p2, p3);
+        body = `<p><strong>${escapeHtml(p1.card.name)}</strong>${reversedHint(p1)} set the bones; <strong>${escapeHtml(p2.card.name)}</strong>${reversedHint(p2)} is what you're standing in; <strong>${escapeHtml(p3.card.name)}</strong>${reversedHint(p3)} is the door at the end of the hall.</p><p>${traj.text}</p>`;
+
+      } else if (picks.length === 7) {
+        const [past, present, hidden, querent, others, advice, outcome] = picks;
+        // Three diagnostic axes per the horseshoe craft notes
+        const pastVsOutcome = dignity(past.card.el, outcome.card.el);
+        const hiddenVsQuerent = dignity(hidden.card.el, querent.card.el);
+        const stanceVsRoom = dignity(querent.card.el, others.card.el);
+
+        const arcLine = pastVsOutcome === 'compound'
+          ? `<p>Past and outcome share elements — the wave you started in is still the one carrying you. If that's a problem, this is the moment to break the pattern.</p>`
+          : pastVsOutcome === 'hostile'
+            ? `<p>Past and outcome sit in opposite elements — a genuine pivot is underway, you're not just repeating yourself.</p>`
+            : `<p>Past and outcome are different but compatible — natural evolution, not a rupture.</p>`;
+
+        const hiddenLine = hiddenVsQuerent === 'hostile'
+          ? `<p><strong>${escapeHtml(hidden.card.name)}</strong>${reversedHint(hidden)} sits below the waterline — and it's at odds with how you're showing up (<strong>${escapeHtml(querent.card.name)}</strong>${reversedHint(querent)}). Name the gap before it names you.</p>`
+          : `<p>What you don't yet see: <strong>${escapeHtml(hidden.card.name)}</strong>${reversedHint(hidden)}. Bring it into light and the rest stops feeling so heavy.</p>`;
+
+        const roomLine = stanceVsRoom === 'hostile'
+          ? `<p>Your stance and the room (<strong>${escapeHtml(others.card.name)}</strong>${reversedHint(others)}) are at odds — they're seeing a different movie than you are. Don't argue the perception; change the picture.</p>`
+          : stanceVsRoom === 'friendly'
+            ? `<p>Your stance and the room are aligned — the people around this are reading you correctly. You don't need to over-explain.</p>`
+            : '';
+
+        const adviceLine = `<p><strong>${escapeHtml(advice.card.name)}</strong>${reversedHint(advice)} is the lever — the outcome (<strong>${escapeHtml(outcome.card.name)}</strong>${reversedHint(outcome)}) is conditional on whether you take it.</p>`;
+
+        body = arcLine + hiddenLine + roomLine + adviceLine;
+
+      } else {
+        // Celtic Cross (10) — diagnostic axes per master craft
+        const [heart, cross, foundation, past, crown, future, self, env, hopes, outcome] = picks;
+        const hcDig = dignity(heart.card.el, cross.card.el);
+        const fcDig = dignity(foundation.card.el, crown.card.el);
+        const pfDig = dignity(past.card.el, future.card.el);
+        const seDig = dignity(self.card.el, env.card.el);
+        const coDig = dignity(crown.card.el, outcome.card.el);
+        const hoDig = dignity(hopes.card.el, outcome.card.el);
+
+        const heartLine = `<p>The defining tension: <strong>${escapeHtml(heart.card.name)}</strong>${reversedHint(heart)} crossed by <strong>${escapeHtml(cross.card.name)}</strong>${reversedHint(cross)}. ${hcDig === 'hostile' ? "The obstacle is structural — coming from outside or from a deep pattern." : hcDig === 'friendly' ? "The obstacle is internal — your own resistance dressed up as an external block." : "An obstacle that neither wholly threatens nor wholly serves you. Read its lesson, not its threat."}</p>`;
+
+        const fcLine = fcDig === 'hostile'
+          ? `<p>Foundation (<strong>${escapeHtml(foundation.card.name)}</strong>${reversedHint(foundation)}) and conscious aim (<strong>${escapeHtml(crown.card.name)}</strong>${reversedHint(crown)}) are <em>misaligned</em>. What you say you want and what you're actually rooted in are pulling in different directions — the conscious plan won't survive the foundation as-is.</p>`
+          : fcDig === 'friendly'
+            ? `<p>Foundation and crown speak the same language — your visible aim rests on real ground. Don't second-guess the plan.</p>`
+            : `<p>Foundation: <strong>${escapeHtml(foundation.card.name)}</strong>${reversedHint(foundation)}. Crown: <strong>${escapeHtml(crown.card.name)}</strong>${reversedHint(crown)}. Tolerating each other, neither leading — the question is which one you commit to.</p>`;
+
+        const trajLine = pfDig === 'compound'
+          ? `<p>Past and near future share elements — the same wave is still carrying you. ${past.card.n === future.card.n ? "Same card past and future — a cycle is closing exactly where it opened." : "Same energy, different shape."}</p>`
+          : pfDig === 'hostile'
+            ? `<p>Past and near future sit in opposing elements — a real pivot is at the door, not just a refresh.</p>`
+            : '';
+
+        const stanceLine = seDig === 'hostile'
+          ? `<p>Your stance (<strong>${escapeHtml(self.card.name)}</strong>${reversedHint(self)}) and the environment (<strong>${escapeHtml(env.card.name)}</strong>${reversedHint(env)}) clash — you're misreading your own image, or the room is. Worth checking which.</p>`
+          : '';
+
+        const hopesLine = hopes.card.n === outcome.card.n
+          ? `<p>Hopes/fears and outcome are the same card — what you fear and what arrives are the same energy. Make peace with the card, not with avoidance.</p>`
+          : hoDig === 'hostile'
+            ? `<p>What you carry quietly (<strong>${escapeHtml(hopes.card.name)}</strong>${reversedHint(hopes)}) is fighting the outcome. Notice the resistance; it's louder than you think.</p>`
+            : '';
+
+        const outcomeLine = `<p><strong>${escapeHtml(outcome.card.name)}</strong>${reversedHint(outcome)} is where this lands on the current line. ${coDig === 'hostile' ? "It diverges from your conscious aim — adjust the plan or accept the deviation." : coDig === 'friendly' ? "It aligns with what you're crowning — keep the line." : "Neither resisting nor confirming the goal — the lever is your stance."}</p>`;
+
+        body = heartLine + fcLine + trajLine + stanceLine + hopesLine + outcomeLine;
+      }
+
+      // Essence — closing line, ≤15 words, second-person imperative
+      const essence = `<p style="border-top:1px solid var(--line);padding-top:10px;margin-top:6px"><strong style="color:var(--gold);letter-spacing:0.5px">Essence.</strong> ${escapeHtml(buildEssence(picks, sp))}</p>`;
+
+      return [sigLine, thesis, body, essence].join('');
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  Actions
+    // ─────────────────────────────────────────────────────────
+    document.getElementById('newReadingBtn').addEventListener('click', () => {
+      backToIntro();
+    });
+    // ─────────────────────────────────────────────────────────
+    //  Card zoom viewer
+    // ─────────────────────────────────────────────────────────
+    const cardModal = document.getElementById('cardModal');
+    const cardModalImg = document.getElementById('cardModalImg');
+    const cardModalImageWrap = document.getElementById('cardModalImageWrap');
+
+    function openCardModal(entry, position) {
+      const c = entry.card;
+      cardModalImg.src = `cards/${c.slug}.jpg`;
+      cardModalImg.alt = c.name;
+      cardModalImageWrap.classList.toggle('reversed', !!entry.reversed);
+      // remove old reversed tag if any, then add fresh if reversed
+      const oldTag = cardModalImageWrap.querySelector('.rev-tag');
+      if (oldTag) oldTag.remove();
+      if (entry.reversed) {
+        const t = el('div', 'rev-tag', { text: 'Reversed' });
+        cardModalImageWrap.appendChild(t);
+      }
+      document.getElementById('cardModalPos').textContent = position.label;
+      document.getElementById('cardModalName').textContent = c.name;
+      document.getElementById('cardModalOrient').textContent = entry.reversed ? 'Reversed · Read as blocked, internal, or shadow-side' : 'Upright';
+      document.getElementById('cardModalFrame').textContent = position.frame || '';
+      const keysEl = document.getElementById('cardModalKeys');
+      keysEl.innerHTML = '';
+      c.keys.forEach(k => {
+        const pill = el('span', 'k', { text: k });
+        keysEl.appendChild(pill);
+      });
+      document.getElementById('cardModalMeaning').textContent = entry.reversed ? c.reversed : c.upright;
+      cardModal.classList.add('open');
+      cardModal.setAttribute('aria-hidden', 'false');
+    }
+    function closeCardModal() {
+      cardModal.classList.remove('open');
+      cardModal.setAttribute('aria-hidden', 'true');
+    }
+    document.getElementById('cardModalClose').addEventListener('click', closeCardModal);
+    cardModal.addEventListener('click', e => { if (e.target === cardModal) closeCardModal(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && cardModal.classList.contains('open')) closeCardModal();
+    });
+
+    // Share image flow
+    const shareModal = document.getElementById('shareModal');
+    const sharePreview = document.getElementById('sharePreview');
+    let lastShareCanvas = null;
+
+    document.getElementById('shareImageBtn').addEventListener('click', async () => {
+      shareModal.classList.add('open');
+      shareModal.setAttribute('aria-hidden', 'false');
+      sharePreview.innerHTML = '<div class="spinner"></div>';
+      try {
+        const canvas = await generateShareImage();
+        lastShareCanvas = canvas;
+        sharePreview.innerHTML = '';
+        sharePreview.appendChild(canvas);
+      } catch (err) {
+        console.error(err);
+        sharePreview.innerHTML = '<div style="color:var(--text-2);padding:20px;text-align:center">Could not render image. Try again.</div>';
+      }
+    });
+    document.getElementById('shareClose').addEventListener('click', closeShareModal);
+    shareModal.addEventListener('click', e => { if (e.target === shareModal) closeShareModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && shareModal.classList.contains('open')) closeShareModal(); });
+    function closeShareModal() {
+      shareModal.classList.remove('open');
+      shareModal.setAttribute('aria-hidden', 'true');
+    }
+
+    document.getElementById('shareDownload').addEventListener('click', () => {
+      if (!lastShareCanvas) return;
+      lastShareCanvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `emo-tarot-${Date.now()}.png`;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1500);
+        toast('Saved');
+      }, 'image/png');
+    });
+
+    document.getElementById('shareCopyImg').addEventListener('click', async () => {
+      if (!lastShareCanvas) return;
+      try {
+        const blob = await new Promise(res => lastShareCanvas.toBlob(res, 'image/png'));
+        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+        toast('Image copied');
+      } catch {
+        toast('Copy not supported — use Download');
+      }
+    });
+
+    document.getElementById('shareTweet').addEventListener('click', () => {
+      const sp = SPREADS[state.spread];
+      const picks = state.cardEls.filter(c => c.classList.contains('picked'))
+        .sort((a,b) => (+a.dataset.slot)-(+b.dataset.slot))
+        .map(c => state.deck[parseInt(c.dataset.fanIndex, 10)]);
+      const cardLine = picks.map(p => `${p.card.name}${p.reversed ? ' (R)' : ''}`).join(' · ');
+      const text = `Pulled a ${sp.name} from Emo Tarot:\n\n${cardLine}\n\nemonad.lol/tarot`;
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+      toast('Attach the downloaded image to the tweet');
+    });
+
+    // ─────────────────────────────────────────────────────────
+    //  Share image renderer (offscreen canvas → PNG)
+    // ─────────────────────────────────────────────────────────
+    async function generateShareImage() {
+      const sp = SPREADS[state.spread];
+      const question = '';
+      const picks = state.cardEls.filter(c => c.classList.contains('picked'))
+        .sort((a,b) => (+a.dataset.slot)-(+b.dataset.slot))
+        .map(c => state.deck[parseInt(c.dataset.fanIndex, 10)]);
+
+      const W = 1080, H = 1080;
+      const canvas = document.createElement('canvas');
+      canvas.width = W; canvas.height = H;
+      const ctx = canvas.getContext('2d');
+
+      // ── Background: deep midnight with layered glows ──
+      const bg = ctx.createLinearGradient(0, 0, 0, H);
+      bg.addColorStop(0, '#1d1240');
+      bg.addColorStop(0.55, '#0c0820');
+      bg.addColorStop(1, '#04020c');
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, W, H);
+
+      // upper purple aurora
+      let glow = ctx.createRadialGradient(W/2, -80, 0, W/2, 220, 760);
+      glow.addColorStop(0, 'rgba(176, 124, 255, 0.5)');
+      glow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, W, H);
+
+      // bottom amber glow
+      glow = ctx.createRadialGradient(W/2, H + 60, 0, W/2, H - 180, 640);
+      glow.addColorStop(0, 'rgba(255, 154, 60, 0.22)');
+      glow.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, W, H);
+
+      // side ambient
+      glow = ctx.createRadialGradient(60, H/2, 0, 60, H/2, 540);
+      glow.addColorStop(0, 'rgba(120, 50, 230, 0.18)');
+      glow.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
+
+      glow = ctx.createRadialGradient(W - 60, H/2, 0, W - 60, H/2, 540);
+      glow.addColorStop(0, 'rgba(120, 50, 230, 0.14)');
+      glow.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
+
+      // sealed-edge vignette
+      const vig = ctx.createRadialGradient(W/2, H/2, H * 0.35, W/2, H/2, H * 0.85);
+      vig.addColorStop(0, 'rgba(0,0,0,0)');
+      vig.addColorStop(1, 'rgba(0,0,0,0.55)');
+      ctx.fillStyle = vig; ctx.fillRect(0, 0, W, H);
+
+      // stars
+      for (let i = 0; i < 200; i++) {
+        const x = Math.random() * W, y = Math.random() * H;
+        const r = Math.random() * 1.4 + 0.3;
+        const a = Math.random() * 0.7 + 0.2;
+        ctx.fillStyle = Math.random() < 0.08 ? `rgba(243,210,122,${a})` : `rgba(203,179,255,${a})`;
+        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+      }
+      // a handful of warm embers
+      for (let i = 0; i < 18; i++) {
+        const x = Math.random() * W, y = Math.random() * H;
+        const r = Math.random() * 2 + 1.4;
+        const halo = ctx.createRadialGradient(x, y, 0, x, y, r * 6);
+        halo.addColorStop(0, 'rgba(255, 200, 120, 0.55)');
+        halo.addColorStop(1, 'rgba(255, 140, 60, 0)');
+        ctx.fillStyle = halo;
+        ctx.beginPath(); ctx.arc(x, y, r * 6, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = 'rgba(255, 220, 160, 0.85)';
+        ctx.beginPath(); ctx.arc(x, y, r * 0.55, 0, Math.PI * 2); ctx.fill();
+      }
+
+      // outer double gold frame
+      ctx.strokeStyle = 'rgba(232, 200, 122, 0.6)';
+      ctx.lineWidth = 1.4;
+      roundRectStroke(ctx, 24, 24, W - 48, H - 48, 22);
+      ctx.strokeStyle = 'rgba(232, 200, 122, 0.22)';
+      ctx.lineWidth = 1;
+      roundRectStroke(ctx, 34, 34, W - 68, H - 68, 18);
+
+      // corner flourishes
+      drawCornerFlourishes(ctx, 24, 24, W - 48, H - 48);
+
+      // ── Header ──
+      ctx.textAlign = 'center';
+      // top divider with center diamond
+      drawDivider(ctx, W/2, 78, 280);
+
+      ctx.fillStyle = '#f3d27a';
+      ctx.font = '800 22px "Space Grotesk", system-ui, sans-serif';
+      drawSpacedText(ctx, 'EMO TAROT', W/2, 116, 9);
+
+      // spread name with subtle gold-tinted gradient
+      const titleGrad = ctx.createLinearGradient(W * 0.2, 0, W * 0.8, 0);
+      titleGrad.addColorStop(0, '#ffe5a8');
+      titleGrad.addColorStop(0.5, '#ffffff');
+      titleGrad.addColorStop(1, '#ffe5a8');
+      ctx.fillStyle = titleGrad;
+      ctx.font = '800 60px "Space Grotesk", system-ui, sans-serif';
+      ctx.fillText(sp.name, W/2, 184);
+
+      if (question) {
+        ctx.fillStyle = '#d8c8f0';
+        ctx.font = 'italic 24px "Space Grotesk", system-ui, sans-serif';
+        const qText = `"${question.length > 76 ? question.slice(0, 76).trim() + '…' : question}"`;
+        ctx.fillText(qText, W/2, 226);
+      }
+
+      // small divider before cards
+      drawDivider(ctx, W/2, question ? 256 : 230, 240);
+
+      // ── Cards section ──
+      const cardsTop = 254;
+      const cardsBottom = 580;
+      // subtle backdrop frame around cards (very light)
+      ctx.save();
+      const cardBg = ctx.createLinearGradient(0, cardsTop - 8, 0, cardsBottom + 8);
+      cardBg.addColorStop(0, 'rgba(232, 200, 122, 0.05)');
+      cardBg.addColorStop(0.5, 'rgba(192, 132, 255, 0.06)');
+      cardBg.addColorStop(1, 'rgba(232, 200, 122, 0.04)');
+      ctx.fillStyle = cardBg;
+      roundRectFill(ctx, 56, cardsTop - 10, W - 112, cardsBottom - cardsTop + 20, 20);
+      // hairline border
+      ctx.strokeStyle = 'rgba(232, 200, 122, 0.18)';
+      ctx.lineWidth = 1;
+      roundRectStroke(ctx, 56, cardsTop - 10, W - 112, cardsBottom - cardsTop + 20, 20);
+      ctx.restore();
+
+      const cardArea = { top: cardsTop, bottom: cardsBottom, left: 60, right: W - 60 };
+      await drawCardStrip(ctx, picks, sp, cardArea);
+
+      // divider before reading
+      drawDivider(ctx, W/2, 600, 280);
+
+      // ── The Reading — full summary box ──
+      const paragraphs = extractShareParagraphs();
+      const synthBoxX = 56;
+      const synthBoxY = 622;
+      const synthBoxW = W - 112;
+      const synthBoxH = 318;
+
+      // box background
+      ctx.save();
+      const sbg = ctx.createLinearGradient(0, synthBoxY, 0, synthBoxY + synthBoxH);
+      sbg.addColorStop(0, 'rgba(232, 200, 122, 0.14)');
+      sbg.addColorStop(0.55, 'rgba(120, 50, 230, 0.09)');
+      sbg.addColorStop(1, 'rgba(232, 200, 122, 0.06)');
+      ctx.fillStyle = sbg;
+      roundRectFill(ctx, synthBoxX, synthBoxY, synthBoxW, synthBoxH, 20);
+      ctx.restore();
+
+      // double gold border
+      ctx.strokeStyle = 'rgba(232, 200, 122, 0.55)';
+      ctx.lineWidth = 1.4;
+      roundRectStroke(ctx, synthBoxX, synthBoxY, synthBoxW, synthBoxH, 20);
+      ctx.strokeStyle = 'rgba(232, 200, 122, 0.22)';
+      ctx.lineWidth = 1;
+      roundRectStroke(ctx, synthBoxX + 6, synthBoxY + 6, synthBoxW - 12, synthBoxH - 12, 16);
+
+      // section title
+      ctx.fillStyle = '#ffe5a8';
+      ctx.textAlign = 'center';
+      ctx.font = '800 18px "Space Grotesk", system-ui, sans-serif';
+      drawSpacedText(ctx, '✦   THE READING   ✦', W/2, synthBoxY + 40, 5);
+
+      // tiny gold underline beneath title
+      const ulY = synthBoxY + 56;
+      const ulW = 90;
+      const ulG = ctx.createLinearGradient(W/2 - ulW, ulY, W/2 + ulW, ulY);
+      ulG.addColorStop(0, 'rgba(232, 200, 122, 0)');
+      ulG.addColorStop(0.5, 'rgba(232, 200, 122, 0.7)');
+      ulG.addColorStop(1, 'rgba(232, 200, 122, 0)');
+      ctx.strokeStyle = ulG;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(W/2 - ulW, ulY);
+      ctx.lineTo(W/2 + ulW, ulY);
+      ctx.stroke();
+
+      // reading body — multiple paragraphs
+      if (paragraphs.length) {
+        ctx.fillStyle = '#f6ecd2';
+        ctx.textAlign = 'left';
+        ctx.font = '400 22px "Space Grotesk", system-ui, sans-serif';
+        const padding = 36;
+        const lineH = 30;
+        const paraGap = 12;
+        const bodyTop = synthBoxY + 86;
+        const bodyHeight = synthBoxH - 86 - 24; // leaves bottom padding
+        const maxLines = Math.floor(bodyHeight / lineH);
+        drawParagraphs(
+          ctx,
+          paragraphs,
+          synthBoxX + padding,
+          bodyTop,
+          synthBoxW - padding * 2,
+          lineH,
+          paraGap,
+          maxLines
+        );
+      }
+
+      // ── Keyword pills ──
+      const keywords = extractShareKeywords(picks, sp);
+      if (keywords.length) {
+        drawKeywordPills(ctx, keywords, W/2, 970);
+      }
+
+      // ── Footer (placed nicely, well clear of pills and inside frame) ──
+      const footerY = 1018;
+      // small centered ornament above brand line
+      drawDivider(ctx, W/2, footerY - 20, 200);
+
+      ctx.fillStyle = '#ffe5a8';
+      ctx.textAlign = 'center';
+      ctx.font = '800 19px "Space Grotesk", system-ui, sans-serif';
+      drawSpacedText(ctx, 'EMONAD.LOL', W/2, footerY, 5);
+
+      // delicate flanking gold dots beside the brand
+      ctx.fillStyle = '#e8c87a';
+      const brandTextW = ctx.measureText('EMONAD.LOL').width + 5 * 9; // approx letter-spaced width
+      ctx.beginPath(); ctx.arc(W/2 - brandTextW/2 - 18, footerY + 6, 3, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(W/2 + brandTextW/2 + 18, footerY + 6, 3, 0, Math.PI*2); ctx.fill();
+
+      // tiny tagline beneath
+      ctx.fillStyle = '#a89ec8';
+      ctx.font = '500 11px "Space Grotesk", system-ui, sans-serif';
+      drawSpacedText(ctx, 'A TAROT READING', W/2, footerY + 22, 4);
+
+      return canvas;
+    }
+
+    // Pull the full reading paragraphs (skipping the Signature metadata line)
+    // for the share summary. Returns an array of paragraph strings so they
+    // can be rendered with proper spacing between them.
+    function extractShareParagraphs() {
+      const synthEl = document.querySelector('.synthesis');
+      if (!synthEl) return [];
+      const paras = [...synthEl.querySelectorAll('p')];
+      return paras
+        .map(p => p.textContent.trim())
+        .filter(t => t && !/^Signature\./i.test(t));
+    }
+
+    // Three keyword pills capturing the essence of the spread, varying by count.
+    function extractShareKeywords(picks, sp) {
+      const cap = (s) => s.toUpperCase();
+      if (sp.count === 1)  return picks[0].card.keys.slice(0, 3).map(cap);
+      if (sp.count === 3)  return picks.map(p => cap(p.card.keys[0]));
+      if (sp.count === 7)  return [picks[1], picks[5], picks[6]].map(p => cap(p.card.keys[0])); // present, advice, outcome
+      return [picks[0], picks[6], picks[9]].map(p => cap(p.card.keys[0]));                      // celtic: heart, self, outcome
+    }
+
+    function drawKeywordPills(ctx, keywords, cx, cy) {
+      ctx.save();
+      const pillH = 38;
+      const padX = 22;
+      const gap = 14;
+      ctx.font = '800 14px "Space Grotesk", system-ui, sans-serif';
+      const widths = keywords.map(k => ctx.measureText(k).width + padX * 2);
+      const totalW = widths.reduce((a, b) => a + b, 0) + (keywords.length - 1) * gap;
+      let cursor = cx - totalW / 2;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      for (let i = 0; i < keywords.length; i++) {
+        const w = widths[i];
+        const x = cursor;
+        const y = cy - pillH / 2;
+        // soft glow halo
+        ctx.shadowColor = 'rgba(232, 200, 122, 0.45)';
+        ctx.shadowBlur = 16;
+        // pill bg
+        const g = ctx.createLinearGradient(x, y, x, y + pillH);
+        g.addColorStop(0, 'rgba(232, 200, 122, 0.22)');
+        g.addColorStop(1, 'rgba(192, 132, 255, 0.10)');
+        ctx.fillStyle = g;
+        roundRectFill(ctx, x, y, w, pillH, pillH / 2);
+        ctx.shadowBlur = 0;
+        // border
+        ctx.strokeStyle = 'rgba(232, 200, 122, 0.65)';
+        ctx.lineWidth = 1.2;
+        roundRectStroke(ctx, x, y, w, pillH, pillH / 2);
+        // text
+        ctx.fillStyle = '#ffe5a8';
+        ctx.fillText(keywords[i], x + w / 2, cy + 1);
+        cursor += w + gap;
+      }
+      ctx.textBaseline = 'alphabetic';
+      ctx.restore();
+    }
+
+    // Decorative divider: a horizontal gold line with a tilted diamond at center
+    function drawDivider(ctx, cx, cy, totalW) {
+      ctx.save();
+      const half = totalW / 2;
+      // line gradient (fades at edges and at center to leave room for the diamond)
+      const g = ctx.createLinearGradient(cx - half, cy, cx + half, cy);
+      g.addColorStop(0,    'rgba(232, 200, 122, 0)');
+      g.addColorStop(0.18, 'rgba(232, 200, 122, 0.5)');
+      g.addColorStop(0.42, 'rgba(232, 200, 122, 0.5)');
+      g.addColorStop(0.5,  'rgba(232, 200, 122, 0)');
+      g.addColorStop(0.58, 'rgba(232, 200, 122, 0.5)');
+      g.addColorStop(0.82, 'rgba(232, 200, 122, 0.5)');
+      g.addColorStop(1,    'rgba(232, 200, 122, 0)');
+      ctx.strokeStyle = g;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(cx - half, cy);
+      ctx.lineTo(cx + half, cy);
+      ctx.stroke();
+      // diamond
+      ctx.fillStyle = 'rgba(232, 200, 122, 0.85)';
+      ctx.translate(cx, cy);
+      ctx.rotate(Math.PI / 4);
+      ctx.fillRect(-3.5, -3.5, 7, 7);
+      ctx.restore();
+    }
+
+    // Ornate corner brackets on the outer frame
+    function drawCornerFlourishes(ctx, x, y, w, h) {
+      ctx.save();
+      ctx.strokeStyle = 'rgba(232, 200, 122, 0.7)';
+      ctx.lineWidth = 1.4;
+      const len = 38, off = 2;
+      // each corner: two short orthogonal strokes + tiny diagonal
+      const corners = [
+        { x: x + off,     y: y + off,     dx:  1, dy:  1 },
+        { x: x + w - off, y: y + off,     dx: -1, dy:  1 },
+        { x: x + off,     y: y + h - off, dx:  1, dy: -1 },
+        { x: x + w - off, y: y + h - off, dx: -1, dy: -1 },
+      ];
+      for (const c of corners) {
+        ctx.beginPath();
+        ctx.moveTo(c.x, c.y + c.dy * len);
+        ctx.lineTo(c.x, c.y);
+        ctx.lineTo(c.x + c.dx * len, c.y);
+        ctx.stroke();
+        // corner dot
+        ctx.fillStyle = 'rgba(232, 200, 122, 0.8)';
+        ctx.beginPath(); ctx.arc(c.x, c.y, 2.2, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    function roundRectStroke(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+      ctx.stroke();
+    }
+    function roundRectFill(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+      ctx.fill();
+    }
+    function roundRectPath(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+    }
+
+    function drawSpacedText(ctx, text, x, y, spacing) {
+      // poor-man letter spacing — measure each char and draw individually.
+      ctx.save();
+      const total = ctx.measureText(text).width + spacing * (text.length - 1);
+      let cursor = x - total / 2;
+      ctx.textAlign = 'left';
+      for (const ch of text) {
+        const w = ctx.measureText(ch).width;
+        ctx.fillText(ch, cursor, y);
+        cursor += w + spacing;
+      }
+      ctx.restore();
+    }
+
+    // Returns the number of lines actually drawn so callers can position the
+    // next paragraph below. Honors maxLines and adds an ellipsis if truncated.
+    function wrapAndDrawText(ctx, text, x, y, maxW, lineH, maxLines = 6) {
+      const words = text.split(/\s+/);
+      let line = '', lineCount = 0, cursorY = y;
+      for (let i = 0; i < words.length; i++) {
+        const test = line ? line + ' ' + words[i] : words[i];
+        if (ctx.measureText(test).width > maxW && line) {
+          ctx.fillText(line, x, cursorY);
+          line = words[i];
+          cursorY += lineH;
+          lineCount++;
+          if (lineCount >= maxLines - 1) {
+            while (ctx.measureText(line + ' ' + words[i+1] + '…').width <= maxW && i + 1 < words.length) {
+              i++;
+              line += ' ' + words[i];
+            }
+            ctx.fillText(line + (i < words.length - 1 ? '…' : ''), x, cursorY);
+            return lineCount + 1;
+          }
+        } else {
+          line = test;
+        }
+      }
+      if (line) {
+        ctx.fillText(line, x, cursorY);
+        return lineCount + 1;
+      }
+      return lineCount;
+    }
+
+    // Draw a sequence of paragraphs with breathing room between them, sharing
+    // a fixed line budget. Distributes lines across paragraphs but lets each
+    // paragraph break naturally.
+    function drawParagraphs(ctx, paragraphs, x, y, maxW, lineH, paraGap, maxLines) {
+      let cursorY = y;
+      let linesLeft = maxLines;
+      for (let i = 0; i < paragraphs.length && linesLeft > 0; i++) {
+        const drawn = wrapAndDrawText(ctx, paragraphs[i], x, cursorY, maxW, lineH, linesLeft);
+        cursorY += drawn * lineH;
+        linesLeft -= drawn;
+        if (i < paragraphs.length - 1 && linesLeft > 0) {
+          cursorY += paraGap;
+        }
+      }
+    }
+
+    async function drawCardStrip(ctx, picks, sp, area) {
+      const n = picks.length;
+      // Per-spread layout: 1 hero, 3 row, 7 single row (horseshoe), 10 as 5+5 grid
+      const cols = n <= 5 ? n : (n === 7 ? 7 : 5);
+      const rows = Math.ceil(n / cols);
+      const minGapX = 20, gapY = 30;
+      const labelH = 56;
+      const availW = area.right - area.left;
+      const availH = area.bottom - area.top;
+
+      // Card size: fit both per-row height (incl. label) and per-column width.
+      const heightBudget = (availH - (rows - 1) * gapY) / rows - labelH;
+      const widthBudget  = (availW - (cols - 1) * minGapX) / cols;
+      let cardW = Math.min(widthBudget, heightBudget * 5 / 8);
+      let cardH = cardW * 8 / 5;
+
+      // Hero treatment for 1-card spread
+      if (n === 1) {
+        const heroH = Math.min(availH - labelH, 540);
+        cardH = heroH;
+        cardW = cardH * 5 / 8;
+        if (cardW > availW) { cardW = availW; cardH = cardW * 8 / 5; }
+      }
+
+      const totalH = rows * (cardH + labelH) + (rows - 1) * gapY;
+      const startY = area.top + (availH - totalH) / 2;
+
+      for (let i = 0; i < n; i++) {
+        const r = Math.floor(i / cols);
+        const c = i % cols;
+        const itemsThisRow = (r === rows - 1) ? (n - r * cols) : cols;
+
+        // EVEN-SPREAD LAYOUT: prefer space-around (equal padding on both sides
+        // and equal gaps between cards). If that gap exceeds 70% of cardW
+        // (cards floating in too much empty space) cap it. If it's tighter
+        // than minGapX, switch to space-between (cards span full row width).
+        let rowGapX, rowStartX;
+        const spaceAroundGap = (availW - itemsThisRow * cardW) / (itemsThisRow + 1);
+        if (spaceAroundGap >= minGapX) {
+          rowGapX = Math.min(spaceAroundGap, cardW * 0.7);
+          const rowW = itemsThisRow * cardW + (itemsThisRow - 1) * rowGapX;
+          rowStartX = area.left + (availW - rowW) / 2;
+        } else {
+          // Tight row: span full width, equal gaps, no side padding.
+          rowGapX = itemsThisRow > 1
+            ? (availW - itemsThisRow * cardW) / (itemsThisRow - 1)
+            : 0;
+          rowStartX = area.left;
+        }
+
+        const x = rowStartX + c * (cardW + rowGapX);
+        const y = startY + r * (cardH + labelH + gapY);
+        // Label width budget: extend halfway into the gap on each side so
+        // long card names have room without colliding with neighbors.
+        const labelMaxW = cardW + Math.min(rowGapX * 0.85, cardW * 0.4);
+        await drawShareCard(ctx, x, y, cardW, cardH, picks[i], sp.positions[i], labelMaxW);
+      }
+    }
+
+    // Pick the largest font in `weight Npx family` form that fits `text`
+    // within `maxW`. Returns the font string.
+    function fitFont(ctx, text, weight, family, maxFont, minFont, maxW) {
+      for (let f = maxFont; f >= minFont; f--) {
+        ctx.font = `${weight} ${f}px ${family}`;
+        if (ctx.measureText(text).width <= maxW) return ctx.font;
+      }
+      ctx.font = `${weight} ${minFont}px ${family}`;
+      return ctx.font;
+    }
+
+    async function drawShareCard(ctx, x, y, w, h, entry, position, labelMaxW) {
+      const stageCard = [...state.cardEls].find(c => c.dataset.slug === entry.card.slug);
+      const img = stageCard ? stageCard.querySelector('.art-layer img') : null;
+      const imgLoaded = img && img.complete && img.naturalWidth > 0 && !img.classList.contains('broken');
+
+      if (imgLoaded) {
+        // Compute the actual displayed image size (contain mode)
+        const ar = img.naturalWidth / img.naturalHeight;
+        const cardAr = w / h;
+        let dw, dh;
+        if (ar > cardAr) { dw = w; dh = w / ar; }
+        else { dh = h; dw = h * ar; }
+        const ix = x + (w - dw) / 2;  // top-left of displayed image
+        const iy = y + (h - dh) / 2;
+        const r  = Math.min(14, dw * 0.04, dh * 0.04);
+
+        // shadow that hugs the IMAGE bounds (not the chassis)
+        ctx.save();
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+        ctx.shadowBlur = 32;
+        ctx.shadowOffsetY = 16;
+        ctx.fillStyle = '#0a0418';
+        roundRectFill(ctx, ix, iy, dw, dh, r);
+        ctx.restore();
+
+        // draw the image clipped to rounded rect at its native bounds
+        ctx.save();
+        if (entry.reversed) {
+          ctx.translate(x + w/2, y + h/2);
+          ctx.rotate(Math.PI);
+          ctx.translate(-(x + w/2), -(y + h/2));
+        }
+        roundRectPath(ctx, ix, iy, dw, dh, r);
+        ctx.clip();
+        ctx.drawImage(img, ix, iy, dw, dh);
+        ctx.restore();
+
+        // Reversed badge sits over the image's top-right corner
+        if (entry.reversed) {
+          ctx.fillStyle = 'rgba(20, 10, 40, 0.85)';
+          ctx.strokeStyle = 'rgba(232, 200, 122, 0.55)';
+          ctx.lineWidth = 0.8;
+          roundRectFill(ctx, ix + dw - 44, iy + 8, 36, 16, 4);
+          roundRectStroke(ctx, ix + dw - 44, iy + 8, 36, 16, 4);
+          ctx.fillStyle = '#f3da9a';
+          ctx.font = '800 9px "Space Grotesk", system-ui, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('REV', ix + dw - 26, iy + 17);
+          ctx.textBaseline = 'alphabetic';
+        }
+      } else {
+        // Placeholder fallback — full chassis with parchment, glyph, and name
+        ctx.save();
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.55)';
+        ctx.shadowBlur = 30;
+        ctx.shadowOffsetY = 14;
+        ctx.fillStyle = '#0d0820';
+        roundRectFill(ctx, x, y, w, h, 10);
+        ctx.restore();
+
+        ctx.save();
+        roundRectPath(ctx, x, y, w, h, 10);
+        ctx.clip();
+        const fg = ctx.createLinearGradient(x, y, x, y + h);
+        fg.addColorStop(0, '#1d1530');
+        fg.addColorStop(1, '#0d0820');
+        ctx.fillStyle = fg;
+        ctx.fillRect(x, y, w, h);
+
+        // placeholder: ornate frame + glyph + name
+        // inner gold border
+        ctx.strokeStyle = 'rgba(232, 200, 122, 0.4)';
+        ctx.lineWidth = 1;
+        roundRectStroke(ctx, x + 8, y + 8, w - 16, h - 16, 6);
+
+        // soft glow circle
+        const g = ctx.createRadialGradient(x + w/2, y + h * 0.45, 0, x + w/2, y + h * 0.45, w * 0.6);
+        g.addColorStop(0, 'rgba(155, 95, 255, 0.32)');
+        g.addColorStop(1, 'rgba(155, 95, 255, 0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(x, y, w, h);
+
+        // numeral pill
+        ctx.fillStyle = '#e8c87a';
+        ctx.font = '800 11px "Space Grotesk", system-ui, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        const num = toRoman(entry.card.n);
+        const numW = ctx.measureText(num).width + 18;
+        ctx.strokeStyle = 'rgba(232, 200, 122, 0.4)';
+        ctx.lineWidth = 1;
+        roundRectStroke(ctx, x + w/2 - numW/2, y + 22, numW, 16, 8);
+        ctx.fillText(num, x + w/2, y + 31);
+
+        // big glyph
+        ctx.fillStyle = '#d6b6ff';
+        ctx.font = `400 ${Math.floor(w * 0.32)}px serif`;
+        ctx.textBaseline = 'middle';
+        ctx.fillText(cardGlyph(entry.card.n), x + w/2, y + h/2);
+
+        // card name
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '800 11px "Space Grotesk", system-ui, sans-serif';
+        ctx.textBaseline = 'alphabetic';
+        const nameStr = entry.card.name.toUpperCase();
+        drawSpacedText(ctx, nameStr, x + w/2, y + h - 22, 2);
+
+        ctx.restore();
+
+        // outer gold border on chassis (over clip)
+        ctx.strokeStyle = 'rgba(232, 200, 122, 0.55)';
+        ctx.lineWidth = 1.2;
+        roundRectStroke(ctx, x + 0.5, y + 0.5, w - 1, h - 1, 10);
+
+        // Reversed badge on chassis corner
+        if (entry.reversed) {
+          ctx.fillStyle = 'rgba(20, 10, 40, 0.85)';
+          ctx.strokeStyle = 'rgba(232, 200, 122, 0.4)';
+          ctx.lineWidth = 0.8;
+          roundRectFill(ctx, x + w - 44, y + 8, 36, 16, 4);
+          roundRectStroke(ctx, x + w - 44, y + 8, 36, 16, 4);
+          ctx.fillStyle = '#f3da9a';
+          ctx.font = '800 9px "Space Grotesk", system-ui, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('REV', x + w - 26, y + 17);
+          ctx.textBaseline = 'alphabetic';
+        }
+      }
+
+      // ── Labels below card ──
+      const labelW = labelMaxW || (w + 18);
+      const cx = x + w / 2;
+
+      // 1) Position label: small gold caps, letter-spaced
+      // Strip the leading "N. " ordering from labels like "1. Heart" — it's
+      // implicit in the visual order of the cards on the share card.
+      const posStr = (position.label || '').replace(/^\d+\.\s*/, '').toUpperCase();
+      // pick the largest font that fits with the spacing we want
+      let posFont = 13;
+      let posSpacing = 2.6;
+      ctx.font = `800 ${posFont}px "Space Grotesk", system-ui, sans-serif`;
+      // poor-man's letter-spaced width measurement
+      while (
+        posFont > 9 &&
+        ctx.measureText(posStr).width + posSpacing * (posStr.length - 1) > labelW
+      ) {
+        posFont--;
+        ctx.font = `800 ${posFont}px "Space Grotesk", system-ui, sans-serif`;
+      }
+      ctx.fillStyle = '#f3d27a';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      drawSpacedText(ctx, posStr, cx, y + h + 14, posSpacing);
+
+      // 2) Subtle gold underline beneath the position label
+      const ulY = y + h + 14 + posFont + 6;
+      const ulW = Math.min(28, labelW * 0.16);
+      ctx.strokeStyle = 'rgba(232, 200, 122, 0.45)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(cx - ulW, ulY);
+      ctx.lineTo(cx + ulW, ulY);
+      ctx.stroke();
+
+      // 3) Card name: white, adaptive font so long names ("The High Priestess",
+      //    "Wheel of Fortune") still fit cleanly without overflow.
+      const nameStr = entry.card.name + (entry.reversed ? ' ↧' : '');
+      ctx.fillStyle = '#ffffff';
+      fitFont(ctx, nameStr, '800', '"Space Grotesk", system-ui, sans-serif', 19, 13, labelW);
+      ctx.fillText(nameStr, cx, ulY + 8);
+
+      ctx.textBaseline = 'alphabetic';
+    }
+
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      const sp = SPREADS[state.spread];
+      const picks = state.cardEls.filter(c => c.classList.contains('picked'))
+        .sort((a,b) => (+a.dataset.slot)-(+b.dataset.slot))
+        .map(c => state.deck[parseInt(c.dataset.fanIndex, 10)]);
+      const lines = [`Emo Tarot — ${sp.name}`, ''];
+      picks.forEach((p, i) => {
+        lines.push(`${sp.positions[i].label}: ${p.card.name}${p.reversed ? ' (Reversed)' : ''}`);
+        lines.push(`  ${p.reversed ? p.card.reversed : p.card.upright}`);
+      });
+      lines.push('', 'emonad.lol/tarot');
+      try { await navigator.clipboard.writeText(lines.join('\n')); toast('Reading copied'); }
+      catch { toast('Could not copy'); }
+    });
+
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('visible');
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => t.classList.remove('visible'), 1800);
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  Resize
+    // ─────────────────────────────────────────────────────────
+    let rt;
+    window.addEventListener('resize', () => {
+      clearTimeout(rt);
+      rt = setTimeout(() => {
+        if (state.phase === 'revealed') relayoutCards();
+      }, 120);
+    });
+
+  })();
+  </script>
+
+</body>
+</html>

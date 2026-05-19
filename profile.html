@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <title>Profile · emonad</title>
+  <meta name="description" content="emonad.lol profile">
+  <meta property="og:title" content="emonad profile">
+  <meta property="og:description" content="emonad.lol — XP, levels, click farming on the home of $EMO.">
+  <meta property="og:image" content="https://emonad.lol/og-image.jpg">
+  <meta property="og:url" content="https://emonad.lol/profile.html">
+  <meta property="og:type" content="profile">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="emonad profile">
+  <meta name="twitter:description" content="emonad.lol — XP, levels, click farming on the home of $EMO.">
+  <meta name="twitter:image" content="https://emonad.lol/og-image.jpg">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #1a1a1a;
+      --text-secondary: #666666;
+      --text-muted: #aaaaaa;
+      --accent: #7B3FE4;
+      --accent-hover: #6930c3;
+      --accent-glow: rgba(123, 63, 228, 0.25);
+      --surface: #f5f3ff;
+      --surface-border: #e4d8f8;
+      --ticker-bg: rgba(255, 255, 255, 0.92);
+      --ticker-border: #e9e0f5;
+      --stat-bg: #ffffff;
+    }
+    [data-theme="dark"] {
+      --bg-color: #0a0a0a;
+      --text-color: #ffffff;
+      --text-secondary: #888888;
+      --text-muted: #505050;
+      --accent: #9B5FFF;
+      --accent-hover: #b080ff;
+      --accent-glow: rgba(155, 95, 255, 0.3);
+      --surface: rgba(255, 255, 255, 0.06);
+      --surface-border: rgba(255, 255, 255, 0.1);
+      --ticker-bg: rgba(15, 15, 15, 0.92);
+      --ticker-border: rgba(255, 255, 255, 0.08);
+      --stat-bg: rgba(255, 255, 255, 0.03);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: radial-gradient(ellipse at 50% 0%, var(--accent-glow) 0%, transparent 55%), var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Top nav */
+    .nav-bar {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 44px;
+      background: var(--ticker-bg);
+      border-bottom: 1px solid var(--ticker-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 100;
+      display: flex; align-items: center; gap: 10px;
+      padding: 0 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .nav-back {
+      color: var(--text-color);
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--surface-border);
+      background: var(--surface);
+      transition: all 0.2s ease;
+      font-size: 12.5px;
+      letter-spacing: 0.01em;
+    }
+    .nav-back:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+      color: var(--text-color);
+    }
+    .nav-bar .grow { flex: 1; }
+    .theme-toggle {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--surface-border);
+      background: var(--surface);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+      transition: all 0.25s ease;
+      flex-shrink: 0;
+    }
+    .theme-toggle:hover { border-color: var(--accent); background: var(--accent-glow); }
+
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 78px 18px 40px;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: 24px;
+      padding: 36px 28px 28px;
+      box-shadow: 0 30px 90px rgba(0,0,0,0.35),
+                  0 0 90px var(--accent-glow);
+      position: relative;
+      overflow: hidden;
+    }
+    .panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 110px;
+      background: radial-gradient(ellipse at 50% 0%, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Hero (avatar + name + level badge overlay) */
+    .hero {
+      text-align: center;
+      position: relative;
+      margin-bottom: 26px;
+    }
+    .avatar-wrap {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 14px;
+    }
+    .avatar-wrap img {
+      width: 96px; height: 96px;
+      border-radius: 50%;
+      border: 3px solid var(--accent);
+      object-fit: cover;
+      box-shadow: 0 0 40px var(--accent-glow),
+                  0 12px 32px rgba(0,0,0,0.4);
+      display: block;
+    }
+    .level-badge {
+      position: absolute;
+      bottom: -6px; right: -6px;
+      min-width: 38px;
+      height: 28px;
+      padding: 0 10px;
+      border-radius: 14px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      display: inline-flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.5),
+                  0 0 22px var(--accent-glow);
+      border: 3px solid var(--surface);
+    }
+    .level-badge.maxed {
+      background: linear-gradient(135deg, var(--accent), #ec4899);
+      letter-spacing: 0.08em;
+    }
+    .name {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.005em;
+      margin-bottom: 2px;
+    }
+    .handle {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    .since {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+    }
+
+    /* Total XP — the trophy */
+    .total {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+    .total .num {
+      font-size: 44px;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      text-shadow: 0 0 36px var(--accent-glow);
+      font-variant-numeric: tabular-nums;
+    }
+    .total .lab {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* Level progress bar */
+    .level-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 8px;
+      font-size: 12.5px;
+    }
+    .level-row .lv {
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+    .level-row .next {
+      color: var(--text-secondary);
+      font-variant-numeric: tabular-nums;
+    }
+    .bar {
+      height: 10px;
+      border-radius: 6px;
+      background: var(--surface-border);
+      overflow: hidden;
+      margin-bottom: 26px;
+      position: relative;
+    }
+    .bar > div {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #ec4899);
+      transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 18px var(--accent-glow);
+    }
+
+    /* Section header (e.g. "Homepage missions") */
+    .section-head {
+      display: flex; flex-direction: column; gap: 2px;
+      margin: 0 0 10px;
+      padding: 0 2px;
+    }
+    .section-title {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .section-sub {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .section-sub a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .section-sub a:hover { text-decoration: underline; }
+
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+    .stat {
+      background: var(--stat-bg);
+      border: 1px solid var(--surface-border);
+      border-radius: 14px;
+      padding: 16px 18px;
+      text-align: left;
+    }
+    .stat .num {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.05;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat .lab {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    /* Actions */
+    .actions {
+      display: grid; gap: 8px;
+    }
+    .actions .row-2 {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    }
+    .btn {
+      width: 100%;
+      min-height: 44px;
+      border-radius: 12px;
+      border: 1px solid var(--surface-border);
+      background: transparent;
+      color: var(--text-color);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 16px;
+      transition: all 0.2s ease;
+      gap: 6px;
+    }
+    .btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+    }
+    .btn.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      box-shadow: 0 6px 22px var(--accent-glow);
+    }
+    .btn.primary:hover {
+      background: var(--accent-hover);
+      filter: brightness(1.05);
+    }
+
+    /* Loading / empty / error states */
+    .empty, .loading, .error {
+      text-align: center;
+      padding: 70px 24px;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+    .empty .big, .error .big {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-color);
+      margin-bottom: 10px;
+    }
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid var(--surface-border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      margin: 0 auto 18px;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 480px) {
+      .container { padding: 68px 14px 28px; }
+      .panel { padding: 30px 22px 24px; border-radius: 20px; }
+      .avatar-wrap img { width: 84px; height: 84px; border-width: 3px; }
+      .level-badge { min-width: 34px; height: 26px; font-size: 11px; }
+      .name { font-size: 19px; }
+      .total .num { font-size: 36px; }
+      .stat .num { font-size: 22px; }
+      .nav-bar { padding: 0 14px; }
+    }
+
+    /* respect prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      .bar > div, .btn, .stat, .level-badge, .avatar-wrap img,
+      .nav-back, .theme-toggle { transition: none !important; }
+      .spinner { animation-duration: 1.6s; }
+    }
+
+    /* Share modal */
+    .share-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 9990;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .share-modal {
+      width: 100%; max-width: 640px;
+      background: var(--bg-color);
+      border: 1px solid var(--surface-border);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6),
+                  0 0 60px var(--accent-glow);
+      position: relative;
+      max-height: 90vh; overflow-y: auto;
+    }
+    .share-modal h3 {
+      margin: 0 0 14px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      padding-right: 36px;
+    }
+    .share-modal .preview {
+      width: 100%;
+      aspect-ratio: 1200 / 630;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #0a0a0a;
+      border: 1px solid var(--surface-border);
+      display: block;
+      margin-bottom: 12px;
+    }
+    .share-modal .preview canvas,
+    .share-modal .preview img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .share-modal .hint {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+      text-align: center;
+      line-height: 1.5;
+    }
+    .share-modal .hint b { color: var(--text-color); }
+    .share-modal .row {
+      display: grid; gap: 8px;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    .share-modal .row .btn { min-height: 42px; font-size: 12.5px; }
+    .share-modal-close {
+      position: absolute;
+      top: 14px; right: 14px;
+      width: 30px; height: 30px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      border: 1px solid var(--surface-border);
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .share-modal-close:hover { color: var(--text-color); border-color: var(--accent); }
+    @media (max-width: 480px) {
+      .share-modal { padding: 16px; border-radius: 18px; }
+      .share-modal .row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav-bar">
+    <a class="nav-back" href="emo.html">← emonad</a>
+    <span class="grow"></span>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <span id="themeIcon">◐</span>
+    </button>
+    <span id="emoAuthSlot" class="emo-auth-host"></span>
+  </nav>
+
+  <div class="container">
+    <div id="content">
+      <div class="loading">
+        <div class="spinner"></div>
+        <div>Loading profile…</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var html = document.documentElement;
+      var saved = localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      html.setAttribute('data-theme', saved);
+      document.getElementById('themeToggle').addEventListener('click', function() {
+        var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      });
+    })();
+  </script>
+
+  <script type="module">
+    import EmoProfile from './emo-profile.js';
+
+    function upscaleAvatar(url, size, handle) {
+      if (typeof EmoProfile.highResAvatar === 'function') return EmoProfile.highResAvatar(url, size, handle);
+      if (handle) {
+        const clean = String(handle).replace(/^@/, '').trim();
+        if (clean) return 'https://unavatar.io/twitter/' + encodeURIComponent(clean);
+      }
+      if (!url) return '';
+      if (url.includes('img.clerk.com')) {
+        return url + (url.includes('?') ? '&' : '?') + 'width=' + size;
+      }
+      if (url.includes('pbs.twimg.com')) {
+        return url.replace(/_(normal|bigger|mini)\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i, '_400x400.$2$3');
+      }
+      return url;
+    }
+    function fmtDate(iso) {
+      try {
+        var d = new Date(iso);
+        return d.toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' });
+      } catch { return ''; }
+    }
+    function escapeHtml(s) {
+      return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    async function load() {
+      const params = new URLSearchParams(window.location.search);
+      const handle = (params.get('handle') || params.get('u') || '').trim().replace(/^@/, '');
+      const content = document.getElementById('content');
+
+      if (!handle) {
+        content.innerHTML = `
+          <div class="empty">
+            <div class="big">No profile selected</div>
+            <div>Add <code>?handle=&lt;your_handle&gt;</code> to the URL.</div>
+          </div>`;
+        return;
+      }
+
+      const profile = await EmoProfile.getProfileByHandle(handle);
+      if (!profile) {
+        content.innerHTML = `
+          <div class="empty">
+            <div class="big">Profile not found</div>
+            <div>@${escapeHtml(handle)} hasn't joined the emoverse yet.</div>
+            <div style="margin-top:22px"><a class="btn primary" href="emo.html" style="display:inline-flex; max-width:240px; margin: 0 auto;">Go to emonad.lol →</a></div>
+          </div>`;
+        return;
+      }
+
+      const stats = await EmoProfile.getStats(profile.x_user_id);
+      const total = stats?.total ?? profile.total_clicks ?? 0;
+      const blocks = stats?.blocks ?? 0;
+      const emonads = stats?.emonads ?? 0;
+
+      // Mirror EmoProfile.levelInfo math
+      const xpPerLevel = 60, maxLevel = 7, xpCap = xpPerLevel * maxLevel;
+      const maxed = total >= xpCap;
+      const level = maxed ? maxLevel : Math.floor(total / xpPerLevel) + 1;
+      const intoLevel = maxed ? xpPerLevel : (total % xpPerLevel);
+      const xpToNext = maxed ? 0 : (xpPerLevel - intoLevel);
+      const progress = maxed ? 1 : (intoLevel / xpPerLevel);
+
+      // OG / Twitter share metadata
+      const ogTitle = `${profile.display_name || handle} — ${maxed ? 'MAX' : 'Lv ' + level} · ${total} XP`;
+      const ogDesc  = `${blocks} blocks broken · ${emonads} emonads slain · joined ${fmtDate(profile.created_at)}`;
+      document.title = ogTitle + ' · emonad';
+      const setMeta = (sel, val) => { const el = document.querySelector(sel); if (el) el.setAttribute('content', val); };
+      setMeta('meta[property="og:title"]',  ogTitle);
+      setMeta('meta[name="twitter:title"]', ogTitle);
+      setMeta('meta[property="og:description"]',  ogDesc);
+      setMeta('meta[name="twitter:description"]', ogDesc);
+      if (profile.avatar_url || profile.x_handle) {
+        const ogAvatar = upscaleAvatar(profile.avatar_url, 512, profile.x_handle || handle);
+        setMeta('meta[property="og:image"]', ogAvatar);
+        setMeta('meta[name="twitter:image"]', ogAvatar);
+      }
+
+      const shareUrl = window.location.href; // used by "Copy link" button
+      const homepageUrl = 'https://emonad.lol/';
+      const shareText = `My stats: ${maxed ? 'MAX LEVEL' : 'Lv ' + level} · ${total} XP\n${blocks} blocks broken · ${emonads} emonads slain.\n\nCome earn yours 👇`;
+      const xShareHref = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(homepageUrl)}`;
+
+      content.innerHTML = `
+        <div class="panel">
+          <div class="hero">
+            <div class="avatar-wrap">
+              <img src="${escapeHtml(upscaleAvatar(profile.avatar_url || '', 384, profile.x_handle || handle))}" alt="" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${escapeHtml(profile.avatar_url || '')}'">
+              <span class="level-badge ${maxed ? 'maxed' : ''}">${maxed ? 'MAX' : 'L' + level}</span>
+            </div>
+            <div class="name">${escapeHtml(profile.display_name || handle)}</div>
+            <div class="handle">@${escapeHtml(profile.x_handle || handle)}</div>
+            <div class="since">Joined ${escapeHtml(fmtDate(profile.created_at))}</div>
+          </div>
+
+          <div class="total">
+            <div class="num">${total}</div>
+            <div class="lab">Total XP</div>
+          </div>
+
+          <div class="level-row">
+            <span class="lv">${maxed ? 'MAX LEVEL' : 'Level ' + level}</span>
+            <span class="next">${maxed ? total + ' / ' + xpCap : intoLevel + ' / ' + xpPerLevel + ' XP'}</span>
+          </div>
+          <div class="bar"><div style="width:${(progress*100).toFixed(1)}%"></div></div>
+
+          <div class="section-head">
+            <span class="section-title">Homepage missions</span>
+            <span class="section-sub">XP earned by clicking emo blocks and emonads on the <a href="emo.html">emonad.lol</a> homepage</span>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <div class="num">${blocks}</div>
+              <div class="lab">Blocks broken</div>
+            </div>
+            <div class="stat">
+              <div class="num">${emonads}</div>
+              <div class="lab">Emonads slain</div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn primary" id="shareBtn" type="button">Share to X</button>
+            <div class="row-2">
+              <a class="btn" href="emo.html">Earn more XP</a>
+              <button class="btn" id="copyLinkBtn">Copy link</button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const copyBtn = document.getElementById('copyLinkBtn');
+      copyBtn?.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(shareUrl);
+          const orig = copyBtn.textContent;
+          copyBtn.textContent = 'Copied!';
+          setTimeout(() => copyBtn.textContent = orig, 1400);
+        } catch {
+          copyBtn.textContent = 'Copy failed';
+        }
+      });
+
+      const shareBtn = document.getElementById('shareBtn');
+      shareBtn?.addEventListener('click', () => {
+        openShareModal({
+          profile, total, blocks, emonads, level, maxed, shareUrl, shareText, xShareHref,
+        });
+      });
+    }
+
+    // ====== Stats card generator + share modal ======
+
+    function loadImageCORS(src) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => resolve(img);
+        img.onerror = () => reject(new Error('image_failed'));
+        img.src = src;
+      });
+    }
+
+    function roundRectPath(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+    }
+
+    async function buildStatsCard(p) {
+      const W = 1200, H = 630;
+      const SCALE = 2; // 2x intrinsic resolution → sharp avatar + text
+      const canvas = document.createElement('canvas');
+      canvas.width = W * SCALE; canvas.height = H * SCALE;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(SCALE, SCALE);
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+
+      // Dark background with purple radial glow at top
+      ctx.fillStyle = '#0a0a0a';
+      ctx.fillRect(0, 0, W, H);
+      const grd = ctx.createRadialGradient(W/2, 60, 60, W/2, 60, W*0.85);
+      grd.addColorStop(0, 'rgba(155, 95, 255, 0.55)');
+      grd.addColorStop(0.55, 'rgba(155, 95, 255, 0.10)');
+      grd.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = grd;
+      ctx.fillRect(0, 0, W, H);
+
+      // subtle bottom band
+      const grd2 = ctx.createLinearGradient(0, H - 140, 0, H);
+      grd2.addColorStop(0, 'rgba(0,0,0,0)');
+      grd2.addColorStop(1, 'rgba(155, 95, 255, 0.10)');
+      ctx.fillStyle = grd2;
+      ctx.fillRect(0, H - 140, W, 140);
+
+      // Try to load avatar at the highest size we can, in priority order.
+      // X caps at 400x400 in the public CDN so we want at least that.
+      const handle = (p.profile.x_handle || '').replace(/^@/, '');
+      let avatarImg = null;
+      const tries = [];
+      if (handle) {
+        // Some unavatar upstreams will serve larger when the size hint is supplied.
+        tries.push('https://unavatar.io/twitter/' + encodeURIComponent(handle) + '?size=800');
+        tries.push('https://unavatar.io/twitter/' + encodeURIComponent(handle));
+      }
+      if (p.profile.avatar_url) {
+        const cu = p.profile.avatar_url;
+        tries.push(cu.includes('img.clerk.com') ? cu + (cu.includes('?') ? '&' : '?') + 'width=800' : cu);
+      }
+      for (const src of tries) {
+        try { avatarImg = await loadImageCORS(src); if (avatarImg) break; } catch {}
+      }
+
+      // Avatar — top centered, with glow.
+      // Match draw size to source to avoid any upscaling. Source is usually
+      // 400px from X; on a 2x canvas, ar=100 → 400 actual px → 1:1, sharp.
+      const ax = W/2, ay = 165;
+      const srcW = avatarImg?.naturalWidth || 400;
+      // ar (display radius) so that 2*ar*SCALE <= srcW → no upscale
+      // SCALE is 2, so ar <= srcW/4. Cap at 105 for layout, floor at 80 for visibility.
+      const ar = Math.max(80, Math.min(105, Math.floor(srcW / 4)));
+      ctx.save();
+      ctx.shadowColor = 'rgba(155, 95, 255, 0.65)';
+      ctx.shadowBlur = 50;
+      ctx.fillStyle = '#9B5FFF';
+      ctx.beginPath(); ctx.arc(ax, ay, ar + 4, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(ax, ay, ar, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.clip();
+      if (avatarImg) {
+        ctx.drawImage(avatarImg, ax - ar, ay - ar, ar * 2, ar * 2);
+      } else {
+        ctx.fillStyle = '#1a1a2a';
+        ctx.fillRect(ax - ar, ay - ar, ar * 2, ar * 2);
+        ctx.fillStyle = '#9B5FFF';
+        ctx.font = 'bold 110px "Space Grotesk", system-ui, sans-serif';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText((handle || '?').charAt(0).toUpperCase(), ax, ay);
+      }
+      ctx.restore();
+
+      // White ring + accent ring
+      ctx.beginPath(); ctx.arc(ax, ay, ar, 0, Math.PI * 2);
+      ctx.strokeStyle = '#9B5FFF'; ctx.lineWidth = 6; ctx.stroke();
+
+      // Level chip on bottom-right of avatar
+      const chipText = p.maxed ? 'MAX' : ('Lv ' + p.level);
+      ctx.font = 'bold 22px "Space Grotesk", system-ui, sans-serif';
+      const chipPad = 18;
+      const chipW = Math.max(72, ctx.measureText(chipText).width + chipPad * 2);
+      const chipH = 42;
+      const chipCx = ax + ar - 16;
+      const chipCy = ay + ar - 6;
+      ctx.save();
+      ctx.shadowColor = 'rgba(155, 95, 255, 0.7)';
+      ctx.shadowBlur = 30;
+      if (p.maxed) {
+        const cgrd = ctx.createLinearGradient(chipCx - chipW/2, chipCy, chipCx + chipW/2, chipCy);
+        cgrd.addColorStop(0, '#9B5FFF');
+        cgrd.addColorStop(1, '#ec4899');
+        ctx.fillStyle = cgrd;
+      } else {
+        ctx.fillStyle = '#9B5FFF';
+      }
+      roundRectPath(ctx, chipCx - chipW/2, chipCy - chipH/2, chipW, chipH, 21);
+      ctx.fill();
+      ctx.restore();
+      ctx.strokeStyle = '#0a0a0a'; ctx.lineWidth = 4;
+      roundRectPath(ctx, chipCx - chipW/2, chipCy - chipH/2, chipW, chipH, 21);
+      ctx.stroke();
+      ctx.fillStyle = '#fff';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(chipText, chipCx, chipCy + 1);
+
+      // Name
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 50px "Space Grotesk", system-ui, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+      ctx.fillText(p.profile.display_name || handle || 'Anonymous', W/2, 330);
+
+      // Handle
+      ctx.fillStyle = '#a08cd0';
+      ctx.font = '26px "Space Grotesk", system-ui, sans-serif';
+      ctx.fillText('@' + handle, W/2, 365);
+
+      // Big XP
+      const xpText = p.maxed ? (p.total + ' XP · MAX') : (p.total + ' XP');
+      ctx.fillStyle = '#9B5FFF';
+      ctx.font = 'bold 116px "Space Grotesk", system-ui, sans-serif';
+      ctx.shadowColor = 'rgba(155, 95, 255, 0.55)';
+      ctx.shadowBlur = 30;
+      ctx.fillText(xpText, W/2, 480);
+      ctx.shadowBlur = 0;
+
+      // Stats row
+      const statY = H - 80;
+      const leftCx = W/2 - 200;
+      const rightCx = W/2 + 200;
+      ctx.fillStyle = '#9B5FFF';
+      ctx.font = 'bold 56px "Space Grotesk", system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(String(p.blocks), leftCx, statY);
+      ctx.fillText(String(p.emonads), rightCx, statY);
+
+      ctx.fillStyle = '#888';
+      ctx.font = 'bold 15px "Space Grotesk", system-ui, sans-serif';
+      ctx.fillText('BLOCKS BROKEN', leftCx, statY + 26);
+      ctx.fillText('EMONADS SLAIN', rightCx, statY + 26);
+
+      // Footer brand (bottom-right)
+      ctx.fillStyle = '#9B5FFF';
+      ctx.font = 'bold 20px "Space Grotesk", system-ui, sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText('emonad.lol  ·  homepage missions', W - 36, H - 26);
+
+      return canvas;
+    }
+
+    function openShareModal(p) {
+      // Remove existing
+      const prev = document.getElementById('shareRoot'); if (prev) prev.remove();
+
+      const root = document.createElement('div');
+      root.className = 'share-backdrop';
+      root.id = 'shareRoot';
+      root.addEventListener('click', e => { if (e.target === root) root.remove(); });
+
+      const modal = document.createElement('div');
+      modal.className = 'share-modal';
+      modal.innerHTML = `
+        <button class="share-modal-close" aria-label="Close">✕</button>
+        <h3>Share your stats</h3>
+        <div class="preview" id="sharePreview">
+          <div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-secondary);font-size:13px;">Generating card…</div>
+        </div>
+        <div class="hint">Tip: <b>Copy image</b> → click <b>Tweet</b> → paste (Ctrl+V) into the X compose box.</div>
+        <div class="row">
+          <button class="btn" id="shareCopy" type="button">Copy image</button>
+          <button class="btn" id="shareDownload" type="button">Download</button>
+          <a class="btn primary" id="shareTweet" target="_blank" rel="noopener noreferrer" href="${p.xShareHref}">Tweet</a>
+        </div>
+      `;
+      root.appendChild(modal);
+      document.body.appendChild(root);
+
+      modal.querySelector('.share-modal-close').addEventListener('click', () => root.remove());
+      const onKey = e => { if (e.key === 'Escape') { root.remove(); document.removeEventListener('keydown', onKey); } };
+      document.addEventListener('keydown', onKey);
+
+      // Build the card asynchronously
+      buildStatsCard(p).then(canvas => {
+        const preview = modal.querySelector('#sharePreview');
+        preview.innerHTML = '';
+        preview.appendChild(canvas);
+
+        const handle = (p.profile.x_handle || 'emonad').replace(/^@/, '');
+        const filename = `emonad-${handle}-${p.total}xp.png`;
+
+        const copyBtn = modal.querySelector('#shareCopy');
+        copyBtn.addEventListener('click', async () => {
+          try {
+            const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
+            if (!navigator.clipboard || !window.ClipboardItem) {
+              throw new Error('clipboard_unsupported');
+            }
+            await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+            const orig = copyBtn.textContent;
+            copyBtn.textContent = 'Copied!';
+            setTimeout(() => copyBtn.textContent = orig, 1500);
+          } catch (err) {
+            console.warn('copy image failed', err);
+            copyBtn.textContent = "Can't copy — use Download";
+            setTimeout(() => copyBtn.textContent = 'Copy image', 2200);
+          }
+        });
+
+        const dlBtn = modal.querySelector('#shareDownload');
+        dlBtn.addEventListener('click', () => {
+          canvas.toBlob(blob => {
+            if (!blob) return;
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 1500);
+          }, 'image/png');
+        });
+      }).catch(err => {
+        console.error('card build failed', err);
+        const preview = modal.querySelector('#sharePreview');
+        preview.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-secondary);font-size:13px;text-align:center;padding:0 16px;">Couldn't render card. You can still tweet the link.</div>`;
+      });
+    }
+
+    EmoProfile.init({ page: 'profile' })
+      .then(() => EmoProfile.mount('#emoAuthSlot'))
+      .catch(err => console.warn('EmoProfile init failed:', err));
+
+    load().catch(err => {
+      console.error(err);
+      document.getElementById('content').innerHTML = `
+        <div class="error">
+          <div class="big">Couldn't load profile</div>
+          <div>${escapeHtml(err.message || 'Unknown error')}</div>
+        </div>`;
+    });
+  </script>
+</body>
+</html>

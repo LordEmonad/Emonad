@@ -1,0 +1,32 @@
+name: Update stickers manifest
+
+on:
+  push:
+    paths:
+      - 'stickers/**'
+      - '!stickers/stickers.js'
+      - '!stickers/stickers.json'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate stickers.js and stickers.json
+        run: python3 scripts/update-stickers.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add stickers/stickers.js stickers/stickers.json
+          if git diff --staged --quiet; then
+            echo "No changes."
+          else
+            git commit -m "chore: auto-update stickers manifest"
+            git push
+          fi
