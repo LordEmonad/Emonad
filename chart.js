@@ -1,11 +1,21 @@
 // emonad.lol — community page
 // Two viz: bubble map of every user (Galaxy) + global XP leaderboard.
 
-import EmoProfile, { supabaseClient as supabase } from './emo-profile.js';
+import EmoProfile from './emo-profile.js';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import {
   forceSimulation, forceManyBody, forceCenter,
   forceCollide, forceX, forceY,
 } from 'https://esm.sh/d3-force@3';
+
+// Read-only Supabase client for public-read tables. Standalone (not the same
+// instance as emo-profile.js uses) so this page doesn't depend on a new
+// export — survives any browser-cache state of emo-profile.js.
+const SUPABASE_URL  = 'https://jdymhwsfmodqxvhcdsti.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkeW1od3NmbW9kcXh2aGNkc3RpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NzU5NTIsImV4cCI6MjA5MzE1MTk1Mn0.QsGxG8iyJaPzoPTxONLco7pMXTGgqBZTFeM48Lfcr2k';
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON, {
+  auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+});
 
 const XP_PER_LEVEL = 60;
 const MAX_LEVEL    = 70;
