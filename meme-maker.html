@@ -339,6 +339,10 @@
       outline: none;
       white-space: pre-wrap;
       word-break: break-word;
+      /* touch-action is NOT inherited from .layer; without this, iOS Safari
+         claims a vertical finger-drag on text glyphs as a page scroll and
+         fires pointercancel, so single-finger move never starts. */
+      touch-action: none;
     }
     .layer.editing { cursor: text; }
     .layer.editing .text-inner { cursor: text; user-select: text; -webkit-user-select: text; }
@@ -382,6 +386,9 @@
       white-space: pre-wrap;
       outline: none;
       line-height: 1.15;
+      /* Same iOS touch-action quirk as .text-inner — without this, dragging
+         the bubble's text body cancels into a page scroll on mobile. */
+      touch-action: none;
     }
     .layer.speech.editing .speech-text {
       cursor: text;
@@ -2262,7 +2269,15 @@ const state = {
 // Push the current filter values into the SVG <filter> elements. The SVG
 // filter chain then reflects the chosen temperature/fade/sharpen/chromatic
 // strengths; url(#..) refs in the CSS filter chain pick those up live.
-function updateSvgFilters(f) {
+//
+// `pxScale` lets the export pass scale pixel-unit primitives (chromatic dx
+// is in SVG user units). When CSS applies the filter to the on-screen stage
+// each user unit = 1 CSS-px; when ctx.filter applies the same filter to a
+// device-px canvas, 1 user unit = 1 canvas-px (i.e. 1/dpr CSS-px). Without
+// scaling, exports come out with a chromatic offset half as strong as the
+// live preview on retina. Defaults to 1 for stage use.
+function updateSvgFilters(f, pxScale) {
+  const ps = pxScale || 1;
   // Temperature — shift red up / blue down (warm) or red down / blue up (cool).
   const t = (f.temperature || 0) / 100;              // -1 to 1
   const tR = (t * 0.15).toFixed(3);                  // add/subtract red
@@ -2289,15 +2304,21 @@ function updateSvgFilters(f) {
   if (sharpMat) sharpMat.setAttribute('kernelMatrix',
     '0 ' + edge + ' 0  ' + edge + ' ' + center + ' ' + edge + '  0 ' + edge + ' 0');
 
-  // Chromatic aberration — R offset right, B offset left.
-  const c = f.chromatic || 0;
+  // Chromatic aberration — R offset right, B offset left. Scale by pxScale
+  // so the export pass (canvas-px space) gets the same visible offset as the
+  // stage (CSS-px space).
+  const c = (f.chromatic || 0) * ps;
   const rOff = document.getElementById('emoChromaticROffset');
   const bOff = document.getElementById('emoChromaticBOffset');
   if (rOff) rOff.setAttribute('dx', c);
   if (bOff) bOff.setAttribute('dx', -c);
 }
 
-function buildFilterString(f) {
+function buildFilterString(f, pxScale) {
+  // pxScale multiplies the px-unit CSS filter functions (currently just
+  // `blur`) so the export canvas — drawn in device-px — gets the same
+  // visible radius as the CSS-px-sized stage. Defaults to 1.
+  const ps = pxScale || 1;
   const parts = [];
   // SVG-backed colour/tone/effect filters come first so subsequent CSS
   // adjustments (brightness/contrast/etc) operate on the corrected image.
@@ -2309,7 +2330,7 @@ function buildFilterString(f) {
   if (f.contrast !== 1) parts.push('contrast(' + f.contrast + ')');
   if (f.saturate !== 1) parts.push('saturate(' + f.saturate + ')');
   if (f.hueRotate !== 0) parts.push('hue-rotate(' + f.hueRotate + 'deg)');
-  if (f.blur !== 0) parts.push('blur(' + f.blur.toFixed(2) + 'px)');
+  if (f.blur !== 0) parts.push('blur(' + (f.blur * ps).toFixed(2) + 'px)');
   if (f.grayscale !== 0) parts.push('grayscale(' + f.grayscale + ')');
   if (f.sepia !== 0) parts.push('sepia(' + f.sepia + ')');
   if (f.invert !== 0) parts.push('invert(' + f.invert + ')');
@@ -2997,18 +3018,23 @@ const SPEECH_TAIL_INSET_PCT = 0.18; // tail base sits this fraction of W from th
 const SPEECH_TAIL_LEN_PCT   = 0.22; // tail extends this fraction of H beyond the body
 const SPEECH_BUBBLE_RADIUS_FRAC = 0.16; // corner radius as fraction of min(W,H)
 
-function buildBubblePath(W, H, tailPos) {
+function buildBubblePath(W, H, tailPos, unitScale) {
+  // `unitScale` lets the absolute-px caps (60 tail length, 32 corner radius,
+  // 18 base-half) scale with the export DPR. Stage callers pass 1 (default);
+  // export passes the canvas scale so a retina render uses 60*scale path-px
+  // for the tail cap — matching what the stage SVG draws at 60 stage-px.
+  const us = unitScale || 1;
   // Reserve the bottom (or top) strip of H for the tail to jut into; the
   // body of the bubble is everything above (below) that.
-  const tailLen = Math.min(H * SPEECH_TAIL_LEN_PCT, 60);
+  const tailLen = Math.min(H * SPEECH_TAIL_LEN_PCT, 60 * us);
   const bodyTop    = (tailPos === 'tl' || tailPos === 'tr') ? tailLen : 0;
   const bodyBottom = (tailPos === 'bl' || tailPos === 'br') ? H - tailLen : H;
   const bodyW = W;
-  const r = Math.min(SPEECH_BUBBLE_RADIUS_FRAC * Math.min(bodyW, bodyBottom - bodyTop), 32);
+  const r = Math.min(SPEECH_BUBBLE_RADIUS_FRAC * Math.min(bodyW, bodyBottom - bodyTop), 32 * us);
   // Tail base anchor along the bottom (or top) edge of the body.
   const baseX = (tailPos === 'bl' || tailPos === 'tl') ? bodyW * SPEECH_TAIL_INSET_PCT
                                                        : bodyW * (1 - SPEECH_TAIL_INSET_PCT);
-  const baseHalf = Math.min(bodyW * 0.08, 18);
+  const baseHalf = Math.min(bodyW * 0.08, 18 * us);
   const tipX = (tailPos === 'bl' || tailPos === 'tl') ? bodyW * (SPEECH_TAIL_INSET_PCT * 0.4)
                                                        : bodyW * (1 - SPEECH_TAIL_INSET_PCT * 0.4);
   const isBottom = (tailPos === 'bl' || tailPos === 'br');
@@ -6730,7 +6756,7 @@ function drawMemeLayersTo(ctx, scale) {
       // buildBubblePath is in local 0..W,0..H coords.
       ctx.save();
       ctx.translate(-lw / 2, -lh / 2);
-      const dStr = buildBubblePath(lw, lh, l.tailPos || 'bl');
+      const dStr = buildBubblePath(lw, lh, l.tailPos || 'bl', scale);
       const path = new Path2D(dStr);
       ctx.fillStyle = l.fillColor || '#ffffff';
       ctx.fill(path);
@@ -6935,16 +6961,19 @@ function applyVignetteToCtx(ctx, w, h, amount) {
   ctx.fillRect(-rx * 2, -ry * 2, rx * 4, ry * 4);
   ctx.restore();
 }
-function applyScanlinesToCtx(ctx, w, h, amount) {
-  // Dark horizontal lines every 3px. Line opacity scales with amount so the
-  // effect ranges from barely-there to CRT-heavy.
+function applyScanlinesToCtx(ctx, w, h, amount, scale) {
+  // Dark horizontal lines every 3 CSS-px to match the DOM overlay
+  // (`.stage-scanlines` repeating-linear-gradient: 1px line, 2px gap).
+  // `scale` is the canvas-px-per-CSS-px factor (= dpr at preview resolution);
+  // defaults to 1 if not passed. The previous height-based formula
+  // (h/480) made phone exports look very different from desktop exports
+  // because line density depended on image height, not viewport scale.
   ctx.save();
   ctx.globalCompositeOperation = 'multiply';
   ctx.fillStyle = 'rgba(0,0,0,' + (amount * 0.55).toFixed(3) + ')';
-  // Lines are 1px tall, 2px gap. Scale to canvas resolution so the texture
-  // reads the same regardless of export size.
-  const lineEvery = Math.max(3, Math.round(h / 480));
-  const lineThickness = Math.max(1, Math.round(lineEvery / 3));
+  const s = scale || 1;
+  const lineEvery = Math.max(2, Math.round(3 * s));
+  const lineThickness = Math.max(1, Math.round(1 * s));
   for (let y = 0; y < h; y += lineEvery) {
     ctx.fillRect(0, y, w, lineThickness);
   }
@@ -7101,17 +7130,35 @@ async function renderCanvas(options) {
   if (hasOverlay) {
     if (f.noise > 0) applyNoiseToCtx(tctx, W, H, f.noise);
     if (f.vignette > 0) applyVignetteToCtx(tctx, W, H, f.vignette);
-    if (f.scanlines > 0) applyScanlinesToCtx(tctx, W, H, f.scanlines);
+    if (f.scanlines > 0) applyScanlinesToCtx(tctx, W, H, f.scanlines, scale);
   }
 
   // Apply filter chain at preview resolution into a same-size canvas.
-  const filterStr = skipFilters ? 'none' : buildFilterString(f);
+  // Pass `scale` (= dpr) so pixel-unit filter primitives (blur, chromatic dx)
+  // produce the same visible radius on the device-px canvas as they do on
+  // the CSS-px stage. Without this, retina exports get a chromatic offset /
+  // blur that's half as strong as the live preview. The shared SVG <defs>
+  // must be temporarily mutated to the scaled values then restored, since
+  // url(#..) refs read attribute values live.
+  let filterStr;
+  let mustRestoreSvg = false;
+  if (skipFilters) {
+    filterStr = 'none';
+  } else {
+    filterStr = buildFilterString(f, scale);
+    updateSvgFilters(f, scale);
+    mustRestoreSvg = true;
+  }
   const filtered = document.createElement('canvas');
   filtered.width = W; filtered.height = H;
   const fctx = filtered.getContext('2d');
   fctx.imageSmoothingEnabled = true;
   fctx.imageSmoothingQuality = 'high';
-  await drawCanvasWithFilter(fctx, temp, filterStr, W, H);
+  try {
+    await drawCanvasWithFilter(fctx, temp, filterStr, W, H);
+  } finally {
+    if (mustRestoreSvg) updateSvgFilters(f);
+  }
 
   // Upscale (or 1:1 blit) to output resolution. Browser uses bicubic when
   // imageSmoothingQuality='high', so the upscale is smooth.
@@ -7141,11 +7188,15 @@ async function ensureLayerFontsLoaded() {
   const seen = new Set();
   state.layers.forEach(l => {
     if ((l.type !== 'text' && l.type !== 'speech') || !l.fontFamily) return;
-    const key = `${l.fontWeight}|${Math.round(l.fontSize)}|${l.fontFamily}`;
+    // Pre-warm with the EXACT fontSize the export uses (no rounding) so the
+    // browser resolves the same face. On iOS, rounding fractional resize
+    // sizes could miss the load and the first export fell back to system
+    // metrics that didn't match the on-screen preview.
+    const key = `${l.fontWeight}|${l.fontSize}|${l.fontFamily}`;
     if (seen.has(key)) return;
     seen.add(key);
     try {
-      requests.push(document.fonts.load(`${l.fontWeight} ${Math.round(l.fontSize)}px ${l.fontFamily}`, l.text || 'A'));
+      requests.push(document.fonts.load(`${l.fontWeight} ${l.fontSize}px ${l.fontFamily}`, l.text || 'A'));
     } catch (_) {}
   });
   try { await Promise.all(requests); } catch (_) {}
@@ -7280,8 +7331,12 @@ async function exportAnimatedGifBlob() {
   const W = Math.max(1, Math.round(r.width * dpr));
   const H = Math.max(1, Math.round(r.height * dpr));
   const layerScale = dpr;
-  const filterStr = buildFilterString(state.filters);
+  // Scale pixel-unit filter primitives by dpr — see the PNG path in
+  // renderToCanvas() for the rationale. We mutate the shared SVG <defs> for
+  // the duration of the GIF render and restore on the way out.
+  const filterStr = buildFilterString(state.filters, layerScale);
   const hasFilter = filterStr && filterStr !== 'none';
+  if (hasFilter) updateSvgFilters(state.filters, layerScale);
 
   // Source canvas at the GIF's native size — receives putImageData for each
   // decoded frame. We then drawImage it down/up to preview-resolution.
@@ -7370,7 +7425,7 @@ async function exportAnimatedGifBlob() {
     drawMemeLayersTo(tctx, layerScale);
     if (state.filters.noise > 0) applyNoiseToCtx(tctx, W, H, state.filters.noise);
     if (state.filters.vignette > 0) applyVignetteToCtx(tctx, W, H, state.filters.vignette);
-    if (state.filters.scanlines > 0) applyScanlinesToCtx(tctx, W, H, state.filters.scanlines);
+    if (state.filters.scanlines > 0) applyScanlinesToCtx(tctx, W, H, state.filters.scanlines, layerScale);
     filteredCtx.clearRect(0, 0, W, H);
     // SVG rasterization for the filter chain — universal cross-browser
     // support, unlike ctx.filter. Same helper the PNG path uses.
@@ -7421,16 +7476,19 @@ async function exportAnimatedGifBlob() {
       updateGifProgress(0.5 + p * 0.5,
         'encoding ' + Math.round(p * 100) + '% (' + frames.length + ' frames)' + etaText);
     });
+    const restoreSvg = () => { if (hasFilter) updateSvgFilters(state.filters); };
     gif.on('finished', blob => {
       hideGifProgress();
+      restoreSvg();
       resolve(blob);
     });
     gif.on('abort', () => {
       hideGifProgress();
+      restoreSvg();
       reject(new Error('aborted'));
     });
     try { gif.render(); }
-    catch (err) { hideGifProgress(); reject(err); }
+    catch (err) { hideGifProgress(); restoreSvg(); reject(err); }
   });
 }
 

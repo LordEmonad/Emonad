@@ -1108,7 +1108,6 @@
     body.app-ready #tileCanvas { opacity: 1; }
 
     /* Hold the bird until the page is fully loaded; then fade in and play */
-    body:not(.app-ready) .flying-emonad,
     body:not(.app-ready) .flying-emonad-bob {
       animation-play-state: paused;
     }
@@ -1125,8 +1124,16 @@
       z-index: -1;
       pointer-events: auto;
       cursor: pointer;
-      animation: emonadFlyAcross 14s linear infinite;
+      /* Animation only starts once the image is actually loaded — see bootBird().
+         Otherwise the wrapper sits at translateX(0) while the <img> is blank
+         and then "pops in" once the PNG decodes. */
+      animation: none;
+      transform: translateX(-130%);
       will-change: transform;
+    }
+    body.app-ready .flying-emonad {
+      animation: emonadFlyAcross 14s linear infinite;
+      transform: none;
     }
     .flying-emonad-fall {
       width: 100%;
@@ -1221,6 +1228,11 @@
 
     /* ── Responsive ── */
     @media (max-width: 768px) {
+      .flying-emonad {
+        width: 120px;
+        height: 120px;
+        top: calc(50% - 60px);
+      }
       .price-ticker {
         height: 38px;
         padding: 0 10px;
@@ -1324,6 +1336,11 @@
     }
 
     @media (max-width: 380px) {
+      .flying-emonad {
+        width: 92px;
+        height: 92px;
+        top: calc(50% - 46px);
+      }
       .price-ticker {
         height: 34px;
         gap: 6px;
@@ -1448,6 +1465,7 @@
     <div class="button-section animate-in" style="animation-delay:0.36s">
       <div class="section-label">Community</div>
       <div class="button-grid">
+        <a href="chart.html" class="btn btn-outline">Live Chart</a>
         <a href="https://twitter.com/EmonadCoin" class="btn btn-outline" target="_blank" rel="noopener noreferrer"><svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter</a>
         <a href="https://t.me/+8RP7jI5wA3o2N2Fh" class="btn btn-outline" target="_blank" rel="noopener noreferrer"><svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>Telegram</a>
 
@@ -1692,10 +1710,18 @@
       var ANIM_FACES = [animHappy, animSad, animAngry, animShocked, animLove, animCool];
 
       // ── Tile state + animation loop ──
-      var TILE_LOG = 60;       // logical px (size on screen)
+      // Tile size scales with viewport width so phones don't get face-bombed
+      // with 60px gems. Clamp: 40px (very narrow) → 60px (≥720px).
+      var TILE_LOG = 60;       // logical px (size on screen), recomputed in resize()
       var W = 0, H = 0;        // physical canvas size
       var WL = 0, HL = 0;      // logical viewport size
       var TILES = [];
+
+      function computeTileSize(w) {
+        if (w >= 720) return 60;
+        if (w <= 360) return 40;
+        return Math.round(40 + (w - 360) * (60 - 40) / (720 - 360));
+      }
 
       function resize() {
         WL = window.innerWidth;
@@ -1705,6 +1731,11 @@
         canvas.width = W; canvas.height = H;
         canvas.style.width = WL + 'px';
         canvas.style.height = HL + 'px';
+        var nextTile = computeTileSize(WL);
+        if (nextTile !== TILE_LOG) {
+          TILE_LOG = nextTile;
+          prerenderGems(TILE_LOG);
+        }
       }
 
       function makeTile(initialY) {
@@ -2019,14 +2050,21 @@
 
         // After fall completes, reset and respawn from the left
         setTimeout(function() {
-          // Move offscreen left BEFORE we restart the animation so there's no flash mid-screen
-          wrapper.classList.remove('dying');
+          // Restart cleanly without any visible mid-screen frame:
+          //   1. Park the wrapper off-screen via inline transform (overrides
+          //      any animation transform).
+          //   2. Briefly suspend the CSS animation while we swap the death
+          //      frame back to a flap frame.
+          //   3. Force reflow.
+          //   4. Clear the inline transform; the animation continues to
+          //      override transform, restarting from 0% (= translateX(-130%)).
           wrapper.style.animation = 'none';
           wrapper.style.transform = 'translateX(-130%)';
-          // Force reflow so the next animation reset takes effect
+          img.src = flapFrames[0];
+          wrapper.classList.remove('dying');
           void wrapper.offsetWidth;
-          wrapper.style.transform = '';
           wrapper.style.animation = '';
+          wrapper.style.transform = '';
           dying = false;
           startFlap();
         }, 1100);
@@ -2073,17 +2111,25 @@
         document.body.classList.add('app-ready');
         startFlap();
       }
-      // Boot as soon as the DOM is parsed instead of waiting for the full
-      // `load` event. The bird's frames are preloaded above so flap doesn't
-      // need them on disk; gating on `load` just delayed app-ready (and
-      // therefore the canvas opacity transition) until external resources
-      // resolved. 2.5s setTimeout is a belt-and-braces failsafe so the page
-      // never gets stuck without `app-ready`.
-      if (document.readyState !== 'loading') {
-        bootBird();
-      } else {
-        document.addEventListener('DOMContentLoaded', bootBird, { once: true });
+      // Wait until the first flap frame has actually decoded before flipping
+      // app-ready. Otherwise the <img> is blank while the wrapper is already
+      // animating across-screen, which reads as a mid-air "pop in" once the
+      // PNG arrives. We still cap at 2.5s so a flaky network can't keep the
+      // page in the pre-ready state forever.
+      function whenBirdImgReady(cb) {
+        if (img.complete && img.naturalWidth > 0) { cb(); return; }
+        var done = false;
+        var fire = function() { if (done) return; done = true; cb(); };
+        img.addEventListener('load', fire, { once: true });
+        img.addEventListener('error', fire, { once: true });
       }
+      whenBirdImgReady(function() {
+        if (document.readyState !== 'loading') {
+          bootBird();
+        } else {
+          document.addEventListener('DOMContentLoaded', bootBird, { once: true });
+        }
+      });
       setTimeout(bootBird, 2500);
     })();
   </script>
