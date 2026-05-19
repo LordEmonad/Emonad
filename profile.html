@@ -574,7 +574,7 @@
       const trReadings  = stats?.tarot_readings      ?? 0;
 
       // Mirror EmoProfile.levelInfo math
-      const xpPerLevel = 60, maxLevel = 7, xpCap = xpPerLevel * maxLevel;
+      const xpPerLevel = 60, maxLevel = 70, xpCap = xpPerLevel * maxLevel;
       const maxed = total >= xpCap;
       const level = maxed ? maxLevel : Math.floor(total / xpPerLevel) + 1;
       const intoLevel = maxed ? xpPerLevel : (total % xpPerLevel);
@@ -606,7 +606,7 @@
       const xShareHref = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(homepageUrl)}`;
 
       const xpToNextN = maxed ? 0 : (xpPerLevel - intoLevel);
-      const ctxLine = maxed ? 'MAXED OUT · 420 WAS THE MEME' : (xpToNextN + ' XP TO LEVEL ' + (level + 1));
+      const ctxLine = maxed ? 'MAXED OUT · 4200 IS THE MEME' : (xpToNextN + ' XP TO LEVEL ' + (level + 1));
 
       content.innerHTML = `
         <div class="panel">
@@ -940,7 +940,7 @@
       ctx.font = '700 14px "Space Grotesk", system-ui, sans-serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
       const ctxLine = p.maxed
-        ? 'MAXED OUT  ·  420 WAS THE MEME'
+        ? 'MAXED OUT  ·  4200 IS THE MEME'
         : ((60 - (p.total % 60)) + ' XP TO LEVEL ' + (p.level + 1));
       ctx.fillText(ctxLine, W/2, 452);
 

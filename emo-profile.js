@@ -13,7 +13,7 @@ const CONFIG = {
   PER_TYPE_DAILY_CAP:    10,           // 10 blocks + 10 emonads = 20 click-XP/day
   DAILY_REWARD_XP:       5,            // tarot / flap / emocrush each = +5 XP/day
   XP_PER_LEVEL:          60,           // 60 XP per level
-  MAX_LEVEL:             7,            // soft cap (7 * 60 = 420 — the meme)
+  MAX_LEVEL:             70,           // soft cap (70 * 60 = 4200 — 420 × 10, the bigger meme)
   FLUSH_MS:              3000,
 };
 
@@ -684,14 +684,28 @@ function profileLinkBase() {
 }
 
 // ─── Local-progress claim (game records merge on first login) ────────
-// Idempotent per (xUserId): only fires once ever for a given identity, so
-// page reloads don't double-count games_played etc.
-async function claimLocalGameProgress() {
-  if (!state.xUserId) return;
+// Reads on-device localStorage best scores from Emo Crush + Flap Emonad and
+// pushes them up to the server records via mergeGameRecord (max-merge for
+// bests, delta-add for games_played/wins).
+//
+// Guarded per (xUserId) with a one-shot flag so games_played doesn't
+// double-count on reload. IMPORTANT: the flag is only set when we
+// successfully migrated something — otherwise a fresh-device login (no local
+// data yet) would set the flag and permanently block future migrations once
+// the user accumulates local scores.
+//
+// Pass force=true to bypass the flag (used by the public manual trigger).
+async function claimLocalGameProgress(force = false) {
+  if (!state.xUserId) return { migrated: false, reason: 'no-user' };
   const claimKey = `emo:localClaimed:${state.xUserId}`;
-  if (localStorage.getItem(claimKey) === '1') return;
+  if (!force && localStorage.getItem(claimKey) === '1') {
+    return { migrated: false, reason: 'already-claimed' };
+  }
 
-  // Emo Crush
+  let migratedAny = false;
+  const summary = { emocrush: null, flap: null, stars: false };
+
+  // Emo Crush bests
   try {
     const ecRaw = localStorage.getItem('emocrush-personal-best');
     if (ecRaw) {
@@ -706,27 +720,151 @@ async function claimLocalGameProgress() {
         last_level:   Math.max(0, Number(ec.last_level)   || 0),
       };
       if (payload.best_score > 0 || payload.best_level > 0 || payload.games_played > 0) {
-        await mergeGameRecord('emocrush', payload);
+        const result = await mergeGameRecord('emocrush', payload);
+        if (result) {
+          migratedAny = true;
+          summary.emocrush = payload;
+          console.log('[emo-profile] migrated emo-crush local progress →', payload);
+        }
       }
     }
-    // Stars map from emocrush-progress
+    // Per-level stars map
     const ecProgRaw = localStorage.getItem('emocrush-progress');
     if (ecProgRaw) {
       const ecProg = JSON.parse(ecProgRaw);
-      if (ecProg && ecProg.stars && typeof ecProg.stars === 'object') {
-        await mergeGameRecord('emocrush', { stars: ecProg.stars });
+      if (ecProg && ecProg.stars && typeof ecProg.stars === 'object' && Object.keys(ecProg.stars).length) {
+        const result = await mergeGameRecord('emocrush', { stars: ecProg.stars });
+        if (result) {
+          migratedAny = true;
+          summary.stars = true;
+          console.log('[emo-profile] migrated emo-crush stars →', ecProg.stars);
+        }
       }
     }
-  } catch (e) { console.warn('emo-profile: emocrush local merge failed', e); }
+  } catch (e) { console.warn('[emo-profile] emo-crush local merge failed', e); }
 
-  // Flap Emonad
+  // Flap Emonad high score
   try {
     const flBest = parseInt(localStorage.getItem('flapEmonadBestScore') || '0', 10);
-    if (flBest > 0) await mergeGameRecord('flap', { high_score: flBest });
-  } catch (e) { console.warn('emo-profile: flap local merge failed', e); }
+    if (flBest > 0) {
+      const result = await mergeGameRecord('flap', { high_score: flBest });
+      if (result) {
+        migratedAny = true;
+        summary.flap = { high_score: flBest };
+        console.log('[emo-profile] migrated flap-emonad local best →', flBest);
+      }
+    }
+  } catch (e) { console.warn('[emo-profile] flap local merge failed', e); }
 
-  try { localStorage.setItem(claimKey, '1'); } catch {}
+  if (migratedAny) {
+    try { localStorage.setItem(claimKey, '1'); } catch {}
+  } else {
+    console.log('[emo-profile] no local game progress to migrate (yet)');
+  }
+  return { migrated: migratedAny, summary };
 }
+
+// ─── Bidirectional game-score sync ──────────────────────────────────
+// Reconciles localStorage <-> server records on every login.
+//
+// Bests (best_score / best_level / best_combo / high_score / stars):
+//   pushed up via mergeGameRecord (max-merge) AND pulled down via max merge
+//   into localStorage. Idempotent — repeated calls are no-ops if everything
+//   is already in agreement. Safe to run on every login regardless of
+//   whether the migration flag is set or not.
+//
+// Counters (games_played / wins): not pushed here (would double-count;
+// only the per-game submit during play increments them). Pulled DOWN with
+// max-merge so a fresh device shows the cross-device-correct count.
+//
+// Net effect: a user's bests are eventually consistent across every device
+// they ever log into. The highest value anywhere wins, forever.
+async function syncGameProgress() {
+  if (!state.xUserId) return { synced: false, reason: 'no-user' };
+  const summary = { emocrush: null, flap: null };
+
+  // ── Emo Crush ──
+  try {
+    // Read local
+    const ecRaw = localStorage.getItem('emocrush-personal-best');
+    const ecLocal = ecRaw ? (JSON.parse(ecRaw) || {}) : {};
+    const localBests = {
+      best_score: Number(ecLocal.best_score) || 0,
+      best_level: Number(ecLocal.best_level) || 0,
+      best_combo: Number(ecLocal.best_combo) || 0,
+    };
+    // Push bests up (safe to repeat: server max-merges)
+    if (localBests.best_score > 0 || localBests.best_level > 0 || localBests.best_combo > 0) {
+      await mergeGameRecord('emocrush', localBests);
+    }
+    // Push stars up (safe to repeat: server max-merges per level)
+    const progRaw = localStorage.getItem('emocrush-progress');
+    const prog = progRaw ? (JSON.parse(progRaw) || {}) : {};
+    const localStars = prog.stars && typeof prog.stars === 'object' ? prog.stars : {};
+    if (Object.keys(localStars).length > 0) {
+      await mergeGameRecord('emocrush', { stars: localStars });
+    }
+    // Pull server values back down (post-push these reflect the merged max)
+    const { data: ec } = await supabase
+      .from('emocrush_records')
+      .select('best_score, best_combo, best_level, games_played, wins, last_score, last_level, stars, updated_at')
+      .eq('x_user_id', state.xUserId)
+      .maybeSingle();
+    if (ec) {
+      const merged = {
+        ...ecLocal,
+        best_score:   Math.max(localBests.best_score, Number(ec.best_score) || 0),
+        best_combo:   Math.max(localBests.best_combo, Number(ec.best_combo) || 0),
+        best_level:   Math.max(localBests.best_level, Number(ec.best_level) || 0),
+        games_played: Math.max(Number(ecLocal.games_played) || 0, Number(ec.games_played) || 0),
+        wins:         Math.max(Number(ecLocal.wins)         || 0, Number(ec.wins)         || 0),
+        last_score:   Number(ec.last_score) || Number(ecLocal.last_score) || 0,
+        last_level:   Number(ec.last_level) || Number(ecLocal.last_level) || 0,
+        updated_at:   ec.updated_at || new Date().toISOString(),
+      };
+      localStorage.setItem('emocrush-personal-best', JSON.stringify(merged));
+      summary.emocrush = merged;
+
+      if (ec.stars && typeof ec.stars === 'object' && Object.keys(ec.stars).length) {
+        const mergedStars = { ...localStars };
+        for (const k of Object.keys(ec.stars)) {
+          const v = Number(ec.stars[k]) || 0;
+          if (v > (Number(mergedStars[k]) || 0)) mergedStars[k] = v;
+        }
+        prog.stars = mergedStars;
+        localStorage.setItem('emocrush-progress', JSON.stringify(prog));
+      }
+    }
+  } catch (e) { console.warn('[emo-profile] emocrush sync failed', e); }
+
+  // ── Flap Emonad ──
+  try {
+    const localHigh = parseInt(localStorage.getItem('flapEmonadBestScore') || '0', 10);
+    // Push local best up (max-merge on server)
+    if (localHigh > 0) {
+      await mergeGameRecord('flap', { high_score: localHigh });
+    }
+    // Pull server back down
+    const { data: fl } = await supabase
+      .from('flapemonad_records')
+      .select('high_score, games_played, last_score, updated_at')
+      .eq('x_user_id', state.xUserId)
+      .maybeSingle();
+    if (fl) {
+      const merged = Math.max(localHigh, Number(fl.high_score) || 0);
+      localStorage.setItem('flapEmonadBestScore', String(merged));
+      summary.flap = { high_score: merged };
+    }
+  } catch (e) { console.warn('[emo-profile] flap sync failed', e); }
+
+  if (summary.emocrush || summary.flap) {
+    console.log('[emo-profile] game progress synced (bidir) →', summary);
+  }
+  return { synced: true, summary };
+}
+
+// Back-compat alias for any code still using the old name.
+const syncServerGameProgress = syncGameProgress;
 
 // ─── Game records ────────────────────────────────────────────────────
 const GAME_TABLES = {
@@ -809,7 +947,8 @@ const api = {
       const identityChanged = state.xUserId && state.xUserId !== prevXUserId;
       if (state.xUserId && identityChanged) {
         await upsertProfile(u);
-        await claimLocalGameProgress();   // one-time local→server merge
+        await claimLocalGameProgress();   // one-shot: counter delta migration
+        await syncGameProgress();         // every login: bidir bests + pull
         await refreshServerStats();
       }
       refreshMounts();
@@ -966,6 +1105,28 @@ const api = {
     return result;
   },
 
+  // ── Manual migration of localStorage game scores → server ─────────
+  // Public escape hatch so users whose flag was set incorrectly (or anyone
+  // debugging) can force a re-run. Bypasses the one-shot guard.
+  // Usage from devtools: `await EmoProfile.migrateLocalGameProgress()`
+  async migrateLocalGameProgress() {
+    const result = await claimLocalGameProgress(true);
+    await syncGameProgress();
+    await refreshServerStats();
+    notify();
+    return result;
+  },
+
+  // Bidirectional reconcile of localStorage <-> server game records.
+  // Safe to call any time; max-merge in both directions.
+  async syncGameProgress() {
+    const result = await syncGameProgress();
+    notify();
+    return result;
+  },
+  // Back-compat alias.
+  async syncServerGameProgress() { return this.syncGameProgress(); },
+
   // ── Read helpers ───────────────────────────────────────────────────
   async getStats(xUserId) {
     const id = xUserId || state.xUserId;
@@ -1005,3 +1166,4 @@ function notify() { state.listeners.forEach(fn => { try { fn(); } catch (e) { co
 
 window.EmoProfile = api;
 export default api;
+export { supabase as supabaseClient };
