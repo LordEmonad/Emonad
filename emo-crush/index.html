@@ -644,6 +644,7 @@ background:radial-gradient(ellipse at center,transparent 55%,rgba(255,30,30,.12)
 <button class="sound-toggle" id="soundToggle" aria-label="Toggle sound">
 <svg class="ico-vol" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
 </button>
+<span id="emoAuthSlot" class="emo-auth-host" style="position:fixed;top:calc(8px + var(--safe-t));right:calc(108px + var(--safe-r));z-index:60;height:44px;display:inline-flex;align-items:center;"></span>
 <button class="mode-toggle" id="modeToggle" aria-label="Toggle dark mode">
 <svg class="ico-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
 <svg class="ico-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -1036,7 +1037,31 @@ function updatePersonalBest(didWin=false){
   };
   return savePersonalBest(next);
 }
-async function submitLeaderboardScore(didWin=false){updatePersonalBest(didWin)}
+async function submitLeaderboardScore(didWin=false){
+  const next = updatePersonalBest(didWin);
+  // Sync to the user's emonad.lol profile if logged in.
+  // EmoProfile is loaded as a deferred module below; it may not be ready
+  // on the very first level played, so we silently no-op if absent.
+  // We send DELTAS for games_played/wins (this run only) — EmoProfile's
+  // mergeGameRecord increments those server-side. Bests are max-merged.
+  try{
+    const EP = window.EmoProfile;
+    if(EP && EP.isLoggedIn && EP.isLoggedIn()){
+      const stars = (function(){try{return JSON.parse(localStorage.getItem('emocrush-progress')||'{}').stars||{}}catch(e){return{}}})();
+      await EP.updateGameRecord('emocrush',{
+        best_score:   next.best_score,
+        best_level:   next.best_level,
+        best_combo:   next.best_combo,
+        games_played: 1,
+        wins:         didWin ? 1 : 0,
+        last_score:   next.last_score,
+        last_level:   next.last_level,
+        stars,
+      });
+      await EP.claimDaily('emocrush');
+    }
+  }catch(e){console.warn('emo-crush: EmoProfile sync failed',e)}
+}
 
 
 // Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
@@ -2469,6 +2494,12 @@ function loop(ts){const dt=Math.min(ts-lt,33);lt=ts;updTw(dt);updPt();updShockwa
   render();requestAnimationFrame(loop)}
 if(localStorage.getItem('emocrush-dark')==='1')document.body.classList.add('dark');
 init();
+</script>
+<script type="module">
+  import EmoProfile from '../emo-profile.js';
+  EmoProfile.init({ page: 'emo-crush' })
+    .then(() => EmoProfile.mount('#emoAuthSlot'))
+    .catch(err => console.warn('EmoProfile init failed:', err));
 </script>
 </body>
 </html>

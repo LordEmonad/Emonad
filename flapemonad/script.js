@@ -654,6 +654,21 @@ function showGameOver() {
     const isNewBest = score > bestScore && score > 0;
     if (isNewBest) saveBestScore(score);
 
+    // Sync to emonad.lol profile (logged-in users only). Fire-and-forget;
+    // EmoProfile is loaded as a deferred module so it may not be ready on
+    // very first game-over — silent no-op if absent.
+    try {
+        const EP = window.EmoProfile;
+        if (EP && EP.isLoggedIn && EP.isLoggedIn()) {
+            EP.updateGameRecord('flap', {
+                high_score:   score,           // mergeGameRecord takes max
+                last_score:   score,
+                games_played: 1,               // monotonic via max — increments only if cur was 0
+            });
+            EP.claimDaily('flap');
+        }
+    } catch (e) { console.warn('flap: EmoProfile sync failed', e); }
+
     const bestLine = document.getElementById('best-score-line');
     const bestDisplay = document.getElementById('best-score-display');
     if (bestLine && bestDisplay) {

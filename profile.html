@@ -299,6 +299,13 @@
       color: var(--text-secondary);
       margin-top: 4px;
     }
+    .stat .sub-lab {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      letter-spacing: 0.01em;
+      line-height: 1.35;
+    }
 
     /* Actions */
     .actions {
@@ -549,9 +556,15 @@
       }
 
       const stats = await EmoProfile.getStats(profile.x_user_id);
-      const total = stats?.total ?? profile.total_clicks ?? 0;
-      const blocks = stats?.blocks ?? 0;
-      const emonads = stats?.emonads ?? 0;
+      const total       = stats?.total_xp            ?? profile.total_xp ?? 0;
+      const blocks      = stats?.xp_blocks           ?? 0;
+      const emonads     = stats?.xp_emonads          ?? 0;
+      const ecBest      = stats?.emocrush_best_score ?? 0;
+      const ecLevel     = stats?.emocrush_best_level ?? 0;
+      const ecGames     = stats?.emocrush_games      ?? 0;
+      const flBest      = stats?.flap_high_score     ?? 0;
+      const flGames     = stats?.flap_games          ?? 0;
+      const trReadings  = stats?.tarot_readings      ?? 0;
 
       // Mirror EmoProfile.levelInfo math
       const xpPerLevel = 60, maxLevel = 7, xpCap = xpPerLevel * maxLevel;
@@ -563,7 +576,11 @@
 
       // OG / Twitter share metadata
       const ogTitle = `${profile.display_name || handle} — ${maxed ? 'MAX' : 'Lv ' + level} · ${total} XP`;
-      const ogDesc  = `${blocks} blocks broken · ${emonads} emonads slain · joined ${fmtDate(profile.created_at)}`;
+      const ogDescBits = [`${blocks} blocks · ${emonads} emonads`];
+      if (ecLevel) ogDescBits.push(`Emo Crush Lv ${ecLevel}`);
+      if (flBest)  ogDescBits.push(`Flap ${flBest}`);
+      if (trReadings) ogDescBits.push(`${trReadings} readings`);
+      const ogDesc  = ogDescBits.join(' · ') + ` · joined ${fmtDate(profile.created_at)}`;
       document.title = ogTitle + ' · emonad';
       const setMeta = (sel, val) => { const el = document.querySelector(sel); if (el) el.setAttribute('content', val); };
       setMeta('meta[property="og:title"]',  ogTitle);
@@ -620,6 +637,31 @@
             </div>
           </div>
 
+          <div class="section-head">
+            <span class="section-title">Games</span>
+            <span class="section-sub">Best scores across the <a href="emo-crush/">Emo Crush</a>, <a href="flapemonad/">Flap Emonad</a>, and <a href="tarot/">Tarot</a> apps. Each gives +5 XP / day.</span>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <div class="num">${ecLevel > 0 ? 'Lv ' + ecLevel : '—'}</div>
+              <div class="lab">Emo Crush · top level</div>
+              <div class="sub-lab">${ecBest ? 'best score ' + ecBest.toLocaleString() : 'no score yet'}${ecGames ? ' · ' + ecGames + ' games' : ''}</div>
+            </div>
+            <div class="stat">
+              <div class="num">${flBest || '—'}</div>
+              <div class="lab">Flap Emonad · high score</div>
+              <div class="sub-lab">${flGames ? flGames + ' games played' : 'no flaps yet'}</div>
+            </div>
+          </div>
+          <div class="stats" style="grid-template-columns: 1fr;">
+            <div class="stat">
+              <div class="num">${trReadings}</div>
+              <div class="lab">Tarot readings</div>
+              <div class="sub-lab">${trReadings === 0 ? 'no readings yet — start with a daily draw' : 'major arcana spreads completed'}</div>
+            </div>
+          </div>
+
           <div class="actions">
             <button class="btn primary" id="shareBtn" type="button">Share to X</button>
             <div class="row-2">
@@ -646,6 +688,7 @@
       shareBtn?.addEventListener('click', () => {
         openShareModal({
           profile, total, blocks, emonads, level, maxed, shareUrl, shareText, xShareHref,
+          ecLevel, ecBest, flBest, trReadings,
         });
       });
     }
@@ -793,35 +836,54 @@
       ctx.font = '26px "Space Grotesk", system-ui, sans-serif';
       ctx.fillText('@' + handle, W/2, 365);
 
-      // Big XP
+      // Big XP — sits a bit higher to make room for game-stats row
       const xpText = p.maxed ? (p.total + ' XP · MAX') : (p.total + ' XP');
       ctx.fillStyle = '#9B5FFF';
-      ctx.font = 'bold 116px "Space Grotesk", system-ui, sans-serif';
+      ctx.font = 'bold 104px "Space Grotesk", system-ui, sans-serif';
       ctx.shadowColor = 'rgba(155, 95, 255, 0.55)';
       ctx.shadowBlur = 30;
-      ctx.fillText(xpText, W/2, 480);
+      ctx.fillText(xpText, W/2, 465);
       ctx.shadowBlur = 0;
 
-      // Stats row
-      const statY = H - 80;
-      const leftCx = W/2 - 200;
-      const rightCx = W/2 + 200;
+      // Click stats row (blocks · emonads)
+      const clickY = 525;
+      const clickLx = W/2 - 200;
+      const clickRx = W/2 + 200;
       ctx.fillStyle = '#9B5FFF';
-      ctx.font = 'bold 56px "Space Grotesk", system-ui, sans-serif';
+      ctx.font = 'bold 38px "Space Grotesk", system-ui, sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText(String(p.blocks), leftCx, statY);
-      ctx.fillText(String(p.emonads), rightCx, statY);
-
+      ctx.fillText(String(p.blocks),  clickLx, clickY);
+      ctx.fillText(String(p.emonads), clickRx, clickY);
       ctx.fillStyle = '#888';
-      ctx.font = 'bold 15px "Space Grotesk", system-ui, sans-serif';
-      ctx.fillText('BLOCKS BROKEN', leftCx, statY + 26);
-      ctx.fillText('EMONADS SLAIN', rightCx, statY + 26);
+      ctx.font = 'bold 13px "Space Grotesk", system-ui, sans-serif';
+      ctx.fillText('BLOCKS BROKEN', clickLx, clickY + 22);
+      ctx.fillText('EMONADS SLAIN', clickRx, clickY + 22);
+
+      // Games row — three slots: emo crush level, flap high, tarot readings
+      const ecLevelN = Number(p.ecLevel) || 0;
+      const flBestN  = Number(p.flBest)  || 0;
+      const trN      = Number(p.trReadings) || 0;
+      const gameY = H - 70;
+      const slots = [
+        { cx: W/2 - 290, big: ecLevelN > 0 ? 'Lv ' + ecLevelN : '—', lab: 'EMO CRUSH' },
+        { cx: W/2,        big: flBestN > 0   ? String(flBestN) : '—', lab: 'FLAP HIGH SCORE' },
+        { cx: W/2 + 290, big: trN > 0        ? String(trN)     : '—', lab: 'TAROT READINGS' },
+      ];
+      for (const s of slots) {
+        ctx.fillStyle = '#9B5FFF';
+        ctx.font = 'bold 36px "Space Grotesk", system-ui, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(s.big, s.cx, gameY);
+        ctx.fillStyle = '#888';
+        ctx.font = 'bold 12px "Space Grotesk", system-ui, sans-serif';
+        ctx.fillText(s.lab, s.cx, gameY + 22);
+      }
 
       // Footer brand (bottom-right)
       ctx.fillStyle = '#9B5FFF';
       ctx.font = 'bold 20px "Space Grotesk", system-ui, sans-serif';
       ctx.textAlign = 'right';
-      ctx.fillText('emonad.lol  ·  homepage missions', W - 36, H - 26);
+      ctx.fillText('emonad.lol  ·  homepage missions  ·  games', W - 36, H - 26);
 
       return canvas;
     }

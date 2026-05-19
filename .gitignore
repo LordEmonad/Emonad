@@ -38,9 +38,11 @@ node_modules/
 # CLAUDE.md = auth + XP architecture notes (don't expose for recon)
 # login-test.html = auth pipeline debug page
 # db/ = supabase schema (reveals abuse-prevention triggers)
+# xp/ = user data CSV backups + recovery scripts (contains real handles/IDs)
 CLAUDE.md
 login-test.html
 db/
+xp/
 
 # Snapshot/holder data (legacy from monorepo, kept defensively)
 *_holders.json

@@ -1568,6 +1568,7 @@
     <div class="topbar-spacer"></div>
     <a class="topbar-link" href="../emo.html">← Emoverse</a>
     <a class="topbar-link" href="../memes.html" data-hide-mobile>Memes</a>
+    <span id="emoAuthSlot" class="emo-auth-host"></span>
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark and light theme">
       <span class="icon-sun">☀</span>
       <span class="icon-moon">☾</span>
@@ -2630,6 +2631,16 @@
           picks: picks.map(p => ({ slug: p.card.slug, reversed: p.reversed })),
         }));
       } catch (_) {}
+
+      // Claim daily +5 XP if user is logged in (silent no-op otherwise).
+      // EmoProfile also bumps tarot_records.readings_count server-side
+      // (via trigger) so the public profile page reflects the new count.
+      try {
+        const EP = window.EmoProfile;
+        if (EP && EP.isLoggedIn && EP.isLoggedIn()) {
+          EP.claimDaily('tarot');
+        }
+      } catch (e) { console.warn('tarot: EmoProfile claim failed', e); }
     }
 
     function relayoutCards() {
@@ -3686,6 +3697,13 @@
     });
 
   })();
+  </script>
+
+  <script type="module">
+    import EmoProfile from '../emo-profile.js';
+    EmoProfile.init({ page: 'tarot' })
+      .then(() => EmoProfile.mount('#emoAuthSlot'))
+      .catch(err => console.warn('EmoProfile init failed:', err));
   </script>
 
 </body>
