@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <title>Community · emonad</title>
+  <meta name="description" content="emonad.lol community — every user as a bubble, plus the global XP leaderboard.">
+  <meta property="og:title" content="emonad community">
+  <meta property="og:description" content="Every emonad user as a bubble. Sized by XP. Click to open profile.">
+  <meta property="og:image" content="https://emonad.lol/og-image.jpg">
+  <meta property="og:url" content="https://emonad.lol/chart.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="emonad community">
+  <meta name="twitter:description" content="Every emonad user as a bubble. Sized by XP.">
+  <meta name="twitter:image" content="https://emonad.lol/og-image.jpg">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #1a1a1a;
+      --text-secondary: #666666;
+      --text-muted: #aaaaaa;
+      --accent: #7B3FE4;
+      --accent-2: #ec4899;
+      --accent-glow: rgba(123, 63, 228, 0.25);
+      --surface: #f5f3ff;
+      --surface-border: #e4d8f8;
+      --ticker-bg: rgba(255, 255, 255, 0.92);
+      --ticker-border: #e9e0f5;
+    }
+    [data-theme="dark"] {
+      --bg-color: #0a0612;
+      --text-color: #ffffff;
+      --text-secondary: #b8a3e8;
+      --text-muted: rgba(255,255,255,0.4);
+      --accent: #9B5FFF;
+      --accent-glow: rgba(155, 95, 255, 0.3);
+      --surface: rgba(255, 255, 255, 0.06);
+      --surface-border: rgba(255, 255, 255, 0.1);
+      --ticker-bg: rgba(15, 15, 15, 0.92);
+      --ticker-border: rgba(255, 255, 255, 0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { overflow-x: hidden; }
+    body {
+      color: var(--text-color);
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+      background:
+        radial-gradient(ellipse 800px 600px at 12% 8%,  rgba(155, 95, 255, 0.28) 0%, transparent 60%),
+        radial-gradient(ellipse 900px 600px at 88% 4%,  rgba(236, 72, 153, 0.22) 0%, transparent 55%),
+        var(--bg-color);
+    }
+    [data-theme="light"] body {
+      background:
+        radial-gradient(ellipse 800px 600px at 12% 8%, rgba(155, 95, 255, 0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 900px 600px at 88% 4%, rgba(236, 72, 153, 0.14) 0%, transparent 55%),
+        var(--bg-color);
+    }
+
+    /* Top nav */
+    .nav-bar {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 44px;
+      background: var(--ticker-bg);
+      border-bottom: 1px solid var(--ticker-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 100;
+      display: flex; align-items: center; gap: 10px;
+      padding: 0 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .nav-back {
+      color: var(--text-color);
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--surface-border);
+      background: var(--surface);
+      transition: all 0.2s ease;
+      font-size: 12.5px;
+    }
+    .nav-back:hover { border-color: var(--accent); background: var(--accent-glow); }
+    .nav-bar .grow { flex: 1; }
+    .nav-title {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      color: var(--text-color);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .nav-title::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent-glow);
+      animation: livePulse 2.4s ease-in-out infinite;
+    }
+    @keyframes livePulse {
+      0%, 100% { box-shadow: 0 0 8px rgba(155,95,255,0.5); }
+      50%      { box-shadow: 0 0 18px rgba(155,95,255,0.95); }
+    }
+    .theme-toggle {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--surface-border);
+      background: var(--surface);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+      transition: all 0.25s ease;
+      flex-shrink: 0;
+    }
+    .theme-toggle:hover { border-color: var(--accent); background: var(--accent-glow); }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 60px 20px 50px;
+    }
+
+    /* Page header */
+    .page-head {
+      text-align: center;
+      padding: 22px 0 24px;
+    }
+    .page-head .eyebrow {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      display: inline-flex; align-items: center; gap: 10px;
+    }
+    .page-head .eyebrow::before, .page-head .eyebrow::after {
+      content: ''; width: 28px; height: 1px; background: rgba(155, 95, 255, 0.4);
+    }
+    .page-head h1 {
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: var(--text-color);
+      text-shadow: 0 0 36px rgba(155, 95, 255, 0.5);
+      margin: 0;
+      line-height: 1;
+    }
+    .page-head .live-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 14px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--surface-border);
+      background: var(--surface);
+    }
+    .page-head .live-pill .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+      animation: livePulse 2s ease-in-out infinite;
+    }
+
+    /* Card */
+    .panel {
+      background: linear-gradient(180deg,
+        rgba(255,255,255,0.04) 0%,
+        rgba(255,255,255,0.015) 100%);
+      border: 1px solid rgba(155, 95, 255, 0.22);
+      border-radius: 22px;
+      padding: 22px 26px 22px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.45),
+                  0 0 80px rgba(155, 95, 255, 0.18),
+                  inset 0 1px 0 rgba(255,255,255,0.05);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    [data-theme="light"] .panel {
+      background: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.7) 100%);
+      border-color: rgba(155, 95, 255, 0.3);
+    }
+    .panel + .panel { margin-top: 22px; }
+
+    .panel-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin-bottom: 18px;
+      gap: 14px;
+    }
+    .panel-title {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-color);
+      display: inline-flex; align-items: center; gap: 10px;
+    }
+    .panel-title::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+    .panel-meta {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      font-weight: 700;
+      text-align: right;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .panel-meta b { color: var(--text-color); font-weight: 800; }
+    .panel-meta .find-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(155, 95, 255, 0.4);
+      background: rgba(155, 95, 255, 0.1);
+      color: var(--text-color);
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .panel-meta .find-btn:hover {
+      background: rgba(155, 95, 255, 0.25);
+      border-color: var(--accent-2);
+      transform: translateY(-1px);
+    }
+
+    /* ── Galaxy ────────────────────────────────────────────── */
+    .galaxy-wrap {
+      position: relative;
+      width: 100%;
+      height: 620px;
+      border-radius: 14px;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 50%, rgba(155, 95, 255, 0.14) 0%, transparent 60%),
+        radial-gradient(ellipse 30% 25% at 18% 22%, rgba(236, 72, 153, 0.10) 0%, transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,0.012) 0%, rgba(0,0,0,0.30) 100%);
+      border: 1px solid rgba(155, 95, 255, 0.16);
+    }
+    #galaxyCanvas { display: block; width: 100%; height: 100%; }
+    .galaxy-tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: rgba(15, 9, 28, 0.96);
+      border: 1px solid rgba(155, 95, 255, 0.45);
+      border-radius: 10px;
+      padding: 9px 13px;
+      font-size: 12.5px;
+      color: var(--text-color);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.55), 0 0 28px rgba(155,95,255,0.35);
+      opacity: 0;
+      transform: translate(-50%, -110%);
+      transition: opacity 0.12s ease;
+      white-space: nowrap;
+      z-index: 5;
+    }
+    .galaxy-tooltip b { color: #fff; font-weight: 800; }
+    .galaxy-tooltip .lvl {
+      color: var(--accent);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+    }
+    .galaxy-tooltip .lvl.max { color: var(--accent-2); }
+    .galaxy-progress {
+      position: absolute;
+      bottom: 10px; left: 14px;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .galaxy-foot {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 14px;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .galaxy-foot .hint { color: var(--text-muted); letter-spacing: 0.06em; font-size: 11px; text-transform: none; font-weight: 600; }
+
+    /* ── Leaderboard ───────────────────────────────────────── */
+    .lb-list {
+      display: flex; flex-direction: column;
+      gap: 6px;
+      max-height: 720px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .lb-list::-webkit-scrollbar { width: 6px; }
+    .lb-list::-webkit-scrollbar-thumb {
+      background: rgba(155, 95, 255, 0.35);
+      border-radius: 4px;
+    }
+    .lb-row {
+      display: grid;
+      grid-template-columns: 46px 44px 1fr auto;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: rgba(155, 95, 255, 0.04);
+      border: 1px solid rgba(155, 95, 255, 0.12);
+      text-decoration: none;
+      color: var(--text-color);
+      transition: all 0.18s ease;
+    }
+    .lb-row:hover {
+      background: rgba(155, 95, 255, 0.14);
+      border-color: rgba(155, 95, 255, 0.4);
+      transform: translateX(3px);
+    }
+    .lb-row.me {
+      background: linear-gradient(90deg, rgba(236, 72, 153, 0.20), rgba(155, 95, 255, 0.12));
+      border-color: var(--accent-2);
+      box-shadow: 0 0 24px rgba(236, 72, 153, 0.28);
+    }
+    .lb-row .rank {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--text-secondary);
+      font-variant-numeric: tabular-nums;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+    .lb-row.top1 {
+      background: linear-gradient(90deg, rgba(236, 72, 153, 0.14), rgba(155, 95, 255, 0.06));
+      border-color: rgba(236, 72, 153, 0.45);
+    }
+    .lb-row.top1 .rank { color: var(--accent-2); font-size: 18px; }
+    .lb-row.top2 .rank, .lb-row.top3 .rank { color: var(--accent); font-size: 15px; }
+    .lb-row .avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 2px solid rgba(155, 95, 255, 0.45);
+      object-fit: cover;
+      background: rgba(155, 95, 255, 0.15);
+      display: block;
+    }
+    .lb-row .avatar.placeholder {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 900;
+      color: var(--text-muted);
+      border-color: rgba(155, 95, 255, 0.25);
+    }
+    .lb-row.top1 .avatar {
+      width: 46px; height: 46px;
+      border-color: var(--accent-2);
+      box-shadow: 0 0 16px rgba(236, 72, 153, 0.55);
+    }
+    .lb-row .who {
+      min-width: 0;
+      display: flex; flex-direction: column;
+      line-height: 1.2;
+    }
+    .lb-row .name {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--text-color);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .lb-row .handle {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .lb-row .xp {
+      text-align: right;
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--text-color);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+    .lb-row .xp .lvl {
+      display: block;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: var(--text-secondary);
+      margin-top: 5px;
+    }
+    .lb-row .xp .lvl.max { color: var(--accent-2); }
+
+    /* States */
+    .skeleton {
+      color: var(--text-muted);
+      text-align: center;
+      padding: 40px 12px;
+      font-size: 13px;
+    }
+    .skeleton .spinner {
+      width: 24px; height: 24px;
+      border: 2.5px solid rgba(155, 95, 255, 0.2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error-state {
+      text-align: center;
+      color: var(--text-secondary);
+      padding: 22px 12px;
+      font-size: 13px;
+    }
+    .error-state b { color: var(--text-color); display: block; font-weight: 800; margin-bottom: 4px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .live-pill .dot, .nav-title::before, .panel-title::before { animation: none; }
+    }
+
+    @media (max-width: 720px) {
+      .container { padding: 56px 12px 32px; }
+      .page-head { padding: 16px 0 18px; }
+      .page-head h1 { font-size: 34px; }
+      .panel { padding: 18px 14px 16px; border-radius: 18px; }
+      .panel-head { flex-direction: column; align-items: flex-start; gap: 6px; margin-bottom: 14px; }
+      .panel-meta { text-align: left; }
+      .galaxy-wrap { height: 460px; }
+      .lb-list { max-height: 600px; }
+      .lb-row { grid-template-columns: 36px 36px 1fr auto; gap: 10px; padding: 8px 11px; }
+      .lb-row .avatar { width: 34px; height: 34px; }
+      .lb-row.top1 .avatar { width: 40px; height: 40px; }
+      .lb-row .name { font-size: 13px; }
+      .lb-row .handle { font-size: 10.5px; }
+      .lb-row .xp { font-size: 14px; }
+      .nav-bar { padding: 0 12px; }
+    }
+    @media (max-width: 420px) {
+      .page-head h1 { font-size: 28px; }
+      .galaxy-wrap { height: 380px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav-bar">
+    <a class="nav-back" href="emo.html">← emonad</a>
+    <span class="nav-title">EMONAD · COMMUNITY</span>
+    <span class="grow"></span>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <span id="themeIcon">◐</span>
+    </button>
+    <span id="emoAuthSlot" class="emo-auth-host"></span>
+  </nav>
+
+  <div class="container">
+    <header class="page-head">
+      <div class="eyebrow">EMONAD · COMMUNITY</div>
+      <h1>Community</h1>
+      <div class="live-pill" id="livePill"><span class="dot"></span><span id="livePillText">CONNECTING…</span></div>
+    </header>
+
+    <!-- Bubble map -->
+    <section class="panel" id="galaxyPanel">
+      <div class="panel-head">
+        <span class="panel-title">ALL USERS</span>
+        <span class="panel-meta">
+          <button class="find-btn" id="findMeBtn" type="button">FIND ME</button>
+          <span id="galaxyMeta">—</span>
+        </span>
+      </div>
+      <div class="galaxy-wrap" id="galaxyWrap">
+        <canvas id="galaxyCanvas" aria-label="Bubble map of every user"></canvas>
+        <div class="galaxy-tooltip" id="galaxyTooltip"></div>
+        <div class="galaxy-progress" id="galaxyProgress"></div>
+      </div>
+      <div class="galaxy-foot">
+        <span>SIZE = TOTAL XP</span>
+        <span class="hint">click any bubble to open that profile</span>
+      </div>
+    </section>
+
+    <!-- Leaderboard -->
+    <section class="panel" id="leaderboardPanel">
+      <div class="panel-head">
+        <span class="panel-title">LEADERBOARD</span>
+        <span class="panel-meta" id="lbMeta">—</span>
+      </div>
+      <div id="leaderboard" class="lb-list">
+        <div class="skeleton"><div class="spinner"></div>Loading…</div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    (function() {
+      var html = document.documentElement;
+      var saved = localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      html.setAttribute('data-theme', saved);
+      document.getElementById('themeToggle').addEventListener('click', function() {
+        var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      });
+    })();
+  </script>
+
+  <script type="module" src="./chart.js"></script>
+</body>
+</html>
