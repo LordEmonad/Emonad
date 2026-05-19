@@ -12,12 +12,6 @@
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
-    },
-    {
-      "src": "token image.png",
-      "sizes": "1000x1000",
-      "type": "image/png",
-      "purpose": "any"
     }
   ]
 }
