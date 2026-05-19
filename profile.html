@@ -107,244 +107,245 @@
     }
     .theme-toggle:hover { border-color: var(--accent); background: var(--accent-glow); }
 
+    /* Page background — mirror the share-card vibe */
+    body {
+      background:
+        radial-gradient(ellipse 800px 600px at 12% 8%, rgba(155, 95, 255, 0.22) 0%, transparent 60%),
+        radial-gradient(ellipse 900px 600px at 88% 4%, rgba(236, 72, 153, 0.18) 0%, transparent 55%),
+        var(--bg-color);
+    }
+    [data-theme="dark"] body {
+      background:
+        radial-gradient(ellipse 800px 600px at 12% 8%, rgba(155, 95, 255, 0.28) 0%, transparent 60%),
+        radial-gradient(ellipse 900px 600px at 88% 4%, rgba(236, 72, 153, 0.22) 0%, transparent 55%),
+        #0a0612;
+    }
+
     .container {
-      max-width: 520px;
+      max-width: 760px;
       margin: 0 auto;
-      padding: 78px 18px 40px;
+      padding: 64px 20px 28px;
     }
 
     .panel {
-      background: var(--surface);
-      border: 1px solid var(--surface-border);
-      border-radius: 24px;
-      padding: 36px 28px 28px;
-      box-shadow: 0 30px 90px rgba(0,0,0,0.35),
-                  0 0 90px var(--accent-glow);
+      background: linear-gradient(180deg,
+        rgba(255,255,255,0.04) 0%,
+        rgba(255,255,255,0.015) 100%);
+      border: 1px solid rgba(155, 95, 255, 0.22);
+      border-radius: 26px;
+      padding: 28px 32px 24px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.45),
+                  0 0 80px rgba(155, 95, 255, 0.18),
+                  inset 0 1px 0 rgba(255,255,255,0.05);
       position: relative;
       overflow: hidden;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
     }
-    .panel::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 110px;
-      background: radial-gradient(ellipse at 50% 0%, var(--accent-glow) 0%, transparent 70%);
-      pointer-events: none;
+    [data-theme="light"] .panel {
+      background: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.7) 100%);
+      border-color: rgba(155, 95, 255, 0.3);
     }
 
-    /* Hero (avatar + name + level badge overlay) */
+    /* Top wordmark strip inside panel */
+    .panel-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 18px;
+      font-size: 13px;
+    }
+    .panel-head .brand {
+      display: inline-flex; align-items: center; gap: 10px;
+      color: var(--text-color);
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      font-size: 12px;
+    }
+    .panel-head .brand::before {
+      content: '';
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+    .panel-head .tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .panel-head .tag::before {
+      content: '';
+      width: 36px; height: 1px;
+      background: rgba(155, 95, 255, 0.4);
+    }
+
+    /* Hero — avatar with glow + level chip below */
     .hero {
       text-align: center;
       position: relative;
-      margin-bottom: 26px;
+      margin-bottom: 16px;
     }
     .avatar-wrap {
       position: relative;
       display: inline-block;
-      margin-bottom: 14px;
+      margin-bottom: 32px;
     }
     .avatar-wrap img {
-      width: 96px; height: 96px;
+      width: 132px; height: 132px;
       border-radius: 50%;
       border: 3px solid var(--accent);
       object-fit: cover;
-      box-shadow: 0 0 40px var(--accent-glow),
-                  0 12px 32px rgba(0,0,0,0.4);
+      box-shadow: 0 0 50px rgba(155, 95, 255, 0.6),
+                  0 12px 36px rgba(0,0,0,0.5);
       display: block;
     }
-    .level-badge {
+    .level-chip {
       position: absolute;
-      bottom: -6px; right: -6px;
-      min-width: 38px;
-      height: 28px;
-      padding: 0 10px;
-      border-radius: 14px;
+      bottom: -16px;
+      left: 50%; transform: translateX(-50%);
+      min-width: 100px;
+      height: 36px;
+      padding: 0 18px;
+      border-radius: 18px;
       background: var(--accent);
       color: #fff;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.06em;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.14em;
       display: inline-flex; align-items: center; justify-content: center;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.5),
-                  0 0 22px var(--accent-glow);
-      border: 3px solid var(--surface);
+      box-shadow: 0 6px 22px rgba(0,0,0,0.5),
+                  0 0 24px rgba(155, 95, 255, 0.7);
+      border: 3px solid var(--bg-color, #0a0612);
+      white-space: nowrap;
     }
-    .level-badge.maxed {
+    .level-chip.maxed {
       background: linear-gradient(135deg, var(--accent), #ec4899);
-      letter-spacing: 0.08em;
     }
+    [data-theme="dark"] .level-chip { border-color: #0a0612; }
+    [data-theme="light"] .level-chip { border-color: #ffffff; }
+
     .name {
-      font-size: 22px;
+      font-size: 26px;
       font-weight: 800;
       letter-spacing: 0.005em;
       margin-bottom: 2px;
+      color: var(--text-color);
     }
     .handle {
-      font-size: 14px;
-      color: var(--text-secondary);
+      font-size: 15px;
+      color: #b8a3e8;
+      font-weight: 500;
     }
-    .since {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-weight: 600;
-    }
+    [data-theme="light"] .handle { color: #7B3FE4; opacity: 0.7; }
 
-    /* Total XP — the trophy */
-    .total {
+    /* Hero XP — match the card */
+    .xp-block {
       text-align: center;
-      margin-bottom: 22px;
+      margin: 22px 0 6px;
+      line-height: 1;
     }
-    .total .num {
-      font-size: 44px;
+    .xp-block .num {
+      font-size: 72px;
+      font-weight: 900;
+      color: var(--text-color);
+      letter-spacing: -0.01em;
+      text-shadow: 0 0 36px rgba(155, 95, 255, 0.55);
+      font-variant-numeric: tabular-nums;
+    }
+    .xp-block .suf {
+      font-size: 28px;
       font-weight: 900;
       color: var(--accent);
-      line-height: 1.05;
-      letter-spacing: -0.01em;
-      text-shadow: 0 0 36px var(--accent-glow);
-      font-variant-numeric: tabular-nums;
+      margin-left: 4px;
     }
-    .total .lab {
-      font-size: 11px;
+    .xp-context {
+      text-align: center;
+      font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--text-secondary);
-      margin-top: 2px;
+      color: #b8a3e8;
+      margin-bottom: 18px;
     }
+    [data-theme="light"] .xp-context { color: #7B3FE4; opacity: 0.7; }
 
-    /* Level progress bar */
-    .level-row {
-      display: flex; justify-content: space-between; align-items: baseline;
-      margin-bottom: 8px;
-      font-size: 12.5px;
+    /* 5-cell stat grid */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
     }
-    .level-row .lv {
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      font-size: 13px;
-      text-transform: uppercase;
-    }
-    .level-row .next {
-      color: var(--text-secondary);
-      font-variant-numeric: tabular-nums;
-    }
-    .bar {
-      height: 10px;
-      border-radius: 6px;
-      background: var(--surface-border);
-      overflow: hidden;
-      margin-bottom: 26px;
+    .stat {
+      background: linear-gradient(180deg,
+        rgba(155, 95, 255, 0.18) 0%,
+        rgba(155, 95, 255, 0.06) 100%);
+      border: 1px solid rgba(155, 95, 255, 0.35);
+      border-radius: 16px;
+      padding: 14px 8px 12px;
+      text-align: center;
       position: relative;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
     }
-    .bar > div {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent), #ec4899);
-      transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 0 18px var(--accent-glow);
+    .stat .num {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--text-color);
+      line-height: 1.05;
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 0 18px rgba(155, 95, 255, 0.35);
     }
-
-    /* Section header (e.g. "Homepage missions") */
-    .section-head {
-      display: flex; flex-direction: column; gap: 2px;
-      margin: 0 0 10px;
-      padding: 0 2px;
-    }
-    .section-title {
-      font-size: 11px;
+    .stat .lab {
+      font-size: 10px;
       font-weight: 800;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--accent);
-    }
-    .section-sub {
-      font-size: 12px;
-      color: var(--text-secondary);
-    }
-    .section-sub a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 700;
-    }
-    .section-sub a:hover { text-decoration: underline; }
-
-    /* Stats */
-    .stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 22px;
-    }
-    .stat {
-      background: var(--stat-bg);
-      border: 1px solid var(--surface-border);
-      border-radius: 14px;
-      padding: 16px 18px;
-      text-align: left;
-    }
-    .stat .num {
-      font-size: 26px;
-      font-weight: 800;
-      color: var(--accent);
-      line-height: 1.05;
-      font-variant-numeric: tabular-nums;
-    }
-    .stat .lab {
-      font-size: 10.5px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      margin-top: 4px;
-    }
-    .stat .sub-lab {
-      font-size: 10.5px;
-      color: var(--text-muted);
+      color: #b8a3e8;
       margin-top: 6px;
-      letter-spacing: 0.01em;
-      line-height: 1.35;
+      line-height: 1.2;
     }
+    [data-theme="light"] .stat .lab { color: #7B3FE4; opacity: 0.75; }
 
-    /* Actions */
+    /* Action buttons */
     .actions {
-      display: grid; gap: 8px;
-    }
-    .actions .row-2 {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 10px;
     }
     .btn {
       width: 100%;
       min-height: 44px;
       border-radius: 12px;
-      border: 1px solid var(--surface-border);
-      background: transparent;
+      border: 1px solid rgba(155, 95, 255, 0.28);
+      background: rgba(155, 95, 255, 0.06);
       color: var(--text-color);
       font: inherit;
       font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.01em;
+      font-weight: 800;
+      letter-spacing: 0.02em;
       cursor: pointer;
       text-decoration: none;
       display: flex; align-items: center; justify-content: center;
-      padding: 0 16px;
+      padding: 0 14px;
       transition: all 0.2s ease;
       gap: 6px;
     }
     .btn:hover {
       border-color: var(--accent);
-      background: var(--accent-glow);
+      background: rgba(155, 95, 255, 0.18);
+      transform: translateY(-1px);
     }
     .btn.primary {
-      background: var(--accent);
-      border-color: var(--accent);
+      background: linear-gradient(135deg, var(--accent), #ec4899);
+      border-color: transparent;
       color: #fff;
-      box-shadow: 0 6px 22px var(--accent-glow);
+      box-shadow: 0 6px 22px rgba(155, 95, 255, 0.45);
     }
     .btn.primary:hover {
-      background: var(--accent-hover);
-      filter: brightness(1.05);
+      filter: brightness(1.1);
+      box-shadow: 0 8px 28px rgba(155, 95, 255, 0.6);
     }
 
     /* Loading / empty / error states */
@@ -362,7 +363,7 @@
     }
     .spinner {
       width: 36px; height: 36px;
-      border: 3px solid var(--surface-border);
+      border: 3px solid rgba(155, 95, 255, 0.2);
       border-top-color: var(--accent);
       border-radius: 50%;
       margin: 0 auto 18px;
@@ -370,20 +371,26 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    @media (max-width: 480px) {
-      .container { padding: 68px 14px 28px; }
-      .panel { padding: 30px 22px 24px; border-radius: 20px; }
-      .avatar-wrap img { width: 84px; height: 84px; border-width: 3px; }
-      .level-badge { min-width: 34px; height: 26px; font-size: 11px; }
-      .name { font-size: 19px; }
-      .total .num { font-size: 36px; }
+    @media (max-width: 640px) {
+      .container { padding: 60px 14px 24px; }
+      .panel { padding: 24px 18px 18px; border-radius: 22px; }
+      .panel-head .tag { display: none; }
+      .avatar-wrap img { width: 108px; height: 108px; }
+      .level-chip { height: 32px; font-size: 12px; min-width: 88px; bottom: -14px; }
+      .name { font-size: 22px; }
+      .xp-block .num { font-size: 58px; }
+      .xp-block .suf { font-size: 22px; }
+      .stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .stats .stat:nth-child(4) { grid-column: 1 / span 2; }
+      .stats .stat:nth-child(5) { grid-column: 3; }
       .stat .num { font-size: 22px; }
+      .stat .lab { font-size: 9.5px; }
+      .actions { grid-template-columns: 1fr; }
       .nav-bar { padding: 0 14px; }
     }
 
-    /* respect prefers-reduced-motion */
     @media (prefers-reduced-motion: reduce) {
-      .bar > div, .btn, .stat, .level-badge, .avatar-wrap img,
+      .btn, .stat, .level-chip, .avatar-wrap img,
       .nav-back, .theme-toggle { transition: none !important; }
       .spinner { animation-duration: 1.6s; }
     }
@@ -598,76 +605,57 @@
       const shareText = `My stats: ${maxed ? 'MAX LEVEL' : 'Lv ' + level} · ${total} XP\n${blocks} blocks broken · ${emonads} emonads slain.\n\nCome earn yours 👇`;
       const xShareHref = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(homepageUrl)}`;
 
+      const xpToNextN = maxed ? 0 : (xpPerLevel - intoLevel);
+      const ctxLine = maxed ? 'MAXED OUT · 420 WAS THE MEME' : (xpToNextN + ' XP TO LEVEL ' + (level + 1));
+
       content.innerHTML = `
         <div class="panel">
+          <div class="panel-head">
+            <span class="brand">E M O N A D . L O L</span>
+            <span class="tag">XP PROFILE</span>
+          </div>
+
           <div class="hero">
             <div class="avatar-wrap">
               <img src="${escapeHtml(upscaleAvatar(profile.avatar_url || '', 384, profile.x_handle || handle))}" alt="" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${escapeHtml(profile.avatar_url || '')}'">
-              <span class="level-badge ${maxed ? 'maxed' : ''}">${maxed ? 'MAX' : 'L' + level}</span>
+              <span class="level-chip ${maxed ? 'maxed' : ''}">${maxed ? 'MAX LEVEL' : 'LEVEL ' + level}</span>
             </div>
             <div class="name">${escapeHtml(profile.display_name || handle)}</div>
             <div class="handle">@${escapeHtml(profile.x_handle || handle)}</div>
-            <div class="since">Joined ${escapeHtml(fmtDate(profile.created_at))}</div>
           </div>
 
-          <div class="total">
-            <div class="num">${total}</div>
-            <div class="lab">Total XP</div>
+          <div class="xp-block">
+            <span class="num">${total}</span><span class="suf">XP</span>
           </div>
-
-          <div class="level-row">
-            <span class="lv">${maxed ? 'MAX LEVEL' : 'Level ' + level}</span>
-            <span class="next">${maxed ? total + ' / ' + xpCap : intoLevel + ' / ' + xpPerLevel + ' XP'}</span>
-          </div>
-          <div class="bar"><div style="width:${(progress*100).toFixed(1)}%"></div></div>
-
-          <div class="section-head">
-            <span class="section-title">Homepage missions</span>
-            <span class="section-sub">XP earned by clicking emo blocks and emonads on the <a href="emo.html">emonad.lol</a> homepage</span>
-          </div>
+          <div class="xp-context">${ctxLine}</div>
 
           <div class="stats">
             <div class="stat">
               <div class="num">${blocks}</div>
-              <div class="lab">Blocks broken</div>
+              <div class="lab">BLOCKS</div>
             </div>
             <div class="stat">
               <div class="num">${emonads}</div>
-              <div class="lab">Emonads slain</div>
+              <div class="lab">EMONADS</div>
             </div>
-          </div>
-
-          <div class="section-head">
-            <span class="section-title">Games</span>
-            <span class="section-sub">Best scores across the <a href="emo-crush/">Emo Crush</a>, <a href="flapemonad/">Flap Emonad</a>, and <a href="tarot/">Tarot</a> apps. Each gives +5 XP / day.</span>
-          </div>
-
-          <div class="stats">
             <div class="stat">
               <div class="num">${ecLevel > 0 ? 'Lv ' + ecLevel : '—'}</div>
-              <div class="lab">Emo Crush · top level</div>
-              <div class="sub-lab">${ecBest ? 'best score ' + ecBest.toLocaleString() : 'no score yet'}${ecGames ? ' · ' + ecGames + ' games' : ''}</div>
+              <div class="lab">EMO CRUSH</div>
             </div>
             <div class="stat">
               <div class="num">${flBest || '—'}</div>
-              <div class="lab">Flap Emonad · high score</div>
-              <div class="sub-lab">${flGames ? flGames + ' games played' : 'no flaps yet'}</div>
+              <div class="lab">FLAP EMONAD</div>
             </div>
-          </div>
-          <div class="stats" style="grid-template-columns: 1fr;">
             <div class="stat">
-              <div class="num">${trReadings}</div>
-              <div class="lab">Tarot readings</div>
-              <div class="sub-lab">${trReadings === 0 ? 'no readings yet — start with a daily draw' : 'major arcana spreads completed'}</div>
+              <div class="num">${trReadings || '—'}</div>
+              <div class="lab">TAROT</div>
             </div>
           </div>
 
           <div class="actions">
             <button class="btn primary" id="shareBtn" type="button">Share to X</button>
-            <div class="row-2">
-              <a class="btn" href="emo.html">Earn more XP</a>
-              <button class="btn" id="copyLinkBtn">Copy link</button>
-            </div>
+            <a class="btn" href="emo.html">Earn XP</a>
+            <button class="btn" id="copyLinkBtn">Copy link</button>
           </div>
         </div>
       `;
