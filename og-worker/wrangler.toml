@@ -1,0 +1,21 @@
+name = "emonad-og"
+main = "src/index.js"
+compatibility_date = "2025-01-15"
+compatibility_flags = ["nodejs_compat"]
+
+# Custom domain — set up in CF dashboard after first deploy
+# (Workers → emonad-og → Settings → Triggers → Custom Domains → add `i.emonad.lol`)
+routes = [
+  { pattern = "i.emonad.lol/*", custom_domain = true }
+]
+
+# Limits: free plan is 100K requests/day. OG crawlers + occasional human
+# clickthroughs land well under this.
+[limits]
+cpu_ms = 50
+
+# Secrets (set via `wrangler secret put SUPABASE_ANON_KEY` AFTER first deploy):
+#   SUPABASE_ANON_KEY — public anon key from Supabase project settings
+[vars]
+SUPABASE_URL = "https://jdymhwsfmodqxvhcdsti.supabase.co"
+SITE_ORIGIN  = "https://emonad.lol"

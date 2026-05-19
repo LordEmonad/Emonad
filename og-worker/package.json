@@ -1,0 +1,19 @@
+{
+  "name": "emonad-og",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker that serves per-user OG cards for emonad.lol referral links",
+  "private": true,
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "dependencies": {
+    "workers-og": "^0.0.25"
+  },
+  "devDependencies": {
+    "wrangler": "^3.99.0"
+  }
+}
