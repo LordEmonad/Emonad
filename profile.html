@@ -715,9 +715,36 @@
       ctx.closePath();
     }
 
+    // ── Avatar loader: forces fresh fetch by cache-busting unavatar.io.
+    //    Falls back through several sources so a stale Clerk URL never
+    //    blocks the share card from rendering.
+    async function fetchFreshAvatar(profile) {
+      const handle = (profile.x_handle || '').replace(/^@/, '');
+      const bust = Date.now();
+      const tries = [];
+      if (handle) {
+        // ttl=0 tells unavatar.io to bypass its own cache; the timestamp
+        // forces the browser to bypass its HTTP cache too. Big size hint
+        // requests the highest variant unavatar can pull from X (~400px).
+        tries.push(`https://unavatar.io/twitter/${encodeURIComponent(handle)}?size=1000&ttl=0&_=${bust}`);
+        tries.push(`https://unavatar.io/x/${encodeURIComponent(handle)}?size=1000&ttl=0&_=${bust}`);
+        tries.push(`https://unavatar.io/twitter/${encodeURIComponent(handle)}`);
+      }
+      if (profile.avatar_url) {
+        const cu = profile.avatar_url;
+        tries.push(cu.includes('img.clerk.com')
+          ? cu + (cu.includes('?') ? '&' : '?') + 'width=512&_=' + bust
+          : cu);
+      }
+      for (const src of tries) {
+        try { const img = await loadImageCORS(src); if (img) return img; } catch {}
+      }
+      return null;
+    }
+
     async function buildStatsCard(p) {
       const W = 1200, H = 630;
-      const SCALE = 2; // 2x intrinsic resolution → sharp avatar + text
+      const SCALE = 2;
       const canvas = document.createElement('canvas');
       canvas.width = W * SCALE; canvas.height = H * SCALE;
       const ctx = canvas.getContext('2d');
@@ -725,165 +752,237 @@
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
 
-      // Dark background with purple radial glow at top
-      ctx.fillStyle = '#0a0a0a';
-      ctx.fillRect(0, 0, W, H);
-      const grd = ctx.createRadialGradient(W/2, 60, 60, W/2, 60, W*0.85);
-      grd.addColorStop(0, 'rgba(155, 95, 255, 0.55)');
-      grd.addColorStop(0.55, 'rgba(155, 95, 255, 0.10)');
-      grd.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = grd;
+      // ─── Background ────────────────────────────────────────────
+      // Base
+      ctx.fillStyle = '#0a0612';
       ctx.fillRect(0, 0, W, H);
 
-      // subtle bottom band
-      const grd2 = ctx.createLinearGradient(0, H - 140, 0, H);
-      grd2.addColorStop(0, 'rgba(0,0,0,0)');
-      grd2.addColorStop(1, 'rgba(155, 95, 255, 0.10)');
-      ctx.fillStyle = grd2;
-      ctx.fillRect(0, H - 140, W, 140);
+      // Twin radial blooms (top-left soft + top-right strong)
+      const bloomL = ctx.createRadialGradient(180, 80, 0, 180, 80, 720);
+      bloomL.addColorStop(0, 'rgba(155, 95, 255, 0.32)');
+      bloomL.addColorStop(0.45, 'rgba(155, 95, 255, 0.08)');
+      bloomL.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = bloomL; ctx.fillRect(0, 0, W, H);
 
-      // Try to load avatar at the highest size we can, in priority order.
-      // X caps at 400x400 in the public CDN so we want at least that.
-      const handle = (p.profile.x_handle || '').replace(/^@/, '');
-      let avatarImg = null;
-      const tries = [];
-      if (handle) {
-        // Some unavatar upstreams will serve larger when the size hint is supplied.
-        tries.push('https://unavatar.io/twitter/' + encodeURIComponent(handle) + '?size=800');
-        tries.push('https://unavatar.io/twitter/' + encodeURIComponent(handle));
-      }
-      if (p.profile.avatar_url) {
-        const cu = p.profile.avatar_url;
-        tries.push(cu.includes('img.clerk.com') ? cu + (cu.includes('?') ? '&' : '?') + 'width=800' : cu);
-      }
-      for (const src of tries) {
-        try { avatarImg = await loadImageCORS(src); if (avatarImg) break; } catch {}
-      }
+      const bloomR = ctx.createRadialGradient(1080, 40, 0, 1080, 40, 700);
+      bloomR.addColorStop(0, 'rgba(236, 72, 153, 0.30)');
+      bloomR.addColorStop(0.45, 'rgba(236, 72, 153, 0.06)');
+      bloomR.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = bloomR; ctx.fillRect(0, 0, W, H);
 
-      // Avatar — top centered, with glow.
-      // Match draw size to source to avoid any upscaling. Source is usually
-      // 400px from X; on a 2x canvas, ar=100 → 400 actual px → 1:1, sharp.
-      const ax = W/2, ay = 165;
-      const srcW = avatarImg?.naturalWidth || 400;
-      // ar (display radius) so that 2*ar*SCALE <= srcW → no upscale
-      // SCALE is 2, so ar <= srcW/4. Cap at 105 for layout, floor at 80 for visibility.
-      const ar = Math.max(80, Math.min(105, Math.floor(srcW / 4)));
+      // Bottom vignette
+      const vig = ctx.createLinearGradient(0, H - 240, 0, H);
+      vig.addColorStop(0, 'rgba(0,0,0,0)');
+      vig.addColorStop(1, 'rgba(0,0,0,0.45)');
+      ctx.fillStyle = vig; ctx.fillRect(0, 0, W, H);
+
+      // Inset card stroke
       ctx.save();
-      ctx.shadowColor = 'rgba(155, 95, 255, 0.65)';
-      ctx.shadowBlur = 50;
-      ctx.fillStyle = '#9B5FFF';
-      ctx.beginPath(); ctx.arc(ax, ay, ar + 4, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = 'rgba(155, 95, 255, 0.18)';
+      ctx.lineWidth = 2;
+      roundRectPath(ctx, 18, 18, W - 36, H - 36, 28);
+      ctx.stroke();
       ctx.restore();
 
+      // ─── Header strip (top) ────────────────────────────────────
+      ctx.fillStyle = '#9B5FFF';
+      ctx.font = '900 18px "Space Grotesk", system-ui, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillText('E M O N A D . L O L', 56, 58);
+
+      ctx.fillStyle = 'rgba(255,255,255,0.4)';
+      ctx.font = '600 13px "Space Grotesk", system-ui, sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText('XP REPORT', W - 56, 58);
+
+      // ─── Avatar ────────────────────────────────────────────────
+      const handle = (p.profile.x_handle || '').replace(/^@/, '');
+      const avatarImg = await fetchFreshAvatar(p.profile);
+      const srcW = avatarImg?.naturalWidth || 400;
+      // ar ≤ srcW / (2 * SCALE) keeps the avatar pixel-perfect, never upscaled.
+      const ar = Math.max(85, Math.min(95, Math.floor(srcW / 4)));
+      const ax = W / 2, ay = 170;
+
+      // Outer glow ring
       ctx.save();
-      ctx.beginPath();
-      ctx.arc(ax, ay, ar, 0, Math.PI * 2);
-      ctx.closePath();
+      ctx.shadowColor = 'rgba(155, 95, 255, 0.7)';
+      ctx.shadowBlur = 60;
+      ctx.fillStyle = 'rgba(155, 95, 255, 0.9)';
+      ctx.beginPath(); ctx.arc(ax, ay, ar + 8, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+
+      // Avatar disc
+      ctx.save();
+      ctx.beginPath(); ctx.arc(ax, ay, ar, 0, Math.PI * 2); ctx.closePath();
       ctx.clip();
       if (avatarImg) {
         ctx.drawImage(avatarImg, ax - ar, ay - ar, ar * 2, ar * 2);
       } else {
-        ctx.fillStyle = '#1a1a2a';
+        ctx.fillStyle = '#1a1424';
         ctx.fillRect(ax - ar, ay - ar, ar * 2, ar * 2);
         ctx.fillStyle = '#9B5FFF';
-        ctx.font = 'bold 110px "Space Grotesk", system-ui, sans-serif';
+        ctx.font = 'bold 120px "Space Grotesk", system-ui, sans-serif';
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         ctx.fillText((handle || '?').charAt(0).toUpperCase(), ax, ay);
       }
       ctx.restore();
 
-      // White ring + accent ring
+      // Sharp accent ring on top
       ctx.beginPath(); ctx.arc(ax, ay, ar, 0, Math.PI * 2);
-      ctx.strokeStyle = '#9B5FFF'; ctx.lineWidth = 6; ctx.stroke();
+      ctx.strokeStyle = '#9B5FFF'; ctx.lineWidth = 5;
+      ctx.stroke();
+      ctx.beginPath(); ctx.arc(ax, ay, ar + 3, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 1;
+      ctx.stroke();
 
-      // Level chip on bottom-right of avatar
-      const chipText = p.maxed ? 'MAX' : ('Lv ' + p.level);
-      ctx.font = 'bold 22px "Space Grotesk", system-ui, sans-serif';
-      const chipPad = 18;
-      const chipW = Math.max(72, ctx.measureText(chipText).width + chipPad * 2);
-      const chipH = 42;
-      const chipCx = ax + ar - 16;
-      const chipCy = ay + ar - 6;
+      // Level chip — overlapping bottom of avatar
+      const chipText = p.maxed ? 'MAX LEVEL' : ('LEVEL ' + p.level);
+      ctx.font = '900 20px "Space Grotesk", system-ui, sans-serif';
+      const chipPad = 22;
+      const chipW = Math.max(110, ctx.measureText(chipText).width + chipPad * 2);
+      const chipH = 44;
+      const chipCx = ax;
+      const chipCy = ay + ar + 4;
+
       ctx.save();
-      ctx.shadowColor = 'rgba(155, 95, 255, 0.7)';
-      ctx.shadowBlur = 30;
+      ctx.shadowColor = 'rgba(155, 95, 255, 0.8)';
+      ctx.shadowBlur = 28;
       if (p.maxed) {
-        const cgrd = ctx.createLinearGradient(chipCx - chipW/2, chipCy, chipCx + chipW/2, chipCy);
-        cgrd.addColorStop(0, '#9B5FFF');
-        cgrd.addColorStop(1, '#ec4899');
-        ctx.fillStyle = cgrd;
+        const cg = ctx.createLinearGradient(chipCx - chipW/2, chipCy, chipCx + chipW/2, chipCy);
+        cg.addColorStop(0, '#9B5FFF');
+        cg.addColorStop(1, '#ec4899');
+        ctx.fillStyle = cg;
       } else {
         ctx.fillStyle = '#9B5FFF';
       }
-      roundRectPath(ctx, chipCx - chipW/2, chipCy - chipH/2, chipW, chipH, 21);
+      roundRectPath(ctx, chipCx - chipW/2, chipCy - chipH/2, chipW, chipH, 22);
       ctx.fill();
       ctx.restore();
-      ctx.strokeStyle = '#0a0a0a'; ctx.lineWidth = 4;
-      roundRectPath(ctx, chipCx - chipW/2, chipCy - chipH/2, chipW, chipH, 21);
+      ctx.strokeStyle = '#0a0612'; ctx.lineWidth = 4;
+      roundRectPath(ctx, chipCx - chipW/2, chipCy - chipH/2, chipW, chipH, 22);
       ctx.stroke();
       ctx.fillStyle = '#fff';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillText(chipText, chipCx, chipCy + 1);
 
-      // Name
+      // ─── Identity block ────────────────────────────────────────
+      // Display name
       ctx.fillStyle = '#fff';
-      ctx.font = 'bold 50px "Space Grotesk", system-ui, sans-serif';
+      ctx.font = '800 38px "Space Grotesk", system-ui, sans-serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
-      ctx.fillText(p.profile.display_name || handle || 'Anonymous', W/2, 330);
+      const name = p.profile.display_name || handle || 'Anonymous';
+      // Truncate name if too long
+      const maxNameW = W - 200;
+      let drawName = name;
+      while (ctx.measureText(drawName).width > maxNameW && drawName.length > 4) {
+        drawName = drawName.slice(0, -1);
+      }
+      if (drawName !== name) drawName = drawName.trim() + '…';
+      ctx.fillText(drawName, W/2, 340);
 
-      // Handle
-      ctx.fillStyle = '#a08cd0';
-      ctx.font = '26px "Space Grotesk", system-ui, sans-serif';
-      ctx.fillText('@' + handle, W/2, 365);
+      // @handle
+      ctx.fillStyle = '#b8a3e8';
+      ctx.font = '500 22px "Space Grotesk", system-ui, sans-serif';
+      ctx.fillText('@' + handle, W/2, 368);
 
-      // Big XP — sits a bit higher to make room for game-stats row
-      const xpText = p.maxed ? (p.total + ' XP · MAX') : (p.total + ' XP');
+      // ─── Hero XP — the focal point ────────────────────────────
+      // Composite "179 XP" — big number + smaller "XP" suffix sharing baseline.
+      const xpStr = String(p.total);
+      ctx.save();
+      ctx.font = '900 88px "Space Grotesk", system-ui, sans-serif';
+      const xpNumW = ctx.measureText(xpStr).width;
+      ctx.font = '900 36px "Space Grotesk", system-ui, sans-serif';
+      const xpSuffW = ctx.measureText(' XP').width;
+      const compW = xpNumW + xpSuffW;
+      const startX = W / 2 - compW / 2;
+      const baseY = 460;
+
+      ctx.shadowColor = 'rgba(155, 95, 255, 0.65)';
+      ctx.shadowBlur = 36;
+      ctx.fillStyle = '#fff';
+      ctx.font = '900 88px "Space Grotesk", system-ui, sans-serif';
+      ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+      ctx.fillText(xpStr, startX, baseY);
+
       ctx.fillStyle = '#9B5FFF';
-      ctx.font = 'bold 104px "Space Grotesk", system-ui, sans-serif';
-      ctx.shadowColor = 'rgba(155, 95, 255, 0.55)';
-      ctx.shadowBlur = 30;
-      ctx.fillText(xpText, W/2, 465);
-      ctx.shadowBlur = 0;
+      ctx.font = '900 36px "Space Grotesk", system-ui, sans-serif';
+      ctx.fillText(' XP', startX + xpNumW, baseY);
+      ctx.restore();
 
-      // Click stats row (blocks · emonads)
-      const clickY = 525;
-      const clickLx = W/2 - 200;
-      const clickRx = W/2 + 200;
-      ctx.fillStyle = '#9B5FFF';
-      ctx.font = 'bold 38px "Space Grotesk", system-ui, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(String(p.blocks),  clickLx, clickY);
-      ctx.fillText(String(p.emonads), clickRx, clickY);
-      ctx.fillStyle = '#888';
-      ctx.font = 'bold 13px "Space Grotesk", system-ui, sans-serif';
-      ctx.fillText('BLOCKS BROKEN', clickLx, clickY + 22);
-      ctx.fillText('EMONADS SLAIN', clickRx, clickY + 22);
+      // XP context line under the hero
+      ctx.fillStyle = 'rgba(184, 163, 232, 0.75)';
+      ctx.font = '600 14px "Space Grotesk", system-ui, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+      const ctxLine = p.maxed
+        ? 'maxed out · 420 was the meme'
+        : ((60 - (p.total % 60)) + ' XP to Level ' + (p.level + 1));
+      ctx.fillText(ctxLine, W/2, 484);
 
-      // Games row — three slots: emo crush level, flap high, tarot readings
+      // ─── Stat grid (5 cards) ──────────────────────────────────
       const ecLevelN = Number(p.ecLevel) || 0;
       const flBestN  = Number(p.flBest)  || 0;
       const trN      = Number(p.trReadings) || 0;
-      const gameY = H - 70;
-      const slots = [
-        { cx: W/2 - 290, big: ecLevelN > 0 ? 'Lv ' + ecLevelN : '—', lab: 'EMO CRUSH' },
-        { cx: W/2,        big: flBestN > 0   ? String(flBestN) : '—', lab: 'FLAP HIGH SCORE' },
-        { cx: W/2 + 290, big: trN > 0        ? String(trN)     : '—', lab: 'TAROT READINGS' },
+      const blocks   = Number(p.blocks)  || 0;
+      const emonads  = Number(p.emonads) || 0;
+
+      const cards = [
+        { big: String(blocks),                        lab: 'BLOCKS' },
+        { big: String(emonads),                       lab: 'EMONADS' },
+        { big: ecLevelN > 0 ? 'Lv ' + ecLevelN : '—', lab: 'EMO CRUSH' },
+        { big: flBestN  > 0 ? String(flBestN)  : '—', lab: 'FLAP' },
+        { big: trN      > 0 ? String(trN)      : '—', lab: 'TAROT' },
       ];
-      for (const s of slots) {
+
+      const gridY    = 512;
+      const gridH    = 72;
+      const gridPad  = 56;
+      const gap      = 14;
+      const cellW    = (W - gridPad * 2 - gap * (cards.length - 1)) / cards.length;
+
+      for (let i = 0; i < cards.length; i++) {
+        const x = gridPad + i * (cellW + gap);
+        const y = gridY;
+
+        // Cell background
+        ctx.save();
+        ctx.fillStyle = 'rgba(155, 95, 255, 0.08)';
+        roundRectPath(ctx, x, y, cellW, gridH, 14);
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(155, 95, 255, 0.22)';
+        ctx.lineWidth = 1;
+        roundRectPath(ctx, x, y, cellW, gridH, 14);
+        ctx.stroke();
+        ctx.restore();
+
+        // Big number
+        ctx.fillStyle = '#fff';
+        ctx.font = '800 28px "Space Grotesk", system-ui, sans-serif';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+        ctx.fillText(cards[i].big, x + cellW / 2, y + 34);
+
+        // Label
         ctx.fillStyle = '#9B5FFF';
-        ctx.font = 'bold 36px "Space Grotesk", system-ui, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText(s.big, s.cx, gameY);
-        ctx.fillStyle = '#888';
-        ctx.font = 'bold 12px "Space Grotesk", system-ui, sans-serif';
-        ctx.fillText(s.lab, s.cx, gameY + 22);
+        ctx.font = '800 10.5px "Space Grotesk", system-ui, sans-serif';
+        ctx.fillText(cards[i].lab, x + cellW / 2, y + 56);
       }
 
-      // Footer brand (bottom-right)
+      // ─── Footer ───────────────────────────────────────────────
+      // Left side: tagline
+      ctx.fillStyle = 'rgba(255,255,255,0.5)';
+      ctx.font = '600 13px "Space Grotesk", system-ui, sans-serif';
+      ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+      ctx.fillText('the home of $EMO  ·  live on monad', 56, H - 30);
+
+      // Right side: brand mark with accent dot
       ctx.fillStyle = '#9B5FFF';
-      ctx.font = 'bold 20px "Space Grotesk", system-ui, sans-serif';
-      ctx.textAlign = 'right';
-      ctx.fillText('emonad.lol  ·  homepage missions  ·  games', W - 36, H - 26);
+      const dotX = W - 175;
+      const brandY = H - 30;
+      ctx.beginPath(); ctx.arc(dotX, brandY - 5, 4, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#fff';
+      ctx.font = '900 18px "Space Grotesk", system-ui, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('emonad.lol', dotX + 12, brandY);
 
       return canvas;
     }
