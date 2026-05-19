@@ -363,6 +363,65 @@ function loadClerkScript() {
   });
 }
 
+// ─── Referrals ───────────────────────────────────────────────────────
+// `?ref=<handle>` lands users on any page; we stash the handle in
+// localStorage and try to claim it once the user signs in. Claim is
+// idempotent server-side (UNIQUE on referrals.referred_x_user_id), so
+// retries from multiple tabs / pages collapse to a single payout.
+function capturePendingRef() {
+  try {
+    const url = new URL(window.location.href);
+    const raw = url.searchParams.get('ref');
+    if (!raw) return;
+    const clean = raw.replace(/^@/, '').trim();
+    if (!clean) return;
+    // Don't overwrite an existing pending ref with another one — first
+    // link wins. Prevents a malicious site from rewriting an in-flight
+    // referral by redirecting through their own ?ref=.
+    if (!localStorage.getItem('emo:pendingRef')) {
+      localStorage.setItem('emo:pendingRef', clean);
+    }
+    // Strip ?ref= from the URL bar so refreshes don't keep re-firing
+    // the capture (no UX consequence, just cosmetics + safety).
+    url.searchParams.delete('ref');
+    window.history.replaceState({}, '', url.toString());
+  } catch (e) {
+    console.warn('emo-profile: capturePendingRef failed', e);
+  }
+}
+
+async function claimPendingReferral() {
+  const ref = localStorage.getItem('emo:pendingRef');
+  if (!ref) return null;
+  try {
+    const { data, error } = await supabase.rpc('claim_referral', { p_referrer_handle: ref });
+    // Always clear — don't keep retrying on self_referral / not_found /
+    // already_referred. Those are terminal outcomes for this user.
+    localStorage.removeItem('emo:pendingRef');
+    if (error) {
+      console.warn('emo-profile: claim_referral failed', error);
+      return null;
+    }
+    const result = (data && data[0]) || null;
+    if (result && result.reason === 'ok') {
+      try {
+        document.dispatchEvent(new CustomEvent('emo:referral-claimed', {
+          detail: {
+            awardedToReferred: result.awarded_to_referred,
+            awardedToReferrer: result.awarded_to_referrer,
+            referrerHandle: ref,
+          },
+        }));
+      } catch {}
+    }
+    return result;
+  } catch (e) {
+    console.warn('emo-profile: claim_referral threw', e);
+    localStorage.removeItem('emo:pendingRef');
+    return null;
+  }
+}
+
 // ─── Profile upsert ──────────────────────────────────────────────────
 async function upsertProfile(clerkUser) {
   const xAcc = xAccountOf(clerkUser);
@@ -923,6 +982,10 @@ const api = {
   async init({ page = 'unknown' } = {}) {
     if (state.ready) return;
     state.page = page;
+    // Stash ?ref=<handle> in localStorage BEFORE we touch Clerk so the
+    // referral survives the OAuth redirect roundtrip. The claim itself
+    // happens after the first profile upsert (see onAuth below).
+    capturePendingRef();
     injectStyles();
 
     const today = loadDailyCounts();
@@ -947,6 +1010,11 @@ const api = {
       const identityChanged = state.xUserId && state.xUserId !== prevXUserId;
       if (state.xUserId && identityChanged) {
         await upsertProfile(u);
+        // Claim any pending ?ref= referral now that the profile exists.
+        // Must come AFTER upsertProfile (the RPC FK-references profiles)
+        // and BEFORE refreshServerStats (so the XP gets reflected in
+        // the stats snapshot the UI reads).
+        await claimPendingReferral();
         await claimLocalGameProgress();   // one-shot: counter delta migration
         await syncGameProgress();         // every login: bidir bests + pull
         await refreshServerStats();
@@ -1155,6 +1223,38 @@ const api = {
     const { data, error } = await supabase.from('leaderboard').select('*').limit(limit);
     if (error) { console.warn('emo-profile: leaderboard', error); return []; }
     return data || [];
+  },
+
+  // ── Referrals ──────────────────────────────────────────────────────
+  // Build the share URL for a given handle (defaults to the signed-in
+  // user). Returns null if no handle is available.
+  referralUrl(handle) {
+    let h = handle;
+    if (!h && state.user) {
+      const xAcc = xAccountOf(state.user);
+      h = xAcc?.username || state.user.username || null;
+    }
+    if (!h) return null;
+    return 'https://emonad.lol/?ref=' + encodeURIComponent(h.replace(/^@/, ''));
+  },
+
+  async getReferralStats(xUserId) {
+    const id = xUserId || state.xUserId;
+    if (!id) return { referral_count: 0, referral_xp_total: 0 };
+    const { data, error } = await supabase.rpc('get_referral_stats', { uid: id });
+    if (error) { console.warn('emo-profile: getReferralStats', error); return { referral_count: 0, referral_xp_total: 0 }; }
+    return (data && data[0]) || { referral_count: 0, referral_xp_total: 0 };
+  },
+
+  // Manual claim helper — for the rare case where a user paste-navigates
+  // and we need to claim after the auto-claim window passed. Stashes the
+  // handle as a pending ref and reuses the standard claim path.
+  async claimReferral(handle) {
+    if (!handle || !state.xUserId) return null;
+    localStorage.setItem('emo:pendingRef', handle.replace(/^@/, '').trim());
+    const result = await claimPendingReferral();
+    if (result && result.reason === 'ok') await refreshServerStats();
+    return result;
   },
 
   highResAvatar,

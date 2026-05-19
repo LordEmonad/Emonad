@@ -308,6 +308,132 @@
     }
     [data-theme="light"] .stat .lab { color: #7B3FE4; opacity: 0.75; }
 
+    /* Referral block — sits between stats and actions. Always visible on a
+       profile so any visitor can grab THAT USER's invite link and share it
+       (the user earns the XP, the visitor's link is shaped for them). */
+    .referral-block {
+      margin: 14px 0 16px;
+      padding: 14px 16px 16px;
+      border-radius: 16px;
+      background:
+        linear-gradient(135deg, rgba(155, 95, 255, 0.12) 0%, rgba(236, 72, 153, 0.10) 100%);
+      border: 1px solid rgba(155, 95, 255, 0.35);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+      position: relative;
+    }
+    [data-theme="light"] .referral-block {
+      background:
+        linear-gradient(135deg, rgba(155, 95, 255, 0.10) 0%, rgba(236, 72, 153, 0.08) 100%);
+      border-color: rgba(155, 95, 255, 0.4);
+    }
+    .referral-block .rb-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .referral-block .rb-eyebrow {
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #b8a3e8;
+    }
+    [data-theme="light"] .referral-block .rb-eyebrow { color: #7B3FE4; opacity: 0.85; }
+    .referral-block .rb-stats {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      letter-spacing: 0.02em;
+    }
+    .referral-block .rb-stats b {
+      color: var(--text-color);
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+    }
+    .referral-block .rb-stats .sep {
+      opacity: 0.4;
+      margin: 0 6px;
+    }
+    .referral-block .rb-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 8px;
+      align-items: center;
+    }
+    .referral-block .rb-link {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-color);
+      background: rgba(0, 0, 0, 0.28);
+      border: 1px solid rgba(155, 95, 255, 0.28);
+      border-radius: 10px;
+      padding: 9px 12px;
+      letter-spacing: 0.01em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+    }
+    [data-theme="light"] .referral-block .rb-link {
+      background: rgba(255,255,255,0.7);
+      border-color: rgba(155, 95, 255, 0.3);
+    }
+    .referral-block .rb-link em {
+      font-style: normal;
+      color: #9B5FFF;
+      font-weight: 900;
+    }
+    .referral-block .rb-btn {
+      height: 38px;
+      border-radius: 10px;
+      border: 1px solid rgba(155, 95, 255, 0.32);
+      background: rgba(155, 95, 255, 0.10);
+      color: var(--text-color);
+      font: inherit;
+      font-weight: 800;
+      font-size: 12.5px;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      padding: 0 14px;
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .referral-block .rb-btn:hover {
+      background: rgba(155, 95, 255, 0.22);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+    .referral-block .rb-btn.primary {
+      background: linear-gradient(135deg, #9B5FFF, #ec4899);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(155, 95, 255, 0.35);
+    }
+    .referral-block .rb-cta {
+      margin-top: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-align: center;
+      opacity: 0.85;
+    }
+    .referral-block .rb-cta b {
+      color: var(--text-color);
+      font-weight: 900;
+    }
+    @media (max-width: 640px) {
+      .referral-block .rb-row { grid-template-columns: 1fr; }
+      .referral-block .rb-btn { width: 100%; }
+      .referral-block .rb-head { gap: 6px; }
+    }
+
     /* Action buttons */
     .actions {
       display: grid;
@@ -562,10 +688,15 @@
         return;
       }
 
-      const stats = await EmoProfile.getStats(profile.x_user_id);
+      const [stats, refStats] = await Promise.all([
+        EmoProfile.getStats(profile.x_user_id),
+        EmoProfile.getReferralStats(profile.x_user_id),
+      ]);
       const total       = stats?.total_xp            ?? profile.total_xp ?? 0;
       const blocks      = stats?.xp_blocks           ?? 0;
       const emonads     = stats?.xp_emonads          ?? 0;
+      const refCount    = refStats?.referral_count   ?? 0;
+      const refXp       = refStats?.referral_xp_total ?? 0;
       const ecBest      = stats?.emocrush_best_score ?? 0;
       const ecLevel     = stats?.emocrush_best_level ?? 0;
       const ecGames     = stats?.emocrush_games      ?? 0;
@@ -604,6 +735,16 @@
       const homepageUrl = 'https://emonad.lol/';
       const shareText = `My stats: ${maxed ? 'MAX LEVEL' : 'Lv ' + level} · ${total} XP\n${blocks} blocks broken · ${emonads} emonads slain.\n\nCome earn yours 👇`;
       const xShareHref = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(homepageUrl)}`;
+
+      // Referral link for THIS profile. Anyone visiting can grab + share it;
+      // sign-ups via this URL credit the XP to the profile owner.
+      const refHandle = (profile.x_handle || handle).replace(/^@/, '');
+      const refUrl = 'https://emonad.lol/?ref=' + encodeURIComponent(refHandle);
+      const refUrlDisplay = 'emonad.lol/?ref=' + escapeHtml(refHandle);
+      const refTweetText = `come earn XP with me on @EmonadCoin\nsign up = +50 XP free 👇`;
+      const refTweetHref = 'https://twitter.com/intent/tweet'
+        + '?text=' + encodeURIComponent(refTweetText)
+        + '&url='  + encodeURIComponent(refUrl);
 
       const xpToNextN = maxed ? 0 : (xpPerLevel - intoLevel);
       const ctxLine = maxed ? 'MAXED OUT · 4200 IS THE MEME' : (xpToNextN + ' XP TO LEVEL ' + (level + 1));
@@ -652,10 +793,27 @@
             </div>
           </div>
 
+          <div class="referral-block">
+            <div class="rb-head">
+              <div class="rb-eyebrow">Invite Friends · Earn XP</div>
+              <div class="rb-stats">
+                <b>${refCount}</b> referred<span class="sep">·</span><b>+${refXp} XP</b> earned
+              </div>
+            </div>
+            <div class="rb-row">
+              <div class="rb-link" title="${escapeHtml(refUrl)}">emonad.lol/?ref=<em>${escapeHtml(refHandle)}</em></div>
+              <button class="rb-btn" id="refCopyBtn" type="button">Copy</button>
+              <a class="rb-btn primary" id="refShareBtn" href="${refTweetHref}" target="_blank" rel="noopener noreferrer">Share on X</a>
+            </div>
+            <div class="rb-cta">
+              First invite = <b>+50 XP</b> · After that <b>+15 XP</b> each · New users always get <b>+50 XP</b>
+            </div>
+          </div>
+
           <div class="actions">
-            <button class="btn primary" id="shareBtn" type="button">Share to X</button>
+            <button class="btn primary" id="shareBtn" type="button">Share Stats Card</button>
             <a class="btn" href="emo.html">Earn XP</a>
-            <button class="btn" id="copyLinkBtn">Copy link</button>
+            <button class="btn" id="copyLinkBtn">Copy profile</button>
           </div>
         </div>
       `;
@@ -669,6 +827,18 @@
           setTimeout(() => copyBtn.textContent = orig, 1400);
         } catch {
           copyBtn.textContent = 'Copy failed';
+        }
+      });
+
+      const refCopyBtn = document.getElementById('refCopyBtn');
+      refCopyBtn?.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(refUrl);
+          const orig = refCopyBtn.textContent;
+          refCopyBtn.textContent = 'Copied!';
+          setTimeout(() => refCopyBtn.textContent = orig, 1400);
+        } catch {
+          refCopyBtn.textContent = 'Copy failed';
         }
       });
 

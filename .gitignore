@@ -37,10 +37,13 @@ node_modules/
 # Local-only — not shipped publicly
 # CLAUDE.md = auth + XP architecture notes (don't expose for recon)
 # login-test.html = auth pipeline debug page
+# referral-card.html = static design mockup with hardcoded data; real per-
+#                      user OG cards (when shipped) live at a different path
 # db/ = supabase schema (reveals abuse-prevention triggers)
 # xp/ = user data CSV backups + recovery scripts (contains real handles/IDs)
 CLAUDE.md
 login-test.html
+referral-card.html
 db/
 xp/
 
