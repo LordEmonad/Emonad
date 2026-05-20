@@ -159,6 +159,45 @@ function injectStyles() {
       0%, 100% { opacity: 0.45; }
       50%      { opacity: 0.85; }
     }
+
+    /* Daily-XP glow: pulses the auth widget when the user still has free
+       XP to claim today. Goes away the moment everything is done — the
+       "complete" state. Border-color + box-shadow only, no transform, so
+       no layout shift / repaint cascades next to the price ticker. */
+    .emo-auth-widget.has-daily {
+      animation: emoAuthDailyGlow 1.8s ease-in-out infinite;
+    }
+    .emo-auth-widget.has-daily img {
+      animation: emoAuthDailyAvatar 1.8s ease-in-out infinite;
+    }
+    @keyframes emoAuthDailyGlow {
+      0%, 100% {
+        border-color: rgba(155, 95, 255, 0.55);
+        box-shadow: 0 0 0 1px rgba(155, 95, 255, 0.35),
+                    0 0 18px rgba(155, 95, 255, 0.35);
+      }
+      50% {
+        border-color: rgba(236, 72, 153, 0.7);
+        box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.5),
+                    0 0 28px rgba(236, 72, 153, 0.5);
+      }
+    }
+    @keyframes emoAuthDailyAvatar {
+      0%, 100% { box-shadow: 0 0 14px rgba(155, 95, 255, 0.55); }
+      50%      { box-shadow: 0 0 22px rgba(236, 72, 153, 0.7); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .emo-auth-widget.has-daily,
+      .emo-auth-widget.has-daily img,
+      .emo-auth-xp.loading {
+        animation: none;
+      }
+      .emo-auth-widget.has-daily {
+        border-color: rgba(236, 72, 153, 0.6);
+        box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.4),
+                    0 0 20px rgba(236, 72, 153, 0.4);
+      }
+    }
     .emo-xp-pop {
       position: fixed; pointer-events: none;
       font-weight: 800; font-size: 16px;
@@ -303,6 +342,106 @@ function injectStyles() {
       font-size: 10.5px; color: var(--text-muted, #555); margin-top: 4px;
     }
     .emo-stat-card.claimed .sub-lab { color: var(--accent, #9B5FFF); }
+
+    /* Daily-XP banner — sits at the very top of the modal so the user
+       sees their "punch list" the moment it opens. Two states:
+         .has-daily — accented gradient, list of unclaimed sources
+         .complete  — muted green check, satisfying done-state */
+    .emo-daily-banner {
+      border-radius: 14px;
+      padding: 12px 14px 12px;
+      margin: 0 0 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .emo-daily-banner.has-daily {
+      background: linear-gradient(135deg,
+        rgba(155, 95, 255, 0.20) 0%,
+        rgba(236, 72, 153, 0.18) 100%);
+      border: 1px solid rgba(155, 95, 255, 0.45);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08),
+                  0 8px 24px rgba(155, 95, 255, 0.18);
+    }
+    .emo-daily-banner.complete {
+      background: linear-gradient(135deg,
+        rgba(34, 197, 94, 0.10) 0%,
+        rgba(34, 197, 94, 0.04) 100%);
+      border: 1px solid rgba(34, 197, 94, 0.35);
+    }
+    .emo-daily-banner .head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .emo-daily-banner.complete .head { margin-bottom: 0; }
+    .emo-daily-banner .head .lbl {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.95);
+    }
+    .emo-daily-banner.complete .head .lbl { color: #22c55e; }
+    [data-theme="light"] .emo-daily-banner .head .lbl { color: #1a1a1a; }
+    [data-theme="light"] .emo-daily-banner.complete .head .lbl { color: #16a34a; }
+    .emo-daily-banner .head .total {
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.005em;
+      font-variant-numeric: tabular-nums;
+    }
+    .emo-daily-banner.complete .head .total {
+      color: #22c55e;
+      font-size: 15px;
+    }
+    [data-theme="light"] .emo-daily-banner .head .total { color: #1a1a1a; }
+    [data-theme="light"] .emo-daily-banner.complete .head .total { color: #16a34a; }
+    .emo-daily-banner .head .total .x {
+      color: var(--accent, #9B5FFF);
+      font-size: 13px;
+      font-weight: 900;
+      margin-left: 3px;
+      letter-spacing: 0.04em;
+    }
+    [data-theme="light"] .emo-daily-banner .head .total .x { color: #7B3FE4; }
+    .emo-daily-banner .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .emo-daily-banner .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(155, 95, 255, 0.35);
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-color, #fff);
+      text-decoration: none;
+      transition: all 0.18s ease;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+    [data-theme="light"] .emo-daily-banner .chip {
+      background: rgba(255,255,255,0.6);
+      color: #1a1a1a;
+    }
+    .emo-daily-banner .chip:hover {
+      background: rgba(155, 95, 255, 0.22);
+      border-color: var(--accent, #9B5FFF);
+      transform: translateY(-1px);
+    }
+    .emo-daily-banner .chip .amt {
+      color: var(--accent, #9B5FFF);
+      font-weight: 900;
+    }
+    [data-theme="light"] .emo-daily-banner .chip .amt { color: #7B3FE4; }
 
     /* Referral block — sits between games + actions in the modal */
     .emo-ref-card {
@@ -688,7 +827,23 @@ function buildAuthWidget(user) {
   const widget = document.createElement('button');
   widget.type = 'button';
   widget.className = 'emo-auth-widget';
-  widget.setAttribute('aria-label', 'Open profile (' + (handle ? '@'+handle : 'account') + ')');
+  // Glow when there's free XP to grab today. Gated on serverStats being
+  // loaded so we don't false-trigger before the first stats fetch lands
+  // (without stats, todayCounts is zeros and todayClaims is all false,
+  // which would otherwise read as "max XP available!").
+  if (state.serverStats) {
+    const r = api.dailyXpRemaining();
+    if (r.hasAny) {
+      widget.classList.add('has-daily');
+      widget.setAttribute('aria-label',
+        '+' + r.total + ' XP available today — open profile' +
+        (handle ? ' (@' + handle + ')' : ''));
+    } else {
+      widget.setAttribute('aria-label', 'Open profile (' + (handle ? '@'+handle : 'account') + ')');
+    }
+  } else {
+    widget.setAttribute('aria-label', 'Open profile (' + (handle ? '@'+handle : 'account') + ')');
+  }
 
   const img = document.createElement('img');
   img.src = avatar;
@@ -731,6 +886,53 @@ const mountedHosts = new Set();
 function refreshMounts() { mountedHosts.forEach(renderInto); }
 
 // ─── Profile modal ───────────────────────────────────────────────────
+// Build the daily-XP banner HTML for the profile modal AND the public
+// profile page (reused via api.buildDailyBannerHtml). Two states:
+//   .has-daily — "+N XP available today" + chips for each unclaimed source
+//   .complete  — "All daily XP claimed today ✓"
+// Returns empty string if not signed in or stats not yet loaded — never
+// flashes a misleading "0 XP" state before refreshServerStats lands.
+function buildDailyBannerHtml() {
+  if (!state.user || !state.serverStats) return '';
+  const r = api.dailyXpRemaining();
+  if (!r.hasAny) {
+    return `
+      <div class="emo-daily-banner complete">
+        <div class="head">
+          <span class="lbl">DAILY XP</span>
+          <span class="total">All claimed ✓</span>
+        </div>
+      </div>`;
+  }
+  const base = profileLinkBase();
+  // One chip per remaining source. Skip any with 0 left. Each chip is an
+  // anchor to the page where the user can actually earn that XP.
+  const chips = [];
+  if (r.blocks > 0) {
+    chips.push(`<a class="chip" href="${base}emo.html#blocks">${r.blocks} blocks left <span class="amt">+${r.blocks} XP</span></a>`);
+  }
+  if (r.emonads > 0) {
+    chips.push(`<a class="chip" href="${base}emo.html#emonads">${r.emonads} emonads left <span class="amt">+${r.emonads} XP</span></a>`);
+  }
+  if (r.tarot > 0) {
+    chips.push(`<a class="chip" href="${base}tarot/">Tarot reading <span class="amt">+${r.tarot} XP</span></a>`);
+  }
+  if (r.flap > 0) {
+    chips.push(`<a class="chip" href="${base}flapemonad/">Flap Emonad <span class="amt">+${r.flap} XP</span></a>`);
+  }
+  if (r.emocrush > 0) {
+    chips.push(`<a class="chip" href="${base}emo-crush/">Emo Crush <span class="amt">+${r.emocrush} XP</span></a>`);
+  }
+  return `
+    <div class="emo-daily-banner has-daily">
+      <div class="head">
+        <span class="lbl">XP available today</span>
+        <span class="total">+${r.total}<span class="x">XP</span></span>
+      </div>
+      <div class="chips">${chips.join('')}</div>
+    </div>`;
+}
+
 function openModal() {
   if (!state.user) return;
   closeModal();
@@ -750,6 +952,10 @@ function openModal() {
   const fallbackAvatar = (xAcc && xAcc.imageUrl) || state.user.imageUrl || '';
   const avatar = highResAvatar(fallbackAvatar, 256, handle);
   const name = state.user.fullName || handle;
+  // Build the daily-XP banner here so its HTML can be dropped into the
+  // template literal below. Use page-aware hrefs so the modal works the
+  // same way from /, /emo-crush/, /flapemonad/, /tarot/, etc.
+  const dailyBannerHtml = buildDailyBannerHtml();
 
   const backdrop = document.createElement('div');
   backdrop.className = 'emo-modal-backdrop';
@@ -764,6 +970,7 @@ function openModal() {
   modal.innerHTML = `
     <button class="emo-modal-close" aria-label="Close">✕</button>
     <h2>Your profile</h2>
+    ${dailyBannerHtml}
     <div class="profile-row">
       <div class="avatar-wrap">
         <img src="${avatar}" alt="" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${escapeHtml(fallbackAvatar)}'">
@@ -848,6 +1055,13 @@ function openModal() {
   modal.querySelector('.emo-modal-close').addEventListener('click', closeModal);
   modal.querySelector('[data-action="manage"]').addEventListener('click', () => { closeModal(); api.openClerkProfile(); });
   modal.querySelector('[data-action="logout"]').addEventListener('click', () => { closeModal(); api.logout(); });
+
+  // Daily-XP chips: close the modal on click so the user actually sees
+  // the page they're being sent to (otherwise the modal stays up and
+  // covers the blocks/emonads they need to click on emo.html).
+  modal.querySelectorAll('.emo-daily-banner .chip').forEach(chip => {
+    chip.addEventListener('click', () => closeModal());
+  });
 
   // Referral block: Copy button → clipboard, then live-fetch counts.
   // Stats start as "…" with a loading style; we replace once getReferralStats
@@ -1214,6 +1428,38 @@ const api = {
   hasClaimedToday(game) { ensureToday(); return !!state.todayClaims[game]; },
   serverStats()   { return state.serverStats; },
   levelInfo()     { return levelInfo(state.serverStats?.total_xp ?? 0); },
+
+  // Current signed-in user's X handle (no @), or null. Used by profile.html
+  // to decide if the viewer is the profile owner — i.e. whether to show
+  // the owner-only daily-XP banner. Falls back to Clerk's username field
+  // when no X external account is attached (shouldn't happen on prod but
+  // keeps the helper defensive).
+  myHandle() {
+    if (!state.user) return null;
+    const xAcc = xAccountOf(state.user);
+    return xAcc?.username || state.user.username || null;
+  },
+
+  // HTML string for the daily-XP banner — same widget used in the modal
+  // and on /profile.html (owner-only). Returns '' when not signed in or
+  // stats haven't loaded yet so callers can drop it in unconditionally.
+  buildDailyBannerHtml() { return buildDailyBannerHtml(); },
+
+  // Returns { blocks, emonads, tarot, flap, emocrush, total, hasAny } where
+  // each XP source's remaining-today value is computed from local state
+  // (which refreshServerStats keeps authoritative). Read by the auth widget
+  // glow, modal banner, and profile-page banner — single source of truth so
+  // the three surfaces never disagree.
+  dailyXpRemaining() {
+    ensureToday();
+    const blocks   = Math.max(0, CONFIG.PER_TYPE_DAILY_CAP - (state.todayCounts.block  || 0));
+    const emonads  = Math.max(0, CONFIG.PER_TYPE_DAILY_CAP - (state.todayCounts.emonad || 0));
+    const tarot    = state.todayClaims.tarot    ? 0 : CONFIG.DAILY_REWARD_XP;
+    const flap     = state.todayClaims.flap     ? 0 : CONFIG.DAILY_REWARD_XP;
+    const emocrush = state.todayClaims.emocrush ? 0 : CONFIG.DAILY_REWARD_XP;
+    const total = blocks + emonads + tarot + flap + emocrush;
+    return { blocks, emonads, tarot, flap, emocrush, total, hasAny: total > 0 };
+  },
 
   login() {
     if (!window.Clerk) return;

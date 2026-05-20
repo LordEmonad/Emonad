@@ -308,6 +308,20 @@
     }
     [data-theme="light"] .stat .lab { color: #7B3FE4; opacity: 0.75; }
 
+    /* Owner-only daily-XP banner — uses the SAME .emo-daily-banner class
+       the modal does (CSS injected by emo-profile.js). We just need a top
+       margin so it sits nicely above the stats grid. */
+    .emo-daily-banner.in-profile {
+      margin: 0 0 16px;
+    }
+    .emo-daily-banner.in-profile .head .total { color: var(--text-color); }
+    .emo-daily-banner.in-profile .head .lbl   { color: var(--text-color); opacity: 0.92; }
+    .emo-daily-banner.in-profile .chip {
+      color: var(--text-color);
+    }
+    .emo-daily-banner.in-profile.complete .head .lbl,
+    .emo-daily-banner.in-profile.complete .head .total { color: #22c55e; }
+
     /* Referral block — sits between stats and actions. Always visible on a
        profile so any visitor can grab THAT USER's invite link and share it
        (the user earns the XP, the visitor's link is shaped for them). */
@@ -688,9 +702,13 @@
         return;
       }
 
+      // Wait for EmoProfile init alongside the data fetches — we need
+      // Clerk to be loaded before checking if the viewer owns this profile,
+      // and init is in-flight from the script tag below so this is free.
       const [stats, refStats] = await Promise.all([
         EmoProfile.getStats(profile.x_user_id),
         EmoProfile.getReferralStats(profile.x_user_id),
+        EmoProfile.init({ page: 'profile' }),
       ]);
       const total       = stats?.total_xp            ?? profile.total_xp ?? 0;
       const blocks      = stats?.xp_blocks           ?? 0;
@@ -754,6 +772,23 @@
       const xpToNextN = maxed ? 0 : (xpPerLevel - intoLevel);
       const ctxLine = maxed ? 'MAXED OUT · 4200 IS THE MEME' : (xpToNextN + ' XP TO LEVEL ' + (level + 1));
 
+      // Owner check: signed-in viewer's handle matches this profile's handle.
+      // Case-insensitive — X handles aren't case-sensitive and our DB stores
+      // mixed-case from Clerk. Only the owner sees the daily-XP banner.
+      const profileOwnerHandle = (profile.x_handle || handle).toLowerCase();
+      const viewerHandle = (EmoProfile.myHandle() || '').toLowerCase();
+      const isOwner = !!viewerHandle && viewerHandle === profileOwnerHandle;
+      let dailyBannerHtml = isOwner ? EmoProfile.buildDailyBannerHtml() : '';
+      if (dailyBannerHtml) {
+        // Mark as in-profile so the .in-profile CSS scope applies (slightly
+        // different colors so it reads cleanly on the glassmorphism panel
+        // vs the dark modal background).
+        dailyBannerHtml = dailyBannerHtml.replace(
+          'class="emo-daily-banner',
+          'class="emo-daily-banner in-profile'
+        );
+      }
+
       content.innerHTML = `
         <div class="panel">
           <div class="panel-head">
@@ -774,6 +809,8 @@
             <span class="num">${total}</span><span class="suf">XP</span>
           </div>
           <div class="xp-context">${ctxLine}</div>
+
+          ${dailyBannerHtml}
 
           <div class="stats">
             <div class="stat">
