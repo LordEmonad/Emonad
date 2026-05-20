@@ -303,6 +303,83 @@ function injectStyles() {
       font-size: 10.5px; color: var(--text-muted, #555); margin-top: 4px;
     }
     .emo-stat-card.claimed .sub-lab { color: var(--accent, #9B5FFF); }
+
+    /* Referral block — sits between games + actions in the modal */
+    .emo-ref-card {
+      background: linear-gradient(135deg,
+        rgba(155, 95, 255, 0.12) 0%,
+        rgba(236, 72, 153, 0.10) 100%);
+      border: 1px solid rgba(155, 95, 255, 0.35);
+      border-radius: 14px;
+      padding: 14px 14px 12px;
+      margin-bottom: 18px;
+    }
+    .emo-ref-card .ref-link-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .emo-ref-card .ref-link {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 12px; font-weight: 700;
+      color: var(--text-color, #fff);
+      background: rgba(0, 0, 0, 0.28);
+      border: 1px solid rgba(155, 95, 255, 0.28);
+      border-radius: 8px;
+      padding: 8px 10px;
+      letter-spacing: 0.01em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+    }
+    .emo-ref-card .ref-link em {
+      font-style: normal;
+      color: var(--accent, #9B5FFF);
+      font-weight: 900;
+    }
+    .emo-ref-card .ref-btn {
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid rgba(155, 95, 255, 0.32);
+      background: rgba(155, 95, 255, 0.10);
+      color: var(--text-color, #fff);
+      font: inherit; font-weight: 800; font-size: 11.5px;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      padding: 0 12px;
+      text-decoration: none;
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: all 0.18s ease;
+    }
+    .emo-ref-card .ref-btn:hover {
+      background: rgba(155, 95, 255, 0.22);
+      border-color: var(--accent, #9B5FFF);
+    }
+    .emo-ref-card .ref-btn.primary {
+      background: linear-gradient(135deg, var(--accent, #9B5FFF), #ec4899);
+      border-color: transparent;
+      color: #fff;
+    }
+    .emo-ref-card .ref-stats {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-secondary, #888);
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+    .emo-ref-card .ref-stats b {
+      color: var(--text-color, #fff);
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+    }
+    .emo-ref-card .ref-stats .sep {
+      opacity: 0.4; margin: 0 6px;
+    }
+    .emo-ref-card .ref-stats.loading { opacity: 0.55; }
+
     .emo-modal .actions { display: grid; grid-template-columns: 1fr; gap: 8px; }
     .emo-modal .actions .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     .emo-modal-btn {
@@ -744,6 +821,21 @@ function openModal() {
       </div>
     </div>
 
+    <div class="emo-section-head">
+      <span class="emo-section-title">Invite friends · earn XP</span>
+      <span class="emo-section-sub">First invite +50 XP · then +15 each · new users always get +50</span>
+    </div>
+    <div class="emo-ref-card">
+      <div class="ref-link-row">
+        <div class="ref-link" title="https://i.emonad.lol/${escapeHtml(handle)}">https://i.emonad.lol/<em>${escapeHtml(handle)}</em></div>
+        <button class="ref-btn" data-action="ref-copy" type="button">Copy</button>
+        <a class="ref-btn primary" data-action="ref-share"
+           href="https://twitter.com/intent/tweet?text=${encodeURIComponent('come earn XP with me on @EmonadCoin\nsign up = +50 XP free 👇')}&url=${encodeURIComponent('https://i.emonad.lol/' + handle)}"
+           target="_blank" rel="noopener">Share on X</a>
+      </div>
+      <div class="ref-stats loading" id="emo-modal-ref-stats">…</div>
+    </div>
+
     <div class="actions">
       <a class="emo-modal-btn primary" href="${profileLinkBase()}profile.html?handle=${encodeURIComponent(handle)}" target="_blank" rel="noopener">View public profile →</a>
       <div class="row-2">
@@ -756,6 +848,30 @@ function openModal() {
   modal.querySelector('.emo-modal-close').addEventListener('click', closeModal);
   modal.querySelector('[data-action="manage"]').addEventListener('click', () => { closeModal(); api.openClerkProfile(); });
   modal.querySelector('[data-action="logout"]').addEventListener('click', () => { closeModal(); api.logout(); });
+
+  // Referral block: Copy button → clipboard, then live-fetch counts.
+  // Stats start as "…" with a loading style; we replace once getReferralStats
+  // resolves. Guarded against the modal being closed mid-fetch.
+  const refLink = 'https://i.emonad.lol/' + encodeURIComponent(handle);
+  const refCopyBtn = modal.querySelector('[data-action="ref-copy"]');
+  refCopyBtn?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(refLink);
+      const orig = refCopyBtn.textContent;
+      refCopyBtn.textContent = 'Copied!';
+      setTimeout(() => { if (refCopyBtn.isConnected) refCopyBtn.textContent = orig; }, 1400);
+    } catch {
+      refCopyBtn.textContent = 'Copy failed';
+    }
+  });
+  api.getReferralStats().then(s => {
+    const el = modal.querySelector('#emo-modal-ref-stats');
+    if (!el || !el.isConnected) return;
+    const count = s?.referral_count ?? 0;
+    const xp    = s?.referral_xp_total ?? 0;
+    el.classList.remove('loading');
+    el.innerHTML = `<b>${count}</b> referred<span class="sep">·</span><b>+${xp} XP</b> earned`;
+  }).catch(() => {});
 
   backdrop.appendChild(modal);
   document.body.appendChild(backdrop);
