@@ -247,8 +247,12 @@ async function renderCardPng(handle, env) {
   // AND whitespace as text nodes, so multi-child divs must have explicit
   // display:flex and NO surrounding whitespace/comments. We build the
   // template with no formatting whitespace between sibling elements.
+  // No level chip / XP — those numbers go stale between renders (CF
+  // edge caches the PNG, X caches the embed up to 7 days). Card stays
+  // evergreen with just avatar + display name + handle, which never
+  // need refreshing.
   const avatarBlock = avatar
-    ? `<div style="display:flex;position:relative;flex-shrink:0;"><img src="${escapeHtml(avatar)}" width="188" height="188" style="border-radius:94px;border:4px solid ${ACCENT};box-shadow:0 0 60px rgba(155,95,255,0.7);object-fit:cover;background:#1a0f2e;"/><div style="display:flex;position:absolute;bottom:-10px;left:14px;padding:6px 14px;border-radius:16px;background:linear-gradient(135deg,${ACCENT},${PINK});color:#fff;font-size:12px;font-weight:900;letter-spacing:2px;text-transform:uppercase;border:3px solid ${BG_DARK};">${maxed ? 'MAX LEVEL' : 'Level ' + level}</div></div>`
+    ? `<div style="display:flex;position:relative;flex-shrink:0;"><img src="${escapeHtml(avatar)}" width="188" height="188" style="border-radius:94px;border:4px solid ${ACCENT};box-shadow:0 0 60px rgba(155,95,255,0.7);object-fit:cover;background:#1a0f2e;"/></div>`
     : '';
 
   const firstName = (displayName.split(' ')[0] || displayName);
@@ -266,13 +270,8 @@ async function renderCardPng(handle, env) {
       + `<div style="display:flex;align-items:center;">`
         + avatarBlock
         + `<div style="display:flex;flex-direction:column;margin-left:28px;">`
-          + `<div style="display:flex;font-size:44px;font-weight:900;line-height:1;color:#fff;">${escapeHtml(displayName)}</div>`
-          + `<div style="display:flex;font-size:22px;font-weight:600;color:${TEXT_MUTED};margin-top:6px;">@${escapeHtml(xHandle)}</div>`
-          + `<div style="display:flex;align-items:flex-end;margin-top:16px;">`
-            + `<div style="display:flex;font-size:56px;font-weight:900;color:#fff;line-height:1;">${xp.toLocaleString('en-US')}</div>`
-            + `<div style="display:flex;font-size:22px;font-weight:900;color:${ACCENT};letter-spacing:2px;margin-left:6px;margin-bottom:4px;">XP</div>`
-          + `</div>`
-          + `<div style="display:flex;font-size:12px;font-weight:800;color:${TEXT_MUTED};letter-spacing:4px;margin-top:6px;">TOTAL EMO XP EARNED</div>`
+          + `<div style="display:flex;font-size:52px;font-weight:900;line-height:1;color:#fff;">${escapeHtml(displayName)}</div>`
+          + `<div style="display:flex;font-size:26px;font-weight:600;color:${TEXT_MUTED};margin-top:10px;">@${escapeHtml(xHandle)}</div>`
         + `</div>`
       + `</div>`
       + `<div style="display:flex;height:1px;"></div>`
