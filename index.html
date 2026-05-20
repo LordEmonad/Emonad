@@ -6,7 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="canonical" href="https://emonad.lol/emo.html">
   <meta http-equiv="refresh" content="0; url=/emo.html">
-  <script>location.replace('/emo.html');</script>
+  <script>
+    // Preserve query string + hash on redirect — without this, links like
+    // emonad.lol/?ref=lordemo lose the ?ref= before emo.html can capture
+    // it into localStorage. The static meta-refresh above can't carry the
+    // query (it's HTML), but ~99% of users have JS enabled so the JS path
+    // runs first.
+    location.replace('/emo.html' + window.location.search + window.location.hash);
+  </script>
 </head>
 <body>
   <p>Redirecting to <a href="/emo.html">emonad.lol/emo.html</a>…</p>

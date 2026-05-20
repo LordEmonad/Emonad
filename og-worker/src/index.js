@@ -167,7 +167,11 @@ async function renderLandingHtml(handle, env) {
 
   const cardUrl     = `https://i.emonad.lol/${encodeURIComponent(cleanHandle)}/card.png`;
   const landingUrl  = `https://i.emonad.lol/${encodeURIComponent(cleanHandle)}`;
-  const redirectUrl = `${env.SITE_ORIGIN || 'https://emonad.lol'}/?ref=${encodeURIComponent(cleanHandle)}`;
+  // Redirect directly to /emo.html?ref=... — avoids passing through
+  // index.html, which used to strip the ?ref= during its own redirect.
+  // index.html now preserves query strings, but going direct is one
+  // fewer hop either way.
+  const redirectUrl = `${env.SITE_ORIGIN || 'https://emonad.lol'}/emo.html?ref=${encodeURIComponent(cleanHandle)}`;
   const title       = `Join ${displayName} on emonad.lol — +50 XP free`;
   const desc        = `${maxed ? 'MAX LEVEL' : 'Level ' + level} · ${xp.toLocaleString('en-US')} XP earned · the emo kid of Monad. Click the link to claim your bonus.`;
 
