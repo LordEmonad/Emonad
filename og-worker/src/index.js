@@ -88,14 +88,72 @@ function escapeHtml(s) {
   }[c]));
 }
 
-// Fall back to the user's X PFP via unavatar if Supabase doesn't have an
-// avatar yet (brand-new accounts, or pre-sign-in shares). unavatar handles
-// the X PFP redirect for us and serves a stable JPEG.
-function avatarUrl(profile, handle) {
-  const h = (profile?.x_handle || handle || '').replace(/^@/, '');
-  if (profile?.avatar_url) return profile.avatar_url;
-  if (h) return `https://unavatar.io/twitter/${encodeURIComponent(h)}?size=512`;
+// Resolve a usable avatar as a data: URL so satori never has to re-fetch
+// (and never sees an "Unsupported image type" failure on the inner decode).
+//
+// Strategy:
+//   1. Prefer unavatar.io/x/<handle> — always serves the CURRENT X PFP.
+//      `fallback=false` makes it 404 instead of serving a placeholder SVG
+//      when the handle doesn't exist on X.
+//   2. Fall back to profile.avatar_url (Clerk's cached snapshot).
+//   3. Pre-fetch each candidate. Skip anything that isn't actually image/*.
+//   4. Return the bytes as a data: URL. satori embeds it without
+//      re-fetching, so a flaky avatar source can't loop and burn CPU.
+async function resolveAvatarDataUrl(profile, handle) {
+  const h = (profile?.x_handle || handle || '').replace(/^@/, '').trim();
+  // Same URL list profile.html's fetchFreshAvatar uses (known-good on X).
+  const candidates = [];
+  if (h) {
+    candidates.push(`https://unavatar.io/twitter/${encodeURIComponent(h)}?size=1000`);
+    candidates.push(`https://unavatar.io/x/${encodeURIComponent(h)}?size=1000`);
+    candidates.push(`https://unavatar.io/twitter/${encodeURIComponent(h)}`);
+  }
+  if (profile?.avatar_url) candidates.push(profile.avatar_url);
+
+  for (const url of candidates) {
+    try {
+      const res = await fetch(url, {
+        cf: { cacheTtl: 3600, cacheEverything: true },
+        // unavatar redirects to the actual image host — follow it.
+        redirect: 'follow',
+      });
+      if (!res.ok) {
+        console.log(`avatar miss ${url} → ${res.status}`);
+        continue;
+      }
+      const ct = (res.headers.get('content-type') || '').toLowerCase();
+      // Accept any image/* — JPEG/PNG/WebP/GIF/AVIF. Reject SVG (satori
+      // can't rasterize it) and anything non-image.
+      if (!ct.startsWith('image/') || ct.includes('svg')) {
+        console.log(`avatar wrong content-type ${url} → ${ct}`);
+        continue;
+      }
+      const buf = await res.arrayBuffer();
+      // Cap at 1 MB — bigger PFPs would inflate the data URL and slow render.
+      if (buf.byteLength > 1_000_000) {
+        console.log(`avatar too big ${url} → ${buf.byteLength}`);
+        continue;
+      }
+      const b64 = arrayBufferToBase64(buf);
+      console.log(`avatar ok ${url} → ${ct} ${buf.byteLength}b`);
+      return `data:${ct};base64,${b64}`;
+    } catch (e) {
+      console.log(`avatar threw ${url} → ${e.message || e}`);
+    }
+  }
   return null;
+}
+
+function arrayBufferToBase64(buf) {
+  let binary = '';
+  const bytes = new Uint8Array(buf);
+  const len = bytes.byteLength;
+  // Chunk to avoid hitting argument-count limits on String.fromCharCode
+  const CHUNK = 0x8000;
+  for (let i = 0; i < len; i += CHUNK) {
+    binary += String.fromCharCode.apply(null, bytes.subarray(i, Math.min(i + CHUNK, len)));
+  }
+  return btoa(binary);
 }
 
 // ── HTML landing page (what social crawlers parse) ──────────────────
@@ -179,121 +237,63 @@ async function renderCardPng(handle, env) {
   const xHandle     = profile?.x_handle     || cleanHandle;
   const xp          = profile?.total_xp     || 0;
   const { level, maxed } = levelFromXp(xp);
-  const avatar = avatarUrl(profile, cleanHandle);
+  const avatar = await resolveAvatarDataUrl(profile, cleanHandle);
 
-  // workers-og uses satori under the hood and accepts an HTML-like
-  // string. Inline styles only (no classes / external CSS).
-  const card = `
-    <div style="display:flex; width:1200px; height:630px; position:relative;
-                background: linear-gradient(135deg, #14082a 0%, ${BG_DARK} 100%);
-                font-family: 'Space Grotesk', system-ui, sans-serif; color: #fff;">
-      <!-- Soft glow blooms behind everything -->
-      <div style="display:flex; position:absolute; left:-200px; top:-200px; width:900px; height:700px;
-                  background: radial-gradient(circle, rgba(155,95,255,0.45) 0%, rgba(155,95,255,0) 60%);
-                  border-radius:50%;"></div>
-      <div style="display:flex; position:absolute; right:-180px; bottom:-180px; width:900px; height:700px;
-                  background: radial-gradient(circle, rgba(236,72,153,0.35) 0%, rgba(236,72,153,0) 60%);
-                  border-radius:50%;"></div>
+  // workers-og uses satori under the hood. Satori counts HTML comments
+  // AND whitespace as text nodes, so multi-child divs must have explicit
+  // display:flex and NO surrounding whitespace/comments. We build the
+  // template with no formatting whitespace between sibling elements.
+  const avatarBlock = avatar
+    ? `<div style="display:flex;position:relative;flex-shrink:0;"><img src="${escapeHtml(avatar)}" width="188" height="188" style="border-radius:94px;border:4px solid ${ACCENT};box-shadow:0 0 60px rgba(155,95,255,0.7);object-fit:cover;background:#1a0f2e;"/><div style="display:flex;position:absolute;bottom:-10px;left:14px;padding:6px 14px;border-radius:16px;background:linear-gradient(135deg,${ACCENT},${PINK});color:#fff;font-size:12px;font-weight:900;letter-spacing:2px;text-transform:uppercase;border:3px solid ${BG_DARK};">${maxed ? 'MAX LEVEL' : 'Level ' + level}</div></div>`
+    : '';
 
-      <!-- LEFT: profile -->
-      <div style="display:flex; flex-direction:column; justify-content:space-between;
-                  padding:56px 0 56px 64px; width:660px; height:100%; z-index:1;">
-        <!-- Brand strip -->
-        <div style="display:flex; align-items:center; gap:14px; font-weight:900;
-                    letter-spacing:3px; font-size:14px; text-transform:uppercase;">
-          <div style="display:flex; width:12px; height:12px; background:${ACCENT};
-                      border-radius:50%; box-shadow: 0 0 18px rgba(155,95,255,0.7);"></div>
-          <span style="color:#fff;">EMONAD</span>
-          <span style="color:${TEXT_MUTED}; font-weight:600; letter-spacing:2px; font-size:13px;">· emonad.lol</span>
-        </div>
+  const firstName = (displayName.split(' ')[0] || displayName);
 
-        <!-- Avatar + name block -->
-        <div style="display:flex; align-items:center; gap:28px;">
-          ${avatar ? `
-          <div style="display:flex; position:relative; flex-shrink:0;">
-            <img src="${escapeHtml(avatar)}"
-                 width="188" height="188"
-                 style="border-radius:94px; border:4px solid ${ACCENT};
-                        box-shadow: 0 0 60px rgba(155,95,255,0.7);
-                        object-fit:cover; background:#1a0f2e;" />
-            <div style="display:flex; position:absolute; bottom:-10px; left:50%;
-                        transform: translateX(-50%);
-                        padding:6px 14px; border-radius:16px;
-                        background: linear-gradient(135deg, ${ACCENT}, ${PINK});
-                        color:#fff; font-size:12px; font-weight:900; letter-spacing:2px;
-                        text-transform:uppercase; border:3px solid ${BG_DARK};
-                        white-space:nowrap;">
-              ${maxed ? 'MAX LEVEL' : 'Level ' + level}
-            </div>
-          </div>` : ''}
-          <div style="display:flex; flex-direction:column;">
-            <div style="font-size:44px; font-weight:900; line-height:1; color:#fff;">
-              ${escapeHtml(displayName)}
-            </div>
-            <div style="font-size:22px; font-weight:600; color:${TEXT_MUTED}; margin-top:6px;">
-              @${escapeHtml(xHandle)}
-            </div>
-            <div style="display:flex; align-items:baseline; gap:6px; margin-top:16px;">
-              <span style="font-size:56px; font-weight:900; color:#fff; line-height:1;">
-                ${xp.toLocaleString('en-US')}
-              </span>
-              <span style="font-size:22px; font-weight:900; color:${ACCENT}; letter-spacing:2px;">XP</span>
-            </div>
-            <div style="font-size:12px; font-weight:800; color:${TEXT_MUTED};
-                        letter-spacing:4px; text-transform:uppercase; margin-top:6px;">
-              Total Emo XP earned
-            </div>
-          </div>
-        </div>
-
-        <!-- Bottom spacer -->
-        <div></div>
-      </div>
-
-      <!-- RIGHT: invitation CTA -->
-      <div style="display:flex; flex-direction:column; justify-content:center;
-                  padding:56px 64px 56px 36px; width:540px; height:100%; z-index:1;
-                  border-left: 1px solid rgba(155,95,255,0.3);">
-        <div style="font-size:13px; font-weight:800; letter-spacing:5px;
-                    text-transform:uppercase; color:${TEXT_MUTED};">
-          You're invited
-        </div>
-        <div style="font-size:60px; font-weight:900; line-height:0.95;
-                    letter-spacing:-1px; color:#fff; margin-top:14px;">
-          Join ${escapeHtml(displayName.split(' ')[0] || displayName)}
-        </div>
-        <div style="font-size:60px; font-weight:900; line-height:0.95;
-                    letter-spacing:-1px; margin-top:6px;
-                    background: linear-gradient(135deg, ${ACCENT} 0%, ${PINK} 100%);
-                    background-clip: text; color: transparent;
-                    -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-          on emonad.lol
-        </div>
-        <div style="font-size:18px; font-weight:500; color:#d6c8f0;
-                    line-height:1.4; margin-top:18px;">
-          Sign up with X and grab <span style="color:#fff; font-weight:800;">50 XP</span> on us.
-          Climb the leaderboard, play the games, become emo.
-        </div>
-
-        <!-- Bonus pill -->
-        <div style="display:flex; align-items:center; gap:14px; margin-top:18px;
-                    padding:14px 22px; border-radius:18px; width:fit-content;
-                    background: linear-gradient(135deg, rgba(155,95,255,0.22) 0%, rgba(236,72,153,0.22) 100%);
-                    border:1px solid rgba(155,95,255,0.55);">
-          <div style="display:flex; font-size:42px; font-weight:900; color:#fff; line-height:1;">
-            +50<span style="font-size:18px; color:${ACCENT}; margin-left:4px;">XP</span>
-          </div>
-          <div style="display:flex; flex-direction:column;">
-            <span style="font-size:12px; font-weight:800; letter-spacing:2px;
-                         text-transform:uppercase; color:${TEXT_MUTED};">signup bonus</span>
-            <span style="font-size:13px; font-weight:900; color:#fff; margin-top:2px;">
-              via ${escapeHtml(displayName)}'s link
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
+  const card = (
+    `<div style="display:flex;width:1200px;height:630px;position:relative;background:linear-gradient(135deg,#14082a 0%,${BG_DARK} 100%);font-family:'Space Grotesk',system-ui,sans-serif;color:#fff;">`
+    + `<div style="display:flex;position:absolute;left:-200px;top:-200px;width:900px;height:700px;background:radial-gradient(circle,rgba(155,95,255,0.45) 0%,rgba(155,95,255,0) 60%);border-radius:450px;"></div>`
+    + `<div style="display:flex;position:absolute;right:-180px;bottom:-180px;width:900px;height:700px;background:radial-gradient(circle,rgba(236,72,153,0.35) 0%,rgba(236,72,153,0) 60%);border-radius:450px;"></div>`
+    + `<div style="display:flex;flex-direction:column;justify-content:space-between;padding:56px 0 56px 64px;width:660px;height:100%;">`
+      + `<div style="display:flex;align-items:center;">`
+        + `<div style="display:flex;width:12px;height:12px;background:${ACCENT};border-radius:6px;margin-right:14px;"></div>`
+        + `<div style="display:flex;color:#fff;font-weight:900;letter-spacing:3px;font-size:14px;margin-right:14px;">EMONAD</div>`
+        + `<div style="display:flex;color:${TEXT_MUTED};font-weight:600;letter-spacing:2px;font-size:13px;">· emonad.lol</div>`
+      + `</div>`
+      + `<div style="display:flex;align-items:center;">`
+        + avatarBlock
+        + `<div style="display:flex;flex-direction:column;margin-left:28px;">`
+          + `<div style="display:flex;font-size:44px;font-weight:900;line-height:1;color:#fff;">${escapeHtml(displayName)}</div>`
+          + `<div style="display:flex;font-size:22px;font-weight:600;color:${TEXT_MUTED};margin-top:6px;">@${escapeHtml(xHandle)}</div>`
+          + `<div style="display:flex;align-items:flex-end;margin-top:16px;">`
+            + `<div style="display:flex;font-size:56px;font-weight:900;color:#fff;line-height:1;">${xp.toLocaleString('en-US')}</div>`
+            + `<div style="display:flex;font-size:22px;font-weight:900;color:${ACCENT};letter-spacing:2px;margin-left:6px;margin-bottom:4px;">XP</div>`
+          + `</div>`
+          + `<div style="display:flex;font-size:12px;font-weight:800;color:${TEXT_MUTED};letter-spacing:4px;margin-top:6px;">TOTAL EMO XP EARNED</div>`
+        + `</div>`
+      + `</div>`
+      + `<div style="display:flex;height:1px;"></div>`
+    + `</div>`
+    + `<div style="display:flex;flex-direction:column;justify-content:center;padding:56px 64px 56px 36px;width:540px;height:100%;border-left:1px solid rgba(155,95,255,0.3);">`
+      + `<div style="display:flex;font-size:13px;font-weight:800;letter-spacing:5px;color:${TEXT_MUTED};">YOU'RE INVITED</div>`
+      + `<div style="display:flex;font-size:60px;font-weight:900;line-height:0.95;letter-spacing:-1px;color:#fff;margin-top:14px;">Join ${escapeHtml(firstName)}</div>`
+      + `<div style="display:flex;font-size:60px;font-weight:900;line-height:0.95;letter-spacing:-1px;margin-top:6px;background:linear-gradient(135deg,${ACCENT} 0%,${PINK} 100%);background-clip:text;color:transparent;-webkit-background-clip:text;-webkit-text-fill-color:transparent;">on emonad.lol</div>`
+      + `<div style="display:flex;flex-direction:column;margin-top:18px;">`
+        + `<div style="display:flex;font-size:18px;font-weight:800;color:#fff;line-height:1.4;">Sign up with X and grab 50 XP on us.</div>`
+        + `<div style="display:flex;font-size:18px;font-weight:500;color:#d6c8f0;line-height:1.4;margin-top:2px;">Climb the leaderboard. Become emo.</div>`
+      + `</div>`
+      + `<div style="display:flex;align-self:flex-start;align-items:center;margin-top:18px;padding:14px 22px;border-radius:18px;background:linear-gradient(135deg,rgba(155,95,255,0.22) 0%,rgba(236,72,153,0.22) 100%);border:1px solid rgba(155,95,255,0.55);">`
+        + `<div style="display:flex;align-items:flex-end;">`
+          + `<div style="display:flex;font-size:42px;font-weight:900;color:#fff;line-height:1;">+50</div>`
+          + `<div style="display:flex;font-size:18px;font-weight:900;color:${ACCENT};margin-left:4px;margin-bottom:3px;">XP</div>`
+        + `</div>`
+        + `<div style="display:flex;flex-direction:column;margin-left:14px;">`
+          + `<div style="display:flex;font-size:12px;font-weight:800;letter-spacing:2px;color:${TEXT_MUTED};">SIGNUP BONUS</div>`
+          + `<div style="display:flex;font-size:13px;font-weight:900;color:#fff;margin-top:2px;">via ${escapeHtml(displayName)}'s link</div>`
+        + `</div>`
+      + `</div>`
+    + `</div>`
+    + `</div>`
+  );
 
   const img = new ImageResponse(card, {
     width: 1200,
@@ -307,12 +307,14 @@ async function renderCardPng(handle, env) {
     ].filter(Boolean),
   });
 
-  // CF edge-cache the PNG for an hour — crawlers re-fetch often, real
-  // XP/avatar updates settle out within that window.
+  // Short edge cache (5 min) so PFP / XP changes show up quickly on the
+  // next share. Workers Paid bills per-request not per-render, so we can
+  // afford to re-render often; crawler bursts still get coalesced inside
+  // a 5-min window which is plenty for cost containment.
   return new Response(img.body, {
     headers: {
       'content-type': 'image/png',
-      'cache-control': 'public, max-age=600, s-maxage=3600',
+      'cache-control': 'public, max-age=60, s-maxage=300',
     },
   });
 }

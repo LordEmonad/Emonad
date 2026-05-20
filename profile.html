@@ -736,11 +736,16 @@
       const shareText = `My stats: ${maxed ? 'MAX LEVEL' : 'Lv ' + level} · ${total} XP\n${blocks} blocks broken · ${emonads} emonads slain.\n\nCome earn yours 👇`;
       const xShareHref = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(homepageUrl)}`;
 
-      // Referral link for THIS profile. Anyone visiting can grab + share it;
-      // sign-ups via this URL credit the XP to the profile owner.
+      // Referral link for THIS profile. Two URL forms:
+      //   refUrl       — shared on social (i.emonad.lol/<handle>). Hits the
+      //                  CF Worker which serves per-user OG meta + PNG card,
+      //                  then redirects humans to the canonical site URL.
+      //   refSiteUrl   — what users actually navigate to (emonad.lol/?ref=).
+      //                  Kept for the "Copy" button so people pasting the
+      //                  link in non-social contexts get the real site.
       const refHandle = (profile.x_handle || handle).replace(/^@/, '');
-      const refUrl = 'https://emonad.lol/?ref=' + encodeURIComponent(refHandle);
-      const refUrlDisplay = 'emonad.lol/?ref=' + escapeHtml(refHandle);
+      const refUrl     = 'https://i.emonad.lol/' + encodeURIComponent(refHandle);
+      const refSiteUrl = 'https://emonad.lol/?ref=' + encodeURIComponent(refHandle);
       const refTweetText = `come earn XP with me on @EmonadCoin\nsign up = +50 XP free 👇`;
       const refTweetHref = 'https://twitter.com/intent/tweet'
         + '?text=' + encodeURIComponent(refTweetText)
@@ -801,7 +806,7 @@
               </div>
             </div>
             <div class="rb-row">
-              <div class="rb-link" title="${escapeHtml(refUrl)}">emonad.lol/?ref=<em>${escapeHtml(refHandle)}</em></div>
+              <div class="rb-link" title="${escapeHtml(refUrl)}">i.emonad.lol/<em>${escapeHtml(refHandle)}</em></div>
               <button class="rb-btn" id="refCopyBtn" type="button">Copy</button>
               <a class="rb-btn primary" id="refShareBtn" href="${refTweetHref}" target="_blank" rel="noopener noreferrer">Share on X</a>
             </div>

@@ -3,16 +3,17 @@ main = "src/index.js"
 compatibility_date = "2025-01-15"
 compatibility_flags = ["nodejs_compat"]
 
-# Custom domain — set up in CF dashboard after first deploy
-# (Workers → emonad-og → Settings → Triggers → Custom Domains → add `i.emonad.lol`)
-routes = [
-  { pattern = "i.emonad.lol/*", custom_domain = true }
-]
+# Custom domain — added manually in CF dashboard after first deploy.
+# (Workers → emonad-og → Settings → Triggers → Custom Domains → Add Domain → `i.emonad.lol`)
+# We don't auto-bind via `routes` because Custom Domains capture the whole
+# hostname automatically once attached; wrangler's `routes` block is only
+# for path-pattern matching on existing zones.
 
-# Limits: free plan is 100K requests/day. OG crawlers + occasional human
-# clickthroughs land well under this.
+# Workers Paid: 10M requests/month, 30s CPU per request, 30M CPU ms/month.
+# We set cpu_ms explicitly so the deployment binds to the paid limit even
+# if the plan-upgrade hasn't fully propagated to this Worker's defaults.
 [limits]
-cpu_ms = 50
+cpu_ms = 30000
 
 # Secrets (set via `wrangler secret put SUPABASE_ANON_KEY` AFTER first deploy):
 #   SUPABASE_ANON_KEY — public anon key from Supabase project settings
