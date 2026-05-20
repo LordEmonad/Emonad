@@ -151,6 +151,14 @@ function injectStyles() {
       color: var(--accent, #9B5FFF);
       text-shadow: 0 0 12px var(--accent-glow, rgba(155,95,255,0.7));
     }
+    .emo-auth-xp.loading {
+      opacity: 0.55;
+      animation: emoAuthXpPulse 1.2s ease-in-out infinite;
+    }
+    @keyframes emoAuthXpPulse {
+      0%, 100% { opacity: 0.45; }
+      50%      { opacity: 0.85; }
+    }
     .emo-xp-pop {
       position: fixed; pointer-events: none;
       font-weight: 800; font-size: 16px;
@@ -422,6 +430,31 @@ async function claimPendingReferral() {
   }
 }
 
+// ─── Background sync ────────────────────────────────────────────────
+// Heavy-lift work that used to be awaited inside init() (~2-4s of
+// network), now fired off in parallel with mount() so the auth widget
+// is interactive immediately. Each phase that updates state.serverStats
+// or daily counts calls refreshMounts/notify so the UI catches up.
+async function runBackgroundSync(clerkUser, identityChanged) {
+  if (!clerkUser || !state.xUserId) return;
+  try {
+    if (identityChanged) {
+      await upsertProfile(clerkUser);
+      // Referral claim MUST come after upsertProfile (FK reference) and
+      // BEFORE refreshServerStats so the +50 XP shows in the first stats
+      // snapshot the UI reads.
+      await claimPendingReferral();
+      await claimLocalGameProgress();
+      await syncGameProgress();
+    }
+    await refreshServerStats();
+  } catch (e) {
+    console.warn('emo-profile: background sync failed', e);
+  }
+  refreshMounts();
+  notify();
+}
+
 // ─── Profile upsert ──────────────────────────────────────────────────
 async function upsertProfile(clerkUser) {
   const xAcc = xAccountOf(clerkUser);
@@ -591,10 +624,18 @@ function buildAuthWidget(user) {
 
   const xp = document.createElement('span');
   xp.className = 'emo-auth-xp';
-  const total = state.serverStats?.total_xp ?? 0;
-  const li = levelInfo(total);
-  xp.textContent = li.maxed ? 'MAX' : (total + ' XP');
-  if (li.maxed) xp.classList.add('maxed');
+  // Before the first stats fetch resolves, serverStats is null. Show a
+  // subtle ellipsis instead of "0 XP" so users don't think they lost
+  // their progress during the half-second between mount and stats load.
+  if (state.serverStats) {
+    const total = state.serverStats.total_xp ?? 0;
+    const li = levelInfo(total);
+    xp.textContent = li.maxed ? 'MAX' : (total + ' XP');
+    if (li.maxed) xp.classList.add('maxed');
+  } else {
+    xp.textContent = '…';
+    xp.classList.add('loading');
+  }
   widget.appendChild(xp);
 
   widget.addEventListener('click', () => api.openProfileModal());
@@ -984,9 +1025,12 @@ const api = {
     state.page = page;
     // Stash ?ref=<handle> in localStorage BEFORE we touch Clerk so the
     // referral survives the OAuth redirect roundtrip. The claim itself
-    // happens after the first profile upsert (see onAuth below).
+    // happens inside runBackgroundSync after profile upsert.
     capturePendingRef();
     injectStyles();
+    // Render mounted slots with their initial (loading) state right away
+    // so the layout doesn't reflow when the real widget arrives.
+    refreshMounts();
 
     const today = loadDailyCounts();
     state.todayKey    = today.date;
@@ -996,35 +1040,44 @@ const api = {
     await loadClerkScript();
     await window.Clerk.load();
 
-    const onAuth = async () => {
+    // Set initial auth state synchronously the moment Clerk knows the user.
+    // init() resolves right after this, so pages get to call mount() and
+    // render the avatar / login button without waiting for the Supabase
+    // round-trips (which used to add 2-4s of empty-slot time on every load).
+    // The heavier sync (profile upsert, referral claim, game progress,
+    // stats fetch) runs in the background and calls refreshMounts()
+    // again when stats arrive so XP updates in place.
+    const initialUser = window.Clerk.user;
+    state.user  = initialUser || null;
+    state.ready = true;
+    if (initialUser) {
+      state.xUserId = await ensureXMetadata(initialUser);
+      if (state.xUserId) {
+        runBackgroundSync(initialUser, /* identityChanged */ true);
+      }
+    }
+    refreshMounts();
+
+    // Subscribe to auth changes (login / logout / account switch). On
+    // identity change we re-run the background sync; the widget itself
+    // re-renders synchronously so users see the auth state flip instantly.
+    window.Clerk.addListener(async () => {
       const u = window.Clerk.user;
       const prevXUserId = state.xUserId;
-      state.user  = u || null;
-      state.ready = true;
+      state.user = u || null;
       if (u) {
         state.xUserId = await ensureXMetadata(u);
       } else {
         state.xUserId = null;
         state.serverStats = null;
       }
-      const identityChanged = state.xUserId && state.xUserId !== prevXUserId;
-      if (state.xUserId && identityChanged) {
-        await upsertProfile(u);
-        // Claim any pending ?ref= referral now that the profile exists.
-        // Must come AFTER upsertProfile (the RPC FK-references profiles)
-        // and BEFORE refreshServerStats (so the XP gets reflected in
-        // the stats snapshot the UI reads).
-        await claimPendingReferral();
-        await claimLocalGameProgress();   // one-shot: counter delta migration
-        await syncGameProgress();         // every login: bidir bests + pull
-        await refreshServerStats();
-      }
       refreshMounts();
       notify();
-    };
-
-    await onAuth();
-    window.Clerk.addListener(onAuth);
+      const identityChanged = state.xUserId && state.xUserId !== prevXUserId;
+      if (state.xUserId && identityChanged) {
+        runBackgroundSync(u, true);
+      }
+    });
 
     document.addEventListener('emo:track', e => {
       const detail = (e && e.detail) || {};
