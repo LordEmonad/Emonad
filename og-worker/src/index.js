@@ -173,7 +173,9 @@ async function renderLandingHtml(handle, env) {
   // fewer hop either way.
   const redirectUrl = `${env.SITE_ORIGIN || 'https://emonad.lol'}/emo.html?ref=${encodeURIComponent(cleanHandle)}`;
   const title       = `Join ${displayName} on emonad.lol — +50 XP free`;
-  const desc        = `${maxed ? 'MAX LEVEL' : 'Level ' + level} · ${xp.toLocaleString('en-US')} XP earned · the emo kid of Monad. Click the link to claim your bonus.`;
+  // Evergreen — no live stats baked in (XP/level go stale between renders
+  // since X/TG/Discord cache embeds up to 7 days and CF caches the PNG).
+  const desc        = `Sign up with X → claim +50 XP free. Climb the leaderboard, play the games, become emo.`;
 
   const html = `<!DOCTYPE html>
 <html lang="en">

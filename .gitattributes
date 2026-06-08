@@ -1,0 +1,21 @@
+# Normalize all text files to LF in the repo (the committed tree is uniformly
+# LF). Without this, editors/tooling on different platforms silently flip files
+# to CRLF, producing giant whole-file diffs (insertions == deletions) that bury
+# real changes. `text=auto` lets git auto-detect binaries and leave them alone.
+* text=auto eol=lf
+
+# Belt-and-suspenders: never touch these binary asset types.
+*.png  binary
+*.PNG  binary
+*.jpg  binary
+*.jpeg binary
+*.webp binary
+*.gif  binary
+*.ico  binary
+*.mp3  binary
+*.mp4  binary
+*.woff  binary
+*.woff2 binary
+*.ttf  binary
+*.otf  binary
+*.xlsx binary
