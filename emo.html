@@ -1438,7 +1438,31 @@
     <h1 class="title animate-in" style="animation-delay:0.12s">The Emoverse</h1>
     <p class="subtitle" id="subtitle" style="opacity:0">i lost it all on day 1</p>
 
-    
+    <!-- Emo Nads NFTs (featured) -->
+    <style>
+      .nft-cta { text-align:center; margin: 4px 0 22px; }
+      .btn-nft {
+        display:inline-flex; align-items:center; gap:9px;
+        padding:15px 40px; border-radius:999px;
+        font-weight:800; font-size:17px; letter-spacing:.3px;
+        color:#fff; text-decoration:none;
+        background:linear-gradient(135deg,#A66BFF 0%,#E84D7F 100%);
+        border:1px solid rgba(255,255,255,.22);
+        animation:nftGlow 2.1s ease-in-out infinite;
+        transition:transform .2s ease;
+      }
+      .btn-nft::before { content:"✦"; font-size:13px; opacity:.92; }
+      .btn-nft:hover { transform:translateY(-2px) scale(1.03); }
+      @keyframes nftGlow {
+        0%,100% { box-shadow:0 0 18px 2px rgba(166,107,255,.45), 0 0 36px 7px rgba(232,77,127,.16); }
+        50%     { box-shadow:0 0 30px 5px rgba(232,77,127,.6), 0 0 58px 14px rgba(166,107,255,.42); }
+      }
+      @media (prefers-reduced-motion: reduce) { .btn-nft { animation:none; } }
+    </style>
+    <div class="nft-cta animate-in" style="animation-delay:0.20s">
+      <a href="emomaker.html" class="btn-nft">Emo Nads NFTs</a>
+    </div>
+
     <!-- Explore Section -->
     <div class="button-section animate-in" style="animation-delay:0.26s">
       <div class="section-label">Explore</div>

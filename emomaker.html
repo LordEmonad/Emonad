@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emo Nads: Hand-Drawn PFP Collection on Monad | Emonad</title>
+  <meta name="description" content="Emo Nads is a community-drawn PFP collection on Monad. Download the official palette, brush, and template. Submit your traits, 1/1s, and backgrounds. Built by sad kids.">
+  <meta name="keywords" content="emo nads, monad nft, monad pfp, monad nft collection, community pfp monad, emo pfp, hand-drawn nft, monad community art">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://emonad.lol/emomaker.html">
+
+  <meta property="og:title" content="Emo Nads: Hand-Drawn PFP Collection on Monad">
+  <meta property="og:description" content="A community-drawn PFP collection on Monad. Download the kit, draw a trait, submit your work.">
+  <meta property="og:image" content="https://emonad.lol/emomaker-og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Emo Nads, a hand-drawn PFP collection on Monad">
+  <meta property="og:url" content="https://emonad.lol/emomaker.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Emonad">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@EmonadCoin">
+  <meta name="twitter:creator" content="@EmonadCoin">
+  <meta name="twitter:title" content="Emo Nads: Hand-Drawn PFP Collection on Monad">
+  <meta name="twitter:description" content="A community-drawn PFP collection on Monad. Grab the kit, draw a trait, submit your work.">
+  <meta name="twitter:image" content="https://emonad.lol/emomaker-og.jpg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://emonad.lol/emomaker.html#page",
+        "url": "https://emonad.lol/emomaker.html",
+        "name": "Emo Nads: Hand-Drawn PFP Collection on Monad",
+        "description": "Resources hub for the Emo Nads PFP collection. Palette, brush, template, submission rules.",
+        "isPartOf": { "@type": "WebSite", "name": "Emonad", "url": "https://emonad.lol/" },
+        "primaryImageOfPage": "https://emonad.lol/og-image.jpg"
+      },
+      {
+        "@type": "CreativeWork",
+        "name": "Emo Nads",
+        "description": "A community-drawn PFP NFT collection on Monad, built from a locked palette and hand-drawn traits.",
+        "creator": { "@type": "Organization", "name": "Emonad", "url": "https://emonad.lol/" },
+        "url": "https://emonad.lol/emomaker.html"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What tool should I use to draw an Emo Nads trait?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The kit is built for Procreate. Open the template, load the two palettes (Core + Gear) and the Emonad Brush, and draw. The Emonad Brush is the only brush to use, for every outline. 12% is the default size for linework, and you can size down for fine details. The template also opens in Photoshop."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I submit multiple Emo Nads pieces?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Submit as many as you want. Each should be its own PNG, named clearly. Quality over quantity."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What's the difference between a trait and a 1/1 in Emo Nads?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A trait is one element (just eyes, just hair, just an accessory) that gets combined with the base and other traits to generate PFPs. A 1/1 is a complete unique piece, the whole character drawn together, that ships as a single unique mint and isn't recombined. For a 1/1, still use the trait slots, plus an optional custom background."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I get credit if my Emo Nads submission is selected?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Selected submitters get credit on the collection page and GTD WL. Exact details get announced before mint goes live."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "When does the Emo Nads collection mint?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Wen it's done."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <style>
+    @font-face {
+      font-family: 'Space Grotesk';
+      font-style: normal;
+      font-weight: 500 800;
+      font-display: swap;
+      src: url(fonts/SpaceGrotesk-latin.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+    /* ══════════ Tokens ══════════ */
+    :root {
+      --bg-color: #f7f5fb;
+      --bg-2: #ffffff;
+      --text-color: #160f1f;
+      --text-secondary: #5b5366;
+      --text-muted: #9990a4;
+      --accent: #7B3FE4;
+      --accent-hover: #6930c3;
+      --pink: #E84D7F;
+      --accent-glow: rgba(123, 63, 228, 0.18);
+      --grad: linear-gradient(135deg, #8b54ff 0%, #E84D7F 100%);
+      --surface: rgba(123, 63, 228, 0.035);
+      --surface-2: rgba(123, 63, 228, 0.06);
+      --surface-border: rgba(22, 15, 31, 0.10);
+      --bdr: linear-gradient(150deg, rgba(22,15,31,.14), rgba(22,15,31,.04) 45%, rgba(22,15,31,0));
+      --bdr-hover: linear-gradient(150deg, rgba(139,84,255,.6), rgba(232,77,127,.45));
+      --glow: rgba(123, 63, 228, 0.20);
+      --good: #16a34a;
+      --danger: #e11d48;
+      --grain-opacity: 0.5;
+    }
+    [data-theme="dark"] {
+      --bg-color: #070509;
+      --bg-2: #0c0912;
+      --text-color: #ffffff;
+      --text-secondary: #a39bb0;
+      --text-muted: #615a70;
+      --accent: #9B5FFF;
+      --accent-hover: #b888ff;
+      --pink: #E84D7F;
+      --accent-glow: rgba(155, 95, 255, 0.30);
+      --grad: linear-gradient(135deg, #A66BFF 0%, #E84D7F 100%);
+      --surface: rgba(255, 255, 255, 0.024);
+      --surface-2: rgba(255, 255, 255, 0.05);
+      --surface-border: rgba(255, 255, 255, 0.09);
+      --bdr: linear-gradient(150deg, rgba(255,255,255,.16), rgba(255,255,255,.035) 45%, rgba(255,255,255,0));
+      --bdr-hover: linear-gradient(150deg, rgba(166,107,255,.75), rgba(232,77,127,.5));
+      --glow: rgba(155, 95, 255, 0.28);
+      --good: #34d399;
+      --danger: #fb7185;
+      --grain-opacity: 0.6;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button { font: inherit; color: inherit; cursor: pointer; }
+    code {
+      font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+      font-size: 0.86em;
+      padding: 1px 6px;
+      border-radius: 6px;
+      background: var(--surface-2);
+      border: 1px solid var(--surface-border);
+      color: var(--text-color);
+    }
+    ::selection { background: var(--pink); color: #fff; }
+
+    /* ══════════ Background fx ══════════ */
+    .bg-fx {
+      position: fixed; inset: 0; z-index: -2;
+      overflow: hidden; pointer-events: none;
+    }
+    .bg-orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(90px); opacity: 0.46;
+      will-change: transform;
+    }
+    .bg-orb.o1 { width: 620px; height: 620px; top: -220px; left: -120px;
+      background: radial-gradient(circle, rgba(155,95,255,.55), transparent 68%);
+      animation: float1 22s ease-in-out infinite; }
+    .bg-orb.o2 { width: 560px; height: 560px; top: 8%; right: -180px;
+      background: radial-gradient(circle, rgba(232,77,127,.42), transparent 68%);
+      animation: float2 26s ease-in-out infinite; }
+    .bg-orb.o3 { width: 520px; height: 520px; bottom: -160px; left: 30%;
+      background: radial-gradient(circle, rgba(45,125,138,.34), transparent 68%);
+      animation: float1 30s ease-in-out infinite reverse; }
+    [data-theme="light"] .bg-orb { opacity: 0.28; }
+    @keyframes float1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,50px)} }
+    @keyframes float2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-50px,40px)} }
+
+    .grain {
+      position: fixed; inset: -50%; z-index: -1; pointer-events: none;
+      opacity: var(--grain-opacity);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
+    .cursor-glow {
+      position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none;
+      width: 460px; height: 460px; border-radius: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(155,95,255,.10), transparent 60%);
+      opacity: 0; transition: opacity .4s ease;
+    }
+    @media (hover: hover) and (pointer: fine) { .cursor-glow.on { opacity: 1; } }
+
+    /* ══════════ Reveal ══════════ */
+    .reveal {
+      opacity: 0; transform: translateY(26px);
+      transition: opacity .8s cubic-bezier(0.16,1,0.3,1), transform .8s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    html.theme-transition, html.theme-transition *, html.theme-transition *::before, html.theme-transition *::after {
+      transition: background-color .3s ease, color .3s ease, border-color .3s ease !important;
+    }
+
+    /* ══════════ Nav ══════════ */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: color-mix(in srgb, var(--bg-color) 72%, transparent);
+      backdrop-filter: blur(22px) saturate(180%);
+      -webkit-backdrop-filter: blur(22px) saturate(180%);
+      border-bottom: 1px solid var(--surface-border);
+    }
+    .nav-inner {
+      max-width: 1120px; margin: 0 auto;
+      padding: 13px 24px;
+      display: flex; align-items: center; gap: 18px;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 700; font-size: 15px; flex-shrink: 0; }
+    .brand img {
+      width: 34px; height: 34px; object-fit: contain;
+      filter: drop-shadow(0 3px 10px var(--accent-glow));
+    }
+    .brand span {
+      font-weight: 800; letter-spacing: -0.3px;
+      background: var(--grad);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 2px; margin-left: auto; }
+    .nav-links a {
+      padding: 7px 13px; font-size: 13px; font-weight: 500;
+      color: var(--text-secondary); border-radius: 999px;
+      transition: color .2s ease, background .2s ease;
+    }
+    .nav-links a:hover { color: var(--text-color); background: var(--surface-2); }
+    .nav-links a.active { color: var(--text-color); background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--surface-border); }
+    .theme-toggle {
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 1px solid var(--surface-border); background: var(--surface-2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; transition: all .25s ease; flex-shrink: 0;
+    }
+    .theme-toggle:hover { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-glow); }
+    .nav { transition: background .3s ease, box-shadow .3s ease, border-color .3s ease; }
+    .nav-inner { transition: padding .3s ease; }
+    .nav.scrolled { background: color-mix(in srgb, var(--bg-color) 88%, transparent); box-shadow: 0 12px 34px rgba(0,0,0,.22); }
+    [data-theme="light"] .nav.scrolled { box-shadow: 0 12px 34px rgba(0,0,0,.08); }
+    .nav.scrolled .nav-inner { padding-top: 9px; padding-bottom: 9px; }
+
+    /* ══════════ Layout ══════════ */
+    main { max-width: 940px; margin: 0 auto; padding: 0 24px; counter-reset: sec; }
+    section { padding: 96px 0 24px; scroll-margin-top: 76px; }
+    @media (max-width: 720px) { section { padding: 60px 0 16px; } }
+
+    /* ══════════ Type ══════════ */
+    h1, h2, h3 { line-height: 1.12; letter-spacing: -0.6px; font-weight: 800; }
+    h1 {
+      font-size: clamp(50px, 10vw, 104px);
+      letter-spacing: -2.5px; line-height: 0.94;
+      margin-bottom: 22px;
+      text-wrap: balance;
+      background: linear-gradient(135deg, var(--text-color) 8%, var(--accent) 52%, var(--pink) 96%);
+      background-size: 200% 200%;
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      animation: shimmer 8s ease-in-out infinite;
+    }
+    @keyframes shimmer { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+    h2 { font-size: clamp(28px, 4vw, 42px); margin-bottom: 16px; letter-spacing: -1.2px; text-wrap: balance; }
+    h3 { font-size: 17px; margin-bottom: 6px; font-weight: 700; }
+    p { color: var(--text-secondary); }
+    p strong { color: var(--text-color); font-weight: 700; }
+    .lead { font-size: 17.5px; color: var(--text-secondary); max-width: 600px; line-height: 1.6; margin-bottom: 30px; text-wrap: pretty; }
+
+    .section-label {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+      color: var(--text-muted); margin-bottom: 16px;
+    }
+    section[id] > .section-label::before,
+    section[id] .submit-card > .section-label::before {
+      counter-increment: sec; content: counter(sec, decimal-leading-zero);
+      font-size: 11px; font-weight: 800;
+      background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    section[id] > .section-label::after,
+    section[id] .submit-card > .section-label::after {
+      content: ""; width: 26px; height: 1px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+
+    /* ══════════ Buttons ══════════ */
+    .btn-primary, .btn-outline {
+      position: relative; overflow: hidden;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 14px 30px; border-radius: 999px;
+      font-weight: 700; font-size: 14.5px; letter-spacing: 0.1px;
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
+    }
+    .btn-primary {
+      background: var(--grad); color: #fff;
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 8px 26px rgba(155,95,255,.36), inset 0 1px 0 rgba(255,255,255,.28);
+    }
+    .btn-primary::before {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(115deg, transparent 25%, rgba(255,255,255,.4), transparent 75%);
+      transform: translateX(-130%); transition: transform .65s ease;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 38px rgba(155,95,255,.5), inset 0 1px 0 rgba(255,255,255,.34); }
+    .btn-primary:hover::before { transform: translateX(130%); }
+    .btn-outline {
+      background: var(--surface-2); color: var(--text-color);
+      border: 1px solid var(--surface-border);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    .btn-outline:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: 0 10px 28px var(--accent-glow); }
+    .btn-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 9px 16px;
+      background: var(--surface-2); border: 1px solid var(--surface-border);
+      color: var(--text-secondary); border-radius: 999px;
+      font-size: 12.5px; font-weight: 600; letter-spacing: 0.2px;
+      transition: all .2s ease;
+    }
+    .btn-pill:hover { color: var(--text-color); border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-glow); transform: translateY(-1px); }
+
+    /* ══════════ Hero ══════════ */
+    .hero { position: relative; padding: 112px 0 40px; text-align: center; }
+    .hero-aura {
+      position: absolute; top: 4%; left: 50%; transform: translateX(-50%);
+      width: min(680px, 92vw); height: 480px; z-index: -1; pointer-events: none;
+      background: radial-gradient(ellipse at center, var(--accent-glow), transparent 62%);
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 9px;
+      padding: 7px 16px 7px 13px; margin-bottom: 30px;
+      border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: 0.4px;
+      color: var(--text-secondary);
+      background: var(--surface-2);
+      border: 1px solid transparent;
+      background: linear-gradient(var(--bg-color),var(--bg-color)) padding-box, var(--bdr-hover) border-box;
+      box-shadow: 0 6px 22px var(--accent-glow);
+    }
+    .badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--pink); box-shadow: 0 0 0 0 rgba(232,77,127,.6); animation: pulse 2.2s ease-out infinite; }
+    @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(232,77,127,.55)} 70%{box-shadow:0 0 0 9px rgba(232,77,127,0)} 100%{box-shadow:0 0 0 0 rgba(232,77,127,0)} }
+    .hero .lead { margin: 0 auto 34px; font-size: 19px; max-width: 560px; }
+    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* hero load choreography */
+    @keyframes heroRise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+    .hero > .badge       { animation: heroRise .7s  .05s both cubic-bezier(.16,1,.3,1); }
+    .hero > h1           { animation: heroRise .9s  .14s both cubic-bezier(.16,1,.3,1), shimmer 8s 1.1s ease-in-out infinite; }
+    .hero > .lead        { animation: heroRise .85s .30s both cubic-bezier(.16,1,.3,1); }
+    .hero > .hero-actions{ animation: heroRise .85s .44s both cubic-bezier(.16,1,.3,1); }
+
+    /* ══════════ Stats ══════════ */
+    .stats { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; max-width: 600px; margin: 44px auto 0; }
+    .stat {
+      flex: 1; min-width: 130px;
+      padding: 20px 16px; border-radius: 16px;
+      border: 1px solid transparent;
+      background: linear-gradient(var(--bg-color),var(--bg-color)) padding-box, var(--bdr) border-box;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    }
+    .stat-num {
+      font-size: 30px; font-weight: 800; letter-spacing: -1px; line-height: 1;
+      background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-lbl { font-size: 10.5px; color: var(--text-muted); letter-spacing: 1.4px; text-transform: uppercase; font-weight: 600; margin-top: 9px; }
+
+    /* ══════════ Color ribbon ══════════ */
+    .ribbon {
+      position: relative; margin: 44px auto 0; max-width: 1120px;
+      height: 14px; border-radius: 999px; overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    }
+    .ribbon-track { display: flex; height: 100%; width: max-content; animation: ribbon 38s linear infinite; }
+    .ribbon-track span { width: 26px; height: 100%; flex-shrink: 0; }
+    @keyframes ribbon { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ══════════ NFT showcase ══════════ */
+    .showcase { padding: 40px 0 6px; }
+    .showcase-label {
+      display: flex; align-items: center; justify-content: center; gap: 11px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+      color: var(--text-muted); margin-bottom: 22px;
+    }
+    .showcase-label::before, .showcase-label::after { content: ""; width: 30px; height: 1px; }
+    .showcase-label::before { background: linear-gradient(90deg, transparent, var(--accent)); }
+    .showcase-label::after { background: linear-gradient(90deg, var(--accent), transparent); }
+    .marquee {
+      position: relative; width: 100vw; margin-left: calc(50% - 50vw); overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    }
+    .marquee-track { display: flex; gap: 18px; width: max-content; padding: 14px 9px; animation: marquee 70s linear infinite; }
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .nft {
+      flex: 0 0 auto; width: 182px; height: 182px; border-radius: 22px; overflow: hidden; position: relative;
+      border: 1px solid transparent;
+      background: linear-gradient(var(--bg-2),var(--bg-2)) padding-box, var(--bdr) border-box;
+      box-shadow: 0 14px 32px rgba(0,0,0,.30);
+      transition: transform .32s ease, box-shadow .32s ease;
+    }
+    .nft::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 1px rgba(255,255,255,.06); border-radius: 22px; pointer-events: none; }
+    .nft img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .nft:hover { transform: translateY(-7px) scale(1.04); box-shadow: 0 24px 50px var(--accent-glow); z-index: 4; }
+    @media (max-width: 720px) {
+      .nft { width: 136px; height: 136px; border-radius: 18px; }
+      .nft::after { border-radius: 18px; }
+      .marquee-track { gap: 12px; }
+    }
+
+    /* ══════════ Cards (shared gradient-border surface) ══════════ */
+    .card, .step, .rule, .palette-card, .dl-card, details, .stat {
+      background: linear-gradient(var(--bg-color),var(--bg-color)) padding-box, var(--bdr) border-box;
+      border: 1px solid transparent;
+    }
+    [data-theme="dark"] .card, [data-theme="dark"] .step, [data-theme="dark"] .rule,
+    [data-theme="dark"] .palette-card, [data-theme="dark"] .dl-card, [data-theme="dark"] details, [data-theme="dark"] .stat {
+      background: linear-gradient(var(--bg-2),var(--bg-2)) padding-box, var(--bdr) border-box;
+    }
+
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 22px; }
+    @media (max-width: 720px) { .feature-grid { grid-template-columns: 1fr; } }
+    .card { border-radius: 18px; padding: 24px; transition: transform .28s ease, box-shadow .28s ease; position: relative; overflow: hidden; }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px var(--accent-glow); }
+    .feature .icon {
+      width: 46px; height: 46px; border-radius: 13px;
+      background: var(--surface-2); border: 1px solid var(--surface-border);
+      display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 16px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+    }
+    .feature h3 { font-size: 16px; }
+    .feature p { font-size: 14px; line-height: 1.55; }
+
+    /* ══════════ Steps ══════════ */
+    .steps { display: grid; gap: 12px; margin-top: 22px; }
+    .step {
+      display: grid; grid-template-columns: 44px 1fr; gap: 18px; align-items: start;
+      padding: 20px 24px; border-radius: 16px;
+      transition: transform .24s ease, box-shadow .24s ease;
+    }
+    .step:hover { transform: translateY(-2px); box-shadow: 0 12px 30px var(--accent-glow); }
+    .step-num {
+      width: 38px; height: 38px; border-radius: 12px;
+      background: var(--grad); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 15px; flex-shrink: 0;
+      box-shadow: 0 6px 16px rgba(155,95,255,.4), inset 0 1px 0 rgba(255,255,255,.3);
+    }
+    .step h3 { font-size: 16px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .step p { font-size: 14px; margin: 0; line-height: 1.55; }
+
+    /* ══════════ Palette ══════════ */
+    .palette-card { border-radius: 22px; padding: 26px; margin-top: 22px; }
+    .palette-meta {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+      padding-bottom: 16px; margin-bottom: 18px; border-bottom: 1px solid var(--surface-border);
+      font-size: 11px; color: var(--text-muted); letter-spacing: 0.5px;
+    }
+    .palette-meta strong { color: var(--text-color); font-weight: 700; }
+    .palette-group { margin-bottom: 22px; }
+    .palette-group:last-child { margin-bottom: 0; }
+    .palette-group-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--text-muted); margin-bottom: 11px; }
+    .palette-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 8px; }
+    .swatch {
+      aspect-ratio: 1; border-radius: 11px; cursor: pointer; position: relative;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.18);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .swatch:hover { transform: translateY(-5px) scale(1.04); box-shadow: 0 10px 22px rgba(0,0,0,0.4); z-index: 6; }
+    .swatch.transparent {
+      background:
+        linear-gradient(45deg, #888 25%, transparent 25%) 0 0/10px 10px,
+        linear-gradient(-45deg, #888 25%, transparent 25%) 0 0/10px 10px,
+        linear-gradient(45deg, transparent 75%, #888 75%) 0 0/10px 10px,
+        linear-gradient(-45deg, transparent 75%, #888 75%) 0 0/10px 10px, #fff;
+    }
+    .swatch::after {
+      content: attr(data-hex); position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(4px);
+      font-size: 10px; font-weight: 600; letter-spacing: 0.3px; color: var(--text-color);
+      padding: 4px 8px; border-radius: 7px; white-space: nowrap;
+      background: var(--bg-2); border: 1px solid var(--surface-border);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+      opacity: 0; transition: opacity .15s ease, transform .15s ease; pointer-events: none; z-index: 10;
+    }
+    .swatch:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .swatch.copied { animation: copyPulse .5s ease; }
+    @keyframes copyPulse { 0% { transform: scale(1.12); box-shadow: 0 0 0 5px var(--accent-glow); } 100% { transform: scale(1); } }
+    .palette-actions { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 20px; margin-top: 8px; border-top: 1px solid var(--surface-border); }
+
+    /* ══════════ Downloads ══════════ */
+    .dl-section { margin-top: 34px; }
+    .dl-section-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; }
+    .dl-section-head h3 { font-size: 17px; margin: 0; }
+    .dl-section-head .count {
+      font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      color: var(--text-muted); padding: 3px 9px; border-radius: 999px; background: var(--surface-2);
+    }
+    .dl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+    .dl-card {
+      position: relative; overflow: hidden; border-radius: 18px; padding: 16px;
+      display: flex; flex-direction: column; gap: 12px;
+      transition: transform .28s ease, box-shadow .28s ease;
+    }
+    .dl-card::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s ease;
+      background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), var(--accent-glow), transparent 45%);
+    }
+    .dl-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px var(--accent-glow); }
+    .dl-card:hover::before { opacity: 1; }
+    .dl-preview {
+      aspect-ratio: 16/10; border-radius: 13px; position: relative; overflow: hidden;
+      background:
+        repeating-conic-gradient(rgba(255,255,255,0.03) 0 25%, transparent 0 50%) 50%/14px 14px,
+        var(--surface-2);
+      border: 1px solid var(--surface-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px; font-weight: 800; letter-spacing: 0.5px;
+      background-clip: padding-box;
+    }
+    .dl-preview { color: transparent; }
+    .dl-preview::after {
+      content: attr(data-glyph); font-size: 19px; font-weight: 800; letter-spacing: 0.4px;
+      background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .dl-preview img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
+    .dl-info { flex: 1; }
+    .dl-title { font-weight: 700; font-size: 14.5px; display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .dl-title .ext {
+      font-size: 9px; font-weight: 800; letter-spacing: 0.6px;
+      padding: 3px 8px; border-radius: 999px;
+      background: var(--grad); color: #fff;
+    }
+    .dl-meta { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+    .dl-go {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 12px; margin-top: 2px; border-top: 1px solid var(--surface-border);
+      font-size: 13px; font-weight: 700; color: var(--accent);
+    }
+    .dl-go::after { content: '↓'; transition: transform .22s ease; }
+    .dl-card:hover .dl-go::after { transform: translateY(3px); }
+
+    /* ══════════ Rules ══════════ */
+    .rules { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 22px; }
+    @media (max-width: 720px) { .rules { grid-template-columns: 1fr; } }
+    .rules-col h3 {
+      font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.6px;
+      margin-bottom: 14px; display: flex; align-items: center; gap: 9px;
+    }
+    .rules-col.do h3 { color: var(--good); }
+    .rules-col.dont h3 { color: var(--danger); }
+    .rules-col h3 span { width: 20px; height: 20px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; }
+    .rules-col.do h3 span { background: rgba(52, 211, 153, 0.16); color: var(--good); box-shadow: 0 0 0 1px rgba(52,211,153,.25); }
+    .rules-col.dont h3 span { background: rgba(251, 113, 133, 0.16); color: var(--danger); box-shadow: 0 0 0 1px rgba(251,113,133,.25); }
+    .rule { padding: 15px 17px; border-radius: 14px; margin-bottom: 10px; transition: transform .2s ease, box-shadow .2s ease; }
+    .rule:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.18); }
+    .rules-col.do .rule { border-left: 2px solid color-mix(in srgb, var(--good) 50%, transparent); }
+    .rules-col.dont .rule { border-left: 2px solid color-mix(in srgb, var(--danger) 50%, transparent); }
+    .rule h4 { font-size: 13.5px; font-weight: 700; margin-bottom: 4px; }
+    .rule p { font-size: 13px; margin: 0; line-height: 1.5; }
+
+    /* ══════════ Submit ══════════ */
+    .submit-card {
+      position: relative; overflow: hidden;
+      border-radius: 28px; padding: 56px 32px; text-align: center; margin-top: 22px;
+      border: 1px solid transparent;
+      background: linear-gradient(var(--bg-2),var(--bg-2)) padding-box, var(--bdr-hover) border-box;
+    }
+    .submit-card::before {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background: radial-gradient(700px 360px at 50% -10%, var(--accent-glow), transparent 60%);
+    }
+    .submit-card .section-label { justify-content: center; }
+    .submit-card h2 { margin-bottom: 10px; }
+    .submit-card .lead { margin: 0 auto 26px; }
+    .submit-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* ══════════ FAQ ══════════ */
+    .faq { display: grid; gap: 10px; margin-top: 22px; }
+    details { border-radius: 14px; padding: 18px 22px; transition: box-shadow .2s ease; }
+    details[open] {
+      background: linear-gradient(var(--bg-2),var(--bg-2)) padding-box, var(--bdr-hover) border-box;
+      box-shadow: 0 12px 30px var(--accent-glow);
+    }
+    summary { list-style: none; cursor: pointer; font-weight: 600; font-size: 15.5px; display: flex; justify-content: space-between; align-items: center; gap: 14px; }
+    summary::-webkit-details-marker { display: none; }
+    summary .plus {
+      flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+      background: var(--surface-2); border: 1px solid var(--surface-border);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 700; color: var(--accent); transition: all .25s ease;
+    }
+    details[open] summary .plus { background: var(--grad); color: #fff; transform: rotate(135deg); border-color: transparent; }
+    details > p { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--surface-border); font-size: 14px; line-height: 1.6; }
+
+    /* ══════════ Footer ══════════ */
+    footer { position: relative; margin-top: 100px; padding: 56px 24px 44px; border-top: 1px solid var(--surface-border); text-align: center; }
+    footer::before {
+      content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: min(620px, 82%); height: 220px; pointer-events: none; z-index: -1;
+      background: radial-gradient(ellipse at top, var(--accent-glow), transparent 70%);
+    }
+    .footer-logo { width: 46px; height: 46px; margin: 0 auto 16px; object-fit: contain; filter: drop-shadow(0 4px 16px var(--accent-glow)); transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
+    .footer-logo:hover { transform: rotate(-6deg) scale(1.06); }
+    .footer-tag { font-size: 14.5px; color: var(--text-secondary); max-width: 380px; margin: 0 auto 26px; line-height: 1.55; }
+    .footer-links { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+    .footer-links a { font-size: 13px; padding: 7px 13px; color: var(--text-secondary); border-radius: 999px; transition: all .2s ease; }
+    .footer-links a:hover { color: var(--text-color); background: var(--surface-2); }
+    .footer-mark { font-size: 11px; color: var(--text-muted); letter-spacing: 0.5px; }
+
+    /* ══════════ Floating submit ══════════ */
+    .float-submit {
+      position: fixed; bottom: 22px; right: 22px; z-index: 40;
+      padding: 13px 24px; background: var(--grad); color: #fff;
+      border-radius: 999px; font-weight: 700; font-size: 13.5px;
+      box-shadow: 0 10px 30px rgba(155,95,255,.5), inset 0 1px 0 rgba(255,255,255,.25);
+      opacity: 0; transform: translateY(14px); pointer-events: none;
+      transition: opacity .25s, transform .25s; display: inline-flex; align-items: center; gap: 7px;
+    }
+    .float-submit.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .float-submit:hover { transform: translateY(-2px); }
+    .float-submit::after { content: '→'; }
+
+    /* ══════════ Toast ══════════ */
+    .toast {
+      position: fixed; bottom: 26px; left: 50%; transform: translate(-50%, 16px);
+      background: var(--bg-2); color: var(--text-color);
+      padding: 11px 22px; border-radius: 999px; font-size: 13px; font-weight: 600;
+      border: 1px solid transparent;
+      background: linear-gradient(var(--bg-2),var(--bg-2)) padding-box, var(--bdr-hover) border-box;
+      box-shadow: 0 12px 36px var(--accent-glow);
+      opacity: 0; pointer-events: none; transition: opacity .25s ease, transform .25s ease; z-index: 200;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    /* ══════════ Scrollbar ══════════ */
+    ::-webkit-scrollbar { width: 11px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--surface-border); border-radius: 999px; border: 3px solid var(--bg-color); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+    /* ══════════ Feature icons ══════════ */
+    .feature .icon svg { width: 23px; height: 23px; }
+
+    /* ══════════ Nav CTA ══════════ */
+    .nav-cta {
+      flex-shrink: 0; padding: 8px 17px; border-radius: 999px;
+      font-size: 13px; font-weight: 700; color: #fff; background: var(--grad);
+      box-shadow: 0 6px 18px rgba(155,95,255,.34), inset 0 1px 0 rgba(255,255,255,.25);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 10px 26px rgba(155,95,255,.5); }
+
+    /* ══════════ Hover border brighten ══════════ */
+    .card:hover, .step:hover, .rule:hover, .dl-card:hover {
+      background: linear-gradient(var(--bg-color),var(--bg-color)) padding-box, var(--bdr-hover) border-box;
+    }
+    [data-theme="dark"] .card:hover, [data-theme="dark"] .step:hover,
+    [data-theme="dark"] .rule:hover, [data-theme="dark"] .dl-card:hover {
+      background: linear-gradient(var(--bg-2),var(--bg-2)) padding-box, var(--bdr-hover) border-box;
+    }
+
+    /* ══════════ Staggered reveal (opacity only, keeps hover transforms intact) ══════════ */
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .reveal.in .feature-grid > *,
+    .reveal.in .steps > *,
+    .reveal.in .dl-grid > *,
+    .reveal.in .rules > * { animation: fadeIn .55s ease both; }
+    .reveal.in :is(.feature-grid,.steps,.dl-grid,.rules) > *:nth-child(1){ animation-delay:.04s; }
+    .reveal.in :is(.feature-grid,.steps,.dl-grid,.rules) > *:nth-child(2){ animation-delay:.10s; }
+    .reveal.in :is(.feature-grid,.steps,.dl-grid,.rules) > *:nth-child(3){ animation-delay:.16s; }
+    .reveal.in :is(.feature-grid,.steps,.dl-grid,.rules) > *:nth-child(4){ animation-delay:.22s; }
+    .reveal.in :is(.feature-grid,.steps,.dl-grid,.rules) > *:nth-child(5){ animation-delay:.28s; }
+    .reveal.in :is(.feature-grid,.steps,.dl-grid,.rules) > *:nth-child(6){ animation-delay:.34s; }
+    .reveal.in :is(.feature-grid,.steps,.dl-grid,.rules) > *:nth-child(7){ animation-delay:.40s; }
+
+    /* ══════════ Focus ══════════ */
+    a:focus-visible, button:focus-visible, summary:focus-visible {
+      outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 10px;
+    }
+
+    /* ══════════ Motion polish ══════════ */
+    /* FAQ answer reveals as it opens */
+    @keyframes faqIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+    details[open] > p { animation: faqIn .35s ease; }
+    /* Section eyebrow line draws in on reveal */
+    section[id] > .section-label::after,
+    section[id] .submit-card > .section-label::after { width: 0; transition: width .6s cubic-bezier(.16,1,.3,1) .15s; }
+    .reveal.in > .section-label::after,
+    .reveal.in .submit-card > .section-label::after { width: 26px; }
+    /* Tactile press states */
+    .btn-primary:active, .btn-outline:active, .nav-cta:active, .float-submit:active, .btn-pill:active { transform: translateY(0) scale(.96); }
+    /* Playful micro-interactions */
+    .step-num { transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
+    .step:hover .step-num { transform: scale(1.09) rotate(-3deg); }
+    .feature .icon { transition: transform .3s ease; }
+    .card:hover .icon { transform: translateY(-3px); }
+    .dl-preview::after { transition: transform .3s ease; }
+    .dl-card:hover .dl-preview::after { transform: scale(1.08); }
+    .brand img { transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
+    .brand:hover img { transform: rotate(-6deg) scale(1.06); }
+
+    /* ══════════ Mobile ══════════ */
+    @media (max-width: 720px) {
+      .nav-inner { padding: 12px 16px; gap: 10px; }
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .theme-toggle { margin-left: auto; }
+      main { padding: 0 16px; }
+      .hero { padding-top: 80px; }
+      .submit-card { padding: 40px 22px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .15s !important; }
+      .bg-orb, .ribbon-track, h1 { animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-fx" aria-hidden="true">
+  <span class="bg-orb o1"></span>
+  <span class="bg-orb o2"></span>
+  <span class="bg-orb o3"></span>
+</div>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="ig" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#A66BFF"/><stop offset="1" stop-color="#E84D7F"/>
+  </linearGradient>
+</defs></svg>
+
+<!-- ── NAV ── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="emo.html" class="brand">
+      <img src="emo-logo.png" alt="Emo logo" width="34" height="34">
+      <span>Emo Nads</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#how">How</a>
+      <a href="#palette">Palette</a>
+      <a href="#kit">Kit</a>
+      <a href="#rules">Rules</a>
+      <a href="#submit">Submit</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a href="#kit" class="nav-cta">Get the kit</a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-aura" aria-hidden="true"></div>
+    <span class="badge"><span class="dot"></span> Community PFP collection · Monad</span>
+    <h1>Emo Nads</h1>
+    <p class="lead">A hand-drawn PFP collection. Built by the community, on Monad. Grab the kit, draw a trait, a full 1/1, or a background. Get credited and GTD WL for submissions that make it into the collection.</p>
+    <div class="hero-actions">
+      <a href="#kit" class="btn-primary">Get the kit</a>
+      <a href="#how" class="btn-outline">How it works</a>
+    </div>
+  </section>
+
+  <!-- ── EXAMPLES SHOWCASE ── -->
+  <section class="showcase reveal" aria-label="Example Emo Nads made with the kit">
+    <div class="showcase-label">Made with the kit</div>
+    <div class="marquee"><div class="marquee-track" id="nftTrack"></div></div>
+  </section>
+
+  <div class="ribbon" id="colorRibbon" aria-hidden="true"></div>
+
+  <!-- ── ABOUT ── -->
+  <section id="about" class="reveal">
+    <div class="section-label">About</div>
+    <h2>Built by the community.</h2>
+    <p class="lead">Every Emo Nad is hand-drawn by someone in this community. No outsourced art, no AI, no asset packs. Submit a single trait, a full 1/1, or a background. The best ones make the cut.</p>
+
+    <div class="feature-grid">
+      <div class="card feature">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="url(#ig)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg></div>
+        <h3>Locked palette</h3>
+        <p>Two swatch sets, Core + Gear, tie every piece together.</p>
+      </div>
+      <div class="card feature">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="url(#ig)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20.5l4.2-1L20 7.7a2.6 2.6 0 0 0-3.7-3.7L4.5 15.8 4 20.5z"/><path d="M14.5 6.2l3.3 3.3"/></svg></div>
+        <h3>Hand-drawn only</h3>
+        <p>Emonad Brush for every line. Flat palette fills. No AI, no asset packs.</p>
+      </div>
+      <div class="card feature">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="url(#ig)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c.5 4.6 2 6.1 6.6 6.6-4.6.5-6.1 2-6.6 6.6-.5-4.6-2-6.1-6.6-6.6 4.6-.5 6.1-2 6.6-6.6z"/><path d="M18.5 15.5c.25 2 .9 2.65 2.9 2.9-2 .25-2.65.9-2.9 2.9-.25-2-.9-2.65-2.9-2.9 2-.25 2.65-.9 2.9-2.9z"/></svg></div>
+        <h3>Credit + GTD WL</h3>
+        <p>If your work is selected, you get credited and GTD WL.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOW ── -->
+  <section id="how" class="reveal">
+    <div class="section-label">How to make a piece</div>
+    <h2>Six simple steps.</h2>
+    <p class="lead">The kit is built for Procreate, but the template also opens in Photoshop. Draw each trait on its own layer over the fixed body base.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <h3>Download the kit</h3>
+          <p>Grab the template, both palettes, and the Emonad Brush from the section below.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <h3>Open the template</h3>
+          <p>3000 × 3000, every trait layer named and ready. Don't resize the canvas.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <h3>Pick a trait slot</h3>
+          <p>Hair/Hats, Mouth, Eyes, Clothes, Tattoos, or Background. The body + nose are fixed, so draw on top, don't redraw them.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <h3>Draw with the Emonad Brush</h3>
+          <p>Linework at 12% (the default). Size down for fine details if you want, then flat-fill with palette colors only.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div>
+          <h3>Export a transparent PNG</h3>
+          <p>Hide every layer except yours. Name it like <code>hair-spikes.png</code>. Submitting a full 1/1? Include all your trait layers so the whole character exports together.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div>
+          <h3>Submit</h3>
+          <p>Send it through the form below. Tag your X handle for credit.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PALETTE ── -->
+  <section id="palette" class="reveal">
+    <div class="section-label">Palette</div>
+    <h2>The official palette.</h2>
+    <p class="lead">Click any swatch to copy its hex. Every piece must use only these colors.</p>
+
+    <div class="palette-card">
+      <div class="palette-meta">
+        <div><strong id="paletteCountLabel">52 colors</strong> · Core + Gear · sRGB</div>
+        <div>v1.0</div>
+      </div>
+      <div id="paletteGroups"></div>
+      <div class="palette-actions">
+        <a href="emomaker-assets/EmonadCore.swatches" class="btn-pill" download>↓ Core .swatches</a>
+        <a href="emomaker-assets/EmonadGear.swatches" class="btn-pill" download>↓ Gear .swatches</a>
+        <a href="emomaker-assets/emonads-palette.png" class="btn-pill" download>↓ PNG sheet</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── KIT ── -->
+  <section id="kit" class="reveal">
+    <div class="section-label">The kit</div>
+    <h2>Template, brush &amp; palettes.</h2>
+    <p class="lead">Drop these into Procreate before you start.</p>
+
+    <div class="dl-section">
+      <div class="dl-section-head">
+        <h3>Template</h3>
+        <span class="count">draw here</span>
+      </div>
+      <div class="dl-grid">
+        <a href="emomaker-assets/Emonad-NFT-Template.procreate" download class="dl-card">
+          <div class="dl-preview" data-glyph=".procreate"></div>
+          <div class="dl-info">
+            <div class="dl-title">NFT template <span class="ext">PROCREATE</span></div>
+            <div class="dl-meta">native · layers named and ready</div>
+          </div>
+          <div class="dl-go">Download</div>
+        </a>
+        <a href="emomaker-assets/Emonad-NFT-Template.psd" download class="dl-card">
+          <div class="dl-preview" data-glyph=".psd"></div>
+          <div class="dl-info">
+            <div class="dl-title">NFT template <span class="ext">PSD</span></div>
+            <div class="dl-meta">3000 × 3000 · all trait layers named</div>
+          </div>
+          <div class="dl-go">Download</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="dl-section">
+      <div class="dl-section-head">
+        <h3>Brush &amp; palettes</h3>
+        <span class="count">04 files</span>
+      </div>
+      <div class="dl-grid">
+        <a href="emomaker-assets/Emonad-Brush.brush" download class="dl-card">
+          <div class="dl-preview" data-glyph=".brush"></div>
+          <div class="dl-info">
+            <div class="dl-title">Emonad Brush <span class="ext">BRUSH</span></div>
+            <div class="dl-meta">linework brush · 12% default</div>
+          </div>
+          <div class="dl-go">Download</div>
+        </a>
+        <a href="emomaker-assets/EmonadCore.swatches" download class="dl-card">
+          <div class="dl-preview" data-glyph=".swatches"></div>
+          <div class="dl-info">
+            <div class="dl-title">Core palette <span class="ext">SWATCHES</span></div>
+            <div class="dl-meta">Procreate · 24 colors</div>
+          </div>
+          <div class="dl-go">Download</div>
+        </a>
+        <a href="emomaker-assets/EmonadGear.swatches" download class="dl-card">
+          <div class="dl-preview" data-glyph=".swatches"></div>
+          <div class="dl-info">
+            <div class="dl-title">Gear palette <span class="ext">SWATCHES</span></div>
+            <div class="dl-meta">Procreate · 28 colors</div>
+          </div>
+          <div class="dl-go">Download</div>
+        </a>
+        <a href="emomaker-assets/emonad-nft-kit.zip" download class="dl-card">
+          <div class="dl-preview" data-glyph=".zip"></div>
+          <div class="dl-info">
+            <div class="dl-title">Everything <span class="ext">ZIP</span></div>
+            <div class="dl-meta">template + brush + both palettes</div>
+          </div>
+          <div class="dl-go">Download</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="dl-section">
+      <div class="dl-section-head">
+        <h3>Trait slots &amp; layer order</h3>
+        <span class="count">top → bottom</span>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div>
+            <h3>Hair / Hats</h3>
+            <p>Top layer. Drawing a hat? Draw the hair under it too, or leave them bald if you want.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div>
+            <h3>Mouth</h3>
+            <p>Lips, fangs, lip rings and snake bites all live on the mouth slot.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div>
+            <h3>Eyes</h3>
+            <p>Eyebrows live here too, so submit brows together with the eyes.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div>
+            <h3>Clothes</h3>
+            <p>Shirt, hoodie, coat, collar, etc.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div>
+            <h3>Tattoos</h3>
+            <p>Face, neck, body ink. Sits under the clothes.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">6</div>
+          <div>
+            <h3>Body + nose <span class="ext" style="background:var(--surface-2);color:var(--text-muted)">FIXED</span></h3>
+            <p>The base everyone draws on. The nose is always the same, so don't redraw it.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">7</div>
+          <div>
+            <h3>Background</h3>
+            <p>Bottom layer. Keep it simple so the character reads on top.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RULES ── -->
+  <section id="rules" class="reveal">
+    <div class="section-label">Rules</div>
+    <h2>Read this first.</h2>
+    <p class="lead">Submissions that break any of these get rejected. No exceptions.</p>
+
+    <div class="rules">
+      <div class="rules-col do">
+        <h3><span>✓</span> Do this</h3>
+        <div class="rule">
+          <h4>Palette colors only</h4>
+          <p>Every color from the Core or Gear swatches. Nothing off-palette.</p>
+        </div>
+        <div class="rule">
+          <h4>Emonad Brush only</h4>
+          <p>The only brush to use. Outlines at 12% (size down for fine details), then flat palette fills.</p>
+        </div>
+        <div class="rule">
+          <h4>One trait, one layer</h4>
+          <p>Keep your trait on its own layer. Export a transparent PNG.</p>
+        </div>
+        <div class="rule">
+          <h4>Hats: hair or bald</h4>
+          <p>Drawing headwear? Add hair under it, or leave them bald. Both work.</p>
+        </div>
+      </div>
+      <div class="rules-col dont">
+        <h3><span>×</span> Don't do this</h3>
+        <div class="rule">
+          <h4>Don't touch the body or nose</h4>
+          <p>They're fixed for the whole set. Draw on top, never redraw them.</p>
+        </div>
+        <div class="rule">
+          <h4>No AI generation</h4>
+          <p>Anything we suspect is AI-generated gets rejected.</p>
+        </div>
+        <div class="rule">
+          <h4>No stolen art</h4>
+          <p>Only submit work you made yourself and fully own.</p>
+        </div>
+        <div class="rule">
+          <h4>No off-theme content</h4>
+          <p>Keep it emo-coded. No hate, no slurs, no gore.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SUBMIT ── -->
+  <section id="submit" class="reveal">
+    <div class="submit-card">
+      <div class="section-label">Submit</div>
+      <h2>Got a piece ready?</h2>
+      <p class="lead">Drop your PNG in the form. Tag your X handle so we can credit you.</p>
+      <div class="submit-actions">
+        <a href="#" class="btn-primary" id="submitLink">Open submission form →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── -->
+  <section id="faq" class="reveal">
+    <div class="section-label">FAQ</div>
+    <h2>Common questions.</h2>
+
+    <div class="faq">
+      <details>
+        <summary>What tool should I use? <span class="plus">+</span></summary>
+        <p>Procreate. The kit (template, palettes, and the Emonad Brush) is built for it. The <code>.psd</code> template also opens in Photoshop if that's your thing, and the Emonad Brush is the only brush to use.</p>
+      </details>
+      <details>
+        <summary>Can I submit multiple pieces? <span class="plus">+</span></summary>
+        <p>Yes. As many as you want. Each as its own PNG, named clearly. Quality over quantity though.</p>
+      </details>
+      <details>
+        <summary>What's a trait vs a 1/1? <span class="plus">+</span></summary>
+        <p>A <strong>trait</strong> is one element (eyes, mouth, hair, accessory) that gets combined with a base + other traits to generate PFPs. A <strong>1/1</strong> is the whole character drawn together. It ships as a single unique mint. For a 1/1, still use the trait slots, and add a custom background if you want.</p>
+      </details>
+      <details>
+        <summary>Do I get credit if my piece is selected? <span class="plus">+</span></summary>
+        <p>Yes. Selected submitters get credit on the collection page and GTD WL. Exact details get announced before mint.</p>
+      </details>
+      <details>
+        <summary>I'm not a great artist. Help? <span class="plus">+</span></summary>
+        <p>Start on the template to get a feel for the canvas, then try a simple trait: sunglasses, a tear, etc. Use the Emonad Brush and stay on palette and it'll already look like it belongs.</p>
+      </details>
+      <details>
+        <summary>When does the collection mint? <span class="plus">+</span></summary>
+        <p>Wen it's done.</p>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <img class="footer-logo" src="emo-logo.png" alt="Emo logo" width="46" height="46">
+  <div class="footer-tag">Hand-drawn PFPs, built by the community on Monad.</div>
+  <div class="footer-links">
+    <a href="https://emonad.lol/emo.html">Home</a>
+    <a href="https://x.com/EmonadCoin" target="_blank" rel="noopener noreferrer">X</a>
+  </div>
+  <div class="footer-mark">© Emonad · drawn by the community</div>
+</footer>
+
+<a href="#submit" class="float-submit" id="floatSubmit">Submit</a>
+<div class="toast" id="toast">copied</div>
+
+<script>
+/* ════════════════════════════════════════════════════════
+   PALETTE: pulled from EmonadCore.swatches + EmonadGear.swatches.
+   Keep in sync if the .swatches files change. First entry stays
+   'transparent'.
+   ════════════════════════════════════════════════════════ */
+const PALETTE_GROUPS = [
+  { name: 'Background', colors: ['transparent'] },
+  { name: 'Core', colors: [
+    '#502858','#281828','#724278','#906096','#EAC6EA','#F8F8F8','#000000','#B8B8B8',
+    '#FFFFFF','#1A1620','#F8F8FF','#3A2E44','#E8D89B','#D9D2C7','#8B1A2D','#6BB84A',
+    '#E84D7F','#2D7D8A','#F3D9CE','#D9B08C','#B89976','#7A5544','#4C3327','#EFE5E0'
+  ] },
+  { name: 'Gear', colors: [
+    '#2A282E','#7A1320','#5A1A2D','#3D1218','#1B2A48','#1F3A26','#A5A0A8','#ECE6DE',
+    '#C24F8F','#B894D8','#5C3A20','#1A1A1E','#5A5563','#8B1A2D','#2D5A3D','#1B3B8C',
+    '#C7C7C8','#7A7A7C','#D4A646','#8A6A1C','#3A3A42','#C98A7A','#E8C2C8','#0F0E10',
+    '#C9B894','#D6C2E0','#EA8C3A','#BE5A22'
+  ] },
+];
+
+const groupsHost = document.getElementById('paletteGroups');
+let totalColors = 0;
+PALETTE_GROUPS.forEach(g => {
+  const wrap = document.createElement('div');
+  wrap.className = 'palette-group';
+  wrap.innerHTML = `<div class="palette-group-label">${g.name} · ${g.colors.length}</div>`;
+  const row = document.createElement('div');
+  row.className = 'palette-row';
+  g.colors.forEach(c => {
+    if (c !== 'transparent') totalColors++;
+    const el = document.createElement('div');
+    el.className = 'swatch' + (c === 'transparent' ? ' transparent' : '');
+    if (c !== 'transparent') el.style.background = c;
+    el.dataset.hex = c === 'transparent' ? 'alpha' : c;
+    el.title = c === 'transparent' ? 'transparent' : `${c} · click to copy`;
+    el.addEventListener('click', () => {
+      if (c === 'transparent') return showToast('transparent, leave empty');
+      navigator.clipboard?.writeText(c);
+      el.classList.add('copied');
+      setTimeout(() => el.classList.remove('copied'), 500);
+      showToast(`copied ${c}`);
+    });
+    row.appendChild(el);
+  });
+  wrap.appendChild(row);
+  groupsHost.appendChild(wrap);
+});
+const pcEl = document.getElementById('paletteCount');
+if (pcEl) pcEl.textContent = totalColors;
+document.getElementById('paletteCountLabel').textContent = `${totalColors} colors`;
+
+/* ── Example NFT showcase (built from examples/nft/thumbs) ── */
+(function buildNfts() {
+  const track = document.getElementById('nftTrack');
+  if (!track) return;
+  const files = ['img_1178','img_1179','img_1180','img_1181','img_1182','img_1183','img_1184','img_1185','rick'];
+  // render the set twice so the -50% marquee loop is seamless
+  for (let pass = 0; pass < 2; pass++) {
+    files.forEach(f => {
+      const card = document.createElement('div');
+      card.className = 'nft';
+      const img = document.createElement('img');
+      img.src = `examples/nft/thumbs/${f}.jpg`;
+      img.alt = 'Emo Nad example made with the kit';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      card.appendChild(img);
+      track.appendChild(card);
+    });
+  }
+})();
+
+/* ── Color ribbon (built from the palette) ── */
+(function buildRibbon() {
+  const host = document.getElementById('colorRibbon');
+  if (!host) return;
+  const cols = PALETTE_GROUPS.flatMap(g => g.colors).filter(c => c !== 'transparent');
+  const track = document.createElement('div');
+  track.className = 'ribbon-track';
+  // duplicate the run so the -50% loop is seamless
+  [...cols, ...cols].forEach(c => {
+    const s = document.createElement('span');
+    s.style.background = c;
+    track.appendChild(s);
+  });
+  host.appendChild(track);
+})();
+
+/* ── Toast ── */
+const toast = document.getElementById('toast');
+let toastTimer;
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 1400);
+}
+
+/* ── Theme toggle (matches emo.html) ── */
+const themeBtn = document.getElementById('themeToggle');
+const root = document.documentElement;
+const stored = localStorage.getItem('emonad:theme');
+if (stored) root.dataset.theme = stored;
+themeBtn.textContent = root.dataset.theme === 'dark' ? '🌙' : '☀️';
+themeBtn.addEventListener('click', () => {
+  root.classList.add('theme-transition');
+  const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  root.dataset.theme = next;
+  themeBtn.textContent = next === 'dark' ? '🌙' : '☀️';
+  localStorage.setItem('emonad:theme', next);
+  setTimeout(() => root.classList.remove('theme-transition'), 350);
+});
+
+/* ── Active nav link on scroll ── */
+const sections = document.querySelectorAll('main section[id]');
+const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+    }
+  });
+}, { rootMargin: '-45% 0px -50% 0px' });
+sections.forEach(s => io.observe(s));
+
+/* ── Reveal on scroll ── */
+const revealEls = document.querySelectorAll('.reveal');
+const revealIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      revealIO.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
+revealEls.forEach(el => revealIO.observe(el));
+
+/* ── Scroll-driven: float button, nav state, bg parallax (one rAF-throttled handler) ── */
+const floatBtn = document.getElementById('floatSubmit');
+const navEl = document.querySelector('.nav');
+const bgfx = document.querySelector('.bg-fx');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let scrollTicking = false;
+function onScroll() {
+  const y = window.scrollY;
+  floatBtn.classList.toggle('show', y > window.innerHeight * 0.6);
+  navEl.classList.toggle('scrolled', y > 16);
+  if (bgfx && !reduceMotion) bgfx.style.transform = `translateY(${Math.min(y * 0.06, 140)}px)`;
+  scrollTicking = false;
+}
+window.addEventListener('scroll', () => {
+  if (!scrollTicking) { scrollTicking = true; requestAnimationFrame(onScroll); }
+}, { passive: true });
+onScroll();
+
+/* ── Cursor glow + download-card spotlight (desktop pointers only) ── */
+if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  const glow = document.getElementById('cursorGlow');
+  window.addEventListener('pointermove', e => {
+    glow.classList.add('on');
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+  }, { passive: true });
+  window.addEventListener('pointerleave', () => glow.classList.remove('on'));
+
+  document.querySelectorAll('.dl-card').forEach(card => {
+    card.addEventListener('pointermove', e => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+      card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+    }, { passive: true });
+  });
+}
+
+/* ── Submit button → Google Form ── */
+const SUBMIT_FORM_URL = 'https://forms.gle/1sBH4P1PdxLZFbVy8'; // Google Form for trait / 1-1 / background submissions
+const submitLink = document.getElementById('submitLink');
+submitLink.href = SUBMIT_FORM_URL;
+submitLink.target = '_blank';
+submitLink.rel = 'noopener noreferrer';
+</script>
+
+</body>
+</html>
