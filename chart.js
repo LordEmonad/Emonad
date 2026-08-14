@@ -25,6 +25,16 @@ const POLL_MS      = 60_000;
 function escapeHtml(s) {
   return String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
 }
+function safeHttpsUrl(u) {
+  if (!u || typeof u !== 'string') return '';
+  try {
+    const url = new URL(u);
+    if (url.protocol !== 'https:') return '';
+    return url.href;
+  } catch {
+    return '';
+  }
+}
 function levelFromXp(xp) {
   if (xp <= 0) return 0;
   const cap = XP_PER_LEVEL * MAX_LEVEL;
@@ -57,7 +67,7 @@ function avatarCandidates(profile) {
       out.push(u);
     }
   }
-  return out;
+  return out.map(safeHttpsUrl).filter(Boolean);
 }
 
 // Small-and-fast for the leaderboard rows (40px). Uses the Clerk-proxied URL
@@ -119,15 +129,19 @@ function renderLeaderboard() {
   const root = document.getElementById('leaderboard');
   const meta = document.getElementById('lbMeta');
   if (!state.profiles.length) {
-    root.innerHTML = `<div class="error-state">No profiles yet.</div>`;
+    const empty = document.createElement('div');
+    empty.className = 'error-state';
+    empty.textContent = 'No profiles yet.';
+    root.replaceChildren(empty);
     meta.textContent = '—';
     return;
   }
   const ranked = state.profiles.slice().sort((a, b) => (b.total_xp || 0) - (a.total_xp || 0));
   const N = ranked.length;
-  meta.textContent = `${N} USER${N === 1 ? '' : 'S'} · BY XP`;
+  meta.textContent = `${N} user${N === 1 ? '' : 's'} · by XP`;
 
-  root.innerHTML = ranked.map((p, i) => {
+  const frag = document.createDocumentFragment();
+  ranked.forEach((p, i) => {
     const rank = i + 1;
     const handle = (p.x_handle || '').replace(/^@/, '');
     const name = p.display_name || handle || '—';
@@ -136,34 +150,71 @@ function renderLeaderboard() {
     const isMax = lvl === MAX_LEVEL;
     const isMe = meXUserId && p.x_user_id === meXUserId;
     const topCls = rank === 1 ? 'top1' : rank === 2 ? 'top2' : rank === 3 ? 'top3' : '';
-    const href = handle ? `profile.html?handle=${encodeURIComponent(handle)}` : '#';
 
-    const primary  = leaderboardAvatarSrc(p);
-    const fallback = handle ? `https://unavatar.io/twitter/${encodeURIComponent(handle)}` : '';
-    const initial  = (handle || name || '?').charAt(0).toUpperCase();
-    const placeholder = `<div class=\\'avatar placeholder\\'>${escapeHtml(initial)}</div>`;
-    // onerror chain: stored avatar_url → unavatar handle → letter placeholder
-    const onErr = fallback
-      ? `this.onerror=function(){this.onerror=null;this.outerHTML='${placeholder}';};this.src='${escapeHtml(fallback)}';`
-      : `this.onerror=null;this.outerHTML='${placeholder}';`;
-    const avatarHtml = primary
-      ? `<img class="avatar" src="${escapeHtml(primary)}" alt="" referrerpolicy="no-referrer" decoding="async" onerror="${onErr}">`
-      : (fallback
-          ? `<img class="avatar" src="${escapeHtml(fallback)}" alt="" referrerpolicy="no-referrer" decoding="async" onerror="this.onerror=null;this.outerHTML='${placeholder}';">`
-          : `<div class="avatar placeholder">${escapeHtml(initial)}</div>`);
+    const row = document.createElement('a');
+    row.className = ('lb-row ' + topCls + (isMe ? ' me' : '')).trim();
+    row.href = handle ? ('profile.html?handle=' + encodeURIComponent(handle)) : '#';
+    row.title = '@' + handle;
 
-    return `
-      <a class="lb-row ${topCls} ${isMe ? 'me' : ''}" href="${escapeHtml(href)}" title="@${escapeHtml(handle)}">
-        <span class="rank">${rank === 1 ? '★' : '#' + rank}</span>
-        ${avatarHtml}
-        <span class="who">
-          <span class="name">${escapeHtml(name)}</span>
-          <span class="handle">@${escapeHtml(handle || '—')}</span>
-        </span>
-        <span class="xp">${fmtNum(xp)}<span class="lvl ${isMax ? 'max' : ''}">${isMax ? 'MAX' : 'Lv ' + lvl}</span></span>
-      </a>
-    `;
-  }).join('');
+    const rankEl = document.createElement('span');
+    rankEl.className = 'rank';
+    rankEl.textContent = rank === 1 ? '★' : '#' + rank;
+
+    const who = document.createElement('span');
+    who.className = 'who';
+    const nameEl = document.createElement('span');
+    nameEl.className = 'name';
+    nameEl.textContent = name;
+    const handleEl = document.createElement('span');
+    handleEl.className = 'handle';
+    handleEl.textContent = '@' + (handle || '—');
+    who.append(nameEl, handleEl);
+
+    const xpEl = document.createElement('span');
+    xpEl.className = 'xp';
+    xpEl.append(document.createTextNode(fmtNum(xp)));
+    const lvlEl = document.createElement('span');
+    lvlEl.className = 'lvl' + (isMax ? ' max' : '');
+    lvlEl.textContent = isMax ? 'MAX' : 'Lv ' + lvl;
+    xpEl.append(lvlEl);
+
+    row.append(rankEl, leaderboardAvatarEl(p, handle, name), who, xpEl);
+    frag.appendChild(row);
+  });
+  root.replaceChildren(frag);
+}
+
+function letterAvatar(initial) {
+  const el = document.createElement('div');
+  el.className = 'avatar placeholder';
+  el.textContent = initial;
+  return el;
+}
+
+function leaderboardAvatarEl(p, handle, name) {
+  const primary = safeHttpsUrl(leaderboardAvatarSrc(p));
+  const fallback = handle
+    ? safeHttpsUrl('https://unavatar.io/twitter/' + encodeURIComponent(handle))
+    : '';
+  const initial = (handle || name || '?').charAt(0).toUpperCase();
+  if (!primary && !fallback) return letterAvatar(initial);
+
+  const img = document.createElement('img');
+  img.className = 'avatar';
+  img.alt = '';
+  img.referrerPolicy = 'no-referrer';
+  img.decoding = 'async';
+  let triedFallback = !primary;
+  img.src = primary || fallback;
+  img.addEventListener('error', function () {
+    if (!triedFallback && fallback) {
+      triedFallback = true;
+      img.src = fallback;
+      return;
+    }
+    img.replaceWith(letterAvatar(initial));
+  });
+  return img;
 }
 
 // ─── Galaxy ───────────────────────────────────────────────────────────
@@ -269,7 +320,7 @@ function buildGalaxyNodes() {
   galaxy.nodes.sort((a, b) => b.r - a.r);
 
   const meta = document.getElementById('galaxyMeta');
-  if (meta) meta.textContent = `${state.profiles.length} USER${state.profiles.length === 1 ? '' : 'S'}`;
+  if (meta) meta.textContent = `${state.profiles.length} user${state.profiles.length === 1 ? '' : 's'}`;
 }
 
 // Boundary force: clamp every node inside the canvas each tick.
@@ -555,11 +606,11 @@ async function boot() {
     renderLeaderboard();
     rebuildGalaxySim();
 
-    setLivePill('LIVE');
+    setLivePill('Live');
     setInterval(poll, POLL_MS);
   } catch (err) {
     console.error('boot failed', err);
-    setLivePill('OFFLINE', false);
+    setLivePill('Offline', false);
     const lb = document.getElementById('leaderboard');
     if (lb) lb.innerHTML = `<div class="error-state"><b>Leaderboard unavailable.</b>${escapeHtml(err.message || '')}</div>`;
   }

@@ -55,6 +55,14 @@
 
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <script>
+    try {
+      var t = localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="css/emo-skin.css">
   <style>
     @font-face {
       font-family: 'Space Grotesk';
@@ -77,10 +85,10 @@
     }
 
     [data-theme="dark"] {
-      --bg-color: #0a0a0a;
+      --bg-color: #08070b;
       --text-color: #ffffff;
-      --text-secondary: #888888;
-      --text-muted: #505050;
+      --text-secondary: #9a94a8;
+      --text-muted: #8a8496;
       --accent: #9B5FFF;
       --accent-hover: #b080ff;
       --accent-glow: rgba(155, 95, 255, 0.3);
@@ -237,13 +245,10 @@
       left: 0;
       right: 0;
       height: 52px;
-      background: var(--surface);
-      border-bottom: 1px solid var(--surface-border);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
       padding: 0 20px;
       z-index: 100;
     }
@@ -336,13 +341,8 @@
     }
 
     .header h1 {
-      font-size: 2.2rem;
+      font-size: clamp(1.85rem, 4vw, 2.35rem);
       font-weight: 800;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, var(--accent), var(--text-color) 70%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
 
     .header p {
@@ -356,17 +356,22 @@
       position: sticky;
       top: 58px;
       z-index: 50;
-      background: rgba(10, 10, 10, 0.55);
-      backdrop-filter: blur(14px) saturate(140%);
-      -webkit-backdrop-filter: blur(14px) saturate(140%);
-      border: 1px solid var(--surface-border);
-      border-radius: 18px;
-      padding: 10px 14px 12px;
-      margin-bottom: 14px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      background: rgba(12, 10, 18, 0.5);
+      backdrop-filter: blur(22px) saturate(170%);
+      -webkit-backdrop-filter: blur(22px) saturate(170%);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 22px;
+      padding: 12px 14px 12px;
+      margin-bottom: 16px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.07), 0 12px 36px rgba(0,0,0,0.22);
     }
     [data-theme="light"] .filter-bar {
-      background: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.7);
+      border-color: rgba(0,0,0,0.06);
+    }
+    [data-theme="light"] .pill {
+      border-color: rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.7);
     }
 
     .search-row {
@@ -448,13 +453,13 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 7px 14px;
+      padding: 7px 13px;
       border-radius: 999px;
-      border: 1px solid var(--surface-border);
-      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.055);
       color: var(--text-color);
       font-family: inherit;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -463,8 +468,9 @@
     }
 
     .pill:hover {
-      border-color: var(--accent);
-      color: var(--accent);
+      border-color: rgba(176,128,255,0.5);
+      color: #ddd0ff;
+      background: rgba(155,95,255,0.16);
     }
 
     .pill.active {
@@ -489,16 +495,16 @@
 
     .meme-item {
       background: var(--surface);
-      border-radius: 14px;
+      border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
       cursor: pointer;
       break-inside: avoid;
       margin-bottom: 14px;
       display: inline-block;
       width: 100%;
-      border: 1px solid var(--surface-border);
+      border: 1px solid rgba(255,255,255,0.1);
       position: relative;
     }
 
@@ -1149,11 +1155,16 @@
   </div>
 
   <!-- Top Bar -->
-  <div class="top-bar page-enter">
+  <div class="top-bar glass-bar page-enter">
     <a href="emo.html" class="back-btn" aria-label="Back to main site">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
       $EMO
     </a>
+    <nav class="subnav" aria-label="Explore">
+      <a href="memes.html" aria-current="page">Memes</a>
+      <a href="meme-maker.html">Maker</a>
+      <a href="gifs.html">GIFs</a>
+    </nav>
     <div class="top-bar-right">
       <span class="meme-count" id="memeCount"></span>
       <button class="edit-toggle" id="editToggle" aria-label="Toggle tag editor" title="Edit tags (E)">&#9998;</button>
@@ -1166,7 +1177,7 @@
 
   <div class="container page-enter" style="animation-delay: 0.05s">
     <div class="header">
-      <h1>$EMO Memes</h1>
+      <h1 class="page-title">$EMO Memes</h1>
       <p>i lost it all on day 1</p>
     </div>
 

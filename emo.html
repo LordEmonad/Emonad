@@ -73,6 +73,13 @@
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="preload" as="image" href="site%20banner.webp" type="image/webp">
+  <script>
+    try {
+      var t = localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  </script>
   <style>
     @font-face {
       font-family: 'Space Grotesk';
@@ -97,10 +104,10 @@
     }
 
     [data-theme="dark"] {
-      --bg-color: #0a0a0a;
+      --bg-color: #08070b;
       --text-color: #ffffff;
-      --text-secondary: #888888;
-      --text-muted: #505050;
+      --text-secondary: #9a94a8;
+      --text-muted: #8a8496;
       --accent: #9B5FFF;
       --accent-hover: #b080ff;
       --accent-glow: rgba(155, 95, 255, 0.3);
@@ -113,7 +120,10 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: radial-gradient(ellipse at 50% 0%, var(--accent-glow) 0%, transparent 55%), var(--bg-color);
+      background:
+        radial-gradient(ellipse 90% 55% at 50% -8%, rgba(155, 95, 255, 0.22) 0%, transparent 58%),
+        radial-gradient(ellipse 50% 40% at 100% 100%, rgba(232, 77, 127, 0.08) 0%, transparent 55%),
+        var(--bg-color);
       color: var(--text-color);
       font-family: 'Space Grotesk', sans-serif;
       min-height: 100vh;
@@ -349,27 +359,43 @@
     .container picture {
       display: block;
       width: 100%;
+      max-width: none;
+      margin: 0;
+    }
+    .stage {
+      width: 100%;
       max-width: 720px;
-      margin: 0 auto 22px;
+      margin: 0 auto 16px;
+      padding: 3px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.04));
+      box-shadow:
+        0 22px 56px rgba(0, 0, 0, 0.42),
+        0 0 0 1px rgba(155, 95, 255, 0.14),
+        0 10px 36px rgba(155, 95, 255, 0.16);
+    }
+    [data-theme="light"] .stage {
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.4));
+      box-shadow:
+        0 18px 40px rgba(80, 40, 140, 0.12),
+        0 0 0 1px rgba(123, 63, 228, 0.12);
     }
     .header-image {
       width: 100%;
-      max-width: 720px;
+      max-width: none;
       aspect-ratio: 3 / 1;
       height: auto;
       object-fit: cover;
-      margin: 0 auto;
+      margin: 0;
       display: block;
-      border-radius: 24px;
-      box-shadow:
-        0 16px 48px rgba(0, 0, 0, 0.4),
-        0 6px 16px rgba(155, 95, 255, 0.22);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+      border-radius: 19px;
+      box-shadow: none;
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .header-image:hover {
-      transform: translateY(-6px) scale(1.02);
-      box-shadow: 0 20px 50px rgba(155, 95, 255, 0.3), 0 8px 20px rgba(0, 0, 0, 0.15);
+      transform: scale(1.012);
+      box-shadow: none;
     }
 
     .header-image.parallax {
@@ -377,22 +403,29 @@
     }
 
     .title {
-      font-size: 2rem;
+      font-size: clamp(1.85rem, 4vw, 2.35rem);
       font-weight: 800;
-      margin: 0 0 2px;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, var(--accent), var(--text-color) 70%);
+      margin: 0 0 4px;
+      letter-spacing: -0.045em;
+      background: linear-gradient(120deg, #c9b4ff 0%, var(--text-color) 42%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    [data-theme="light"] .title {
+      background: linear-gradient(120deg, #7B3FE4 0%, #1a1a1a 55%, #6930c3 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
     .subtitle {
-      font-size: 1rem;
+      font-size: 0.95rem;
       color: var(--text-secondary);
       font-weight: 500;
-      margin-bottom: 18px;
-      min-height: 1.5em;
+      margin-bottom: 16px;
+      min-height: 1.45em;
+      letter-spacing: -0.01em;
     }
 
     /* Typewriter Cursor */
@@ -414,13 +447,13 @@
     /* ── Primary Actions ── */
     .primary-actions {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       justify-content: center;
-      margin-bottom: 16px;
+      margin-bottom: 0;
       width: 100%;
-      max-width: 520px;
+      max-width: none;
+      flex-wrap: wrap;
     }
-
     .btn-primary {
       background: linear-gradient(135deg, rgba(155, 95, 255, 0.95) 0%, rgba(123, 63, 228, 0.95) 100%);
       backdrop-filter: blur(28px) saturate(200%);
@@ -442,7 +475,7 @@
       justify-content: center;
       gap: 8px;
       flex: 1;
-      max-width: 220px;
+      max-width: none;
       box-shadow:
         0 6px 22px rgba(155, 95, 255, 0.32),
         inset 0 1px 0 rgba(255, 255, 255, 0.22);
@@ -498,11 +531,40 @@
     }
 
     /* ── Button Sections ── */
+    .dock {
+      width: 100%;
+      max-width: 640px;
+      padding: 8px 12px 12px;
+      margin-bottom: 12px;
+      border-radius: 26px;
+      background: rgba(12, 10, 18, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(28px) saturate(170%);
+      -webkit-backdrop-filter: blur(28px) saturate(170%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.08),
+        0 18px 50px rgba(0,0,0,0.28);
+    }
+    [data-theme="light"] .dock {
+      background: rgba(255, 255, 255, 0.62);
+      border-color: rgba(0,0,0,0.06);
+      box-shadow: 0 12px 36px rgba(80,40,140,0.08), inset 0 1px 0 rgba(255,255,255,0.9);
+    }
     .button-section {
       width: 100%;
-      max-width: 520px;
-      margin-bottom: 12px;
+      max-width: none;
+      margin: 0;
+      padding: 9px 4px;
+      display: grid;
+      grid-template-columns: 108px 1fr;
+      align-items: center;
+      gap: 8px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
+    [data-theme="light"] .button-section {
+      border-bottom-color: rgba(0,0,0,0.06);
+    }
+    .button-section:last-of-type { border-bottom: none; }
 
     .section-label {
       font-size: 10px;
@@ -510,14 +572,24 @@
       text-transform: uppercase;
       letter-spacing: 1.5px;
       color: var(--text-muted);
-      margin-bottom: 6px;
+      margin: 0;
+      text-align: left;
     }
 
     .button-grid {
       display: flex;
-      gap: 8px;
-      justify-content: center;
+      gap: 6px;
+      justify-content: flex-start;
       flex-wrap: wrap;
+    }
+
+    .dock-cta {
+      padding: 12px 4px 2px;
+      margin-top: 4px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    [data-theme="light"] .dock-cta {
+      border-top-color: rgba(0,0,0,0.06);
     }
 
     /* ── Buttons ── */
@@ -554,23 +626,22 @@
     }
 
     .btn.btn-outline {
-      background: rgba(255, 255, 255, 0.28);
-      backdrop-filter: blur(28px) saturate(180%);
-      -webkit-backdrop-filter: blur(28px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.055);
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       color: var(--text-color);
-      box-shadow:
-        0 4px 16px rgba(0, 0, 0, 0.12),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      padding: 7px 13px;
+      font-size: 12.5px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
     }
 
     .btn.btn-outline:hover {
-      background: rgba(155, 95, 255, 0.14);
-      border-color: rgba(155, 95, 255, 0.45);
-      color: var(--accent);
-      box-shadow:
-        0 8px 24px rgba(155, 95, 255, 0.22),
-        inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      background: rgba(155, 95, 255, 0.16);
+      border-color: rgba(176, 128, 255, 0.5);
+      color: #ddd0ff;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(155, 95, 255, 0.18);
     }
 
     [data-theme="light"] .btn.btn-outline {
@@ -587,11 +658,13 @@
 
     /* ── Contract Address ── */
     .contract-section {
-      margin-top: 0;
+      margin-top: 2px;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      gap: 8px;
     }
 
     .contract-address {
@@ -1189,6 +1262,8 @@
     /* Container itself + non-interactive layout wrappers let clicks fall through to the bird; only real controls catch them */
     .container .button-section,
     .container .button-grid,
+    .container .dock,
+    .container .stage,
     .container .primary-actions,
     .container .contract-section,
     .container .footer { pointer-events: none; }
@@ -1252,11 +1327,16 @@
       .emo-auth-host { margin-left: auto; }
     }
 
-    @media (max-width: 480px) {
-      .price-ticker { padding: 0 8px; gap: 6px; }
-      .ticker-brand { flex-shrink: 0; }
+    @media (max-width: 700px) {
+      .button-section {
+        grid-template-columns: 1fr;
+        padding: 10px 2px 8px;
+      }
+      .section-label { text-align: center; }
+      .button-grid { justify-content: center; }
     }
 
+    @media (max-width: 768px) {
       .container {
         padding: 60px 16px 30px;
         justify-content: flex-start;
@@ -1284,15 +1364,16 @@
         -webkit-backdrop-filter: blur(22px) saturate(170%);
       }
 
-      .title { font-size: 1.8rem; }
-      .subtitle { font-size: 0.95rem; margin-bottom: 28px; }
-
-      .primary-actions { gap: 10px; margin-bottom: 26px; }
+      .button-section {
+        grid-template-columns: 1fr;
+        padding: 10px 2px 8px;
+        text-align: center;
+      }
+      .section-label { text-align: center; }
+      .button-grid { justify-content: center; }
+      .primary-actions { gap: 10px; margin-bottom: 0; }
       .btn-primary { padding: 12px 28px; font-size: 15px; }
-
-      .button-section { margin-bottom: 18px; }
-      .section-label { font-size: 9px; margin-bottom: 8px; }
-      .button-grid { gap: 8px; }
+      .stage { border-radius: 18px; margin-bottom: 14px; }
 
       .btn {
         padding: 9px 16px;
@@ -1321,7 +1402,6 @@
         border-radius: 14px;
       }
 
-      /* Mobile background glow */
       body::after {
         content: '';
         position: fixed;
@@ -1333,6 +1413,11 @@
           radial-gradient(circle at 70% 80%, rgba(155, 95, 255, 0.1) 0%, transparent 50%);
         animation: mobileGlow 8s ease-in-out infinite alternate;
       }
+    }
+
+    @media (max-width: 480px) {
+      .price-ticker { padding: 0 8px; gap: 6px; }
+      .ticker-brand { flex-shrink: 0; }
     }
 
     @media (max-width: 380px) {
@@ -1430,65 +1515,64 @@
         </div>
       </div>
     </div>
-    <picture>
-      <source srcset="site%20banner.webp" type="image/webp">
-      <img src="site%20banner.png" alt="Emonad" width="1500" height="500" class="header-image animate-in" style="animation-delay:0.05s" decoding="async" fetchpriority="high">
-    </picture>
+    <div class="stage animate-in" style="animation-delay:0.05s">
+      <picture>
+        <source srcset="site%20banner.webp" type="image/webp">
+        <img src="site%20banner.png" alt="Emonad" width="1500" height="500" class="header-image" decoding="async" fetchpriority="high">
+      </picture>
+    </div>
 
     <h1 class="title animate-in" style="animation-delay:0.12s">The Emoverse</h1>
     <p class="subtitle" id="subtitle" style="opacity:0">i lost it all on day 1</p>
 
-    <!-- Explore Section -->
-    <div class="button-section animate-in" style="animation-delay:0.26s">
-      <div class="section-label">Explore</div>
-      <div class="button-grid">
-        <a href="memes.html" class="btn btn-outline">Memes</a>
-        <a href="meme-maker.html" class="btn btn-outline">Meme Maker</a>
-        <a href="https://giphy.com/emonad" target="_blank" rel="noopener noreferrer" class="btn btn-outline">GIFs</a>
-        <a href="https://chromewebstore.google.com/detail/emo-meme-picker/fhabdopcgbnnijmbmhfijlohheipckoe" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Meme Picker Extension</a>
-        <a href="https://chromewebstore.google.com/detail/emo-theme/hlhjidmdpgiigmjobbaalnnjgpmkipin" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Browser Theme</a>
+    <div class="dock animate-in" style="animation-delay:0.22s">
+      <div class="button-section">
+        <div class="section-label">Explore</div>
+        <div class="button-grid">
+          <a href="memes.html" class="btn btn-outline">Memes</a>
+          <a href="meme-maker.html" class="btn btn-outline">Meme Maker</a>
+          <a href="gifs.html" class="btn btn-outline">GIFs</a>
+          <a href="https://chromewebstore.google.com/detail/emo-meme-picker/fhabdopcgbnnijmbmhfijlohheipckoe" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Emo Extension</a>
+          <a href="https://chromewebstore.google.com/detail/emo-theme/hlhjidmdpgiigmjobbaalnnjgpmkipin" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Theme</a>
+        </div>
+      </div>
+
+      <div class="button-section">
+        <div class="section-label">Games</div>
+        <div class="button-grid">
+          <a href="emo-crush/index.html" class="btn btn-outline">Emo Crush</a>
+          <a href="flapemonad/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Flap Emonad</a>
+          <a href="tarot/" class="btn btn-outline">Emo Tarot</a>
+        </div>
+      </div>
+
+      <div class="button-section">
+        <div class="section-label">Community</div>
+        <div class="button-grid">
+          <a href="https://twitter.com/EmonadCoin" class="btn btn-outline" target="_blank" rel="noopener noreferrer"><svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter</a>
+          <a href="https://t.me/+8RP7jI5wA3o2N2Fh" class="btn btn-outline" target="_blank" rel="noopener noreferrer"><svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>Telegram</a>
+          <a href="chart.html" class="btn btn-outline">XP Leaderboard</a>
+        </div>
+      </div>
+
+      <div class="button-section">
+        <div class="section-label">Trade</div>
+        <div class="button-grid">
+          <a href="https://nad.fun/tokens/0x81A224F8A62f52BdE942dBF23A56df77A10b7777" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Nad.fun</a>
+          <a href="https://www.kuru.io/token/0x81a224f8a62f52bde942dbf23a56df77a10b7777" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Kuru</a>
+          <a href="https://dex.dirol.io/token/0x81a224f8a62f52bde942dbf23a56df77a10b7777" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Dirol</a>
+          <a href="https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d" class="btn btn-outline" target="_blank" rel="noopener noreferrer">DEX</a>
+          <a href="https://opensea.io/token/monad/0x81a224f8a62f52bde942dbf23a56df77a10b7777?timeframe=all_time&candleSize=one_day" class="btn btn-outline" target="_blank" rel="noopener noreferrer">OpenSea</a>
+        </div>
+      </div>
+
+      <!-- EMO Wallet button parked — re-enable later (see emo-wallet.js) -->
+      <div class="primary-actions dock-cta">
+        <a href="https://nad.fun/tokens/0x81A224F8A62f52BdE942dBF23A56df77A10b7777" class="btn-primary" target="_blank" rel="noopener noreferrer">Buy $EMO</a>
+        <button type="button" class="btn-primary btn-primary-outline" id="chartBtn">Chart</button>
       </div>
     </div>
 
-    <!-- Games Section -->
-    <div class="button-section animate-in" style="animation-delay:0.31s">
-      <div class="section-label">Games</div>
-      <div class="button-grid">
-        <a href="emo-crush/index.html" class="btn btn-outline">Emo Crush</a>
-        <a href="flapemonad/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Flap Emonad</a>
-        <a href="tarot/" class="btn btn-outline">Emo Tarot</a>
-      </div>
-    </div>
-
-    <!-- Community Section -->
-    <div class="button-section animate-in" style="animation-delay:0.36s">
-      <div class="section-label">Community</div>
-      <div class="button-grid">
-        <a href="https://twitter.com/EmonadCoin" class="btn btn-outline" target="_blank" rel="noopener noreferrer"><svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter</a>
-        <a href="https://t.me/+8RP7jI5wA3o2N2Fh" class="btn btn-outline" target="_blank" rel="noopener noreferrer"><svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>Telegram</a>
-        <a href="chart.html" class="btn btn-outline">XP Leaderboard</a>
-      </div>
-    </div>
-
-    <!-- Trade Section -->
-    <div class="button-section animate-in" style="animation-delay:0.41s">
-      <div class="section-label">Trade</div>
-      <div class="button-grid">
-        <a href="https://nad.fun/tokens/0x81A224F8A62f52BdE942dBF23A56df77A10b7777" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Nad.fun</a>
-        <a href="https://www.kuru.io/token/0x81a224f8a62f52bde942dbf23a56df77a10b7777" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Kuru</a>
-        <a href="https://dex.dirol.io/token/0x81a224f8a62f52bde942dbf23a56df77a10b7777" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Dirol</a>
-        <a href="https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d" class="btn btn-outline" target="_blank" rel="noopener noreferrer">DEX</a>
-        <a href="https://opensea.io/token/monad/0x81a224f8a62f52bde942dbf23a56df77a10b7777?timeframe=all_time&candleSize=one_day" class="btn btn-outline" target="_blank" rel="noopener noreferrer">OpenSea</a>
-      </div>
-    </div>
-
-    <!-- Primary Actions -->
-    <div class="primary-actions animate-in" style="animation-delay:0.46s">
-      <a href="https://nad.fun/tokens/0x81A224F8A62f52BdE942dBF23A56df77A10b7777" class="btn-primary" target="_blank" rel="noopener noreferrer">Buy $EMO</a>
-      <button class="btn-primary btn-primary-outline" id="chartBtn">Chart</button>
-    </div>
-
-    <!-- Contract Address -->
     <div class="contract-section animate-in" style="animation-delay:0.51s">
       <div class="contract-address" id="contractAddress" role="button" tabindex="0" aria-label="Copy contract address to clipboard">
         <span id="contractText"><span class="contract-full">0x81A224F8A62f52BdE942dBF23A56df77A10b7777</span><span class="contract-short">0x81A2...7777</span></span>
@@ -1507,13 +1591,12 @@
       </button>
     </div>
 
-    <!-- Footer -->
     <footer class="footer animate-in" style="animation-delay:0.56s">
       <a href="https://twitter.com/EmonadCoin" target="_blank" rel="noopener noreferrer">Twitter</a>
       <span class="footer-dot">·</span>
       <a href="https://t.me/+8RP7jI5wA3o2N2Fh" target="_blank" rel="noopener noreferrer">Telegram</a>
       <span class="footer-dot">·</span>
-      <span>the emo memecoin on Monad</span>
+      <span>the emo memecoin of crypto</span>
     </footer>
   </div>
 
@@ -2134,6 +2217,11 @@
 
   <script type="module">
     import EmoProfile from './emo-profile.js';
+    // EMO Wallet parked — re-enable later:
+    // import EmoWallet from './emo-wallet.js';
+    // EmoWallet.init();
+    // document.getElementById('emoWalletBtn')?.addEventListener('click', () => EmoWallet.open());
+
     EmoProfile.init({ page: 'emo' })
       .then(() => EmoProfile.mount('#emoAuthSlot'))
       .catch(err => console.warn('EmoProfile init failed:', err));
@@ -2606,7 +2694,7 @@
       if (!transition) return;
       const pageContainer = document.querySelector('.container');
       const ticker = document.querySelector('.price-ticker');
-      const internalLinks = ['memes.html', 'meme-maker.html', 'emo-crush/index.html'];
+      const internalLinks = ['memes.html', 'meme-maker.html', 'gifs.html', 'emo-crush/index.html'];
       let navigating = false;
       let enterTimeout;
 

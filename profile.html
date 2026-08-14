@@ -20,6 +20,14 @@
 
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <script>
+    try {
+      var t = localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="css/emo-skin.css">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
@@ -38,10 +46,10 @@
       --stat-bg: #ffffff;
     }
     [data-theme="dark"] {
-      --bg-color: #0a0a0a;
+      --bg-color: #08070b;
       --text-color: #ffffff;
-      --text-secondary: #888888;
-      --text-muted: #505050;
+      --text-secondary: #9a94a8;
+      --text-muted: #8a8496;
       --accent: #9B5FFF;
       --accent-hover: #b080ff;
       --accent-glow: rgba(155, 95, 255, 0.3);
@@ -54,7 +62,10 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: radial-gradient(ellipse at 50% 0%, var(--accent-glow) 0%, transparent 55%), var(--bg-color);
+      background:
+        radial-gradient(ellipse 90% 55% at 50% -8%, rgba(155, 95, 255, 0.22) 0%, transparent 58%),
+        radial-gradient(ellipse 50% 40% at 100% 100%, rgba(232, 77, 127, 0.08) 0%, transparent 55%),
+        var(--bg-color);
       color: var(--text-color);
       font-family: 'Space Grotesk', sans-serif;
       min-height: 100vh;
@@ -66,27 +77,23 @@
     /* Top nav */
     .nav-bar {
       position: fixed; top: 0; left: 0; right: 0;
-      height: 44px;
-      background: var(--ticker-bg);
-      border-bottom: 1px solid var(--ticker-border);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      height: 52px;
       z-index: 100;
-      display: flex; align-items: center; gap: 10px;
+      display: flex; align-items: center; gap: 12px;
       padding: 0 20px;
       font-size: 13px;
       font-weight: 600;
     }
     .nav-back {
+      display: inline-flex; align-items: center; gap: 6px;
       color: var(--text-color);
       text-decoration: none;
-      padding: 6px 14px;
+      padding: 7px 16px;
       border-radius: 999px;
       border: 1px solid var(--surface-border);
-      background: var(--surface);
       transition: all 0.2s ease;
-      font-size: 12.5px;
-      letter-spacing: 0.01em;
+      font-size: 14px;
+      font-weight: 600;
     }
     .nav-back:hover {
       border-color: var(--accent);
@@ -118,7 +125,7 @@
       background:
         radial-gradient(ellipse 800px 600px at 12% 8%, rgba(155, 95, 255, 0.28) 0%, transparent 60%),
         radial-gradient(ellipse 900px 600px at 88% 4%, rgba(236, 72, 153, 0.22) 0%, transparent 55%),
-        #0a0612;
+        #08070b;
     }
 
     .container {
@@ -617,8 +624,11 @@
   </style>
 </head>
 <body>
-  <nav class="nav-bar">
-    <a class="nav-back" href="emo.html">← emonad</a>
+  <nav class="nav-bar glass-bar">
+    <a class="nav-back" href="emo.html" aria-label="Back to main site">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      $EMO
+    </a>
     <span class="grow"></span>
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
       <span id="themeIcon">◐</span>
@@ -652,20 +662,29 @@
   <script type="module">
     import EmoProfile from './emo-profile.js';
 
+    function safeHttpsUrl(u) {
+      if (!u || typeof u !== 'string') return '';
+      try {
+        var parsed = new URL(u);
+        return parsed.protocol === 'https:' ? parsed.href : '';
+      } catch { return ''; }
+    }
     function upscaleAvatar(url, size, handle) {
-      if (typeof EmoProfile.highResAvatar === 'function') return EmoProfile.highResAvatar(url, size, handle);
-      if (handle) {
+      var out = '';
+      if (typeof EmoProfile.highResAvatar === 'function') out = EmoProfile.highResAvatar(url, size, handle);
+      else if (handle) {
         const clean = String(handle).replace(/^@/, '').trim();
-        if (clean) return 'https://unavatar.io/twitter/' + encodeURIComponent(clean);
+        if (clean) out = 'https://unavatar.io/twitter/' + encodeURIComponent(clean);
+      } else if (url) {
+        if (url.includes('img.clerk.com')) {
+          out = url + (url.includes('?') ? '&' : '?') + 'width=' + size;
+        } else if (url.includes('pbs.twimg.com')) {
+          out = url.replace(/_(normal|bigger|mini)\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i, '_400x400.$2$3');
+        } else {
+          out = url;
+        }
       }
-      if (!url) return '';
-      if (url.includes('img.clerk.com')) {
-        return url + (url.includes('?') ? '&' : '?') + 'width=' + size;
-      }
-      if (url.includes('pbs.twimg.com')) {
-        return url.replace(/_(normal|bigger|mini)\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i, '_400x400.$2$3');
-      }
-      return url;
+      return safeHttpsUrl(out);
     }
     function fmtDate(iso) {
       try {
@@ -798,7 +817,7 @@
 
           <div class="hero">
             <div class="avatar-wrap">
-              <img src="${escapeHtml(upscaleAvatar(profile.avatar_url || '', 384, profile.x_handle || handle))}" alt="" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${escapeHtml(profile.avatar_url || '')}'">
+              <img src="${escapeHtml(upscaleAvatar(profile.avatar_url || '', 384, profile.x_handle || handle))}" alt="" referrerpolicy="no-referrer" onerror="this.onerror=null;this.removeAttribute('src')">
               <span class="level-chip ${maxed ? 'maxed' : ''}">${maxed ? 'MAX LEVEL' : 'LEVEL ' + level}</span>
             </div>
             <div class="name">${escapeHtml(profile.display_name || handle)}</div>

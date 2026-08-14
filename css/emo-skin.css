@@ -1,0 +1,68 @@
+/* Shared atmosphere + chrome. No layout rewrites. */
+[data-theme="dark"] {
+  --bg-color: #08070b;
+  --text-secondary: #9a94a8;
+  --text-muted: #8a8496;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 90% 55% at 50% -8%, rgba(155, 95, 255, 0.22) 0%, transparent 58%),
+    radial-gradient(ellipse 50% 40% at 100% 100%, rgba(232, 77, 127, 0.08) 0%, transparent 55%),
+    var(--bg-color);
+}
+[data-theme="light"] body {
+  background:
+    radial-gradient(ellipse 90% 55% at 50% -8%, rgba(123, 63, 228, 0.12) 0%, transparent 58%),
+    radial-gradient(ellipse 50% 40% at 100% 100%, rgba(232, 77, 127, 0.06) 0%, transparent 55%),
+    var(--bg-color);
+}
+
+.page-title {
+  letter-spacing: -0.045em;
+  background: linear-gradient(120deg, #c9b4ff 0%, var(--text-color) 42%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+[data-theme="light"] .page-title {
+  background: linear-gradient(120deg, #7B3FE4 0%, #1a1a1a 55%, #6930c3 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glass-bar {
+  background: color-mix(in srgb, var(--bg-color) 62%, transparent);
+  border-bottom: 1px solid var(--surface-border);
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+}
+
+.subnav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.subnav a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 6px 11px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+.subnav a:hover {
+  color: var(--text-color);
+  background: var(--surface);
+}
+.subnav a[aria-current="page"] {
+  color: var(--text-color);
+  background: rgba(155, 95, 255, 0.14);
+  border-color: rgba(176, 128, 255, 0.35);
+}
+@media (max-width: 560px) {
+  .subnav { display: none; }
+}

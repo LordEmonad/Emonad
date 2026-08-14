@@ -6,23 +6,37 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
 
-  <title>Community · emonad</title>
-  <meta name="description" content="emonad.lol community — every user as a bubble, plus the global XP leaderboard.">
-  <meta property="og:title" content="emonad community">
-  <meta property="og:description" content="Every emonad user as a bubble. Sized by XP. Click to open profile.">
+  <title>Leaderboard · emonad</title>
+  <meta name="description" content="emonad.lol XP leaderboard — ranks, levels, and every user as a bubble.">
+  <meta property="og:title" content="emonad leaderboard">
+  <meta property="og:description" content="XP leaderboard for $EMO. Click anyone to open their profile.">
   <meta property="og:image" content="https://emonad.lol/og-image.jpg">
   <meta property="og:url" content="https://emonad.lol/chart.html">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="emonad community">
-  <meta name="twitter:description" content="Every emonad user as a bubble. Sized by XP.">
+  <meta name="twitter:title" content="emonad leaderboard">
+  <meta name="twitter:description" content="XP leaderboard for $EMO. Click anyone to open their profile.">
   <meta name="twitter:image" content="https://emonad.lol/og-image.jpg">
 
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    try {
+      var t = localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="css/emo-skin.css">
 
   <style>
+    @font-face {
+      font-family: 'Space Grotesk';
+      font-style: normal;
+      font-weight: 500 800;
+      font-display: swap;
+      src: url(fonts/SpaceGrotesk-latin.woff2) format('woff2');
+    }
     :root {
       --bg-color: #ffffff;
       --text-color: #1a1a1a;
@@ -37,10 +51,10 @@
       --ticker-border: #e9e0f5;
     }
     [data-theme="dark"] {
-      --bg-color: #0a0612;
+      --bg-color: #08070b;
       --text-color: #ffffff;
       --text-secondary: #b8a3e8;
-      --text-muted: rgba(255,255,255,0.4);
+      --text-muted: #8a8496;
       --accent: #9B5FFF;
       --accent-glow: rgba(155, 95, 255, 0.3);
       --surface: rgba(255, 255, 255, 0.06);
@@ -69,50 +83,54 @@
         var(--bg-color);
     }
 
-    /* Top nav */
     .nav-bar {
       position: fixed; top: 0; left: 0; right: 0;
-      height: 44px;
-      background: var(--ticker-bg);
-      border-bottom: 1px solid var(--ticker-border);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      height: 52px;
       z-index: 100;
-      display: flex; align-items: center; gap: 10px;
+      display: flex; align-items: center; gap: 12px;
       padding: 0 20px;
-      font-size: 13px;
-      font-weight: 600;
     }
     .nav-back {
+      display: inline-flex; align-items: center; gap: 6px;
       color: var(--text-color);
       text-decoration: none;
-      padding: 6px 14px;
+      padding: 7px 16px;
       border-radius: 999px;
       border: 1px solid var(--surface-border);
-      background: var(--surface);
-      transition: all 0.2s ease;
-      font-size: 12.5px;
+      font-size: 14px;
+      font-weight: 600;
     }
-    .nav-back:hover { border-color: var(--accent); background: var(--accent-glow); }
+    .nav-back:hover { border-color: var(--accent); color: var(--accent); }
     .nav-bar .grow { flex: 1; }
-    .nav-title {
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.18em;
-      color: var(--text-color);
-      display: inline-flex; align-items: center; gap: 8px;
+    .live-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      padding: 5px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
     }
-    .nav-title::before {
-      content: '';
+    [data-theme="light"] .live-pill {
+      border-color: rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.55);
+    }
+    @media (max-width: 520px) {
+      .live-pill { display: none; }
+    }
+    .live-pill .dot {
       width: 6px; height: 6px;
       border-radius: 50%;
       background: var(--accent);
-      box-shadow: 0 0 12px var(--accent-glow);
-      animation: livePulse 2.4s ease-in-out infinite;
+      box-shadow: 0 0 8px var(--accent);
+      animation: livePulse 2s ease-in-out infinite;
     }
     @keyframes livePulse {
-      0%, 100% { box-shadow: 0 0 8px rgba(155,95,255,0.5); }
-      50%      { box-shadow: 0 0 18px rgba(155,95,255,0.95); }
+      0%, 100% { box-shadow: 0 0 6px rgba(155,95,255,0.45); }
+      50%      { box-shadow: 0 0 14px rgba(155,95,255,0.9); }
     }
     .theme-toggle {
       width: 32px; height: 32px;
@@ -122,7 +140,6 @@
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       font-size: 15px;
-      transition: all 0.25s ease;
       flex-shrink: 0;
     }
     .theme-toggle:hover { border-color: var(--accent); background: var(--accent-glow); }
@@ -130,77 +147,47 @@
     .container {
       max-width: 1180px;
       margin: 0 auto;
-      padding: 60px 20px 50px;
+      padding: 68px 20px 48px;
     }
 
-    /* Page header */
     .page-head {
       text-align: center;
-      padding: 22px 0 24px;
-    }
-    .page-head .eyebrow {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      margin-bottom: 12px;
-      display: inline-flex; align-items: center; gap: 10px;
-    }
-    .page-head .eyebrow::before, .page-head .eyebrow::after {
-      content: ''; width: 28px; height: 1px; background: rgba(155, 95, 255, 0.4);
+      padding: 10px 0 18px;
     }
     .page-head h1 {
-      font-size: 48px;
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      color: var(--text-color);
-      text-shadow: 0 0 36px rgba(155, 95, 255, 0.5);
-      margin: 0;
-      line-height: 1;
-    }
-    .page-head .live-pill {
-      display: inline-flex; align-items: center; gap: 8px;
-      margin-top: 14px;
-      font-size: 11px;
+      font-size: clamp(1.85rem, 4vw, 2.35rem);
       font-weight: 800;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      padding: 5px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--surface-border);
-      background: var(--surface);
+      margin: 0 0 4px;
+      line-height: 1.1;
     }
-    .page-head .live-pill .dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 10px var(--accent);
-      animation: livePulse 2s ease-in-out infinite;
+    .page-head p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      font-weight: 500;
     }
 
-    /* Card */
+    .board {
+      display: grid;
+      grid-template-columns: minmax(320px, 420px) 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
     .panel {
-      background: linear-gradient(180deg,
-        rgba(255,255,255,0.04) 0%,
-        rgba(255,255,255,0.015) 100%);
-      border: 1px solid rgba(155, 95, 255, 0.22);
-      border-radius: 22px;
-      padding: 22px 26px 22px;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.45),
-                  0 0 80px rgba(155, 95, 255, 0.18),
-                  inset 0 1px 0 rgba(255,255,255,0.05);
+      background: rgba(12, 10, 18, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 26px;
+      padding: 16px 16px 14px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 18px 50px rgba(0,0,0,0.28);
       position: relative;
       overflow: hidden;
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(28px) saturate(170%);
+      -webkit-backdrop-filter: blur(28px) saturate(170%);
     }
     [data-theme="light"] .panel {
-      background: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.7) 100%);
-      border-color: rgba(155, 95, 255, 0.3);
+      background: rgba(255, 255, 255, 0.62);
+      border-color: rgba(0,0,0,0.06);
     }
-    .panel + .panel { margin-top: 22px; }
 
     .panel-head {
       display: flex; align-items: baseline; justify-content: space-between;
@@ -208,19 +195,11 @@
       gap: 14px;
     }
     .panel-title {
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.18em;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
-      color: var(--text-color);
-      display: inline-flex; align-items: center; gap: 10px;
-    }
-    .panel-title::before {
-      content: '';
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 12px var(--accent-glow);
+      color: var(--text-muted);
     }
     .panel-meta {
       font-size: 11px;
@@ -258,7 +237,7 @@
     .galaxy-wrap {
       position: relative;
       width: 100%;
-      height: 620px;
+      height: min(68vh, 560px);
       border-radius: 14px;
       overflow: hidden;
       background:
@@ -317,7 +296,7 @@
     .lb-list {
       display: flex; flex-direction: column;
       gap: 6px;
-      max-height: 720px;
+      max-height: min(68vh, 560px);
       overflow-y: auto;
       padding-right: 4px;
     }
@@ -328,21 +307,21 @@
     }
     .lb-row {
       display: grid;
-      grid-template-columns: 46px 44px 1fr auto;
+      grid-template-columns: 40px 40px 1fr auto;
       align-items: center;
-      gap: 14px;
-      padding: 10px 14px;
+      gap: 12px;
+      padding: 9px 12px;
       border-radius: 14px;
-      background: rgba(155, 95, 255, 0.04);
-      border: 1px solid rgba(155, 95, 255, 0.12);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       text-decoration: none;
       color: var(--text-color);
-      transition: all 0.18s ease;
+      transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
     }
     .lb-row:hover {
       background: rgba(155, 95, 255, 0.14);
-      border-color: rgba(155, 95, 255, 0.4);
-      transform: translateX(3px);
+      border-color: rgba(176, 128, 255, 0.4);
+      transform: translateY(-1px);
     }
     .lb-row.me {
       background: linear-gradient(90deg, rgba(236, 72, 153, 0.20), rgba(155, 95, 255, 0.12));
@@ -446,18 +425,21 @@
     .error-state b { color: var(--text-color); display: block; font-weight: 800; margin-bottom: 4px; }
 
     @media (prefers-reduced-motion: reduce) {
-      .live-pill .dot, .nav-title::before, .panel-title::before { animation: none; }
+      .live-pill .dot { animation: none; }
     }
 
+    @media (max-width: 900px) {
+      .board { grid-template-columns: 1fr; }
+      .galaxy-wrap { height: 420px; }
+    }
     @media (max-width: 720px) {
-      .container { padding: 56px 12px 32px; }
-      .page-head { padding: 16px 0 18px; }
-      .page-head h1 { font-size: 34px; }
-      .panel { padding: 18px 14px 16px; border-radius: 18px; }
-      .panel-head { flex-direction: column; align-items: flex-start; gap: 6px; margin-bottom: 14px; }
+      .container { padding: 62px 12px 32px; }
+      .page-head { padding: 8px 0 14px; }
+      .panel { padding: 14px 12px 12px; border-radius: 20px; }
+      .panel-head { flex-direction: column; align-items: flex-start; gap: 6px; margin-bottom: 12px; }
       .panel-meta { text-align: left; }
-      .galaxy-wrap { height: 460px; }
-      .lb-list { max-height: 600px; }
+      .galaxy-wrap { height: 380px; }
+      .lb-list { max-height: 560px; }
       .lb-row { grid-template-columns: 36px 36px 1fr auto; gap: 10px; padding: 8px 11px; }
       .lb-row .avatar { width: 34px; height: 34px; }
       .lb-row.top1 .avatar { width: 40px; height: 40px; }
@@ -466,17 +448,16 @@
       .lb-row .xp { font-size: 14px; }
       .nav-bar { padding: 0 12px; }
     }
-    @media (max-width: 420px) {
-      .page-head h1 { font-size: 28px; }
-      .galaxy-wrap { height: 380px; }
-    }
   </style>
 </head>
 <body>
-  <nav class="nav-bar">
-    <a class="nav-back" href="emo.html">← emonad</a>
-    <span class="nav-title">EMONAD · COMMUNITY</span>
+  <nav class="nav-bar glass-bar">
+    <a class="nav-back" href="emo.html" aria-label="Back to main site">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      $EMO
+    </a>
     <span class="grow"></span>
+    <div class="live-pill" id="livePill"><span class="dot"></span><span id="livePillText">Connecting…</span></div>
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
       <span id="themeIcon">◐</span>
     </button>
@@ -485,41 +466,40 @@
 
   <div class="container">
     <header class="page-head">
-      <div class="eyebrow">EMONAD · COMMUNITY</div>
-      <h1>Community</h1>
-      <div class="live-pill" id="livePill"><span class="dot"></span><span id="livePillText">CONNECTING…</span></div>
+      <h1 class="page-title">Leaderboard</h1>
+      <p>i lost it all on day 1</p>
     </header>
 
-    <!-- Bubble map -->
-    <section class="panel" id="galaxyPanel">
-      <div class="panel-head">
-        <span class="panel-title">ALL USERS</span>
-        <span class="panel-meta">
-          <button class="find-btn" id="findMeBtn" type="button">FIND ME</button>
-          <span id="galaxyMeta">—</span>
-        </span>
-      </div>
-      <div class="galaxy-wrap" id="galaxyWrap">
-        <canvas id="galaxyCanvas" aria-label="Bubble map of every user"></canvas>
-        <div class="galaxy-tooltip" id="galaxyTooltip"></div>
-        <div class="galaxy-progress" id="galaxyProgress"></div>
-      </div>
-      <div class="galaxy-foot">
-        <span>SIZE = TOTAL XP</span>
-        <span class="hint">click any bubble to open that profile</span>
-      </div>
-    </section>
+    <div class="board">
+      <section class="panel" id="leaderboardPanel">
+        <div class="panel-head">
+          <span class="panel-title">Ranks</span>
+          <span class="panel-meta" id="lbMeta">—</span>
+        </div>
+        <div id="leaderboard" class="lb-list">
+          <div class="skeleton"><div class="spinner"></div>Loading…</div>
+        </div>
+      </section>
 
-    <!-- Leaderboard -->
-    <section class="panel" id="leaderboardPanel">
-      <div class="panel-head">
-        <span class="panel-title">LEADERBOARD</span>
-        <span class="panel-meta" id="lbMeta">—</span>
-      </div>
-      <div id="leaderboard" class="lb-list">
-        <div class="skeleton"><div class="spinner"></div>Loading…</div>
-      </div>
-    </section>
+      <section class="panel" id="galaxyPanel">
+        <div class="panel-head">
+          <span class="panel-title">Everyone</span>
+          <span class="panel-meta">
+            <button class="find-btn" id="findMeBtn" type="button">Find me</button>
+            <span id="galaxyMeta">—</span>
+          </span>
+        </div>
+        <div class="galaxy-wrap" id="galaxyWrap">
+          <canvas id="galaxyCanvas" aria-label="Bubble map of every user"></canvas>
+          <div class="galaxy-tooltip" id="galaxyTooltip"></div>
+          <div class="galaxy-progress" id="galaxyProgress"></div>
+        </div>
+        <div class="galaxy-foot">
+          <span>Size = XP</span>
+          <span class="hint">Click a bubble to open their profile</span>
+        </div>
+      </section>
+    </div>
   </div>
 
   <script>

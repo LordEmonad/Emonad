@@ -29,6 +29,13 @@
   <meta name="twitter:image" content="https://emonad.lol/og-meme-maker.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <script>
+    try {
+      var t = localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  </script>
   <!-- Manifests (script tags work under file:// unlike fetch) -->
   <script src="stickers/stickers.js?v=e12abb4661"></script>
   <script src="templates/templates.js?v=be0bfed127"></script>
@@ -102,10 +109,10 @@
       --shadow: 0 8px 30px rgba(0,0,0,0.08);
     }
     [data-theme="dark"] {
-      --bg-color: #0a0a0a;
+      --bg-color: #08070b;
       --text-color: #ffffff;
-      --text-secondary: #888888;
-      --text-muted: #505050;
+      --text-secondary: #9a94a8;
+      --text-muted: #8a8496;
       --accent: #9B5FFF;
       --accent-hover: #b080ff;
       --accent-glow: rgba(155, 95, 255, 0.3);
@@ -119,7 +126,10 @@
     * { margin:0; padding:0; box-sizing:border-box; }
     html, body { height: 100%; }
     body {
-      background: radial-gradient(ellipse at 50% 0%, var(--accent-glow) 0%, transparent 55%), var(--bg-color);
+      background:
+        radial-gradient(ellipse 90% 55% at 50% -8%, rgba(155, 95, 255, 0.22) 0%, transparent 58%),
+        radial-gradient(ellipse 50% 40% at 100% 100%, rgba(232, 77, 127, 0.08) 0%, transparent 55%),
+        var(--bg-color);
       color: var(--text-color);
       font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
       -webkit-font-smoothing: antialiased;
@@ -137,9 +147,9 @@
       align-items: center;
       gap: 12px;
       padding: 10px 18px;
-      background: rgba(10,10,10,0.65);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: color-mix(in srgb, var(--bg-color) 62%, transparent);
+      backdrop-filter: blur(20px) saturate(170%);
+      -webkit-backdrop-filter: blur(20px) saturate(170%);
       border-bottom: 1px solid var(--surface-border);
     }
     [data-theme="light"] .topbar { background: rgba(255,255,255,0.7); }
@@ -163,12 +173,33 @@
     .brand {
       font-weight: 800;
       font-size: 15px;
-      letter-spacing: -0.2px;
-      background: linear-gradient(135deg, var(--accent), var(--text-color) 70%);
+      letter-spacing: -0.04em;
+      background: linear-gradient(120deg, #c9b4ff 0%, var(--text-color) 42%, var(--accent) 100%);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+    .subnav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .subnav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 6px 11px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+    }
+    .subnav a:hover { color: var(--text-color); background: var(--surface); }
+    .subnav a[aria-current="page"] {
+      color: var(--text-color);
+      background: rgba(155, 95, 255, 0.14);
+      border-color: rgba(176, 128, 255, 0.35);
+    }
+    @media (max-width: 560px) { .subnav { display: none; } }
     .topbar-spacer { flex: 1; }
     .theme-toggle {
       width: 32px; height: 32px;
@@ -198,8 +229,8 @@
 
     .stage-panel {
       background: var(--surface-2);
-      border: 1px solid var(--surface-border);
-      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
       padding: 14px;
       box-shadow: var(--shadow);
       display: flex;
@@ -1771,8 +1802,13 @@
   <div class="topbar">
     <a href="emo.html" class="back-link" aria-label="Back to Emoverse">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      Back
+      $EMO
     </a>
+    <nav class="subnav" aria-label="Explore">
+      <a href="memes.html">Memes</a>
+      <a href="meme-maker.html" aria-current="page">Maker</a>
+      <a href="gifs.html">GIFs</a>
+    </nav>
     <span class="brand">Meme Maker</span>
     <span class="topbar-spacer"></span>
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4QWLXTDH20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-4QWLXTDH20');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>$EMO GIFs — Emonad</title>
+  <meta name="description" content="Official Emonad ($EMO) GIFs. Download and share.">
+  <link rel="canonical" href="https://emonad.lol/gifs.html">
+  <meta property="og:title" content="$EMO GIFs — Emonad">
+  <meta property="og:description" content="Official Emonad GIFs.">
+  <meta property="og:image" content="https://emonad.lol/og-image.jpg">
+  <meta property="og:url" content="https://emonad.lol/gifs.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <script>
+    try {
+      var t = localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  </script>
+  <script src="templates/templates.js"></script>
+  <link rel="stylesheet" href="css/emo-skin.css">
+  <style>
+    @font-face {
+      font-family: 'Space Grotesk';
+      font-style: normal;
+      font-weight: 500 800;
+      font-display: swap;
+      src: url(fonts/SpaceGrotesk-latin.woff2) format('woff2');
+    }
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #1a1a1a;
+      --text-secondary: #666666;
+      --text-muted: #aaaaaa;
+      --accent: #7B3FE4;
+      --accent-hover: #6930c3;
+      --accent-glow: rgba(123, 63, 228, 0.25);
+      --surface: #f5f3ff;
+      --surface-border: #e4d8f8;
+    }
+    [data-theme="dark"] {
+      --bg-color: #08070b;
+      --text-color: #ffffff;
+      --text-secondary: #9a94a8;
+      --text-muted: #8a8496;
+      --accent: #9B5FFF;
+      --accent-hover: #b080ff;
+      --accent-glow: rgba(155, 95, 255, 0.3);
+      --surface: rgba(255, 255, 255, 0.06);
+      --surface-border: rgba(255, 255, 255, 0.1);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      color: var(--text-color);
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    .top-bar {
+      position: fixed; top: 0; left: 0; right: 0; height: 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; padding: 0 20px; z-index: 100;
+    }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--text-color); text-decoration: none; font-weight: 600; font-size: 14px;
+      padding: 7px 16px; border-radius: 999px; border: 1px solid var(--surface-border);
+    }
+    .back-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .top-bar-right { display: flex; align-items: center; gap: 10px; }
+    .gif-count { font-size: 12px; color: var(--text-secondary); font-weight: 600; }
+    .theme-toggle {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 1px solid var(--surface-border); background: var(--surface);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 15px; position: relative;
+    }
+    .theme-toggle .icon-sun,
+    .theme-toggle .icon-moon { position: absolute; }
+    .theme-toggle .icon-sun { opacity: 0; }
+    .theme-toggle .icon-moon { opacity: 1; }
+    [data-theme="dark"] .theme-toggle .icon-sun { opacity: 1; }
+    [data-theme="dark"] .theme-toggle .icon-moon { opacity: 0; }
+    [data-theme="light"] .giphy-link,
+    [data-theme="light"] .gif-card {
+      border-color: rgba(0,0,0,0.08);
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 68px 16px 40px; }
+    .header { text-align: center; padding: 12px 0 16px; }
+    .header h1 { font-size: clamp(1.85rem, 4vw, 2.35rem); font-weight: 800; }
+    .header p { color: var(--text-secondary); font-size: 1rem; font-weight: 500; }
+    .giphy-link {
+      display: inline-flex; margin-top: 10px; padding: 7px 14px;
+      border-radius: 999px; border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.055); color: var(--text-color);
+      text-decoration: none; font-size: 12.5px; font-weight: 600;
+    }
+    .giphy-link:hover { border-color: var(--accent); color: var(--accent); }
+    .gif-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+      gap: 12px;
+    }
+    .gif-card {
+      display: block; border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1); background: var(--surface);
+      cursor: pointer; aspect-ratio: 1; position: relative;
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+    .gif-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(176,128,255,0.5);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.28);
+    }
+    .gif-card img { width: 100%; height: 100%; object-fit: cover; display: block; background: #111; }
+    .lightbox {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+      display: none; align-items: center; justify-content: center;
+      z-index: 1000; padding: 24px;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: min(92vw, 720px); max-height: 78vh; border-radius: 16px; }
+    .lightbox-close {
+      position: absolute; top: 16px; right: 16px; width: 40px; height: 40px;
+      border-radius: 50%; border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.08); color: #fff; font-size: 24px; cursor: pointer;
+    }
+    .lightbox-dl {
+      position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+      padding: 10px 18px; border-radius: 999px; background: var(--accent); color: #fff;
+      text-decoration: none; font-weight: 700; font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar glass-bar">
+    <a href="emo.html" class="back-btn" aria-label="Back to main site">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      $EMO
+    </a>
+    <nav class="subnav" aria-label="Explore">
+      <a href="memes.html">Memes</a>
+      <a href="meme-maker.html">Maker</a>
+      <a href="gifs.html" aria-current="page">GIFs</a>
+    </nav>
+    <div class="top-bar-right">
+      <span class="gif-count" id="gifCount"></span>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <span class="icon-sun">&#9680;</span>
+        <span class="icon-moon">&#9681;</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="header">
+      <h1 class="page-title">$EMO GIFs</h1>
+      <p>i lost it all on day 1</p>
+      <a class="giphy-link" href="https://giphy.com/emonad" target="_blank" rel="noopener noreferrer">Also on Giphy →</a>
+    </div>
+    <div class="gif-grid" id="gifGrid"></div>
+  </div>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="GIF viewer">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+    <img id="lightboxImg" alt="">
+    <a class="lightbox-dl" id="lightboxDl" download>Download GIF</a>
+  </div>
+
+  <script>
+    (function() {
+      var html = document.documentElement;
+      var saved = localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      html.setAttribute('data-theme', saved);
+      document.getElementById('themeToggle').addEventListener('click', function() {
+        var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      });
+
+      function safeGifAsset(p) {
+        if (typeof p !== 'string' || p.length > 220) return '';
+        if (p.indexOf('..') !== -1 || p.indexOf('\\') !== -1 || p.indexOf(':') !== -1) return '';
+        if (p.indexOf('templates/gifs/') !== 0) return '';
+        if (!/\.(gif|png|jpe?g|webp)$/i.test(p)) return '';
+        return p;
+      }
+      function safeDownloadName(name) {
+        var base = String(name || 'emonad.gif').split(/[/\\]/).pop();
+        return /^[A-Za-z0-9._-]+$/.test(base) ? base : 'emonad.gif';
+      }
+
+      var list = ((window.EMOTEMPLATES || {}).templates || []).filter(function(t) {
+        return t.category === 'gifs' && safeGifAsset(t.src);
+      });
+      document.getElementById('gifCount').textContent = list.length + ' gif' + (list.length === 1 ? '' : 's');
+      var grid = document.getElementById('gifGrid');
+      if (!list.length) {
+        var empty = document.createElement('p');
+        empty.style.cssText = 'grid-column:1/-1;text-align:center;color:var(--text-secondary);padding:40px 0';
+        empty.textContent = 'No GIFs loaded.';
+        grid.appendChild(empty);
+      }
+      var box = document.getElementById('lightbox');
+      var img = document.getElementById('lightboxImg');
+      var dl = document.getElementById('lightboxDl');
+
+      list.forEach(function(t) {
+        var src = safeGifAsset(t.src);
+        var thumbSrc = safeGifAsset(t.thumb) || src;
+        if (!src) return;
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'gif-card';
+        btn.setAttribute('aria-label', t.name || 'GIF');
+        var thumb = document.createElement('img');
+        thumb.src = thumbSrc;
+        thumb.alt = t.name || '';
+        thumb.loading = 'lazy';
+        btn.appendChild(thumb);
+        btn.addEventListener('click', function() {
+          img.src = src;
+          img.alt = t.name || '';
+          dl.href = src;
+          dl.setAttribute('download', safeDownloadName(t.file));
+          box.classList.add('open');
+        });
+        grid.appendChild(btn);
+      });
+
+      function close() {
+        box.classList.remove('open');
+        img.src = '';
+      }
+      document.getElementById('lightboxClose').addEventListener('click', close);
+      box.addEventListener('click', function(e) { if (e.target === box) close(); });
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape') close(); });
+    })();
+  </script>
+</body>
+</html>
