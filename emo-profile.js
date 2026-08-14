@@ -569,19 +569,28 @@ function injectStyles() {
       color: var(--text-color, #fff);
       border-color: var(--accent, #9B5FFF);
     }
+    body:has(.emo-xp-maint) { padding-top: 28px; }
     .emo-xp-maint {
-      display: inline-flex; align-items: center;
-      height: 28px; padding: 0 10px;
-      margin-right: 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(236, 72, 153, 0.45);
-      background: rgba(236, 72, 153, 0.12);
-      color: var(--text-color, #fff);
-      font-size: 11px; font-weight: 700;
+      position: fixed; left: 0; right: 0;
+      top: 44px;
+      z-index: 99;
+      display: flex; align-items: center; justify-content: center;
+      height: 28px; padding: 0 12px;
+      background: #1a0c14;
+      border-bottom: 1px solid rgba(236, 72, 153, 0.45);
+      color: #f3c6d8;
+      font-size: 12px; font-weight: 700;
       letter-spacing: 0.02em;
-      white-space: nowrap;
-      flex-shrink: 0;
-      line-height: 1;
+      text-align: center;
+      pointer-events: none;
+    }
+    body:has(.nav-bar) .emo-xp-maint { top: 52px; }
+    @media (max-width: 768px) {
+      .emo-xp-maint { top: 38px; font-size: 11px; }
+      body:has(.nav-bar) .emo-xp-maint { top: 52px; }
+    }
+    @media (max-width: 380px) {
+      .emo-xp-maint { top: 34px; }
     }
     .emo-xp-maint .short { display: none; }
     @media (max-width: 720px) {
@@ -593,7 +602,6 @@ function injectStyles() {
       .emo-auth-widget { height: 30px; padding: 0 10px 0 3px; }
       .emo-auth-widget img { width: 24px; height: 24px; }
       .emo-auth-xp { font-size: 11px; }
-      .emo-xp-maint { height: 26px; padding: 0 8px; font-size: 10px; margin-right: 6px; }
     }
   `;
   const style = document.createElement('style');
@@ -604,15 +612,12 @@ function injectStyles() {
 }
 
 function ensureMaintNotice() {
-  const hosts = document.querySelectorAll('#emoAuthSlot, .emo-auth-host');
-  hosts.forEach(host => {
-    if (!host || host.previousElementSibling?.classList?.contains('emo-xp-maint')) return;
-    const el = document.createElement('span');
-    el.className = 'emo-xp-maint';
-    el.setAttribute('role', 'status');
-    el.innerHTML = '<span class="full">XP farming paused for maintenance · all XP saved</span><span class="short">XP paused · all saved</span>';
-    host.parentNode?.insertBefore(el, host);
-  });
+  if (document.querySelector('.emo-xp-maint')) return;
+  const el = document.createElement('div');
+  el.className = 'emo-xp-maint';
+  el.setAttribute('role', 'status');
+  el.innerHTML = '<span class="full">XP farming paused for maintenance · all XP saved</span><span class="short">XP paused · all saved</span>';
+  document.body.appendChild(el);
 }
 
 // ─── Clerk loader ────────────────────────────────────────────────────
