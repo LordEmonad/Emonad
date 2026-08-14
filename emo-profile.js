@@ -569,17 +569,50 @@ function injectStyles() {
       color: var(--text-color, #fff);
       border-color: var(--accent, #9B5FFF);
     }
+    .emo-xp-maint {
+      display: inline-flex; align-items: center;
+      height: 28px; padding: 0 10px;
+      margin-right: 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(236, 72, 153, 0.45);
+      background: rgba(236, 72, 153, 0.12);
+      color: var(--text-color, #fff);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .emo-xp-maint .short { display: none; }
+    @media (max-width: 720px) {
+      .emo-xp-maint .full { display: none; }
+      .emo-xp-maint .short { display: inline; }
+    }
     @media (max-width: 480px) {
       .emo-auth-btn { padding: 0 10px; font-size: 12px; height: 30px; }
       .emo-auth-widget { height: 30px; padding: 0 10px 0 3px; }
       .emo-auth-widget img { width: 24px; height: 24px; }
       .emo-auth-xp { font-size: 11px; }
+      .emo-xp-maint { height: 26px; padding: 0 8px; font-size: 10px; margin-right: 6px; }
     }
   `;
   const style = document.createElement('style');
   style.id = 'emo-profile-styles';
   style.textContent = css;
   document.head.appendChild(style);
+  ensureMaintNotice();
+}
+
+function ensureMaintNotice() {
+  const hosts = document.querySelectorAll('#emoAuthSlot, .emo-auth-host');
+  hosts.forEach(host => {
+    if (!host || host.previousElementSibling?.classList?.contains('emo-xp-maint')) return;
+    const el = document.createElement('span');
+    el.className = 'emo-xp-maint';
+    el.setAttribute('role', 'status');
+    el.innerHTML = '<span class="full">XP farming paused for maintenance · all XP saved</span><span class="short">XP paused · all saved</span>';
+    host.parentNode?.insertBefore(el, host);
+  });
 }
 
 // ─── Clerk loader ────────────────────────────────────────────────────
@@ -954,7 +987,10 @@ function renderInto(host) {
 }
 
 const mountedHosts = new Set();
-function refreshMounts() { mountedHosts.forEach(renderInto); }
+function refreshMounts() {
+  ensureMaintNotice();
+  mountedHosts.forEach(renderInto);
+}
 
 // ─── Profile modal ───────────────────────────────────────────────────
 // Build the daily-XP banner HTML for the profile modal AND the public
