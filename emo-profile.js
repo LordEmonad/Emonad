@@ -93,7 +93,17 @@ const supabase = createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY, {
       } catch (e) {
         console.warn('emo-profile: token fetch failed', e);
       }
-      return fetch(input, { ...init, headers });
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 8000);
+      if (init.signal) {
+        if (init.signal.aborted) ctrl.abort();
+        else init.signal.addEventListener('abort', () => ctrl.abort(), { once: true });
+      }
+      try {
+        return await fetch(input, { ...init, headers, signal: ctrl.signal });
+      } finally {
+        clearTimeout(timer);
+      }
     },
   },
   auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
@@ -654,6 +664,7 @@ async function claimPendingReferral() {
 async function runBackgroundSync(clerkUser, identityChanged) {
   if (!clerkUser || !state.xUserId) return;
   try {
+    restorePending();
     if (identityChanged) {
       await upsertProfile(clerkUser);
       // Referral claim MUST come after upsertProfile (FK reference) and
@@ -663,9 +674,11 @@ async function runBackgroundSync(clerkUser, identityChanged) {
       await claimLocalGameProgress();
       await syncGameProgress();
     }
+    if (state.buffer.length) await flush();
     await refreshServerStats();
   } catch (e) {
     console.warn('emo-profile: background sync failed', e);
+    await applySnapshotStats();
   }
   refreshMounts();
   notify();
@@ -732,10 +745,66 @@ function ensureToday() {
 }
 
 // ─── Server sync ─────────────────────────────────────────────────────
+const SNAPSHOT_URL = new URL('xp-snapshot.json', import.meta.url).href;
+let snapshotCache = null;
+async function loadXpSnapshot() {
+  if (snapshotCache) return snapshotCache;
+  try {
+    const res = await fetch(SNAPSHOT_URL, { cache: 'no-store' });
+    if (!res.ok) return null;
+    snapshotCache = await res.json();
+    return snapshotCache;
+  } catch (e) {
+    console.warn('emo-profile: snapshot failed', e);
+    return null;
+  }
+}
+function snapshotProfileFor(xUserId, handle) {
+  const rows = snapshotCache?.profiles || [];
+  if (xUserId) {
+    const byId = rows.find(p => p.x_user_id === xUserId);
+    if (byId) return byId;
+  }
+  if (handle) {
+    const h = String(handle).replace(/^@/, '').toLowerCase();
+    return rows.find(p => String(p.x_handle || '').replace(/^@/, '').toLowerCase() === h) || null;
+  }
+  return null;
+}
+
+function persistPending() {
+  try { localStorage.setItem('emo:pendingXp', JSON.stringify(state.buffer)); } catch {}
+}
+function restorePending() {
+  try {
+    const raw = localStorage.getItem('emo:pendingXp');
+    const rows = raw ? JSON.parse(raw) : [];
+    if (Array.isArray(rows) && rows.length) state.buffer.push(...rows);
+  } catch {}
+}
+
+async function applySnapshotStats() {
+  const handle = xAccountOf(state.user)?.username || state.user?.username || null;
+  await loadXpSnapshot();
+  const hit = snapshotProfileFor(state.xUserId, handle);
+  if (!hit) return null;
+  state.serverStats = {
+    ...(state.serverStats || {}),
+    total_xp: hit.total_xp || 0,
+    x_user_id: hit.x_user_id,
+  };
+  notify();
+  refreshMounts();
+  return state.serverStats;
+}
+
 async function refreshServerStats() {
   if (!state.xUserId) return null;
   const { data, error } = await supabase.rpc('get_user_stats', { uid: state.xUserId });
-  if (error) { console.warn('emo-profile: stats failed', error); return null; }
+  if (error) {
+    console.warn('emo-profile: stats failed', error);
+    return applySnapshotStats();
+  }
   const stats = data?.[0] || null;
   if (stats) {
     state.serverStats = stats;
@@ -773,9 +842,11 @@ async function flush() {
       refreshServerStats();
     } else {
       state.buffer.unshift(...batch);
-      console.warn('emo-profile: flush failed', error);
+      persistPending();
+      console.warn('emo-profile: flush failed — queued locally', error);
     }
   } else {
+    persistPending();
     refreshServerStats();
   }
 }
@@ -1383,6 +1454,7 @@ const api = {
     if (initialUser) {
       state.xUserId = await ensureXMetadata(initialUser);
       if (state.xUserId) {
+        applySnapshotStats();
         runBackgroundSync(initialUser, /* identityChanged */ true);
       }
     }
@@ -1494,6 +1566,7 @@ const api = {
     saveDailyCounts();
     const source = type === 'block' ? 'click_block' : 'click_emonad';
     state.buffer.push({ source, amount: 1, page: state.page });
+    persistPending();
     scheduleFlush();
 
     if (state.serverStats) {
@@ -1543,10 +1616,29 @@ const api = {
     if (error) {
       // Server already saw it today (different device, same day) — keep
       // local flag set so we don't keep re-trying; the next refresh will
-      // align reality. Other errors: roll back local flag.
+      // align reality. Other errors: roll back local flag — unless the
+      // Data API is down, in which case queue and keep the local claim.
       if (/daily_cap_reached/i.test(error.message || '')) {
         refreshServerStats();
         return false;
+      }
+      const down = /fetch|abort|network|503|timeout|Failed to fetch/i.test(String(error.message || error));
+      if (down) {
+        state.buffer.push({ source, amount: CONFIG.DAILY_REWARD_XP, page: state.page });
+        persistPending();
+        if (state.serverStats) {
+          const fld = `xp_${game}`;
+          const todayFld = `today_${game}`;
+          state.serverStats = {
+            ...state.serverStats,
+            total_xp: (state.serverStats.total_xp || 0) + CONFIG.DAILY_REWARD_XP,
+            [fld]: (state.serverStats[fld] || 0) + CONFIG.DAILY_REWARD_XP,
+            [todayFld]: (state.serverStats[todayFld] || 0) + 1,
+          };
+        }
+        refreshMounts();
+        notify();
+        return true;
       }
       state.todayClaims[game] = false;
       saveDailyCounts();
@@ -1631,7 +1723,18 @@ const api = {
       .from('profiles').select('*')
       .ilike('x_handle', handle)
       .limit(1).maybeSingle();
-    if (error) { console.warn('emo-profile: getProfileByHandle', error); return null; }
+    // Infrastructure failures must not look like "user does not exist".
+    // PGRST116 / empty maybeSingle is a real miss and stays null.
+    if (error) {
+      console.warn('emo-profile: getProfileByHandle', error);
+      await loadXpSnapshot();
+      const hit = snapshotProfileFor(null, handle);
+      if (hit) return hit;
+      const code = String(error.code || '');
+      if (code && code !== 'PGRST116') throw error;
+      if (!code) throw error;
+      return null;
+    }
     return data;
   },
   async getLeaderboard(limit = 25) {

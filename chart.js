@@ -13,8 +13,19 @@ import {
 // export — survives any browser-cache state of emo-profile.js.
 const SUPABASE_URL  = 'https://jdymhwsfmodqxvhcdsti.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkeW1od3NmbW9kcXh2aGNkc3RpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NzU5NTIsImV4cCI6MjA5MzE1MTk1Mn0.QsGxG8iyJaPzoPTxONLco7pMXTGgqBZTFeM48Lfcr2k';
+function fetchWithTimeout(input, init = {}, ms = 8000) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), ms);
+  if (init.signal) {
+    if (init.signal.aborted) ctrl.abort();
+    else init.signal.addEventListener('abort', () => ctrl.abort(), { once: true });
+  }
+  return fetch(input, { ...init, signal: ctrl.signal }).finally(() => clearTimeout(timer));
+}
+
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON, {
   auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+  global: { fetch: (input, init) => fetchWithTimeout(input, init, 8000) },
 });
 
 const XP_PER_LEVEL = 60;
@@ -111,6 +122,13 @@ const state = {
 };
 
 // ─── Data fetches ─────────────────────────────────────────────────────
+function applyProfiles(rows) {
+  state.profiles = rows || [];
+  state.profileById.clear();
+  for (const p of state.profiles) state.profileById.set(p.x_user_id, p);
+  return state.profiles;
+}
+
 async function fetchProfiles() {
   const { data, error } = await supabase
     .from('profiles')
@@ -118,10 +136,24 @@ async function fetchProfiles() {
     .order('total_xp', { ascending: false })
     .limit(1000);
   if (error) throw error;
-  state.profiles = data || [];
-  state.profileById.clear();
-  for (const p of state.profiles) state.profileById.set(p.x_user_id, p);
-  return state.profiles;
+  return applyProfiles(data || []);
+}
+
+async function fetchSnapshotProfiles() {
+  const res = await fetch('xp-snapshot.json', { cache: 'no-store' });
+  if (!res.ok) throw new Error('snapshot ' + res.status);
+  const snap = await res.json();
+  return applyProfiles(snap.profiles || []);
+}
+
+function outageMessage(err) {
+  const raw = String(err?.message || err?.name || err || '');
+  const status = err?.status || err?.code || '';
+  const looksDown = /503|502|504|Failed to fetch|NetworkError|upstream connect|111|AbortError|aborted|timeout/i.test(raw + ' ' + status);
+  if (looksDown) {
+    return 'XP database is temporarily unreachable. Your ranks are not wiped — refresh in a minute.';
+  }
+  return raw || 'Could not load profiles.';
 }
 
 // ─── Leaderboard ──────────────────────────────────────────────────────
@@ -590,17 +622,24 @@ async function poll() {
 async function boot() {
   setupGalaxy();
 
-  try {
-    await EmoProfile.init({ page: 'chart' });
-    EmoProfile.mount('#emoAuthSlot');
-    refreshMeId();
-    EmoProfile.onChange?.(refreshMeId);
-  } catch (err) {
-    console.warn('EmoProfile init failed — continuing without auth:', err?.message || err);
-  }
+  // Auth must not gate the public leaderboard. If Clerk hangs, ranks
+  // should still appear (or fail with a real outage message).
+  const authReady = (async () => {
+    try {
+      await EmoProfile.init({ page: 'chart' });
+      EmoProfile.mount('#emoAuthSlot');
+      refreshMeId();
+      EmoProfile.onChange?.(refreshMeId);
+    } catch (err) {
+      console.warn('EmoProfile init failed — continuing without auth:', err?.message || err);
+    }
+  })();
 
   try {
-    await fetchProfiles();
+    await Promise.race([
+      fetchProfiles(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 10000)),
+    ]);
     console.log(`[chart] loaded ${state.profiles.length} profiles`);
 
     renderLeaderboard();
@@ -609,11 +648,25 @@ async function boot() {
     setLivePill('Live');
     setInterval(poll, POLL_MS);
   } catch (err) {
-    console.error('boot failed', err);
-    setLivePill('Offline', false);
-    const lb = document.getElementById('leaderboard');
-    if (lb) lb.innerHTML = `<div class="error-state"><b>Leaderboard unavailable.</b>${escapeHtml(err.message || '')}</div>`;
+    console.warn('live fetch failed, using snapshot', err);
+    try {
+      await fetchSnapshotProfiles();
+      renderLeaderboard();
+      rebuildGalaxySim();
+      setLivePill('Cached', false);
+      const meta = document.getElementById('lbMeta');
+      if (meta) meta.textContent = (meta.textContent || '') + ' · last known ranks';
+    } catch (snapErr) {
+      console.error('boot failed', err, snapErr);
+      setLivePill('Offline', false);
+      const lb = document.getElementById('leaderboard');
+      if (lb) {
+        lb.innerHTML = `<div class="error-state"><b>Leaderboard unavailable.</b>${escapeHtml(outageMessage(err))}</div>`;
+      }
+    }
   }
+
+  await authReady;
 }
 
 boot();

@@ -710,7 +710,22 @@
         return;
       }
 
-      const profile = await EmoProfile.getProfileByHandle(handle);
+      let profile;
+      try {
+        profile = await Promise.race([
+          EmoProfile.getProfileByHandle(handle),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 10000)),
+        ]);
+      } catch (err) {
+        console.warn('profile load failed', err);
+        content.innerHTML = `
+          <div class="empty">
+            <div class="big">XP database is down</div>
+            <div>Could not reach the profile store. This is not a wipe — refresh in a minute.</div>
+            <div style="margin-top:22px"><a class="btn primary" href="chart.html" style="display:inline-flex; max-width:240px; margin: 0 auto;">Back to leaderboard →</a></div>
+          </div>`;
+        return;
+      }
       if (!profile) {
         content.innerHTML = `
           <div class="empty">
