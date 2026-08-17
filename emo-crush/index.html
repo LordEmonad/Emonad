@@ -130,6 +130,8 @@ background:var(--board-bg);border:1px solid var(--board-bdr);
 box-shadow:var(--board-shadow);
 backdrop-filter:blur(40px) saturate(1.4);-webkit-backdrop-filter:blur(40px) saturate(1.4);
 transition:box-shadow .4s ease,background .4s ease,border-color .4s ease}
+#board.combo-hot{backdrop-filter:none;-webkit-backdrop-filter:none}
+#board.combo-hot::before,#board.combo-hot::after{animation:none;opacity:0}
 #board::before{content:'';position:absolute;inset:0;border-radius:24px;padding:1.5px;
 background:conic-gradient(from var(--board-glow-angle,0deg),rgba(255,94,148,.2),rgba(170,140,255,.15),rgba(100,220,255,.15),rgba(255,200,100,.15),rgba(255,94,148,.2));
 -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;
@@ -523,6 +525,10 @@ body.dark .mode-toggle .ico-sun{display:block}
 
 /* Ã¢â€â‚¬Ã¢â€â‚¬ SCREEN FLASH Ã¢â€â‚¬Ã¢â€â‚¬ */
 #screenFlash{position:fixed;inset:0;pointer-events:none;z-index:45;opacity:0;transition:none;mix-blend-mode:screen}
+@media(pointer:coarse){
+  #screenFlash{mix-blend-mode:normal}
+  #board::after{display:none}
+}
 
 /* Ã¢â€â‚¬Ã¢â€â‚¬ CHAIN COUNTER Ã¢â€â‚¬Ã¢â€â‚¬ */
 #chainCounter{position:absolute;top:-8px;left:50%;transform:translateX(-50%) scale(0);z-index:25;
@@ -530,13 +536,12 @@ font-size:16px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;pad
 border-radius:999px;white-space:nowrap;pointer-events:none;
 background:linear-gradient(135deg,rgba(255,94,148,.9),rgba(255,48,112,.9));color:#fff;
 box-shadow:0 4px 24px rgba(255,94,148,.5),0 0 40px rgba(255,94,148,.2),inset 0 1px 0 rgba(255,255,255,.3);
-backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
 transition:transform .3s cubic-bezier(.16,1,.3,1),opacity .3s ease}
 #chainCounter.show{transform:translateX(-50%) scale(1)}
 #chainCounter.mega{font-size:20px;background:linear-gradient(135deg,rgba(255,215,0,.95),rgba(255,170,0,.95));
 box-shadow:0 4px 32px rgba(255,215,0,.6),0 0 60px rgba(255,215,0,.25),inset 0 1px 0 rgba(255,255,255,.4);
 animation:megaPulse .5s ease-in-out infinite alternate}
-@keyframes megaPulse{0%{transform:translateX(-50%) scale(1)}100%{transform:translateX(-50%) scale(1.08);filter:brightness(1.15)}}
+@keyframes megaPulse{0%{transform:translateX(-50%) scale(1)}100%{transform:translateX(-50%) scale(1.08)}}
 
 /* Ã¢â€â‚¬Ã¢â€â‚¬ ENHANCED COMBO POPUPS Ã¢â€â‚¬Ã¢â€â‚¬ */
 .cpop{font-size:28px;text-shadow:0 2px 8px rgba(0,0,0,.15)}
@@ -870,7 +875,7 @@ return{
   toggle(){muted=!muted;localStorage.setItem('emocrush-mute',muted?'1':'0');return muted},
   get muted(){return muted},
 }})();
-function haptic(ms=12){try{navigator.vibrate(ms)}catch(e){}}
+function haptic(ms=12){try{if(typeof ms==='number')ms=Math.min(ms,32);navigator.vibrate(ms)}catch(e){}}
 
 // Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 // CONFIG
@@ -1784,22 +1789,29 @@ function mkC(t,sp=0){return{type:t,sp,offX:0,offY:0,scale:1,alpha:1,glow:0,flash
 function tw(o,p,d,ef=E.out,dl=0){return new Promise(r=>{const s={};for(const k in p)s[k]=o[k]??0;tweens.push({o,s,e:p,d,ef,dl,el:-dl,r})})}
 function updTw(dt){for(let i=tweens.length-1;i>=0;i--){const w=tweens[i];w.el+=dt;if(w.el<0)continue;const t=Math.min(w.el/w.d,1),v=w.ef(t);for(const k in w.e)w.o[k]=w.s[k]+(w.e[k]-w.s[k])*v;if(t>=1){tweens.splice(i,1);w.r()}}}
 
+function maxParticles(){return MOBILE_RENDER_STABLE?140:420}
 function burst(x,y,col,n=30){
+  const cap=maxParticles(),room=cap-particles.length;
+  if(room<=0)return;
+  if(MOBILE_RENDER_STABLE)n=Math.min(n,12);
+  n=Math.min(Math.max(0,n),room);
+  const halo=Math.min(MOBILE_RENDER_STABLE?3:8,Math.max(0,room-n));
+  const core=Math.min(MOBILE_RENDER_STABLE?2:6,Math.max(0,room-n-halo));
   // Main radial burst
   for(let i=0;i<n;i++){const a=Math.PI*2*i/n+Math.random()*.5,sp=Math.random()*6+3;
   const r=Math.random();const pc=r>.75?'#fff':r>.3?col:GEMS[Math.floor(Math.random()*NT)].bg2;
   particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-2,sz:Math.random()*4+1.5,col:pc,life:1,dec:Math.random()*.012+.008})}
   // Sparkle halo Ã¢â‚¬â€ white accents
-  for(let i=0;i<8;i++){const a=Math.PI*2*i/8+Math.random()*.4;
+  for(let i=0;i<halo;i++){const a=Math.PI*2*i/Math.max(halo,1)+Math.random()*.4;
   particles.push({x,y,vx:Math.cos(a)*1.8,vy:Math.sin(a)*1.8-1.2,sz:Math.random()*2.5+2,col:'#fff',life:.85,dec:.018})}
   // Core burst Ã¢â‚¬â€ tiny fast specks
-  for(let i=0;i<6;i++){const a=Math.random()*Math.PI*2,sp=Math.random()*2.5+1;
+  for(let i=0;i<core;i++){const a=Math.random()*Math.PI*2,sp=Math.random()*2.5+1;
   particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-.5,sz:Math.random()*1.5+.5,col:'rgba(255,255,255,.9)',life:.5,dec:.028})}}
 function updPt(){for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.12;p.vx*=.97;p.life-=p.dec;p.sz*=.96;if(p.life<=0)particles.splice(i,1)}}
 
 // Ã¢â€â‚¬Ã¢â€â‚¬ SHOCKWAVE RINGS Ã¢â€â‚¬Ã¢â€â‚¬
 let shockwaves=[];
-function addShockwave(x,y,col,maxR=80,dur=350){shockwaves.push({x,y,col,maxR,dur,age:0})}
+function addShockwave(x,y,col,maxR=80,dur=350){if(shockwaves.length>=(MOBILE_RENDER_STABLE?4:10))return;shockwaves.push({x,y,col,maxR,dur,age:0})}
 function updShockwaves(dt){for(let i=shockwaves.length-1;i>=0;i--){shockwaves[i].age+=dt;if(shockwaves[i].age>=shockwaves[i].dur)shockwaves.splice(i,1)}}
 function drawShockwaves(c){for(const s of shockwaves){const p=s.age/s.dur,r=s.maxR*E.out(p),a=(1-p)*.55;
 c.save();
@@ -1854,14 +1866,22 @@ c.restore()}c.restore()}
 
 // Ã¢â€â‚¬Ã¢â€â‚¬ BOARD GLOW INTENSITY (cascade escalation) Ã¢â€â‚¬Ã¢â€â‚¬
 let boardGlow=0;
-function updBoardGlow(){if(boardGlow>0){boardGlow*=.96;if(boardGlow<.01)boardGlow=0;
-document.getElementById('board').style.filter=boardGlow>.01?`brightness(${1+boardGlow*.15}) saturate(${1+boardGlow*.3})`:''}}
+function updBoardGlow(){
+  if(boardGlow>0){boardGlow*=.96;if(boardGlow<.01)boardGlow=0}
+  const el=document.getElementById('board');if(!el)return;
+  // Never set CSS filter on #board: it already has backdrop-filter, and
+  // filter + backdrop-filter freezes Mobile Safari / Chrome Android on big chains.
+  if(el.style.filter)el.style.filter='';
+  el.style.boxShadow=boardGlow>.01?`0 0 ${20+boardGlow*36}px rgba(255,94,148,${.14+boardGlow*.28}),var(--board-shadow)`:'';
+}
 
 // Ã¢â€â‚¬Ã¢â€â‚¬ CHAIN COUNTER DISPLAY Ã¢â€â‚¬Ã¢â€â‚¬
 function showChain(n){const el=document.getElementById('chainCounter');el.textContent=n>=5?`CHAIN x${n} !!!`:n>=3?`CHAIN x${n} !`:`chain x${n}`;
 el.className=n>=5?'show mega':'show';el.style.display='block';
+const board=document.getElementById('board');if(board)board.classList.add('combo-hot');
 if(n>=3)haptic(n*8)}
-function hideChain(){const el=document.getElementById('chainCounter');el.className='';setTimeout(()=>{el.style.display='none'},300)}
+function hideChain(){const el=document.getElementById('chainCounter');el.className='';setTimeout(()=>{el.style.display='none'},300);
+const board=document.getElementById('board');if(board)board.classList.remove('combo-hot')}
 
 // Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 // INIT + RESIZE
@@ -2229,12 +2249,14 @@ function resolve(){
     else if(cl.sp===3){for(let rr=0;rr<ROWS;rr++)for(let cc=0;cc<COLS;cc++){if(grid[rr]&&grid[rr][cc]&&grid[rr][cc].type===cl.type)ex.add(`${rr},${cc}`)}}
   });ex.forEach(k=>tc.add(k));
   const pts=tc.size*(10+combo*5);score+=pts;
-  if(combo>=2)shakeAmt=Math.max(shakeAmt,3+combo*2.5);
+  if(combo>=2)shakeAmt=Math.max(shakeAmt,MOBILE_RENDER_STABLE?Math.min(5,1.6+combo*.35):3+combo*2.5);
   // Sound + haptics
   SFX.match(combo);haptic(8+combo*5);
   if(combo>=2){SFX.combo(combo);boardGlow=Math.min(1,boardGlow+.15+combo*.1)}
-  if(combo>=3)screenFlash('rgba(255,94,148,.3)',.15+combo*.05);
-  if(combo>=5)screenFlash('rgba(255,215,0,.35)',.25);
+  if(!MOBILE_RENDER_STABLE){
+    if(combo>=3)screenFlash('rgba(255,94,148,.3)',.15+combo*.05);
+    if(combo>=5)screenFlash('rgba(255,215,0,.35)',.25);
+  }
   // Score bump animation
   const scEl=document.getElementById('hSc');scEl.classList.remove('score-pop');void scEl.offsetWidth;scEl.classList.add('score-pop');
   // Shockwaves at match centers
@@ -2243,11 +2265,12 @@ function resolve(){
     addShockwave(sx,sy,GEMS[grid[mid.r][mid.c].type].bg2,CELL*1.5+m.cs.length*8,300+m.cs.length*30)});
   // Special gem sound
   sp.forEach(s=>{if(s.sp>=2)SFX.special()});
+  const burstN=MOBILE_RENDER_STABLE?Math.min(10,8+combo):20+combo*5;
   tc.forEach(k=>{const[r,c]=k.split(',').map(Number);if(grid[r]&&grid[r][c]){clr[grid[r][c].type]++;
-    const px=c*CELL+CELL/2,py=r*CELL+CELL/2;burst(px,py,GEMS[grid[r][c].type].bg2,20+combo*5);
+    const px=c*CELL+CELL/2,py=r*CELL+CELL/2;burst(px,py,GEMS[grid[r][c].type].bg2,burstN);
     grid[r][c].flash=1;tw(grid[r][c],{flash:0,scale:0,alpha:0},220,E.inQ)}});
   const fk=[...tc][0];if(fk){const[fr,fc]=fk.split(',').map(Number);shPt(fc*CELL+CELL/2,fr*CELL,`+${pts}`)}
-  if(combo>=2){const ti=Math.min(combo-2,COMBO_TXT.length-1);shCo(COMBO_TXT[ti]+` x${combo}`,ti>=4?'t3':ti>=2?'t2':'')}
+  if(combo>=2){const ti=Math.min(combo-2,COMBO_TXT.length-1);shCo(COMBO_TXT[ti]+` x${combo}`,MOBILE_RENDER_STABLE?'':(ti>=4?'t3':ti>=2?'t2':''))}
   setTimeout(()=>{tc.forEach(k=>{const[r,c]=k.split(',').map(Number);if(grid[r])grid[r][c]=null});
     sp.forEach(s=>{if(grid[s.r]&&!grid[s.r][s.c]){grid[s.r][s.c]=mkC(s.type,s.sp);grid[s.r][s.c].scale=0;tw(grid[s.r][s.c],{scale:1},280,E.oB)}})},200);
   return true;
@@ -2458,20 +2481,25 @@ function render(){
   }
   // Particles Ã¢â‚¬â€ motion trails + glow
   ctx.save();ctx.shadowBlur=0;
+  const liteFx=MOBILE_RENDER_STABLE;
   for(const p of particles){
     // Motion trail
-    if(Math.abs(p.vx)>.5||Math.abs(p.vy)>.5){
+    if(!liteFx&&(Math.abs(p.vx)>.5||Math.abs(p.vy)>.5)){
       ctx.globalAlpha=p.life*.2;ctx.strokeStyle=p.col;ctx.lineWidth=p.sz*.5;
       ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x-p.vx*2,p.y-p.vy*2);ctx.stroke()}
-    // Outer glow (larger, softer)
-    ctx.globalAlpha=p.life*.35;ctx.fillStyle=p.col;
-    ctx.beginPath();ctx.arc(p.x,p.y,p.sz*2,0,Math.PI*2);ctx.fill();
+    if(!liteFx){
+      // Outer glow (larger, softer)
+      ctx.globalAlpha=p.life*.35;ctx.fillStyle=p.col;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.sz*2,0,Math.PI*2);ctx.fill();
+    }
     // Core
     ctx.globalAlpha=p.life;ctx.fillStyle=p.col;
     ctx.beginPath();ctx.arc(p.x,p.y,p.sz,0,Math.PI*2);ctx.fill();
     // Bright center
-    ctx.globalAlpha=p.life*.5;ctx.fillStyle='#fff';
-    ctx.beginPath();ctx.arc(p.x,p.y,p.sz*.4,0,Math.PI*2);ctx.fill();
+    if(!liteFx){
+      ctx.globalAlpha=p.life*.5;ctx.fillStyle='#fff';
+      ctx.beginPath();ctx.arc(p.x,p.y,p.sz*.4,0,Math.PI*2);ctx.fill();
+    }
   }
   ctx.restore();
 
@@ -2489,9 +2517,13 @@ function render(){
 // MAIN LOOP
 // Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 let lt=0;
-function loop(ts){const dt=Math.min(ts-lt,33);lt=ts;updTw(dt);updPt();updShockwaves(dt);updConfetti();updDisplayScore();updBoardGlow();updFlash();
-  if(active&&!anim){hintTimer+=dt;if(hintTimer>=IDLE_HINT_DELAY&&!hintCells){hintCells=findHint();hintPulse=0}if(hintCells)hintPulse+=dt*.0024}
-  render();requestAnimationFrame(loop)}
+function loop(ts){const dt=Math.min(ts-lt,33);lt=ts;
+  try{
+    updTw(dt);updPt();updShockwaves(dt);updConfetti();updDisplayScore();updBoardGlow();updFlash();
+    if(active&&!anim){hintTimer+=dt;if(hintTimer>=IDLE_HINT_DELAY&&!hintCells){hintCells=findHint();hintPulse=0}if(hintCells)hintPulse+=dt*.0024}
+    render();
+  }catch(err){console.error('emo-crush frame',err)}
+  requestAnimationFrame(loop)}
 if(localStorage.getItem('emocrush-dark')==='1')document.body.classList.add('dark');
 init();
 </script>
