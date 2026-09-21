@@ -27,36 +27,6 @@ const PINK         = '#ec4899';
 const BG_DARK      = '#0a0612';
 const TEXT_MUTED   = '#b8a3e8';
 
-// Cached partner access token (module scope lives for the isolate lifetime).
-let transakAccess = { token: null, expiresAt: 0 };
-
-function corsHeaders(request) {
-  const origin = request.headers.get('Origin') || '';
-  const allowed =
-    origin === 'https://emonad.lol' ||
-    origin === 'http://localhost:8000' ||
-    origin === 'http://127.0.0.1:8000' ||
-    /^http:\/\/localhost:\d+$/.test(origin) ||
-    /^http:\/\/127\.0\.0\.1:\d+$/.test(origin);
-  return {
-    'Access-Control-Allow-Origin': allowed ? origin : 'https://emonad.lol',
-    'Access-Control-Allow-Methods': 'GET, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Max-Age': '86400',
-    Vary: 'Origin',
-  };
-}
-
-function corsJson(request, body, status = 200) {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: {
-      'content-type': 'application/json; charset=utf-8',
-      ...corsHeaders(request),
-    },
-  });
-}
-
 export default {
   async fetch(request, env, ctx) {
     try {
@@ -66,17 +36,6 @@ export default {
       // Root or favicon → bounce to homepage
       if (!path || path === 'favicon.ico' || path === 'robots.txt') {
         return Response.redirect(env.SITE_ORIGIN || 'https://emonad.lol', 302);
-      }
-
-      // Transak session for EMO Wallet fund flow (CORS for emonad.lol / localhost)
-      if (path === 'transak-session') {
-        if (request.method === 'OPTIONS') {
-          return new Response(null, { status: 204, headers: corsHeaders(request) });
-        }
-        if (request.method !== 'GET' && request.method !== 'POST') {
-          return corsJson(request, { error: 'method not allowed' }, 405);
-        }
-        return await createTransakSession(request, url, env);
       }
 
       // Card endpoint
@@ -94,122 +53,6 @@ export default {
     }
   },
 };
-
-// ── Transak Create Widget URL (secrets only in Worker env) ───────────
-// Set via:
-//   npx wrangler secret put TRANSAK_API_KEY
-//   npx wrangler secret put TRANSAK_API_SECRET
-// Optional vars: TRANSAK_ENV=STAGING|PRODUCTION
-async function createTransakSession(request, url, env) {
-  const apiKey = env.TRANSAK_API_KEY;
-  const apiSecret = env.TRANSAK_API_SECRET;
-  if (!apiKey || !apiSecret) {
-    return corsJson(request, {
-      error: 'transak_not_configured',
-      message: 'Set TRANSAK_API_KEY and TRANSAK_API_SECRET worker secrets.',
-    }, 503);
-  }
-
-  const address = (url.searchParams.get('address') || '').trim();
-  if (!/^0x[0-9a-fA-F]{40}$/.test(address)) {
-    return corsJson(request, { error: 'invalid_address' }, 400);
-  }
-
-  // Default PRODUCTION for live keys; override with TRANSAK_ENV only if needed.
-  const isProd = String(env.TRANSAK_ENV || 'PRODUCTION').toUpperCase() === 'PRODUCTION';
-  const refreshBase = isProd
-    ? 'https://api.transak.com'
-    : 'https://api-stg.transak.com';
-  const sessionBase = isProd
-    ? 'https://api-gateway.transak.com'
-    : 'https://api-gateway-stg.transak.com';
-
-  const userIp =
-    request.headers.get('cf-connecting-ip') ||
-    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-    '0.0.0.0';
-
-  let products = (url.searchParams.get('products') || 'BUY').trim().toUpperCase();
-  if (!['BUY', 'SELL', 'BUY,SELL', 'SELL,BUY'].includes(products)) products = 'BUY';
-
-  let referrerDomain = (url.searchParams.get('referrerDomain') || url.searchParams.get('referrer') || 'emonad.lol').trim();
-  if (['127.0.0.1', '[::1]', '0.0.0.0'].includes(referrerDomain)) referrerDomain = 'localhost';
-  // Live site sessions must claim emonad.lol; never trust arbitrary referrer strings.
-  if (referrerDomain !== 'localhost' && referrerDomain !== 'emonad.lol') {
-    referrerDomain = 'emonad.lol';
-  }
-
-  try {
-    const accessToken = await getTransakAccessToken(refreshBase, apiKey, apiSecret);
-    const sessionRes = await fetch(`${sessionBase}/api/v2/auth/session`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'access-token': accessToken,
-        'x-api-key': apiKey,
-        'x-user-ip': userIp,
-      },
-      body: JSON.stringify({
-        widgetParams: {
-          apiKey,
-          referrerDomain,
-          walletAddress: address,
-          disableWalletAddressForm: true,
-          cryptoCurrencyCode: env.TRANSAK_CRYPTO || 'MON',
-          network: env.TRANSAK_NETWORK || 'monad',
-          productsAvailed: products,
-          themeColor: '9B5FFF',
-          colorMode: 'DARK',
-        },
-      }),
-    });
-
-    const sessionJson = await sessionRes.json().catch(() => ({}));
-    if (!sessionRes.ok) {
-      console.error('transak session error', sessionRes.status, sessionJson);
-      return corsJson(request, {
-        error: 'transak_session_failed',
-        status: sessionRes.status,
-        detail: sessionJson?.error || sessionJson?.message || null,
-      }, 502);
-    }
-
-    const widgetUrl = sessionJson?.data?.widgetUrl;
-    if (!widgetUrl) {
-      return corsJson(request, { error: 'missing_widget_url' }, 502);
-    }
-    return corsJson(request, { widgetUrl });
-  } catch (err) {
-    console.error('transak session threw', err);
-    return corsJson(request, { error: 'transak_exception', message: String(err?.message || err) }, 500);
-  }
-}
-
-async function getTransakAccessToken(refreshBase, apiKey, apiSecret) {
-  const now = Math.floor(Date.now() / 1000);
-  // Refresh 1 day early (token lives ~7 days)
-  if (transakAccess.token && transakAccess.expiresAt > now + 86400) {
-    return transakAccess.token;
-  }
-  const res = await fetch(`${refreshBase}/partners/api/v2/refresh-token`, {
-    method: 'POST',
-    headers: {
-      accept: 'application/json',
-      'content-type': 'application/json',
-      'api-secret': apiSecret,
-    },
-    body: JSON.stringify({ apiKey }),
-  });
-  const json = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    throw new Error('transak refresh failed: ' + (json?.message || res.status));
-  }
-  const token = json?.data?.accessToken;
-  const expiresAt = Number(json?.data?.expiresAt) || (now + 7 * 86400);
-  if (!token) throw new Error('transak refresh missing accessToken');
-  transakAccess = { token, expiresAt };
-  return token;
-}
 
 // ── Supabase REST helper ────────────────────────────────────────────
 async function fetchProfile(handle, env) {

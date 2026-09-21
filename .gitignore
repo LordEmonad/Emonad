@@ -61,7 +61,7 @@ snapshot.txt
 
 # Local-only review/tooling notes (keep out of the public repo)
 # fable.md = full-site security/perf review; a map of live weaknesses
-# scripts/transak_local_session.* = local dev proxy for the parked wallet
+# scripts/transak_local_session.* = local dev proxy for the dropped EMO Wallet
 #                                   Fund flow (API key / IP-allowlist notes)
 fable.md
 scripts/transak_local_session.py
