@@ -569,6 +569,21 @@
     .dl-go::after { content: '↓'; transition: transform .22s ease; }
     .dl-card:hover .dl-go::after { transform: translateY(3px); }
 
+    .csp-brush {
+      margin-top: 22px; padding: 22px 24px; border-radius: 14px;
+      background: var(--surface); border: 1px solid var(--surface-border);
+    }
+    .csp-brush h4 { font-size: 16px; font-weight: 800; margin: 0 0 8px; }
+    .csp-brush p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; margin: 0 0 14px; }
+    .csp-brush ol { margin: 0 0 14px; padding-left: 20px; display: grid; gap: 9px; }
+    .csp-brush li { font-size: 15px; color: var(--text-secondary); line-height: 1.55; }
+    .csp-brush strong { color: var(--text-color); }
+    .csp-brush code { background: var(--surface-2); padding: 1px 6px; border-radius: 5px; font-size: 13px; }
+    .csp-brush-note {
+      margin: 0 !important; padding: 12px 14px; border-radius: 10px;
+      background: var(--accent-glow); border: 1px solid var(--surface-border);
+    }
+
     /* ══════════ Rules ══════════ */
     .rules { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 22px; }
     @media (max-width: 720px) { .rules { grid-template-columns: 1fr; } }
@@ -834,7 +849,7 @@
   <section id="how" class="reveal">
     <div class="section-label">How to make a piece</div>
     <h2>Six simple steps.</h2>
-    <p class="lead">The kit is built for Procreate, but the template also opens in Photoshop. Draw each trait on its own layer over the fixed body base.</p>
+    <p class="lead">The kit is built for Procreate, but the template also opens in Photoshop and Clip Studio Paint. Draw each trait on its own layer over the fixed body base.</p>
 
     <div class="steps">
       <div class="step">
@@ -897,6 +912,8 @@
       <div class="palette-actions">
         <a href="emomaker-assets/EmonadCore.swatches" class="btn-pill" download>↓ Core .swatches</a>
         <a href="emomaker-assets/EmonadGear.swatches" class="btn-pill" download>↓ Gear .swatches</a>
+        <a href="emomaker-assets/EmonadCore.aco" class="btn-pill" download>↓ Core .aco</a>
+        <a href="emomaker-assets/EmonadGear.aco" class="btn-pill" download>↓ Gear .aco</a>
         <a href="emomaker-assets/emonads-palette.png" class="btn-pill" download>↓ PNG sheet</a>
       </div>
     </div>
@@ -971,6 +988,61 @@
           </div>
           <div class="dl-go">Download</div>
         </a>
+      </div>
+    </div>
+
+    <div class="dl-section">
+      <div class="dl-section-head">
+        <h3>Clip Studio Paint</h3>
+        <span class="count">cross-app</span>
+      </div>
+      <p class="lead">No Procreate? Clip Studio Paint opens the <code>.psd</code> template natively — every trait layer stays named — and imports the two <code>.aco</code> palettes straight into the Color Set palette. Same palette, same layer rules. For the brush, grab the tip below and dial in the exact Emonad Brush settings.</p>
+      <div class="dl-grid">
+        <a href="emomaker-assets/Emonad-NFT-Template.psd" download class="dl-card">
+          <div class="dl-preview" data-glyph=".psd"></div>
+          <div class="dl-info">
+            <div class="dl-title">NFT template <span class="ext">PSD</span></div>
+            <div class="dl-meta">opens in Clip Studio · layers named</div>
+          </div>
+          <div class="dl-go">Download</div>
+        </a>
+        <a href="emomaker-assets/EmonadCore.aco" download class="dl-card">
+          <div class="dl-preview" data-glyph=".aco"></div>
+          <div class="dl-info">
+            <div class="dl-title">Core palette <span class="ext">ACO</span></div>
+            <div class="dl-meta">Clip Studio / Photoshop swatches</div>
+          </div>
+          <div class="dl-go">Download</div>
+        </a>
+        <a href="emomaker-assets/EmonadGear.aco" download class="dl-card">
+          <div class="dl-preview" data-glyph=".aco"></div>
+          <div class="dl-info">
+            <div class="dl-title">Gear palette <span class="ext">ACO</span></div>
+            <div class="dl-meta">Clip Studio / Photoshop swatches</div>
+          </div>
+          <div class="dl-go">Download</div>
+        </a>
+        <a href="emomaker-assets/Emonad-Brush-tip.png" download class="dl-card">
+          <div class="dl-preview" data-glyph=".png"></div>
+          <div class="dl-info">
+            <div class="dl-title">Brush tip <span class="ext">PNG</span></div>
+            <div class="dl-meta">round inking tip · register in CSP</div>
+          </div>
+          <div class="dl-go">Download</div>
+        </a>
+      </div>
+
+      <div class="csp-brush">
+        <h4>Build the Emonad Brush in Clip Studio</h4>
+        <p>Procreate brushes can't be loaded into CSP — different engine, and the original tip lives inside the Procreate app. But the Emonad Brush is a clean round inker, so it rebuilds in a minute and lands on the same line. Register the tip, then match these settings (decoded straight from the <code>.brush</code> file):</p>
+        <ol>
+          <li><strong>Register the tip:</strong> drag <code>Emonad-Brush-tip.png</code> into CSP → <em>Edit ▸ Register Material ▸ Image</em>, tick <em>Use for brush tip shape</em>.</li>
+          <li><strong>New brush:</strong> duplicate the <em>G-pen</em> (or any pen), open <em>Sub Tool Detail</em>, and under <em>Brush tip</em> swap the tip for the one you just registered.</li>
+          <li><strong>Brush shape:</strong> Hardness ~95%, Anti-aliasing <em>on</em>, no texture/paper, blending <em>Normal</em>.</li>
+          <li><strong>Ink / spacing:</strong> Gap <em>narrow</em> (~5%), Density 100%, Continuous spray <em>off</em>.</li>
+          <li><strong>Pressure:</strong> near-uniform line — set Brush Size min ~90–100% (light or no size-by-pressure), Opacity not pressure-driven. Add Stabilization to taste.</li>
+        </ol>
+        <p class="csp-brush-note">Then <em>Sub Tool menu ▸ Register to material</em> and export the <code>.sut</code> — that single file is the <strong>identical</strong> brush for every Clip Studio Emo Nad. Send it over and it goes in the kit.</p>
       </div>
     </div>
 
@@ -1097,7 +1169,7 @@
     <div class="faq">
       <details>
         <summary>What tool should I use? <span class="plus">+</span></summary>
-        <p>Procreate. The kit (template, palettes, and the Emonad Brush) is built for it. The <code>.psd</code> template also opens in Photoshop if that's your thing, and the Emonad Brush is the only brush to use.</p>
+        <p>Procreate. The kit (template, palettes, and the Emonad Brush) is built for it. The <code>.psd</code> template also opens in Photoshop and Clip Studio Paint — Clip Studio users grab the PSD, import the two <code>.aco</code> palettes into the Color Set palette, and use the G-pen for outlines. Whatever you draw in, stick to the palette and the clean-line look.</p>
       </details>
       <details>
         <summary>Can I submit multiple pieces? <span class="plus">+</span></summary>
