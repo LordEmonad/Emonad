@@ -10,6 +10,11 @@ Renders at 2x and downsamples (LANCZOS) for crisp edges + glows.
 Output: og-image.jpg (site-wide card: index/emo/profile/memes).
 
     python3 scripts/make-og-home.py
+
+SUPERSEDED 2026-09-21: no page points at og-image.jpg any more — they all use
+og-emoverse.jpg, built from scripts/og-card.html (rendered in a headless
+browser so it uses the site's own font and art). og-image.jpg is kept only so
+links shared before the swap keep resolving. Edit og-card.html, not this.
 """
 import os
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
