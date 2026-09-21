@@ -607,6 +607,7 @@
     .game-art-tarot { background: radial-gradient(circle at 50% 40%, rgba(232,200,122,0.25), rgba(20,12,36,0.9) 70%); }
     .game-art-tarot img { width: 34px; height: auto; border-radius: 4px; transform: rotate(-8deg); box-shadow: 0 6px 14px rgba(0,0,0,0.55); }
     .game-card:hover .game-art { transform: scale(1.06) rotate(-2deg); }
+    .game-card.featured:hover .game-art { transform: none; }
     .game-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
     .game-name { font-size: 14px; font-weight: 700; letter-spacing: -0.01em; white-space: nowrap; }
     .game-sub { font-size: 11.5px; color: var(--text-secondary); font-weight: 500; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -675,12 +676,26 @@
       48%  { transform: translateX(480%) rotate(14deg); }
       100% { transform: translateX(480%) rotate(14deg); }
     }
+    /* Both pets, stacked like an avatar pile — the frok sits in front
+       because the free mint is the ask. */
+    .game-duo { display: flex; align-items: center; flex-shrink: 0; }
     .game-art-pet {
-      width: 70px; height: 70px; border-radius: 18px;
+      width: 68px; height: 68px; border-radius: 18px;
       background: radial-gradient(circle at 50% 34%, rgba(176,128,255,0.45), rgba(26,15,48,0.96) 72%);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12), 0 0 22px rgba(155, 95, 255, 0.30);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,0.12),
+        0 0 0 2px rgba(10, 8, 16, 0.9),
+        0 0 22px rgba(155, 95, 255, 0.30);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), margin 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .game-art-pet img { animation: petBob 3.8s ease-in-out infinite; }
+    [data-theme="light"] .game-art-pet { box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06), 0 0 0 2px rgba(255,255,255,0.95), 0 0 22px rgba(123, 63, 228, 0.18); }
+    .game-art-cat  { transform: rotate(-4deg); }
+    .game-art-frok { margin-left: -22px; transform: rotate(4deg); z-index: 1; }
+    .game-art-frok { background: radial-gradient(circle at 50% 34%, rgba(126,200,96,0.32), rgba(26,15,48,0.96) 72%); }
+    .game-card.featured:hover .game-art-cat  { transform: rotate(-7deg) scale(1.05); }
+    .game-card.featured:hover .game-art-frok { margin-left: -14px; transform: rotate(7deg) scale(1.05); }
+    .game-art-cat img  { animation: petBob 3.8s ease-in-out infinite; }
+    .game-art-frok img { animation: petBob 3.8s ease-in-out -1.9s infinite; }
     @keyframes petBob {
       0%, 100% { transform: translateY(0) scale(1.08); }
       50%      { transform: translateY(-4px) scale(1.08); }
@@ -729,6 +744,8 @@
       .game-card.featured::after,
       .game-art-pet img,
       .game-new { animation: none; }
+      .game-card.featured:hover .game-art-cat,
+      .game-card.featured:hover .game-art-frok { transform: none; }
       .game-card.featured::after { opacity: 0; }
     }
 
@@ -1535,11 +1552,16 @@
       .games { grid-template-columns: 1fr; gap: 8px; }
       .game-card { min-height: 72px; padding: 10px 12px; border-radius: 18px; }
       .game-art { width: 50px; height: 50px; border-radius: 12px; }
-      .game-card.featured { min-height: 84px; padding: 12px 14px; gap: 12px; }
-      .game-go { display: none; }
-      .game-art-pet { width: 58px; height: 58px; border-radius: 15px; }
+      .game-card.featured { min-height: 84px; padding: 12px 14px 14px; gap: 12px; flex-wrap: wrap; }
+      .game-art-pet { width: 56px; height: 56px; border-radius: 15px; }
+      .game-art-frok { margin-left: -18px; }
       .game-card.featured .game-name { font-size: 15px; }
+      .game-card.featured .game-sub { white-space: normal; font-size: 12px; line-height: 1.35; }
+      /* keep the wrapped subtitle clear of the NEW badge */
+      .game-card.featured .game-text { flex: 1 1 100px; min-width: 0; padding-right: 48px; }
       .game-note { display: none; }
+      /* The free mint is the whole point — on a phone it gets its own row. */
+      .game-go { width: 100%; margin-left: 0; margin-top: 4px; justify-content: center; }
       .button-section {
         grid-template-columns: 1fr;
         padding: 10px 2px 8px;
@@ -1738,14 +1760,17 @@
     <p class="subtitle" id="subtitle" style="opacity:0">i lost it all on day 1</p>
 
     <div class="games animate-in" style="animation-delay:0.18s" aria-label="Games">
-      <a href="https://emogotchi.emonad.lol/" target="_blank" rel="noopener noreferrer" class="game-card featured">
-        <span class="game-art game-art-pet"><img src="img/emogotchi.webp" alt="" width="320" height="320" loading="lazy"></span>
+      <a href="https://emogotchi.emonad.lol/mint/" target="_blank" rel="noopener noreferrer" class="game-card featured">
+        <span class="game-duo">
+          <span class="game-art game-art-pet game-art-cat"><img src="img/emogotchi.webp" alt="" width="320" height="320" loading="lazy"></span>
+          <span class="game-art game-art-pet game-art-frok"><img src="img/frok.webp" alt="" width="320" height="320" loading="lazy"></span>
+        </span>
         <span class="game-text">
           <span class="game-name">Emogotchi <span class="game-ext" aria-hidden="true">&#8599;</span></span>
-          <span class="game-sub">A cat that lives in your wallet</span>
-          <span class="game-note">feed it &middot; wash it &middot; play with it &mdash; every interaction burns <b>$EMO</b></span>
+          <span class="game-sub">A cat and a frok that live in your wallet</span>
+          <span class="game-note"><b>free</b> to mint &middot; one per wallet &middot; every action on chain</span>
         </span>
-        <span class="game-go">Adopt a cat <span aria-hidden="true">&rarr;</span></span>
+        <span class="game-go">Adopt a frok &mdash; free <span aria-hidden="true">&rarr;</span></span>
         <span class="game-new">NEW</span>
       </a>
       <a href="emo-crush/index.html" class="game-card" data-game="emocrush">
