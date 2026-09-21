@@ -58,3 +58,11 @@ snapshot.txt
 # Backup/copy files
 *- Copy.*
 * - Copy.*
+
+# Local-only review/tooling notes (keep out of the public repo)
+# fable.md = full-site security/perf review; a map of live weaknesses
+# scripts/transak_local_session.* = local dev proxy for the parked wallet
+#                                   Fund flow (API key / IP-allowlist notes)
+fable.md
+scripts/transak_local_session.py
+scripts/transak_local_session.ps1

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Not found — Emonad</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <script>
+    try {
+      var t = localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="/css/emo-skin.css">
+  <style>
+    @font-face {
+      font-family: 'Space Grotesk';
+      font-style: normal;
+      font-weight: 500 800;
+      font-display: swap;
+      src: url(/fonts/SpaceGrotesk-latin.woff2) format('woff2');
+    }
+    :root {
+      --bg-color: #ffffff; --text-color: #1a1a1a; --text-secondary: #666666; --text-muted: #9a94a8;
+      --accent: #7B3FE4; --accent-hover: #6930c3; --accent-glow: rgba(123, 63, 228, 0.25);
+      --surface: #f5f3ff; --surface-border: #e4d8f8;
+    }
+    [data-theme="dark"] {
+      --bg-color: #08070b; --text-color: #ffffff; --text-secondary: #9a94a8; --text-muted: #9a94a8;
+      --accent: #9B5FFF; --accent-hover: #b080ff; --accent-glow: rgba(155, 95, 255, 0.3);
+      --surface: rgba(255, 255, 255, 0.06); --surface-border: rgba(255, 255, 255, 0.1);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      color: var(--text-color);
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 24px;
+    }
+    .card {
+      width: 100%; max-width: 440px;
+      padding: 36px 28px 30px;
+      border-radius: 26px;
+      background: rgba(12, 10, 18, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(28px) saturate(170%);
+      -webkit-backdrop-filter: blur(28px) saturate(170%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 18px 50px rgba(0,0,0,0.28);
+      animation: rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    [data-theme="light"] .card {
+      background: rgba(255, 255, 255, 0.62); border-color: rgba(0,0,0,0.06);
+      box-shadow: 0 12px 36px rgba(80,40,140,0.08), inset 0 1px 0 rgba(255,255,255,0.9);
+    }
+    @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    .card img {
+      width: 150px; height: 150px; object-fit: contain; margin: 0 auto 6px; display: block;
+      filter: drop-shadow(0 10px 20px rgba(155, 95, 255, 0.35));
+      animation: sink 4s ease-in-out infinite;
+    }
+    @keyframes sink { 0%, 100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(8px) rotate(2deg); } }
+    .code { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); }
+    h1 { font-size: clamp(1.85rem, 4vw, 2.35rem); font-weight: 800; letter-spacing: -0.045em; margin: 4px 0 6px; }
+    p { color: var(--text-secondary); font-weight: 500; margin-bottom: 22px; }
+    .row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(155, 95, 255, 0.95) 0%, rgba(123, 63, 228, 0.95) 100%);
+      color: #fff; border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 11px 28px; border-radius: 999px; font-weight: 700; font-size: 15px; text-decoration: none;
+      box-shadow: 0 6px 22px rgba(155, 95, 255, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(155, 95, 255, 0.45); }
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.055); border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-color); padding: 11px 22px; border-radius: 999px; font-weight: 600; font-size: 14px; text-decoration: none;
+      transition: all 0.25s ease;
+    }
+    .btn-outline:hover { background: rgba(155, 95, 255, 0.16); border-color: rgba(176, 128, 255, 0.5); }
+    [data-theme="light"] .btn-outline { background: rgba(255,255,255,0.55); border-color: rgba(0,0,0,0.06); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="/flapemonad/die1.PNG" alt="" width="150" height="150">
+    <div class="code">404</div>
+    <h1 class="page-title">This page left.</h1>
+    <p>it lost it all on day 1.</p>
+    <div class="row">
+      <a class="btn-primary" href="/">Go home</a>
+      <a class="btn-outline" href="/memes.html">Look at memes instead</a>
+    </div>
+  </div>
+</body>
+</html>
