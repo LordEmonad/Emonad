@@ -9,7 +9,7 @@
        treat /tarot as a file and resolve relative paths against / (root). -->
   <base href="/tarot/">
   <title>Emo Tarot — Free Online Tarot Reading | Emonad</title>
-  <meta name="description" content="Free online emo tarot reading. Pull all 22 Major Arcana cards in three spreads — past/present/future, single card, or 10-card depth — themed for the emo aesthetic. Built by Emonad on Monad.">
+  <meta name="description" content="Free online emo tarot reading. Pull all 22 Major Arcana cards in four spreads — past/present/future, single card, or 10-card depth — themed for the emo aesthetic. Built by Emonad on Monad.">
   <meta name="keywords" content="emo tarot, tarot reading, free tarot, online tarot, alternative tarot, gothic tarot, dark tarot, major arcana, monad tarot">
   <meta name="robots" content="index, follow, max-image-preview:large">
 
@@ -1552,7 +1552,15 @@
       .card, .card-inner, #stars, .placeholder .ph-glyph,
       .fog, .intro-title { animation: none !important; transition: none !important; }
     }
-  </style>
+  
+/* ── One focus ring for the whole site (keyboard only) ── */
+:where(a, button, [role="button"], input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent, #9B5FFF);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+:where(a, button, input, select, textarea, [tabindex]):focus:not(:focus-visible) { outline: none; }
+</style>
 </head>
 <body>
 
@@ -1988,13 +1996,14 @@
     // ─────────────────────────────────────────────────────────
     const themeToggle = document.getElementById('themeToggle');
     const root = document.documentElement;
-    const savedTheme = localStorage.getItem('emo:theme');
+    let savedTheme = null;
+    try { savedTheme = localStorage.getItem('theme') || localStorage.getItem('emo:theme'); } catch (e) {}
     if (savedTheme === 'light' || savedTheme === 'dark') root.setAttribute('data-theme', savedTheme);
     themeToggle.addEventListener('click', () => {
       root.classList.add('theme-transition');
       const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       root.setAttribute('data-theme', next);
-      localStorage.setItem('emo:theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
       setTimeout(() => root.classList.remove('theme-transition'), 350);
     });
 
@@ -2558,11 +2567,12 @@
         lab.style.top = (py + ch / 2 + 8) + 'px';
         lab.style.width = (cw + 30) + 'px';
         stageTable.appendChild(lab);
-        setTimeout(() => lab.classList.add('visible'), 260 * i + 1100);
+        setTimeout(() => lab.classList.add('visible'), 420 * i + 1150);
       });
-      // flip with stagger
+      // flip with stagger — one card at a time, a beat between each so the
+      // reveal feels like a reading rather than a shuffle
       for (let i = 0; i < sortedPicks.length; i++) {
-        await sleep(220);
+        await sleep(i === 0 ? 260 : 420);
         sortedPicks[i].classList.add('flipped');
       }
       // After reveal, make cards tappable to open the zoom viewer.

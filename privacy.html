@@ -3,8 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Privacy Policy — Emo Meme Picker</title>
-  <meta name="description" content="Privacy policy for the Emo Meme Picker browser extension." />
+  <title>Privacy Policy — Emonad</title>
+  <meta name="description" content="Privacy policy for emonad.lol and the Emo Meme Picker browser extension." />
+  <link rel="canonical" href="https://emonad.lol/privacy.html">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <style>
     :root {
       --bg: #0a0613;
@@ -76,6 +78,10 @@
       letter-spacing: 0.5px;
     }
     main { display: flex; flex-direction: column; gap: 28px; }
+    .part {
+      font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--accent-2); margin: 12px 0 -10px;
+    }
     section {
       background: rgba(22, 16, 42, 0.6);
       border: 1px solid var(--border);
@@ -128,10 +134,30 @@
         <span>Emonad</span>
       </a>
       <h1>Privacy Policy</h1>
-      <div class="effective">Emo Meme Picker · Effective May 2, 2026</div>
+      <div class="effective">emonad.lol &amp; the Emo Meme Picker extension · Updated September 6, 2026</div>
     </header>
 
     <main>
+      <div class="part">The website</div>
+      <section>
+        <h2>What emonad.lol stores</h2>
+        <p>Most of the site works with no account and stores nothing about you beyond your browser's own cache. Logging in with X is optional and only powers the XP system.</p>
+        <p>If you log in, authentication is handled by <strong>Clerk</strong>. We then store your X numeric user ID, handle, display name and avatar URL, plus your XP events (clicks, daily game plays, referrals) and game records in a <strong>Supabase</strong> database, so your profile and the leaderboard can show them. Public profile pages and the leaderboard display your handle, display name, avatar and XP.</p>
+      </section>
+      <section>
+        <h2>On your device</h2>
+        <p>Your theme preference, game progress (Emo Crush levels, Flap Emonad best score and settings), your last tarot reading and any pending referral code are kept in your browser's local storage. Clearing site data removes them.</p>
+      </section>
+      <section>
+        <h2>Third parties</h2>
+        <p>We use Google Analytics for aggregate visit counts. Token prices come from DEXScreener, avatars may be fetched from unavatar.io, and share previews are rendered by a Cloudflare Worker on i.emonad.lol. Each of those services sees the requests your browser makes to them, under their own policies.</p>
+      </section>
+      <section>
+        <h2>Deleting your data</h2>
+        <p>Message <a href="https://x.com/EmonadCoin" target="_blank" rel="noopener noreferrer">@EmonadCoin</a> or email <a href="mailto:emonad@emonad.lol">emonad@emonad.lol</a> from the account in question and we'll remove your profile and XP records.</p>
+      </section>
+
+      <div class="part">Emo Meme Picker extension · effective May 2, 2026</div>
       <section>
         <h2>What we collect</h2>
         <p><strong>Nothing.</strong> The Emo Meme Picker browser extension does not collect, store, log, or transmit any personal information. There is no analytics, telemetry, fingerprinting, or tracking of any kind.</p>
