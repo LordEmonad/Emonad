@@ -1,5 +1,7 @@
-// emonad.lol — community page
-// Two viz: bubble map of every user (Galaxy) + global XP leaderboard.
+// emonad.lol — leaderboard page
+// Podium + ranked list (XP / Emo Crush / Flap / Tarot), your-rank card with
+// progress + rank change since your last visit, handle search, and the
+// bubble map of every user (Galaxy).
 
 import EmoProfile from './emo-profile.js';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
@@ -31,6 +33,9 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON, {
 const XP_PER_LEVEL = 60;
 const MAX_LEVEL    = 70;
 const POLL_MS      = 60_000;
+const PAGE_SIZE    = 100;
+const SEEN_KEY     = 'emo:lbSeen';
+const SEEN_WINDOW  = 6 * 60 * 60 * 1000; // a "visit" is anything within 6h
 
 // ─── Utilities ────────────────────────────────────────────────────────
 function escapeHtml(s) {
@@ -52,17 +57,30 @@ function levelFromXp(xp) {
   if (xp >= cap) return MAX_LEVEL;
   return Math.floor(xp / XP_PER_LEVEL) + 1;
 }
+function levelInfo(totalXp) {
+  const xp = Math.max(0, totalXp || 0);
+  const xpCap = MAX_LEVEL * XP_PER_LEVEL;
+  const maxed = xp >= xpCap;
+  const level = maxed ? MAX_LEVEL : Math.floor(xp / XP_PER_LEVEL) + 1;
+  const intoLevel = maxed ? XP_PER_LEVEL : (xp % XP_PER_LEVEL);
+  const xpToNext = maxed ? 0 : (XP_PER_LEVEL - intoLevel);
+  const progress = maxed ? 1 : (intoLevel / XP_PER_LEVEL);
+  return { xp, level, maxed, intoLevel, xpToNext, progress };
+}
 function fmtNum(n) {
   if (n == null || isNaN(n)) return '—';
   if (n >= 100000) return (n / 1000).toFixed(0) + 'K';
   if (n >= 10000)  return (n / 1000).toFixed(1) + 'K';
   return String(n);
 }
+function fmtFull(n) { return (Number(n) || 0).toLocaleString('en-US'); }
+function handleOf(p) { return (p?.x_handle || '').replace(/^@/, '').trim(); }
+function nameOf(p) { return p?.display_name || handleOf(p) || '—'; }
 
 // High-res chain (galaxy bubbles): unavatar size=1000 first.
 function avatarCandidates(profile) {
   const out = [];
-  const handle = (profile?.x_handle || '').replace(/^@/, '').trim();
+  const handle = handleOf(profile);
   if (handle) {
     out.push(`https://unavatar.io/twitter/${encodeURIComponent(handle)}?size=1000`);
     out.push(`https://unavatar.io/x/${encodeURIComponent(handle)}?size=1000`);
@@ -81,19 +99,52 @@ function avatarCandidates(profile) {
   return out.map(safeHttpsUrl).filter(Boolean);
 }
 
-// Small-and-fast for the leaderboard rows (40px). Uses the Clerk-proxied URL
+// Small-and-fast for rows / podium / me-card. Uses the Clerk-proxied URL
 // already in our DB result FIRST — avoids hammering unavatar.io for every
-// leaderboard row when the galaxy is also loading from it at the same time.
-function leaderboardAvatarSrc(profile) {
+// row when the galaxy is also loading from it at the same time.
+function leaderboardAvatarSrc(profile, size = 160) {
   const u = profile?.avatar_url;
   if (u) {
-    if (u.includes('img.clerk.com')) return u + (u.includes('?') ? '&' : '?') + 'width=160';
+    if (u.includes('img.clerk.com')) return u + (u.includes('?') ? '&' : '?') + 'width=' + size;
     if (u.includes('pbs.twimg.com')) return u.replace(/_(normal|bigger|mini)\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i, '_200x200.$2$3');
     return u;
   }
-  const handle = (profile?.x_handle || '').replace(/^@/, '').trim();
+  const handle = handleOf(profile);
   if (handle) return `https://unavatar.io/twitter/${encodeURIComponent(handle)}`;
   return '';
+}
+
+// <img> with fallback chain → letter placeholder. `cls` is the element class.
+function avatarEl(p, cls, size = 160) {
+  const handle = handleOf(p);
+  const primary = safeHttpsUrl(leaderboardAvatarSrc(p, size));
+  const fallback = handle ? safeHttpsUrl('https://unavatar.io/twitter/' + encodeURIComponent(handle)) : '';
+  const initial = (handle || nameOf(p) || '?').charAt(0).toUpperCase();
+  const placeholder = () => {
+    const el = document.createElement('span');
+    el.className = cls + ' placeholder';
+    el.textContent = initial;
+    return el;
+  };
+  if (!primary && !fallback) return placeholder();
+  const img = document.createElement('img');
+  img.className = cls;
+  img.alt = '';
+  img.referrerPolicy = 'no-referrer';
+  img.decoding = 'async';
+  img.loading = 'lazy';
+  let triedFallback = !primary;
+  img.src = primary || fallback;
+  img.addEventListener('error', function () {
+    if (!triedFallback && fallback) { triedFallback = true; img.src = fallback; return; }
+    img.replaceWith(placeholder());
+  });
+  return img;
+}
+function setAvatarInto(host, p, size) {
+  const el = avatarEl(p, host.className.split(' ')[0], size);
+  host.replaceWith(el);
+  return el;
 }
 
 // ─── Auth identity ────────────────────────────────────────────────────
@@ -108,9 +159,12 @@ function pickXUserIdFromUser(user) {
 function refreshMeId() {
   let id = null;
   try { id = pickXUserIdFromUser(EmoProfile.getUser?.()); } catch {}
-  if (id !== meXUserId) {
+  const loggedIn = !!EmoProfile.isLoggedIn?.();
+  if (id !== meXUserId || loggedIn !== state.loggedIn) {
     meXUserId = id;
-    try { renderLeaderboard(); } catch {}
+    state.loggedIn = loggedIn;
+    try { renderBoard(); } catch {}
+    try { renderMe(); } catch {}
     try { if (galaxy.canvas) drawGalaxy(); } catch {}
   }
 }
@@ -119,6 +173,15 @@ function refreshMeId() {
 const state = {
   profiles: [],
   profileById: new Map(),
+  loggedIn: false,
+  authKnown: false,       // Clerk has answered (so we know whether to show the sign-in nudge)
+  tab: 'xp',
+  query: '',
+  showAll: false,
+  boards: {},             // tab -> [{ p, value, sub }] (game tabs cached after first fetch)
+  boardErr: {},           // tab -> error message
+  prevRanks: null,        // Map x_user_id -> { rank, xp } from your last visit (XP board)
+  ranked: [],             // XP ranking (profiles sorted by total_xp)
 };
 
 // ─── Data fetches ─────────────────────────────────────────────────────
@@ -126,6 +189,8 @@ function applyProfiles(rows) {
   state.profiles = rows || [];
   state.profileById.clear();
   for (const p of state.profiles) state.profileById.set(p.x_user_id, p);
+  state.ranked = state.profiles.slice().sort((a, b) => (b.total_xp || 0) - (a.total_xp || 0));
+  state.boards.xp = state.ranked.map(p => ({ p, value: p.total_xp || 0 }));
   return state.profiles;
 }
 
@@ -146,6 +211,59 @@ async function fetchSnapshotProfiles() {
   return applyProfiles(snap.profiles || []);
 }
 
+// Per-game boards come from the public game-record tables, joined to the
+// profiles we already have. Fetched once, on first tab open.
+const BOARDS = {
+  xp: {
+    title: 'Top emos', unit: 'XP', foot: 'Ranks refresh every minute',
+    stat: r => fmtNum(r.value),
+    sub: r => { const lv = levelFromXp(r.value); return lv === MAX_LEVEL ? { text: 'MAX', max: true } : { text: 'Lv ' + lv }; },
+  },
+  emocrush: {
+    title: 'Emo Crush', unit: 'best score', foot: 'Best single-game score',
+    table: 'emocrush_records', select: 'x_user_id, best_score, best_level, games_played', order: 'best_score',
+    map: r => ({ value: Number(r.best_score) || 0, extra: 'Lv ' + (Number(r.best_level) || 0) }),
+    stat: r => fmtNum(r.value),
+    sub: r => ({ text: r.extra }),
+  },
+  flap: {
+    title: 'Flap Emonad', unit: 'high score', foot: 'Pipes cleared in one run',
+    table: 'flapemonad_records', select: 'x_user_id, high_score, games_played', order: 'high_score',
+    map: r => ({ value: Number(r.high_score) || 0, extra: (Number(r.games_played) || 0) + ' runs' }),
+    stat: r => fmtNum(r.value),
+    sub: r => ({ text: r.extra }),
+  },
+  tarot: {
+    title: 'Emo Tarot', unit: 'readings', foot: 'Readings pulled all-time',
+    table: 'tarot_records', select: 'x_user_id, readings_count, last_spread', order: 'readings_count',
+    map: r => ({ value: Number(r.readings_count) || 0, extra: r.last_spread ? String(r.last_spread).replace(/[-_]/g, ' ') : '' }),
+    stat: r => fmtNum(r.value),
+    sub: r => ({ text: r.extra || 'reader' }),
+  },
+};
+
+async function fetchBoard(tab) {
+  const cfg = BOARDS[tab];
+  if (!cfg.table || state.boards[tab]) return state.boards[tab];
+  const { data, error } = await supabase
+    .from(cfg.table)
+    .select(cfg.select)
+    .order(cfg.order, { ascending: false })
+    .limit(500);
+  if (error) throw error;
+  const rows = [];
+  for (const r of data || []) {
+    const p = state.profileById.get(r.x_user_id);
+    if (!p) continue;
+    const m = cfg.map(r);
+    if (m.value <= 0) continue;
+    rows.push({ p, ...m });
+  }
+  rows.sort((a, b) => b.value - a.value);
+  state.boards[tab] = rows;
+  return rows;
+}
+
 function outageMessage(err) {
   const raw = String(err?.message || err?.name || err || '');
   const status = err?.status || err?.code || '';
@@ -156,30 +274,192 @@ function outageMessage(err) {
   return raw || 'Could not load profiles.';
 }
 
-// ─── Leaderboard ──────────────────────────────────────────────────────
-function renderLeaderboard() {
-  const root = document.getElementById('leaderboard');
-  const meta = document.getElementById('lbMeta');
-  if (!state.profiles.length) {
-    const empty = document.createElement('div');
-    empty.className = 'error-state';
-    empty.textContent = 'No profiles yet.';
-    root.replaceChildren(empty);
-    meta.textContent = '—';
+// ─── "Since your last visit" ──────────────────────────────────────────
+// We remember every user's XP rank in localStorage. On a later visit (>6h)
+// the list shows ▲/▼ rank changes and +XP gained. Per-browser, honest, and
+// needs no extra tables.
+function loadSeen() {
+  try { return JSON.parse(localStorage.getItem(SEEN_KEY) || 'null'); } catch { return null; }
+}
+function rememberRanks() {
+  if (!state.ranked.length) return;
+  const now = Date.now();
+  const current = {};
+  state.ranked.forEach((p, i) => { current[p.x_user_id] = [i + 1, p.total_xp || 0]; });
+  const stored = loadSeen();
+  let base = current, baseAt = now, prev = null;
+  if (stored && stored.base && stored.baseAt) {
+    if (now - stored.baseAt > SEEN_WINDOW) {
+      prev = stored.base;                 // new visit → compare against the last one
+    } else {
+      base = stored.base; baseAt = stored.baseAt; prev = stored.prev || null;  // same visit → keep deltas stable
+    }
+  }
+  state.prevRanks = prev ? new Map(Object.entries(prev).map(([id, [rank, xp]]) => [id, { rank, xp }])) : null;
+  try { localStorage.setItem(SEEN_KEY, JSON.stringify({ base, baseAt, prev })); } catch {}
+}
+function deltaFor(id, rank, xp) {
+  if (!state.prevRanks) return null;
+  const was = state.prevRanks.get(id);
+  if (!was) return { kind: 'new' };
+  return { kind: was.rank === rank ? 'flat' : (rank < was.rank ? 'up' : 'down'), by: Math.abs(was.rank - rank), gain: Math.max(0, xp - was.xp) };
+}
+function deltaEl(d) {
+  if (!d || d.kind === 'flat') return null;   // only movers get a marker; flat rows stay clean
+  const el = document.createElement('span');
+  el.className = 'delta ' + d.kind;
+  el.textContent = d.kind === 'new' ? 'NEW' : d.kind === 'flat' ? '–' : (d.kind === 'up' ? '▲' : '▼') + d.by;
+  el.title = d.kind === 'new' ? 'Joined since your last visit' : d.kind === 'flat' ? 'Same rank as your last visit' : (d.kind === 'up' ? 'Up ' : 'Down ') + d.by + ' since your last visit';
+  return el;
+}
+
+// ─── Stats strip ──────────────────────────────────────────────────────
+function renderStats() {
+  const ps = state.profiles;
+  const total = ps.reduce((s, p) => s + (p.total_xp || 0), 0);
+  const maxed = ps.filter(p => (p.total_xp || 0) >= XP_PER_LEVEL * MAX_LEVEL).length;
+  const weekAgo = Date.now() - 7 * 24 * 3600 * 1000;
+  const fresh = ps.filter(p => p.created_at && new Date(p.created_at).getTime() > weekAgo).length;
+  document.getElementById('statUsers').textContent = fmtFull(ps.length);
+  document.getElementById('statXp').textContent = fmtNum(total);
+  document.getElementById('statMax').textContent = fmtFull(maxed);
+  document.getElementById('statNew').textContent = fmtFull(fresh);
+}
+
+// ─── Your rank card ───────────────────────────────────────────────────
+function renderMe() {
+  const card = document.getElementById('meCard');
+  const cta = document.getElementById('meCta');
+  if (!state.authKnown || !state.ranked.length) { card.hidden = true; cta.hidden = true; return; }
+  if (!meXUserId) { card.hidden = true; cta.hidden = false; return; }
+  const idx = state.ranked.findIndex(p => p.x_user_id === meXUserId);
+  if (idx < 0) {
+    // Signed in but no profile row yet (first sync still running) — show the nudge copy without the button.
+    card.hidden = true; cta.hidden = false;
+    cta.querySelector('.me-body').innerHTML = '<b>No XP yet</b>Earn some on the homepage or in a game and you\'ll show up here.';
+    cta.querySelector('.me-actions').hidden = true;
     return;
   }
-  const ranked = state.profiles.slice().sort((a, b) => (b.total_xp || 0) - (a.total_xp || 0));
-  const N = ranked.length;
-  meta.textContent = `${N} user${N === 1 ? '' : 's'} · by XP`;
+  cta.hidden = true; card.hidden = false;
+  const me = state.ranked[idx];
+  const rank = idx + 1;
+  const li = levelInfo(me.total_xp || 0);
+  const handle = handleOf(me);
 
+  const avHost = document.getElementById('meAvatar') || card.querySelector('.me-avatar');
+  const av = setAvatarInto(avHost, me, 200);
+  av.id = 'meAvatar';
+
+  document.getElementById('meRank').textContent = '#' + rank;
+  document.getElementById('meName').textContent = nameOf(me);
+  document.getElementById('meHandle').textContent = handle ? '@' + handle : '';
+
+  const d = deltaFor(me.x_user_id, rank, me.total_xp || 0);
+  const dEl = document.getElementById('meDelta');
+  if (d && d.kind !== 'new') {
+    dEl.className = 'me-delta ' + d.kind;
+    dEl.textContent = (d.kind === 'up' ? '▲' + d.by : d.kind === 'down' ? '▼' + d.by : 'no change') + (d.gain ? ' · +' + d.gain + ' XP' : '') + ' since your last visit';
+  } else {
+    dEl.className = 'me-delta flat'; dEl.textContent = '';
+  }
+
+  requestAnimationFrame(() => { document.getElementById('meBar').style.width = Math.round(li.progress * 100) + '%'; });
+
+  const sub = document.getElementById('meSub');
+  const parts = [];
+  parts.push(`<span class="lvl${li.maxed ? ' max' : ''}">${li.maxed ? 'MAX LEVEL' : 'Lv ' + li.level}</span>`);
+  parts.push(`<span><b>${fmtFull(li.xp)}</b> XP</span>`);
+  if (!li.maxed) parts.push(`<span><b>${li.xpToNext}</b> XP to Lv ${li.level + 1}</span>`);
+  if (idx > 0) {
+    const ahead = state.ranked[idx - 1];
+    const gap = (ahead.total_xp || 0) - (me.total_xp || 0) + 1;
+    parts.push(`<span><b>${fmtFull(gap)}</b> XP to pass @${escapeHtml(handleOf(ahead) || nameOf(ahead))}</span>`);
+  } else {
+    parts.push('<span><b>#1</b> · nobody above you</span>');
+  }
+  parts.push(`<span>top <b>${Math.max(1, Math.ceil(rank / state.ranked.length * 100))}%</b></span>`);
+  sub.innerHTML = parts.join('');
+
+  const profileUrl = 'https://emonad.lol/profile.html?handle=' + encodeURIComponent(handle);
+  document.getElementById('meProfile').href = handle ? 'profile.html?handle=' + encodeURIComponent(handle) : '#';
+  const text = `I'm #${rank} of ${state.ranked.length} on the @EmonadCoin leaderboard · ${li.maxed ? 'MAX LEVEL' : 'Lv ' + li.level} · ${fmtFull(li.xp)} XP\n\n${profileUrl}`;
+  document.getElementById('meShare').href = 'https://x.com/intent/post?text=' + encodeURIComponent(text);
+}
+
+// ─── Podium + list ────────────────────────────────────────────────────
+function currentRows() {
+  const rows = state.boards[state.tab] || [];
+  const q = state.query.trim().toLowerCase().replace(/^@/, '');
+  if (!q) return rows;
+  return rows.filter(r => handleOf(r.p).toLowerCase().includes(q) || nameOf(r.p).toLowerCase().includes(q));
+}
+
+function podiumEl(r, place, cfg) {
+  const p = r.p;
+  const handle = handleOf(p);
+  const a = document.createElement('a');
+  a.className = 'pod p' + place + (meXUserId && p.x_user_id === meXUserId ? ' me' : '');
+  a.href = handle ? 'profile.html?handle=' + encodeURIComponent(handle) : '#';
+  a.title = '@' + handle;
+  const placeEl = document.createElement('span'); placeEl.className = 'place'; placeEl.textContent = '#' + place;
+  a.appendChild(placeEl);
+  if (place === 1) { const c = document.createElement('span'); c.className = 'crown'; c.textContent = '👑'; a.appendChild(c); }
+  a.appendChild(avatarEl(p, 'pav', 200));
+  const n = document.createElement('span'); n.className = 'pname'; n.textContent = nameOf(p);
+  const h = document.createElement('span'); h.className = 'phandle'; h.textContent = handle ? '@' + handle : '';
+  const s = document.createElement('span'); s.className = 'pstat'; s.textContent = cfg.stat(r);
+  const small = document.createElement('small');
+  const sub = cfg.sub(r);
+  small.textContent = state.tab === 'xp' ? (sub.max ? 'MAX LEVEL' : sub.text + ' · XP') : cfg.unit;
+  s.appendChild(small);
+  a.append(n, h, s);
+  return a;
+}
+
+function renderBoard() {
+  const cfg = BOARDS[state.tab];
+  const root = document.getElementById('leaderboard');
+  const meta = document.getElementById('lbMeta');
+  const podium = document.getElementById('podium');
+  const more = document.getElementById('showMore');
+  document.getElementById('lbTitle').textContent = cfg.title;
+  document.getElementById('lbFootLeft').textContent = cfg.foot;
+
+  if (state.boardErr[state.tab]) {
+    root.innerHTML = `<div class="error-state"><b>Couldn't load this board.</b>${escapeHtml(state.boardErr[state.tab])}</div>`;
+    podium.hidden = true; more.hidden = true; meta.textContent = '—';
+    return;
+  }
+  const all = state.boards[state.tab];
+  if (!all) return; // still loading — skeleton stays
+  const rows = currentRows();
+  const searching = !!state.query.trim();
+
+  // Podium (top 3 of the unfiltered board; hidden while searching)
+  podium.hidden = searching || all.length < 3;
+  if (!podium.hidden) {
+    podium.replaceChildren(podiumEl(all[1], 2, cfg), podiumEl(all[0], 1, cfg), podiumEl(all[2], 3, cfg));
+  }
+
+  meta.innerHTML = searching
+    ? `<b>${rows.length}</b> match${rows.length === 1 ? '' : 'es'}`
+    : `<b>${fmtFull(all.length)}</b> ${state.tab === 'xp' ? 'emos · by XP' : 'players · by ' + cfg.unit}`;
+
+  if (!rows.length) {
+    root.innerHTML = `<div class="empty-state"><b>${searching ? 'No one by that name.' : 'Nobody here yet.'}</b>${searching ? 'Try a different handle.' : 'Play a round and be the first.'}</div>`;
+    more.hidden = true;
+    document.getElementById('lbFootRight').textContent = '';
+    return;
+  }
+
+  const limit = (state.showAll || searching) ? rows.length : Math.min(PAGE_SIZE, rows.length);
   const frag = document.createDocumentFragment();
-  ranked.forEach((p, i) => {
-    const rank = i + 1;
-    const handle = (p.x_handle || '').replace(/^@/, '');
-    const name = p.display_name || handle || '—';
-    const xp = p.total_xp || 0;
-    const lvl = levelFromXp(xp);
-    const isMax = lvl === MAX_LEVEL;
+  for (let i = 0; i < limit; i++) {
+    const r = rows[i];
+    const p = r.p;
+    // Rank is the position on the full board, not the filtered one.
+    const rank = searching ? all.indexOf(r) + 1 : i + 1;
+    const handle = handleOf(p);
     const isMe = meXUserId && p.x_user_id === meXUserId;
     const topCls = rank === 1 ? 'top1' : rank === 2 ? 'top2' : rank === 3 ? 'top3' : '';
 
@@ -187,66 +467,92 @@ function renderLeaderboard() {
     row.className = ('lb-row ' + topCls + (isMe ? ' me' : '')).trim();
     row.href = handle ? ('profile.html?handle=' + encodeURIComponent(handle)) : '#';
     row.title = '@' + handle;
+    if (i < 30) row.style.animationDelay = (i * 18) + 'ms'; else row.style.animation = 'none';
 
     const rankEl = document.createElement('span');
     rankEl.className = 'rank';
     rankEl.textContent = rank === 1 ? '★' : '#' + rank;
+    if (state.tab === 'xp') { const d = deltaEl(deltaFor(p.x_user_id, rank, r.value)); if (d) rankEl.appendChild(d); }
 
     const who = document.createElement('span');
     who.className = 'who';
-    const nameEl = document.createElement('span');
-    nameEl.className = 'name';
-    nameEl.textContent = name;
-    const handleEl = document.createElement('span');
-    handleEl.className = 'handle';
-    handleEl.textContent = '@' + (handle || '—');
+    const nameEl = document.createElement('span'); nameEl.className = 'name'; nameEl.textContent = nameOf(p);
+    const handleEl = document.createElement('span'); handleEl.className = 'handle'; handleEl.textContent = '@' + (handle || '—');
     who.append(nameEl, handleEl);
+    if (state.tab === 'xp') {
+      const li = levelInfo(r.value);
+      const bar = document.createElement('span'); bar.className = 'bar';
+      const fill = document.createElement('i'); fill.style.width = Math.round(li.progress * 100) + '%';
+      bar.appendChild(fill);
+      bar.title = li.maxed ? 'Max level' : `${li.xpToNext} XP to Lv ${li.level + 1}`;
+      who.appendChild(bar);
+    }
 
     const xpEl = document.createElement('span');
     xpEl.className = 'xp';
-    xpEl.append(document.createTextNode(fmtNum(xp)));
+    xpEl.append(document.createTextNode(cfg.stat(r)));
+    const sub = cfg.sub(r);
     const lvlEl = document.createElement('span');
-    lvlEl.className = 'lvl' + (isMax ? ' max' : '');
-    lvlEl.textContent = isMax ? 'MAX' : 'Lv ' + lvl;
+    lvlEl.className = 'lvl' + (sub.max ? ' max' : '');
+    lvlEl.textContent = sub.text;
     xpEl.append(lvlEl);
-
-    row.append(rankEl, leaderboardAvatarEl(p, handle, name), who, xpEl);
-    frag.appendChild(row);
-  });
-  root.replaceChildren(frag);
-}
-
-function letterAvatar(initial) {
-  const el = document.createElement('div');
-  el.className = 'avatar placeholder';
-  el.textContent = initial;
-  return el;
-}
-
-function leaderboardAvatarEl(p, handle, name) {
-  const primary = safeHttpsUrl(leaderboardAvatarSrc(p));
-  const fallback = handle
-    ? safeHttpsUrl('https://unavatar.io/twitter/' + encodeURIComponent(handle))
-    : '';
-  const initial = (handle || name || '?').charAt(0).toUpperCase();
-  if (!primary && !fallback) return letterAvatar(initial);
-
-  const img = document.createElement('img');
-  img.className = 'avatar';
-  img.alt = '';
-  img.referrerPolicy = 'no-referrer';
-  img.decoding = 'async';
-  let triedFallback = !primary;
-  img.src = primary || fallback;
-  img.addEventListener('error', function () {
-    if (!triedFallback && fallback) {
-      triedFallback = true;
-      img.src = fallback;
-      return;
+    if (state.tab === 'xp') {
+      const d = deltaFor(p.x_user_id, rank, r.value);
+      if (d && d.gain) { const g = document.createElement('span'); g.className = 'gain'; g.textContent = '+' + d.gain + ' XP'; xpEl.append(g); }
     }
-    img.replaceWith(letterAvatar(initial));
+
+    row.append(rankEl, avatarEl(p, 'avatar'), who, xpEl);
+    frag.appendChild(row);
+  }
+  root.replaceChildren(frag);
+
+  more.hidden = limit >= rows.length;
+  more.textContent = `Show everyone (${fmtFull(rows.length)})`;
+  document.getElementById('lbFootRight').textContent = state.prevRanks && state.tab === 'xp' ? '▲▼ = change since your last visit' : (limit < rows.length ? `Showing top ${limit}` : '');
+}
+
+function showBoardSkeleton() {
+  const root = document.getElementById('leaderboard');
+  const row = '<div class="lb-skel-row"><span class="sk-rank"></span><span class="sk-av"></span><span class="sk-who"><span></span><span></span></span><span class="sk-xp"></span></div>';
+  root.innerHTML = '<div class="lb-skel" aria-busy="true">' + row.repeat(6) + '</div>';
+  document.getElementById('podium').hidden = true;
+  document.getElementById('showMore').hidden = true;
+}
+
+async function selectTab(tab) {
+  if (!BOARDS[tab]) return;
+  state.tab = tab;
+  state.showAll = false;
+  document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === tab)));
+  if (!state.boards[tab] && !state.boardErr[tab]) {
+    showBoardSkeleton();
+    document.getElementById('lbTitle').textContent = BOARDS[tab].title;
+    try { await fetchBoard(tab); }
+    catch (err) { console.warn('board fetch failed', tab, err); state.boardErr[tab] = outageMessage(err); }
+    if (state.tab !== tab) return; // user moved on
+  }
+  renderBoard();
+}
+
+function setupControls() {
+  document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => selectTab(b.dataset.tab)));
+  const input = document.getElementById('search');
+  const wrap = document.getElementById('searchWrap');
+  let t = null;
+  input.addEventListener('input', () => {
+    wrap.classList.toggle('has-value', !!input.value);
+    clearTimeout(t);
+    t = setTimeout(() => { state.query = input.value; renderBoard(); }, 120);
   });
-  return img;
+  document.getElementById('searchClear').addEventListener('click', () => {
+    input.value = ''; wrap.classList.remove('has-value'); state.query = ''; renderBoard(); input.focus();
+  });
+  document.getElementById('showMore').addEventListener('click', () => { state.showAll = true; renderBoard(); });
+  document.getElementById('meLogin').addEventListener('click', () => { try { EmoProfile.login(); } catch {} });
+  // "/" focuses search, like every other leaderboard on the internet
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && !/input|textarea|select/i.test(document.activeElement?.tagName || '')) { e.preventDefault(); input.focus(); }
+  });
 }
 
 // ─── Galaxy ───────────────────────────────────────────────────────────
@@ -610,7 +916,9 @@ function setLivePill(text, ok = true) {
 async function poll() {
   try {
     await fetchProfiles();
-    renderLeaderboard();
+    renderStats();
+    if (state.tab === 'xp') renderBoard();
+    renderMe();
     // Don't rebuild galaxy on poll — would jolt the layout. New users only
     // appear on a fresh reload (rare enough not to matter).
   } catch (err) {
@@ -621,6 +929,7 @@ async function poll() {
 // ─── Boot ─────────────────────────────────────────────────────────────
 async function boot() {
   setupGalaxy();
+  setupControls();
 
   // Auth must not gate the public leaderboard. If Clerk hangs, ranks
   // should still appear (or fail with a real outage message).
@@ -628,10 +937,14 @@ async function boot() {
     try {
       await EmoProfile.init({ page: 'chart' });
       EmoProfile.mount('#emoAuthSlot');
+      state.authKnown = true;
       refreshMeId();
+      renderMe();
       EmoProfile.onChange?.(refreshMeId);
     } catch (err) {
       console.warn('EmoProfile init failed — continuing without auth:', err?.message || err);
+      state.authKnown = true;   // show the sign-in nudge anyway; login() just no-ops if Clerk is dead
+      renderMe();
     }
   })();
 
@@ -642,7 +955,10 @@ async function boot() {
     ]);
     console.log(`[chart] loaded ${state.profiles.length} profiles`);
 
-    renderLeaderboard();
+    rememberRanks();
+    renderStats();
+    renderBoard();
+    renderMe();
     rebuildGalaxySim();
 
     setLivePill('Live');
@@ -651,11 +967,13 @@ async function boot() {
     console.warn('live fetch failed, using snapshot', err);
     try {
       await fetchSnapshotProfiles();
-      renderLeaderboard();
+      renderStats();
+      renderBoard();
+      renderMe();
       rebuildGalaxySim();
       setLivePill('Cached', false);
-      const meta = document.getElementById('lbMeta');
-      if (meta) meta.textContent = (meta.textContent || '') + ' · last known ranks';
+      document.getElementById('lbFootLeft').textContent = 'Last known ranks · XP database is catching its breath';
+      document.querySelectorAll('.tab:not([data-tab="xp"])').forEach(b => { b.disabled = true; b.title = 'Game boards need the live database'; b.style.opacity = '0.45'; });
     } catch (snapErr) {
       console.error('boot failed', err, snapErr);
       setLivePill('Offline', false);
@@ -663,10 +981,12 @@ async function boot() {
       if (lb) {
         lb.innerHTML = `<div class="error-state"><b>Leaderboard unavailable.</b>${escapeHtml(outageMessage(err))}</div>`;
       }
+      document.getElementById('podium').hidden = true;
     }
   }
 
   await authReady;
 }
 
+window.EmoLeaderboard = { refresh: refreshMeId, selectTab };
 boot();
