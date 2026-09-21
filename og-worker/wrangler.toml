@@ -15,8 +15,15 @@ compatibility_flags = ["nodejs_compat"]
 [limits]
 cpu_ms = 30000
 
-# Secrets (set via `wrangler secret put SUPABASE_ANON_KEY` AFTER first deploy):
+# Secrets (set via wrangler secret put AFTER first deploy):
 #   SUPABASE_ANON_KEY — public anon key from Supabase project settings
+#   TRANSAK_API_KEY   — Transak partner public API key (optional; EMO Wallet fund)
+#   TRANSAK_API_SECRET — Transak partner secret (optional; never put in frontend)
 [vars]
 SUPABASE_URL = "https://jdymhwsfmodqxvhcdsti.supabase.co"
 SITE_ORIGIN  = "https://emonad.lol"
+# Use PRODUCTION for the live partner key (staging rejects it).
+# Do not deploy Transak secrets until you are ready for live Fund.
+TRANSAK_ENV  = "PRODUCTION"
+TRANSAK_NETWORK = "monad"
+TRANSAK_CRYPTO  = "MON"
