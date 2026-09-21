@@ -1,0 +1,182 @@
+<!--
+  Source for /og-emoverse.jpg — the 1200x630 card every generic page shares.
+
+  Regenerate (asset paths are absolute, so it must be served, not opened as a file):
+    python3 -m http.server 8000
+    # render http://localhost:8000/scripts/og-card.html at 1200x630, dpr 2,
+    # screenshot the .card element, then:
+    sips -z 630 1200 shot.png --out og-1200.png
+    sips -s format jpeg -s formatOptions 88 og-1200.png --out og-emoverse.jpg
+
+  Social caches (X especially) hold an image URL for up to a week, so ship a NEW
+  filename rather than overwriting this one if the art changes.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>og build</title>
+<style>
+  @font-face {
+    font-family: 'Space Grotesk';
+    font-style: normal;
+    font-weight: 500 800;
+    font-display: block;
+    src: url(/fonts/SpaceGrotesk-latin.woff2) format('woff2');
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #08070b; }
+
+  .card {
+    position: relative;
+    width: 1200px; height: 630px;
+    overflow: hidden;
+    background: #08070b;
+    font-family: 'Space Grotesk', sans-serif;
+    color: #fff;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── ground: purple glows + the site's dot grid ── */
+  .glow-a, .glow-b, .glow-c { position: absolute; border-radius: 50%; }
+  .glow-a { width: 900px; height: 900px; left: -260px; top: -380px;
+            background: radial-gradient(circle, rgba(155,95,255,0.42) 0%, transparent 66%); }
+  .glow-b { width: 820px; height: 820px; right: -240px; top: -300px;
+            background: radial-gradient(circle, rgba(176,128,255,0.30) 0%, transparent 68%); }
+  .glow-c { width: 760px; height: 760px; left: 380px; bottom: -430px;
+            background: radial-gradient(circle, rgba(236,72,153,0.26) 0%, transparent 68%); }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.16) 1.1px, transparent 1.1px);
+    background-size: 26px 26px;
+    opacity: 0.30;
+    mask-image: radial-gradient(ellipse 85% 75% at 50% 42%, #000 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 42%, #000 40%, transparent 100%);
+  }
+  .vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 90% 80% at 50% 45%, transparent 45%, rgba(4,3,7,0.72) 100%);
+  }
+
+  .inner { position: relative; width: 100%; height: 100%; padding: 46px 56px 44px; display: flex; flex-direction: column; }
+
+  /* ── top bar ── */
+  .top { display: flex; align-items: center; gap: 18px; }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand img { width: 46px; height: 46px; border-radius: 13px; display: block;
+               box-shadow: 0 0 0 1px rgba(255,255,255,0.14), 0 6px 20px rgba(0,0,0,0.5); }
+  .brand span { font-size: 23px; font-weight: 800; letter-spacing: 0.30em; }
+  .chip {
+    font-size: 15px; font-weight: 700; letter-spacing: 0.16em;
+    color: #d9c6ff;
+    padding: 10px 20px; border-radius: 999px;
+    background: rgba(155,95,255,0.16);
+    box-shadow: inset 0 0 0 1px rgba(176,128,255,0.36);
+  }
+
+  /* ── middle: headline | mascot ── */
+  .mid { flex: 1; display: flex; align-items: center; gap: 44px; margin-top: 6px; }
+  .copy { flex: 1; min-width: 0; }
+  h1 {
+    font-size: 96px; font-weight: 800; line-height: 0.92; letter-spacing: -0.045em;
+    background: linear-gradient(104deg, #ffffff 26%, #c9a6ff 62%, #ff8fd0 96%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 8px 34px rgba(155,95,255,0.36));
+  }
+  .sub {
+    margin-top: 22px;
+    font-size: 26px; font-weight: 600; line-height: 1.34; letter-spacing: -0.012em;
+    color: #cfc6dd; max-width: 500px;
+  }
+  .sub b { color: #ffffff; font-weight: 700; }
+
+  .mascot {
+    position: relative; flex-shrink: 0;
+    width: 312px; height: 312px;
+    border-radius: 34px;
+    background: #fff;
+    transform: rotate(2.4deg);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.22),
+      0 30px 70px rgba(0,0,0,0.55),
+      0 0 70px rgba(155,95,255,0.34);
+    overflow: hidden;
+  }
+  .mascot img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+
+  /* ── lineup ── */
+  .lineup { display: flex; align-items: center; gap: 13px; margin-top: 4px; }
+  .tile {
+    position: relative;
+    width: 82px; height: 82px; border-radius: 21px;
+    overflow: hidden; flex-shrink: 0;
+    background: rgba(255,255,255,0.05);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.14), 0 12px 30px rgba(0,0,0,0.42);
+  }
+  .tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .tile.contain { background: radial-gradient(circle at 50% 44%, rgba(176,128,255,0.5), rgba(30,17,56,0.96) 74%); }
+  .tile.contain img { object-fit: contain; padding: 7px; }
+  .tile.tarot { background: radial-gradient(circle at 50% 40%, rgba(232,200,122,0.26), rgba(20,12,36,0.94) 72%); }
+  .tile.tarot img { object-fit: contain; padding: 11px 16px; }
+  .names {
+    margin-left: 8px;
+    font-size: 19px; font-weight: 600; letter-spacing: -0.005em; line-height: 1.45;
+    color: #a89ebc;
+  }
+  .names b { color: #e7ddff; font-weight: 700; }
+
+  /* ── foot ── */
+  .foot {
+    margin-top: 30px; padding-top: 22px;
+    border-top: 1px solid rgba(255,255,255,0.11);
+    display: flex; align-items: baseline; justify-content: space-between;
+  }
+  .url { font-size: 25px; font-weight: 800; letter-spacing: -0.015em; color: #fff; }
+  .url em { font-style: normal; color: #b080ff; }
+  .tag { font-size: 21px; font-weight: 500; color: #8f86a3; letter-spacing: -0.005em; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="glow-a"></div>
+    <div class="glow-b"></div>
+    <div class="glow-c"></div>
+    <div class="grid"></div>
+    <div class="vignette"></div>
+
+    <div class="inner">
+      <div class="top">
+        <div class="brand">
+          <img src="/emo-logo.png" alt="">
+          <span>EMONAD</span>
+        </div>
+        <div class="chip">$EMO · ON MONAD</div>
+      </div>
+
+      <div class="mid">
+        <div class="copy">
+          <h1>THE<br>EMOVERSE</h1>
+          <div class="sub">memes · games · tarot · XP<br>and <b>a pet that lives in your wallet</b></div>
+        </div>
+        <div class="mascot"><img src="/emonad.webp" alt=""></div>
+      </div>
+
+      <div class="lineup">
+        <div class="tile"><img src="/img/emogotchi.webp" alt=""></div>
+        <div class="tile"><img src="/img/frok.webp" alt=""></div>
+        <div class="tile contain"><img src="/img/bird.webp" alt=""></div>
+        <div class="tile tarot"><img src="/img/tarot-card.webp" alt=""></div>
+        <div class="tile"><img src="/emo-crush/emonad-200.webp" alt=""></div>
+        <div class="names"><b>Emogotchi</b> · <b>Flap</b> · <b>Tarot</b> · <b>Emo Crush</b><br>+ memes, GIFs and the meme maker</div>
+      </div>
+
+      <div class="foot">
+        <div class="url">emonad<em>.lol</em></div>
+        <div class="tag">i lost it all on day 1</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
