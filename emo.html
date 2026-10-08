@@ -605,6 +605,9 @@
     .game-art-flap { background: radial-gradient(circle at 50% 45%, rgba(176,128,255,0.55), rgba(40,22,72,0.95) 72%); }
     .game-art-flap img { width: 100%; height: 100%; object-fit: contain; padding: 2px; transform: rotate(-10deg) scale(1.25); filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6)); }
     .game-art-tarot { background: radial-gradient(circle at 50% 40%, rgba(232,200,122,0.25), rgba(20,12,36,0.9) 70%); }
+    .game-free { color: #ff4fa0; background: rgba(255, 79, 160, 0.12); border-color: rgba(255, 79, 160, 0.3); }
+    .game-art-pixel { background: radial-gradient(circle at 50% 45%, rgba(155,95,255,0.5), rgba(28,16,52,0.95) 72%); }
+    .game-art-pixel img { object-fit: contain; image-rendering: pixelated; transform: scale(1.35) translateY(2px); }
     .game-art-tarot img { width: 34px; height: auto; border-radius: 4px; transform: rotate(-8deg); box-shadow: 0 6px 14px rgba(0,0,0,0.55); }
     .game-card:hover .game-art { transform: scale(1.06) rotate(-2deg); }
     .game-card.featured:hover .game-art { transform: none; }
@@ -1760,17 +1763,17 @@
     <p class="subtitle" id="subtitle" style="opacity:0">i lost it all on day 1</p>
 
     <div class="games animate-in" style="animation-delay:0.18s" aria-label="Games">
-      <a href="https://emogotchi.emonad.lol/mint/" target="_blank" rel="noopener noreferrer" class="game-card featured">
+      <a href="https://emogotchi.emonad.lol/adopt/" target="_blank" rel="noopener noreferrer" class="game-card featured">
         <span class="game-duo">
-          <span class="game-art game-art-pet game-art-cat"><img src="img/emogotchi.webp" alt="" width="320" height="320" loading="lazy"></span>
+          <span class="game-art game-art-pet game-art-cat"><img src="img/emonadgotchi.webp" alt="" width="320" height="320" loading="lazy"></span>
           <span class="game-art game-art-pet game-art-frok"><img src="img/frok.webp" alt="" width="320" height="320" loading="lazy"></span>
         </span>
         <span class="game-text">
           <span class="game-name">Emogotchi <span class="game-ext" aria-hidden="true">&#8599;</span></span>
-          <span class="game-sub">A cat and a frok that live in your wallet</span>
-          <span class="game-note"><b>free</b> to mint &middot; one per wallet &middot; every action on chain</span>
+          <span class="game-sub">Five free pets that live in your wallet</span>
+          <span class="game-note"><b>free</b> to mint &middot; one of each per wallet &middot; all on chain</span>
         </span>
-        <span class="game-go">Adopt a frok &mdash; free <span aria-hidden="true">&rarr;</span></span>
+        <span class="game-go">Adopt a pet &mdash; free <span aria-hidden="true">&rarr;</span></span>
         <span class="game-new">NEW</span>
       </a>
       <a href="emo-crush/index.html" class="game-card" data-game="emocrush">
@@ -1796,6 +1799,14 @@
           <span class="game-sub">22 arcana</span>
         </span>
         <span class="game-xp">+5 XP</span>
+      </a>
+      <a href="game-assets.html" class="game-card game-card-pixel">
+        <span class="game-art game-art-pixel"><img src="img/pixel-pack.webp" alt="" width="320" height="320" loading="lazy"></span>
+        <span class="game-text">
+          <span class="game-name">Pixel Pack</span>
+          <span class="game-sub">179 free sprites</span>
+        </span>
+        <span class="game-xp game-free">free</span>
       </a>
     </div>
 

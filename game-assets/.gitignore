@@ -1,0 +1,6 @@
+# the filmed frames and the big renders stay local; the site ships the joined clips and the web trailer
+clips/raw/
+clips/raw-trailer/
+trailer/*-master.mp4
+trailer/*-nomusic.mp4
+trailer/*.wav

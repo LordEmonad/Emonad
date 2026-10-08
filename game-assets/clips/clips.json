@@ -1,0 +1,76 @@
+{
+ "platformer": {
+  "title": "Platformer",
+  "sub": "Every move in a side-scrolling level",
+  "file": "platformer.mp4",
+  "poster": "platformer.jpg",
+  "seconds": 64.5,
+  "chapters": [
+   {
+    "title": "Walk, run, push a crate, jump, double-jump flip",
+    "at": 0
+   },
+   {
+    "title": "Crouch, crawl, slide, roll, dash",
+    "at": 6.4
+   },
+   {
+    "title": "Punch, kick, throw, block",
+    "at": 14.6
+   },
+   {
+    "title": "Pistol: shoot, aim up, crouch shoot, reload",
+    "at": 20
+   },
+   {
+    "title": "Rifle, shotgun, rocket launcher",
+    "at": 25.2
+   },
+   {
+    "title": "Ladder, ledge hang, mantle",
+    "at": 31.4
+   },
+   {
+    "title": "Wall slide, wall jump",
+    "at": 40.8
+   },
+   {
+    "title": "Swim",
+    "at": 44.6
+   },
+   {
+    "title": "Sit, celebrate",
+    "at": 50.2
+   },
+   {
+    "title": "Hurt, death",
+    "at": 55.4
+   },
+   {
+    "title": "Rifle, shotgun, rocket vs ghosts",
+    "at": 58.1
+   }
+  ]
+ },
+ "topdown": {
+  "title": "Top-down",
+  "sub": "The four-direction rows in a walled garden",
+  "file": "topdown.mp4",
+  "poster": "topdown.jpg",
+  "seconds": 16.4,
+  "chapters": [
+   {
+    "title": "Walk, punch, kick",
+    "at": 0
+   },
+   {
+    "title": "Ghosts in the garden",
+    "at": 4.2
+   },
+   {
+    "title": "Hop, pick up, shoot",
+    "at": 9
+   }
+  ]
+ }
+}

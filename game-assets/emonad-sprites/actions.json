@@ -1,0 +1,1500 @@
+{
+  "cellW": 76,
+  "cellH": 78,
+  "cols": 8,
+  "feetRow": 64,
+  "sheets": {
+    "base": {
+      "file": "sprite sheet.png",
+      "rows": 8
+    },
+    "actions": {
+      "file": "sprite sheet actions.png",
+      "rows": 77
+    },
+    "weapons": {
+      "file": "sprite sheet weapons.png",
+      "rows": 94
+    }
+  },
+  "guns": {
+    "pistol": {
+      "fist": [
+        53,
+        43
+      ],
+      "muzzle": [
+        8,
+        -2
+      ],
+      "recoil": 1
+    },
+    "rifle": {
+      "fist": [
+        51,
+        43
+      ],
+      "muzzle": [
+        15,
+        -3
+      ],
+      "recoil": 1
+    },
+    "shotgun": {
+      "fist": [
+        50,
+        43
+      ],
+      "muzzle": [
+        17,
+        -2
+      ],
+      "recoil": 2
+    },
+    "rocket": {
+      "fist": [
+        55,
+        50
+      ],
+      "muzzle": [
+        13,
+        -9
+      ],
+      "recoil": 2
+    }
+  },
+  "anims": [
+    {
+      "name": "idle-right",
+      "sheet": "base",
+      "row": 0,
+      "frames": 6,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "idle-down",
+      "sheet": "base",
+      "row": 1,
+      "frames": 6,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "idle-left",
+      "sheet": "base",
+      "row": 2,
+      "frames": 6,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "idle-up",
+      "sheet": "base",
+      "row": 3,
+      "frames": 6,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "walk-right",
+      "sheet": "base",
+      "row": 4,
+      "frames": 8,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "walk-down",
+      "sheet": "base",
+      "row": 5,
+      "frames": 4,
+      "fps": 5,
+      "loop": true
+    },
+    {
+      "name": "walk-left",
+      "sheet": "base",
+      "row": 6,
+      "frames": 8,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "walk-up",
+      "sheet": "base",
+      "row": 7,
+      "frames": 4,
+      "fps": 5,
+      "loop": true
+    },
+    {
+      "name": "run-right",
+      "sheet": "actions",
+      "row": 0,
+      "frames": 6,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "name": "run-left",
+      "sheet": "actions",
+      "row": 1,
+      "frames": 6,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "name": "jump-right",
+      "sheet": "actions",
+      "row": 2,
+      "frames": 6,
+      "fps": 10,
+      "loop": false
+    },
+    {
+      "name": "jump-left",
+      "sheet": "actions",
+      "row": 3,
+      "frames": 6,
+      "fps": 10,
+      "loop": false
+    },
+    {
+      "name": "crouch-right",
+      "sheet": "actions",
+      "row": 4,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "crouch-left",
+      "sheet": "actions",
+      "row": 5,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "punch-right",
+      "sheet": "actions",
+      "row": 6,
+      "frames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "name": "punch-left",
+      "sheet": "actions",
+      "row": 7,
+      "frames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "name": "kick-right",
+      "sheet": "actions",
+      "row": 8,
+      "frames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "name": "kick-left",
+      "sheet": "actions",
+      "row": 9,
+      "frames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "name": "throw-right",
+      "sheet": "actions",
+      "row": 10,
+      "frames": 3,
+      "fps": 10,
+      "loop": false
+    },
+    {
+      "name": "throw-left",
+      "sheet": "actions",
+      "row": 11,
+      "frames": 3,
+      "fps": 10,
+      "loop": false
+    },
+    {
+      "name": "block-right",
+      "sheet": "actions",
+      "row": 12,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "block-left",
+      "sheet": "actions",
+      "row": 13,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "hurt-right",
+      "sheet": "actions",
+      "row": 14,
+      "frames": 2,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "hurt-left",
+      "sheet": "actions",
+      "row": 15,
+      "frames": 2,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "death-right",
+      "sheet": "actions",
+      "row": 16,
+      "frames": 6,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "death-left",
+      "sheet": "actions",
+      "row": 17,
+      "frames": 6,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "dash-right",
+      "sheet": "actions",
+      "row": 18,
+      "frames": 2,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "name": "dash-left",
+      "sheet": "actions",
+      "row": 19,
+      "frames": 2,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "name": "pickup-right",
+      "sheet": "actions",
+      "row": 20,
+      "frames": 3,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "pickup-left",
+      "sheet": "actions",
+      "row": 21,
+      "frames": 3,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "roll-right",
+      "sheet": "actions",
+      "row": 22,
+      "frames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "name": "roll-left",
+      "sheet": "actions",
+      "row": 23,
+      "frames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "name": "flip-right",
+      "sheet": "actions",
+      "row": 24,
+      "frames": 4,
+      "fps": 14,
+      "loop": true
+    },
+    {
+      "name": "flip-left",
+      "sheet": "actions",
+      "row": 25,
+      "frames": 4,
+      "fps": 14,
+      "loop": true
+    },
+    {
+      "name": "mantle-right",
+      "sheet": "actions",
+      "row": 26,
+      "frames": 2,
+      "fps": 6,
+      "loop": false
+    },
+    {
+      "name": "mantle-left",
+      "sheet": "actions",
+      "row": 27,
+      "frames": 2,
+      "fps": 6,
+      "loop": false
+    },
+    {
+      "name": "fall-right",
+      "sheet": "actions",
+      "row": 28,
+      "frames": 2,
+      "fps": 6,
+      "loop": true
+    },
+    {
+      "name": "fall-left",
+      "sheet": "actions",
+      "row": 29,
+      "frames": 2,
+      "fps": 6,
+      "loop": true
+    },
+    {
+      "name": "swim-right",
+      "sheet": "actions",
+      "row": 30,
+      "frames": 4,
+      "fps": 6,
+      "loop": true
+    },
+    {
+      "name": "swim-left",
+      "sheet": "actions",
+      "row": 31,
+      "frames": 4,
+      "fps": 6,
+      "loop": true
+    },
+    {
+      "name": "sit-right",
+      "sheet": "actions",
+      "row": 32,
+      "frames": 2,
+      "fps": 3,
+      "loop": true
+    },
+    {
+      "name": "sit-left",
+      "sheet": "actions",
+      "row": 33,
+      "frames": 2,
+      "fps": 3,
+      "loop": true
+    },
+    {
+      "name": "slide-right",
+      "sheet": "actions",
+      "row": 34,
+      "frames": 2,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "slide-left",
+      "sheet": "actions",
+      "row": 35,
+      "frames": 2,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "hang-right",
+      "sheet": "actions",
+      "row": 36,
+      "frames": 2,
+      "fps": 3,
+      "loop": true
+    },
+    {
+      "name": "hang-left",
+      "sheet": "actions",
+      "row": 37,
+      "frames": 2,
+      "fps": 3,
+      "loop": true
+    },
+    {
+      "name": "wallslide-right",
+      "sheet": "actions",
+      "row": 38,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "wallslide-left",
+      "sheet": "actions",
+      "row": 39,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "push-right",
+      "sheet": "actions",
+      "row": 40,
+      "frames": 2,
+      "fps": 6,
+      "loop": true
+    },
+    {
+      "name": "push-left",
+      "sheet": "actions",
+      "row": 41,
+      "frames": 2,
+      "fps": 6,
+      "loop": true
+    },
+    {
+      "name": "swing-right",
+      "sheet": "actions",
+      "row": 42,
+      "frames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "name": "swing-left",
+      "sheet": "actions",
+      "row": 43,
+      "frames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "name": "interact-right",
+      "sheet": "actions",
+      "row": 44,
+      "frames": 2,
+      "fps": 4,
+      "loop": false
+    },
+    {
+      "name": "interact-left",
+      "sheet": "actions",
+      "row": 45,
+      "frames": 2,
+      "fps": 4,
+      "loop": false
+    },
+    {
+      "name": "crawl-right",
+      "sheet": "actions",
+      "row": 46,
+      "frames": 4,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "crawl-left",
+      "sheet": "actions",
+      "row": 47,
+      "frames": 4,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "climb",
+      "sheet": "actions",
+      "row": 48,
+      "frames": 4,
+      "fps": 6,
+      "loop": true
+    },
+    {
+      "name": "celebrate",
+      "sheet": "actions",
+      "row": 49,
+      "frames": 4,
+      "fps": 6,
+      "loop": true
+    },
+    {
+      "name": "punch-down",
+      "sheet": "actions",
+      "row": 50,
+      "frames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "name": "punch-up",
+      "sheet": "actions",
+      "row": 51,
+      "frames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "name": "kick-down",
+      "sheet": "actions",
+      "row": 52,
+      "frames": 3,
+      "fps": 10,
+      "loop": false
+    },
+    {
+      "name": "kick-up",
+      "sheet": "actions",
+      "row": 53,
+      "frames": 3,
+      "fps": 10,
+      "loop": false
+    },
+    {
+      "name": "hurt-down",
+      "sheet": "actions",
+      "row": 54,
+      "frames": 2,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "hurt-up",
+      "sheet": "actions",
+      "row": 55,
+      "frames": 2,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "jump-down",
+      "sheet": "actions",
+      "row": 56,
+      "frames": 5,
+      "fps": 10,
+      "loop": false
+    },
+    {
+      "name": "jump-up",
+      "sheet": "actions",
+      "row": 57,
+      "frames": 5,
+      "fps": 10,
+      "loop": false
+    },
+    {
+      "name": "death-down",
+      "sheet": "actions",
+      "row": 58,
+      "frames": 5,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "pickup-down",
+      "sheet": "actions",
+      "row": 59,
+      "frames": 3,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "pickup-up",
+      "sheet": "actions",
+      "row": 60,
+      "frames": 3,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "run-down",
+      "sheet": "actions",
+      "row": 61,
+      "frames": 6,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "name": "dash-down",
+      "sheet": "actions",
+      "row": 62,
+      "frames": 2,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "name": "crouch-down",
+      "sheet": "actions",
+      "row": 63,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "block-down",
+      "sheet": "actions",
+      "row": 64,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "throw-down",
+      "sheet": "actions",
+      "row": 65,
+      "frames": 3,
+      "fps": 10,
+      "loop": false
+    },
+    {
+      "name": "interact-down",
+      "sheet": "actions",
+      "row": 66,
+      "frames": 2,
+      "fps": 4,
+      "loop": false
+    },
+    {
+      "name": "swim-down",
+      "sheet": "actions",
+      "row": 67,
+      "frames": 4,
+      "fps": 6,
+      "loop": true
+    },
+    {
+      "name": "run-up",
+      "sheet": "actions",
+      "row": 68,
+      "frames": 6,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "name": "dash-up",
+      "sheet": "actions",
+      "row": 69,
+      "frames": 2,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "name": "crouch-up",
+      "sheet": "actions",
+      "row": 70,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "block-up",
+      "sheet": "actions",
+      "row": 71,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "throw-up",
+      "sheet": "actions",
+      "row": 72,
+      "frames": 3,
+      "fps": 10,
+      "loop": false
+    },
+    {
+      "name": "interact-up",
+      "sheet": "actions",
+      "row": 73,
+      "frames": 2,
+      "fps": 4,
+      "loop": false
+    },
+    {
+      "name": "swim-up",
+      "sheet": "actions",
+      "row": 74,
+      "frames": 4,
+      "fps": 6,
+      "loop": true
+    },
+    {
+      "name": "sit-down",
+      "sheet": "actions",
+      "row": 75,
+      "frames": 2,
+      "fps": 3,
+      "loop": true
+    },
+    {
+      "name": "death-up",
+      "sheet": "actions",
+      "row": 76,
+      "frames": 5,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "pistol-aim-right",
+      "sheet": "weapons",
+      "row": 0,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "pistol-aim-left",
+      "sheet": "weapons",
+      "row": 1,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "pistol-shoot-right",
+      "sheet": "weapons",
+      "row": 2,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "pistol-shoot-left",
+      "sheet": "weapons",
+      "row": 3,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "pistol-reload-right",
+      "sheet": "weapons",
+      "row": 4,
+      "frames": 4,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "pistol-reload-left",
+      "sheet": "weapons",
+      "row": 5,
+      "frames": 4,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "pistol-walk-right",
+      "sheet": "weapons",
+      "row": 6,
+      "frames": 6,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "pistol-walk-left",
+      "sheet": "weapons",
+      "row": 7,
+      "frames": 6,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "pistol-crouchshoot-right",
+      "sheet": "weapons",
+      "row": 8,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "pistol-crouchshoot-left",
+      "sheet": "weapons",
+      "row": 9,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "pistol-aimup-right",
+      "sheet": "weapons",
+      "row": 10,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "pistol-aimup-left",
+      "sheet": "weapons",
+      "row": 11,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "pistol-airshoot-right",
+      "sheet": "weapons",
+      "row": 12,
+      "frames": 2,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "pistol-airshoot-left",
+      "sheet": "weapons",
+      "row": 13,
+      "frames": 2,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "pistol-hurt-right",
+      "sheet": "weapons",
+      "row": 14,
+      "frames": 2,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "pistol-hurt-left",
+      "sheet": "weapons",
+      "row": 15,
+      "frames": 2,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "rifle-aim-right",
+      "sheet": "weapons",
+      "row": 16,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "rifle-aim-left",
+      "sheet": "weapons",
+      "row": 17,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "rifle-shoot-right",
+      "sheet": "weapons",
+      "row": 18,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rifle-shoot-left",
+      "sheet": "weapons",
+      "row": 19,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rifle-reload-right",
+      "sheet": "weapons",
+      "row": 20,
+      "frames": 4,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "rifle-reload-left",
+      "sheet": "weapons",
+      "row": 21,
+      "frames": 4,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "rifle-walk-right",
+      "sheet": "weapons",
+      "row": 22,
+      "frames": 6,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "rifle-walk-left",
+      "sheet": "weapons",
+      "row": 23,
+      "frames": 6,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "rifle-crouchshoot-right",
+      "sheet": "weapons",
+      "row": 24,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rifle-crouchshoot-left",
+      "sheet": "weapons",
+      "row": 25,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rifle-aimup-right",
+      "sheet": "weapons",
+      "row": 26,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rifle-aimup-left",
+      "sheet": "weapons",
+      "row": 27,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rifle-airshoot-right",
+      "sheet": "weapons",
+      "row": 28,
+      "frames": 2,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rifle-airshoot-left",
+      "sheet": "weapons",
+      "row": 29,
+      "frames": 2,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rifle-hurt-right",
+      "sheet": "weapons",
+      "row": 30,
+      "frames": 2,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "rifle-hurt-left",
+      "sheet": "weapons",
+      "row": 31,
+      "frames": 2,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "shotgun-aim-right",
+      "sheet": "weapons",
+      "row": 32,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "shotgun-aim-left",
+      "sheet": "weapons",
+      "row": 33,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "shotgun-shoot-right",
+      "sheet": "weapons",
+      "row": 34,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "shotgun-shoot-left",
+      "sheet": "weapons",
+      "row": 35,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "shotgun-reload-right",
+      "sheet": "weapons",
+      "row": 36,
+      "frames": 4,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "shotgun-reload-left",
+      "sheet": "weapons",
+      "row": 37,
+      "frames": 4,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "shotgun-walk-right",
+      "sheet": "weapons",
+      "row": 38,
+      "frames": 6,
+      "fps": 7,
+      "loop": true
+    },
+    {
+      "name": "shotgun-walk-left",
+      "sheet": "weapons",
+      "row": 39,
+      "frames": 6,
+      "fps": 7,
+      "loop": true
+    },
+    {
+      "name": "shotgun-crouchshoot-right",
+      "sheet": "weapons",
+      "row": 40,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "shotgun-crouchshoot-left",
+      "sheet": "weapons",
+      "row": 41,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "shotgun-aimup-right",
+      "sheet": "weapons",
+      "row": 42,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "shotgun-aimup-left",
+      "sheet": "weapons",
+      "row": 43,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "shotgun-airshoot-right",
+      "sheet": "weapons",
+      "row": 44,
+      "frames": 2,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "shotgun-airshoot-left",
+      "sheet": "weapons",
+      "row": 45,
+      "frames": 2,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "shotgun-hurt-right",
+      "sheet": "weapons",
+      "row": 46,
+      "frames": 2,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "shotgun-hurt-left",
+      "sheet": "weapons",
+      "row": 47,
+      "frames": 2,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "rocket-aim-right",
+      "sheet": "weapons",
+      "row": 48,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "rocket-aim-left",
+      "sheet": "weapons",
+      "row": 49,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "rocket-shoot-right",
+      "sheet": "weapons",
+      "row": 50,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rocket-shoot-left",
+      "sheet": "weapons",
+      "row": 51,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rocket-reload-right",
+      "sheet": "weapons",
+      "row": 52,
+      "frames": 4,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "rocket-reload-left",
+      "sheet": "weapons",
+      "row": 53,
+      "frames": 4,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "rocket-walk-right",
+      "sheet": "weapons",
+      "row": 54,
+      "frames": 6,
+      "fps": 6,
+      "loop": true
+    },
+    {
+      "name": "rocket-walk-left",
+      "sheet": "weapons",
+      "row": 55,
+      "frames": 6,
+      "fps": 6,
+      "loop": true
+    },
+    {
+      "name": "rocket-crouchshoot-right",
+      "sheet": "weapons",
+      "row": 56,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rocket-crouchshoot-left",
+      "sheet": "weapons",
+      "row": 57,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rocket-aimup-right",
+      "sheet": "weapons",
+      "row": 58,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rocket-aimup-left",
+      "sheet": "weapons",
+      "row": 59,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rocket-airshoot-right",
+      "sheet": "weapons",
+      "row": 60,
+      "frames": 2,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rocket-airshoot-left",
+      "sheet": "weapons",
+      "row": 61,
+      "frames": 2,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rocket-hurt-right",
+      "sheet": "weapons",
+      "row": 62,
+      "frames": 2,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "rocket-hurt-left",
+      "sheet": "weapons",
+      "row": 63,
+      "frames": 2,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "bat-idle-right",
+      "sheet": "weapons",
+      "row": 64,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "bat-hurt-right",
+      "sheet": "weapons",
+      "row": 65,
+      "frames": 2,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "bat-hurt-left",
+      "sheet": "weapons",
+      "row": 66,
+      "frames": 2,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "bat-idle-left",
+      "sheet": "weapons",
+      "row": 67,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "bat-walk-right",
+      "sheet": "weapons",
+      "row": 68,
+      "frames": 6,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "bat-walk-left",
+      "sheet": "weapons",
+      "row": 69,
+      "frames": 6,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "pistol-shoot-down",
+      "sheet": "weapons",
+      "row": 70,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "pistol-shoot-up",
+      "sheet": "weapons",
+      "row": 71,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "pistol-walk-down",
+      "sheet": "weapons",
+      "row": 72,
+      "frames": 6,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "pistol-walk-up",
+      "sheet": "weapons",
+      "row": 73,
+      "frames": 6,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "pistol-reload-down",
+      "sheet": "weapons",
+      "row": 74,
+      "frames": 4,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "pistol-reload-up",
+      "sheet": "weapons",
+      "row": 75,
+      "frames": 4,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "rifle-shoot-down",
+      "sheet": "weapons",
+      "row": 76,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rifle-shoot-up",
+      "sheet": "weapons",
+      "row": 77,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rifle-walk-down",
+      "sheet": "weapons",
+      "row": 78,
+      "frames": 6,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "rifle-walk-up",
+      "sheet": "weapons",
+      "row": 79,
+      "frames": 6,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "rifle-reload-down",
+      "sheet": "weapons",
+      "row": 80,
+      "frames": 4,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "rifle-reload-up",
+      "sheet": "weapons",
+      "row": 81,
+      "frames": 4,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "shotgun-shoot-down",
+      "sheet": "weapons",
+      "row": 82,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "shotgun-shoot-up",
+      "sheet": "weapons",
+      "row": 83,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "shotgun-walk-down",
+      "sheet": "weapons",
+      "row": 84,
+      "frames": 6,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "shotgun-walk-up",
+      "sheet": "weapons",
+      "row": 85,
+      "frames": 6,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "shotgun-reload-down",
+      "sheet": "weapons",
+      "row": 86,
+      "frames": 4,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "shotgun-reload-up",
+      "sheet": "weapons",
+      "row": 87,
+      "frames": 4,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "rocket-shoot-down",
+      "sheet": "weapons",
+      "row": 88,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rocket-shoot-up",
+      "sheet": "weapons",
+      "row": 89,
+      "frames": 3,
+      "fps": 14,
+      "loop": false
+    },
+    {
+      "name": "rocket-walk-down",
+      "sheet": "weapons",
+      "row": 90,
+      "frames": 6,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "rocket-walk-up",
+      "sheet": "weapons",
+      "row": 91,
+      "frames": 6,
+      "fps": 8,
+      "loop": true
+    },
+    {
+      "name": "rocket-reload-down",
+      "sheet": "weapons",
+      "row": 92,
+      "frames": 4,
+      "fps": 8,
+      "loop": false
+    },
+    {
+      "name": "rocket-reload-up",
+      "sheet": "weapons",
+      "row": 93,
+      "frames": 4,
+      "fps": 8,
+      "loop": false
+    }
+  ]
+}
