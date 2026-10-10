@@ -752,6 +752,47 @@
       .game-card.featured::after { opacity: 0; }
     }
 
+    /* The Emo Arcade: three game icons fanned like the pets, the arcade's name in its pixel face */
+    @font-face { font-family: 'Press Start 2P'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/pressstart.woff2) format('woff2'); }
+    .game-trio { display: flex; align-items: center; flex-shrink: 0; }
+    .game-art-trio {
+      width: 62px; height: 62px; border-radius: 17px;
+      background: #0d0816;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12), 0 0 0 2px rgba(10, 8, 16, 0.9), 0 0 20px rgba(255, 46, 136, 0.24);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), margin 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    [data-theme="light"] .game-art-trio { box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06), 0 0 0 2px rgba(255,255,255,0.95), 0 0 20px rgba(236, 72, 153, 0.18); }
+    .game-art-trio img { image-rendering: pixelated; }
+    .game-art-trio:nth-child(1) { transform: rotate(-6deg); }
+    .game-art-trio:nth-child(2) { margin-left: -20px; z-index: 1; transform: translateY(-3px); }
+    .game-art-trio:nth-child(3) { margin-left: -20px; z-index: 2; transform: rotate(6deg); }
+    .game-card-arcade:hover .game-art-trio:nth-child(1) { transform: rotate(-9deg) scale(1.05); }
+    .game-card-arcade:hover .game-art-trio:nth-child(2) { margin-left: -12px; transform: translateY(-6px) scale(1.05); }
+    .game-card-arcade:hover .game-art-trio:nth-child(3) { margin-left: -12px; transform: rotate(9deg) scale(1.05); }
+    .game-card.featured.game-card-arcade {
+      border-color: rgba(255, 79, 160, 0.36);
+      background:
+        linear-gradient(112deg, rgba(236,72,153,0.17), rgba(155,95,255,0.12) 46%, rgba(12,10,18,0) 74%),
+        rgba(12, 10, 18, 0.5);
+    }
+    [data-theme="light"] .game-card.featured.game-card-arcade {
+      background:
+        linear-gradient(112deg, rgba(236,72,153,0.14), rgba(155,95,255,0.10) 46%, rgba(255,255,255,0) 74%),
+        rgba(255, 255, 255, 0.72);
+    }
+    .game-card.featured.game-card-arcade .game-name-arcade { font-family: 'Press Start 2P', monospace; font-weight: 400; font-size: 13px; letter-spacing: 0; line-height: 1.5; text-shadow: 0.1em 0.1em 0 rgba(255, 46, 136, 0.85); }
+    @media (max-width: 420px) {
+      .game-art-trio { width: 46px; height: 46px; border-radius: 13px; }
+      .game-art-trio:nth-child(2), .game-art-trio:nth-child(3) { margin-left: -14px; }
+      .game-card.featured.game-card-arcade .game-name-arcade { font-size: 10px; }
+    }
+    /* the narrowest phones: the pixel name needs the badge's corner */
+    @media (max-width: 350px) { .game-card-arcade .game-new { display: none; } .game-card-arcade .game-text { padding-right: 0; } }
+    @media (prefers-reduced-motion: reduce) {
+      .game-card-arcade:hover .game-art-trio { margin-left: -20px; transform: none; }
+      .game-card-arcade:hover .game-art-trio:nth-child(1) { margin-left: 0; }
+    }
+
     /* ── Button Sections ── */
     .dock {
       width: 100%;
@@ -1800,13 +1841,19 @@
         </span>
         <span class="game-xp">+5 XP</span>
       </a>
-      <a href="game-assets.html" class="game-card game-card-pixel">
-        <span class="game-art game-art-pixel"><img src="img/pixel-pack.webp" alt="" width="320" height="320" loading="lazy"></span>
-        <span class="game-text">
-          <span class="game-name">Pixel Pack</span>
-          <span class="game-sub">179 free sprites</span>
+      <a href="arcade.html" class="game-card featured game-card-arcade">
+        <span class="game-trio">
+          <span class="game-art game-art-trio"><img src="arcade/skate-icon.webp" alt="" width="144" height="144" loading="lazy"></span>
+          <span class="game-art game-art-trio"><img src="arcade/fall-icon.webp" alt="" width="144" height="144" loading="lazy"></span>
+          <span class="game-art game-art-trio"><img src="arcade/night-icon.webp" alt="" width="144" height="144" loading="lazy"></span>
         </span>
-        <span class="game-xp game-free">free</span>
+        <span class="game-text">
+          <span class="game-name game-name-arcade">Emo Arcade</span>
+          <span class="game-sub">Three free games: Emo Skate, Emo Fall, Emo Night</span>
+          <span class="game-note"><b>free</b> in your browser &middot; made for phones &middot; plus the Pixel Pack</span>
+        </span>
+        <span class="game-go">Play free <span aria-hidden="true">&rarr;</span></span>
+        <span class="game-new">NEW</span>
       </a>
     </div>
 
