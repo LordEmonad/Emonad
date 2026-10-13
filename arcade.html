@@ -10,13 +10,13 @@
 </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <title>Emo Arcade: Three Free Emo Games in Your Browser | Emonad</title>
-  <meta name="description" content="The Emo Arcade: three free games starring Emonad, in your browser and made for phones. Emo Skate, Emo Fall and Emo Night. Watch the trailer, pick a game, play. Plus the Emonad Pixel Pack they are built from.">
+  <title>Emo Arcade: Four Free Emo Games in Your Browser | Emonad</title>
+  <meta name="description" content="The Emo Arcade: four free games starring Emonad, in your browser and made for phones. Emo Skate, Emo Fall, Emo Night and Number Go Up. Watch the trailers, pick a game, play. Plus the Emonad Pixel Pack.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://emonad.lol/arcade.html">
 
-  <meta property="og:title" content="Emo Arcade: three free emo games">
-  <meta property="og:description" content="Skate to the beat, fall down a well, survive the night. Three free games starring Emonad, in your browser and made for phones.">
+  <meta property="og:title" content="Emo Arcade: four free emo games">
+  <meta property="og:description" content="Skate to the beat, fall down a well, survive the night, climb to the moon. Four free games starring Emonad, in your browser and made for phones.">
   <meta property="og:image" content="https://emonad.lol/og-arcade.jpg?v=2">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -28,8 +28,8 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@EmonadCoin">
   <meta name="twitter:creator" content="@EmonadCoin">
-  <meta name="twitter:title" content="Emo Arcade: three free emo games">
-  <meta name="twitter:description" content="Skate to the beat, fall down a well, survive the night. Three free games starring Emonad, in your browser and made for phones.">
+  <meta name="twitter:title" content="Emo Arcade: four free emo games">
+  <meta name="twitter:description" content="Skate to the beat, fall down a well, survive the night, climb to the moon. Four free games starring Emonad, in your browser and made for phones.">
   <meta name="twitter:image" content="https://emonad.lol/og-arcade.jpg?v=2">
 
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -339,6 +339,13 @@
     .game-shot::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(to bottom, rgba(0,0,0,0) 0 3px, rgba(0,0,0,.14) 3px 4px); pointer-events: none; }
     .game-shot .play { position: absolute; right: 14px; bottom: 14px; z-index: 1; display: inline-flex; align-items: center; gap: 8px; padding: 9px 15px 9px 13px; border-radius: 999px; font-size: 13px; font-weight: 700; color: #fff; background: rgba(8,6,18,.72); border: 1px solid rgba(255,255,255,.18); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: background .2s ease; }
     .game:hover .game-shot .play { background: rgba(255,46,136,.85); }
+    /* a row whose picture also holds the game's trailer: the loop plays until the button is pressed, then the trailer
+       plays over it with sound and its controls */
+    .game-trailer video.trailer { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+    .game-trailer.playing video.trailer { opacity: 1; pointer-events: auto; transform: none !important; }
+    .game-trailer.playing::after { display: none; }
+    .game-trailer .trailer-play span { width: 72px; height: 72px; font-size: 26px; }
+    .game-trailer.playing .trailer-play { opacity: 0; pointer-events: none; }
     .game-info { padding: 6px 10px 6px 0; min-width: 0; }
     .game:nth-child(even) .game-info { padding: 6px 0 6px 10px; }
     .game-kicker { display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
@@ -412,9 +419,9 @@
   <!-- ── HERO ── -->
   <section class="hero">
     <div class="hero-aura" aria-hidden="true"></div>
-    <span class="badge"><span class="dot"></span> Three free games · by Emonad</span>
+    <span class="badge"><span class="dot"></span> Four free games · by Emonad</span>
     <h1 class="arcade-title" aria-label="Emo Arcade"><span class="emo" aria-hidden="true">EMO</span><span class="name" aria-hidden="true">ARCADE</span><span class="rule" aria-hidden="true"></span></h1>
-    <p class="lead">Three games starring Emonad. <strong>Skate to the beat, fall down a well, survive the night.</strong> Free, in your browser, made for phones.</p>
+    <p class="lead">Four games starring Emonad. <strong>Skate to the beat, fall down a well, survive the night, climb to the moon.</strong> Free, in your browser, made for phones.</p>
     <div class="hero-actions">
       <a href="#trailer" class="btn-primary" id="heroWatch">▶ Watch the trailer</a>
       <a href="#games" class="btn-outline" data-tab="games">Play the games</a>
@@ -428,7 +435,7 @@
   <!-- ── THE ARCADE: GAMES | GAME ASSETS ── -->
   <section id="arcade">
     <div class="tabs" role="tablist" aria-label="The arcade">
-      <button class="tab" role="tab" id="tab-games" aria-controls="games" aria-selected="true" data-tab="games">Games <span class="n">3</span></button>
+      <button class="tab" role="tab" id="tab-games" aria-controls="games" aria-selected="true" data-tab="games">Games <span class="n">4</span></button>
       <button class="tab" role="tab" id="tab-assets" aria-controls="assets" aria-selected="false" tabindex="-1" data-tab="assets">Game assets</button>
     </div>
 
@@ -499,6 +506,29 @@
             </div>
           </div>
         </article>
+
+        <article class="game">
+          <div class="game-shot game-trailer" id="nguShot">
+            <video class="loop" muted loop playsinline preload="none" poster="arcade/ngu-loop.webp" data-src="arcade/ngu-loop.mp4" aria-label="Number Go Up: Emonad climbing the candles of the $EMO chart, thrown up by a whale's spout, over the bars, up the moon's rocks, playing air guitar on the moon"></video>
+            <video class="trailer" id="nguVideo" playsinline preload="none" poster="arcade/ngu-trailer.jpg" src="arcade/ngu-trailer.mp4"></video>
+            <button class="trailer-play" id="nguPlay" aria-label="Play the Number Go Up trailer"><b>TRAILER · 1:00</b><span>▶</span><em>Watch the trailer</em></button>
+          </div>
+          <div class="game-info">
+            <div class="game-kicker"><b>04</b> A climb to the moon</div>
+            <h3>NUMBER GO UP</h3>
+            <p class="game-tag">The only way is up.</p>
+            <p>Climb the $EMO chart from the trading floor to the moon. Candles, crab markets, whales and rug pulls, liquidation bars sweeping at your feet. One slip and it is a long way down. Diamond hands: no checkpoints.</p>
+            <div class="game-stats">
+              <div class="game-stat"><b>9</b><span>chapters</span></div>
+              <div class="game-stat"><b>307</b><span>metres</span></div>
+              <div class="game-stat"><b>1</b><span>moon</span></div>
+            </div>
+            <div class="game-actions">
+              <a class="btn-primary btn-sm" href="https://numbergoup.emonad.lol" target="_blank" rel="noopener noreferrer">Play Number Go Up ↗</a>
+              <span class="game-url">numbergoup.emonad.lol</span>
+            </div>
+          </div>
+        </article>
       </div>
       <div class="free-line">
         <span class="chip">Free</span><span class="chip">No download</span><span class="chip">Made for phones</span><span class="chip">Add it to your home screen</span>
@@ -544,6 +574,7 @@
     <a href="https://emoskate.emonad.lol" target="_blank" rel="noopener noreferrer">Emo Skate</a>
     <a href="https://emofall.emonad.lol" target="_blank" rel="noopener noreferrer">Emo Fall</a>
     <a href="https://emonight.emonad.lol" target="_blank" rel="noopener noreferrer">Emo Night</a>
+    <a href="https://numbergoup.emonad.lol" target="_blank" rel="noopener noreferrer">Number Go Up</a>
     <a href="game-assets.html">Pixel Pack</a>
     <a href="https://x.com/EmonadCoin" target="_blank" rel="noopener noreferrer">X</a>
   </div>
@@ -588,6 +619,10 @@ function player(boxId, videoId, btnId) {
 const players = [];
 const trailer = player('trailer', 'trailerVideo', 'trailerPlay'); players.push(trailer);
 const packTrailer = player('packMedia', 'packVideo', 'packPlay'); players.push(packTrailer);
+const nguTrailer = player('nguShot', 'nguVideo', 'nguPlay'); players.push(nguTrailer);
+// (the row's loop rests while its trailer plays over it)
+nguTrailer.v.addEventListener('play', () => { const l = nguTrailer.box.querySelector('video.loop'); if (l && !l.paused) l.pause(); });
+nguTrailer.v.addEventListener('ended', () => { const l = nguTrailer.box.querySelector('video.loop'); if (l && !still && l.src) l.play().catch(() => {}); });
 document.getElementById('heroWatch').addEventListener('click', (e) => { e.preventDefault(); trailer.box.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => trailer.play(), 350); });
 
 /* ── The game cards: each a short loop of the game itself, muted, playing only while it is on screen (and not at all
@@ -597,7 +632,7 @@ const loops = [...document.querySelectorAll('video.loop')];
 const loopIO = new IntersectionObserver((es) => {
   for (const e of es) {
     const v = e.target;
-    if (e.isIntersecting && !still && !document.getElementById('games').hidden) { if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); }
+    if (e.isIntersecting && !still && !document.getElementById('games').hidden && !v.closest('.playing')) { if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); }
     else if (!v.paused) v.pause();
   }
 }, { threshold: 0.35 });
@@ -615,6 +650,7 @@ function showTab(name, { scroll = false, focus = false, push = true } = {}) {
     if (on && focus) t.focus();
   }
   if (name !== 'assets' && !packTrailer.v.paused) packTrailer.v.pause();
+  if (name !== 'games' && !nguTrailer.v.paused) nguTrailer.v.pause();
   if (name !== 'games') loops.forEach((v) => { if (!v.paused) v.pause(); });
   else loops.forEach((v) => { loopIO.unobserve(v); loopIO.observe(v); });
   document.querySelectorAll('.nav-links a[data-tab]').forEach(a => a.classList.toggle('active', a.dataset.tab === name));
