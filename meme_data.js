@@ -1,6477 +1,892 @@
-// Auto-generated meme metadata. Each entry: { file, name, category, text, description, tags }
+// Meme gallery data — edit name/categories/text/tags by hand; then run
+// `python3 scripts/update-memes.py` to (re)build thumbnails and fill w/h/color/thumb/added.
 const MEMES = [
-  {
-    "file": "301aq.jpg",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "gmonad",
-      "coffee",
-      "gm"
-    ]
-  },
-  {
-    "file": "911.jpg",
-    "name": "",
-    "categories": [
-      "bearish"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "aaaaaaaaaaa.jpg",
-    "name": "",
-    "categories": [
-      "sad"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "cry",
-      "crying"
-    ]
-  },
-  {
-    "file": "alien.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "I come in peace",
-    "description": "",
-    "tags": [
-      "peace",
-      "alien"
-    ]
-  },
-  {
-    "file": "attack.jpg",
-    "name": "",
-    "categories": [
-      "bearish"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "danger",
-      "nuke"
-    ]
-  },
-  {
-    "file": "bag.jpg",
-    "name": "",
-    "categories": [
-      "hats",
-      "bullish"
-    ],
-    "text": "BAGWORKERS WILL INHERIT THE EARTH",
-    "description": "",
-    "tags": [
-      "shiesty",
-      "candles",
-      "theif",
-      "steal"
-    ]
-  },
-  {
-    "file": "bagwork.jpg",
-    "name": "",
-    "categories": [
-      "bagwork",
-      "bullish"
-    ],
-    "text": "Hard work pays off HELLO MY NAME IS BAG",
-    "description": "",
-    "tags": [
-      "bagwork",
-      "bagworkers",
-      "bagworking",
-      "higher"
-    ]
-  },
-  {
-    "file": "bagwork2.jpg",
-    "name": "",
-    "categories": [
-      "bagwork"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "work",
-      "suit",
-      "money",
-      "cash"
-    ]
-  },
-  {
-    "file": "bagworking.jpg",
-    "name": "",
-    "categories": [
-      "bagwork",
-      "bullish"
-    ],
-    "text": "1) buy $emo 2) make or steal memes 3) bag work $emo",
-    "description": "",
-    "tags": [
-      "emo",
-      "bagwork",
-      "bagworking",
-      "memes"
-    ]
-  },
-  {
-    "file": "band.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "EMO NADS",
-    "description": "",
-    "tags": [
-      "music",
-      "band"
-    ]
-  },
-  {
-    "file": "bands.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "i had to make a couple bands by my lonely",
-    "description": "",
-    "tags": [
-      "bands",
-      "lonely"
-    ]
-  },
-  {
-    "file": "barbie.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "bath.jpg",
-    "name": "",
-    "categories": [
-      "chill"
-    ],
-    "text": "EPSOM SALTS BATHS",
-    "description": "",
-    "tags": [
-      "bath",
-      "bathtub"
-    ]
-  },
-  {
-    "file": "boats.jpg",
-    "name": "",
-    "categories": [
-      "bagwork",
-      "bullish"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "boat",
-      "boats",
-      "muscles"
-    ]
-  },
-  {
-    "file": "body.png",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "I BREATHE AIR FOR YOU I PUMP BLOOD FOR YOU I FILTER WASTE FOR YOU",
-    "description": "",
-    "tags": [
-      "sad",
-      "depression"
-    ]
-  },
-  {
-    "file": "bomb.jpg",
-    "name": "",
-    "categories": [
-      "bearish"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "nuke",
-      "bomb"
-    ]
-  },
-  {
-    "file": "brain.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "brain",
-      "smart",
-      "smort"
-    ]
-  },
-  {
-    "file": "brain2.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "brain",
-      "smart"
-    ]
-  },
-  {
-    "file": "bus.jpg",
-    "name": "",
-    "categories": [
-      "templates"
-    ],
-    "text": "DON'T MAKE ME TAP THE SIGN.",
-    "description": "",
-    "tags": [
-      "tap",
-      "sign"
-    ]
-  },
-  {
-    "file": "bus2.jpg",
-    "name": "",
-    "categories": [
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "bus"
-    ]
-  },
-  {
-    "file": "cack.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "pants"
-    ]
-  },
-  {
-    "file": "capricorn.jpg",
-    "name": "",
-    "categories": [
-      "collabs"
-    ],
-    "text": "LIQUIDITY BOOST 69%",
-    "description": "",
-    "tags": [
-      "capricorn"
-    ]
-  },
-  {
-    "file": "cry.jpg",
-    "name": "",
-    "categories": [
-      "bearish"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "sad",
-      "read",
-      "note",
-      "cry",
-      "crying"
-    ]
-  },
-  {
-    "file": "cup.jpg",
-    "name": "",
-    "categories": [
-      "collabs"
-    ],
-    "text": "Bro? Every CUP is a DEATH CUP?! EMONAD",
-    "description": "",
-    "tags": [
-      "bro.fun",
-      "death",
-      "cup"
-    ]
-  },
-  {
-    "file": "cz.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "4",
-      "cz"
-    ]
-  },
-  {
-    "file": "dips.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "I LIKE BIG DIPS AND I CANNOT LIE",
-    "description": "",
-    "tags": [
-      "butts",
-      "butt",
-      "ass",
-      "dip",
-      "dips"
-    ]
-  },
-  {
-    "file": "djkaled.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "DJ KHALED SUFFERING FROM SUCCESS",
-    "description": "",
-    "tags": [
-      "dj",
-      "dj-khaled",
-      "suffering",
-      "success"
-    ]
-  },
-  {
-    "file": "dokwon.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "do-kwon"
-    ]
-  },
-  {
-    "file": "early.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "bullish"
-    ],
-    "text": "I may have been early but I'm not wrong",
-    "description": "",
-    "tags": [
-      "early"
-    ]
-  },
-  {
-    "file": "EkKVc.jpg",
-    "name": "",
-    "categories": [
-      "gn"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "lighthouse",
-      "ocean",
-      "water"
-    ]
-  },
-  {
-    "file": "elon.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "elon"
-    ]
-  },
-  {
-    "file": "emo diesle.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "vin-diesel"
-    ]
-  },
-  {
-    "file": "emo-meme-1776989415526.png",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "butt",
-      "ass",
-      "naked",
-      "only-fans",
-      "onlyfans"
-    ]
-  },
-  {
-    "file": "emo-meme-1777156946150.png",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "cig",
-      "smoking",
-      "gun",
-      "inversebrah",
-      "lil-shid"
-    ]
-  },
-  {
-    "file": "emog.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "gmog",
-      "mog"
-    ]
-  },
-  {
-    "file": "emomon.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "EMOMON Emonad 200 HP Dark Slash Cry of Despair The Emo Pokemon. Hides in graveyards listening to screamo on his Ipod",
-    "description": "",
-    "tags": [
-      "pokemon",
-      "card",
-      "cards"
-    ]
-  },
-  {
-    "file": "emonad.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "EMONAD",
-    "description": "",
-    "tags": [
-      "emonad"
-    ]
-  },
-  {
-    "file": "emonads.png",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "emonad"
-    ]
-  },
-  {
-    "file": "emonads2.png",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "emonad"
-    ]
-  },
-  {
-    "file": "fat.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "fat",
-      "big",
-      "lord",
-      "king"
-    ]
-  },
-  {
-    "file": "fist.jpg",
-    "name": "",
-    "categories": [
-      "templates",
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "fist",
-      "mad",
-      "angry"
-    ]
-  },
-  {
-    "file": "frank.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "frank",
-      "degods"
-    ]
-  },
-  {
-    "file": "G7xd2KKWAAAMwpD.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "shocked",
-      "ew",
-      "scared"
-    ]
-  },
-  {
-    "file": "G8-qoipb0AIb7yQ.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "pokemon",
-      "necklace",
-      "bling"
-    ]
-  },
-  {
-    "file": "G83vRBzW0AA7mQT.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "CHEWSDAY",
-    "description": "",
-    "tags": [
-      "chewsday",
-      "init",
-      "bruv"
-    ]
-  },
-  {
-    "file": "G84DdyLXoAAWoPq.jpg",
-    "name": "",
-    "categories": [
-      "templates",
-      "memes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "steal",
-      "diamond",
-      "diamonds",
-      "girl"
-    ]
-  },
-  {
-    "file": "G8zWIbEXIAEL1eR.jpg",
-    "name": "",
-    "categories": [
-      "lil shid",
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "inversebrah",
-      "lil-shid",
-      "fire"
-    ]
-  },
-  {
-    "file": "G9hLZLtXYAEDky6.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "january february march april may june july august september october november december",
-    "description": "",
-    "tags": [
-      "months",
-      "month"
-    ]
-  },
-  {
-    "file": "G9luUdIX0AAKqqk.jpg",
-    "name": "",
-    "categories": [
-      "shirts"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "bitcoin"
-    ]
-  },
-  {
-    "file": "G9mzVIUXcAAn0-g.jpg",
-    "name": "",
-    "categories": [
-      "random",
-      "shirts"
-    ],
-    "text": "EMO STRIKES BACK",
-    "description": "",
-    "tags": [
-      "star-wars"
-    ]
-  },
-  {
-    "file": "G9WLQyHXgAEZozX.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "bearish",
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "vietnam",
-      "flashback"
-    ]
-  },
-  {
-    "file": "G9WyE6ebQAAXvdB.jpg",
-    "name": "",
-    "categories": [
-      "collabs",
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "opensea",
-      "open-sea",
-      "ocean",
-      "water",
-      "sail"
-    ]
-  },
-  {
-    "file": "garage.jpg",
-    "name": "",
-    "categories": [
-      "random",
-      "lil shid"
-    ],
-    "text": "ANOTHER THURSDAY",
-    "description": "",
-    "tags": [
-      "music",
-      "band",
-      "inversebrah",
-      "lil-shid"
-    ]
-  },
-  {
-    "file": "garden.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "olive-garden",
-      "garden",
-      "olive"
-    ]
-  },
-  {
-    "file": "Gemini_Generated_Image_a4ihcfa4ihcfa4ih.png",
-    "name": "",
-    "categories": [
-      "music"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "odd-future",
-      "of"
-    ]
-  },
-  {
-    "file": "Gemini_Generated_Image_hz6ry8hz6ry8hz6r.png",
-    "name": "",
-    "categories": [
-      "emotions"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "shocked",
-      "wow"
-    ]
-  },
-  {
-    "file": "Gemini_Generated_Image_tc3xaatc3xaatc3x.png",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "pi",
-      "pie",
-      "food"
-    ]
-  },
-  {
-    "file": "Gemini_Generated_Image_yedrtmyedrtmyedr.png",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "wake-up",
-      "wrong"
-    ]
-  },
-  {
-    "file": "Gemini_Generated_Image_z8vwupz8vwupz8vw.png",
-    "name": "",
-    "categories": [
-      "random",
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "subway",
-      "sword",
-      "cut"
-    ]
-  },
-  {
-    "file": "girl.jpg",
-    "name": "",
-    "categories": [
-      "templates",
-      "memes",
-      "chart",
-      "bullish"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "chart",
-      "woman",
-      "girl",
-      "girlfriend"
-    ]
-  },
-  {
-    "file": "glass.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "glass",
-      "crystal"
-    ]
-  },
-  {
-    "file": "golf.jpg",
-    "name": "",
-    "categories": [
-      "music"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "emo",
-      "tyler",
-      "tyler-the-creator"
-    ]
-  },
-  {
-    "file": "good afternoon.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "jerome",
-      "jerome-powell",
-      "powell"
-    ]
-  },
-  {
-    "file": "grok-image-01022b91-c9c8-4069-8d58-ba45e609b078.png",
-    "name": "",
-    "categories": [
-      "chill",
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "flowers",
-      "sun",
-      "butterfly",
-      "gm",
-      "grass",
-      "touch",
-      "touch-grass"
-    ]
-  },
-  {
-    "file": "grok-image-01501910-b430-4076-b441-d4719016b19d.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "plants",
-      "garden"
-    ]
-  },
-  {
-    "file": "grok-image-0530f743-1884-4abe-b670-7873cf7a6312.png",
-    "name": "",
-    "categories": [
-      "monad"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "space",
-      "monad"
-    ]
-  },
-  {
-    "file": "grok-image-0608a0b4-cbcb-4d6c-becb-b91f6f3fd5b6.png",
-    "name": "",
-    "categories": [
-      "random",
-      "chill"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "pie",
-      "happy"
-    ]
-  },
-  {
-    "file": "grok-image-094e0de6-37c8-496e-aec3-a23ac86106d0.png",
-    "name": "",
-    "categories": [
-      "gm",
-      "music"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "bus-stop",
-      "bus",
-      "headphones"
-    ]
-  },
-  {
-    "file": "grok-image-15d2fa74-bede-4ee5-9a89-e24236b8c014.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "water",
-      "stream",
-      "forest",
-      "woods",
-      "touch-grass",
-      "grass"
-    ]
-  },
-  {
-    "file": "grok-image-26d451bd-25b3-49b1-b404-4e452cba53e8.png",
-    "name": "",
-    "categories": [
-      "gn"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "park",
-      "gn"
-    ]
-  },
-  {
-    "file": "grok-image-28bb782e-20a2-49f2-a7f9-1b7e8018f961.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "coffee",
-      "mountains",
-      "woods",
-      "forrest",
-      "trees"
-    ]
-  },
-  {
-    "file": "grok-image-2ac5169e-745b-45ac-bf60-b7faa9262a22.png",
-    "name": "",
-    "categories": [
-      "gn"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "woods",
-      "tent",
-      "fire",
-      "camping",
-      "forrest",
-      "trees"
-    ]
-  },
-  {
-    "file": "grok-image-30fbc20a-7880-4e71-b32d-28a0a5fa437d.png",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "book",
-      "books",
-      "library"
-    ]
-  },
-  {
-    "file": "grok-image-34666747-96d2-439e-b5fd-5f8c458a0991.png",
-    "name": "",
-    "categories": [
-      "gm",
-      "music"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "attic",
-      "guitar",
-      "sun"
-    ]
-  },
-  {
-    "file": "grok-image-3905236a-bae7-4ab1-9938-87f03f32e63f.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "bridge",
-      "gm",
-      "fog",
-      "foggy"
-    ]
-  },
-  {
-    "file": "grok-image-3bdf3f94-b214-404b-8bc7-64a7a265c6b9.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "plants",
-      "greenhouse",
-      "garden",
-      "gm"
-    ]
-  },
-  {
-    "file": "grok-image-45e5020f-2897-4414-93b0-5a0e63802323.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "bridge"
-    ]
-  },
-  {
-    "file": "grok-image-64e1a166-23ae-4ec6-ad80-640d26364db2.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "water",
-      "stream",
-      "river",
-      "gm"
-    ]
-  },
-  {
-    "file": "grok-image-6973d8ac-a778-4643-b061-11e6bbf2bf4a.png",
-    "name": "",
-    "categories": [
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "uno"
-    ]
-  },
-  {
-    "file": "grok-image-6a3441c8-dad2-433f-a891-ec8d95cb71ac.png",
-    "name": "",
-    "categories": [
-      "gn"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "pool",
-      "night",
-      "stars",
-      "gn"
-    ]
-  },
-  {
-    "file": "grok-image-6aae73fd-4ab6-4117-b8e2-30ca43c592d9.png",
-    "name": "",
-    "categories": [
-      "gn"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "stars",
-      "night",
-      "car",
-      "gn"
-    ]
-  },
-  {
-    "file": "grok-image-74cdb2c7-2127-4c7e-8d9b-50d09d06e8f7.png",
-    "name": "",
-    "categories": [
-      "gn"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "skate",
-      "skate-park",
-      "skate-board"
-    ]
-  },
-  {
-    "file": "grok-image-757971ca-d679-4e9e-9b78-8bd378071b51.png",
-    "name": "",
-    "categories": [
-      "sad"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "rain",
-      "raining"
-    ]
-  },
-  {
-    "file": "grok-image-75a50021-44b0-45af-bb82-ee139730dfea.png",
-    "name": "",
-    "categories": [
-      "gn"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "balcony",
-      "city",
-      "night",
-      "skyline",
-      "gn"
-    ]
-  },
-  {
-    "file": "grok-image-7bef5f48-71b8-4580-89ae-de412c4e2e96.png",
-    "name": "",
-    "categories": [
-      "monad"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "jellyfish",
-      "water",
-      "under-water",
-      "monad"
-    ]
-  },
-  {
-    "file": "grok-image-7e225fa8-0fda-4a82-aa19-96ccf331fa79.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "winter",
-      "snow",
-      "coffee",
-      "gm"
-    ]
-  },
-  {
-    "file": "grok-image-7f64ac0d-2da4-42ae-bfc6-e1da3520d687 (1).png",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "amime",
-      "space"
-    ]
-  },
-  {
-    "file": "grok-image-830c8241-c19a-464a-a07a-cbda20403c6a.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "lighthouse",
-      "water",
-      "morning",
-      "ocean"
-    ]
-  },
-  {
-    "file": "grok-image-852c586c-89a0-4485-b07e-04bff7d83fac.png",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "hot-topic"
-    ]
-  },
-  {
-    "file": "grok-image-8d5ecc31-fa35-453c-bff6-35bb2e992cd3.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "swing",
-      "park",
-      "morning"
-    ]
-  },
-  {
-    "file": "grok-image-8fabb9ab-0720-4186-990a-b4ee8a38acf6.png",
-    "name": "",
-    "categories": [
-      "random",
-      "gn"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "shop",
-      "shopping",
-      "food"
-    ]
-  },
-  {
-    "file": "grok-image-99e13420-8ca6-44d9-804d-8fb47b867889.png",
-    "name": "",
-    "categories": [
-      "gn"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "beach",
-      "bonfire",
-      "water",
-      "ocean"
-    ]
-  },
-  {
-    "file": "grok-image-9b1750bc-cba9-43cc-aee4-a44eebefd761.png",
-    "name": "",
-    "categories": [
-      "gn"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "fireworks",
-      "roof"
-    ]
-  },
-  {
-    "file": "grok-image-a095647b-1ed2-4230-b0ed-90381699987f.png",
-    "name": "",
-    "categories": [
-      "gn"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "stars",
-      "rooftop",
-      "gn"
-    ]
-  },
-  {
-    "file": "grok-image-a388edbc-d7cb-4449-af4e-f51b3cbf0993.png",
-    "name": "",
-    "categories": [
-      "gn"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "city",
-      "skyline",
-      "stars"
-    ]
-  },
-  {
-    "file": "grok-image-a3fcfc7b-1194-4b97-b6c2-df529256309b.png",
-    "name": "",
-    "categories": [
-      "gm",
-      "chill"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "hammock",
-      "outside",
-      "backyard"
-    ]
-  },
-  {
-    "file": "grok-image-aa73f9be-42f3-4ac8-8b75-af3b2cc355e0.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "mountain",
-      "coffee"
-    ]
-  },
-  {
-    "file": "grok-image-b94bbe66-99a5-48f3-8876-1d3c59c5fece.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "roof",
-      "cat"
-    ]
-  },
-  {
-    "file": "grok-image-ba25700c-73f9-42ce-8145-4d66858b4357.png",
-    "name": "",
-    "categories": [
-      "random",
-      "bullish"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "beach-ball",
-      "beachball",
-      "water",
-      "ocean"
-    ]
-  },
-  {
-    "file": "grok-image-c2878a46-3fbb-454d-9d50-d61774474273.png",
-    "name": "",
-    "categories": [
-      "chill"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "river",
-      "water",
-      "stream",
-      "sunglasses",
-      "tube",
-      "tubing"
-    ]
-  },
-  {
-    "file": "grok-image-c4932bd5-373a-4111-a09e-bc0af57dcd99.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "coffee",
-      "writing",
-      "rain",
-      "raining"
-    ]
-  },
-  {
-    "file": "grok-image-c6cb3e12-f2d7-43de-971e-4c5f42744ec5.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "coffee",
-      "reading",
-      "book",
-      "books"
-    ]
-  },
-  {
-    "file": "grok-image-c7af6650-a9fb-4618-8fbc-77552bb7de42.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "coffee",
-      "diner"
-    ]
-  },
-  {
-    "file": "grok-image-cb8223be-8e4d-4c60-8458-d1e2c6a8714d.png",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "spongebob",
-      "water",
-      "ocean",
-      "sleeping",
-      "sleep"
-    ]
-  },
-  {
-    "file": "grok-image-cc9e573d-e600-49ec-bcbf-e684a00fb40b.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "breakfast",
-      "bakery",
-      "donuts",
-      "food"
-    ]
-  },
-  {
-    "file": "grok-image-ceeb5946-d6e1-4f71-9242-1417bc97ae41.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "waiting",
-      "train"
-    ]
-  },
-  {
-    "file": "grok-image-d2060e8f-0de4-4ef5-8939-0a587634ea8c.png",
-    "name": "",
-    "categories": [
-      "gn"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "street"
-    ]
-  },
-  {
-    "file": "grok-image-dcc5d1bf-f419-4f39-9278-781705dfe0ff.png",
-    "name": "",
-    "categories": [
-      "collabs",
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "kb",
-      "pokemon",
-      "beach",
-      "water",
-      "ocean"
-    ]
-  },
-  {
-    "file": "grok-image-e037aded-f346-4ca1-95c4-24d81d461991.png",
-    "name": "",
-    "categories": [
-      "gn"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "diner",
-      "coffee"
-    ]
-  },
-  {
-    "file": "grok-image-e1b5d9d2-8044-46f7-9ce2-2ed6b0a8fabd.png",
-    "name": "",
-    "categories": [
-      "gm",
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "laundry",
-      "waiting"
-    ]
-  },
-  {
-    "file": "grok-image-e64f45b4-9bd7-4666-a65a-7452d103c319.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "skate",
-      "skateboard",
-      "skate-board",
-      "skate-park",
-      "park"
-    ]
-  },
-  {
-    "file": "grok-image-e7d9e7a5-8cd3-49e9-a7b5-876871f32ca8.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "garden",
-      "bee",
-      "flowers",
-      "water"
-    ]
-  },
-  {
-    "file": "grok-image-e9aa43cc-d6d0-4733-a9d2-69c1b1ed4970.png",
-    "name": "",
-    "categories": [
-      "gn"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "winter",
-      "cold",
-      "snow",
-      "street"
-    ]
-  },
-  {
-    "file": "grok-image-ed1b0b64-52b8-496a-9e30-1cd95fbeb8ba.png",
-    "name": "",
-    "categories": [
-      "chill"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "zen",
-      "garden",
-      "sand",
-      "zen-garden"
-    ]
-  },
-  {
-    "file": "grok-image-fa425dff-78c4-4329-8aeb-a5189d5c048f.png",
-    "name": "",
-    "categories": [
-      "gn",
-      "music"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "bed",
-      "sleep",
-      "guitar"
-    ]
-  },
-  {
-    "file": "grok-image-fe6da474-903b-4b6a-b3d6-9378e4cdea1a.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "lake",
-      "coffee",
-      "woods",
-      "trees"
-    ]
-  },
-  {
-    "file": "grok-image-feaa2724-4879-42c1-8673-782c27c1fc15.png",
-    "name": "",
-    "categories": [
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "city",
-      "balcony",
-      "plants",
-      "garden"
-    ]
-  },
-  {
-    "file": "hair.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "IF JOBS WERE HAIRSTYLES INVESTMENT BANKING STARTUP VC MEME TRADER PRIVATE EQUITY",
-    "description": "",
-    "tags": [
-      "hair",
-      "jobs",
-      "vc",
-      "banking",
-      "startup"
-    ]
-  },
-  {
-    "file": "hmm.jpg",
-    "name": "",
-    "categories": [
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "hands"
-    ]
-  },
-  {
-    "file": "huang.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "nvidia",
-      "jensen-huang",
-      "jensen",
-      "huang"
-    ]
-  },
-  {
-    "file": "humpty.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "fat",
-      "humpty",
-      "dumpty"
-    ]
-  },
-  {
-    "file": "i get.png",
-    "name": "",
-    "categories": [
-      "templates"
-    ],
-    "text": "i get you get",
-    "description": "",
-    "tags": [
-      "trade",
-      "offer",
-      "i-get",
-      "you-get",
-      "get"
-    ]
-  },
-  {
-    "file": "image.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "sit",
-      "sitting"
-    ]
-  },
-  {
-    "file": "IMG_0972.PNG",
-    "name": "",
-    "categories": [
-      "emonad"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "emonad",
-      "banner"
-    ]
-  },
-  {
-    "file": "james.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "different query, same result. sad. what memecoin should i buy? emonad EmonadCoin",
-    "description": "",
-    "tags": [
-      "james"
-    ]
-  },
-  {
-    "file": "KaOGivI6.jpg",
-    "name": "",
-    "categories": [
-      "emotions",
-      "random"
-    ],
-    "text": "DANGER DO NOT ENTER ATTACK CENTER",
-    "description": "",
-    "tags": [
-      "pokemon",
-      "shocked",
-      "pikachu"
-    ]
-  },
-  {
-    "file": "kb.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "$EMO",
-    "description": "",
-    "tags": [
-      "pikachu",
-      "kb",
-      "pokemon"
-    ]
-  },
-  {
-    "file": "kb2.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "kb",
-      "onion",
-      "pokemon",
-      "pikachu"
-    ]
-  },
-  {
-    "file": "lazer.jpg",
-    "name": "",
-    "categories": [
-      "random",
-      "bearish"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "bear",
-      "lazer",
-      "laser"
-    ]
-  },
-  {
-    "file": "LdLQ1.jpg",
-    "name": "",
-    "categories": [
-      "gn"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "coffee",
-      "snowing",
-      "snow",
-      "cabin",
-      "woods",
-      "tree"
-    ]
-  },
-  {
-    "file": "lm5oc.jpg",
-    "name": "",
-    "categories": [
-      "random",
-      "chill"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "game",
-      "gaming",
-      "controller"
-    ]
-  },
-  {
-    "file": "lord.jpg",
-    "name": "",
-    "categories": [
-      "people",
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "lord",
-      "lord-emo",
-      "king",
-      "crown"
-    ]
-  },
-  {
-    "file": "memes.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "random"
-    ],
-    "text": "$EMO",
-    "description": "",
-    "tags": [
-      "computer",
-      "messy",
-      "mess",
-      "nerd",
-      "dork"
-    ]
-  },
-  {
-    "file": "metal.jpg",
-    "name": "",
-    "categories": [
-      "people",
-      "bearish",
-      "chart"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "trump",
-      "gold",
-      "silver"
-    ]
-  },
-  {
-    "file": "money.jpg",
-    "name": "",
-    "categories": [
-      "bullish",
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "money",
-      "money-spread",
-      "cash"
-    ]
-  },
-  {
-    "file": "MzCT0.jpg",
-    "name": "",
-    "categories": [
-      "random",
-      "chill"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "bike"
-    ]
-  },
-  {
-    "file": "nerd.jpg",
-    "name": "",
-    "categories": [
-      "random",
-      "templates"
-    ],
-    "text": "EMONAD",
-    "description": "",
-    "tags": [
-      "computer",
-      "nerd",
-      "dork"
-    ]
-  },
-  {
-    "file": "nevermind.jpg",
-    "name": "",
-    "categories": [
-      "music",
-      "memes"
-    ],
-    "text": "any moment with you is my favorite",
-    "description": "",
-    "tags": [
-      "nirvana",
-      "nevermind",
-      "water",
-      "swimming",
-      "money"
-    ]
-  },
-  {
-    "file": "nuke.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "HACKERS",
-    "description": "",
-    "tags": [
-      "hackers",
-      "hacker"
-    ]
-  },
-  {
-    "file": "outwork everyone.jpg",
-    "name": "",
-    "categories": [
-      "bagwork",
-      "bullish"
-    ],
-    "text": "Outwork Everyone",
-    "description": "",
-    "tags": [
-      "work",
-      "outwork"
-    ]
-  },
-  {
-    "file": "paint.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "emotions"
-    ],
-    "text": "How to paint the ceiling?",
-    "description": "",
-    "tags": [
-      "sad",
-      "paint",
-      "gun"
-    ]
-  },
-  {
-    "file": "photo_10_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "fiddy",
-      "50",
-      "50-cent",
-      "cent"
-    ]
-  },
-  {
-    "file": "photo_10_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "collabs"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_10_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "inversebrah",
-      "happy",
-      "lil-shid"
-    ]
-  },
-  {
-    "file": "photo_11_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "eyes",
-      "stare",
-      "eye",
-      "lil-shid",
-      "inversebrah"
-    ]
-  },
-  {
-    "file": "photo_12_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people",
-      "monad"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "james",
-      "hunsaker"
-    ]
-  },
-  {
-    "file": "photo_12_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "learing",
-      "center"
-    ]
-  },
-  {
-    "file": "photo_13_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "inversebrah",
-      "poor",
-      "lil-shid"
-    ]
-  },
-  {
-    "file": "photo_14_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "food",
-      "pop-tart",
-      "eating"
-    ]
-  },
-  {
-    "file": "photo_15_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "people",
-      "bearish"
-    ],
-    "text": "pop-tarts EMO",
-    "description": "",
-    "tags": [
-      "nikki",
-      "city"
-    ]
-  },
-  {
-    "file": "photo_15_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "mar"
-    ]
-  },
-  {
-    "file": "photo_15_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "alphaco",
-      "barney"
-    ]
-  },
-  {
-    "file": "photo_16_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "templates",
-      "memes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "smoking",
-      "smoke",
-      "cig",
-      "cigarette"
-    ]
-  },
-  {
-    "file": "photo_17_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "yallah",
-      "habibi",
-      "sproto"
-    ]
-  },
-  {
-    "file": "photo_17_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "animals"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "cat",
-      "kitty"
-    ]
-  },
-  {
-    "file": "photo_18_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "bearish",
-      "chart",
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "inversebrah",
-      "lil-shid",
-      "chart"
-    ]
-  },
-  {
-    "file": "photo_18_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "joshua",
-      "gay-seal"
-    ]
-  },
-  {
-    "file": "photo_18_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "inversebrah",
-      "lil-shid"
-    ]
-  },
-  {
-    "file": "photo_19_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "the used",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_1_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "inversebrah",
-      "lil-shid",
-      "gun"
-    ]
-  },
-  {
-    "file": "photo_1_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "the used",
-    "description": "",
-    "tags": [
-      "emily",
-      "mog"
-    ]
-  },
-  {
-    "file": "photo_1_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "$EMO",
-    "description": "",
-    "tags": [
-      "nikki",
-      "fuck-you",
-      "fuck"
-    ]
-  },
-  {
-    "file": "photo_2025-12-09_22-25-08.jpg",
-    "name": "",
-    "categories": [
-      "random",
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "cook",
-      "cooking"
-    ]
-  },
-  {
-    "file": "photo_2025-12-10_20-06-40.jpg",
-    "name": "",
-    "categories": [
-      "emotions",
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "rope",
-      "handing",
-      "christmas"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_00-49-05.jpg",
-    "name": "",
-    "categories": [
-      "chill"
-    ],
-    "text": "BRING ME THE HORIZON $EMO",
-    "description": "",
-    "tags": [
-      "sitting",
-      "sit"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-40-33.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "MONAD IS DEAD WHAT'S THE NEXT RUNNER? JAMES IS A JEET BE CAREFUL CHA CHING EMONAD WAITING FOR A DIP TBH ICO PRICE WEN TG HE'S UGLY AND SAD",
-    "description": "",
-    "tags": [
-      "professor-crypto"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-40-37.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "watch",
-      "bowling",
-      "love",
-      "hate"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-40-42.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "HATE ME OR LOVE ME, YOU WATCHED. THAT'S ALL YOU COULD DO.",
-    "description": "",
-    "tags": [
-      "james",
-      "sad",
-      "emonad"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-40-44.jpg",
-    "name": "",
-    "categories": [
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "sad"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-41-02.jpg",
-    "name": "",
-    "categories": [
-      "chart",
-      "bearish",
-      "bullish"
-    ],
-    "text": "ANOTHER DIP? GUESS I'LL BUY MORE $EMO",
-    "description": "",
-    "tags": [
-      "dip",
-      "crash",
-      "nuke",
-      "chart"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-41-07.jpg",
-    "name": "",
-    "categories": [
-      "monad",
-      "collabs"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "monad",
-      "logo"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-41-09.jpg",
-    "name": "",
-    "categories": [
-      "collabs"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "chog",
-      "gchog"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-41-14.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "patrick",
-      "spongebob",
-      "stupid",
-      "dumb"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-41-17.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "people"
-    ],
-    "text": "If you can't hold, you won't be rich. CZ, CEO Binance",
-    "description": "",
-    "tags": [
-      "4",
-      "rich",
-      "hold",
-      "hodl",
-      "cz"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-41-20.jpg",
-    "name": "",
-    "categories": [
-      "collabs"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "nadfun"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-41-31.jpg",
-    "name": "",
-    "categories": [
-      "collabs",
-      "bearish",
-      "animals"
-    ],
-    "text": "Fuck.",
-    "description": "",
-    "tags": [
-      "sappy",
-      "seals",
-      "fuck"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-41-33.jpg",
-    "name": "",
-    "categories": [
-      "collabs",
-      "animals"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "metamask",
-      "fox"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-41-34.jpg",
-    "name": "",
-    "categories": [
-      "animals",
-      "collabs"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "nub",
-      "nubcat"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-41-41.jpg",
-    "name": "",
-    "categories": [
-      "templates",
-      "random",
-      "people"
-    ],
-    "text": "We're going to be millionaires.",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_2025-12-11_21-41-45.jpg",
-    "name": "",
-    "categories": [
-      "people",
-      "templates"
-    ],
-    "text": "I'M EXHAUSTED FROM TRYING TO BE STRONGER THAN I FEEL",
-    "description": "",
-    "tags": [
-      "shane-gillis",
-      "shane",
-      "gillis"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-41-47.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "thinking of you rn",
-    "description": "",
-    "tags": [
-      "king-loui"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-41-48.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "emotions"
-    ],
-    "text": "When your shampoo says 'damage repair' but you're still broken on the inside",
-    "description": "",
-    "tags": [
-      "exhausteed",
-      "tired",
-      "sad"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-41-50.jpg",
-    "name": "",
-    "categories": [
-      "emotions",
-      "memes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "hard",
-      "thinking"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-41-52.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "shower",
-      "shampoo",
-      "sad"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-41-55.jpg",
-    "name": "",
-    "categories": [
-      "music",
-      "memes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "american",
-      "psycho"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-41-57.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "pauly"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-42-01.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "people",
-      "monad"
-    ],
-    "text": "SAY THE LINE KEONE I CERTAINLY COULDN'T PREDICT THAT THE EMO MEME COIN WOULD TAKE OFF. I JUST THINK THE MEMES ARE REALLY FUNNY",
-    "description": "",
-    "tags": [
-      "keone"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-42-04.jpg",
-    "name": "",
-    "categories": [
-      "holidays"
-    ],
-    "text": "ALL I WANT FOR CHRISTMAS IS YOU... TO LEAVE ME ALONE.",
-    "description": "",
-    "tags": [
-      "christmas"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-42-06.jpg",
-    "name": "",
-    "categories": [
-      "holidays"
-    ],
-    "text": "THE ONLY THING I'M UNWRAPPING THIS YEAR... IS MY EMOTIONAL TRAUMA.",
-    "description": "",
-    "tags": [
-      "christmas"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-42-08.jpg",
-    "name": "",
-    "categories": [
-      "holidays"
-    ],
-    "text": "ALL I WANT FOR CHRISTMAS... IS FOR IT TO BE OVER.",
-    "description": "",
-    "tags": [
-      "christmas"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-42-10.jpg",
-    "name": "",
-    "categories": [
-      "collabs",
-      "holidays"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "christmas",
-      "nadfun"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-42-15.jpg",
-    "name": "",
-    "categories": [
-      "collabs"
-    ],
-    "text": "TICKET",
-    "description": "",
-    "tags": [
-      "nadfun",
-      "ticket"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-42-20.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "newsy",
-      "johnson"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-42-22.jpg",
-    "name": "",
-    "categories": [
-      "people",
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "karen"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-42-24.jpg",
-    "name": "",
-    "categories": [
-      "collabs"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "coinbase",
-      "logo",
-      "logos"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-42-30.jpg",
-    "name": "",
-    "categories": [
-      "templates",
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_2025-12-11_21-42-44.jpg",
-    "name": "",
-    "categories": [
-      "music"
-    ],
-    "text": "Nowhere To Go Bad Omens",
-    "description": "",
-    "tags": [
-      "bad",
-      "omens"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-42-48.jpg",
-    "name": "",
-    "categories": [
-      "music"
-    ],
-    "text": "THE SMITHS",
-    "description": "",
-    "tags": [
-      "the-smiths"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-42-51.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "lil shid"
-    ],
-    "text": "behave: no",
-    "description": "",
-    "tags": [
-      "behave",
-      "no",
-      "lil-shid",
-      "inversebrah"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-42-54.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "choke",
-      "inversebrah",
-      "lil-shid"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-42-59.jpg",
-    "name": "",
-    "categories": [
-      "emotions",
-      "memes",
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "fuck",
-      "fuck-you",
-      "you"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-02.jpg",
-    "name": "",
-    "categories": [
-      "emotions"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "gun",
-      "rope",
-      "kms"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-04.jpg",
-    "name": "",
-    "categories": [
-      "emotions"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "gun"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-07.jpg",
-    "name": "",
-    "categories": [
-      "templates",
-      "memes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "phone",
-      "text",
-      "texting"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-10.jpg",
-    "name": "",
-    "categories": [
-      "templates",
-      "memes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "wojak"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-12.jpg",
-    "name": "",
-    "categories": [
-      "emotions"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "sad",
-      "butterfly",
-      "cry",
-      "crying"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-14.jpg",
-    "name": "",
-    "categories": [
-      "chill",
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "flowers",
-      "field",
-      "happy"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-16.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "inversebrah",
-      "lil-shid"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-18.jpg",
-    "name": "",
-    "categories": [
-      "collabs",
-      "monad",
-      "memes",
-      "emonad"
-    ],
-    "text": "$emo",
-    "description": "",
-    "tags": [
-      "nadfun",
-      "monad",
-      "emo",
-      "emonad"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-21.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "animals",
-      "emotions"
-    ],
-    "text": "hold on partner i am overstimulated",
-    "description": "",
-    "tags": [
-      "horse",
-      "partner",
-      "overstimulated"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-23.jpg",
-    "name": "",
-    "categories": [
-      "templates",
-      "bearish"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "falling",
-      "kms",
-      "jump",
-      "jumper"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-24.jpg",
-    "name": "",
-    "categories": [
-      "collabs"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "moncock"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-26.jpg",
-    "name": "",
-    "categories": [
-      "music",
-      "memes"
-    ],
-    "text": "Can you hear the silence? Can you see the dark? Can you fix the broken?",
-    "description": "",
-    "tags": [
-      "bmth"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-29.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "emotions"
-    ],
-    "text": "smile more me: i am",
-    "description": "",
-    "tags": [
-      "smile",
-      "sad"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-31.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "I'm trying",
-    "description": "",
-    "tags": [
-      "trying",
-      "sad",
-      "depression"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-33.jpg",
-    "name": "",
-    "categories": [
-      "lil shid",
-      "bearish"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "mcdonalds",
-      "fries",
-      "bag",
-      "poor"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-38.jpg",
-    "name": "",
-    "categories": [
-      "collabs",
-      "bullish",
-      "emonad"
-    ],
-    "text": "EMONAD BUYS $EMO ON NAD.FUN",
-    "description": "",
-    "tags": [
-      "franklin",
-      "nadfun",
-      "emonad"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-40.jpg",
-    "name": "",
-    "categories": [
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "mid",
-      "curve"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-42.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "emonad"
-    ],
-    "text": "WHY WOULD ANYONE BUY MEMECOINS ON MONAD WHEN THE TOP COIN WAS A 10 MIL TOPPER. IT'S OVER EMONAD",
-    "description": "",
-    "tags": [
-      "mid",
-      "curve",
-      "emonad"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-51.jpg",
-    "name": "",
-    "categories": [
-      "people",
-      "memes"
-    ],
-    "text": "EMONAD will be the Next Big Thing",
-    "description": "",
-    "tags": [
-      "murad"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-43-57.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "Things are now in motion that cannot be undone.",
-    "description": "",
-    "tags": [
-      "gandolf",
-      "motion"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-44-03.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "do-qwon"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-44-09.jpg",
-    "name": "",
-    "categories": [
-      "bullish"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "up",
-      "green",
-      "yell"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-44-21.jpg",
-    "name": "",
-    "categories": [
-      "bearish",
-      "chart"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "down",
-      "red",
-      "nuke"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-44-31.jpg",
-    "name": "",
-    "categories": [
-      "bullish"
-    ],
-    "text": "$EMO",
-    "description": "",
-    "tags": [
-      "jackpot",
-      "gamba",
-      "gambling",
-      "slot",
-      "machine",
-      "win"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-44-33.jpg",
-    "name": "",
-    "categories": [
-      "bearish"
-    ],
-    "text": "$EMO",
-    "description": "",
-    "tags": [
-      "rope",
-      "kms"
-    ]
-  },
-  {
-    "file": "photo_2025-12-11_21-44-46.jpg",
-    "name": "",
-    "categories": [
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "button",
-      "sweating",
-      "pick"
-    ]
-  },
-  {
-    "file": "photo_2025-12-14_19-47-37.jpg",
-    "name": "",
-    "categories": [
-      "templates",
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "cooking",
-      "fire"
-    ]
-  },
-  {
-    "file": "photo_2025-12-14_19-47-44.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "bearish",
-      "bullish"
-    ],
-    "text": "HOP IN, MY FREN WE'RE GOING INSANE",
-    "description": "",
-    "tags": [
-      "candle",
-      "gift",
-      "red"
-    ]
-  },
-  {
-    "file": "photo_2025-12-14_19-47-58.jpg",
-    "name": "",
-    "categories": [
-      "animals",
-      "lil shid"
-    ],
-    "text": "one life, its worth an attempt",
-    "description": "",
-    "tags": [
-      "lil-shid",
-      "anago",
-      "inversebrah"
-    ]
-  },
-  {
-    "file": "photo_2025-12-21_21-56-12.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "Every red candle is a gift",
-    "description": "",
-    "tags": [
-      "car",
-      "insane",
-      "pepe"
-    ]
-  },
-  {
-    "file": "photo_2025-12-22_00-10-36.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "HOP IN, MY FREN WE'RE GOING INSANE",
-    "description": "",
-    "tags": [
-      "arthur",
-      "hayes"
-    ]
-  },
-  {
-    "file": "photo_2025-12-22_11-38-42.jpg",
-    "name": "",
-    "categories": [
-      "random",
-      "emonad"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "toy",
-      "plushie",
-      "emonad"
-    ]
-  },
-  {
-    "file": "photo_2025-12-25_01-35-23.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "kid",
-      "gun"
-    ]
-  },
-  {
-    "file": "photo_2025-12-26_23-00-05.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "No it doesn't affect my baby 12 years later",
-    "description": "",
-    "tags": [
-      "smoking",
-      "smoke",
-      "drinking",
-      "drink",
-      "cig",
-      "cigarette"
-    ]
-  },
-  {
-    "file": "photo_2025-12-28_21-51-29.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "What's the password to the wifi?",
-    "description": "",
-    "tags": [
-      "wifi",
-      "internet",
-      "habibi",
-      "yallah"
-    ]
-  },
-  {
-    "file": "photo_2025-12-29_10-32-03.jpg",
-    "name": "",
-    "categories": [
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "party",
-      "alone"
-    ]
-  },
-  {
-    "file": "photo_2025-12-29_20-51-36.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "bagwork"
-    ],
-    "text": "$EMO BAG HOLDER 1500%+ TRAD FI TRADOOOOR: 7%+",
-    "description": "",
-    "tags": [
-      "zuck",
-      "trader",
-      "bag-worker"
-    ]
-  },
-  {
-    "file": "photo_2026-01-02_17-51-16.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "EMOLINED?",
-    "description": "",
-    "tags": [
-      "emolined",
-      "pikachu",
-      "sidelined"
-    ]
-  },
-  {
-    "file": "photo_2026-01-02_18-40-29.jpg",
-    "name": "",
-    "categories": [
-      "bullish",
-      "chart"
-    ],
-    "text": "$EMO",
-    "description": "",
-    "tags": [
-      "green",
-      "candles"
-    ]
-  },
-  {
-    "file": "photo_2026-01-02_19-37-44.jpg",
-    "name": "",
-    "categories": [
-      "bullish",
-      "bagwork"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "strong",
-      "muscles"
-    ]
-  },
-  {
-    "file": "photo_2026-04-24_12-52-03.jpg",
-    "name": "",
-    "categories": [
-      "monad",
-      "chill"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "monad",
-      "zen"
-    ]
-  },
-  {
-    "file": "photo_2026-04-29_11-30-48.jpg",
-    "name": "",
-    "categories": [
-      "gm",
-      "animals"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "kitty",
-      "cat"
-    ]
-  },
-  {
-    "file": "photo_20_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "collabs"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "harry",
-      "sproto",
-      "pepe"
-    ]
-  },
-  {
-    "file": "photo_21_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "monad",
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "monad",
-      "keone"
-    ]
-  },
-  {
-    "file": "photo_21_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "alphaco"
-    ]
-  },
-  {
-    "file": "photo_21_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "I'M TOO EMO",
-    "description": "",
-    "tags": [
-      "emo",
-      "too-emo",
-      "too"
-    ]
-  },
-  {
-    "file": "photo_22_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "people",
-      "music"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "ben",
-      "affleck",
-      "the-used",
-      "used"
-    ]
-  },
-  {
-    "file": "photo_22_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "emotions",
-      "holidays"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "cry",
-      "crying",
-      "waa-waa",
-      "wah",
-      "christmas",
-      "santa"
-    ]
-  },
-  {
-    "file": "photo_22_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "IT AIN'T MUCH BUT IT'S HONEST WORK",
-    "description": "",
-    "tags": [
-      "honest",
-      "work",
-      "farm",
-      "farmer"
-    ]
-  },
-  {
-    "file": "photo_23_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "bearish"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "fire",
-      "drinking",
-      "drink",
-      "riot"
-    ]
-  },
-  {
-    "file": "photo_23_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "WHY ARE YOU SO OBSESSED WITH ME?",
-    "description": "",
-    "tags": [
-      "jessica"
-    ]
-  },
-  {
-    "file": "photo_23_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "templates",
-      "gm"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "kid",
-      "coffee"
-    ]
-  },
-  {
-    "file": "photo_24_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "Delete feelings? Deleting this will also delete its data.",
-    "description": "",
-    "tags": [
-      "girl",
-      "girls",
-      "obsessed",
-      "mean"
-    ]
-  },
-  {
-    "file": "photo_24_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "EMONAD",
-    "description": "",
-    "tags": [
-      "kb",
-      "pikachu"
-    ]
-  },
-  {
-    "file": "photo_24_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "emotions"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "delete",
-      "feelings"
-    ]
-  },
-  {
-    "file": "photo_25_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "emonad",
-      "chart",
-      "bearish"
-    ],
-    "text": "$EMO",
-    "description": "",
-    "tags": [
-      "emonad",
-      "rope",
-      "chart"
-    ]
-  },
-  {
-    "file": "photo_25_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "prim"
-    ]
-  },
-  {
-    "file": "photo_25_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "random",
-      "animals"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "kermit",
-      "frog"
-    ]
-  },
-  {
-    "file": "photo_26_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "MONAD",
-    "description": "",
-    "tags": [
-      "hair",
-      "lil-shid",
-      "inversebrah"
-    ]
-  },
-  {
-    "file": "photo_26_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "lil shid",
-      "bearish"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "inversebrah",
-      "lil-shid",
-      "mcdonalds",
-      "fries",
-      "bag"
-    ]
-  },
-  {
-    "file": "photo_27_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "hair",
-      "inversebrah",
-      "lil-shid"
-    ]
-  },
-  {
-    "file": "photo_27_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "emotions",
-      "templates",
-      "memes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "wojak",
-      "cry",
-      "crying"
-    ]
-  },
-  {
-    "file": "photo_28_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "bearish"
-    ],
-    "text": "It's so over It's over We're back We're so back",
-    "description": "",
-    "tags": [
-      "pepe",
-      "over",
-      "back",
-      "r3tard",
-      "r3tards"
-    ]
-  },
-  {
-    "file": "photo_29_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "mazza"
-    ]
-  },
-  {
-    "file": "photo_29_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "bullish"
-    ],
-    "text": "EMO WORLD ORDER EWO",
-    "description": "",
-    "tags": [
-      "ewo",
-      "emo",
-      "world",
-      "order"
-    ]
-  },
-  {
-    "file": "photo_2_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "collabs"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "shramp",
-      "cook"
-    ]
-  },
-  {
-    "file": "photo_2_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "collabs"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "r3tards"
-    ]
-  },
-  {
-    "file": "photo_2_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "random",
-      "emonad"
-    ],
-    "text": "BITBOY",
-    "description": "",
-    "tags": [
-      "sphear",
-      "emonad"
-    ]
-  },
-  {
-    "file": "photo_30_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "inversebrah",
-      "lil-shid",
-      "sad"
-    ]
-  },
-  {
-    "file": "photo_31_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "music"
-    ],
-    "text": "Emonad",
-    "description": "",
-    "tags": [
-      "yell",
-      "kirby",
-      "sing"
-    ]
-  },
-  {
-    "file": "photo_31_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "templates",
-      "bearish"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "wojak",
-      "mcdonals"
-    ]
-  },
-  {
-    "file": "photo_31_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "people",
-      "holidays",
-      "animals"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "nikki",
-      "christmas",
-      "dogs"
-    ]
-  },
-  {
-    "file": "photo_32_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "collabs"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "r3tards"
-    ]
-  },
-  {
-    "file": "photo_32_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "animals"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "cat",
-      "kitty"
-    ]
-  },
-  {
-    "file": "photo_33_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "templates",
-      "memes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "truman",
-      "show",
-      "good",
-      "now"
-    ]
-  },
-  {
-    "file": "photo_34_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "animals",
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "pikachu",
-      "rat",
-      "kb"
-    ]
-  },
-  {
-    "file": "photo_36_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "emonad"
-    ],
-    "text": "ALL MY HOMIES BOUGHT EMONAD",
-    "description": "",
-    "tags": [
-      "homies",
-      "emonad"
-    ]
-  },
-  {
-    "file": "photo_37_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "monad",
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "monad",
-      "keone"
-    ]
-  },
-  {
-    "file": "photo_37_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "prez"
-    ]
-  },
-  {
-    "file": "photo_38_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "pikachu",
-      "pokemon"
-    ]
-  },
-  {
-    "file": "photo_39_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "clemente"
-    ]
-  },
-  {
-    "file": "photo_3_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "lil-shid",
-      "inversebrah",
-      "hand",
-      "pat"
-    ]
-  },
-  {
-    "file": "photo_40_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "trump",
-      "donald"
-    ]
-  },
-  {
-    "file": "photo_41_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "lil-shid",
-      "inversebrah",
-      "toilet"
-    ]
-  },
-  {
-    "file": "photo_41_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "bad-brothers"
-    ]
-  },
-  {
-    "file": "photo_42_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people",
-      "monad",
-      "collabs",
-      "holidays"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "chaos",
-      "christmas",
-      "monad",
-      "r3tards"
-    ]
-  },
-  {
-    "file": "photo_43_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "gm",
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "nikki",
-      "coffee",
-      "fire",
-      "riot"
-    ]
-  },
-  {
-    "file": "photo_44_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "people",
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "sydney",
-      "sweeny"
-    ]
-  },
-  {
-    "file": "photo_44_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people",
-      "collabs"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "diegovas",
-      "diego",
-      "r3tards"
-    ]
-  },
-  {
-    "file": "photo_45_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people",
-      "music"
-    ],
-    "text": "the used",
-    "description": "",
-    "tags": [
-      "nikki",
-      "the-used"
-    ]
-  },
-  {
-    "file": "photo_47_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "kuro"
-    ]
-  },
-  {
-    "file": "photo_48_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "animals"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "dog"
-    ]
-  },
-  {
-    "file": "photo_49_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "templates",
-      "emotions"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "sarcasm",
-      "sarcastic",
-      "kid"
-    ]
-  },
-  {
-    "file": "photo_51_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "inversebrah",
-      "lil-shid",
-      "gun",
-      "smoking",
-      "smoke",
-      "cig",
-      "cigarette"
-    ]
-  },
-  {
-    "file": "photo_52_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "collabs"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "smoking",
-      "r3tards"
-    ]
-  },
-  {
-    "file": "photo_54_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "joshua",
-      "gay-seal"
-    ]
-  },
-  {
-    "file": "photo_55_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "emotions"
-    ],
-    "text": "SADNESS",
-    "description": "",
-    "tags": [
-      "sad",
-      "sadness",
-      "spongebob",
-      "rainbow"
-    ]
-  },
-  {
-    "file": "photo_56_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people",
-      "monad",
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "keone",
-      "hon",
-      "james"
-    ]
-  },
-  {
-    "file": "photo_57_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "animals",
-      "templates"
-    ],
-    "text": "aaaaa",
-    "description": "",
-    "tags": [
-      "aaa-cat"
-    ]
-  },
-  {
-    "file": "photo_58_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "shoot",
-      "gun"
-    ]
-  },
-  {
-    "file": "photo_59_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "templates",
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "brick",
-      "wall"
-    ]
-  },
-  {
-    "file": "photo_5_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "emonad",
-      "memes"
-    ],
-    "text": "EMONAD",
-    "description": "",
-    "tags": [
-      "emonad",
-      "meme",
-      "milk",
-      "girl",
-      "girls"
-    ]
-  },
-  {
-    "file": "photo_5_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "music",
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "lil-shid",
-      "rock",
-      "inversebrah"
-    ]
-  },
-  {
-    "file": "photo_60_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "hard",
-      "rock",
-      "nick"
-    ]
-  },
-  {
-    "file": "photo_61_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "animals"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "monkey"
-    ]
-  },
-  {
-    "file": "photo_62_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "john-cena",
-      "john",
-      "cena"
-    ]
-  },
-  {
-    "file": "photo_64_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "templates",
-      "memes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "waiting",
-      "pablo"
-    ]
-  },
-  {
-    "file": "photo_65_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "too pretty for a job",
-    "description": "",
-    "tags": [
-      "paris",
-      "hilton",
-      "girl",
-      "pretty"
-    ]
-  },
-  {
-    "file": "photo_7_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "animals"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "cat",
-      "phone",
-      "sad"
-    ]
-  },
-  {
-    "file": "photo_8_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "lil shid",
-      "emotions"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "lil-shid",
-      "inversebrah",
-      "cry",
-      "crying"
-    ]
-  },
-  {
-    "file": "photo_8_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "LOOK AT ME I'M THE EMONOW",
-    "description": "",
-    "tags": [
-      "abdul"
-    ]
-  },
-  {
-    "file": "photo_8_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "captain",
-      "emo"
-    ]
-  },
-  {
-    "file": "photo_9_2025-12-14_20-22-23.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "nikki"
-    ]
-  },
-  {
-    "file": "photo_9_2025-12-21_22-05-03.jpg",
-    "name": "",
-    "categories": [
-      "people",
-      "collabs"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "lil-mon",
-      "lilmon",
-      "nadfun"
-    ]
-  },
-  {
-    "file": "photo_9_2026-01-01_20-19-59.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "emotions"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "happy",
-      "sad"
-    ]
-  },
-  {
-    "file": "president.jpg",
-    "name": "",
-    "categories": [
-      "emonad",
-      "monad",
-      "random"
-    ],
-    "text": "$EMO",
-    "description": "",
-    "tags": [
-      "emo"
-    ]
-  },
-  {
-    "file": "pumpbags.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "BAGS PUMPFUN NAD FUN",
-    "description": "",
-    "tags": [
-      "nadfun",
-      "pumpfun",
-      "bags"
-    ]
-  },
-  {
-    "file": "PV1xq.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "skate",
-      "park",
-      "board",
-      "skating"
-    ]
-  },
-  {
-    "file": "red.jpg",
-    "name": "",
-    "categories": [
-      "templates",
-      "bearish"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "phone",
-      "red"
-    ]
-  },
-  {
-    "file": "retard.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "FREE ADVICE!",
-    "description": "",
-    "tags": [
-      "retarded",
-      "retard",
-      "advice"
-    ]
-  },
-  {
-    "file": "right.jpg",
-    "name": "",
-    "categories": [
-      "templates"
-    ],
-    "text": "BABE $EMO IS PUMPING YOU SOLD RIGHT? RIGHT?",
-    "description": "",
-    "tags": [
-      "right?",
-      "right"
-    ]
-  },
-  {
-    "file": "right2.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "BABE $EMO IS PUMPING YOU SOLD RIGHT? RIGHT?",
-    "description": "",
-    "tags": [
-      "sold",
-      "pumping",
-      "hold",
-      "hodl"
-    ]
-  },
-  {
-    "file": "ring.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "habibi",
-      "yallah"
-    ]
-  },
-  {
-    "file": "sendit.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "bullish"
-    ],
-    "text": "FUCKING SEND IT",
-    "description": "",
-    "tags": [
-      "fucking",
-      "send",
-      "it",
-      "spongebob",
-      "rainbow"
-    ]
-  },
-  {
-    "file": "sheep.jpg",
-    "name": "",
-    "categories": [
-      "animals"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "sheep",
-      "sleepy",
-      "sleeping"
-    ]
-  },
-  {
-    "file": "shid.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "EMOLINED?",
-    "description": "",
-    "tags": [
-      "lil-shid",
-      "inversebrah",
-      "emolined"
-    ]
-  },
-  {
-    "file": "shidhand.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "lil-shid",
-      "inversebrah"
-    ]
-  },
-  {
-    "file": "shidhand2.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "lil-shid",
-      "inversebrah",
-      "sqish"
-    ]
-  },
-  {
-    "file": "signs.jpg",
-    "name": "",
-    "categories": [
-      "templates"
-    ],
-    "text": "LEFT EXIT 12 DON'T MAKE ME TAP THE SIGN",
-    "description": "",
-    "tags": [
-      "motor-cycle"
-    ]
-  },
-  {
-    "file": "silicon valley.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "pied",
-      "piper",
-      "smoking",
-      "cig",
-      "cigarette"
-    ]
-  },
-  {
-    "file": "sink.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "elon",
-      "sink",
-      "let",
-      "that",
-      "in"
-    ]
-  },
-  {
-    "file": "site banner.png",
-    "name": "",
-    "categories": [
-      "emonad"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "banner"
-    ]
-  },
-  {
-    "file": "space.jpg",
-    "name": "",
-    "categories": [
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "always",
-      "has",
-      "been",
-      "space",
-      "gun"
-    ]
-  },
-  {
-    "file": "tired.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "smoking",
-      "cig"
-    ]
-  },
-  {
-    "file": "tired2.jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "wojak",
-      "tired"
-    ]
-  },
-  {
-    "file": "tool.jpg",
-    "name": "",
-    "categories": [
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "build",
-      "building",
-      "hammer",
-      "wrench",
-      "tools"
-    ]
-  },
-  {
-    "file": "trump.jpg",
-    "name": "",
-    "categories": [
-      "people"
-    ],
-    "text": "TRUMP TOWER 721 Fifth Avenue",
-    "description": "",
-    "tags": [
-      "trump",
-      "donald"
-    ]
-  },
-  {
-    "file": "unnamed (10).jpg",
-    "name": "",
-    "categories": [
-      "memes",
-      "bagwork"
-    ],
-    "text": "0.5%",
-    "description": "",
-    "tags": [
-      "gun",
-      "shoot",
-      "god",
-      "work"
-    ]
-  },
-  {
-    "file": "unnamed.jpg",
-    "name": "",
-    "categories": [
-      "bearish",
-      "memes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "pump",
-      "dump",
-      "nuke"
-    ]
-  },
-  {
-    "file": "w3ikn.jpg",
-    "name": "",
-    "categories": [
-      "music",
-      "random"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "headphones",
-      "subway",
-      "train"
-    ]
-  },
-  {
-    "file": "whale.png",
-    "name": "",
-    "categories": [
-      "collabs"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "white",
-      "whale",
-      "lord",
-      "emo"
-    ]
-  },
-  {
-    "file": "wheelof.jpg",
-    "name": "",
-    "categories": [
-      "memes"
-    ],
-    "text": "THE TICKER IS $EMO",
-    "description": "",
-    "tags": [
-      "wheel",
-      "of",
-      "fortune",
-      "emo"
-    ]
-  },
-  {
-    "file": "YdYv0.jpg",
-    "name": "",
-    "categories": [
-      "music",
-      "templates"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "guitar",
-      "band",
-      "music"
-    ]
-  },
-  {
-    "file": "lil shit.mp4",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": [
-      "inversebrah",
-      "lil-shid",
-      "hair"
-    ]
-  },
-  {
-    "file": "26z46.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "4lCt4.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "6Apol.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "6XJeF.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "AYpgE.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "C3FXj.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "EBa8F.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "JHRF2.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "LnumI.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "Los8w.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "ML3i5.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "MOEQi.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "NLfwV.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "O6nLr.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "Rzu7S.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "SbKnt.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "Y7C8t.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "bQpZn.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "dXKqz.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "dmHqy.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "dzw6a.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "hzACS.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "iKA08.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "lC2SA.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "m7bTd.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "rXPCb.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "u7SGK.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "w61yT.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "y5gug.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "zMzWm.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "zafQQ.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "zfoLN.jpg",
-    "name": "",
-    "categories": [
-      "shoes"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (1)0.jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (52).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (53).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (54).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (55).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (56).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (57).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (58).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (59).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (60).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (61).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (62).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (63).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (64).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (65).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (66).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (67).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (68).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (69).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (70).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (71).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (72).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (73).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (74).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (75).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (76).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (77).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (78).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (79).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (80).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (81).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (82).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (83).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (84).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (85).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (86).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (87).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "image (88).jpg",
-    "name": "",
-    "categories": [
-      "hats"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_1_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_2_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_3_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_4_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_5_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_6_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_7_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_8_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_9_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_10_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_11_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_12_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_13_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_14_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_15_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_16_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_17_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_18_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_19_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_20_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_21_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_22_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_23_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_24_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_25_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_26_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_27_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_28_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_29_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_30_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_31_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_32_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_33_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_34_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_35_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_36_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_37_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_38_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_39_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_40_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_41_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_42_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_43_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_44_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_45_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_46_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_47_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_48_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_49_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_50_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_51_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_52_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_53_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_54_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_55_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_56_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_57_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_58_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_59_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_60_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_61_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_62_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_63_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_64_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_65_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_66_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_67_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_68_2026-05-01_17-02-02.jpg",
-    "name": "",
-    "categories": [
-      "barbie"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_1_2026-05-01_20-18-24.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_2_2026-05-01_20-18-24.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_3_2026-05-01_20-18-24.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_4_2026-05-01_20-18-24.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_5_2026-05-01_20-18-24.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_6_2026-05-01_20-18-24.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_7_2026-05-01_20-18-24.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_8_2026-05-01_20-18-24.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_9_2026-05-01_20-18-24.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_10_2026-05-01_20-18-24.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_11_2026-05-01_20-18-24.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_12_2026-05-01_20-18-24.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_13_2026-05-01_20-18-24.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_14_2026-05-01_20-18-24.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_15_2026-05-01_20-18-24.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_16_2026-05-01_20-18-24.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_17_2026-05-01_20-18-24.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_18_2026-05-01_20-18-24.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  {
-    "file": "photo_19_2026-05-01_20-18-24.jpg",
-    "name": "",
-    "categories": [
-      "lil shid"
-    ],
-    "text": "",
-    "description": "",
-    "tags": []
-  },
-  { "file": "00-the-fool.jpg",            "path": "tarot/cards/00-the-fool.jpg",            "name": "The Fool",            "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "01-the-magician.jpg",        "path": "tarot/cards/01-the-magician.jpg",        "name": "The Magician",        "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "02-the-high-priestess.jpg",  "path": "tarot/cards/02-the-high-priestess.jpg",  "name": "The High Priestess",  "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "03-the-empress.jpg",         "path": "tarot/cards/03-the-empress.jpg",         "name": "The Empress",         "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "04-the-emperor.jpg",         "path": "tarot/cards/04-the-emperor.jpg",         "name": "The Emperor",         "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "05-the-hierophant.jpg",      "path": "tarot/cards/05-the-hierophant.jpg",      "name": "The Hierophant",      "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "06-the-lovers.jpg",          "path": "tarot/cards/06-the-lovers.jpg",          "name": "The Lovers",          "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "07-the-chariot.jpg",         "path": "tarot/cards/07-the-chariot.jpg",         "name": "The Chariot",         "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "08-strength.jpg",            "path": "tarot/cards/08-strength.jpg",            "name": "Strength",            "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "09-the-hermit.jpg",          "path": "tarot/cards/09-the-hermit.jpg",          "name": "The Hermit",          "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "10-wheel-of-fortune.jpg",    "path": "tarot/cards/10-wheel-of-fortune.jpg",    "name": "Wheel of Fortune",    "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "11-justice.jpg",             "path": "tarot/cards/11-justice.jpg",             "name": "Justice",             "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "12-the-hanged-man.jpg",      "path": "tarot/cards/12-the-hanged-man.jpg",      "name": "The Hanged Man",      "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "13-death.jpg",               "path": "tarot/cards/13-death.jpg",               "name": "Death",               "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "14-temperance.jpg",          "path": "tarot/cards/14-temperance.jpg",          "name": "Temperance",          "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "15-the-devil.jpg",           "path": "tarot/cards/15-the-devil.jpg",           "name": "The Devil",           "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "16-the-tower.jpg",           "path": "tarot/cards/16-the-tower.jpg",           "name": "The Tower",           "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "17-the-star.jpg",            "path": "tarot/cards/17-the-star.jpg",            "name": "The Star",            "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "18-the-moon.jpg",            "path": "tarot/cards/18-the-moon.jpg",            "name": "The Moon",            "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "19-the-sun.jpg",             "path": "tarot/cards/19-the-sun.jpg",             "name": "The Sun",             "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "20-judgement.jpg",           "path": "tarot/cards/20-judgement.jpg",           "name": "Judgement",           "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] },
-  { "file": "21-the-world.jpg",           "path": "tarot/cards/21-the-world.jpg",           "name": "The World",           "categories": ["tarot"], "text": "", "description": "", "tags": ["major arcana"] }
+{"file":"emonad-and-wendy-in-the-graveyard.jpg","name":"Emonad and Wendy in the graveyard","categories":["collabs"],"text":"","description":"","tags":["emonad","wendy","wendys","graveyard","holding-hands","burger","couple","date"],"added":"2026-10-16","w":1004,"h":566,"color":"#565257","thumb":"memes/thumbs/emonad-and-wendy-in-the-graveyard.webp"},
+{"file":"shush-kid-with-emo-hair.jpg","name":"Shush kid with emo hair","categories":["people"],"text":"","description":"","tags":["human-emonad","shush","kid","black-hair","emo-hair","movie","secret","photo-edit"],"added":"2026-10-16","w":1488,"h":704,"color":"#3d393a","thumb":"memes/thumbs/shush-kid-with-emo-hair.webp"},
+{"file":"emonad-abducted-by-a-ufo.jpg","name":"Emonad abducted by a UFO","categories":["art"],"text":"","description":"","tags":["emonad","ufo","abduction","tractor-beam","aliens","sky","clouds","ai-art"],"added":"2026-10-16","w":1152,"h":1132,"color":"#a78e75","thumb":"memes/thumbs/emonad-abducted-by-a-ufo.webp"},
+{"file":"holder-hairlines.jpg","name":"Holder hairlines","categories":["memes","monad"],"text":"ETH HOLDER SOL HOLDER MONAD HOLDER BITCOIN HOLDER","description":"","tags":["hairline","hair","eth","sol","btc","monad","holder","emo-hair","bald"],"added":"2026-10-16","w":1004,"h":1166,"color":"#d3ccca","thumb":"memes/thumbs/holder-hairlines.webp"},
+{"file":"emonad-four-view-turnaround.jpg","name":"Emonad four-view turnaround","categories":["emonad"],"text":"","description":"","tags":["emonad","turnaround","character-sheet","reference","front","side","back","full-body"],"added":"2026-10-16","w":1280,"h":720,"color":"#c3bfc5","thumb":"memes/thumbs/emonad-four-view-turnaround.webp"},
+{"file":"baseball-fans-with-emo-hair.jpg","name":"Baseball fans with emo hair","categories":["people","memes"],"text":"","description":"","tags":["human-emonad","baseball","astros","stadium","fans","hand-on-neck","emo-hair","photo-edit"],"added":"2026-10-16","w":1004,"h":549,"color":"#65504f","thumb":"memes/thumbs/baseball-fans-with-emo-hair.webp"},
+{"file":"sci-fi-human-emonad-with-visor.jpg","name":"Sci-fi human emonad with visor","categories":["people","art"],"text":"","description":"","tags":["human-emonad","sci-fi","visor","cyberpunk","rain","alley","ai-art","purple-hair"],"added":"2026-10-16","w":1004,"h":1004,"color":"#313748","thumb":"memes/thumbs/sci-fi-human-emonad-with-visor.webp"},
+{"file":"emonad-s-wendy-s-run.jpg","name":"Emonad's Wendy's run","categories":["random"],"text":"","description":"","tags":["emonad","wendys","fast-food","burger","fries","tray","restaurant","food"],"added":"2026-10-16","w":1004,"h":1004,"color":"#667c8b","thumb":"memes/thumbs/emonad-s-wendy-s-run.webp"},
+{"file":"baseball-bat-guy-with-an-emo-fringe.jpg","name":"Baseball bat guy with an emo fringe","categories":["random"],"text":"","description":"","tags":["baseball-bat","bat","cartoon","backrooms","wooden","emo-fringe","one-eye"],"added":"2026-10-16","w":1172,"h":900,"color":"#ccb973","thumb":"memes/thumbs/baseball-bat-guy-with-an-emo-fringe.webp"},
+{"file":"grail-pixel-emonad-credit-nft.jpg","name":"Grail pixel emonad Credit NFT","categories":["pixel","collabs"],"text":"CREDIT #11,704 OPENSEA GRAIL top 0.10% One of the rarest Credits in existence — rarer than 99.9% of all 122,154 Credits. 3,489 RARITY SCORE 6/6 TRAITS SCORED 98% TOP TRAIT SHARE","description":"","tags":["emonad","pixel-art","nft","opensea","credits","grail","rare","rarity","screenshot"],"added":"2026-10-16","w":1248,"h":1600,"color":"#e1d9e5","thumb":"memes/thumbs/grail-pixel-emonad-credit-nft.webp"},
+{"file":"pixel-emonad-face.jpg","name":"Pixel emonad face","categories":["pixel","emonad"],"text":"","description":"","tags":["emonad","pixel-art","face","purple-hair","minimal","pfp","8bit"],"added":"2026-10-16","w":1408,"h":1408,"color":"#dbd2e6","thumb":"memes/thumbs/pixel-emonad-face.webp"},
+{"file":"emogotchi-app-screenshot.jpg","name":"Emogotchi app screenshot","categories":["emonad","lil shid"],"text":"","description":"","tags":["lil-shid","emogotchi","app","tamagotchi","pepe","frok","squeeze","screenshot","monad"],"added":"2026-10-16","w":736,"h":1600,"color":"#22182a","thumb":"memes/thumbs/emogotchi-app-screenshot.webp"},
+{"file":"emonad-with-a-blond-bowl-cut.jpg","name":"Emonad with a blond bowl cut","categories":["hats"],"text":"","description":"","tags":["emonad","bowl-cut","wig","mustache","blond","full-body","standing","disguise"],"added":"2026-10-16","w":1408,"h":1408,"color":"#e6e3e1","thumb":"memes/thumbs/emonad-with-a-blond-bowl-cut.webp"},
+{"file":"lil-shid-in-his-robe.jpg","name":"Lil shid in his robe","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","pepe","frog","robe","bloodshot-eyes","purple-hair","moon"],"added":"2026-10-16","w":992,"h":1056,"color":"#bdc2b9","thumb":"memes/thumbs/lil-shid-in-his-robe.webp"},
+{"file":"i-m-going-to-succeed-because-i-m-crazy.jpg","name":"I'm going to succeed because I'm crazy","categories":["memes","emotions"],"text":"i'm going to succeed because i'm crazy","description":"","tags":["emonad","laptop","succeed","crazy","rainbow","motivation","grind","wordart"],"added":"2026-10-16","w":1024,"h":1024,"color":"#b6afad","thumb":"memes/thumbs/i-m-going-to-succeed-because-i-m-crazy.webp"},
+{"file":"emo-guys-sleeping-on-money.jpg","name":"Emo guys sleeping on money","categories":["people","bullish"],"text":"","description":"","tags":["human-emonad","money","cash","sleeping","rich","emo-hair","movie","photo-edit"],"added":"2026-10-16","w":1600,"h":895,"color":"#4c494e","thumb":"memes/thumbs/emo-guys-sleeping-on-money.webp"},
+{"file":"emonad-with-a-table-full-of-cash.jpg","name":"Emonad with a table full of cash","categories":["bullish","bagwork"],"text":"","description":"","tags":["emonad","cash","money","stacks","rich","table","ticker","gains","photo-edit"],"added":"2026-10-16","w":1004,"h":1191,"color":"#7e7b79","thumb":"memes/thumbs/emonad-with-a-table-full-of-cash.webp"},
+{"file":"bored-ape-with-emo-hair.jpg","name":"Bored ape with emo hair","categories":["collabs"],"text":"","description":"","tags":["bored-ape","bayc","ape","nft","purple-hair","emo","pfp","orange-background"],"added":"2026-10-16","w":1600,"h":1600,"color":"#a57138","thumb":"memes/thumbs/bored-ape-with-emo-hair.webp"},
+{"file":"three-headed-dragon-btc-eth-sol-monad.jpg","name":"Three-headed dragon: BTC, ETH, SOL, Monad","categories":["memes","monad"],"text":"BTC ETH SOL MONAD","description":"","tags":["emonad","three-headed-dragon","dragon","btc","eth","sol","monad","derp","crypto"],"added":"2026-10-16","w":1600,"h":1063,"color":"#524d3d","thumb":"memes/thumbs/three-headed-dragon-btc-eth-sol-monad.webp"},
+{"file":"emonad-chart-rage-comic.jpg","name":"Emonad chart rage comic","categories":["memes","emonad"],"text":"EMONAD EMONAD","description":"","tags":["emonad","rage-comic","computer","chart","price","market-cap","nadfun","fireworks","comic"],"added":"2026-10-16","w":500,"h":549,"color":"#b3b2b4","thumb":"memes/thumbs/emonad-chart-rage-comic.webp"},
+{"file":"emonad-throwing-a-purple-brick.jpg","name":"Emonad throwing a purple brick","categories":["templates"],"text":"","description":"","tags":["emonad","brick","throwing","purple-brick","reaction","gray-background","template"],"added":"2026-10-16","w":1152,"h":1152,"color":"#9c979e","thumb":"memes/thumbs/emonad-throwing-a-purple-brick.webp"},
+{"file":"monad-foundation-should-market-buy-emo.jpg","name":"Monad Foundation should market buy $emo","categories":["people","memes","monad"],"text":"I sent 1% of my meme coin to the monad fomo app account I sent 2% of my meme coin to the monad fomo app account the Monad Foundation should market buy $emo and never sell. Emonad.","description":"","tags":["human-emonad","girls-fighting","fight","bong","monad-foundation","buy","ticker","fomo","photo-edit"],"added":"2026-10-16","w":1173,"h":912,"color":"#746054","thumb":"memes/thumbs/monad-foundation-should-market-buy-emo.webp"},
+{"file":"my-coin-is-better-than-your-coin.jpg","name":"My coin is better than your coin","categories":["people","memes"],"text":"MY COIN IS BETTER THAN YOUR COIN NO BRO MY COIN IS BETTER THAN YOUR COIN EMONAD","description":"","tags":["human-emonad","girls-fighting","fight","bong","smoking","chill-guy","my-coin","crypto","photo-edit"],"added":"2026-10-16","w":1152,"h":896,"color":"#756255","thumb":"memes/thumbs/my-coin-is-better-than-your-coin.webp"},
+{"file":"the-emonads.jpg","name":"The Emonads","categories":["people","memes"],"text":"THE EMONADS","description":"","tags":["human-emonad","sopranos","mafia","mob","suits","cemetery","tv-show","purple-hair","photo-edit"],"added":"2026-10-16","w":1004,"h":789,"color":"#2b2129","thumb":"memes/thumbs/the-emonads.webp"},
+{"file":"crying-anime-princess-emonad.jpg","name":"Crying anime princess emonad","categories":["anime","sad"],"text":"","description":"","tags":["emonad","anime","chibi","crown","princess","crying","tears","padded-room"],"added":"2026-10-16","w":1600,"h":1600,"color":"#857186","thumb":"memes/thumbs/crying-anime-princess-emonad.webp"},
+{"file":"emonad-sawing-down-a-camera-pole.jpg","name":"Emonad sawing down a camera pole","categories":["memes"],"text":"","description":"","tags":["emonad","balaclava","saw","surveillance-camera","solar-panel","sawing","vandal","ski-mask"],"added":"2026-10-16","w":1004,"h":1193,"color":"#cecdce","thumb":"memes/thumbs/emonad-sawing-down-a-camera-pole.webp"},
+{"file":"my-money-moves-in-mysterious-ways.jpg","name":"My money moves in mysterious ways","categories":["memes","bagwork"],"text":"My money moves in mysterious ways","description":"","tags":["emonad","wizard","wizard-hat","staff","money","mysterious","magic","night"],"added":"2026-10-16","w":1004,"h":993,"color":"#36314c","thumb":"memes/thumbs/my-money-moves-in-mysterious-ways.webp"},
+{"file":"dentist-said-i-grind-in-my-sleep.jpg","name":"Dentist said I grind in my sleep","categories":["people","memes"],"text":"Dentist said I grind in my sleep. He real as fuck for that.","description":"","tags":["human-emonad","dentist","grind","grinding","sleep","selfie","snapchat","bagwork","purple-hair"],"added":"2026-10-16","w":1004,"h":1125,"color":"#634e49","thumb":"memes/thumbs/dentist-said-i-grind-in-my-sleep.webp"},
+{"file":"emonad-breaking-the-chains.jpg","name":"Emonad breaking the chains","categories":["art","bullish"],"text":"","description":"","tags":["emonad","chains","breaking-free","freedom","sunset","victory","strength"],"added":"2026-10-16","w":1456,"h":1344,"color":"#8f7b69","thumb":"memes/thumbs/emonad-breaking-the-chains.webp"},
+{"file":"need-wl-for-chog-nft.jpg","name":"Need WL for Chog NFT","categories":["collabs","memes"],"text":"NEED WL 4 CHOG NFT","description":"","tags":["emonad","chog","nft","whitelist","wl","cardboard-sign","homeless","broke","begging"],"added":"2026-10-16","w":832,"h":1250,"color":"#564b44","thumb":"memes/thumbs/need-wl-for-chog-nft.webp"},
+{"file":"emonad-driving-with-chog-in-the-back.jpg","name":"Emonad driving with Chog in the back","categories":["collabs","art"],"text":"","description":"","tags":["emonad","chog","car","cadillac","sunglasses","headband","kidnapped","driving","night"],"added":"2026-10-16","w":1004,"h":1023,"color":"#282329","thumb":"memes/thumbs/emonad-driving-with-chog-in-the-back.webp"},
+{"file":"cat-emonad.jpg","name":"Cat emonad","categories":["animals","emonad"],"text":"","description":"","tags":["emonad","cat","cat-ears","whiskers","standing","full-body","animal"],"added":"2026-10-16","w":1600,"h":1600,"color":"#e1dfe1","thumb":"memes/thumbs/cat-emonad.webp"},
+{"file":"emonad-holding-a-chicken-tender.jpg","name":"Emonad holding a chicken tender","categories":["emonad"],"text":"EMONAD","description":"","tags":["emonad","chicken-tender","food","ticker","emo-shirt","standing","logo"],"added":"2026-10-16","w":1408,"h":1408,"color":"#e1dade","thumb":"memes/thumbs/emonad-holding-a-chicken-tender.webp"},
+{"file":"how-to-pretend-to-be-normal.jpg","name":"How to pretend to be normal","categories":["memes"],"text":"HOW TO PRETEND TO BE NORMAL","description":"","tags":["emonad","book","reading","normal","pretend","couch","awkward","introvert"],"added":"2026-10-16","w":1408,"h":1408,"color":"#6c4845","thumb":"memes/thumbs/how-to-pretend-to-be-normal.webp"},
+{"file":"3d-emonad-figure.jpg","name":"3D emonad figure","categories":["art"],"text":"","description":"","tags":["emonad","3d","figure","toy","render","standing","vinyl-toy"],"added":"2026-10-16","w":1024,"h":1024,"color":"#e1e0e1","thumb":"memes/thumbs/3d-emonad-figure.webp"},
+{"file":"emonad-sketch-in-a-chair.jpg","name":"Emonad sketch in a chair","categories":["art"],"text":"","description":"","tags":["emonad","sketch","drawing","pencil","chair","gaming","controller","paper"],"added":"2026-10-16","w":1004,"h":990,"color":"#bfbdc0","thumb":"memes/thumbs/emonad-sketch-in-a-chair.webp"},
+{"file":"panic-sell-everything-it-s-over.jpg","name":"Panic sell everything, it's over","categories":["people","bearish","memes"],"text":"Freak the fuck out and panic sell everything right now. It's fucking over. – Warren Buffett","description":"","tags":["human-emonad","warren-buffett","quote","panic-sell","its-over","dump","rekt","purple-wig","photo-edit"],"added":"2026-10-16","w":1600,"h":900,"color":"#1b1616","thumb":"memes/thumbs/panic-sell-everything-it-s-over.webp"},
+{"file":"emonad-s-hiding-place.jpg","name":"Emonad's hiding place","categories":["memes"],"text":"EMONAD'S HIDING PLACE Entrance hidden by bricks and rubble 6ft Air vent Fan Emonad","description":"","tags":["emonad","hiding-place","diagram","spider-hole","underground","hiding","news","bunker"],"added":"2026-10-16","w":1024,"h":1024,"color":"#b0a490","thumb":"memes/thumbs/emonad-s-hiding-place.webp"},
+{"file":"crowned-bear-smoking-in-a-hoodie.jpg","name":"Crowned bear smoking in a hoodie","categories":["art","emonad"],"text":"","description":"","tags":["emonad","bear","crown","king","cigarette","smoking","hoodie","pfp"],"added":"2026-10-16","w":1004,"h":1004,"color":"#403145","thumb":"memes/thumbs/crowned-bear-smoking-in-a-hoodie.webp"},
+{"file":"big-emonad-making-a-subway-sandwich.jpg","name":"Big emonad making a Subway sandwich","categories":["random"],"text":"","description":"","tags":["emonad","subway","sandwich","footlong","fat","food","sandwich-artist","job"],"added":"2026-10-16","w":1004,"h":1004,"color":"#89786e","thumb":"memes/thumbs/big-emonad-making-a-subway-sandwich.webp"},
+{"file":"emonad-walking-through-the-rain.jpg","name":"Emonad walking through the rain","categories":["art","sad"],"text":"","description":"","tags":["emonad","rain","umbrellas","walking","gloomy","storm","purple","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#423657","thumb":"memes/thumbs/emonad-walking-through-the-rain.webp"},
+{"file":"emonad-under-the-full-moon.jpg","name":"Emonad under the full moon","categories":["art","gn"],"text":"","description":"","tags":["emonad","full-moon","moon","night","smoke","forest","purple","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#473066","thumb":"memes/thumbs/emonad-under-the-full-moon.webp"},
+{"file":"emonad-surrounded-by-polaroids.jpg","name":"Emonad surrounded by polaroids","categories":["art"],"text":"","description":"","tags":["emonad","polaroids","photos","self-portrait","memories","standing","purple","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#64547d","thumb":"memes/thumbs/emonad-surrounded-by-polaroids.webp"},
+{"file":"emonad-in-the-snowfall.jpg","name":"Emonad in the snowfall","categories":["art"],"text":"","description":"","tags":["emonad","snow","snowflakes","winter","standing","purple","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#947dbe","thumb":"memes/thumbs/emonad-in-the-snowfall.webp"},
+{"file":"emonad-on-the-wrecked-car.jpg","name":"Emonad on the wrecked car","categories":["art"],"text":"","description":"","tags":["emonad","wrecked-car","abandoned","sunset","flowers","sitting","purple","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#5e4a64","thumb":"memes/thumbs/emonad-on-the-wrecked-car.webp"},
+{"file":"emonad-on-a-lily-pad.jpg","name":"Emonad on a lily pad","categories":["art","chill"],"text":"","description":"","tags":["emonad","lily-pad","pond","wisteria","sitting","peaceful","purple","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#5b4283","thumb":"memes/thumbs/emonad-on-a-lily-pad.webp"},
+{"file":"emonad-on-a-floating-island.jpg","name":"Emonad on a floating island","categories":["art","chill"],"text":"","description":"","tags":["emonad","floating-island","clouds","sky","sitting","dreamy","purple","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#8d71ae","thumb":"memes/thumbs/emonad-on-a-floating-island.webp"},
+{"file":"emonad-on-the-crystal-throne.jpg","name":"Emonad on the crystal throne","categories":["art","gn"],"text":"","description":"","tags":["emonad","crystals","amethyst","throne","moon","night","purple","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#654f89","thumb":"memes/thumbs/emonad-on-the-crystal-throne.webp"},
+{"file":"emonad-side-profile.jpg","name":"Emonad side profile","categories":["art"],"text":"","description":"","tags":["emonad","profile","side-view","hair","closeup","dark","purple","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#201425","thumb":"memes/thumbs/emonad-side-profile.webp"},
+{"file":"emonad-screaming-purple-energy.jpg","name":"Emonad screaming purple energy","categories":["art","emotions"],"text":"","description":"","tags":["emonad","screaming","rage","energy","blast","power-up","purple","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#a266c3","thumb":"memes/thumbs/emonad-screaming-purple-energy.webp"},
+{"file":"emonad-on-a-speaker-throne.jpg","name":"Emonad on a speaker throne","categories":["art","music"],"text":"","description":"","tags":["emonad","throne","speakers","music","concert","stage","dark","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#1c1527","thumb":"memes/thumbs/emonad-on-a-speaker-throne.webp"},
+{"file":"emonad-on-the-ruined-throne.jpg","name":"Emonad on the ruined throne","categories":["art"],"text":"","description":"","tags":["emonad","throne","ruins","lightning","storm","apocalypse","king","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#4a3a51","thumb":"memes/thumbs/emonad-on-the-ruined-throne.webp"},
+{"file":"emonad-meditating-under-the-aurora.jpg","name":"Emonad meditating under the aurora","categories":["art","chill"],"text":"","description":"","tags":["emonad","meditating","aurora","northern-lights","cloud","night","zen","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#433a69","thumb":"memes/thumbs/emonad-meditating-under-the-aurora.webp"},
+{"file":"emonad-resting-on-golden-clouds.jpg","name":"Emonad resting on golden clouds","categories":["art","chill"],"text":"","description":"","tags":["emonad","clouds","heaven","sunlight","resting","peaceful","golden","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#b6979c","thumb":"memes/thumbs/emonad-resting-on-golden-clouds.webp"},
+{"file":"intense-emonad-stare.jpg","name":"Intense emonad stare","categories":["art"],"text":"","description":"","tags":["emonad","closeup","face","stare","intense","cosmic","purple","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#2a1938","thumb":"memes/thumbs/intense-emonad-stare.webp"},
+{"file":"emonad-at-the-bottom-of-the-well.jpg","name":"Emonad at the bottom of the well","categories":["art","sad"],"text":"","description":"","tags":["emonad","well","light-beam","trapped","looking-up","dark","purple","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#312c41","thumb":"memes/thumbs/emonad-at-the-bottom-of-the-well.webp"},
+{"file":"purple-lightning-hands.jpg","name":"Purple lightning hands","categories":["art"],"text":"","description":"","tags":["emonad","hands","lightning","power","energy","wristbands","purple","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#462b56","thumb":"memes/thumbs/purple-lightning-hands.webp"},
+{"file":"emonad-in-a-field-of-candles.jpg","name":"Emonad in a field of candles","categories":["art"],"text":"","description":"","tags":["emonad","candles","candlelight","vigil","dark","night","purple","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#462e42","thumb":"memes/thumbs/emonad-in-a-field-of-candles.webp"},
+{"file":"emonad-s-purple-tear.jpg","name":"Emonad's purple tear","categories":["art","sad"],"text":"","description":"","tags":["emonad","closeup","face","tear","crying","purple","dark","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#211729","thumb":"memes/thumbs/emonad-s-purple-tear.webp"},
+{"file":"emonad-facing-the-purple-vortex.jpg","name":"Emonad facing the purple vortex","categories":["art"],"text":"","description":"","tags":["emonad","vortex","cliff","storm","lightning","purple","epic","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#3d2455","thumb":"memes/thumbs/emonad-facing-the-purple-vortex.webp"},
+{"file":"emonad-on-the-gothic-throne.jpg","name":"Emonad on the gothic throne","categories":["art"],"text":"","description":"","tags":["emonad","throne","gothic","cathedral","king","purple","dark","ai-art"],"added":"2026-10-16","w":1408,"h":1408,"color":"#3f3354","thumb":"memes/thumbs/emonad-on-the-gothic-throne.webp"},
+{"file":"it-s-so-over-we-re-so-back-cycle.jpg","name":"It's so over, we're so back cycle","categories":["memes","emotions"],"text":"It's so over We're back We're so back It's over","description":"","tags":["emonad","its-so-over","were-so-back","cycle","mood-swings","chart","pump","dump","crypto"],"added":"2026-10-16","w":1152,"h":1152,"color":"#dad7d7","thumb":"memes/thumbs/it-s-so-over-we-re-so-back-cycle.webp"},
+{"file":"kol-round-trip-vs-side-wallets.jpg","name":"KOL round trip vs side wallets","categories":["people","memes"],"text":"KOL who round tripped KOL who sold on side wallets Corporate needs you to find the differences between this picture and this picture. They're the same picture.","description":"","tags":["human-emonad","the-office","pam","same-picture","kol","round-trip","side-wallets","dump","rekt"],"added":"2026-10-16","w":960,"h":1072,"color":"#a58f88","thumb":"memes/thumbs/kol-round-trip-vs-side-wallets.webp"},
+{"file":"human-emonad-flipping-off-dinner.jpg","name":"Human emonad flipping off dinner","categories":["people"],"text":"","description":"","tags":["human-emonad","middle-finger","dinner","restaurant","purple-wig","attitude","photo-edit"],"added":"2026-10-16","w":1360,"h":768,"color":"#727282","thumb":"memes/thumbs/human-emonad-flipping-off-dinner.webp"},
+{"file":"banger-signs-with-nad-fun.jpg","name":"Banger signs with nad.fun","categories":["collabs","memes"],"text":"banger banger Nad.fun","description":"","tags":["emonad","nadfun","banger","sign","fish","mascot","underwater","jellyfish","monad"],"added":"2026-10-16","w":1254,"h":1254,"color":"#182649","thumb":"memes/thumbs/banger-signs-with-nad-fun.webp"},
+{"file":"human-emonad-dancing-by-the-car.jpg","name":"Human emonad dancing by the car","categories":["people"],"text":"","description":"","tags":["human-emonad","dancing","purple-wig","sports-car","mansion","wristbands","purple-sneakers","photo-edit"],"added":"2026-10-16","w":831,"h":1250,"color":"#1d1818","thumb":"memes/thumbs/human-emonad-dancing-by-the-car.webp"},
+{"file":"yo-bitch-call-me-myron.jpg","name":"Yo bitch call me Myron","categories":["people","music"],"text":"\"Yo bitch call me Myron\"","description":"","tags":["human-emonad","myron","ipod","headphones","floating","rainbow","sky","purple-sneakers","photo-edit"],"added":"2026-10-16","w":1004,"h":1004,"color":"#899191","thumb":"memes/thumbs/yo-bitch-call-me-myron.webp"},
+{"file":"emonad-dreaming-of-money.jpg","name":"Emonad dreaming of money","categories":["gn","bagwork"],"text":"","description":"","tags":["emonad","bed","sleeping","dream","money","cash","rich","night","thought-bubble"],"added":"2026-10-16","w":1024,"h":1024,"color":"#bfb7c4","thumb":"memes/thumbs/emonad-dreaming-of-money.webp"},
+{"file":"spider-man-movies-through-the-years.jpg","name":"Spider-Man movies through the years","categories":["memes"],"text":"2002 2014 2026","description":"","tags":["emonad","spiderman","movie-theater","popcorn","years","getting-old","aging","pixar-style"],"added":"2026-10-16","w":912,"h":1136,"color":"#50453f","thumb":"memes/thumbs/spider-man-movies-through-the-years.webp"},
+{"file":"crowned-pepe-emonad-smoking.jpg","name":"Crowned pepe emonad smoking","categories":["art","emonad"],"text":"","description":"","tags":["emonad","pepe","crown","king","cigarette","smoking","pfp","purple"],"added":"2026-10-16","w":500,"h":500,"color":"#553c55","thumb":"memes/thumbs/crowned-pepe-emonad-smoking.webp"},
+{"file":"human-emonad-smiling-at-phone.jpg","name":"Human emonad smiling at phone","categories":["people"],"text":"","description":"","tags":["human-emonad","phone","hoodie","glasses","smiling","purple-wig","office","photo-edit"],"added":"2026-10-16","w":698,"h":1250,"color":"#676476","thumb":"memes/thumbs/human-emonad-smiling-at-phone.webp"},
+{"file":"human-emonad-with-a-cigar.jpg","name":"Human emonad with a cigar","categories":["people"],"text":"","description":"","tags":["human-emonad","cigar","smoking","purple-wig","wristband","field","smug","photo-edit"],"added":"2026-10-16","w":1004,"h":1004,"color":"#4d463a","thumb":"memes/thumbs/human-emonad-with-a-cigar.webp"},
+{"file":"emonad-hell-s-winter-album-cover.jpg","name":"Emonad Hell's Winter album cover","categories":["music","art"],"text":"emonad Hell's Winter","description":"","tags":["emonad","album-cover","hells-winter","music","walking","street","red-sky","dark","band"],"added":"2026-10-16","w":1024,"h":1008,"color":"#473132","thumb":"memes/thumbs/emonad-hell-s-winter-album-cover.webp"},
+{"file":"friendship-ended-with-phantom.jpg","name":"Friendship ended with Phantom","categories":["people","memes","collabs"],"text":"Friendship ended with PHANTOM Now METAMASK is my best friend","description":"","tags":["human-emonad","friendship-ended","phantom","metamask","wallet","handshake","purple-wig","photo-edit","crypto"],"added":"2026-10-16","w":1168,"h":880,"color":"#666a62","thumb":"memes/thumbs/friendship-ended-with-phantom.webp"},
+{"file":"emonad-at-the-night-train-platform.jpg","name":"Emonad at the night train platform","categories":["anime"],"text":"","description":"","tags":["emonad","anime","train","subway","platform","night","waiting","commute","ai-art"],"added":"2026-10-16","w":1280,"h":720,"color":"#3a434b","thumb":"memes/thumbs/emonad-at-the-night-train-platform.webp"},
+{"file":"anime-emonad-in-a-sunlit-gym.jpg","name":"Anime emonad in a sunlit gym","categories":["anime","chill"],"text":"","description":"","tags":["emonad","anime","gym","basketball","sunlight","sitting","school","afternoon"],"added":"2026-10-16","w":1280,"h":720,"color":"#5b5042","thumb":"memes/thumbs/anime-emonad-in-a-sunlit-gym.webp"},
+{"file":"anime-emonad-biking-at-dusk.jpg","name":"Anime emonad biking at dusk","categories":["anime","chill"],"text":"","description":"","tags":["emonad","anime","bicycle","bike","dusk","streetlights","evening","ride"],"added":"2026-10-16","w":1280,"h":720,"color":"#413640","thumb":"memes/thumbs/anime-emonad-biking-at-dusk.webp"},
+{"file":"anime-emonad-in-a-night-diner.jpg","name":"Anime emonad in a night diner","categories":["anime","gn"],"text":"","description":"","tags":["emonad","anime","diner","booth","night","magazine","soda","lonely","90s-anime"],"added":"2026-10-16","w":1280,"h":720,"color":"#393533","thumb":"memes/thumbs/anime-emonad-in-a-night-diner.webp"},
+{"file":"anime-emonad-leaping-over-the-city.jpg","name":"Anime emonad leaping over the city","categories":["anime"],"text":"","description":"","tags":["emonad","anime","leap","jump","flying","city","night","searchlights","action"],"added":"2026-10-16","w":1280,"h":720,"color":"#3e414b","thumb":"memes/thumbs/anime-emonad-leaping-over-the-city.webp"},
+{"file":"anime-emonad-walking-into-the-sunset.jpg","name":"Anime emonad walking into the sunset","categories":["anime","chill"],"text":"","description":"","tags":["emonad","anime","sunset","road","power-lines","walking","countryside","golden-hour"],"added":"2026-10-16","w":1280,"h":720,"color":"#764736","thumb":"memes/thumbs/anime-emonad-walking-into-the-sunset.webp"},
+{"file":"anime-emonad-in-a-misty-alley.jpg","name":"Anime emonad in a misty alley","categories":["anime","chill"],"text":"","description":"","tags":["emonad","anime","alley","mist","light-rays","leaning","gate","morning"],"added":"2026-10-16","w":1280,"h":720,"color":"#597885","thumb":"memes/thumbs/anime-emonad-in-a-misty-alley.webp"},
+{"file":"anime-emonad-in-a-mirrored-elevator.jpg","name":"Anime emonad in a mirrored elevator","categories":["anime"],"text":"","description":"","tags":["emonad","anime","elevator","mirror","reflection","double","awkward","90s-anime"],"added":"2026-10-16","w":1280,"h":720,"color":"#38393c","thumb":"memes/thumbs/anime-emonad-in-a-mirrored-elevator.webp"},
+{"file":"anime-emonad-in-a-red-phone-booth.jpg","name":"Anime emonad in a red phone booth","categories":["anime","gn"],"text":"","description":"","tags":["emonad","anime","phone-booth","payphone","rain","neon","night","city"],"added":"2026-10-16","w":1280,"h":720,"color":"#382530","thumb":"memes/thumbs/anime-emonad-in-a-red-phone-booth.webp"},
+{"file":"anime-emonad-in-a-green-train.jpg","name":"Anime emonad in a green train","categories":["anime","chill"],"text":"","description":"","tags":["emonad","anime","train","sleeper-car","corridor","green","sitting","travel"],"added":"2026-10-16","w":1280,"h":720,"color":"#294431","thumb":"memes/thumbs/anime-emonad-in-a-green-train.webp"},
+{"file":"anime-emonad-on-a-highway-bridge.jpg","name":"Anime emonad on a highway bridge","categories":["anime","gn"],"text":"","description":"","tags":["emonad","anime","bridge","railing","traffic","highway","night","city-lights","lonely"],"added":"2026-10-16","w":1280,"h":720,"color":"#3a3b36","thumb":"memes/thumbs/anime-emonad-on-a-highway-bridge.webp"},
+{"file":"anime-emonad-close-up.jpg","name":"Anime emonad close-up","categories":["anime"],"text":"","description":"","tags":["emonad","anime","close-up","face","portrait","smirk","stare","90s-anime"],"added":"2026-10-16","w":1280,"h":720,"color":"#474156","thumb":"memes/thumbs/anime-emonad-close-up.webp"},
+{"file":"anime-emonad-at-a-rainy-shrine.jpg","name":"Anime emonad at a rainy shrine","categories":["anime","gn"],"text":"","description":"","tags":["emonad","anime","torii","shrine","rain","lanterns","stairs","japan","night"],"added":"2026-10-16","w":1280,"h":720,"color":"#3a3028","thumb":"memes/thumbs/anime-emonad-at-a-rainy-shrine.webp"},
+{"file":"anime-emonad-in-a-graveyard-at-sunset.jpg","name":"Anime emonad in a graveyard at sunset","categories":["anime","sad"],"text":"","description":"","tags":["emonad","anime","graveyard","tombstones","sunset","dusk","sitting","lonely"],"added":"2026-10-16","w":1280,"h":720,"color":"#5f4a55","thumb":"memes/thumbs/anime-emonad-in-a-graveyard-at-sunset.webp"},
+{"file":"anime-emonad-in-an-aquarium-tunnel.jpg","name":"Anime emonad in an aquarium tunnel","categories":["anime","animals"],"text":"","description":"","tags":["emonad","anime","aquarium","manta-ray","fish","underwater","tunnel","blue"],"added":"2026-10-16","w":1280,"h":720,"color":"#2c6c85","thumb":"memes/thumbs/anime-emonad-in-an-aquarium-tunnel.webp"},
+{"file":"anime-emonad-on-the-escalator.jpg","name":"Anime emonad on the escalator","categories":["anime"],"text":"","description":"","tags":["emonad","anime","escalator","subway","tunnel","fluorescent","blank-stare","90s-anime"],"added":"2026-10-16","w":1280,"h":720,"color":"#3b443a","thumb":"memes/thumbs/anime-emonad-on-the-escalator.webp"},
+{"file":"anime-emonad-on-a-messy-floor.jpg","name":"Anime emonad on a messy floor","categories":["anime","sad"],"text":"","description":"","tags":["emonad","anime","bedroom","messy-room","lying-down","crt","lamp","90s-anime","depressed"],"added":"2026-10-16","w":1280,"h":720,"color":"#403d42","thumb":"memes/thumbs/anime-emonad-on-a-messy-floor.webp"},
+{"file":"emonad-in-the-bybit-boxing-ring.jpg","name":"Emonad in the Bybit boxing ring","categories":["memes"],"text":"BYBIT EMONAD","description":"","tags":["emonad","boxing","boxing-ring","bybit","fight","gloves","arena","photo-edit"],"added":"2026-10-16","w":1004,"h":1004,"color":"#352c44","thumb":"memes/thumbs/emonad-in-the-bybit-boxing-ring.webp"},
+{"file":"emonad-cadence-lesson.jpg","name":"Emonad Cadence lesson","categories":["monad","memes"],"text":"this is important CADENCE 1 leader many proposers 3 rounds 219 ms 100 ms blocks no MEV im busy","description":"","tags":["emonad","cadence","monad","consensus","classroom","whiteboard","teacher","phone","mev","blocks"],"added":"2026-10-16","w":1254,"h":1254,"color":"#ada6ae","thumb":"memes/thumbs/emonad-cadence-lesson.webp"},
+{"file":"busy-all-day-for-antidepressants.jpg","name":"Busy all day for antidepressants","categories":["memes","sad"],"text":"整天騰週任,还TM不特钱 Whole day I'm fucking busy only get few anti depressants","description":"","tags":["emonad","antidepressants","busy","overworked","job","chinese","sketch","depression"],"added":"2026-10-16","w":1006,"h":752,"color":"#cbc6c4","thumb":"memes/thumbs/busy-all-day-for-antidepressants.webp"},
+{"file":"emonad-head-on-table-legs.jpg","name":"Emonad head on table legs","categories":["random"],"text":"","description":"","tags":["emonad","table","legs","cursed","weird","surreal","barefoot","3d"],"added":"2026-10-16","w":1254,"h":1254,"color":"#1f1e20","thumb":"memes/thumbs/emonad-head-on-table-legs.webp"},
+{"file":"emonad-at-the-call-center.jpg","name":"Emonad at the call center","categories":["bagwork","memes"],"text":"","description":"","tags":["emonad","call-center","headset","office","job","9-to-5","work","arms-crossed","photo-edit"],"added":"2026-10-16","w":1254,"h":1254,"color":"#5a5c60","thumb":"memes/thumbs/emonad-at-the-call-center.webp"},
+{"file":"gainzy-streams-in-an-emo-wig.jpg","name":"Gainzy streams in an emo wig","categories":["people","collabs"],"text":"LISTEN ZCASH $GNZYSTRM","description":"","tags":["human-emonad","gainzy","streamer","livestream","zcash","gnzystrm","emo-wig","shocked","screenshot"],"added":"2026-10-16","w":1152,"h":638,"color":"#58635c","thumb":"memes/thumbs/gainzy-streams-in-an-emo-wig.webp"},
+{"file":"uncle-sam-emonad-wants-you.jpg","name":"Uncle Sam emonad wants you","categories":["holidays","memes"],"text":"","description":"","tags":["emonad","uncle-sam","i-want-you","pointing","usa","american-flag","fourth-of-july","top-hat","poster"],"added":"2026-10-16","w":512,"h":512,"color":"#866072","thumb":"memes/thumbs/uncle-sam-emonad-wants-you.webp"},
+{"file":"emonad-sparkler-and-monad-fireworks.jpg","name":"Emonad sparkler and Monad fireworks","categories":["holidays","monad"],"text":"","description":"","tags":["emonad","fireworks","sparkler","fourth-of-july","usa","monad-logo","night","celebration"],"added":"2026-10-16","w":1254,"h":1254,"color":"#22153f","thumb":"memes/thumbs/emonad-sparkler-and-monad-fireworks.webp"},
+{"file":"fourth-of-july-grill-master-emonad.jpg","name":"Fourth of July grill master emonad","categories":["holidays","monad"],"text":"","description":"","tags":["emonad","fourth-of-july","usa","american-flag","spatula","beer","bbq","fireworks","monad-logo"],"added":"2026-10-16","w":512,"h":512,"color":"#4b2b48","thumb":"memes/thumbs/fourth-of-july-grill-master-emonad.webp"},
+{"file":"leverup-lock-trade-keep-upside.jpg","name":"LeverUp lock, trade, keep upside","categories":["collabs","emonad"],"text":"Lever Up LOCK. TRADE. KEEP UPSIDE. LOCKED AS MARGIN BTC LONG Your $EMO becomes trading margin. You never sell it.","description":"","tags":["emonad","leverup","margin","trading","leverage","btc-long","vault","chart","promo","pepe"],"added":"2026-10-16","w":907,"h":512,"color":"#2a2729","thumb":"memes/thumbs/leverup-lock-trade-keep-upside.webp"},
+{"file":"clay-emonad-surfing-with-a-shark.jpg","name":"Clay emonad surfing with a shark","categories":["chill","art"],"text":"","description":"","tags":["emonad","clay","surfing","shark","purple-shark","wave","surfboard","summer","3d"],"added":"2026-10-16","w":1254,"h":1254,"color":"#d0acb4","thumb":"memes/thumbs/clay-emonad-surfing-with-a-shark.webp"},
+{"file":"clay-emonad-v-shaped-recovery.jpg","name":"Clay emonad V-shaped recovery","categories":["chart","bullish"],"text":"emonad","description":"","tags":["emonad","clay","chart","green-candle","v-recovery","pump","monad-logo","thinking","3d"],"added":"2026-10-16","w":1254,"h":1254,"color":"#141316","thumb":"memes/thumbs/clay-emonad-v-shaped-recovery.webp"},
+{"file":"glitter-glove-ok-hand.jpg","name":"Glitter glove OK hand","categories":["art","music"],"text":"ICEMAN","description":"","tags":["emonad","ok-hand","glitter-glove","rhinestones","sparkle","michael-jackson","iceman","wristbands"],"added":"2026-10-16","w":1152,"h":1152,"color":"#191718","thumb":"memes/thumbs/glitter-glove-ok-hand.webp"},
+{"file":"sad-human-emonad-in-the-city.jpg","name":"Sad human emonad in the city","categories":["people","sad"],"text":"","description":"","tags":["human-emonad","glasses","frown","sad","city","skyscrapers","emo-wig","wristbands","photo-edit"],"added":"2026-10-16","w":949,"h":1250,"color":"#464149","thumb":"memes/thumbs/sad-human-emonad-in-the-city.webp"},
+{"file":"emonad-real-sad-trading-card.jpg","name":"Emonad Real Sad trading card","categories":["emonad","sad"],"text":"emonad Real Sad people tunez didn't think needed a card. Sad. $emo coded","description":"","tags":["emonad","trading-card","card","real-sad","tunez","collectible","pout","emo-coded"],"added":"2026-10-16","w":929,"h":1250,"color":"#5b479a","thumb":"memes/thumbs/emonad-real-sad-trading-card.webp"},
+{"file":"emonad-sweeping-up-the-blood.jpg","name":"Emonad sweeping up the blood","categories":["bearish","art"],"text":"EMO","description":"","tags":["emonad","clay","blood","broom","bitcoin","red-market","crash","rekt","skull","monad-logo"],"added":"2026-10-16","w":1600,"h":1600,"color":"#311a20","thumb":"memes/thumbs/emonad-sweeping-up-the-blood.webp"},
+{"file":"emo-summoning-circle.jpg","name":"$EMO summoning circle","categories":["emonad","art"],"text":"$EMO","description":"","tags":["emonad","candles","summoning-circle","ritual","occult","monad-logo","neon","dark","ticker"],"added":"2026-10-16","w":1280,"h":1280,"color":"#280d0e","thumb":"memes/thumbs/emo-summoning-circle.webp"},
+{"file":"same-16-songs-every-day.jpg","name":"Same 16 songs every day","categories":["music","memes"],"text":"i play the same 16 songs everyday and they hit everytime","description":"","tags":["emonad","headphones","blanket","coffee","songs","playlist","cozy","music"],"added":"2026-10-16","w":1254,"h":1254,"color":"#3f3441","thumb":"memes/thumbs/same-16-songs-every-day.webp"},
+{"file":"look-behind-me-and-remember.jpg","name":"Look behind me and remember","categories":["memes"],"text":"SOMETIMES WHEN IN HAVING A BAD DAY LOOK BEHIND ME AND REMEMBER I HAVE A NICE PHAT ASS AND IM HAPPY AGAIN","description":"","tags":["emonad","phat-ass","butt","bad-day","self-love","happy","crawling","meme-format"],"added":"2026-10-16","w":1254,"h":1254,"color":"#aeacb2","thumb":"memes/thumbs/look-behind-me-and-remember.webp"},
+{"file":"it-s-already-today.jpg","name":"It's already today?","categories":["memes","sad"],"text":"It's already today?? What's next? Tomorrow? I can't do this anymore.","description":"","tags":["emonad","shrug","today","tomorrow","cant-do-this-anymore","exhausted","confused"],"added":"2026-10-16","w":1152,"h":1152,"color":"#6a5344","thumb":"memes/thumbs/it-s-already-today.webp"},
+{"file":"bodybuilders-go-emo.jpg","name":"Bodybuilders go emo","categories":["people","memes"],"text":"","description":"","tags":["human-emonad","ronnie-coleman","jay-cutler","bodybuilders","muscles","gym","purple-sneakers","emo-wig","photo-edit"],"added":"2026-10-16","w":1254,"h":1254,"color":"#32262f","thumb":"memes/thumbs/bodybuilders-go-emo.webp"},
+{"file":"clay-emonad-floating-the-lazy-river.jpg","name":"Clay emonad floating the lazy river","categories":["chill","art"],"text":"","description":"","tags":["emonad","claymation","clay","lazy-river","pool","float","backyard","summer","relax","3d"],"added":"2026-10-16","w":907,"h":512,"color":"#3d4e4d","thumb":"memes/thumbs/clay-emonad-floating-the-lazy-river.webp"},
+{"file":"not-broken-different.jpg","name":"Not broken, different","categories":["art","emotions"],"text":"NOT BROKEN, DIFFERENT. EMONAD","description":"","tags":["emonad","claymation","clay","padded-room","asylum","laptop","unhinged","grin","3d"],"added":"2026-10-16","w":910,"h":512,"color":"#675c56","thumb":"memes/thumbs/not-broken-different.webp"},
+{"file":"emonad-summons-monad-lightning.jpg","name":"Emonad summons Monad lightning","categories":["monad","art"],"text":"EMO","description":"","tags":["emonad","monad-logo","staff","lightning","storm","power","epic","dark-fantasy"],"added":"2026-10-16","w":1600,"h":1600,"color":"#504752","thumb":"memes/thumbs/emonad-summons-monad-lightning.webp"},
+{"file":"emonad-walking-away-from-a-coin-explosion.jpg","name":"Emonad walking away from a coin explosion","categories":["emonad","art"],"text":"","description":"","tags":["emonad","explosion","coins","walking-away","cool-guys-dont-look-at-explosions","fire","epic","comic"],"added":"2026-10-16","w":1254,"h":1254,"color":"#692c4d","thumb":"memes/thumbs/emonad-walking-away-from-a-coin-explosion.webp"},
+{"file":"emonad-stage-dive-at-the-emonad-show.jpg","name":"Emonad stage dive at the EMONAD show","categories":["music","emonad"],"text":"EMONAD","description":"","tags":["emonad","concert","stage-dive","crowd","microphone","coins","lasers","rock","purple"],"added":"2026-10-16","w":1024,"h":1024,"color":"#4f296d","thumb":"memes/thumbs/emonad-stage-dive-at-the-emonad-show.webp"},
+{"file":"the-right-person-will-come-one-day.jpg","name":"The right person will come one day","categories":["memes","sad"],"text":"\"The right person will come one day\" The right person:","description":"","tags":["emonad","grim-reaper","scythe","death","right-person","dating","single","dark-humor"],"added":"2026-10-16","w":1024,"h":1024,"color":"#6b6a6b","thumb":"memes/thumbs/the-right-person-will-come-one-day.webp"},
+{"file":"nobody-was-there-at-ur-lowest.jpg","name":"Nobody was there at ur lowest","categories":["memes","sad"],"text":"never forget who was there for u at ur lowest Nobody","description":"","tags":["emonad","nobody","lowest","beach","sunset","alone","lonely","sad"],"added":"2026-10-16","w":1280,"h":1024,"color":"#665d53","thumb":"memes/thumbs/nobody-was-there-at-ur-lowest.webp"},
+{"file":"don-t-let-a-good-day-distract-you.jpg","name":"Don't let a good day distract you","categories":["memes","sad"],"text":"Don't let a good day distract you from the failure you've become.","description":"","tags":["emonad","failure","good-day","demotivational","whisper","sad"],"added":"2026-10-16","w":1024,"h":1280,"color":"#765c5a","thumb":"memes/thumbs/don-t-let-a-good-day-distract-you.webp"},
+{"file":"emonad-interviewed-in-times-square.jpg","name":"Emonad interviewed in Times Square","categories":["emonad","collabs"],"text":"EMONAD","description":"","tags":["emonad","times-square","nyc","billboard","street-interview","interview","microphone","crsh","neon","rain"],"added":"2026-10-16","w":723,"h":1280,"color":"#492c40","thumb":"memes/thumbs/emonad-interviewed-in-times-square.webp"},
+{"file":"emonad-holding-a-rainbow-orb-underwater.jpg","name":"Emonad holding a rainbow orb underwater","categories":["art"],"text":"","description":"","tags":["emonad","underwater","rainbow","orb","ocean","light","fish","hope","ai-art"],"added":"2026-10-16","w":1024,"h":1024,"color":"#203945","thumb":"memes/thumbs/emonad-holding-a-rainbow-orb-underwater.webp"},
+{"file":"euphoric-neckbeard-goes-emo.jpg","name":"Euphoric neckbeard goes emo","categories":["people","memes"],"text":"","description":"","tags":["human-emonad","neckbeard","euphoric","glasses","beard","smug","emo-wig","photo-edit"],"added":"2026-10-16","w":1152,"h":1152,"color":"#4e3837","thumb":"memes/thumbs/euphoric-neckbeard-goes-emo.webp"},
+{"file":"emonad-and-chog-in-the-flowers.jpg","name":"Emonad and Chog in the flowers","categories":["collabs","chill"],"text":"","description":"","tags":["emonad","chog","monad-mascots","flowers","meadow","lying-down","relax","friends","spring"],"added":"2026-10-16","w":1254,"h":990,"color":"#574a3b","thumb":"memes/thumbs/emonad-and-chog-in-the-flowers.webp"},
+{"file":"emo-fish-smoking-a-cigar.jpg","name":"Emo fish smoking a cigar","categories":["collabs","chill"],"text":"","description":"","tags":["emonad","moyaki","fish","cigar","smoking","spongebob","bikini-bottom","wristbands","unbothered"],"added":"2026-10-16","w":1004,"h":1004,"color":"#65646f","thumb":"memes/thumbs/emo-fish-smoking-a-cigar.webp"},
+{"file":"drooling-emonad-cutout.jpg","name":"Drooling emonad cutout","categories":["templates"],"text":"","description":"","tags":["emonad","cutout","drool","half-body","white-background","stunned","template"],"added":"2026-10-16","w":910,"h":512,"color":"#cbc6cd","thumb":"memes/thumbs/drooling-emonad-cutout.webp"},
+{"file":"monad-mascots-art-lounge.jpg","name":"Monad mascots art lounge","categories":["collabs","art"],"text":"ART LOUNGE","description":"","tags":["emonad","art-lounge","painting","easel","portraits","chog","moyaki","mokadel","monad-mascots"],"added":"2026-10-16","w":1600,"h":900,"color":"#28173d","thumb":"memes/thumbs/monad-mascots-art-lounge.webp"},
+{"file":"emonad-lemonade-bar.jpg","name":"Emonad Lemonade bar","categories":["collabs","chill"],"text":"EMONAD LEMONADE","description":"","tags":["emonad","lemonade","bar","drinks","chog","moyaki","mokadel","monad-mascots","neon","friends"],"added":"2026-10-16","w":1254,"h":1254,"color":"#3e2948","thumb":"memes/thumbs/emonad-lemonade-bar.webp"},
+{"file":"emonad-and-friends-lying-in-flowers.jpg","name":"Emonad and friends lying in flowers","categories":["collabs","chill"],"text":"","description":"","tags":["emonad","chog","moyaki","mokadel","monad-mascots","flowers","sunset","friends","relax","3d"],"added":"2026-10-16","w":1254,"h":1254,"color":"#6c3753","thumb":"memes/thumbs/emonad-and-friends-lying-in-flowers.webp"},
+{"file":"emonad-bench-pressing-heavy.jpg","name":"Emonad bench pressing heavy","categories":["collabs","art"],"text":"","description":"","tags":["emonad","gym","bench-press","barbell","workout","lifting","gains","neon","nadfun"],"added":"2026-10-16","w":1254,"h":1254,"color":"#160b29","thumb":"memes/thumbs/emonad-bench-pressing-heavy.webp"},
+{"file":"human-emonad-street-stroll.jpg","name":"Human emonad street stroll","categories":["people"],"text":"","description":"","tags":["human-emonad","paparazzi","street","walking","sidewalk","purple-sneakers","wristbands","emo-wig","photo-edit"],"added":"2026-10-16","w":1086,"h":1448,"color":"#9f9a97","thumb":"memes/thumbs/human-emonad-street-stroll.webp"},
+{"file":"emonad-watching-the-cursed-tape.jpg","name":"Emonad watching the cursed tape","categories":["art"],"text":"","description":"","tags":["emonad","tv","crt","the-ring","pepe","purple-pepe","horror","static","dark"],"added":"2026-10-16","w":512,"h":512,"color":"#1f173a","thumb":"memes/thumbs/emonad-watching-the-cursed-tape.webp"},
+{"file":"french-bulldog-in-an-emo-wig.jpg","name":"French bulldog in an emo wig","categories":["animals"],"text":"","description":"","tags":["dog","french-bulldog","frenchie","emo-dog","emo-wig","purple-hair","wristband","cute","photo"],"added":"2026-10-16","w":1152,"h":1100,"color":"#b7a688","thumb":"memes/thumbs/french-bulldog-in-an-emo-wig.webp"},
+{"file":"emonad-lying-in-a-pile-of-cash.jpg","name":"Emonad lying in a pile of cash","categories":["bullish"],"text":"","description":"","tags":["emonad","cash","money","dollars","rich","gains","pump","bags"],"added":"2026-10-16","w":1004,"h":669,"color":"#676157","thumb":"memes/thumbs/emonad-lying-in-a-pile-of-cash.webp"},
+{"file":"thanks-it-s-a-disorder.jpg","name":"Thanks, it's a disorder","categories":["memes"],"text":"Someone: I love your personality Me: Thanks. It's a disorder","description":"","tags":["emonad","personality","disorder","toast","cheers","drink","mental-health"],"added":"2026-10-16","w":1254,"h":1254,"color":"#3c3632","thumb":"memes/thumbs/thanks-it-s-a-disorder.webp"},
+{"file":"back-after-a-three-month-depression.jpg","name":"Back after a three month depression","categories":["memes","sad"],"text":"me trying to come back into everyone's lives after getting out of a three month depression","description":"","tags":["emonad","door","peeking","window","depression","awkward","comeback"],"added":"2026-10-16","w":1024,"h":1280,"color":"#706a62","thumb":"memes/thumbs/back-after-a-three-month-depression.webp"},
+{"file":"drake-goes-emo-on-stage.jpg","name":"Drake goes emo on stage","categories":["people","music"],"text":"","description":"","tags":["human-emonad","drake","rapper","concert","microphone","stage","emo-wig","photo-edit"],"added":"2026-10-16","w":1152,"h":1152,"color":"#154e92","thumb":"memes/thumbs/drake-goes-emo-on-stage.webp"},
+{"file":"no-meaningful-impact-on-anyone-s-life.jpg","name":"No meaningful impact on anyone's life","categories":["memes","sad"],"text":"When you suddenly disappear from everyone's life and no one even misses you enough to reach out and see if you're okay and you realize you've had no meaningful impact on anyone else's life","description":"","tags":["emonad","diner","coffee","alone","lonely","depression","manga","sad"],"added":"2026-10-16","w":1004,"h":1004,"color":"#939293","thumb":"memes/thumbs/no-meaningful-impact-on-anyone-s-life.webp"},
+{"file":"marked-safe-from-being-a-pussy.jpg","name":"Marked safe from being a pussy","categories":["memes"],"text":"Marked Safe From Being a pussy Today","description":"","tags":["emonad","marked-safe","safety-check","facebook","flag","coward","meme-format"],"added":"2026-10-16","w":1004,"h":896,"color":"#cdccce","thumb":"memes/thumbs/marked-safe-from-being-a-pussy.webp"},
+{"file":"may-vs-june-btc-big-timer.jpg","name":"May vs June BTC big timer","categories":["memes","people","bearish"],"text":"MAY I'M A BTC CRYPTO BIG TIMER JUNE I'M A BTC CRYPTO BIG TIMER","description":"","tags":["human-emonad","drake","btc","bitcoin","big-timer","may-june","rekt","dip","meme-format"],"added":"2026-10-16","w":500,"h":500,"color":"#b9b9c0","thumb":"memes/thumbs/may-vs-june-btc-big-timer.webp"},
+{"file":"season-finale-of-my-bloodline.jpg","name":"Season finale of my bloodline","categories":["memes"],"text":"Marriage? Kids? Future? Bro I'm the season finale of my bloodline","description":"","tags":["emonad","bloodline","season-finale","marriage","kids","future","field","lying-down"],"added":"2026-10-16","w":1004,"h":1004,"color":"#697c52","thumb":"memes/thumbs/season-finale-of-my-bloodline.webp"},
+{"file":"emonad-as-guts-from-berserk.jpg","name":"Emonad as Guts from Berserk","categories":["anime","art"],"text":"","description":"","tags":["emonad","guts","berserk","greatsword","dragonslayer","rain","cosplay","dark-fantasy","anime"],"added":"2026-10-16","w":1004,"h":1004,"color":"#363038","thumb":"memes/thumbs/emonad-as-guts-from-berserk.webp"},
+{"file":"no-longer-wish-to-participate-in-society.jpg","name":"No longer wish to participate in society","categories":["memes","sad"],"text":"DAMN..... I kinda no longer wish to participate in society","description":"","tags":["emonad","society","done","tired","head-scratch","depression","meme-format"],"added":"2026-10-16","w":1152,"h":872,"color":"#bebbbf","thumb":"memes/thumbs/no-longer-wish-to-participate-in-society.webp"},
+{"file":"emo-cat-can-t-do-this-anymore.jpg","name":"Emo cat can't do this anymore","categories":["memes","animals"],"text":"i can't do this anymore i mean i can and i will but obviously i can't fucking do this anymore","description":"","tags":["cat","emo-cat","fringe","cant-do-this-anymore","grass","sad","burnout","wristbands","photo-edit"],"added":"2026-10-16","w":1024,"h":768,"color":"#66673b","thumb":"memes/thumbs/emo-cat-can-t-do-this-anymore.webp"},
+{"file":"emo-girl-with-purple-fringe.jpg","name":"Emo girl with purple fringe","categories":["people"],"text":"","description":"","tags":["human-emonad","emo-girl","scene-girl","purple-hair","wristbands","cigarette","photo"],"added":"2026-10-16","w":1152,"h":1152,"color":"#61493c","thumb":"memes/thumbs/emo-girl-with-purple-fringe.webp"},
+{"file":"emonad-at-gainzy-s-zcash-server.jpg","name":"Emonad at Gainzy's Zcash server","categories":["collabs","memes"],"text":"WELL ZCASH $GNZYSTRM","description":"","tags":["emonad","gainzy","zcash","gnzystrm","streamer","server","mining","crypto","photo-edit"],"added":"2026-10-16","w":1024,"h":1024,"color":"#504e48","thumb":"memes/thumbs/emonad-at-gainzy-s-zcash-server.webp"},
+{"file":"chibi-emonad-in-a-don-t-tread-cap.jpg","name":"Chibi emonad in a Don't Tread cap","categories":["art","chill"],"text":"","description":"","tags":["emonad","chibi","sunglasses","cap","dont-tread-on-me","gadsden","pool","vacation","3d"],"added":"2026-10-16","w":1004,"h":1004,"color":"#6d7c7a","thumb":"memes/thumbs/chibi-emonad-in-a-don-t-tread-cap.webp"},
+{"file":"tom-lee-goes-emo-on-cnbc.jpg","name":"Tom Lee goes emo on CNBC","categories":["people"],"text":"","description":"","tags":["human-emonad","tom-lee","cnbc","tv","finance","emo-wig","wristbands","photo-edit"],"added":"2026-10-16","w":1024,"h":672,"color":"#38473a","thumb":"memes/thumbs/tom-lee-goes-emo-on-cnbc.webp"},
+{"file":"emonad-on-a-sunset-pier.jpg","name":"Emonad on a sunset pier","categories":["emonad","chill"],"text":"$EMO","description":"","tags":["emonad","sunset","pier","beach","palm-trees","ferris-wheel","ocean","ticker","wallpaper"],"added":"2026-10-16","w":723,"h":1280,"color":"#8f5243","thumb":"memes/thumbs/emonad-on-a-sunset-pier.webp"},
+{"file":"emonad-smoking-on-a-city-ledge.jpg","name":"Emonad smoking on a city ledge","categories":["emonad","gn"],"text":"$EMO","description":"","tags":["emonad","smoking","cigarette","rooftop","ledge","city","skyline","night","neon","wallpaper"],"added":"2026-10-16","w":723,"h":1280,"color":"#1e1928","thumb":"memes/thumbs/emonad-smoking-on-a-city-ledge.webp"},
+{"file":"emonad-skateboarding-in-a-dead-mall.jpg","name":"Emonad skateboarding in a dead mall","categories":["emonad","art"],"text":"$EMO","description":"","tags":["emonad","skateboard","kickflip","skater","mall","neon","night","ticker","wallpaper"],"added":"2026-10-16","w":723,"h":1280,"color":"#1d1524","thumb":"memes/thumbs/emonad-skateboarding-in-a-dead-mall.webp"},
+{"file":"emonad-in-the-red-wasteland.jpg","name":"Emonad in the red wasteland","categories":["emonad","art"],"text":"$EMO","description":"","tags":["emonad","wasteland","red-sky","apocalypse","sign","ruins","ticker","wallpaper"],"added":"2026-10-16","w":723,"h":1280,"color":"#572516","thumb":"memes/thumbs/emonad-in-the-red-wasteland.webp"},
+{"file":"emonad-in-purple-spirit-flames.jpg","name":"Emonad in purple spirit flames","categories":["emonad","art"],"text":"$EMO","description":"","tags":["emonad","purple-flames","torii","moon","lanterns","spooky","japan","ticker","wallpaper"],"added":"2026-10-16","w":723,"h":1280,"color":"#160f21","thumb":"memes/thumbs/emonad-in-purple-spirit-flames.webp"},
+{"file":"emonad-on-a-pastel-hill.jpg","name":"Emonad on a pastel hill","categories":["emonad","chill"],"text":"$EMO","description":"","tags":["emonad","pastel","hill","flowers","clouds","pink","cute","ticker","wallpaper"],"added":"2026-10-16","w":723,"h":1280,"color":"#c1a2a5","thumb":"memes/thumbs/emonad-on-a-pastel-hill.webp"},
+{"file":"emonad-on-the-night-train.jpg","name":"Emonad on the night train","categories":["emonad","gn"],"text":"$EMO","description":"","tags":["emonad","train","subway","night","city","window","lonely","ticker","wallpaper"],"added":"2026-10-16","w":723,"h":1280,"color":"#373242","thumb":"memes/thumbs/emonad-on-the-night-train.webp"},
+{"file":"emonad-reaching-for-the-emo-tv.jpg","name":"Emonad reaching for the $EMO TV","categories":["emonad","art"],"text":"$EMO","description":"","tags":["emonad","tv","crt","static","kneeling","reaching","dark","ticker","wallpaper"],"added":"2026-10-16","w":723,"h":1280,"color":"#100d11","thumb":"memes/thumbs/emonad-reaching-for-the-emo-tv.webp"},
+{"file":"emonad-under-dripping-emo.jpg","name":"Emonad under dripping $EMO","categories":["emonad","art"],"text":"$EMO","description":"","tags":["emonad","dripping-text","graffiti","wall","dark","minimal","ticker","wallpaper"],"added":"2026-10-16","w":723,"h":1280,"color":"#111014","thumb":"memes/thumbs/emonad-under-dripping-emo.webp"},
+{"file":"emonad-sitting-by-the-emo-tv.jpg","name":"Emonad sitting by the $EMO TV","categories":["emonad","sad"],"text":"$EMO","description":"","tags":["emonad","tv","crt","broken-heart","sitting","sad","dark","ticker","wallpaper"],"added":"2026-10-16","w":723,"h":1280,"color":"#15111c","thumb":"memes/thumbs/emonad-sitting-by-the-emo-tv.webp"},
+{"file":"emonad-alone-in-a-purple-wasteland.jpg","name":"Emonad alone in a purple wasteland","categories":["art","gn"],"text":"","description":"","tags":["emonad","wasteland","night","stars","alone","purple","dark","wallpaper","phone-wallpaper"],"added":"2026-10-16","w":723,"h":1280,"color":"#0c090d","thumb":"memes/thumbs/emonad-alone-in-a-purple-wasteland.webp"},
+{"file":"emonad-in-a-zombie-graveyard.jpg","name":"Emonad in a zombie graveyard","categories":["emonad","art"],"text":"$EMO","description":"","tags":["emonad","graveyard","zombie-hands","tombstone","halloween","spooky","ticker","wallpaper","dark"],"added":"2026-10-16","w":723,"h":1280,"color":"#1a1721","thumb":"memes/thumbs/emonad-in-a-zombie-graveyard.webp"},
+{"file":"emonad-surrounded-by-eyes-in-the-dark.jpg","name":"Emonad surrounded by eyes in the dark","categories":["emonad","art"],"text":"$EMO","description":"","tags":["emonad","emo","ticker","glowing-eyes","dark","spotlight","creepy","wallpaper","phone-wallpaper"],"added":"2026-10-16","w":723,"h":1280,"color":"#0b0a0c","thumb":"memes/thumbs/emonad-surrounded-by-eyes-in-the-dark.webp"},
+{"file":"emonad-slumped-on-a-thorny-throne.jpg","name":"Emonad slumped on a thorny throne","categories":["art"],"text":"","description":"","tags":["emonad","thorns","vines","throne","sitting","gothic","purple","dark","ai-art"],"added":"2026-10-16","w":1600,"h":1600,"color":"#15121b","thumb":"memes/thumbs/emonad-slumped-on-a-thorny-throne.webp"},
+{"file":"emonad-kneeling-at-a-candle-altar.jpg","name":"Emonad kneeling at a candle altar","categories":["art","music"],"text":"","description":"","tags":["emonad","candles","altar","cassette-tapes","kneeling","shrine","smoke","dark","ai-art"],"added":"2026-10-16","w":900,"h":1600,"color":"#3a323d","thumb":"memes/thumbs/emonad-kneeling-at-a-candle-altar.webp"},
+{"file":"emonad-on-a-gothic-throne.jpg","name":"Emonad on a gothic throne","categories":["art"],"text":"","description":"","tags":["emonad","gothic","chapel","throne","candles","stained-glass","moon","ruins","dark","ai-art"],"added":"2026-10-16","w":1254,"h":1254,"color":"#2e2a30","thumb":"memes/thumbs/emonad-on-a-gothic-throne.webp"},
+{"file":"emo-dolphins-under-a-rainbow.jpg","name":"Emo dolphins under a rainbow","categories":["animals","art"],"text":"","description":"","tags":["emonad","dolphins","emo-dolphin","rainbow","ocean","hot-air-balloons","fringe","ai-art","cute"],"added":"2026-10-16","w":1280,"h":1024,"color":"#6a94c1","thumb":"memes/thumbs/emo-dolphins-under-a-rainbow.webp"},
+{"file":"emonad-choking-a-man-on-stage.jpg","name":"Emonad choking a man on stage","categories":["memes"],"text":"","description":"","tags":["emonad","choke","chokehold","stage","conference","armchair","rage","photo-edit"],"added":"2026-10-16","w":1004,"h":1004,"color":"#6c5e6c","thumb":"memes/thumbs/emonad-choking-a-man-on-stage.webp"},
+{"file":"emonad-meets-the-atp-kid-in-cardiff.jpg","name":"Emonad meets the ATP kid in Cardiff","categories":["memes"],"text":"","description":"","tags":["emonad","atp","cardiff","wales","handshake","castle","chain","photo-edit"],"added":"2026-10-16","w":1254,"h":1254,"color":"#676070","thumb":"memes/thumbs/emonad-meets-the-atp-kid-in-cardiff.webp"},
+{"file":"emonad-birthday-cake-with-chubby-friend.jpg","name":"Emonad birthday cake with chubby friend","categories":["holidays","collabs"],"text":"","description":"","tags":["emonad","birthday","cake","party-hat","balloons","celebration","eating","friends","purple"],"added":"2026-10-16","w":1254,"h":1254,"color":"#6d5e67","thumb":"memes/thumbs/emonad-birthday-cake-with-chubby-friend.webp"},
+{"file":"emonad-doomscrolling-in-bed.jpg","name":"Emonad doomscrolling in bed","categories":["gn","sad"],"text":"","description":"","tags":["emonad","phone","doomscrolling","bed","bedroom","night","lamp","insomnia","alone"],"added":"2026-10-16","w":1024,"h":1024,"color":"#27212e","thumb":"memes/thumbs/emonad-doomscrolling-in-bed.webp"},
+{"file":"smiling-young-man-emo-edit.jpg","name":"Smiling young man emo edit","categories":["people"],"text":"","description":"","tags":["human-emonad","smiling","young-man","purple-wig","black-tee","wristbands","portrait","stock-photo","photo-edit"],"added":"2026-10-16","w":1023,"h":1537,"color":"#7b7273","thumb":"memes/thumbs/smiling-young-man-emo-edit.webp"},
+{"file":"middle-finger-emo-edit.jpg","name":"Middle finger emo edit","categories":["people"],"text":"","description":"","tags":["human-emonad","middle-finger","flipping-off","smiling","purple-wig","wristbands","red-carpet","photo-edit"],"added":"2026-10-16","w":723,"h":1280,"color":"#716664","thumb":"memes/thumbs/middle-finger-emo-edit.webp"},
+{"file":"chubby-cartoon-emonad.jpg","name":"Chubby cartoon emonad","categories":["collabs"],"text":"","description":"","tags":["chubby","cartoon","emo-hair","purple-hair","wristbands","black-tee","smirk","pfp","character"],"added":"2026-10-16","w":1024,"h":1024,"color":"#2b2020","thumb":"memes/thumbs/chubby-cartoon-emonad.webp"},
+{"file":"chibi-doll-emonad.jpg","name":"Chibi doll emonad","categories":["art"],"text":"","description":"","tags":["emonad","chibi","doll","big-eyes","creepy-cute","blush","purple-hair","flowers","3d"],"added":"2026-10-16","w":1254,"h":1254,"color":"#5f5255","thumb":"memes/thumbs/chibi-doll-emonad.webp"},
+{"file":"green-screen-emo-edit-guy.jpg","name":"Green screen emo edit guy","categories":["people","templates"],"text":"","description":"","tags":["human-emonad","green-screen","glasses","mustache","black-tee","wristbands","deadpan","template","photo-edit"],"added":"2026-10-16","w":1254,"h":1254,"color":"#20631c","thumb":"memes/thumbs/green-screen-emo-edit-guy.webp"},
+{"file":"emonad-in-the-backrooms-with-a-scythe.jpg","name":"Emonad in the backrooms with a scythe","categories":["art"],"text":"","description":"","tags":["emonad","backrooms","scythe","reaper","weapon","liminal","yellow","horror","blood"],"added":"2026-10-16","w":1152,"h":1152,"color":"#816e36","thumb":"memes/thumbs/emonad-in-the-backrooms-with-a-scythe.webp"},
+{"file":"anime-emonad-with-backwards-cap.jpg","name":"Anime emonad with backwards cap","categories":["anime","art"],"text":"","description":"","tags":["emonad","anime","backwards-cap","stitches","yin-yang","watercolor","pfp","ethereum","pixel-ghosts"],"added":"2026-10-16","w":1024,"h":1024,"color":"#878396","thumb":"memes/thumbs/anime-emonad-with-backwards-cap.webp"},
+{"file":"me-dealing-with-depression.jpg","name":"Me dealing with depression","categories":["memes","sad"],"text":"ME DEALING WITH DEPRESSION HOW I LOOK HOW I FEEL","description":"","tags":["emonad","depression","how-i-look","how-i-feel","anxiety","shaking","mental-health","comparison","relatable"],"added":"2026-10-16","w":1024,"h":1280,"color":"#c8c5cb","thumb":"memes/thumbs/me-dealing-with-depression.webp"},
+{"file":"emo-peace-sign-guy.jpg","name":"Emo peace sign guy","categories":["people","memes"],"text":"","description":"","tags":["human-emonad","peace-sign","emo-hair","purple-streak","long-nails","cursed","blurry","reaction"],"added":"2026-10-16","w":1004,"h":958,"color":"#b0a897","thumb":"memes/thumbs/emo-peace-sign-guy.webp"},
+{"file":"smoking-guy-emo-edit.jpg","name":"Smoking guy emo edit","categories":["people"],"text":"","description":"","tags":["human-emonad","smoking","cigarette","selfie","purple-hair","black-tee","tired","photo-edit"],"added":"2026-10-16","w":1254,"h":1254,"color":"#766d6b","thumb":"memes/thumbs/smoking-guy-emo-edit.webp"},
+{"file":"two-human-emonads-in-the-desert.jpg","name":"Two human emonads in the desert","categories":["people"],"text":"","description":"","tags":["human-emonad","duo","friends","purple-wig","black-tee","wristbands","desert","smiling","photo-edit"],"added":"2026-10-16","w":768,"h":1024,"color":"#524749","thumb":"memes/thumbs/two-human-emonads-in-the-desert.webp"},
+{"file":"teary-eyed-pepe-emonad.jpg","name":"Teary-eyed pepe emonad","categories":["emotions"],"text":"","description":"","tags":["pepe","emonad","pepe-emonad","teary-eyed","puppy-eyes","cute","wholesome","wristbands","sticker"],"added":"2026-10-16","w":1280,"h":852,"color":"#888085","thumb":"memes/thumbs/teary-eyed-pepe-emonad.webp"},
+{"file":"frog-logo-with-purple-fringe.jpg","name":"Frog logo with purple fringe","categories":["collabs"],"text":"","description":"","tags":["frog","logo","emo-fringe","purple-hair","eye","green","yellow","vector","pfp"],"added":"2026-10-16","w":1004,"h":1014,"color":"#899861","thumb":"memes/thumbs/frog-logo-with-purple-fringe.webp"},
+{"file":"chugging-wine-emo-edit.jpg","name":"Chugging wine emo edit","categories":["people","memes"],"text":"","description":"","tags":["human-emonad","wine","chugging","drinking","spill","coping","couch","purple-hair","photo-edit"],"added":"2026-10-16","w":672,"h":1024,"color":"#3a332f","thumb":"memes/thumbs/chugging-wine-emo-edit.webp"},
+{"file":"britney-shaved-head-emo-edit.jpg","name":"Britney shaved head emo edit","categories":["people"],"text":"","description":"","tags":["human-emonad","britney-spears","shaved-head","clippers","2007","celebrity","breakdown","purple-hair","photo-edit"],"added":"2026-10-16","w":640,"h":1152,"color":"#766f6c","thumb":"memes/thumbs/britney-shaved-head-emo-edit.webp"},
+{"file":"gorilla-emonad-on-heaven-s-stairs.jpg","name":"Gorilla emonad on heaven's stairs","categories":["animals","art"],"text":"","description":"","tags":["emonad","gorilla","ape","monkey","heaven","stairs","clouds","light","crouching"],"added":"2026-10-16","w":1024,"h":1280,"color":"#9980a6","thumb":"memes/thumbs/gorilla-emonad-on-heaven-s-stairs.webp"},
+{"file":"emo-selfie-in-heart-pajamas.jpg","name":"Emo selfie in heart pajamas","categories":["people"],"text":"","description":"","tags":["human-emonad","selfie","bed","pajamas","hearts","laptop","cozy","purple-hair","photo-edit"],"added":"2026-10-16","w":1152,"h":1152,"color":"#926d64","thumb":"memes/thumbs/emo-selfie-in-heart-pajamas.webp"},
+{"file":"monad-cap-podcast-human-emonad.jpg","name":"Monad cap podcast human emonad","categories":["people","monad"],"text":"","description":"","tags":["human-emonad","monad","cap","podcast","microphone","bring-me-the-horizon","laptop","spiked-choker","lip-piercing","ai-edit"],"added":"2026-10-16","w":959,"h":959,"color":"#3b3435","thumb":"memes/thumbs/monad-cap-podcast-human-emonad.webp"},
+{"file":"man-on-the-phone-emo-edit.jpg","name":"Man on the phone emo edit","categories":["people"],"text":"","description":"","tags":["human-emonad","phone-call","purple-hair","glasses","spiked-choker","striped-polo","heart-necklace","stare","photo-edit"],"added":"2026-10-16","w":1254,"h":1254,"color":"#160f11","thumb":"memes/thumbs/man-on-the-phone-emo-edit.webp"},
+{"file":"emonad-at-the-korova-milk-bar.jpg","name":"Emonad at the Korova Milk Bar","categories":["art"],"text":"","description":"","tags":["emonad","clockwork-orange","korova-milk-bar","kubrick","clock","chessboard","milk","bowler-hat","art-deco","movie"],"added":"2026-10-16","w":1024,"h":1024,"color":"#544954","thumb":"memes/thumbs/emonad-at-the-korova-milk-bar.webp"},
+{"file":"emonad-on-the-demonic-throne.jpg","name":"Emonad on the demonic throne","categories":["art"],"text":"","description":"","tags":["emonad","throne","demon","hell","red","gothic","dark","king","horror","sitting"],"added":"2026-10-16","w":1280,"h":1024,"color":"#3b1010","thumb":"memes/thumbs/emonad-on-the-demonic-throne.webp"},
+{"file":"emonad-hulking-out.jpg","name":"Emonad hulking out","categories":["emotions"],"text":"","description":"","tags":["emonad","hulk","rage","angry","screaming","muscles","purple-lightning","transformation","power"],"added":"2026-10-16","w":1024,"h":1024,"color":"#6c5a76","thumb":"memes/thumbs/emonad-hulking-out.webp"},
+{"file":"emonad-half-face-closeup.jpg","name":"Emonad half-face closeup","categories":["templates"],"text":"","description":"","tags":["emonad","face","closeup","half-face","side-eye","smirk","peeking","crop","template"],"added":"2026-10-16","w":1152,"h":640,"color":"#9a8ea0","thumb":"memes/thumbs/emonad-half-face-closeup.webp"},
+{"file":"didn-t-even-f-ck-around-finding-out.jpg","name":"Didn't even f*ck around, finding out","categories":["memes"],"text":"i didn't even f*ck around why am i finding out?","description":"","tags":["emonad","fafo","finding-out","consequences","anxious","nervous","stars","relatable"],"added":"2026-10-16","w":1254,"h":1254,"color":"#dbd1c9","thumb":"memes/thumbs/didn-t-even-f-ck-around-finding-out.webp"},
+{"file":"emonad-thinking-in-space.jpg","name":"Emonad thinking in space","categories":["chill"],"text":"","description":"","tags":["emonad","space","earth","orbit","thinking","headset","cigarette","contemplating","hmm"],"added":"2026-10-16","w":1152,"h":640,"color":"#44445f","thumb":"memes/thumbs/emonad-thinking-in-space.webp"},
+{"file":"emonad-in-the-matrix.jpg","name":"Emonad in the Matrix","categories":["art"],"text":"","description":"","tags":["emonad","matrix","trinity","latex","smoking","cigarette","green-code","city","movie","cyberpunk"],"added":"2026-10-16","w":1024,"h":1280,"color":"#405a38","thumb":"memes/thumbs/emonad-in-the-matrix.webp"},
+{"file":"human-emonad-gamer-at-desk.jpg","name":"Human emonad gamer at desk","categories":["people"],"text":"","description":"","tags":["human-emonad","gamer","headset","computer","desk","folding-chair","waiting","purple-hair","photo-edit"],"added":"2026-10-16","w":1004,"h":1004,"color":"#58494b","thumb":"memes/thumbs/human-emonad-gamer-at-desk.webp"},
+{"file":"emonad-petting-kirby-through-the-pc.jpg","name":"Emonad petting Kirby through the PC","categories":["memes","chill"],"text":"","description":"","tags":["emonad","kirby","nintendo","old-pc","monitor","reaching-through-screen","petting","wholesome","retro"],"added":"2026-10-16","w":1280,"h":1024,"color":"#8b7d81","thumb":"memes/thumbs/emonad-petting-kirby-through-the-pc.webp"},
+{"file":"emonad-vs-goku-energy-clash.jpg","name":"Emonad vs Goku energy clash","categories":["anime"],"text":"","description":"","tags":["emonad","goku","dragon-ball","anime","fight","clash","lightning","energy","power-up","manga"],"added":"2026-10-16","w":1024,"h":1024,"color":"#6e7084","thumb":"memes/thumbs/emonad-vs-goku-energy-clash.webp"},
+{"file":"currently-non-verbal-pls-be-patient.jpg","name":"Currently non-verbal, pls be patient","categories":["memes","emotions"],"text":"i'm currently non-verbal pls be patient","description":"","tags":["emonad","non-verbal","pls-be-patient","social-battery","introvert","mood","relatable","minimal"],"added":"2026-10-16","w":1024,"h":1024,"color":"#e5e3e6","thumb":"memes/thumbs/currently-non-verbal-pls-be-patient.webp"},
+{"file":"emonad-shooting-at-the-bears.jpg","name":"Emonad shooting at the bears","categories":["bullish"],"text":"","description":"","tags":["emonad","bears","bear-market","pistol","gun","shootout","action","fighting","bullish"],"added":"2026-10-16","w":1024,"h":1024,"color":"#2a292e","thumb":"memes/thumbs/emonad-shooting-at-the-bears.webp"},
+{"file":"emonad-in-a-western-ghost-town.jpg","name":"Emonad in a western ghost town","categories":["art"],"text":"","description":"","tags":["emonad","western","cowboy","ghost-town","desert","tumbleweed","saloon","duster-coat","showdown"],"added":"2026-10-16","w":1024,"h":1024,"color":"#94866e","thumb":"memes/thumbs/emonad-in-a-western-ghost-town.webp"},
+{"file":"what-s-there-to-be-happy-about.jpg","name":"What's there to be happy about","categories":["people","memes"],"text":"What's there to be happy about?","description":"","tags":["human-emonad","nba-finals","press-conference","lakers","kobe","champions","unhappy","purple-hair","photo-edit"],"added":"2026-10-16","w":1004,"h":900,"color":"#3f465b","thumb":"memes/thumbs/what-s-there-to-be-happy-about.webp"},
+{"file":"human-emonad-on-the-oval-office-couch.jpg","name":"Human emonad on the Oval Office couch","categories":["people"],"text":"","description":"","tags":["human-emonad","oval-office","white-house","couch","politics","black-tee","wristbands","serious","photo-edit"],"added":"2026-10-16","w":1024,"h":1024,"color":"#494031","thumb":"memes/thumbs/human-emonad-on-the-oval-office-couch.webp"},
+{"file":"emo-donalds-sign-emo-to-1.jpg","name":"eMo Donalds sign: emo to $1","categories":["bullish","memes"],"text":"eMo donalds emo to $1","description":"","tags":["emonad","mcdonalds","emodonalds","sign","ladder","one-dollar","price-target","ticker","bullish"],"added":"2026-10-16","w":1280,"h":1280,"color":"#98989f","thumb":"memes/thumbs/emo-donalds-sign-emo-to-1.webp"},
+{"file":"emonad-flipping-burgers-at-emo-donalds.jpg","name":"Emonad flipping burgers at eMo Donalds","categories":["bearish","bagwork"],"text":"","description":"","tags":["emonad","mcdonalds","emodonalds","burger","flipping","kitchen","job","wagie","fries","ngmi"],"added":"2026-10-16","w":1280,"h":1280,"color":"#7c7a7d","thumb":"memes/thumbs/emonad-flipping-burgers-at-emo-donalds.webp"},
+{"file":"human-emonads-smoking-at-the-temple.jpg","name":"Human emonads smoking at the temple","categories":["people"],"text":"","description":"","tags":["human-emonad","smoking","cigarette","temple","chinese-architecture","two-guys","offering","golden-hour","photo-edit"],"added":"2026-10-16","w":1280,"h":1280,"color":"#623a24","thumb":"memes/thumbs/human-emonads-smoking-at-the-temple.webp"},
+{"file":"frog-logo-with-emo-fringe.jpg","name":"Frog logo with emo fringe","categories":["collabs"],"text":"","description":"","tags":["frog","logo","emo-fringe","purple-hair","eye","green","yellow","pfp"],"added":"2026-10-16","w":1004,"h":1004,"color":"#6d9d28","thumb":"memes/thumbs/frog-logo-with-emo-fringe.webp"},
+{"file":"there-is-no-meme-i-love-you.jpg","name":"There is no meme, I love you","categories":["memes"],"text":"THERE IS NO MEME I LOVE YOU","description":"","tags":["emonad","there-is-no-meme","i-love-you","love","wholesome","flowers","sparkles","pink"],"added":"2026-10-16","w":1024,"h":1008,"color":"#9c8289","thumb":"memes/thumbs/there-is-no-meme-i-love-you.webp"},
+{"file":"victorian-goth-human-emonad.jpg","name":"Victorian goth human emonad","categories":["people","art"],"text":"","description":"","tags":["human-emonad","victorian","goth","vampire","aristocrat","cravat","period-costume","purple-hair","ai-art"],"added":"2026-10-16","w":1004,"h":1004,"color":"#3d3b35","thumb":"memes/thumbs/victorian-goth-human-emonad.webp"},
+{"file":"no-one-is-coming-to-save-you.jpg","name":"No one is coming to save you","categories":["sad","memes"],"text":"no one is coming to save you. get up.","description":"","tags":["emonad","face-down","lying-down","floor","get-up","no-one-is-coming","motivation","defeated","minimal"],"added":"2026-10-16","w":1152,"h":812,"color":"#e2e1e3","thumb":"memes/thumbs/no-one-is-coming-to-save-you.webp"},
+{"file":"drake-i-m-upset-emo-cover.jpg","name":"Drake I'm Upset emo cover","categories":["people","music"],"text":"I'm Upset Drake","description":"","tags":["human-emonad","drake","im-upset","album-cover","scorpion","rap","black-and-white","emo-wig","music"],"added":"2026-10-16","w":960,"h":1072,"color":"#343434","thumb":"memes/thumbs/drake-i-m-upset-emo-cover.webp"},
+{"file":"samuel-bankman-free-all-my-guys.jpg","name":"Samuel Bankman, free all my guys","categories":["memes"],"text":"AN FTX PENTHOUSE HIGH-RISER, YEAH SAMUEL BANKMAN, FREE ALL MY GUYS UP, YEAH","description":"","tags":["emonad","drake","sbf","sam-bankman-fried","ftx","free-sbf","car","lyrics","rap","crypto"],"added":"2026-10-16","w":500,"h":603,"color":"#65615f","thumb":"memes/thumbs/samuel-bankman-free-all-my-guys.webp"},
+{"file":"smoking-with-the-orange-m-m.jpg","name":"Smoking with the orange M&M","categories":["chill"],"text":"","description":"","tags":["emonad","m-and-m","orange","candy","cigar","smoking","couch","hangout","chill"],"added":"2026-10-16","w":1024,"h":1024,"color":"#2a130f","thumb":"memes/thumbs/smoking-with-the-orange-m-m.webp"},
+{"file":"emonad-monet-water-lilies.jpg","name":"Emonad Monet water lilies","categories":["art"],"text":"","description":"","tags":["emonad","monet","water-lilies","painting","impressionism","oil-painting","red-paint","splatter","frame","museum"],"added":"2026-10-16","w":1024,"h":1024,"color":"#70685e","thumb":"memes/thumbs/emonad-monet-water-lilies.webp"},
+{"file":"i-am-altering-the-prophecy.jpg","name":"I am altering the prophecy","categories":["memes"],"text":"OPPS BE WARNED I AM ALTERING THE PROPHECY","description":"","tags":["emonad","prophecy","spellbook","magic","wizard","sorcery","opps","runes","purple-glow"],"added":"2026-10-16","w":1004,"h":947,"color":"#41334c","thumb":"memes/thumbs/i-am-altering-the-prophecy.webp"},
+{"file":"a-pump-for-ants.jpg","name":"A pump for ants","categories":["memes","bullish"],"text":"What is this? A pump for ANTS?! The pump has to be at least... three times bigger than this!","description":"","tags":["emonad","zoolander","pump","ants","movie","silver-suit","bigger","model","bullish"],"added":"2026-10-16","w":1152,"h":650,"color":"#797786","thumb":"memes/thumbs/a-pump-for-ants.webp"},
+{"file":"emonad-at-the-beach-with-pokemon.jpg","name":"Emonad at the beach with Pokemon","categories":["chill"],"text":"","description":"","tags":["emonad","pikachu","gengar","pokemon","beach","ocean","cat","onesie","summer","friends"],"added":"2026-10-16","w":1024,"h":1024,"color":"#8da7a9","thumb":"memes/thumbs/emonad-at-the-beach-with-pokemon.webp"},
+{"file":"gifted-kid-to-burned-out-disappointment.jpg","name":"Gifted kid to burned-out disappointment","categories":["memes","sad"],"text":"birth death gifted kid omg a burned out fucking disappointment","description":"","tags":["emonad","gifted-kid","burnout","timeline","birth","death","disappointment","lying-down","relatable"],"added":"2026-10-16","w":900,"h":900,"color":"#ebebe9","thumb":"memes/thumbs/gifted-kid-to-burned-out-disappointment.webp"},
+{"file":"emonad-in-the-mirror-with-monad-mascots.jpg","name":"Emonad in the mirror with Monad mascots","categories":["monad","collabs"],"text":"","description":"","tags":["emonad","monad","nads","mascots","mirror","reflection","gorilla","purple-chicken","rain"],"added":"2026-10-16","w":1024,"h":1024,"color":"#3e3f4b","thumb":"memes/thumbs/emonad-in-the-mirror-with-monad-mascots.webp"},
+{"file":"emonad-tarot-nine-of-wands.jpg","name":"Emonad tarot Nine of Wands","categories":["art"],"text":"NINE OF WANDS","description":"","tags":["emonad","tarot","nine-of-wands","card","bandage","wands","art-nouveau","injured","resilience"],"added":"2026-10-16","w":655,"h":1024,"color":"#928974","thumb":"memes/thumbs/emonad-tarot-nine-of-wands.webp"},
+{"file":"self-hate-is-over.jpg","name":"Self-hate is over","categories":["memes"],"text":"WOOSH! self-hate is over. you are now sexy and confident.","description":"","tags":["emonad","magic-wand","woosh","self-hate","confidence","self-love","spell","sexy"],"added":"2026-10-16","w":1029,"h":1024,"color":"#e1dfe0","thumb":"memes/thumbs/self-hate-is-over.webp"},
+{"file":"wall-of-text-mtg-card.jpg","name":"Wall of Text MTG card","categories":["memes"],"text":"Wall of Text Creature — Wall","description":"","tags":["emonad","mtg","magic-the-gathering","card","wall-of-text","trading-card","nerd","gold"],"added":"2026-10-16","w":1120,"h":960,"color":"#948469","thumb":"memes/thumbs/wall-of-text-mtg-card.webp"},
+{"file":"i-ll-call-you-next-weekend.jpg","name":"I'll call you next weekend","categories":["memes"],"text":"I'll call you next weekend (I won't)","description":"","tags":["emonad","twins","friends","ghosting","phone-call","lie","night","stars","stone-wall"],"added":"2026-10-16","w":843,"h":1264,"color":"#35363c","thumb":"memes/thumbs/i-ll-call-you-next-weekend.webp"},
+{"file":"opening-the-notes-app.jpg","name":"Opening the Notes app","categories":["memes"],"text":"how it feels to open the Notes app","description":"","tags":["emonad","notes-app","writing","quill","spellbook","wizard","ancient","journal","poetry"],"added":"2026-10-16","w":922,"h":1152,"color":"#513f42","thumb":"memes/thumbs/opening-the-notes-app.webp"},
+{"file":"emonad-as-a-sperm.jpg","name":"Emonad as a sperm","categories":["random"],"text":"","description":"","tags":["emonad","sperm","swimmer","tail","origin-story","biology","wristbands","weird"],"added":"2026-10-16","w":1254,"h":1254,"color":"#eae8eb","thumb":"memes/thumbs/emonad-as-a-sperm.webp"},
+{"file":"cinco-de-mayo-emonad.jpg","name":"Cinco de Mayo emonad","categories":["holidays"],"text":"CINCO DE MAYO","description":"","tags":["emonad","cinco-de-mayo","cactus","chili-peppers","papel-picado","marigolds","fiesta","mexico"],"added":"2026-10-16","w":1024,"h":1024,"color":"#774e33","thumb":"memes/thumbs/cinco-de-mayo-emonad.webp"},
+{"file":"cinco-de-mayo-emonad-with-cactus.jpg","name":"Cinco de Mayo emonad with cactus","categories":["holidays"],"text":"","description":"","tags":["emonad","cinco-de-mayo","cactus","tacos","tequila","sombrero","marigolds","fiesta","mexico"],"added":"2026-10-16","w":1024,"h":1024,"color":"#705b43","thumb":"memes/thumbs/cinco-de-mayo-emonad-with-cactus.webp"},
+{"file":"cinco-de-mayo-emonad-with-pi-ata.jpg","name":"Cinco de Mayo emonad with piñata","categories":["holidays"],"text":"","description":"","tags":["emonad","cinco-de-mayo","pinata","papel-picado","fiesta","limes","tequila","mexico","party"],"added":"2026-10-16","w":1024,"h":1024,"color":"#755647","thumb":"memes/thumbs/cinco-de-mayo-emonad-with-pi-ata.webp"},
+{"file":"bored-ape-with-emo-fringe.jpg","name":"Bored ape with emo fringe","categories":["collabs"],"text":"","description":"","tags":["bored-ape","bayc","ape","monkey","nft","crown","emo-fringe","purple-robe","pfp"],"added":"2026-10-16","w":1024,"h":1024,"color":"#c17b37","thumb":"memes/thumbs/bored-ape-with-emo-fringe.webp"},
+{"file":"emonad-shakes-hands-with-goth-house-head.jpg","name":"Emonad shakes hands with goth house-head","categories":["collabs"],"text":"","description":"","tags":["emonad","house-head","handshake","goth","cigar","fishnet","deal","partnership","collab"],"added":"2026-10-16","w":1024,"h":1024,"color":"#a6a29e","thumb":"memes/thumbs/emonad-shakes-hands-with-goth-house-head.webp"},
+{"file":"house-head-emonad.jpg","name":"House-head emonad","categories":["collabs"],"text":"","description":"","tags":["emonad","house","house-head","purple-roof","chimney","mascot","hands-on-hips","cartoon"],"added":"2026-10-16","w":1024,"h":1024,"color":"#c7c6c9","thumb":"memes/thumbs/house-head-emonad.webp"},
+{"file":"crowned-chibi-emonad-pfp.jpg","name":"Crowned chibi emonad PFP","categories":["anime"],"text":"","description":"","tags":["emonad","chibi","crown","king","gold-chain","jewels","pfp","psychedelic","pink"],"added":"2026-10-16","w":1024,"h":1024,"color":"#8d516e","thumb":"memes/thumbs/crowned-chibi-emonad-pfp.webp"},
+{"file":"3d-egg-emonad-in-bedroom.jpg","name":"3D egg emonad in bedroom","categories":["art"],"text":"","description":"","tags":["emonad","3d","egg","round","bedroom","kids-room","render","sad-face","pixar"],"added":"2026-10-16","w":1402,"h":1122,"color":"#603c2a","thumb":"memes/thumbs/3d-egg-emonad-in-bedroom.webp"},
+{"file":"emonad-with-buff-pepe.jpg","name":"Emonad with buff pepe","categories":["collabs"],"text":"","description":"","tags":["emonad","pepe","blue-pepe","buff","muscles","gym","friends","hand-on-shoulder","space"],"added":"2026-10-16","w":1003,"h":565,"color":"#202c4b","thumb":"memes/thumbs/emonad-with-buff-pepe.webp"},
+{"file":"grandpa-simpson-storytime-emonad.jpg","name":"Grandpa Simpson storytime emonad","categories":["memes"],"text":"","description":"","tags":["emonad","simpsons","abe-simpson","grandpa","bart","milhouse","storytime","kids","cartoon","tree-stump"],"added":"2026-10-16","w":1184,"h":864,"color":"#467a6d","thumb":"memes/thumbs/grandpa-simpson-storytime-emonad.webp"},
+{"file":"scribbly-hand-drawn-emonad.jpg","name":"Scribbly hand-drawn emonad","categories":["random"],"text":"","description":"","tags":["emonad","scribble","doodle","hand-drawn","crayon","ms-paint","childlike","wristbands"],"added":"2026-10-16","w":1254,"h":1254,"color":"#e0dbe2","thumb":"memes/thumbs/scribbly-hand-drawn-emonad.webp"},
+{"file":"it-s-over-we-back-swing.jpg","name":"It's over, we back swing","categories":["chart","memes"],"text":"it's over WE BACK","description":"","tags":["emonad","its-over","we-back","swing","chart","candles","pump","dump","volatility","doodle"],"added":"2026-10-16","w":1120,"h":912,"color":"#cfced3","thumb":"memes/thumbs/it-s-over-we-back-swing.webp"},
+{"file":"old-man-in-suit-emo-hair.jpg","name":"Old man in suit emo hair","categories":["people"],"text":"","description":"","tags":["human-emonad","old-man","boomer","suit","tie","purple-hair","broken-heart-pin","portrait","photo-edit"],"added":"2026-10-16","w":1254,"h":1254,"color":"#574e54","thumb":"memes/thumbs/old-man-in-suit-emo-hair.webp"},
+{"file":"lollipop-guy-emo-edit.jpg","name":"Lollipop guy emo edit","categories":["people"],"text":"","description":"","tags":["human-emonad","lollipop","selfie","purple-hair","bed","feet","cursed","photo-edit"],"added":"2026-10-16","w":1004,"h":1004,"color":"#5e5d76","thumb":"memes/thumbs/lollipop-guy-emo-edit.webp"},
+{"file":"emo-bonfire-in-the-graveyard.jpg","name":"$EMO bonfire in the graveyard","categories":["emonad","gn"],"text":"$EMO","description":"","tags":["emonad","bonfire","graveyard","cemetery","circle","ritual","purple-fire","night","ticker","community"],"added":"2026-10-16","w":912,"h":1136,"color":"#4b425e","thumb":"memes/thumbs/emo-bonfire-in-the-graveyard.webp"},
+{"file":"emonad-on-a-rooftop-at-sunset.jpg","name":"Emonad on a rooftop at sunset","categories":["chill"],"text":"","description":"","tags":["emonad","rooftop","sunset","city","skyline","silhouette","purple-sky","alone","evening"],"added":"2026-10-16","w":912,"h":1136,"color":"#534257","thumb":"memes/thumbs/emonad-on-a-rooftop-at-sunset.webp"},
+{"file":"the-violet-haired-youth-field-guide.jpg","name":"The Violet-Haired Youth field guide","categories":["emonad","art"],"text":"PLATE CCXLVII. The Violet-Haired Youth Homo urbanus melancholicus A modern exemplar, observed in his customary repose. Noted for his distinctive hair, monochrome attire, and understrated adornments. Fig. C. Wristbands Paired bands of violet. Worn symmetrically on each wrist. Fig. D. Footwear Canvas shoes in violet. White toe and sole. Laced for secure fit. Scale Reference Height: approx. 1.7 units Notes. This subject thrives in urban environments and is most often found in shaded corners, listening to music. Fig. A. Hair Structure Long, layered, and voluminous. Falls forward to obscure one side of the face. Fig. B. Facial Features Pale complexion. Prominent nose. Wide, observant eyes. Fig. E. Silhouette Tall and slender build. Relaxed posture. Arms at rest. Legend A. Hair Structure B. Facial Features C. Wristbands D. Footwear E. Silhouette","description":"","tags":["emonad","character-sheet","field-guide","scientific-illustration","lore","reference","wristbands","sneakers","etching","victorian"],"added":"2026-10-16","w":1122,"h":1402,"color":"#d5d4d6","thumb":"memes/thumbs/the-violet-haired-youth-field-guide.webp"},
+{"file":"3d-emonad-on-ice-throne.jpg","name":"3D emonad on ice throne","categories":["art"],"text":"","description":"","tags":["emonad","3d","ice","throne","crystal","frozen","king","render","cold"],"added":"2026-10-16","w":912,"h":1136,"color":"#253441","thumb":"memes/thumbs/3d-emonad-on-ice-throne.webp"},
+{"file":"3d-emonad-on-dark-throne.jpg","name":"3D emonad on dark throne","categories":["art"],"text":"","description":"","tags":["emonad","3d","throne","king","spotlight","dark","render","sitting","boss"],"added":"2026-10-16","w":1024,"h":1024,"color":"#2b2c30","thumb":"memes/thumbs/3d-emonad-on-dark-throne.webp"},
+{"file":"lil-shid-screaming-laugh-cry.jpg","name":"Lil shid screaming laugh-cry","categories":["lil shid","emotions"],"text":"","description":"","tags":["lil-shid","pepe","inversebrah","screaming","laughing","crying","tears","teeth","meltdown","green"],"added":"2026-10-16","w":1004,"h":567,"color":"#dadad7","thumb":"memes/thumbs/lil-shid-screaming-laugh-cry.webp"},
+{"file":"logan-paul-emo-hair.jpg","name":"Logan Paul emo hair","categories":["people"],"text":"","description":"","tags":["human-emonad","logan-paul","youtuber","vlog","emo-fringe","purple-tips","hotel","photo-edit"],"added":"2026-10-16","w":1600,"h":904,"color":"#936646","thumb":"memes/thumbs/logan-paul-emo-hair.webp"},
+{"file":"boromir-emo-edit.jpg","name":"Boromir emo edit","categories":["people","memes"],"text":"","description":"","tags":["human-emonad","boromir","lord-of-the-rings","one-does-not-simply","sean-bean","movie","purple-hair","photo-edit"],"added":"2026-10-16","w":1600,"h":941,"color":"#75593f","thumb":"memes/thumbs/boromir-emo-edit.webp"},
+{"file":"this-is-my-quant.jpg","name":"This is my quant","categories":["people","memes"],"text":"THIS IS MY QUANT","description":"","tags":["human-emonad","the-big-short","ryan-gosling","quant","suits","office","movie","emo-wig","trading","finance"],"added":"2026-10-16","w":1004,"h":547,"color":"#444b54","thumb":"memes/thumbs/this-is-my-quant.webp"},
+{"file":"suit-guy-on-the-phone-emo-edit.jpg","name":"Suit guy on the phone emo edit","categories":["people"],"text":"","description":"","tags":["human-emonad","suit","tie","phone-call","businessman","purple-hair","serious","photo-edit"],"added":"2026-10-16","w":1004,"h":1004,"color":"#5c565b","thumb":"memes/thumbs/suit-guy-on-the-phone-emo-edit.webp"},
+{"file":"emo-roadmap-bagwork-emo.jpg","name":"$EMO roadmap bagwork emo","categories":["emonad","bagwork"],"text":"$EMO ROADMAP BAGWORK EMO BAGWORK EMO","description":"","tags":["emonad","roadmap","bagwork","car","convertible","circle","cycle","ticker","grind","emo"],"added":"2026-10-16","w":1152,"h":1152,"color":"#d2d0d2","thumb":"memes/thumbs/emo-roadmap-bagwork-emo.webp"},
+{"file":"directly-involved-in-your-downfall.jpg","name":"Directly involved in your downfall","categories":["people","memes"],"text":"No longer praying on your downfall, I will be directly involved","description":"","tags":["human-emonad","suit","cigar","downfall","villain","threat","mafia","purple-hair","photo-edit"],"added":"2026-10-16","w":1152,"h":1350,"color":"#3c3b36","thumb":"memes/thumbs/directly-involved-in-your-downfall.webp"},
+{"file":"emo-kid-thumbs-up-at-computer.jpg","name":"Emo kid thumbs up at computer","categories":["people","memes"],"text":"","description":"","tags":["emo","emo-kid","thumbs-up","computer","eyeliner","choker","studded-bracelet","approval","reaction","tv-still"],"added":"2026-10-16","w":1536,"h":1024,"color":"#605b5d","thumb":"memes/thumbs/emo-kid-thumbs-up-at-computer.webp"},
+{"file":"emonad-disintegrating-thanos-snap.jpg","name":"Emonad disintegrating Thanos snap","categories":["memes","sad"],"text":"","description":"","tags":["emonad","thanos-snap","disintegrating","dust","marvel","i-dont-feel-so-good","crouching","black-and-white","fading"],"added":"2026-10-16","w":1600,"h":1168,"color":"#c0c0c1","thumb":"memes/thumbs/emonad-disintegrating-thanos-snap.webp"},
+{"file":"kurt-cobain-bitcoin-glasses.jpg","name":"Kurt Cobain bitcoin glasses","categories":["people","music"],"text":"","description":"","tags":["human-emonad","kurt-cobain","nirvana","bitcoin","btc","sunglasses","black-and-white","pfp","grunge","photo-edit"],"added":"2026-10-16","w":1035,"h":1079,"color":"#4c4c4c","thumb":"memes/thumbs/kurt-cobain-bitcoin-glasses.webp"},
+{"file":"emonad-passed-out-at-the-bar.jpg","name":"Emonad passed out at the bar","categories":["sad","gn"],"text":"","description":"","tags":["emonad","bar","beer","drunk","sleeping","bartender","bones","blood","neon","dive-bar","cartoon"],"added":"2026-10-16","w":1024,"h":1024,"color":"#2f2122","thumb":"memes/thumbs/emonad-passed-out-at-the-bar.webp"},
+{"file":"emonad-flexing-r3tards-nft-sales.jpg","name":"Emonad flexing r3tards NFT sales","categories":["collabs","bullish"],"text":"","description":"","tags":["emonad","nft","r3tards","phone","sales","marketplace","monad","flex","screenshot"],"added":"2026-10-16","w":1024,"h":1024,"color":"#686669","thumb":"memes/thumbs/emonad-flexing-r3tards-nft-sales.webp"},
+{"file":"emo-girl-in-the-snow.jpg","name":"Emo girl in the snow","categories":["people","sad"],"text":"","description":"","tags":["emo-girl","snow","winter","black-hair","emo-fringe","scarf","night","cold","sad","photo"],"added":"2026-10-16","w":1004,"h":753,"color":"#534f49","thumb":"memes/thumbs/emo-girl-in-the-snow.webp"},
+{"file":"smiling-guy-with-purple-emo-fringe.jpg","name":"Smiling guy with purple emo fringe","categories":["people"],"text":"","description":"","tags":["human-emonad","purple-hair","emo-fringe","smile","portrait","gold-chain","photo-edit"],"added":"2026-10-16","w":1004,"h":1004,"color":"#3c3135","thumb":"memes/thumbs/smiling-guy-with-purple-emo-fringe.webp"},
+{"file":"emo-plush-doll-with-glitter-gun.jpg","name":"Emo plush doll with glitter gun","categories":["barbie","random"],"text":"","description":"","tags":["doll","plush","toy","gun","glitter","purple-hair","emo-girl","kawaii","plaid"],"added":"2026-10-16","w":1004,"h":1004,"color":"#69606a","thumb":"memes/thumbs/emo-plush-doll-with-glitter-gun.webp"},
+{"file":"russell-westbrook-emo-face.jpg","name":"Russell Westbrook emo face","categories":["people"],"text":"","description":"","tags":["human-emonad","russell-westbrook","nba","basketball","purple-hair","disgusted","reaction","hoodie","photo-edit"],"added":"2026-10-16","w":1024,"h":1536,"color":"#3d463d","thumb":"memes/thumbs/russell-westbrook-emo-face.webp"},
+{"file":"emo-kermit-pants-down-at-the-chart.jpg","name":"Emo Kermit pants down at the chart","categories":["chart","bullish"],"text":"","description":"","tags":["kermit","muppets","pants-down","chart","candles","pump","tv","emo-hair","tradingview","ai-art"],"added":"2026-10-16","w":1024,"h":1025,"color":"#544441","thumb":"memes/thumbs/emo-kermit-pants-down-at-the-chart.webp"},
+{"file":"kermit-watches-the-emo-buy-bot.jpg","name":"Kermit watches the $EMO buy bot","categories":["memes","bullish"],"text":"EMO BUY! 99.00K MON ($3.55K) Tx | Hash NEW HOLDER MC: $1.52M Trending #2","description":"","tags":["kermit","emo-hair","buy-bot","telegram","new-holder","pants-down","tv","mon","pump"],"added":"2026-10-16","w":938,"h":939,"color":"#594646","thumb":"memes/thumbs/kermit-watches-the-emo-buy-bot.webp"},
+{"file":"laughing-woman-with-emo-hair.jpg","name":"Laughing woman with emo hair","categories":["people","memes"],"text":"","description":"","tags":["human-emonad","laughing","lol","bent-over","pink-blazer","reaction","purple-streaks","photo-edit"],"added":"2026-10-16","w":979,"h":652,"color":"#9f8f7e","thumb":"memes/thumbs/laughing-woman-with-emo-hair.webp"},
+{"file":"emonad-stands-out-in-the-crowd.jpg","name":"Emonad stands out in the crowd","categories":["templates"],"text":"","description":"","tags":["emonad","crowd","suits","conformity","stand-out","individuality","black-and-white","cartoon"],"added":"2026-10-16","w":1024,"h":1008,"color":"#6c6b6c","thumb":"memes/thumbs/emonad-stands-out-in-the-crowd.webp"},
+{"file":"carmy-leaning-on-the-door.jpg","name":"Carmy leaning on the door","categories":["people","sad"],"text":"","description":"","tags":["human-emonad","the-bear","chef","kitchen","walk-in-fridge","defeated","emo-hair","tv-still"],"added":"2026-10-16","w":1006,"h":670,"color":"#165688","thumb":"memes/thumbs/carmy-leaning-on-the-door.webp"},
+{"file":"smiling-suit-guy-with-emo-hair.jpg","name":"Smiling suit guy with emo hair","categories":["people"],"text":"","description":"","tags":["human-emonad","suit","tie","smile","headshot","yearbook","purple-hair","photo-edit"],"added":"2026-10-16","w":1024,"h":1008,"color":"#40445f","thumb":"memes/thumbs/smiling-suit-guy-with-emo-hair.webp"},
+{"file":"stubbled-guy-with-purple-emo-hair.jpg","name":"Stubbled guy with purple emo hair","categories":["people"],"text":"","description":"","tags":["human-emonad","emo-hair","purple-streaks","stubble","portrait","close-up","shag","photo-edit"],"added":"2026-10-16","w":992,"h":1040,"color":"#3f3632","thumb":"memes/thumbs/stubbled-guy-with-purple-emo-hair.webp"},
+{"file":"i-m-in-it-for-the-technology.jpg","name":"I'm in it for the technology","categories":["people","monad"],"text":"\"I'm in it for the technology.\"","description":"","tags":["human-emonad","gold","gold-chains","bling","monad","technology","rich","photo-edit"],"added":"2026-10-16","w":1008,"h":1058,"color":"#7a6b58","thumb":"memes/thumbs/i-m-in-it-for-the-technology.webp"},
+{"file":"pipe-down-princess.jpg","name":"Pipe down princess","categories":["people","memes"],"text":"Pipe down princess you might get cracked","description":"","tags":["human-emonad","pipe-down","princess","cracked","glasses","burberry","emo-hair","photo-edit"],"added":"2026-10-16","w":1004,"h":859,"color":"#898380","thumb":"memes/thumbs/pipe-down-princess.webp"},
+{"file":"smirking-emo-with-glasses.jpg","name":"Smirking emo with glasses","categories":["people"],"text":"","description":"","tags":["human-emonad","glasses","smirk","purple-hair","scene-kid","emo-hair","blurry","photo"],"added":"2026-10-16","w":1152,"h":1209,"color":"#43382e","thumb":"memes/thumbs/smirking-emo-with-glasses.webp"},
+{"file":"doorbell-cam-screaming-emo.jpg","name":"Doorbell cam screaming emo","categories":["people","emotions"],"text":"","description":"","tags":["human-emonad","doorbell-cam","fisheye","screaming","scream","blue-face","creepy","purple-hair"],"added":"2026-10-16","w":1024,"h":1024,"color":"#5f5865","thumb":"memes/thumbs/doorbell-cam-screaming-emo.webp"},
+{"file":"real-life-emo-hair-selfie.jpg","name":"Real-life emo hair selfie","categories":["people"],"text":"","description":"","tags":["human-emonad","selfie","instagram-story","emo-hair","real-life","shag","necklace","crypto-twitter"],"added":"2026-10-16","w":702,"h":1250,"color":"#6c615b","thumb":"memes/thumbs/real-life-emo-hair-selfie.webp"},
+{"file":"punk-emonad-pfp.jpg","name":"Punk emonad PFP","categories":["emonad","art"],"text":"","description":"","tags":["emonad","pfp","avatar","punk","purple-background","monad","piercing","cartoon"],"added":"2026-10-16","w":1024,"h":1024,"color":"#6237a3","thumb":"memes/thumbs/punk-emonad-pfp.webp"},
+{"file":"masked-emo-with-a-shuriken.jpg","name":"Masked emo with a shuriken","categories":["art","anime"],"text":"","description":"","tags":["emo-hair","mask","shuriken","ninja","purple-streaks","profile","illustration","pfp"],"added":"2026-10-16","w":1024,"h":1024,"color":"#beb7ba","thumb":"memes/thumbs/masked-emo-with-a-shuriken.webp"},
+{"file":"trump-gets-emonad-s-doctor-s-note.jpg","name":"Trump gets emonad's doctor's note","categories":["memes"],"text":"DOCTOR'S NOTE Patient: Emonad Diagnosis: SEVERE MENTAL ILLNESS Exempt from Duty","description":"","tags":["emonad","trump","doctors-note","mental-illness","exempt","draft","president","cartoon"],"added":"2026-10-16","w":1024,"h":1024,"color":"#c1bfc3","thumb":"memes/thumbs/trump-gets-emonad-s-doctor-s-note.webp"},
+{"file":"tiger-woods-big-dog.jpg","name":"Tiger Woods: big dog","categories":["people","memes"],"text":"BIG DOG","description":"","tags":["human-emonad","tiger-woods","golf","big-dog","nike","wave","emo-hair","photo-edit"],"added":"2026-10-16","w":686,"h":1024,"color":"#685e59","thumb":"memes/thumbs/tiger-woods-big-dog.webp"},
+{"file":"pixel-emonad-by-the-muscle-car.jpg","name":"Pixel emonad by the muscle car","categories":["pixel"],"text":"","description":"","tags":["emonad","pixel-art","muscle-car","car","anime-girl","desert","fire","retro"],"added":"2026-10-16","w":1600,"h":524,"color":"#726e89","thumb":"memes/thumbs/pixel-emonad-by-the-muscle-car.webp"},
+{"file":"everything-s-high-risk.jpg","name":"Everything's high risk","categories":["people","memes"],"text":"Yeah, well, everything's high risk if you're a pussy.","description":"","tags":["human-emonad","high-risk","risk","movie-scene","subtitles","suits","degen","emo-wig"],"added":"2026-10-16","w":1024,"h":479,"color":"#4a4544","thumb":"memes/thumbs/everything-s-high-risk.webp"},
+{"file":"easter-egg-hunt-emonad.jpg","name":"Easter egg hunt emonad","categories":["holidays"],"text":"","description":"","tags":["emonad","easter","easter-egg","egg-hunt","spring","flowers","sunny","meadow","cartoon"],"added":"2026-10-16","w":1024,"h":1024,"color":"#7ba788","thumb":"memes/thumbs/easter-egg-hunt-emonad.webp"},
+{"file":"chocolate-emo-nad.jpg","name":"Chocolate Emo Nad","categories":["holidays","emonad"],"text":"Chocolate Emo Nad","description":"","tags":["emonad","chocolate","easter","easter-bunny","figure","toy-box","merch","candy"],"added":"2026-10-16","w":1024,"h":1024,"color":"#c8c1bc","thumb":"memes/thumbs/chocolate-emo-nad.webp"},
+{"file":"emonad-meets-jesus.jpg","name":"Emonad meets Jesus","categories":["memes","bullish"],"text":"Gmonad. $emo to 1 billion fr twin. Emonad.","description":"","tags":["emonad","jesus","god","heaven","clouds","gmonad","1-billion","ticker","prophecy"],"added":"2026-10-16","w":1024,"h":1024,"color":"#8f8c9e","thumb":"memes/thumbs/emonad-meets-jesus.webp"},
+{"file":"emo-guy-wrapped-in-a-blanket.jpg","name":"Emo guy wrapped in a blanket","categories":["people"],"text":"","description":"","tags":["human-emonad","blanket","handcuffs","arrested","police-car","purple-streaks","emo-hair","photo-edit"],"added":"2026-10-16","w":1024,"h":1024,"color":"#373435","thumb":"memes/thumbs/emo-guy-wrapped-in-a-blanket.webp"},
+{"file":"spongebob-with-emo-fringe.jpg","name":"SpongeBob with emo fringe","categories":["templates"],"text":"","description":"","tags":["spongebob","emo-fringe","emo-hair","squint","one-eye","close-up","reaction","cartoon"],"added":"2026-10-16","w":1271,"h":832,"color":"#5f7779","thumb":"memes/thumbs/spongebob-with-emo-fringe.webp"},
+{"file":"puppet-side-eye-with-emo-hair.jpg","name":"Puppet side-eye with emo hair","categories":["templates"],"text":"","description":"","tags":["monkey-puppet","side-eye","awkward","look-away","puppet","emo-hair","reaction","meme-format"],"added":"2026-10-16","w":1006,"h":670,"color":"#53616a","thumb":"memes/thumbs/puppet-side-eye-with-emo-hair.webp"},
+{"file":"earphones-guy-with-emo-hair.jpg","name":"Earphones guy with emo hair","categories":["people"],"text":"","description":"","tags":["human-emonad","earphones","tongue-out","field","walking","selfie","purple-streaks","photo-edit"],"added":"2026-10-16","w":800,"h":1280,"color":"#645c5f","thumb":"memes/thumbs/earphones-guy-with-emo-hair.webp"},
+{"file":"streamer-with-emo-hair.jpg","name":"Streamer with emo hair","categories":["people"],"text":"","description":"","tags":["human-emonad","streamer","headphones","beard","disgusted","reaction","emo-hair","photo-edit"],"added":"2026-10-16","w":1004,"h":1333,"color":"#4a3f3c","thumb":"memes/thumbs/streamer-with-emo-hair.webp"},
+{"file":"suit-man-with-hand-over-mouth.jpg","name":"Suit man with hand over mouth","categories":["people"],"text":"","description":"","tags":["human-emonad","suit","tie","glasses","hand-on-mouth","thinking","tv-still","emo-hair"],"added":"2026-10-16","w":1248,"h":832,"color":"#2e211e","thumb":"memes/thumbs/suit-man-with-hand-over-mouth.webp"},
+{"file":"st-patrick-s-day-emonad.jpg","name":"St. Patrick's Day emonad","categories":["holidays"],"text":"","description":"","tags":["emonad","st-patricks-day","irish","ginger","beard","green-beer","shamrock","full-body"],"added":"2026-10-16","w":1024,"h":1024,"color":"#e3e7d8","thumb":"memes/thumbs/st-patrick-s-day-emonad.webp"},
+{"file":"emonad-tier-list-all-buy.jpg","name":"Emonad tier list: all buy","categories":["emonad","bullish"],"text":"must buy buy still buy buy dip buy again","description":"","tags":["emonad","tier-list","ranking","buy","buy-the-dip","ticker","faces","shill"],"added":"2026-10-16","w":1152,"h":648,"color":"#574950","thumb":"memes/thumbs/emonad-tier-list-all-buy.webp"},
+{"file":"the-big-short-emo-on-monad.jpg","name":"The Big Short: $emo on monad","categories":["people","monad"],"text":"$emo on monad","description":"","tags":["human-emonad","big-short","movie-poster","parody","christian-bale","steve-carell","ryan-gosling","brad-pitt","monad"],"added":"2026-10-16","w":1376,"h":752,"color":"#9e9897","thumb":"memes/thumbs/the-big-short-emo-on-monad.webp"},
+{"file":"shirtless-emo-guy-in-bed.jpg","name":"Shirtless emo guy in bed","categories":["people"],"text":"","description":"","tags":["human-emonad","shirtless","bed","hotel","selfie","smile","emo-hair","photo-edit"],"added":"2026-10-16","w":1168,"h":880,"color":"#8f7a70","thumb":"memes/thumbs/shirtless-emo-guy-in-bed.webp"},
+{"file":"already-rich.jpg","name":"Already rich","categories":["people","bullish"],"text":"Already rich.","description":"","tags":["human-emonad","already-rich","rich","cap","jacket","movie","emo-hair","photo-edit"],"added":"2026-10-16","w":1280,"h":714,"color":"#424d37","thumb":"memes/thumbs/already-rich.webp"},
+{"file":"everything-in-your-backpack.jpg","name":"Everything in your Backpack","categories":["emonad","collabs"],"text":"Everything in your Backpack","description":"","tags":["emonad","backpack","coins","bitcoin","ethereum","solana","monad","exchange","promo"],"added":"2026-10-16","w":1004,"h":785,"color":"#231c1e","thumb":"memes/thumbs/everything-in-your-backpack.webp"},
+{"file":"dwight-says-it-s-true.jpg","name":"Dwight says it's true","categories":["people","memes"],"text":"IT'S TRUE","description":"","tags":["human-emonad","dwight","the-office","rainn-wilson","its-true","emo-wig","lip-piercing","reaction"],"added":"2026-10-16","w":1152,"h":950,"color":"#604f4b","thumb":"memes/thumbs/dwight-says-it-s-true.webp"},
+{"file":"emo-emoji.jpg","name":"Emo emoji","categories":["art"],"text":"","description":"","tags":["emoji","emo-fringe","emo-hair","3d","flushed","face","reaction","sticker"],"added":"2026-10-16","w":1024,"h":1024,"color":"#a59c8f","thumb":"memes/thumbs/emo-emoji.webp"},
+{"file":"a-million-dollars-isn-t-cool.jpg","name":"A million dollars isn't cool","categories":["people","memes"],"text":"A million dollars isn't cool. You know what's cool?","description":"","tags":["human-emonad","justin-timberlake","social-network","million-dollars","billion","movie","emo-fringe","photo-edit"],"added":"2026-10-16","w":1004,"h":891,"color":"#686249","thumb":"memes/thumbs/a-million-dollars-isn-t-cool.webp"},
+{"file":"south-park-gamer-with-emo-hair.jpg","name":"South Park gamer with emo hair","categories":["templates"],"text":"","description":"","tags":["emonad","south-park","gamer","pizza","coca-cola","keyboard","world-of-warcraft","emo-hair"],"added":"2026-10-16","w":1264,"h":843,"color":"#7f6f5f","thumb":"memes/thumbs/south-park-gamer-with-emo-hair.webp"},
+{"file":"i-m-cooked.jpg","name":"I'm cooked","categories":["people","memes"],"text":"i'm cooked","description":"","tags":["human-emonad","emonad","the-bear","jeremy-allen-white","chef","kitchen","cooked","collage"],"added":"2026-10-16","w":1152,"h":1152,"color":"#8d8d91","thumb":"memes/thumbs/i-m-cooked.webp"},
+{"file":"emonad-lounging-in-the-foam-pit.jpg","name":"Emonad lounging in the foam pit","categories":["chill","templates"],"text":"","description":"","tags":["emonad","foam-pit","ball-pit","peace-sign","lounging","colorful","inflatable","photo-edit"],"added":"2026-10-16","w":1152,"h":1407,"color":"#88664d","thumb":"memes/thumbs/emonad-lounging-in-the-foam-pit.webp"},
+{"file":"podcast-guy-with-emo-fringe.jpg","name":"Podcast guy with emo fringe","categories":["people"],"text":"","description":"","tags":["human-emonad","podcast","glasses","mustache","emo-hair","fringe","serious","photo-edit"],"added":"2026-10-16","w":1152,"h":1152,"color":"#524943","thumb":"memes/thumbs/podcast-guy-with-emo-fringe.webp"},
+{"file":"emo-guy-pouring-liquor.jpg","name":"Emo guy pouring liquor","categories":["people","art"],"text":"","description":"","tags":["human-emonad","liquor","cognac","martell","pouring","bottle","emo-hair","ai-art"],"added":"2026-10-16","w":1004,"h":1004,"color":"#3e3e40","thumb":"memes/thumbs/emo-guy-pouring-liquor.webp"},
+{"file":"emo-kid-flipping-off.jpg","name":"Emo kid flipping off","categories":["people","emotions"],"text":"","description":"","tags":["human-emonad","emo-kid","middle-finger","flipping-off","purple-streaks","scene-hair","selfie","rage"],"added":"2026-10-16","w":587,"h":565,"color":"#8a7678","thumb":"memes/thumbs/emo-kid-flipping-off.webp"},
+{"file":"christian-bale-grin-with-emo-hair.jpg","name":"Christian Bale grin with emo hair","categories":["people"],"text":"","description":"","tags":["human-emonad","christian-bale","grin","smile","creepy","movie","emo-hair","photo-edit"],"added":"2026-10-16","w":1344,"h":768,"color":"#3b4352","thumb":"memes/thumbs/christian-bale-grin-with-emo-hair.webp"},
+{"file":"sad-boy-gets-a-lil-emotion.jpg","name":"Sad boy gets a lil emotion","categories":["people","memes"],"text":"god forbid a sad boy get a lil emotion","description":"","tags":["human-emonad","al-pacino","cigar","tuxedo","black-and-white","sad-boy","emotion","emo-hair"],"added":"2026-10-16","w":1024,"h":1024,"color":"#353535","thumb":"memes/thumbs/sad-boy-gets-a-lil-emotion.webp"},
+{"file":"emonad-on-a-porch-swing.jpg","name":"Emonad on a porch swing","categories":["templates","chill"],"text":"","description":"","tags":["emonad","swing","porch-swing","garden","sitting","alone","chill","photo-edit"],"added":"2026-10-16","w":1152,"h":768,"color":"#656f67","thumb":"memes/thumbs/emonad-on-a-porch-swing.webp"},
+{"file":"pepe-emonad-in-bed-man.jpg","name":"Pepe emonad in bed: man...","categories":["memes","gn"],"text":"MAN...","description":"","tags":["pepe","emonad","bed","night","moon","city","sad","cant-sleep"],"added":"2026-10-16","w":1004,"h":628,"color":"#64846c","thumb":"memes/thumbs/pepe-emonad-in-bed-man.webp"},
+{"file":"they-survived-he-lived.jpg","name":"They survived, he lived","categories":["memes","sad"],"text":"they survived. he lived.","description":"","tags":["emonad","snow","mountains","winter","tiny","alone","survived","lived","landscape"],"added":"2026-10-16","w":1024,"h":1024,"color":"#5e636c","thumb":"memes/thumbs/they-survived-he-lived.webp"},
+{"file":"dear-diary-what-the-fuck.jpg","name":"Dear diary, what the fuck","categories":["memes"],"text":"DEAR DIARY WHAT THE FUCK","description":"","tags":["emonad","diary","journal","scroll","quill","writing","wtf","cartoon"],"added":"2026-10-16","w":1004,"h":1004,"color":"#7e665d","thumb":"memes/thumbs/dear-diary-what-the-fuck.webp"},
+{"file":"reading-very-important-news.jpg","name":"Reading very important news","categories":["memes"],"text":"VERY IMPORTANT NEWS","description":"","tags":["emonad","newspaper","news","reading","announcement","bed","sketch","cartoon"],"added":"2026-10-16","w":1004,"h":1004,"color":"#c6c3c6","thumb":"memes/thumbs/reading-very-important-news.webp"},
+{"file":"unrealistic-scenarios-before-bed.jpg","name":"Unrealistic scenarios before bed","categories":["memes","gn"],"text":"unrealistic scenarios before bed me","description":"","tags":["emonad","bed","blanket","overthinking","daydreaming","night","sleep","cartoon"],"added":"2026-10-16","w":1280,"h":1280,"color":"#c6cbce","thumb":"memes/thumbs/unrealistic-scenarios-before-bed.webp"},
+{"file":"my-phone-carrying-useless-screenshots.jpg","name":"My phone carrying useless screenshots","categories":["memes"],"text":"My phone Screenshots I'll never use","description":"","tags":["emonad","phone","screenshots","storage","dragging","heavy","relatable","photo-edit"],"added":"2026-10-16","w":1280,"h":1280,"color":"#85796e","thumb":"memes/thumbs/my-phone-carrying-useless-screenshots.webp"},
+{"file":"we-still-talk-about-you-mon.jpg","name":"We still talk about you, MON","categories":["bearish","chart","monad"],"text":"\"We still talk about you...\" MON $0.03","description":"","tags":["emonad","grave","buried","underground","mon","monad","chart","dump","rip"],"added":"2026-10-16","w":1280,"h":1280,"color":"#595140","thumb":"memes/thumbs/we-still-talk-about-you-mon.webp"},
+{"file":"emomixalot-baby-got-back.jpg","name":"EmoMixaLot baby got back","categories":["memes","music"],"text":"EmoMixaLot baby got back","description":"","tags":["emonad","sir-mix-a-lot","baby-got-back","album-cover","parody","rap","90s","butt"],"added":"2026-10-16","w":1280,"h":1280,"color":"#867997","thumb":"memes/thumbs/emomixalot-baby-got-back.webp"},
+{"file":"emonad-and-drake-in-the-limo.jpg","name":"Emonad and Drake in the limo","categories":["templates","music"],"text":"","description":"","tags":["emonad","drake","limo","red-cup","party","rapper","celebrity","photo-edit"],"added":"2026-10-16","w":1280,"h":1280,"color":"#585a57","thumb":"memes/thumbs/emonad-and-drake-in-the-limo.webp"},
+{"file":"if-everyone-is-against-me.jpg","name":"If everyone is against me","categories":["memes"],"text":"If everyone is against me everyone will lose Autism","description":"","tags":["emonad","billboard","superhero","cape","autism","rooftop","night","motivation","cartoon"],"added":"2026-10-16","w":1600,"h":1600,"color":"#616461","thumb":"memes/thumbs/if-everyone-is-against-me.webp"},
+{"file":"trump-flips-the-bird.jpg","name":"Trump flips the bird","categories":["people"],"text":"","description":"","tags":["human-emonad","trump","middle-finger","flipping-off","president","suit","emo-hair","photo-edit"],"added":"2026-10-16","w":1004,"h":989,"color":"#2d272d","thumb":"memes/thumbs/trump-flips-the-bird.webp"},
+{"file":"no-risk-no-story.jpg","name":"No risk, no story","categories":["bullish","chart"],"text":"No risk. No story.","description":"","tags":["emonad","sword","army","cavalry","chart","candles","pump","risk","brave"],"added":"2026-10-16","w":1600,"h":1600,"color":"#8b8b8d","thumb":"memes/thumbs/no-risk-no-story.webp"},
+{"file":"spider-man-holds-the-train.jpg","name":"Spider-Man holds the train","categories":["memes","lil shid"],"text":"","description":"","tags":["emonad","spiderman","train","subway","lil-shid","inversebrah","crowd","struggle","photo-edit"],"added":"2026-10-16","w":1004,"h":1004,"color":"#615356","thumb":"memes/thumbs/spider-man-holds-the-train.webp"},
+{"file":"logan-paul-i-did-it.jpg","name":"Logan Paul: i did it","categories":["people","memes"],"text":"i did it","description":"","tags":["human-emonad","logan-paul","tweet","twitter","emo-hair","before-after","celebrity","photo-edit"],"added":"2026-10-16","w":1004,"h":822,"color":"#b2a5a8","thumb":"memes/thumbs/logan-paul-i-did-it.webp"},
+{"file":"bearded-guy-in-shades-goes-emo.jpg","name":"Bearded guy in shades goes emo","categories":["people"],"text":"","description":"","tags":["human-emonad","beard","sunglasses","gold-teeth","backwards-cap","track-jacket","grin","photo-edit"],"added":"2026-10-16","w":1024,"h":1024,"color":"#646356","thumb":"memes/thumbs/bearded-guy-in-shades-goes-emo.webp"},
+{"file":"third-place-champion.jpg","name":"Third place champion","categories":["memes"],"text":"","description":"","tags":["emonad","olympics","medal","podium","champagne","middle-finger","kiss","bronze","comic"],"added":"2026-10-16","w":1024,"h":1024,"color":"#939998","thumb":"memes/thumbs/third-place-champion.webp"},
+{"file":"depression-cage.jpg","name":"Depression cage","categories":["memes","sad"],"text":"Depression Memes Therapy","description":"","tags":["emonad","depression","jail","cage","prison","key","therapy","memes","bread"],"added":"2026-10-16","w":1024,"h":1024,"color":"#837f74","thumb":"memes/thumbs/depression-cage.webp"},
+{"file":"shirtless-emonad-with-emo-can.jpg","name":"Shirtless emonad with $EMO can","categories":["templates"],"text":"","description":"","tags":["emonad","emo-can","drinking","uzi","gun","shirtless","woods","template"],"added":"2026-10-16","w":1024,"h":1024,"color":"#b5a298","thumb":"memes/thumbs/shirtless-emonad-with-emo-can.webp"},
+{"file":"not-paying-my-taxes.jpg","name":"Not paying my taxes","categories":["memes"],"text":"I'm not fucking paying my taxes","description":"","tags":["emonad","taxes","irs","uzi","gun","emo-can","drinking","shirtless"],"added":"2026-10-16","w":1024,"h":1024,"color":"#b09f97","thumb":"memes/thumbs/not-paying-my-taxes.webp"},
+{"file":"i-call-him-twink-182.jpg","name":"I call him twink-182","categories":["memes","music"],"text":"my boyfriend is a huge emo fan so it's the first time I've dated someone gay I call him twink-182","description":"","tags":["emonad","stand-up","comedian","blink-182","twink-182","boyfriend","crying","reaction"],"added":"2026-10-16","w":1024,"h":1024,"color":"#38352d","thumb":"memes/thumbs/i-call-him-twink-182.webp"},
+{"file":"christmas-with-the-emonad-plush.jpg","name":"Christmas with the emonad plush","categories":["emonad","holidays"],"text":"","description":"","tags":["emonad","plush","plushie","toy","merch","christmas","christmas-tree","photo-edit"],"added":"2026-10-16","w":1024,"h":1024,"color":"#5e4747","thumb":"memes/thumbs/christmas-with-the-emonad-plush.webp"},
+{"file":"shocked-guy-with-emo-hair.jpg","name":"Shocked guy with emo hair","categories":["people","emotions"],"text":"","description":"","tags":["human-emonad","shocked","surprised","hands-on-head","omg","reaction","emo-hair","photo-edit"],"added":"2026-10-16","w":1004,"h":1004,"color":"#a39088","thumb":"memes/thumbs/shocked-guy-with-emo-hair.webp"},
+{"file":"bitcoin-glasses-emo-guy.jpg","name":"Bitcoin glasses emo guy","categories":["people","art"],"text":"","description":"","tags":["human-emonad","bitcoin","btc","glasses","leather-jacket","black-and-white","portrait","ai-art"],"added":"2026-10-16","w":565,"h":565,"color":"#585858","thumb":"memes/thumbs/bitcoin-glasses-emo-guy.webp"},
+{"file":"puking-over-abandonment-issues.jpg","name":"Puking over abandonment issues","categories":["memes","emotions"],"text":"Me when I remember all the times I let people take advantage of me to avoid abandonment.","description":"","tags":["emonad","vomit","puke","abandonment","cringe","memories","people-pleaser","cartoon"],"added":"2026-10-16","w":1024,"h":1024,"color":"#c7c5c8","thumb":"memes/thumbs/puking-over-abandonment-issues.webp"},
+{"file":"therapist-asks-what-happened.jpg","name":"Therapist asks what happened","categories":["memes","sad"],"text":"what happened? i should've died that day","description":"","tags":["emonad","therapist","therapy","couch","comic","mental-health","dark-humor","cartoon"],"added":"2026-10-16","w":1024,"h":1024,"color":"#b1ada9","thumb":"memes/thumbs/therapist-asks-what-happened.webp"},
+{"file":"sudden-wave-of-sadness.jpg","name":"Sudden wave of sadness","categories":["memes","sad"],"text":"A SUDDEN WAVE OF SADNESS AFTER A COMPLETELY NORMAL DAY ME","description":"","tags":["emonad","wave","tsunami","beach","ocean","sadness","normal-day","cartoon"],"added":"2026-10-16","w":1024,"h":1024,"color":"#7a8883","thumb":"memes/thumbs/sudden-wave-of-sadness.webp"},
+{"file":"i-just-suck-at-being-a-person.jpg","name":"I just suck at being a person","categories":["memes","sad"],"text":"Me, worrying that there's actually nothing wrong with my brain and I just kinda suck at being a person","description":"","tags":["emonad","spongebob","diner","coffee","overthinking","self-doubt","mental-health","cartoon"],"added":"2026-10-16","w":1024,"h":1024,"color":"#82797a","thumb":"memes/thumbs/i-just-suck-at-being-a-person.webp"},
+{"file":"normal-day-vs-31st-december.jpg","name":"Normal day vs 31st December","categories":["memes","holidays"],"text":"Normal day 31st December New year birthday","description":"","tags":["emonad","new-year","nye","birthday","bed","lying-down","same-every-day","depressed","rain"],"added":"2026-10-16","w":1024,"h":1024,"color":"#41434b","thumb":"memes/thumbs/normal-day-vs-31st-december.webp"},
+{"file":"your-money-or-your-life.jpg","name":"Your money or your life","categories":["memes"],"text":"YOUR MONEY OR YOUR LIFE! OH, MY LIFE PLEASE! PLEASE AW HECK WHY NOT BOTH?","description":"","tags":["emonad","comic","robber","mugging","gun","wallet","money-or-life","dark-humor"],"added":"2026-10-16","w":1024,"h":1024,"color":"#a3a1a3","thumb":"memes/thumbs/your-money-or-your-life.webp"},
+{"file":"imagining-i-wasn-t-born.jpg","name":"Imagining I wasn't born","categories":["memes","emotions"],"text":"pro lifer: and What if you were aborted huh? Me imagining i wasn't born:","description":"","tags":["emonad","wojak","pro-life","never-born","peaceful","smile","existential","dark-humor"],"added":"2026-10-16","w":1024,"h":1024,"color":"#b3afb5","thumb":"memes/thumbs/imagining-i-wasn-t-born.webp"},
+{"file":"how-antidepressants-really-work.jpg","name":"How antidepressants really work","categories":["memes","sad"],"text":"How I expected antidepressants to work How they really work","description":"","tags":["emonad","antidepressants","expectation-vs-reality","sunset","numb","mental-health","comparison","cartoon"],"added":"2026-10-16","w":1024,"h":878,"color":"#bbb0b7","thumb":"memes/thumbs/how-antidepressants-really-work.webp"},
+{"file":"five-forms-of-media-at-once.jpg","name":"Five forms of media at once","categories":["memes"],"text":"me consuming five different forms of media at the same time so I can minimize the chances of a thought occurring","description":"","tags":["emonad","phone","scrolling","doomscrolling","media","overthinking","screen-time","relatable"],"added":"2026-10-16","w":1024,"h":1024,"color":"#6b6156","thumb":"memes/thumbs/five-forms-of-media-at-once.webp"},
+{"file":"another-year-about-to-pass.jpg","name":"Another year about to pass","categories":["memes","sad"],"text":"Another year about to pass Me, still feeling like I'm on autopilot with no actual destination or purpose","description":"","tags":["emonad","new-year","black-hole","space","autopilot","purpose","existential","stars"],"added":"2026-10-16","w":1024,"h":1024,"color":"#665f5c","thumb":"memes/thumbs/another-year-about-to-pass.webp"},
+{"file":"emonad-thumbs-up.jpg","name":"Emonad thumbs up","categories":["templates"],"text":"","description":"","tags":["emonad","thumbs-up","hand","wristband","approve","reaction","blue-background","cartoon"],"added":"2026-10-16","w":1024,"h":1024,"color":"#88b8d6","thumb":"memes/thumbs/emonad-thumbs-up.webp"},
+{"file":"vote-for-emo.jpg","name":"Vote for $EMO","categories":["memes","emonad"],"text":"VOTE FOR $EMO","description":"","tags":["emonad","napoleon-dynamite","pedro","vote","election","school","hallway","ticker","movie-parody"],"added":"2026-10-16","w":1024,"h":1024,"color":"#a9a7ab","thumb":"memes/thumbs/vote-for-emo.webp"},
+{"file":"best-years-of-your-life.jpg","name":"Best years of your life","categories":["memes","sad"],"text":"\"These are the best years of your life\"","description":"","tags":["emonad","best-years","cigarette","smoking","depressed","dead-inside","school","cartoon"],"added":"2026-10-16","w":1008,"h":1024,"color":"#484445","thumb":"memes/thumbs/best-years-of-your-life.webp"},
+{"file":"department-of-no-bitches.jpg","name":"Department of no bitches","categories":["memes"],"text":"DEPARTMENT OF NO BITCHES","description":"","tags":["emonad","no-bitches","sign","building","lonely","single","wall","photo-edit"],"added":"2026-10-16","w":1004,"h":1004,"color":"#80746c","thumb":"memes/thumbs/department-of-no-bitches.webp"},
+{"file":"buy-emo-rainbow.jpg","name":"Buy $EMO rainbow","categories":["emonad","bullish"],"text":"BUY $EMO","description":"","tags":["emonad","buy","rainbow","spongebob","imagination","ticker","shill","bikini-bottom"],"added":"2026-10-16","w":1004,"h":1004,"color":"#777d77","thumb":"memes/thumbs/buy-emo-rainbow.webp"},
+{"file":"sometimes-i-stay-like-this.jpg","name":"Sometimes I stay like this","categories":["memes","sad"],"text":"Sometimes I'm late just because I stay like this for a long time","description":"","tags":["emonad","bed","sitting","late","staring","bedroom","alarm-clock","relatable","cartoon"],"added":"2026-10-16","w":1024,"h":1024,"color":"#8a7881","thumb":"memes/thumbs/sometimes-i-stay-like-this.webp"},
+{"file":"emonad-points-at-his-reflection.jpg","name":"Emonad points at his reflection","categories":["templates"],"text":"","description":"","tags":["emonad","mirror","reflection","pointing","self","wristband","cartoon"],"added":"2026-10-16","w":1024,"h":1024,"color":"#747788","thumb":"memes/thumbs/emonad-points-at-his-reflection.webp"},
+{"file":"ah-shit-here-we-go-again.jpg","name":"Ah shit, here we go again","categories":["memes"],"text":"Ah shit, here we go again.","description":"","tags":["emonad","gta","gta-san-andreas","here-we-go-again","video-game","grove-street","again","photo-edit"],"added":"2026-10-16","w":1024,"h":1024,"color":"#62503a","thumb":"memes/thumbs/ah-shit-here-we-go-again.webp"},
+{"file":"emonad-facepalm-with-a-gun.jpg","name":"Emonad facepalm with a gun","categories":["templates","emotions"],"text":"","description":"","tags":["emonad","gun","pistol","facepalm","regret","disappointed","two-panel","cartoon"],"added":"2026-10-16","w":1024,"h":1024,"color":"#57657b","thumb":"memes/thumbs/emonad-facepalm-with-a-gun.webp"},
+{"file":"frozen-chicken-tenders-in-the-air-fryer.jpg","name":"Frozen chicken tenders in the air fryer","categories":["memes"],"text":"how mfs who CANT cook feel after putting frozen chicken tenders in the air fryer","description":"","tags":["emonad","cooking","air-fryer","chicken-tenders","chef","food","cant-cook","cartoon"],"added":"2026-10-16","w":1024,"h":1024,"color":"#6d6054","thumb":"memes/thumbs/frozen-chicken-tenders-in-the-air-fryer.webp"},
+{"file":"anime-emonad-i-m-fine.jpg","name":"Anime emonad: I'm fine","categories":["anime","sad"],"text":"I'm fine (:","description":"","tags":["emonad","anime","crying","tears","smile","im-fine","split-face","sad"],"added":"2026-10-16","w":1024,"h":1024,"color":"#6f6474","thumb":"memes/thumbs/anime-emonad-i-m-fine.webp"},
+{"file":"why-is-emo-dipping.jpg","name":"Why is $emo dipping","categories":["memes","bagwork"],"text":"why is $emo dipping? good entry. we should probably buy and bagwork the ticker","description":"","tags":["emonad","drake-format","hotline-bling","dip","buy","buy-the-dip","bagwork","ticker","crypto"],"added":"2026-10-16","w":1152,"h":1152,"color":"#c6c38c","thumb":"memes/thumbs/why-is-emo-dipping.webp"},
+{"file":"man-in-bed-with-emo-wig.jpg","name":"Man in bed with emo wig","categories":["people","gn"],"text":"","description":"","tags":["human-emonad","bed","sheets","waking-up","tired","emo-wig","meme-photo","photo-edit"],"added":"2026-10-16","w":1004,"h":628,"color":"#97928e","thumb":"memes/thumbs/man-in-bed-with-emo-wig.webp"},
+{"file":"rick-rubin-goes-emo.jpg","name":"Rick Rubin goes emo","categories":["people","music"],"text":"","description":"","tags":["human-emonad","rick-rubin","beard","headphones","producer","music","emo-hair","photo-edit"],"added":"2026-10-16","w":1024,"h":863,"color":"#413c35","thumb":"memes/thumbs/rick-rubin-goes-emo.webp"},
+{"file":"emonad-face-drawn-in-ketchup.jpg","name":"Emonad face drawn in ketchup","categories":["art"],"text":"","description":"","tags":["emonad","ketchup","fries","fast-food","food-art","drawing","mcdonalds","photo"],"added":"2026-10-16","w":1024,"h":1024,"color":"#a48a77","thumb":"memes/thumbs/emonad-face-drawn-in-ketchup.webp"},
+{"file":"pass-it-to-myself.jpg","name":"Pass it to myself","categories":["memes"],"text":"Pass it to myself","description":"","tags":["emonad","pass-it","myself","blunt","smoking","head","inception","cartoon"],"added":"2026-10-16","w":1024,"h":1024,"color":"#a49fa4","thumb":"memes/thumbs/pass-it-to-myself.webp"},
+{"file":"emonad-in-pikachu-suit-at-the-party.jpg","name":"Emonad in Pikachu suit at the party","categories":["memes","music"],"text":"","description":"","tags":["emonad","pikachu","pokemon","onesie","guitar","party","ignoring","chaos","photo-edit"],"added":"2026-10-16","w":1024,"h":1024,"color":"#766f61","thumb":"memes/thumbs/emonad-in-pikachu-suit-at-the-party.webp"},
+{"file":"i-want-this-kind-of-relationship.jpg","name":"I want this kind of relationship","categories":["memes"],"text":"I want this kind of relationship","description":"","tags":["emonad","relationship","couple","goth-girl","kiddie-ride","orca","hair-dryer","love","cartoon"],"added":"2026-10-16","w":1024,"h":1024,"color":"#868083","thumb":"memes/thumbs/i-want-this-kind-of-relationship.webp"},
+{"file":"emonad-flips-off-the-riot-police.jpg","name":"Emonad flips off the riot police","categories":["templates","emotions"],"text":"","description":"","tags":["emonad","middle-finger","flipping-off","riot","police","stadium","rebellion","wristband","photo-edit"],"added":"2026-10-16","w":1024,"h":1024,"color":"#726e75","thumb":"memes/thumbs/emonad-flips-off-the-riot-police.webp"},
+{"file":"for-i-am-emonad.jpg","name":"For I am Emonad","categories":["emonad","art"],"text":"Do not be afraid, for I am with you; do not be dismayed, for I am Emonad.","description":"","tags":["emonad","glowing","neon","bible-verse","lore","holy","black-background","outline"],"added":"2026-10-16","w":1024,"h":1024,"color":"#1e1e22","thumb":"memes/thumbs/for-i-am-emonad.webp"},
+{"file":"emonad-crouched-with-katanas.jpg","name":"Emonad crouched with katanas","categories":["templates","art"],"text":"","description":"","tags":["emonad","katana","sword","samurai","ninja","crouch","bedroom","photo-edit"],"added":"2026-10-16","w":1024,"h":1024,"color":"#594132","thumb":"memes/thumbs/emonad-crouched-with-katanas.webp"},
+{"file":"break-glass-in-case-of-unhappiness.jpg","name":"Break glass in case of unhappiness","categories":["memes","sad"],"text":"IN CASE OF UNHAPPINESS BREAK GLASS","description":"","tags":["emonad","break-glass","emergency","hammer","display-case","unhappiness","sad","cartoon"],"added":"2026-10-16","w":1024,"h":1024,"color":"#938998","thumb":"memes/thumbs/break-glass-in-case-of-unhappiness.webp"},
+{"file":"smiling-guy-with-emo-hair.jpg","name":"Smiling guy with emo hair","categories":["people"],"text":"","description":"","tags":["human-emonad","emo-hair","smile","grin","kitchen","party","black-hair","photo-edit"],"added":"2026-10-16","w":1024,"h":1024,"color":"#9f7a5e","thumb":"memes/thumbs/smiling-guy-with-emo-hair.webp"},
+{"file":"science-fiction-album-cover-gone-emo.jpg","name":"Science Fiction album cover gone emo","categories":["people","music"],"text":"","description":"","tags":["human-emonad","album-cover","brand-new","science-fiction","hooded-figures","purple-hair","emo-band","creepy","photo-edit"],"added":"2026-10-16","w":1024,"h":1024,"color":"#65696a","thumb":"memes/thumbs/science-fiction-album-cover-gone-emo.webp"},
+{"file":"emonad-chef-with-giant-spatula.jpg","name":"Emonad chef with giant spatula","categories":["templates"],"text":"","description":"","tags":["emonad","chef","chef-hat","spatula","cooking","kitchen","wristband","cartoon"],"added":"2026-10-16","w":1024,"h":1024,"color":"#a6a7a9","thumb":"memes/thumbs/emonad-chef-with-giant-spatula.webp"},
+{"file":"emonad-in-the-mri-machine.jpg","name":"Emonad in the MRI machine","categories":["memes","chart"],"text":"how does it look doc? hold on a sec","description":"","tags":["emonad","mri","doctor","hospital","scan","chart","trading","hold-on","photo-edit"],"added":"2026-10-16","w":1023,"h":940,"color":"#76716b","thumb":"memes/thumbs/emonad-in-the-mri-machine.webp"},
+{"file":"301aq.jpg","name":"","categories":["gm"],"text":"","description":"","tags":["gmonad","coffee","gm"],"w":1024,"h":1024,"color":"#8a735f","thumb":"memes/thumbs/301aq.webp","added":"2026-05-19"},
+{"file":"911.jpg","name":"Emonad twin towers","categories":["bearish"],"text":"","description":"","tags":["emonad","twin-towers","9-11","fire","plane","new-york","skyline","photo-edit","dark-humor","burning"],"w":1280,"h":1280,"color":"#696864","thumb":"memes/thumbs/911.webp","added":"2026-05-19"},
+{"file":"aaaaaaaaaaa.jpg","name":"","categories":["sad"],"text":"","description":"","tags":["cry","crying"],"w":1024,"h":1024,"color":"#dedcde","thumb":"memes/thumbs/aaaaaaaaaaa.webp","added":"2026-05-19"},
+{"file":"alien.jpg","name":"","categories":["random"],"text":"I come in peace","description":"","tags":["peace","alien"],"w":680,"h":680,"color":"#c5ccc3","thumb":"memes/thumbs/alien.webp","added":"2026-05-19"},
+{"file":"attack.jpg","name":"","categories":["bearish"],"text":"","description":"","tags":["danger","nuke"],"w":2048,"h":2048,"color":"#64191e","thumb":"memes/thumbs/attack.webp","added":"2026-05-19"},
+{"file":"bag.jpg","name":"","categories":["hats","bullish"],"text":"BAGWORKERS WILL INHERIT THE EARTH","description":"","tags":["shiesty","candles","theif","steal"],"w":977,"h":977,"color":"#bdbdb9","thumb":"memes/thumbs/bag.webp","added":"2026-05-19"},
+{"file":"bagwork.jpg","name":"","categories":["bagwork","bullish"],"text":"Hard work pays off HELLO MY NAME IS BAG","description":"","tags":["bagwork","bagworkers","bagworking","higher"],"w":2048,"h":2048,"color":"#697782","thumb":"memes/thumbs/bagwork.webp","added":"2026-05-19"},
+{"file":"bagwork2.jpg","name":"","categories":["bagwork"],"text":"","description":"","tags":["work","suit","money","cash"],"w":1024,"h":1024,"color":"#c6c3c4","thumb":"memes/thumbs/bagwork2.webp","added":"2026-05-19"},
+{"file":"bagworking.jpg","name":"","categories":["bagwork","bullish"],"text":"1) buy $emo 2) make or steal memes 3) bag work $emo","description":"","tags":["emo","bagwork","bagworking","memes"],"w":964,"h":808,"color":"#807972","thumb":"memes/thumbs/bagworking.webp","added":"2026-05-19"},
+{"file":"band.jpg","name":"","categories":["random"],"text":"EMO NADS","description":"","tags":["music","band"],"w":1024,"h":1024,"color":"#3a3241","thumb":"memes/thumbs/band.webp","added":"2026-05-19"},
+{"file":"bands.jpg","name":"","categories":["memes"],"text":"i had to make a couple bands by my lonely","description":"","tags":["bands","lonely"],"w":1280,"h":1280,"color":"#4d4347","thumb":"memes/thumbs/bands.webp","added":"2026-05-19"},
+{"file":"barbie.jpg","name":"Emo barbie praying with a tear","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","praying","tear","crying","purple-hair","sad","hope"],"w":928,"h":1120,"color":"#443438","thumb":"memes/thumbs/barbie.webp","added":"2026-05-19"},
+{"file":"bath.jpg","name":"","categories":["chill"],"text":"EPSOM SALTS BATHS","description":"","tags":["bath","bathtub"],"w":2048,"h":2048,"color":"#b1adad","thumb":"memes/thumbs/bath.webp","added":"2026-05-19"},
+{"file":"boats.jpg","name":"","categories":["bagwork","bullish"],"text":"","description":"","tags":["boat","boats","muscles"],"w":680,"h":680,"color":"#54acce","thumb":"memes/thumbs/boats.webp","added":"2026-05-19"},
+{"file":"body.png","name":"","categories":["memes"],"text":"I BREATHE AIR FOR YOU I PUMP BLOOD FOR YOU I FILTER WASTE FOR YOU","description":"","tags":["sad","depression"],"w":1024,"h":1024,"color":"#b6acbc","thumb":"memes/thumbs/body.webp","added":"2026-05-19"},
+{"file":"bomb.jpg","name":"","categories":["bearish"],"text":"","description":"","tags":["nuke","bomb"],"w":2048,"h":2048,"color":"#b4996d","thumb":"memes/thumbs/bomb.webp","added":"2026-05-19"},
+{"file":"brain.jpg","name":"","categories":["random"],"text":"","description":"","tags":["brain","smart","smort"],"w":680,"h":680,"color":"#cac4c9","thumb":"memes/thumbs/brain.webp","added":"2026-05-19"},
+{"file":"brain2.jpg","name":"","categories":["random"],"text":"","description":"","tags":["brain","smart"],"w":1023,"h":1023,"color":"#aaa8ad","thumb":"memes/thumbs/brain2.webp","added":"2026-05-19"},
+{"file":"bus.jpg","name":"","categories":["templates"],"text":"DON'T MAKE ME TAP THE SIGN.","description":"","tags":["tap","sign"],"w":760,"h":1024,"color":"#7c7e95","thumb":"memes/thumbs/bus.webp","added":"2026-05-19"},
+{"file":"bus2.jpg","name":"","categories":["templates"],"text":"","description":"","tags":["bus"],"w":1536,"h":1024,"color":"#5a575f","thumb":"memes/thumbs/bus2.webp","added":"2026-05-19"},
+{"file":"cack.jpg","name":"","categories":["random"],"text":"","description":"","tags":["pants"],"w":560,"h":560,"color":"#efeeef","thumb":"memes/thumbs/cack.webp","added":"2026-05-19"},
+{"file":"capricorn.jpg","name":"","categories":["collabs"],"text":"LIQUIDITY BOOST 69%","description":"","tags":["capricorn"],"w":2099,"h":1287,"color":"#26514d","thumb":"memes/thumbs/capricorn.webp","added":"2026-05-19"},
+{"file":"cry.jpg","name":"","categories":["bearish"],"text":"","description":"","tags":["sad","read","note","cry","crying"],"w":560,"h":560,"color":"#e2e1e3","thumb":"memes/thumbs/cry.webp","added":"2026-05-19"},
+{"file":"cup.jpg","name":"","categories":["collabs"],"text":"Bro? Every CUP is a DEATH CUP?! EMONAD","description":"","tags":["bro.fun","death","cup"],"w":1004,"h":1004,"color":"#cdb2a4","thumb":"memes/thumbs/cup.webp","added":"2026-05-19"},
+{"file":"cz.jpg","name":"","categories":["people"],"text":"","description":"","tags":["4","cz"],"w":1184,"h":864,"color":"#a68b7b","thumb":"memes/thumbs/cz.webp","added":"2026-05-19"},
+{"file":"dips.jpg","name":"","categories":["memes"],"text":"I LIKE BIG DIPS AND I CANNOT LIE","description":"","tags":["butts","butt","ass","dip","dips"],"w":1094,"h":1005,"color":"#7685a3","thumb":"memes/thumbs/dips.webp","added":"2026-05-19"},
+{"file":"djkaled.jpg","name":"","categories":["people"],"text":"DJ KHALED SUFFERING FROM SUCCESS","description":"","tags":["dj","dj-khaled","suffering","success"],"w":1024,"h":1024,"color":"#6b6468","thumb":"memes/thumbs/djkaled.webp","added":"2026-05-19"},
+{"file":"dokwon.jpg","name":"","categories":["people"],"text":"","description":"","tags":["do-kwon"],"w":1248,"h":832,"color":"#4e4c4c","thumb":"memes/thumbs/dokwon.webp","added":"2026-05-19"},
+{"file":"early.jpg","name":"","categories":["memes","bullish"],"text":"I may have been early but I'm not wrong","description":"","tags":["early"],"w":1280,"h":737,"color":"#495a67","thumb":"memes/thumbs/early.webp","added":"2026-05-19"},
+{"file":"EkKVc.jpg","name":"","categories":["gn"],"text":"","description":"","tags":["lighthouse","ocean","water"],"w":1024,"h":1024,"color":"#3d4254","thumb":"memes/thumbs/EkKVc.webp","added":"2026-05-19"},
+{"file":"elon.jpg","name":"","categories":["people"],"text":"","description":"","tags":["elon"],"w":1280,"h":853,"color":"#55494f","thumb":"memes/thumbs/elon.webp","added":"2026-05-19"},
+{"file":"emo diesle.jpg","name":"","categories":["people"],"text":"","description":"","tags":["vin-diesel"],"w":1284,"h":720,"color":"#3a3134","thumb":"memes/thumbs/emo diesle.webp","added":"2026-05-19"},
+{"file":"emo-meme-1776989415526.png","name":"","categories":["random"],"text":"","description":"","tags":["butt","ass","naked","only-fans","onlyfans"],"w":1600,"h":1600,"color":"#e8e7ea","thumb":"memes/thumbs/emo-meme-1776989415526.webp","added":"2026-05-19"},
+{"file":"emo-meme-1777156946150.png","name":"","categories":["lil shid"],"text":"","description":"","tags":["cig","smoking","gun","inversebrah","lil-shid"],"w":1600,"h":1600,"color":"#acb2af","thumb":"memes/thumbs/emo-meme-1777156946150.webp","added":"2026-05-19"},
+{"file":"emog.jpg","name":"","categories":["random"],"text":"","description":"","tags":["gmog","mog"],"w":1024,"h":1024,"color":"#635064","thumb":"memes/thumbs/emog.webp","added":"2026-05-19"},
+{"file":"emomon.jpg","name":"","categories":["random"],"text":"EMOMON Emonad 200 HP Dark Slash Cry of Despair The Emo Pokemon. Hides in graveyards listening to screamo on his Ipod","description":"","tags":["pokemon","card","cards"],"w":408,"h":612,"color":"#645458","thumb":"memes/thumbs/emomon.webp","added":"2026-05-19"},
+{"file":"emonad.jpg","name":"","categories":["random"],"text":"EMONAD","description":"","tags":["emonad"],"w":1152,"h":1152,"color":"#e0dbe0","thumb":"memes/thumbs/emonad.webp","added":"2026-05-19"},
+{"file":"emonads.png","name":"","categories":["random"],"text":"","description":"","tags":["emonad"],"w":2048,"h":2048,"color":"#a29a9a","thumb":"memes/thumbs/emonads.webp","added":"2026-05-19"},
+{"file":"emonads2.png","name":"","categories":["random"],"text":"","description":"","tags":["emonad"],"w":2048,"h":2048,"color":"#867a7b","thumb":"memes/thumbs/emonads2.webp","added":"2026-05-19"},
+{"file":"fat.jpg","name":"","categories":["random"],"text":"","description":"","tags":["fat","big","lord","king"],"w":1024,"h":1024,"color":"#d9d1d8","thumb":"memes/thumbs/fat.webp","added":"2026-05-19"},
+{"file":"fist.jpg","name":"","categories":["templates","random"],"text":"","description":"","tags":["fist","mad","angry"],"w":2048,"h":2048,"color":"#524c52","thumb":"memes/thumbs/fist.webp","added":"2026-05-19"},
+{"file":"frank.jpg","name":"","categories":["people"],"text":"","description":"","tags":["frank","degods"],"w":1024,"h":560,"color":"#6a6562","thumb":"memes/thumbs/frank.webp","added":"2026-05-19"},
+{"file":"G7xd2KKWAAAMwpD.jpg","name":"","categories":["barbie"],"text":"","description":"","tags":["shocked","ew","scared"],"w":746,"h":932,"color":"#4a332d","thumb":"memes/thumbs/G7xd2KKWAAAMwpD.webp","added":"2026-05-19"},
+{"file":"G8-qoipb0AIb7yQ.jpg","name":"","categories":["random"],"text":"","description":"","tags":["pokemon","necklace","bling"],"w":1522,"h":1344,"color":"#d3d1d3","thumb":"memes/thumbs/G8-qoipb0AIb7yQ.webp","added":"2026-05-19"},
+{"file":"G83vRBzW0AA7mQT.jpg","name":"","categories":["memes"],"text":"CHEWSDAY","description":"","tags":["chewsday","init","bruv"],"w":900,"h":455,"color":"#947b75","thumb":"memes/thumbs/G83vRBzW0AA7mQT.webp","added":"2026-05-19"},
+{"file":"G84DdyLXoAAWoPq.jpg","name":"","categories":["templates","memes"],"text":"","description":"","tags":["steal","diamond","diamonds","girl"],"w":1024,"h":751,"color":"#c8bba2","thumb":"memes/thumbs/G84DdyLXoAAWoPq.webp","added":"2026-05-19"},
+{"file":"G8zWIbEXIAEL1eR.jpg","name":"","categories":["lil shid","templates"],"text":"","description":"","tags":["inversebrah","lil-shid","fire"],"w":1024,"h":585,"color":"#5a3621","thumb":"memes/thumbs/G8zWIbEXIAEL1eR.webp","added":"2026-05-19"},
+{"file":"G9hLZLtXYAEDky6.jpg","name":"","categories":["memes"],"text":"january february march april may june july august september october november december","description":"","tags":["months","month"],"w":508,"h":680,"color":"#cdcacc","thumb":"memes/thumbs/G9hLZLtXYAEDky6.webp","added":"2026-05-19"},
+{"file":"G9luUdIX0AAKqqk.jpg","name":"","categories":["shirts"],"text":"","description":"","tags":["bitcoin"],"w":1024,"h":1024,"color":"#e8e2e0","thumb":"memes/thumbs/G9luUdIX0AAKqqk.webp","added":"2026-05-19"},
+{"file":"G9mzVIUXcAAn0-g.jpg","name":"","categories":["random","shirts"],"text":"EMO STRIKES BACK","description":"","tags":["star-wars"],"w":1024,"h":1024,"color":"#dedadf","thumb":"memes/thumbs/G9mzVIUXcAAn0-g.webp","added":"2026-05-19"},
+{"file":"G9WLQyHXgAEZozX.jpg","name":"","categories":["memes","bearish","templates"],"text":"","description":"","tags":["vietnam","flashback"],"w":1024,"h":1024,"color":"#9a9a9a","thumb":"memes/thumbs/G9WLQyHXgAEZozX.webp","added":"2026-05-19"},
+{"file":"G9WyE6ebQAAXvdB.jpg","name":"","categories":["collabs","random"],"text":"","description":"","tags":["opensea","open-sea","ocean","water","sail"],"w":2048,"h":2048,"color":"#758086","thumb":"memes/thumbs/G9WyE6ebQAAXvdB.webp","added":"2026-05-19"},
+{"file":"garage.jpg","name":"","categories":["random","lil shid"],"text":"ANOTHER THURSDAY","description":"","tags":["music","band","inversebrah","lil-shid"],"w":1280,"h":853,"color":"#5b5450","thumb":"memes/thumbs/garage.webp","added":"2026-05-19"},
+{"file":"garden.jpg","name":"","categories":["random"],"text":"","description":"","tags":["olive-garden","garden","olive"],"w":1280,"h":1280,"color":"#75523e","thumb":"memes/thumbs/garden.webp","added":"2026-05-19"},
+{"file":"Gemini_Generated_Image_a4ihcfa4ihcfa4ih.png","name":"","categories":["music"],"text":"","description":"","tags":["odd-future","of"],"w":1024,"h":1024,"color":"#e9c7be","thumb":"memes/thumbs/Gemini_Generated_Image_a4ihcfa4ihcfa4ih.webp","added":"2026-05-19"},
+{"file":"Gemini_Generated_Image_hz6ry8hz6ry8hz6r.png","name":"","categories":["emotions"],"text":"","description":"","tags":["shocked","wow"],"w":1024,"h":1024,"color":"#dedcde","thumb":"memes/thumbs/Gemini_Generated_Image_hz6ry8hz6ry8hz6r.webp","added":"2026-05-19"},
+{"file":"Gemini_Generated_Image_tc3xaatc3xaatc3x.png","name":"","categories":["random"],"text":"","description":"","tags":["pi","pie","food"],"w":1024,"h":1024,"color":"#dddbdd","thumb":"memes/thumbs/Gemini_Generated_Image_tc3xaatc3xaatc3x.webp","added":"2026-05-19"},
+{"file":"Gemini_Generated_Image_yedrtmyedrtmyedr.png","name":"","categories":["memes"],"text":"","description":"","tags":["wake-up","wrong"],"w":1365,"h":768,"color":"#f0eff0","thumb":"memes/thumbs/Gemini_Generated_Image_yedrtmyedrtmyedr.webp","added":"2026-05-19"},
+{"file":"Gemini_Generated_Image_z8vwupz8vwupz8vw.png","name":"","categories":["random","templates"],"text":"","description":"","tags":["subway","sword","cut"],"w":1024,"h":1024,"color":"#73665c","thumb":"memes/thumbs/Gemini_Generated_Image_z8vwupz8vwupz8vw.webp","added":"2026-05-19"},
+{"file":"girl.jpg","name":"","categories":["templates","memes","chart","bullish"],"text":"","description":"","tags":["chart","woman","girl","girlfriend"],"w":1024,"h":1024,"color":"#616a83","thumb":"memes/thumbs/girl.webp","added":"2026-05-19"},
+{"file":"glass.jpg","name":"","categories":["random"],"text":"","description":"","tags":["glass","crystal"],"w":1280,"h":1280,"color":"#434754","thumb":"memes/thumbs/glass.webp","added":"2026-05-19"},
+{"file":"golf.jpg","name":"","categories":["music"],"text":"","description":"","tags":["emo","tyler","tyler-the-creator"],"w":1024,"h":1024,"color":"#786b74","thumb":"memes/thumbs/golf.webp","added":"2026-05-19"},
+{"file":"good afternoon.jpg","name":"","categories":["people"],"text":"","description":"","tags":["jerome","jerome-powell","powell"],"w":949,"h":584,"color":"#3c3850","thumb":"memes/thumbs/good afternoon.webp","added":"2026-05-19"},
+{"file":"grok-image-01022b91-c9c8-4069-8d58-ba45e609b078.png","name":"","categories":["chill","gm"],"text":"","description":"","tags":["flowers","sun","butterfly","gm","grass","touch","touch-grass"],"w":1024,"h":1024,"color":"#7c8f7f","thumb":"memes/thumbs/grok-image-01022b91-c9c8-4069-8d58-ba45e609b078.webp","added":"2026-05-19"},
+{"file":"grok-image-01501910-b430-4076-b441-d4719016b19d.png","name":"","categories":["gm"],"text":"","description":"","tags":["plants","garden"],"w":1024,"h":1024,"color":"#646855","thumb":"memes/thumbs/grok-image-01501910-b430-4076-b441-d4719016b19d.webp","added":"2026-05-19"},
+{"file":"grok-image-0530f743-1884-4abe-b670-7873cf7a6312.png","name":"","categories":["monad"],"text":"","description":"","tags":["space","monad"],"w":1024,"h":1024,"color":"#2c1e35","thumb":"memes/thumbs/grok-image-0530f743-1884-4abe-b670-7873cf7a6312.webp","added":"2026-05-19"},
+{"file":"grok-image-0608a0b4-cbcb-4d6c-becb-b91f6f3fd5b6.png","name":"","categories":["random","chill"],"text":"","description":"","tags":["pie","happy"],"w":1024,"h":1024,"color":"#472f3b","thumb":"memes/thumbs/grok-image-0608a0b4-cbcb-4d6c-becb-b91f6f3fd5b6.webp","added":"2026-05-19"},
+{"file":"grok-image-094e0de6-37c8-496e-aec3-a23ac86106d0.png","name":"","categories":["gm","music"],"text":"","description":"","tags":["bus-stop","bus","headphones"],"w":912,"h":1136,"color":"#a39aa2","thumb":"memes/thumbs/grok-image-094e0de6-37c8-496e-aec3-a23ac86106d0.webp","added":"2026-05-19"},
+{"file":"grok-image-15d2fa74-bede-4ee5-9a89-e24236b8c014.png","name":"","categories":["gm"],"text":"","description":"","tags":["water","stream","forest","woods","touch-grass","grass"],"w":1024,"h":1024,"color":"#6e6557","thumb":"memes/thumbs/grok-image-15d2fa74-bede-4ee5-9a89-e24236b8c014.webp","added":"2026-05-19"},
+{"file":"grok-image-26d451bd-25b3-49b1-b404-4e452cba53e8.png","name":"","categories":["gn"],"text":"","description":"","tags":["park","gn"],"w":1024,"h":1024,"color":"#2e2827","thumb":"memes/thumbs/grok-image-26d451bd-25b3-49b1-b404-4e452cba53e8.webp","added":"2026-05-19"},
+{"file":"grok-image-28bb782e-20a2-49f2-a7f9-1b7e8018f961.png","name":"","categories":["gm"],"text":"","description":"","tags":["coffee","mountains","woods","forrest","trees"],"w":912,"h":1136,"color":"#6e666d","thumb":"memes/thumbs/grok-image-28bb782e-20a2-49f2-a7f9-1b7e8018f961.webp","added":"2026-05-19"},
+{"file":"grok-image-2ac5169e-745b-45ac-bf60-b7faa9262a22.png","name":"","categories":["gn"],"text":"","description":"","tags":["woods","tent","fire","camping","forrest","trees"],"w":1024,"h":1024,"color":"#2b2323","thumb":"memes/thumbs/grok-image-2ac5169e-745b-45ac-bf60-b7faa9262a22.webp","added":"2026-05-19"},
+{"file":"grok-image-30fbc20a-7880-4e71-b32d-28a0a5fa437d.png","name":"","categories":["random"],"text":"","description":"","tags":["book","books","library"],"w":1024,"h":1024,"color":"#58443b","thumb":"memes/thumbs/grok-image-30fbc20a-7880-4e71-b32d-28a0a5fa437d.webp","added":"2026-05-19"},
+{"file":"grok-image-34666747-96d2-439e-b5fd-5f8c458a0991.png","name":"","categories":["gm","music"],"text":"","description":"","tags":["attic","guitar","sun"],"w":1024,"h":1024,"color":"#4a3d35","thumb":"memes/thumbs/grok-image-34666747-96d2-439e-b5fd-5f8c458a0991.webp","added":"2026-05-19"},
+{"file":"grok-image-3905236a-bae7-4ab1-9938-87f03f32e63f.png","name":"","categories":["gm"],"text":"","description":"","tags":["bridge","gm","fog","foggy"],"w":1024,"h":1024,"color":"#a0929a","thumb":"memes/thumbs/grok-image-3905236a-bae7-4ab1-9938-87f03f32e63f.webp","added":"2026-05-19"},
+{"file":"grok-image-3bdf3f94-b214-404b-8bc7-64a7a265c6b9.png","name":"","categories":["gm"],"text":"","description":"","tags":["plants","greenhouse","garden","gm"],"w":1024,"h":1024,"color":"#696b63","thumb":"memes/thumbs/grok-image-3bdf3f94-b214-404b-8bc7-64a7a265c6b9.webp","added":"2026-05-19"},
+{"file":"grok-image-45e5020f-2897-4414-93b0-5a0e63802323.png","name":"","categories":["gm"],"text":"","description":"","tags":["bridge"],"w":1024,"h":1024,"color":"#757167","thumb":"memes/thumbs/grok-image-45e5020f-2897-4414-93b0-5a0e63802323.webp","added":"2026-05-19"},
+{"file":"grok-image-64e1a166-23ae-4ec6-ad80-640d26364db2.png","name":"","categories":["gm"],"text":"","description":"","tags":["water","stream","river","gm"],"w":1024,"h":1024,"color":"#7f7e79","thumb":"memes/thumbs/grok-image-64e1a166-23ae-4ec6-ad80-640d26364db2.webp","added":"2026-05-19"},
+{"file":"grok-image-6973d8ac-a778-4643-b061-11e6bbf2bf4a.png","name":"","categories":["templates"],"text":"","description":"","tags":["uno"],"w":1008,"h":1024,"color":"#725d52","thumb":"memes/thumbs/grok-image-6973d8ac-a778-4643-b061-11e6bbf2bf4a.webp","added":"2026-05-19"},
+{"file":"grok-image-6a3441c8-dad2-433f-a891-ec8d95cb71ac.png","name":"","categories":["gn"],"text":"","description":"","tags":["pool","night","stars","gn"],"w":1024,"h":1024,"color":"#41535e","thumb":"memes/thumbs/grok-image-6a3441c8-dad2-433f-a891-ec8d95cb71ac.webp","added":"2026-05-19"},
+{"file":"grok-image-6aae73fd-4ab6-4117-b8e2-30ca43c592d9.png","name":"","categories":["gn"],"text":"","description":"","tags":["stars","night","car","gn"],"w":1024,"h":1024,"color":"#252542","thumb":"memes/thumbs/grok-image-6aae73fd-4ab6-4117-b8e2-30ca43c592d9.webp","added":"2026-05-19"},
+{"file":"grok-image-74cdb2c7-2127-4c7e-8d9b-50d09d06e8f7.png","name":"","categories":["gn"],"text":"","description":"","tags":["skate","skate-park","skate-board"],"w":1024,"h":1024,"color":"#434956","thumb":"memes/thumbs/grok-image-74cdb2c7-2127-4c7e-8d9b-50d09d06e8f7.webp","added":"2026-05-19"},
+{"file":"grok-image-757971ca-d679-4e9e-9b78-8bd378071b51.png","name":"","categories":["sad"],"text":"","description":"","tags":["rain","raining"],"w":1024,"h":1024,"color":"#4b5d67","thumb":"memes/thumbs/grok-image-757971ca-d679-4e9e-9b78-8bd378071b51.webp","added":"2026-05-19"},
+{"file":"grok-image-75a50021-44b0-45af-bb82-ee139730dfea.png","name":"","categories":["gn"],"text":"","description":"","tags":["balcony","city","night","skyline","gn"],"w":1024,"h":1024,"color":"#323141","thumb":"memes/thumbs/grok-image-75a50021-44b0-45af-bb82-ee139730dfea.webp","added":"2026-05-19"},
+{"file":"grok-image-7bef5f48-71b8-4580-89ae-de412c4e2e96.png","name":"","categories":["monad"],"text":"","description":"","tags":["jellyfish","water","under-water","monad"],"w":1024,"h":1024,"color":"#16434d","thumb":"memes/thumbs/grok-image-7bef5f48-71b8-4580-89ae-de412c4e2e96.webp","added":"2026-05-19"},
+{"file":"grok-image-7e225fa8-0fda-4a82-aa19-96ccf331fa79.png","name":"","categories":["gm"],"text":"","description":"","tags":["winter","snow","coffee","gm"],"w":1024,"h":1024,"color":"#79787d","thumb":"memes/thumbs/grok-image-7e225fa8-0fda-4a82-aa19-96ccf331fa79.webp","added":"2026-05-19"},
+{"file":"grok-image-7f64ac0d-2da4-42ae-bfc6-e1da3520d687 (1).png","name":"","categories":["random"],"text":"","description":"","tags":["amime","space"],"w":1024,"h":1024,"color":"#403a3e","thumb":"memes/thumbs/grok-image-7f64ac0d-2da4-42ae-bfc6-e1da3520d687 (1).webp","added":"2026-05-19"},
+{"file":"grok-image-830c8241-c19a-464a-a07a-cbda20403c6a.png","name":"","categories":["gm"],"text":"","description":"","tags":["lighthouse","water","morning","ocean"],"w":1024,"h":1024,"color":"#807e81","thumb":"memes/thumbs/grok-image-830c8241-c19a-464a-a07a-cbda20403c6a.webp","added":"2026-05-19"},
+{"file":"grok-image-852c586c-89a0-4485-b07e-04bff7d83fac.png","name":"","categories":["random"],"text":"","description":"","tags":["hot-topic"],"w":1392,"h":736,"color":"#696363","thumb":"memes/thumbs/grok-image-852c586c-89a0-4485-b07e-04bff7d83fac.webp","added":"2026-05-19"},
+{"file":"grok-image-8d5ecc31-fa35-453c-bff6-35bb2e992cd3.png","name":"","categories":["gm"],"text":"","description":"","tags":["swing","park","morning"],"w":1024,"h":1024,"color":"#9a8281","thumb":"memes/thumbs/grok-image-8d5ecc31-fa35-453c-bff6-35bb2e992cd3.webp","added":"2026-05-19"},
+{"file":"grok-image-8fabb9ab-0720-4186-990a-b4ee8a38acf6.png","name":"","categories":["random","gn"],"text":"","description":"","tags":["shop","shopping","food"],"w":1024,"h":1024,"color":"#8c9694","thumb":"memes/thumbs/grok-image-8fabb9ab-0720-4186-990a-b4ee8a38acf6.webp","added":"2026-05-19"},
+{"file":"grok-image-99e13420-8ca6-44d9-804d-8fb47b867889.png","name":"","categories":["gn"],"text":"","description":"","tags":["beach","bonfire","water","ocean"],"w":1024,"h":1024,"color":"#393130","thumb":"memes/thumbs/grok-image-99e13420-8ca6-44d9-804d-8fb47b867889.webp","added":"2026-05-19"},
+{"file":"grok-image-9b1750bc-cba9-43cc-aee4-a44eebefd761.png","name":"","categories":["gn"],"text":"","description":"","tags":["fireworks","roof"],"w":1024,"h":1024,"color":"#392d33","thumb":"memes/thumbs/grok-image-9b1750bc-cba9-43cc-aee4-a44eebefd761.webp","added":"2026-05-19"},
+{"file":"grok-image-a095647b-1ed2-4230-b0ed-90381699987f.png","name":"","categories":["gn"],"text":"","description":"","tags":["stars","rooftop","gn"],"w":1024,"h":1024,"color":"#23253a","thumb":"memes/thumbs/grok-image-a095647b-1ed2-4230-b0ed-90381699987f.webp","added":"2026-05-19"},
+{"file":"grok-image-a388edbc-d7cb-4449-af4e-f51b3cbf0993.png","name":"","categories":["gn"],"text":"","description":"","tags":["city","skyline","stars"],"w":1024,"h":1024,"color":"#333141","thumb":"memes/thumbs/grok-image-a388edbc-d7cb-4449-af4e-f51b3cbf0993.webp","added":"2026-05-19"},
+{"file":"grok-image-a3fcfc7b-1194-4b97-b6c2-df529256309b.png","name":"","categories":["gm","chill"],"text":"","description":"","tags":["hammock","outside","backyard"],"w":1024,"h":1024,"color":"#6f6d56","thumb":"memes/thumbs/grok-image-a3fcfc7b-1194-4b97-b6c2-df529256309b.webp","added":"2026-05-19"},
+{"file":"grok-image-aa73f9be-42f3-4ac8-8b75-af3b2cc355e0.png","name":"","categories":["gm"],"text":"","description":"","tags":["mountain","coffee"],"w":1024,"h":1024,"color":"#9b8b93","thumb":"memes/thumbs/grok-image-aa73f9be-42f3-4ac8-8b75-af3b2cc355e0.webp","added":"2026-05-19"},
+{"file":"grok-image-b94bbe66-99a5-48f3-8876-1d3c59c5fece.png","name":"","categories":["gm"],"text":"","description":"","tags":["roof","cat"],"w":1024,"h":1024,"color":"#987372","thumb":"memes/thumbs/grok-image-b94bbe66-99a5-48f3-8876-1d3c59c5fece.webp","added":"2026-05-19"},
+{"file":"grok-image-ba25700c-73f9-42ce-8145-4d66858b4357.png","name":"","categories":["random","bullish"],"text":"","description":"","tags":["beach-ball","beachball","water","ocean"],"w":1024,"h":1024,"color":"#59969a","thumb":"memes/thumbs/grok-image-ba25700c-73f9-42ce-8145-4d66858b4357.webp","added":"2026-05-19"},
+{"file":"grok-image-c2878a46-3fbb-454d-9d50-d61774474273.png","name":"","categories":["chill"],"text":"","description":"","tags":["river","water","stream","sunglasses","tube","tubing"],"w":1024,"h":1024,"color":"#78836a","thumb":"memes/thumbs/grok-image-c2878a46-3fbb-454d-9d50-d61774474273.webp","added":"2026-05-19"},
+{"file":"grok-image-c4932bd5-373a-4111-a09e-bc0af57dcd99.png","name":"","categories":["gm"],"text":"","description":"","tags":["coffee","writing","rain","raining"],"w":1024,"h":1024,"color":"#676870","thumb":"memes/thumbs/grok-image-c4932bd5-373a-4111-a09e-bc0af57dcd99.webp","added":"2026-05-19"},
+{"file":"grok-image-c6cb3e12-f2d7-43de-971e-4c5f42744ec5.png","name":"","categories":["gm"],"text":"","description":"","tags":["coffee","reading","book","books"],"w":912,"h":1136,"color":"#7a706b","thumb":"memes/thumbs/grok-image-c6cb3e12-f2d7-43de-971e-4c5f42744ec5.webp","added":"2026-05-19"},
+{"file":"grok-image-c7af6650-a9fb-4618-8fbc-77552bb7de42.png","name":"","categories":["gm"],"text":"","description":"","tags":["coffee","diner"],"w":1024,"h":1024,"color":"#705d53","thumb":"memes/thumbs/grok-image-c7af6650-a9fb-4618-8fbc-77552bb7de42.webp","added":"2026-05-19"},
+{"file":"grok-image-cb8223be-8e4d-4c60-8458-d1e2c6a8714d.png","name":"","categories":["memes"],"text":"","description":"","tags":["spongebob","water","ocean","sleeping","sleep"],"w":1024,"h":1024,"color":"#3a4c77","thumb":"memes/thumbs/grok-image-cb8223be-8e4d-4c60-8458-d1e2c6a8714d.webp","added":"2026-05-19"},
+{"file":"grok-image-cc9e573d-e600-49ec-bcbf-e684a00fb40b.png","name":"","categories":["gm"],"text":"","description":"","tags":["breakfast","bakery","donuts","food"],"w":1024,"h":1024,"color":"#85716e","thumb":"memes/thumbs/grok-image-cc9e573d-e600-49ec-bcbf-e684a00fb40b.webp","added":"2026-05-19"},
+{"file":"grok-image-ceeb5946-d6e1-4f71-9242-1417bc97ae41.png","name":"","categories":["gm"],"text":"","description":"","tags":["waiting","train"],"w":912,"h":1136,"color":"#716e79","thumb":"memes/thumbs/grok-image-ceeb5946-d6e1-4f71-9242-1417bc97ae41.webp","added":"2026-05-19"},
+{"file":"grok-image-d2060e8f-0de4-4ef5-8939-0a587634ea8c.png","name":"","categories":["gn"],"text":"","description":"","tags":["street"],"w":1024,"h":1024,"color":"#363439","thumb":"memes/thumbs/grok-image-d2060e8f-0de4-4ef5-8939-0a587634ea8c.webp","added":"2026-05-19"},
+{"file":"grok-image-dcc5d1bf-f419-4f39-9278-781705dfe0ff.png","name":"","categories":["collabs","people"],"text":"","description":"","tags":["kb","pokemon","beach","water","ocean"],"w":1024,"h":1024,"color":"#a0aa9f","thumb":"memes/thumbs/grok-image-dcc5d1bf-f419-4f39-9278-781705dfe0ff.webp","added":"2026-05-19"},
+{"file":"grok-image-e037aded-f346-4ca1-95c4-24d81d461991.png","name":"","categories":["gn"],"text":"","description":"","tags":["diner","coffee"],"w":1024,"h":1024,"color":"#544352","thumb":"memes/thumbs/grok-image-e037aded-f346-4ca1-95c4-24d81d461991.webp","added":"2026-05-19"},
+{"file":"grok-image-e1b5d9d2-8044-46f7-9ce2-2ed6b0a8fabd.png","name":"","categories":["gm","random"],"text":"","description":"","tags":["laundry","waiting"],"w":912,"h":1136,"color":"#6e6b70","thumb":"memes/thumbs/grok-image-e1b5d9d2-8044-46f7-9ce2-2ed6b0a8fabd.webp","added":"2026-05-19"},
+{"file":"grok-image-e64f45b4-9bd7-4666-a65a-7452d103c319.png","name":"","categories":["gm"],"text":"","description":"","tags":["skate","skateboard","skate-board","skate-park","park"],"w":912,"h":1136,"color":"#9d8f8d","thumb":"memes/thumbs/grok-image-e64f45b4-9bd7-4666-a65a-7452d103c319.webp","added":"2026-05-19"},
+{"file":"grok-image-e7d9e7a5-8cd3-49e9-a7b5-876871f32ca8.png","name":"","categories":["gm"],"text":"","description":"","tags":["garden","bee","flowers","water"],"w":912,"h":1136,"color":"#81775f","thumb":"memes/thumbs/grok-image-e7d9e7a5-8cd3-49e9-a7b5-876871f32ca8.webp","added":"2026-05-19"},
+{"file":"grok-image-e9aa43cc-d6d0-4733-a9d2-69c1b1ed4970.png","name":"","categories":["gn"],"text":"","description":"","tags":["winter","cold","snow","street"],"w":1024,"h":1024,"color":"#5d646e","thumb":"memes/thumbs/grok-image-e9aa43cc-d6d0-4733-a9d2-69c1b1ed4970.webp","added":"2026-05-19"},
+{"file":"grok-image-ed1b0b64-52b8-496a-9e30-1cd95fbeb8ba.png","name":"","categories":["chill"],"text":"","description":"","tags":["zen","garden","sand","zen-garden"],"w":1024,"h":1024,"color":"#9ea5a5","thumb":"memes/thumbs/grok-image-ed1b0b64-52b8-496a-9e30-1cd95fbeb8ba.webp","added":"2026-05-19"},
+{"file":"grok-image-fa425dff-78c4-4329-8aeb-a5189d5c048f.png","name":"","categories":["gn","music"],"text":"","description":"","tags":["bed","sleep","guitar"],"w":1024,"h":1024,"color":"#384254","thumb":"memes/thumbs/grok-image-fa425dff-78c4-4329-8aeb-a5189d5c048f.webp","added":"2026-05-19"},
+{"file":"grok-image-fe6da474-903b-4b6a-b3d6-9378e4cdea1a.png","name":"","categories":["gm"],"text":"","description":"","tags":["lake","coffee","woods","trees"],"w":912,"h":1136,"color":"#7b7573","thumb":"memes/thumbs/grok-image-fe6da474-903b-4b6a-b3d6-9378e4cdea1a.webp","added":"2026-05-19"},
+{"file":"grok-image-feaa2724-4879-42c1-8673-782c27c1fc15.png","name":"","categories":["gm"],"text":"","description":"","tags":["city","balcony","plants","garden"],"w":912,"h":1136,"color":"#827076","thumb":"memes/thumbs/grok-image-feaa2724-4879-42c1-8673-782c27c1fc15.webp","added":"2026-05-19"},
+{"file":"hair.jpg","name":"","categories":["memes"],"text":"IF JOBS WERE HAIRSTYLES INVESTMENT BANKING STARTUP VC MEME TRADER PRIVATE EQUITY","description":"","tags":["hair","jobs","vc","banking","startup"],"w":1179,"h":1171,"color":"#ccc3c3","thumb":"memes/thumbs/hair.webp","added":"2026-05-19"},
+{"file":"hmm.jpg","name":"","categories":["templates"],"text":"","description":"","tags":["hands"],"w":1024,"h":1024,"color":"#998f7e","thumb":"memes/thumbs/hmm.webp","added":"2026-05-19"},
+{"file":"huang.jpg","name":"","categories":["people"],"text":"","description":"","tags":["nvidia","jensen-huang","jensen","huang"],"w":1248,"h":832,"color":"#221f22","thumb":"memes/thumbs/huang.webp","added":"2026-05-19"},
+{"file":"humpty.jpg","name":"","categories":["random"],"text":"","description":"","tags":["fat","humpty","dumpty"],"w":1024,"h":1536,"color":"#4f5367","thumb":"memes/thumbs/humpty.webp","added":"2026-05-19"},
+{"file":"i get.png","name":"","categories":["templates"],"text":"i get you get","description":"","tags":["trade","offer","i-get","you-get","get"],"w":500,"h":749,"color":"#582e75","thumb":"memes/thumbs/i get.webp","added":"2026-05-19"},
+{"file":"image.jpg","name":"","categories":["random"],"text":"","description":"","tags":["sit","sitting"],"w":1024,"h":1024,"color":"#cdc9ce","thumb":"memes/thumbs/image.webp","added":"2026-05-19"},
+{"file":"IMG_0972.PNG","name":"","categories":["emonad"],"text":"","description":"","tags":["emonad","banner"],"w":2560,"h":1440,"color":"#d1cdcf","thumb":"memes/thumbs/IMG_0972.webp","added":"2026-05-19"},
+{"file":"james.jpg","name":"","categories":["memes"],"text":"different query, same result. sad. what memecoin should i buy? emonad EmonadCoin","description":"","tags":["james"],"w":602,"h":687,"color":"#0c0d0f","thumb":"memes/thumbs/james.webp","added":"2026-05-19"},
+{"file":"KaOGivI6.jpg","name":"","categories":["emotions","random"],"text":"DANGER DO NOT ENTER ATTACK CENTER","description":"","tags":["pokemon","shocked","pikachu"],"w":648,"h":619,"color":"#523b25","thumb":"memes/thumbs/KaOGivI6.webp","added":"2026-05-19"},
+{"file":"kb.jpg","name":"","categories":["people"],"text":"$EMO","description":"","tags":["pikachu","kb","pokemon"],"w":2048,"h":2048,"color":"#f0e8d4","thumb":"memes/thumbs/kb.webp","added":"2026-05-19"},
+{"file":"kb2.jpg","name":"","categories":["people"],"text":"","description":"","tags":["kb","onion","pokemon","pikachu"],"w":1024,"h":1024,"color":"#b7ab8a","thumb":"memes/thumbs/kb2.webp","added":"2026-05-19"},
+{"file":"lazer.jpg","name":"","categories":["random","bearish"],"text":"","description":"","tags":["bear","lazer","laser"],"w":1024,"h":1536,"color":"#675e5d","thumb":"memes/thumbs/lazer.webp","added":"2026-05-19"},
+{"file":"LdLQ1.jpg","name":"","categories":["gn"],"text":"","description":"","tags":["coffee","snowing","snow","cabin","woods","tree"],"w":1024,"h":1024,"color":"#393233","thumb":"memes/thumbs/LdLQ1.webp","added":"2026-05-19"},
+{"file":"lm5oc.jpg","name":"","categories":["random","chill"],"text":"","description":"","tags":["game","gaming","controller"],"w":1024,"h":1024,"color":"#888c8d","thumb":"memes/thumbs/lm5oc.webp","added":"2026-05-19"},
+{"file":"lord.jpg","name":"","categories":["people","random"],"text":"","description":"","tags":["lord","lord-emo","king","crown"],"w":2048,"h":2048,"color":"#cec4c8","thumb":"memes/thumbs/lord.webp","added":"2026-05-19"},
+{"file":"memes.jpg","name":"","categories":["memes","random"],"text":"$EMO","description":"","tags":["computer","messy","mess","nerd","dork"],"w":1536,"h":1024,"color":"#676255","thumb":"memes/thumbs/memes.webp","added":"2026-05-19"},
+{"file":"metal.jpg","name":"","categories":["people","bearish","chart"],"text":"","description":"","tags":["trump","gold","silver"],"w":1024,"h":1536,"color":"#352e2c","thumb":"memes/thumbs/metal.webp","added":"2026-05-19"},
+{"file":"money.jpg","name":"","categories":["bullish","templates"],"text":"","description":"","tags":["money","money-spread","cash"],"w":1280,"h":832,"color":"#8c8b83","thumb":"memes/thumbs/money.webp","added":"2026-05-19"},
+{"file":"MzCT0.jpg","name":"","categories":["random","chill"],"text":"","description":"","tags":["bike"],"w":1024,"h":1024,"color":"#57575f","thumb":"memes/thumbs/MzCT0.webp","added":"2026-05-19"},
+{"file":"nerd.jpg","name":"","categories":["random","templates"],"text":"EMONAD","description":"","tags":["computer","nerd","dork"],"w":680,"h":680,"color":"#806956","thumb":"memes/thumbs/nerd.webp","added":"2026-05-19"},
+{"file":"nevermind.jpg","name":"","categories":["music","memes"],"text":"any moment with you is my favorite","description":"","tags":["nirvana","nevermind","water","swimming","money"],"w":1023,"h":1335,"color":"#2a88d4","thumb":"memes/thumbs/nevermind.webp","added":"2026-05-19"},
+{"file":"nuke.jpg","name":"","categories":["memes"],"text":"HACKERS","description":"","tags":["hackers","hacker"],"w":1280,"h":1280,"color":"#673e56","thumb":"memes/thumbs/nuke.webp","added":"2026-05-19"},
+{"file":"outwork everyone.jpg","name":"","categories":["bagwork","bullish"],"text":"Outwork Everyone","description":"","tags":["work","outwork"],"w":1024,"h":1024,"color":"#736955","thumb":"memes/thumbs/outwork everyone.webp","added":"2026-05-19"},
+{"file":"paint.jpg","name":"","categories":["memes","emotions"],"text":"How to paint the ceiling?","description":"","tags":["sad","paint","gun"],"w":1152,"h":1152,"color":"#c0bbb8","thumb":"memes/thumbs/paint.webp","added":"2026-05-19"},
+{"file":"photo_10_2025-12-14_20-22-23.jpg","name":"","categories":["people"],"text":"","description":"","tags":["fiddy","50","50-cent","cent"],"w":1024,"h":848,"color":"#4c424e","thumb":"memes/thumbs/photo_10_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_10_2025-12-21_22-05-03.jpg","name":"MS Paint emonad in rainbow visor","categories":["collabs"],"text":"","description":"","tags":["emonad","ms-paint","drawing","rainbow","visor","sunglasses","profile","sol","crude-art"],"w":521,"h":521,"color":"#3f8394","thumb":"memes/thumbs/photo_10_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_10_2026-01-01_20-19-59.jpg","name":"","categories":["lil shid"],"text":"","description":"","tags":["inversebrah","happy","lil-shid"],"w":962,"h":1024,"color":"#c8ccc4","thumb":"memes/thumbs/photo_10_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_11_2025-12-14_20-22-23.jpg","name":"","categories":["lil shid"],"text":"","description":"","tags":["eyes","stare","eye","lil-shid","inversebrah"],"w":1024,"h":1024,"color":"#586154","thumb":"memes/thumbs/photo_11_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_12_2025-12-21_22-05-03.jpg","name":"","categories":["people","monad"],"text":"","description":"","tags":["james","hunsaker"],"w":400,"h":400,"color":"#4d423c","thumb":"memes/thumbs/photo_12_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_12_2026-01-01_20-19-59.jpg","name":"","categories":["memes"],"text":"","description":"","tags":["learing","center"],"w":977,"h":977,"color":"#7d7e7d","thumb":"memes/thumbs/photo_12_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_13_2025-12-14_20-22-23.jpg","name":"","categories":["lil shid"],"text":"","description":"","tags":["inversebrah","poor","lil-shid"],"w":747,"h":1024,"color":"#5f6754","thumb":"memes/thumbs/photo_13_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_14_2026-01-01_20-19-59.jpg","name":"","categories":["random"],"text":"","description":"","tags":["food","pop-tart","eating"],"w":1280,"h":1280,"color":"#cfcbd0","thumb":"memes/thumbs/photo_14_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_15_2025-12-14_20-22-23.jpg","name":"","categories":["people","bearish"],"text":"pop-tarts EMO","description":"","tags":["nikki","city"],"w":1024,"h":1024,"color":"#727270","thumb":"memes/thumbs/photo_15_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_15_2025-12-21_22-05-03.jpg","name":"","categories":["people"],"text":"","description":"","tags":["mar"],"w":400,"h":400,"color":"#6b5d5b","thumb":"memes/thumbs/photo_15_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_15_2026-01-01_20-19-59.jpg","name":"","categories":["people"],"text":"","description":"","tags":["alphaco","barney"],"w":1024,"h":1024,"color":"#482c3e","thumb":"memes/thumbs/photo_15_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_16_2026-01-01_20-19-59.jpg","name":"","categories":["templates","memes"],"text":"","description":"","tags":["smoking","smoke","cig","cigarette"],"w":977,"h":977,"color":"#362d27","thumb":"memes/thumbs/photo_16_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_17_2025-12-21_22-05-03.jpg","name":"","categories":["people"],"text":"","description":"","tags":["yallah","habibi","sproto"],"w":400,"h":400,"color":"#43515b","thumb":"memes/thumbs/photo_17_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_17_2026-01-01_20-19-59.jpg","name":"","categories":["animals"],"text":"","description":"","tags":["cat","kitty"],"w":977,"h":977,"color":"#423936","thumb":"memes/thumbs/photo_17_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_18_2025-12-14_20-22-23.jpg","name":"","categories":["bearish","chart","lil shid"],"text":"","description":"","tags":["inversebrah","lil-shid","chart"],"w":1152,"h":658,"color":"#bcc6c7","thumb":"memes/thumbs/photo_18_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_18_2025-12-21_22-05-03.jpg","name":"","categories":["people"],"text":"","description":"","tags":["joshua","gay-seal"],"w":400,"h":400,"color":"#6d543c","thumb":"memes/thumbs/photo_18_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_18_2026-01-01_20-19-59.jpg","name":"","categories":["lil shid"],"text":"","description":"","tags":["inversebrah","lil-shid"],"w":962,"h":1024,"color":"#605d58","thumb":"memes/thumbs/photo_18_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_19_2026-01-01_20-19-59.jpg","name":"Unimpressed emo girl with bow","categories":["people"],"text":"the used","description":"","tags":["emo-girl","cartoon","purple-hair","bow","arms-crossed","the-used","band-tee","unimpressed","goth"],"w":1024,"h":904,"color":"#1a1b1d","thumb":"memes/thumbs/photo_19_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_1_2025-12-14_20-22-23.jpg","name":"","categories":["lil shid"],"text":"","description":"","tags":["inversebrah","lil-shid","gun"],"w":731,"h":1280,"color":"#7b827a","thumb":"memes/thumbs/photo_1_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_1_2025-12-21_22-05-03.jpg","name":"","categories":["people"],"text":"the used","description":"","tags":["emily","mog"],"w":400,"h":400,"color":"#a5947f","thumb":"memes/thumbs/photo_1_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_1_2026-01-01_20-19-59.jpg","name":"","categories":["people"],"text":"$EMO","description":"","tags":["nikki","fuck-you","fuck"],"w":1024,"h":904,"color":"#212123","thumb":"memes/thumbs/photo_1_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-09_22-25-08.jpg","name":"","categories":["random","templates"],"text":"","description":"","tags":["cook","cooking"],"w":2048,"h":2048,"color":"#a8aaae","thumb":"memes/thumbs/photo_2025-12-09_22-25-08.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-10_20-06-40.jpg","name":"","categories":["emotions","random"],"text":"","description":"","tags":["rope","handing","christmas"],"w":1024,"h":1024,"color":"#654745","thumb":"memes/thumbs/photo_2025-12-10_20-06-40.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_00-49-05.jpg","name":"","categories":["chill"],"text":"BRING ME THE HORIZON $EMO","description":"","tags":["sitting","sit"],"w":1024,"h":1024,"color":"#21353b","thumb":"memes/thumbs/photo_2025-12-11_00-49-05.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-40-33.jpg","name":"","categories":["people"],"text":"MONAD IS DEAD WHAT'S THE NEXT RUNNER? JAMES IS A JEET BE CAREFUL CHA CHING EMONAD WAITING FOR A DIP TBH ICO PRICE WEN TG HE'S UGLY AND SAD","description":"","tags":["professor-crypto"],"w":948,"h":1024,"color":"#433027","thumb":"memes/thumbs/photo_2025-12-11_21-40-33.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-40-37.jpg","name":"","categories":["memes"],"text":"","description":"","tags":["watch","bowling","love","hate"],"w":1024,"h":1024,"color":"#604c50","thumb":"memes/thumbs/photo_2025-12-11_21-40-37.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-40-42.jpg","name":"","categories":["memes"],"text":"HATE ME OR LOVE ME, YOU WATCHED. THAT'S ALL YOU COULD DO.","description":"","tags":["james","sad","emonad"],"w":500,"h":500,"color":"#4e3549","thumb":"memes/thumbs/photo_2025-12-11_21-40-42.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-40-44.jpg","name":"","categories":["templates"],"text":"","description":"","tags":["sad"],"w":1024,"h":1024,"color":"#3c1f35","thumb":"memes/thumbs/photo_2025-12-11_21-40-44.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-41-02.jpg","name":"","categories":["chart","bearish","bullish"],"text":"ANOTHER DIP? GUESS I'LL BUY MORE $EMO","description":"","tags":["dip","crash","nuke","chart"],"w":1024,"h":1024,"color":"#efe3e2","thumb":"memes/thumbs/photo_2025-12-11_21-41-02.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-41-07.jpg","name":"","categories":["monad","collabs"],"text":"","description":"","tags":["monad","logo"],"w":1024,"h":1024,"color":"#5a48c4","thumb":"memes/thumbs/photo_2025-12-11_21-41-07.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-41-09.jpg","name":"","categories":["collabs"],"text":"","description":"","tags":["chog","gchog"],"w":1152,"h":1152,"color":"#5643aa","thumb":"memes/thumbs/photo_2025-12-11_21-41-09.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-41-14.jpg","name":"","categories":["random"],"text":"","description":"","tags":["patrick","spongebob","stupid","dumb"],"w":1024,"h":565,"color":"#dfdcde","thumb":"memes/thumbs/photo_2025-12-11_21-41-14.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-41-17.jpg","name":"","categories":["memes","people"],"text":"If you can't hold, you won't be rich. CZ, CEO Binance","description":"","tags":["4","rich","hold","hodl","cz"],"w":1280,"h":762,"color":"#1b1c1d","thumb":"memes/thumbs/photo_2025-12-11_21-41-17.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-41-20.jpg","name":"","categories":["collabs"],"text":"","description":"","tags":["nadfun"],"w":1024,"h":1024,"color":"#8d6bda","thumb":"memes/thumbs/photo_2025-12-11_21-41-20.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-41-31.jpg","name":"","categories":["collabs","bearish","animals"],"text":"Fuck.","description":"","tags":["sappy","seals","fuck"],"w":1024,"h":1024,"color":"#c9c9c9","thumb":"memes/thumbs/photo_2025-12-11_21-41-31.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-41-33.jpg","name":"","categories":["collabs","animals"],"text":"","description":"","tags":["metamask","fox"],"w":1024,"h":1024,"color":"#28120b","thumb":"memes/thumbs/photo_2025-12-11_21-41-33.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-41-34.jpg","name":"","categories":["animals","collabs"],"text":"","description":"","tags":["nub","nubcat"],"w":1024,"h":1024,"color":"#929aac","thumb":"memes/thumbs/photo_2025-12-11_21-41-34.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-41-41.jpg","name":"Emo girl with snake bites","categories":["templates","random","people"],"text":"We're going to be millionaires.","description":"","tags":["emo-girl","photo","scene-girl","snake-bites","piercings","black-hair","fishnet","cigarette","smoking"],"w":1024,"h":1008,"color":"#5e4d3e","thumb":"memes/thumbs/photo_2025-12-11_21-41-41.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-41-45.jpg","name":"","categories":["people","templates"],"text":"I'M EXHAUSTED FROM TRYING TO BE STRONGER THAN I FEEL","description":"","tags":["shane-gillis","shane","gillis"],"w":1004,"h":1004,"color":"#686161","thumb":"memes/thumbs/photo_2025-12-11_21-41-45.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-41-47.jpg","name":"","categories":["people"],"text":"thinking of you rn","description":"","tags":["king-loui"],"w":1024,"h":1024,"color":"#756963","thumb":"memes/thumbs/photo_2025-12-11_21-41-47.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-41-48.jpg","name":"","categories":["memes","emotions"],"text":"When your shampoo says 'damage repair' but you're still broken on the inside","description":"","tags":["exhausteed","tired","sad"],"w":1024,"h":1024,"color":"#c6c9c9","thumb":"memes/thumbs/photo_2025-12-11_21-41-48.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-41-50.jpg","name":"","categories":["emotions","memes"],"text":"","description":"","tags":["hard","thinking"],"w":1024,"h":1024,"color":"#f1f0f2","thumb":"memes/thumbs/photo_2025-12-11_21-41-50.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-41-52.jpg","name":"","categories":["memes"],"text":"","description":"","tags":["shower","shampoo","sad"],"w":1024,"h":1024,"color":"#dfe1e7","thumb":"memes/thumbs/photo_2025-12-11_21-41-52.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-41-55.jpg","name":"","categories":["music","memes"],"text":"","description":"","tags":["american","psycho"],"w":1152,"h":1152,"color":"#5d5a60","thumb":"memes/thumbs/photo_2025-12-11_21-41-55.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-41-57.jpg","name":"","categories":["people"],"text":"","description":"","tags":["pauly"],"w":775,"h":1024,"color":"#736f74","thumb":"memes/thumbs/photo_2025-12-11_21-41-57.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-42-01.jpg","name":"","categories":["memes","people","monad"],"text":"SAY THE LINE KEONE I CERTAINLY COULDN'T PREDICT THAT THE EMO MEME COIN WOULD TAKE OFF. I JUST THINK THE MEMES ARE REALLY FUNNY","description":"","tags":["keone"],"w":1004,"h":1358,"color":"#7c6a46","thumb":"memes/thumbs/photo_2025-12-11_21-42-01.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-42-04.jpg","name":"","categories":["holidays"],"text":"ALL I WANT FOR CHRISTMAS IS YOU... TO LEAVE ME ALONE.","description":"","tags":["christmas"],"w":1024,"h":1024,"color":"#4a4445","thumb":"memes/thumbs/photo_2025-12-11_21-42-04.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-42-06.jpg","name":"","categories":["holidays"],"text":"THE ONLY THING I'M UNWRAPPING THIS YEAR... IS MY EMOTIONAL TRAUMA.","description":"","tags":["christmas"],"w":1024,"h":1024,"color":"#504a4b","thumb":"memes/thumbs/photo_2025-12-11_21-42-06.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-42-08.jpg","name":"","categories":["holidays"],"text":"ALL I WANT FOR CHRISTMAS... IS FOR IT TO BE OVER.","description":"","tags":["christmas"],"w":1024,"h":1024,"color":"#494345","thumb":"memes/thumbs/photo_2025-12-11_21-42-08.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-42-10.jpg","name":"","categories":["collabs","holidays"],"text":"","description":"","tags":["christmas","nadfun"],"w":1024,"h":1024,"color":"#393548","thumb":"memes/thumbs/photo_2025-12-11_21-42-10.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-42-15.jpg","name":"","categories":["collabs"],"text":"TICKET","description":"","tags":["nadfun","ticket"],"w":1152,"h":1152,"color":"#a599ad","thumb":"memes/thumbs/photo_2025-12-11_21-42-15.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-42-20.jpg","name":"","categories":["people"],"text":"","description":"","tags":["newsy","johnson"],"w":1024,"h":1024,"color":"#716056","thumb":"memes/thumbs/photo_2025-12-11_21-42-20.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-42-22.jpg","name":"","categories":["people","templates"],"text":"","description":"","tags":["karen"],"w":1152,"h":1152,"color":"#61544b","thumb":"memes/thumbs/photo_2025-12-11_21-42-22.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-42-24.jpg","name":"","categories":["collabs"],"text":"","description":"","tags":["coinbase","logo","logos"],"w":1024,"h":1024,"color":"#4c84fc","thumb":"memes/thumbs/photo_2025-12-11_21-42-24.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-42-30.jpg","name":"Emonad working the kitchen","categories":["templates","random"],"text":"","description":"","tags":["emonad","kitchen","cook","apron","restaurant","job","wagie","sad","tired","back-to-work"],"w":1024,"h":1024,"color":"#7a7c82","thumb":"memes/thumbs/photo_2025-12-11_21-42-30.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-42-44.jpg","name":"","categories":["music"],"text":"Nowhere To Go Bad Omens","description":"","tags":["bad","omens"],"w":919,"h":1024,"color":"#6a2d26","thumb":"memes/thumbs/photo_2025-12-11_21-42-44.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-42-48.jpg","name":"","categories":["music"],"text":"THE SMITHS","description":"","tags":["the-smiths"],"w":1024,"h":1024,"color":"#423e3e","thumb":"memes/thumbs/photo_2025-12-11_21-42-48.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-42-51.jpg","name":"","categories":["memes","lil shid"],"text":"behave: no","description":"","tags":["behave","no","lil-shid","inversebrah"],"w":1152,"h":1067,"color":"#d0d0d0","thumb":"memes/thumbs/photo_2025-12-11_21-42-51.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-42-54.jpg","name":"","categories":["lil shid"],"text":"","description":"","tags":["choke","inversebrah","lil-shid"],"w":1500,"h":1410,"color":"#869b9a","thumb":"memes/thumbs/photo_2025-12-11_21-42-54.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-42-59.jpg","name":"","categories":["emotions","memes","templates"],"text":"","description":"","tags":["fuck","fuck-you","you"],"w":1024,"h":1024,"color":"#cdcace","thumb":"memes/thumbs/photo_2025-12-11_21-42-59.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-02.jpg","name":"","categories":["emotions"],"text":"","description":"","tags":["gun","rope","kms"],"w":1024,"h":1024,"color":"#c5c2c5","thumb":"memes/thumbs/photo_2025-12-11_21-43-02.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-04.jpg","name":"","categories":["emotions"],"text":"","description":"","tags":["gun"],"w":1024,"h":1024,"color":"#b0adb1","thumb":"memes/thumbs/photo_2025-12-11_21-43-04.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-07.jpg","name":"","categories":["templates","memes"],"text":"","description":"","tags":["phone","text","texting"],"w":941,"h":1024,"color":"#857b80","thumb":"memes/thumbs/photo_2025-12-11_21-43-07.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-10.jpg","name":"","categories":["templates","memes"],"text":"","description":"","tags":["wojak"],"w":1152,"h":859,"color":"#afaab2","thumb":"memes/thumbs/photo_2025-12-11_21-43-10.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-12.jpg","name":"","categories":["emotions"],"text":"","description":"","tags":["sad","butterfly","cry","crying"],"w":1004,"h":674,"color":"#b7b3b7","thumb":"memes/thumbs/photo_2025-12-11_21-43-12.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-14.jpg","name":"","categories":["chill","templates"],"text":"","description":"","tags":["flowers","field","happy"],"w":1024,"h":1024,"color":"#8e9388","thumb":"memes/thumbs/photo_2025-12-11_21-43-14.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-16.jpg","name":"","categories":["lil shid"],"text":"","description":"","tags":["inversebrah","lil-shid"],"w":1152,"h":1078,"color":"#9f9689","thumb":"memes/thumbs/photo_2025-12-11_21-43-16.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-18.jpg","name":"","categories":["collabs","monad","memes","emonad"],"text":"$emo","description":"","tags":["nadfun","monad","emo","emonad"],"w":1024,"h":1024,"color":"#7a61d2","thumb":"memes/thumbs/photo_2025-12-11_21-43-18.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-21.jpg","name":"","categories":["memes","animals","emotions"],"text":"hold on partner i am overstimulated","description":"","tags":["horse","partner","overstimulated"],"w":1024,"h":1024,"color":"#9e9ea5","thumb":"memes/thumbs/photo_2025-12-11_21-43-21.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-23.jpg","name":"","categories":["templates","bearish"],"text":"","description":"","tags":["falling","kms","jump","jumper"],"w":1024,"h":1024,"color":"#595a62","thumb":"memes/thumbs/photo_2025-12-11_21-43-23.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-24.jpg","name":"","categories":["collabs"],"text":"","description":"","tags":["moncock"],"w":1152,"h":1152,"color":"#ccbdcb","thumb":"memes/thumbs/photo_2025-12-11_21-43-24.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-26.jpg","name":"","categories":["music","memes"],"text":"Can you hear the silence? Can you see the dark? Can you fix the broken?","description":"","tags":["bmth"],"w":1004,"h":1121,"color":"#beb7b6","thumb":"memes/thumbs/photo_2025-12-11_21-43-26.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-29.jpg","name":"","categories":["memes","emotions"],"text":"smile more me: i am","description":"","tags":["smile","sad"],"w":1024,"h":1024,"color":"#b7afb9","thumb":"memes/thumbs/photo_2025-12-11_21-43-29.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-31.jpg","name":"","categories":["memes"],"text":"I'm trying","description":"","tags":["trying","sad","depression"],"w":1024,"h":962,"color":"#c4c0ba","thumb":"memes/thumbs/photo_2025-12-11_21-43-31.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-33.jpg","name":"","categories":["lil shid","bearish"],"text":"","description":"","tags":["mcdonalds","fries","bag","poor"],"w":948,"h":1024,"color":"#ceb6ad","thumb":"memes/thumbs/photo_2025-12-11_21-43-33.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-38.jpg","name":"","categories":["collabs","bullish","emonad"],"text":"EMONAD BUYS $EMO ON NAD.FUN","description":"","tags":["franklin","nadfun","emonad"],"w":1024,"h":1024,"color":"#67695d","thumb":"memes/thumbs/photo_2025-12-11_21-43-38.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-40.jpg","name":"","categories":["templates"],"text":"","description":"","tags":["mid","curve"],"w":1926,"h":1504,"color":"#d7dbe0","thumb":"memes/thumbs/photo_2025-12-11_21-43-40.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-42.jpg","name":"","categories":["memes","emonad"],"text":"WHY WOULD ANYONE BUY MEMECOINS ON MONAD WHEN THE TOP COIN WAS A 10 MIL TOPPER. IT'S OVER EMONAD","description":"","tags":["mid","curve","emonad"],"w":640,"h":500,"color":"#c9cdd2","thumb":"memes/thumbs/photo_2025-12-11_21-43-42.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-51.jpg","name":"","categories":["people","memes"],"text":"EMONAD will be the Next Big Thing","description":"","tags":["murad"],"w":700,"h":960,"color":"#7a6b72","thumb":"memes/thumbs/photo_2025-12-11_21-43-51.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-43-57.jpg","name":"","categories":["memes"],"text":"Things are now in motion that cannot be undone.","description":"","tags":["gandolf","motion"],"w":960,"h":548,"color":"#181615","thumb":"memes/thumbs/photo_2025-12-11_21-43-57.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-44-03.jpg","name":"","categories":["people"],"text":"","description":"","tags":["do-qwon"],"w":960,"h":716,"color":"#5e6064","thumb":"memes/thumbs/photo_2025-12-11_21-44-03.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-44-09.jpg","name":"","categories":["bullish"],"text":"","description":"","tags":["up","green","yell"],"w":960,"h":960,"color":"#3f5843","thumb":"memes/thumbs/photo_2025-12-11_21-44-09.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-44-21.jpg","name":"","categories":["bearish","chart"],"text":"","description":"","tags":["down","red","nuke"],"w":1024,"h":1024,"color":"#aeadaf","thumb":"memes/thumbs/photo_2025-12-11_21-44-21.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-44-31.jpg","name":"","categories":["bullish"],"text":"$EMO","description":"","tags":["jackpot","gamba","gambling","slot","machine","win"],"w":1024,"h":1024,"color":"#cccbcd","thumb":"memes/thumbs/photo_2025-12-11_21-44-31.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-44-33.jpg","name":"","categories":["bearish"],"text":"$EMO","description":"","tags":["rope","kms"],"w":1024,"h":1024,"color":"#d6d4d7","thumb":"memes/thumbs/photo_2025-12-11_21-44-33.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-11_21-44-46.jpg","name":"","categories":["templates"],"text":"","description":"","tags":["button","sweating","pick"],"w":1024,"h":1024,"color":"#b0b5bf","thumb":"memes/thumbs/photo_2025-12-11_21-44-46.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-14_19-47-37.jpg","name":"","categories":["templates","random"],"text":"","description":"","tags":["cooking","fire"],"w":839,"h":936,"color":"#94737d","thumb":"memes/thumbs/photo_2025-12-14_19-47-37.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-14_19-47-44.jpg","name":"","categories":["memes","bearish","bullish"],"text":"HOP IN, MY FREN WE'RE GOING INSANE","description":"","tags":["candle","gift","red"],"w":928,"h":1120,"color":"#87827c","thumb":"memes/thumbs/photo_2025-12-14_19-47-44.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-14_19-47-58.jpg","name":"","categories":["animals","lil shid"],"text":"one life, its worth an attempt","description":"","tags":["lil-shid","anago","inversebrah"],"w":972,"h":925,"color":"#647a68","thumb":"memes/thumbs/photo_2025-12-14_19-47-58.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-21_21-56-12.jpg","name":"","categories":["memes"],"text":"Every red candle is a gift","description":"","tags":["car","insane","pepe"],"w":1024,"h":848,"color":"#d9d3d0","thumb":"memes/thumbs/photo_2025-12-21_21-56-12.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-22_00-10-36.jpg","name":"","categories":["people"],"text":"HOP IN, MY FREN WE'RE GOING INSANE","description":"","tags":["arthur","hayes"],"w":1024,"h":1024,"color":"#392263","thumb":"memes/thumbs/photo_2025-12-22_00-10-36.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-22_11-38-42.jpg","name":"","categories":["random","emonad"],"text":"","description":"","tags":["toy","plushie","emonad"],"w":1024,"h":1024,"color":"#cdc7d0","thumb":"memes/thumbs/photo_2025-12-22_11-38-42.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-25_01-35-23.jpg","name":"","categories":["people"],"text":"","description":"","tags":["kid","gun"],"w":765,"h":1024,"color":"#555045","thumb":"memes/thumbs/photo_2025-12-25_01-35-23.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-26_23-00-05.jpg","name":"","categories":["memes"],"text":"No it doesn't affect my baby 12 years later","description":"","tags":["smoking","smoke","drinking","drink","cig","cigarette"],"w":1023,"h":1023,"color":"#7d7c7c","thumb":"memes/thumbs/photo_2025-12-26_23-00-05.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-28_21-51-29.jpg","name":"","categories":["memes"],"text":"What's the password to the wifi?","description":"","tags":["wifi","internet","habibi","yallah"],"w":1024,"h":1024,"color":"#4b3f35","thumb":"memes/thumbs/photo_2025-12-28_21-51-29.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-29_10-32-03.jpg","name":"","categories":["templates"],"text":"","description":"","tags":["party","alone"],"w":1280,"h":1280,"color":"#e6e5e6","thumb":"memes/thumbs/photo_2025-12-29_10-32-03.webp","added":"2026-05-19"},
+{"file":"photo_2025-12-29_20-51-36.jpg","name":"","categories":["memes","bagwork"],"text":"$EMO BAG HOLDER 1500%+ TRAD FI TRADOOOOR: 7%+","description":"","tags":["zuck","trader","bag-worker"],"w":999,"h":943,"color":"#474f50","thumb":"memes/thumbs/photo_2025-12-29_20-51-36.webp","added":"2026-05-19"},
+{"file":"photo_2026-01-02_17-51-16.jpg","name":"","categories":["memes"],"text":"EMOLINED?","description":"","tags":["emolined","pikachu","sidelined"],"w":1100,"h":1266,"color":"#6e6c46","thumb":"memes/thumbs/photo_2026-01-02_17-51-16.webp","added":"2026-05-19"},
+{"file":"photo_2026-01-02_18-40-29.jpg","name":"","categories":["bullish","chart"],"text":"$EMO","description":"","tags":["green","candles"],"w":1280,"h":853,"color":"#255e2d","thumb":"memes/thumbs/photo_2026-01-02_18-40-29.webp","added":"2026-05-19"},
+{"file":"photo_2026-01-02_19-37-44.jpg","name":"","categories":["bullish","bagwork"],"text":"","description":"","tags":["strong","muscles"],"w":800,"h":800,"color":"#594b44","thumb":"memes/thumbs/photo_2026-01-02_19-37-44.webp","added":"2026-05-19"},
+{"file":"photo_2026-04-24_12-52-03.jpg","name":"","categories":["monad","chill"],"text":"","description":"","tags":["monad","zen"],"w":1024,"h":1024,"color":"#756a75","thumb":"memes/thumbs/photo_2026-04-24_12-52-03.webp","added":"2026-05-19"},
+{"file":"photo_2026-04-29_11-30-48.jpg","name":"","categories":["gm","animals"],"text":"","description":"","tags":["kitty","cat"],"w":901,"h":943,"color":"#7f7a80","thumb":"memes/thumbs/photo_2026-04-29_11-30-48.webp","added":"2026-05-19"},
+{"file":"photo_20_2025-12-21_22-05-03.jpg","name":"","categories":["collabs"],"text":"","description":"","tags":["harry","sproto","pepe"],"w":400,"h":400,"color":"#37371d","thumb":"memes/thumbs/photo_20_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_21_2025-12-14_20-22-23.jpg","name":"","categories":["monad","people"],"text":"","description":"","tags":["monad","keone"],"w":977,"h":1107,"color":"#504f4e","thumb":"memes/thumbs/photo_21_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_21_2025-12-21_22-05-03.jpg","name":"","categories":["people"],"text":"","description":"","tags":["alphaco"],"w":400,"h":400,"color":"#545151","thumb":"memes/thumbs/photo_21_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_21_2026-01-01_20-19-59.jpg","name":"","categories":["memes"],"text":"I'M TOO EMO","description":"","tags":["emo","too-emo","too"],"w":977,"h":977,"color":"#261f28","thumb":"memes/thumbs/photo_21_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_22_2025-12-14_20-22-23.jpg","name":"","categories":["people","music"],"text":"","description":"","tags":["ben","affleck","the-used","used"],"w":977,"h":1213,"color":"#1e2329","thumb":"memes/thumbs/photo_22_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_22_2025-12-21_22-05-03.jpg","name":"","categories":["emotions","holidays"],"text":"","description":"","tags":["cry","crying","waa-waa","wah","christmas","santa"],"w":400,"h":400,"color":"#a08490","thumb":"memes/thumbs/photo_22_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_22_2026-01-01_20-19-59.jpg","name":"","categories":["memes"],"text":"IT AIN'T MUCH BUT IT'S HONEST WORK","description":"","tags":["honest","work","farm","farmer"],"w":977,"h":977,"color":"#8c8f82","thumb":"memes/thumbs/photo_22_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_23_2025-12-14_20-22-23.jpg","name":"","categories":["bearish"],"text":"","description":"","tags":["fire","drinking","drink","riot"],"w":994,"h":1280,"color":"#665b47","thumb":"memes/thumbs/photo_23_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_23_2025-12-21_22-05-03.jpg","name":"","categories":["people"],"text":"WHY ARE YOU SO OBSESSED WITH ME?","description":"","tags":["jessica"],"w":400,"h":400,"color":"#8e5d68","thumb":"memes/thumbs/photo_23_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_23_2026-01-01_20-19-59.jpg","name":"","categories":["templates","gm"],"text":"","description":"","tags":["kid","coffee"],"w":977,"h":1027,"color":"#40494c","thumb":"memes/thumbs/photo_23_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_24_2025-12-14_20-22-23.jpg","name":"","categories":["memes"],"text":"Delete feelings? Deleting this will also delete its data.","description":"","tags":["girl","girls","obsessed","mean"],"w":1024,"h":585,"color":"#4e332c","thumb":"memes/thumbs/photo_24_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_24_2025-12-21_22-05-03.jpg","name":"","categories":["people"],"text":"EMONAD","description":"","tags":["kb","pikachu"],"w":400,"h":400,"color":"#bdc7ad","thumb":"memes/thumbs/photo_24_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_24_2026-01-01_20-19-59.jpg","name":"","categories":["memes","emotions"],"text":"","description":"","tags":["delete","feelings"],"w":853,"h":1280,"color":"#552b2c","thumb":"memes/thumbs/photo_24_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_25_2025-12-14_20-22-23.jpg","name":"","categories":["emonad","chart","bearish"],"text":"$EMO","description":"","tags":["emonad","rope","chart"],"w":1024,"h":1024,"color":"#d6d2d7","thumb":"memes/thumbs/photo_25_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_25_2025-12-21_22-05-03.jpg","name":"","categories":["people"],"text":"","description":"","tags":["prim"],"w":400,"h":400,"color":"#5c5a78","thumb":"memes/thumbs/photo_25_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_25_2026-01-01_20-19-59.jpg","name":"","categories":["random","animals"],"text":"","description":"","tags":["kermit","frog"],"w":977,"h":977,"color":"#64655d","thumb":"memes/thumbs/photo_25_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_26_2025-12-14_20-22-23.jpg","name":"","categories":["lil shid"],"text":"MONAD","description":"","tags":["hair","lil-shid","inversebrah"],"w":977,"h":918,"color":"#879a98","thumb":"memes/thumbs/photo_26_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_26_2026-01-01_20-19-59.jpg","name":"","categories":["lil shid","bearish"],"text":"","description":"","tags":["inversebrah","lil-shid","mcdonalds","fries","bag"],"w":1024,"h":1024,"color":"#c8c3bb","thumb":"memes/thumbs/photo_26_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_27_2025-12-14_20-22-23.jpg","name":"","categories":["lil shid"],"text":"","description":"","tags":["hair","inversebrah","lil-shid"],"w":977,"h":918,"color":"#869997","thumb":"memes/thumbs/photo_27_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_27_2025-12-21_22-05-03.jpg","name":"","categories":["emotions","templates","memes"],"text":"","description":"","tags":["wojak","cry","crying"],"w":400,"h":400,"color":"#a5979c","thumb":"memes/thumbs/photo_27_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_28_2025-12-14_20-22-23.jpg","name":"","categories":["memes","bearish"],"text":"It's so over It's over We're back We're so back","description":"","tags":["pepe","over","back","r3tard","r3tards"],"w":886,"h":887,"color":"#cbcfcd","thumb":"memes/thumbs/photo_28_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_29_2025-12-21_22-05-03.jpg","name":"","categories":["people"],"text":"","description":"","tags":["mazza"],"w":400,"h":400,"color":"#ae8e82","thumb":"memes/thumbs/photo_29_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_29_2026-01-01_20-19-59.jpg","name":"","categories":["memes","bullish"],"text":"EMO WORLD ORDER EWO","description":"","tags":["ewo","emo","world","order"],"w":977,"h":974,"color":"#5d4c5d","thumb":"memes/thumbs/photo_29_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_2_2025-12-14_20-22-23.jpg","name":"","categories":["collabs"],"text":"","description":"","tags":["shramp","cook"],"w":977,"h":977,"color":"#aaa8a8","thumb":"memes/thumbs/photo_2_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_2_2025-12-21_22-05-03.jpg","name":"","categories":["collabs"],"text":"","description":"","tags":["r3tards"],"w":400,"h":400,"color":"#7c1a50","thumb":"memes/thumbs/photo_2_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_2_2026-01-01_20-19-59.jpg","name":"","categories":["memes","random","emonad"],"text":"BITBOY","description":"","tags":["sphear","emonad"],"w":853,"h":1280,"color":"#362f46","thumb":"memes/thumbs/photo_2_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_30_2025-12-14_20-22-23.jpg","name":"","categories":["lil shid"],"text":"","description":"","tags":["inversebrah","lil-shid","sad"],"w":1280,"h":1056,"color":"#adafa9","thumb":"memes/thumbs/photo_30_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_31_2025-12-14_20-22-23.jpg","name":"","categories":["memes","music"],"text":"Emonad","description":"","tags":["yell","kirby","sing"],"w":1024,"h":747,"color":"#805d6d","thumb":"memes/thumbs/photo_31_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_31_2025-12-21_22-05-03.jpg","name":"","categories":["memes","templates","bearish"],"text":"","description":"","tags":["wojak","mcdonals"],"w":400,"h":400,"color":"#b38389","thumb":"memes/thumbs/photo_31_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_31_2026-01-01_20-19-59.jpg","name":"","categories":["people","holidays","animals"],"text":"","description":"","tags":["nikki","christmas","dogs"],"w":1024,"h":962,"color":"#4e3d68","thumb":"memes/thumbs/photo_31_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_32_2025-12-21_22-05-03.jpg","name":"","categories":["collabs"],"text":"","description":"","tags":["r3tards"],"w":400,"h":400,"color":"#5b416c","thumb":"memes/thumbs/photo_32_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_32_2026-01-01_20-19-59.jpg","name":"","categories":["animals"],"text":"","description":"","tags":["cat","kitty"],"w":781,"h":1023,"color":"#5a505c","thumb":"memes/thumbs/photo_32_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_33_2025-12-14_20-22-23.jpg","name":"","categories":["templates","memes"],"text":"","description":"","tags":["truman","show","good","now"],"w":960,"h":700,"color":"#2a2c3b","thumb":"memes/thumbs/photo_33_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_34_2025-12-14_20-22-23.jpg","name":"","categories":["animals","people"],"text":"","description":"","tags":["pikachu","rat","kb"],"w":1024,"h":1024,"color":"#a69462","thumb":"memes/thumbs/photo_34_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_36_2025-12-14_20-22-23.jpg","name":"","categories":["memes","emonad"],"text":"ALL MY HOMIES BOUGHT EMONAD","description":"","tags":["homies","emonad"],"w":1024,"h":1024,"color":"#4f4135","thumb":"memes/thumbs/photo_36_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_37_2025-12-14_20-22-23.jpg","name":"","categories":["monad","people"],"text":"","description":"","tags":["monad","keone"],"w":848,"h":1024,"color":"#554e72","thumb":"memes/thumbs/photo_37_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_37_2025-12-21_22-05-03.jpg","name":"","categories":["people"],"text":"","description":"","tags":["prez"],"w":400,"h":400,"color":"#312419","thumb":"memes/thumbs/photo_37_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_38_2025-12-14_20-22-23.jpg","name":"","categories":["random"],"text":"","description":"","tags":["pikachu","pokemon"],"w":500,"h":500,"color":"#6c624e","thumb":"memes/thumbs/photo_38_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_39_2025-12-14_20-22-23.jpg","name":"","categories":["people"],"text":"","description":"","tags":["clemente"],"w":853,"h":1280,"color":"#726a71","thumb":"memes/thumbs/photo_39_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_3_2025-12-14_20-22-23.jpg","name":"","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","inversebrah","hand","pat"],"w":977,"h":1107,"color":"#bebfb9","thumb":"memes/thumbs/photo_3_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_40_2025-12-14_20-22-23.jpg","name":"","categories":["people"],"text":"","description":"","tags":["trump","donald"],"w":400,"h":400,"color":"#50474a","thumb":"memes/thumbs/photo_40_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_41_2025-12-14_20-22-23.jpg","name":"","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","inversebrah","toilet"],"w":848,"h":1024,"color":"#dfd9d2","thumb":"memes/thumbs/photo_41_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_41_2025-12-21_22-05-03.jpg","name":"","categories":["people"],"text":"","description":"","tags":["bad-brothers"],"w":400,"h":400,"color":"#4c394f","thumb":"memes/thumbs/photo_41_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_42_2025-12-21_22-05-03.jpg","name":"","categories":["people","monad","collabs","holidays"],"text":"","description":"","tags":["chaos","christmas","monad","r3tards"],"w":400,"h":400,"color":"#b48979","thumb":"memes/thumbs/photo_42_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_43_2025-12-14_20-22-23.jpg","name":"","categories":["gm","people"],"text":"","description":"","tags":["nikki","coffee","fire","riot"],"w":796,"h":1024,"color":"#827563","thumb":"memes/thumbs/photo_43_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_44_2025-12-14_20-22-23.jpg","name":"","categories":["people","templates"],"text":"","description":"","tags":["sydney","sweeny"],"w":1024,"h":585,"color":"#544941","thumb":"memes/thumbs/photo_44_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_44_2025-12-21_22-05-03.jpg","name":"","categories":["people","collabs"],"text":"","description":"","tags":["diegovas","diego","r3tards"],"w":400,"h":400,"color":"#7c93a6","thumb":"memes/thumbs/photo_44_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_45_2025-12-21_22-05-03.jpg","name":"","categories":["people","music"],"text":"the used","description":"","tags":["nikki","the-used"],"w":1024,"h":962,"color":"#c7c4c8","thumb":"memes/thumbs/photo_45_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_47_2025-12-21_22-05-03.jpg","name":"","categories":["people"],"text":"","description":"","tags":["kuro"],"w":585,"h":1024,"color":"#9899a4","thumb":"memes/thumbs/photo_47_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_48_2025-12-21_22-05-03.jpg","name":"","categories":["animals"],"text":"","description":"","tags":["dog"],"w":1024,"h":796,"color":"#6d615c","thumb":"memes/thumbs/photo_48_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_49_2025-12-21_22-05-03.jpg","name":"","categories":["memes","templates","emotions"],"text":"","description":"","tags":["sarcasm","sarcastic","kid"],"w":1024,"h":1024,"color":"#65574f","thumb":"memes/thumbs/photo_49_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_51_2025-12-21_22-05-03.jpg","name":"","categories":["lil shid"],"text":"","description":"","tags":["inversebrah","lil-shid","gun","smoking","smoke","cig","cigarette"],"w":747,"h":1024,"color":"#a4aea7","thumb":"memes/thumbs/photo_51_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_52_2025-12-21_22-05-03.jpg","name":"","categories":["collabs"],"text":"","description":"","tags":["smoking","r3tards"],"w":977,"h":977,"color":"#4e4578","thumb":"memes/thumbs/photo_52_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_54_2025-12-21_22-05-03.jpg","name":"","categories":["people"],"text":"","description":"","tags":["joshua","gay-seal"],"w":904,"h":1024,"color":"#6d6f73","thumb":"memes/thumbs/photo_54_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_55_2025-12-21_22-05-03.jpg","name":"","categories":["memes","emotions"],"text":"SADNESS","description":"","tags":["sad","sadness","spongebob","rainbow"],"w":977,"h":977,"color":"#787f7b","thumb":"memes/thumbs/photo_55_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_56_2025-12-21_22-05-03.jpg","name":"","categories":["people","monad","templates"],"text":"","description":"","tags":["keone","hon","james"],"w":977,"h":977,"color":"#5f3920","thumb":"memes/thumbs/photo_56_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_57_2025-12-21_22-05-03.jpg","name":"","categories":["animals","templates"],"text":"aaaaa","description":"","tags":["aaa-cat"],"w":1024,"h":617,"color":"#666466","thumb":"memes/thumbs/photo_57_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_58_2025-12-21_22-05-03.jpg","name":"","categories":["random"],"text":"","description":"","tags":["shoot","gun"],"w":1024,"h":848,"color":"#c1c0c1","thumb":"memes/thumbs/photo_58_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_59_2025-12-21_22-05-03.jpg","name":"","categories":["templates","random"],"text":"","description":"","tags":["brick","wall"],"w":1024,"h":1024,"color":"#63423d","thumb":"memes/thumbs/photo_59_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_5_2025-12-14_20-22-23.jpg","name":"","categories":["emonad","memes"],"text":"EMONAD","description":"","tags":["emonad","meme","milk","girl","girls"],"w":1152,"h":1211,"color":"#756e66","thumb":"memes/thumbs/photo_5_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_5_2026-01-01_20-19-59.jpg","name":"","categories":["music","lil shid"],"text":"","description":"","tags":["lil-shid","rock","inversebrah"],"w":1152,"h":658,"color":"#b5b9b3","thumb":"memes/thumbs/photo_5_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_60_2025-12-21_22-05-03.jpg","name":"","categories":["people"],"text":"","description":"","tags":["hard","rock","nick"],"w":1024,"h":1024,"color":"#766566","thumb":"memes/thumbs/photo_60_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_61_2025-12-21_22-05-03.jpg","name":"","categories":["animals"],"text":"","description":"","tags":["monkey"],"w":1024,"h":962,"color":"#646560","thumb":"memes/thumbs/photo_61_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_62_2025-12-21_22-05-03.jpg","name":"","categories":["people"],"text":"","description":"","tags":["john-cena","john","cena"],"w":1024,"h":1024,"color":"#926059","thumb":"memes/thumbs/photo_62_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_64_2025-12-21_22-05-03.jpg","name":"","categories":["templates","memes"],"text":"","description":"","tags":["waiting","pablo"],"w":977,"h":977,"color":"#606459","thumb":"memes/thumbs/photo_64_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_65_2025-12-21_22-05-03.jpg","name":"","categories":["people"],"text":"too pretty for a job","description":"","tags":["paris","hilton","girl","pretty"],"w":848,"h":1024,"color":"#564d4a","thumb":"memes/thumbs/photo_65_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_7_2025-12-14_20-22-23.jpg","name":"","categories":["animals"],"text":"","description":"","tags":["cat","phone","sad"],"w":1024,"h":962,"color":"#2e2d2c","thumb":"memes/thumbs/photo_7_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_8_2025-12-14_20-22-23.jpg","name":"","categories":["lil shid","emotions"],"text":"","description":"","tags":["lil-shid","inversebrah","cry","crying"],"w":977,"h":1107,"color":"#c7ccc1","thumb":"memes/thumbs/photo_8_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_8_2025-12-21_22-05-03.jpg","name":"","categories":["people"],"text":"LOOK AT ME I'M THE EMONOW","description":"","tags":["abdul"],"w":400,"h":400,"color":"#555248","thumb":"memes/thumbs/photo_8_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_8_2026-01-01_20-19-59.jpg","name":"","categories":["memes"],"text":"","description":"","tags":["captain","emo"],"w":1024,"h":1024,"color":"#a7a193","thumb":"memes/thumbs/photo_8_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"photo_9_2025-12-14_20-22-23.jpg","name":"","categories":["people"],"text":"","description":"","tags":["nikki"],"w":664,"h":609,"color":"#855287","thumb":"memes/thumbs/photo_9_2025-12-14_20-22-23.webp","added":"2026-05-19"},
+{"file":"photo_9_2025-12-21_22-05-03.jpg","name":"","categories":["people","collabs"],"text":"","description":"","tags":["lil-mon","lilmon","nadfun"],"w":400,"h":400,"color":"#787d82","thumb":"memes/thumbs/photo_9_2025-12-21_22-05-03.webp","added":"2026-05-19"},
+{"file":"photo_9_2026-01-01_20-19-59.jpg","name":"","categories":["memes","emotions"],"text":"","description":"","tags":["happy","sad"],"w":977,"h":977,"color":"#80838f","thumb":"memes/thumbs/photo_9_2026-01-01_20-19-59.webp","added":"2026-05-19"},
+{"file":"president.jpg","name":"","categories":["emonad","monad","random"],"text":"$EMO","description":"","tags":["emo"],"w":2048,"h":2048,"color":"#363545","thumb":"memes/thumbs/president.webp","added":"2026-05-19"},
+{"file":"pumpbags.jpg","name":"","categories":["memes"],"text":"BAGS PUMPFUN NAD FUN","description":"","tags":["nadfun","pumpfun","bags"],"w":1280,"h":1280,"color":"#6a6872","thumb":"memes/thumbs/pumpbags.webp","added":"2026-05-19"},
+{"file":"PV1xq.jpg","name":"","categories":["random"],"text":"","description":"","tags":["skate","park","board","skating"],"w":1024,"h":1024,"color":"#768487","thumb":"memes/thumbs/PV1xq.webp","added":"2026-05-19"},
+{"file":"red.jpg","name":"","categories":["templates","bearish"],"text":"","description":"","tags":["phone","red"],"w":1024,"h":1024,"color":"#624c4e","thumb":"memes/thumbs/red.webp","added":"2026-05-19"},
+{"file":"retard.jpg","name":"","categories":["memes"],"text":"FREE ADVICE!","description":"","tags":["retarded","retard","advice"],"w":1024,"h":1024,"color":"#756486","thumb":"memes/thumbs/retard.webp","added":"2026-05-19"},
+{"file":"right.jpg","name":"","categories":["templates"],"text":"BABE $EMO IS PUMPING YOU SOLD RIGHT? RIGHT?","description":"","tags":["right?","right"],"w":500,"h":500,"color":"#5c4e39","thumb":"memes/thumbs/right.webp","added":"2026-05-19"},
+{"file":"right2.jpg","name":"","categories":["memes"],"text":"BABE $EMO IS PUMPING YOU SOLD RIGHT? RIGHT?","description":"","tags":["sold","pumping","hold","hodl"],"w":500,"h":500,"color":"#625440","thumb":"memes/thumbs/right2.webp","added":"2026-05-19"},
+{"file":"ring.jpg","name":"","categories":["random"],"text":"","description":"","tags":["habibi","yallah"],"w":2048,"h":2048,"color":"#a9b0b8","thumb":"memes/thumbs/ring.webp","added":"2026-05-19"},
+{"file":"sendit.jpg","name":"","categories":["memes","bullish"],"text":"FUCKING SEND IT","description":"","tags":["fucking","send","it","spongebob","rainbow"],"w":1935,"h":1867,"color":"#737776","thumb":"memes/thumbs/sendit.webp","added":"2026-05-19"},
+{"file":"sheep.jpg","name":"","categories":["animals"],"text":"","description":"","tags":["sheep","sleepy","sleeping"],"w":1024,"h":1024,"color":"#586379","thumb":"memes/thumbs/sheep.webp","added":"2026-05-19"},
+{"file":"shid.jpg","name":"","categories":["lil shid"],"text":"EMOLINED?","description":"","tags":["lil-shid","inversebrah","emolined"],"w":1024,"h":1024,"color":"#586558","thumb":"memes/thumbs/shid.webp","added":"2026-05-19"},
+{"file":"shidhand.jpg","name":"","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","inversebrah"],"w":1280,"h":1221,"color":"#cbcacb","thumb":"memes/thumbs/shidhand.webp","added":"2026-05-19"},
+{"file":"shidhand2.jpg","name":"","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","inversebrah","sqish"],"w":1280,"h":1280,"color":"#cfcbcc","thumb":"memes/thumbs/shidhand2.webp","added":"2026-05-19"},
+{"file":"signs.jpg","name":"","categories":["templates"],"text":"LEFT EXIT 12 DON'T MAKE ME TAP THE SIGN","description":"","tags":["motor-cycle"],"w":1024,"h":1536,"color":"#6c7884","thumb":"memes/thumbs/signs.webp","added":"2026-05-19"},
+{"file":"silicon valley.jpg","name":"","categories":["random"],"text":"","description":"","tags":["pied","piper","smoking","cig","cigarette"],"w":1024,"h":1024,"color":"#676e59","thumb":"memes/thumbs/silicon valley.webp","added":"2026-05-19"},
+{"file":"sink.jpg","name":"","categories":["people"],"text":"","description":"","tags":["elon","sink","let","that","in"],"w":909,"h":502,"color":"#917e74","thumb":"memes/thumbs/sink.webp","added":"2026-05-19"},
+{"file":"site banner.png","name":"","categories":["emonad"],"text":"","description":"","tags":["banner"],"w":1500,"h":500,"color":"#afa9ad","thumb":"memes/thumbs/site banner.webp","added":"2026-05-19"},
+{"file":"space.jpg","name":"","categories":["templates"],"text":"","description":"","tags":["always","has","been","space","gun"],"w":1536,"h":1024,"color":"#3f404a","thumb":"memes/thumbs/space.webp","added":"2026-05-19"},
+{"file":"tired.jpg","name":"","categories":["random"],"text":"","description":"","tags":["smoking","cig"],"w":1024,"h":747,"color":"#5a4844","thumb":"memes/thumbs/tired.webp","added":"2026-05-19"},
+{"file":"tired2.jpg","name":"","categories":["memes","templates"],"text":"","description":"","tags":["wojak","tired"],"w":1024,"h":1024,"color":"#c2bcc5","thumb":"memes/thumbs/tired2.webp","added":"2026-05-19"},
+{"file":"tool.jpg","name":"","categories":["random"],"text":"","description":"","tags":["build","building","hammer","wrench","tools"],"w":680,"h":680,"color":"#d0ced0","thumb":"memes/thumbs/tool.webp","added":"2026-05-19"},
+{"file":"trump.jpg","name":"","categories":["people"],"text":"TRUMP TOWER 721 Fifth Avenue","description":"","tags":["trump","donald"],"w":1280,"h":1280,"color":"#3f3e43","thumb":"memes/thumbs/trump.webp","added":"2026-05-19"},
+{"file":"unnamed (10).jpg","name":"","categories":["memes","bagwork"],"text":"0.5%","description":"","tags":["gun","shoot","god","work"],"w":1024,"h":1024,"color":"#e6e5e6","thumb":"memes/thumbs/unnamed (10).webp","added":"2026-05-19"},
+{"file":"unnamed.jpg","name":"","categories":["bearish","memes"],"text":"","description":"","tags":["pump","dump","nuke"],"w":1024,"h":1024,"color":"#fcfcfc","thumb":"memes/thumbs/unnamed.webp","added":"2026-05-19"},
+{"file":"w3ikn.jpg","name":"","categories":["music","random"],"text":"","description":"","tags":["headphones","subway","train"],"w":1024,"h":1024,"color":"#373d44","thumb":"memes/thumbs/w3ikn.webp","added":"2026-05-19"},
+{"file":"whale.png","name":"","categories":["collabs"],"text":"","description":"","tags":["white","whale","lord","emo"],"w":816,"h":568,"color":"#494e58","thumb":"memes/thumbs/whale.webp","added":"2026-05-19"},
+{"file":"wheelof.jpg","name":"","categories":["memes"],"text":"THE TICKER IS $EMO","description":"","tags":["wheel","of","fortune","emo"],"w":977,"h":977,"color":"#b7beb9","thumb":"memes/thumbs/wheelof.webp","added":"2026-05-19"},
+{"file":"YdYv0.jpg","name":"","categories":["music","templates"],"text":"","description":"","tags":["guitar","band","music"],"w":1024,"h":1024,"color":"#3c3a3f","thumb":"memes/thumbs/YdYv0.webp","added":"2026-05-19"},
+{"file":"lil shit.mp4","name":"","categories":["lil shid"],"text":"","description":"","tags":["inversebrah","lil-shid","hair"],"w":1150,"h":1080,"color":"#8ea89e","thumb":"memes/thumbs/lil shit.webp","added":"2026-05-19"},
+{"file":"26z46.jpg","name":"Emonad in smiley face slippers","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","slippers","smiley-face","yellow","fuzzy","cozy","full-body"],"w":1024,"h":1024,"color":"#dfdcdd","thumb":"memes/thumbs/26z46.webp","added":"2026-05-19"},
+{"file":"4lCt4.jpg","name":"Emonad in red high-tops","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","sneakers","high-tops","red","converse","full-body"],"w":1024,"h":1024,"color":"#dfdbde","thumb":"memes/thumbs/4lCt4.webp","added":"2026-05-19"},
+{"file":"6Apol.jpg","name":"Emonad in orange sneakers","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","sneakers","low-tops","orange","full-body"],"w":1024,"h":1024,"color":"#dfdcde","thumb":"memes/thumbs/6Apol.webp","added":"2026-05-19"},
+{"file":"6XJeF.jpg","name":"Emonad in red sneakers","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","sneakers","low-tops","red","full-body"],"w":1024,"h":1024,"color":"#dedbdd","thumb":"memes/thumbs/6XJeF.webp","added":"2026-05-19"},
+{"file":"AYpgE.jpg","name":"Emonad in blue sneakers","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","sneakers","low-tops","blue","full-body"],"w":1024,"h":1024,"color":"#dddcdf","thumb":"memes/thumbs/AYpgE.webp","added":"2026-05-19"},
+{"file":"C3FXj.jpg","name":"Emonad in light blue sneakers","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","sneakers","low-tops","light-blue","cyan","full-body"],"w":1024,"h":1024,"color":"#dddddf","thumb":"memes/thumbs/C3FXj.webp","added":"2026-05-19"},
+{"file":"EBa8F.jpg","name":"Emonad in dragon claw boots","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","boots","dragon","claws","spikes","purple","monster","full-body"],"w":1024,"h":1024,"color":"#dbd9dc","thumb":"memes/thumbs/EBa8F.webp","added":"2026-05-19"},
+{"file":"JHRF2.jpg","name":"Emonad in grey sneakers","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","sneakers","low-tops","grey","gray","full-body"],"w":1024,"h":1024,"color":"#dedcde","thumb":"memes/thumbs/JHRF2.webp","added":"2026-05-19"},
+{"file":"LnumI.jpg","name":"Emonad in brown work boots","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","boots","work-boots","brown","leather","full-body"],"w":1024,"h":1024,"color":"#dcdadc","thumb":"memes/thumbs/LnumI.webp","added":"2026-05-19"},
+{"file":"Los8w.jpg","name":"Emonad in black sneakers","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","sneakers","low-tops","black","full-body"],"w":1024,"h":1024,"color":"#dddbde","thumb":"memes/thumbs/Los8w.webp","added":"2026-05-19"},
+{"file":"ML3i5.jpg","name":"Emonad in pink bunny slippers","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","slippers","bunny","pink","fuzzy","cute","full-body"],"w":1024,"h":1024,"color":"#dedbde","thumb":"memes/thumbs/ML3i5.webp","added":"2026-05-19"},
+{"file":"MOEQi.jpg","name":"Emonad in pink high-tops","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","sneakers","high-tops","pink","converse","full-body"],"w":1024,"h":1024,"color":"#dedcde","thumb":"memes/thumbs/MOEQi.webp","added":"2026-05-19"},
+{"file":"NLfwV.jpg","name":"Emonad in sheep slippers","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","slippers","sheep","fluffy","animal","cute","full-body"],"w":1024,"h":1024,"color":"#dedcde","thumb":"memes/thumbs/NLfwV.webp","added":"2026-05-19"},
+{"file":"O6nLr.jpg","name":"Emonad in rainbow platform boots","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","boots","platform-boots","rainbow","colorful","full-body"],"w":1024,"h":1024,"color":"#dddadc","thumb":"memes/thumbs/O6nLr.webp","added":"2026-05-19"},
+{"file":"Rzu7S.jpg","name":"Emonad in penguin slippers","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","slippers","penguin","animal","cute","full-body"],"w":1024,"h":1024,"color":"#dddcde","thumb":"memes/thumbs/Rzu7S.webp","added":"2026-05-19"},
+{"file":"SbKnt.jpg","name":"Emonad in ghost slippers","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","slippers","ghost","spooky","halloween","white","full-body"],"w":1024,"h":1024,"color":"#dedddf","thumb":"memes/thumbs/SbKnt.webp","added":"2026-05-19"},
+{"file":"Y7C8t.jpg","name":"Emonad in swim flippers","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","flippers","swim","diving","beach","black","full-body"],"w":1024,"h":1024,"color":"#dcdbdd","thumb":"memes/thumbs/Y7C8t.webp","added":"2026-05-19"},
+{"file":"bQpZn.jpg","name":"Emonad in yellow sneakers","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","sneakers","low-tops","yellow","full-body"],"w":1024,"h":1024,"color":"#dfddde","thumb":"memes/thumbs/bQpZn.webp","added":"2026-05-19"},
+{"file":"dXKqz.jpg","name":"Emonad in black high-tops","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","sneakers","high-tops","black","converse","chucks","full-body"],"w":1024,"h":1024,"color":"#dddcde","thumb":"memes/thumbs/dXKqz.webp","added":"2026-05-19"},
+{"file":"dmHqy.jpg","name":"Emonad in robot boots","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","boots","robot","mech","sci-fi","glowing","futuristic","full-body"],"w":1024,"h":1024,"color":"#dddddf","thumb":"memes/thumbs/dmHqy.webp","added":"2026-05-19"},
+{"file":"dzw6a.jpg","name":"Emonad in duck slippers","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","slippers","duck","yellow","animal","cute","full-body"],"w":1024,"h":1024,"color":"#dedcdd","thumb":"memes/thumbs/dzw6a.webp","added":"2026-05-19"},
+{"file":"hzACS.jpg","name":"Emonad in checkered sneakers","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","sneakers","checkered","vans","skater","black-and-white","full-body"],"w":1024,"h":1024,"color":"#dedcde","thumb":"memes/thumbs/hzACS.webp","added":"2026-05-19"},
+{"file":"iKA08.jpg","name":"Emonad in pink slip-ons","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","slip-ons","pink","vans","full-body"],"w":1024,"h":1024,"color":"#dedcdf","thumb":"memes/thumbs/iKA08.webp","added":"2026-05-19"},
+{"file":"lC2SA.jpg","name":"Emonad in purple skate high-tops","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","sneakers","high-tops","skate-shoes","purple","white","vans","full-body"],"w":1024,"h":1024,"color":"#dedcdf","thumb":"memes/thumbs/lC2SA.webp","added":"2026-05-19"},
+{"file":"m7bTd.jpg","name":"Emonad in grey high-tops","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","sneakers","high-tops","grey","gray","converse","full-body"],"w":1024,"h":1024,"color":"#dedcde","thumb":"memes/thumbs/m7bTd.webp","added":"2026-05-19"},
+{"file":"rXPCb.jpg","name":"Emonad in wizard boots","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","boots","wizard","purple","stars","moons","magic","full-body"],"w":1024,"h":1024,"color":"#dddade","thumb":"memes/thumbs/rXPCb.webp","added":"2026-05-19"},
+{"file":"u7SGK.jpg","name":"Emonad in green sneakers","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","sneakers","low-tops","green","full-body"],"w":1024,"h":1024,"color":"#dddcdd","thumb":"memes/thumbs/u7SGK.webp","added":"2026-05-19"},
+{"file":"w61yT.jpg","name":"Emonad in unicorn slippers","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","slippers","unicorn","pink","rainbow","fuzzy","cute","full-body"],"w":1024,"h":1024,"color":"#dfdbde","thumb":"memes/thumbs/w61yT.webp","added":"2026-05-19"},
+{"file":"y5gug.jpg","name":"Emonad in dinosaur claw slippers","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","slippers","dinosaur","claws","green","monster","full-body"],"w":1024,"h":1024,"color":"#dbdbdc","thumb":"memes/thumbs/y5gug.webp","added":"2026-05-19"},
+{"file":"zMzWm.jpg","name":"Emonad in green high-tops","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","sneakers","high-tops","green","converse","full-body"],"w":1024,"h":1024,"color":"#dddcde","thumb":"memes/thumbs/zMzWm.webp","added":"2026-05-19"},
+{"file":"zafQQ.jpg","name":"Emonad in black slip-ons","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","slip-ons","black","vans","skater","full-body"],"w":1024,"h":1024,"color":"#dddcde","thumb":"memes/thumbs/zafQQ.webp","added":"2026-05-19"},
+{"file":"zfoLN.jpg","name":"Emonad in white slip-ons","categories":["shoes"],"text":"","description":"","tags":["emonad","shoes","slip-ons","white","purple","vans","full-body"],"w":1024,"h":1024,"color":"#dedddf","thumb":"memes/thumbs/zfoLN.webp","added":"2026-05-19"},
+{"file":"image (1)0.jpg","name":"Emonad in a brown fedora","categories":["hats"],"text":"","description":"","tags":["emonad","hat","fedora","brown","indiana-jones","explorer","full-body"],"w":1024,"h":1024,"color":"#dedcdc","thumb":"memes/thumbs/image (1)0.webp","added":"2026-05-19"},
+{"file":"image (52).jpg","name":"Emonad in a cowboy hat","categories":["hats"],"text":"","description":"","tags":["emonad","hat","cowboy-hat","cowboy","western","yeehaw","brown","full-body"],"w":1024,"h":1024,"color":"#dedcdd","thumb":"memes/thumbs/image (52).webp","added":"2026-05-19"},
+{"file":"image (53).jpg","name":"Emonad in a bucket hat","categories":["hats"],"text":"","description":"","tags":["emonad","hat","bucket-hat","white","summer","full-body"],"w":1024,"h":1024,"color":"#e2e1e2","thumb":"memes/thumbs/image (53).webp","added":"2026-05-19"},
+{"file":"image (54).jpg","name":"Emonad in a viking helmet","categories":["hats"],"text":"","description":"","tags":["emonad","hat","helmet","viking","horns","warrior","full-body"],"w":1024,"h":1024,"color":"#e0dfe0","thumb":"memes/thumbs/image (54).webp","added":"2026-05-19"},
+{"file":"image (55).jpg","name":"Emonad wearing a crown","categories":["hats"],"text":"","description":"","tags":["emonad","hat","crown","king","gold","royal","full-body"],"w":1024,"h":1024,"color":"#e1dfde","thumb":"memes/thumbs/image (55).webp","added":"2026-05-19"},
+{"file":"image (56).jpg","name":"Emonad in a hard hat","categories":["hats"],"text":"","description":"","tags":["emonad","hat","hard-hat","construction","builder","yellow","work","full-body"],"w":1024,"h":1024,"color":"#e3e1dc","thumb":"memes/thumbs/image (56).webp","added":"2026-05-19"},
+{"file":"image (57).jpg","name":"Emonad in an army helmet","categories":["hats"],"text":"","description":"","tags":["emonad","hat","helmet","army","military","soldier","green","full-body"],"w":1024,"h":1024,"color":"#dddddc","thumb":"memes/thumbs/image (57).webp","added":"2026-05-19"},
+{"file":"image (58).jpg","name":"Emonad in a knight helmet","categories":["hats"],"text":"","description":"","tags":["emonad","hat","helmet","knight","medieval","armor","gladiator","full-body"],"w":1024,"h":1024,"color":"#e1e0e1","thumb":"memes/thumbs/image (58).webp","added":"2026-05-19"},
+{"file":"image (59).jpg","name":"Emonad in a white turban","categories":["hats"],"text":"","description":"","tags":["emonad","hat","turban","headwrap","white","full-body"],"w":1024,"h":1024,"color":"#e3e2e3","thumb":"memes/thumbs/image (59).webp","added":"2026-05-19"},
+{"file":"image (60).jpg","name":"Emonad in a motorcycle helmet","categories":["hats"],"text":"","description":"","tags":["emonad","hat","helmet","motorcycle","biker","full-face","black","full-body"],"w":1024,"h":1024,"color":"#dbdbdb","thumb":"memes/thumbs/image (60).webp","added":"2026-05-19"},
+{"file":"image (61).jpg","name":"Emonad in a straw sun hat","categories":["hats"],"text":"","description":"","tags":["emonad","hat","straw-hat","sun-hat","farmer","summer","beach","full-body"],"w":1024,"h":1024,"color":"#dcdad9","thumb":"memes/thumbs/image (61).webp","added":"2026-05-19"},
+{"file":"image (62).jpg","name":"Emonad in a police cap","categories":["hats"],"text":"","description":"","tags":["emonad","hat","police","cop","badge","uniform","full-body"],"w":1024,"h":1024,"color":"#dcdbdd","thumb":"memes/thumbs/image (62).webp","added":"2026-05-19"},
+{"file":"image (63).jpg","name":"Emonad in a straw boater","categories":["hats"],"text":"","description":"","tags":["emonad","hat","boater","straw-hat","vintage","dapper","full-body"],"w":1024,"h":1024,"color":"#dfdddd","thumb":"memes/thumbs/image (63).webp","added":"2026-05-19"},
+{"file":"image (64).jpg","name":"Emonad in a pork pie hat","categories":["hats"],"text":"","description":"","tags":["emonad","hat","pork-pie","black","heisenberg","breaking-bad","full-body"],"w":1024,"h":1024,"color":"#dbdadc","thumb":"memes/thumbs/image (64).webp","added":"2026-05-19"},
+{"file":"image (65).jpg","name":"Emonad in a safari helmet","categories":["hats"],"text":"","description":"","tags":["emonad","hat","pith-helmet","safari","explorer","khaki","full-body"],"w":1024,"h":1024,"color":"#e0dfdf","thumb":"memes/thumbs/image (65).webp","added":"2026-05-19"},
+{"file":"image (66).jpg","name":"Emonad in a diving helmet","categories":["hats"],"text":"","description":"","tags":["emonad","hat","helmet","diving","deep-sea","diver","brass","underwater","full-body"],"w":1024,"h":1024,"color":"#e2e0df","thumb":"memes/thumbs/image (66).webp","added":"2026-05-19"},
+{"file":"image (67).jpg","name":"Emonad as a pharaoh","categories":["hats"],"text":"","description":"","tags":["emonad","hat","pharaoh","egypt","king-tut","headdress","gold","full-body"],"w":1024,"h":1024,"color":"#dededb","thumb":"memes/thumbs/image (67).webp","added":"2026-05-19"},
+{"file":"image (68).jpg","name":"Emonad in a grey fedora","categories":["hats"],"text":"","description":"","tags":["emonad","hat","fedora","trilby","grey","mlady","full-body"],"w":1024,"h":1024,"color":"#deddde","thumb":"memes/thumbs/image (68).webp","added":"2026-05-19"},
+{"file":"image (69).jpg","name":"Emonad in a panama hat","categories":["hats"],"text":"","description":"","tags":["emonad","hat","panama-hat","straw-hat","summer","vacation","full-body"],"w":1024,"h":1024,"color":"#e1e0e0","thumb":"memes/thumbs/image (69).webp","added":"2026-05-19"},
+{"file":"image (70).jpg","name":"Emonad in a hockey helmet","categories":["hats"],"text":"","description":"","tags":["emonad","hat","helmet","hockey","sports","face-cage","full-body"],"w":1024,"h":1024,"color":"#dadadb","thumb":"memes/thumbs/image (70).webp","added":"2026-05-19"},
+{"file":"image (71).jpg","name":"Emonad in a leprechaun hat","categories":["hats"],"text":"","description":"","tags":["emonad","hat","leprechaun","st-patricks-day","irish","green","top-hat","luck","full-body"],"w":1024,"h":1024,"color":"#dddfdd","thumb":"memes/thumbs/image (71).webp","added":"2026-05-19"},
+{"file":"image (72).jpg","name":"Emonad in a knit chullo","categories":["hats"],"text":"","description":"","tags":["emonad","hat","beanie","chullo","knit","winter","colorful","peru","full-body"],"w":1024,"h":1024,"color":"#e2dfe0","thumb":"memes/thumbs/image (72).webp","added":"2026-05-19"},
+{"file":"image (73).jpg","name":"Emonad in a top hat","categories":["hats"],"text":"","description":"","tags":["emonad","hat","top-hat","black","fancy","gentleman","full-body"],"w":1024,"h":1024,"color":"#deddde","thumb":"memes/thumbs/image (73).webp","added":"2026-05-19"},
+{"file":"image (74).jpg","name":"Emonad in a feather headdress","categories":["hats"],"text":"","description":"","tags":["emonad","hat","headdress","feathers","war-bonnet","full-body"],"w":1024,"h":1024,"color":"#dbdada","thumb":"memes/thumbs/image (74).webp","added":"2026-05-19"},
+{"file":"image (75).jpg","name":"Emonad in a conical straw hat","categories":["hats"],"text":"","description":"","tags":["emonad","hat","conical-hat","rice-hat","farmer","green","full-body"],"w":1024,"h":1024,"color":"#dddfdc","thumb":"memes/thumbs/image (75).webp","added":"2026-05-19"},
+{"file":"image (76).jpg","name":"Emonad in a black fur hat","categories":["hats"],"text":"","description":"","tags":["emonad","hat","fur-hat","black","winter","russian","cossack","full-body"],"w":1024,"h":1024,"color":"#dcdbdd","thumb":"memes/thumbs/image (76).webp","added":"2026-05-19"},
+{"file":"image (77).jpg","name":"Emonad in a red biretta","categories":["hats"],"text":"","description":"","tags":["emonad","hat","biretta","cardinal","priest","catholic","red","full-body"],"w":1024,"h":1024,"color":"#e1dcdd","thumb":"memes/thumbs/image (77).webp","added":"2026-05-19"},
+{"file":"image (78).jpg","name":"Emonad in a captain's hat","categories":["hats"],"text":"","description":"","tags":["emonad","hat","captain","sailor","navy","white","full-body"],"w":1024,"h":1024,"color":"#dfdee0","thumb":"memes/thumbs/image (78).webp","added":"2026-05-19"},
+{"file":"image (79).jpg","name":"Emonad in a bike helmet","categories":["hats"],"text":"","description":"","tags":["emonad","hat","helmet","bike","cycling","blue","safety","full-body"],"w":1024,"h":1024,"color":"#dadcdf","thumb":"memes/thumbs/image (79).webp","added":"2026-05-19"},
+{"file":"image (80).jpg","name":"Emonad in a black guard fur hat","categories":["hats"],"text":"","description":"","tags":["emonad","hat","fur-hat","guard","military","black","winter","full-body"],"w":1024,"h":1024,"color":"#dcdbdc","thumb":"memes/thumbs/image (80).webp","added":"2026-05-19"},
+{"file":"image (81).jpg","name":"Emonad in a trapper hat","categories":["hats"],"text":"","description":"","tags":["emonad","hat","trapper-hat","ushanka","fur","brown","winter","full-body"],"w":1024,"h":1024,"color":"#dedddd","thumb":"memes/thumbs/image (81).webp","added":"2026-05-19"},
+{"file":"image (82).jpg","name":"Emonad with a red bandana","categories":["hats"],"text":"","description":"","tags":["emonad","hat","bandana","headband","red","rambo","full-body"],"w":1024,"h":1024,"color":"#dedcde","thumb":"memes/thumbs/image (82).webp","added":"2026-05-19"},
+{"file":"image (83).jpg","name":"Emonad in a Robin Hood hat","categories":["hats"],"text":"","description":"","tags":["emonad","hat","robin-hood","peter-pan","feather","green","full-body"],"w":1024,"h":1024,"color":"#dcdddc","thumb":"memes/thumbs/image (83).webp","added":"2026-05-19"},
+{"file":"image (84).jpg","name":"Emonad in a black wide-brim hat","categories":["hats"],"text":"","description":"","tags":["emonad","hat","fedora","wide-brim","black","purple","full-body"],"w":1024,"h":1024,"color":"#dbdadc","thumb":"memes/thumbs/image (84).webp","added":"2026-05-19"},
+{"file":"image (85).jpg","name":"Emonad in a Napoleon hat","categories":["hats"],"text":"","description":"","tags":["emonad","hat","bicorne","napoleon","pirate","black","full-body"],"w":1024,"h":1024,"color":"#dadadb","thumb":"memes/thumbs/image (85).webp","added":"2026-05-19"},
+{"file":"image (86).jpg","name":"Emonad with a laurel wreath","categories":["hats"],"text":"","description":"","tags":["emonad","hat","laurel-wreath","caesar","roman","emperor","gold","full-body"],"w":1024,"h":1024,"color":"#dfdddd","thumb":"memes/thumbs/image (86).webp","added":"2026-05-19"},
+{"file":"image (87).jpg","name":"Emonad in a ski mask","categories":["hats"],"text":"","description":"","tags":["emonad","hat","ski-mask","balaclava","robber","heist","black","full-body"],"w":1024,"h":1024,"color":"#dfdfdf","thumb":"memes/thumbs/image (87).webp","added":"2026-05-19"},
+{"file":"image (88).jpg","name":"Emonad in a white skullcap","categories":["hats"],"text":"","description":"","tags":["emonad","hat","skullcap","kufi","cap","white","full-body"],"w":1024,"h":1024,"color":"#e0dfe1","thumb":"memes/thumbs/image (88).webp","added":"2026-05-19"},
+{"file":"photo_1_2026-05-01_17-02-02.jpg","name":"Crashing out barbie","categories":["barbie"],"text":"the situation me saying fuck it & crashing out","description":"","tags":["barbie","emo-barbie","doll","fire","lighter","burning-building","crashing-out","the-situation","chaos","arson"],"w":1008,"h":1024,"color":"#604640","thumb":"memes/thumbs/photo_1_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_2_2026-05-01_17-02-02.jpg","name":"Stay calm, the bee won't bother you","categories":["barbie"],"text":"“If you stay calm the bee won’t bother you” Me:","description":"","tags":["barbie","emo-barbie","doll","bee","panic","freaking-out","scared","anxiety","motion-blur"],"w":912,"h":1136,"color":"#7e777c","thumb":"memes/thumbs/photo_2_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_3_2026-05-01_17-02-02.jpg","name":"2026 will be my year","categories":["barbie"],"text":"“2026 will be my year” me in April:","description":"","tags":["barbie","emo-barbie","doll","blood","rubble","tea","new-year","2026","survivor","aftermath","dark-humor"],"w":825,"h":1024,"color":"#463a40","thumb":"memes/thumbs/photo_3_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_4_2026-05-01_17-02-02.jpg","name":"Ray of fkin sunshine","categories":["barbie"],"text":"me trying to be a ray of fkin sunshine","description":"","tags":["barbie","emo-barbie","doll","teletubbies","sun-baby","sunshine","grumpy","frown","sunflowers"],"w":1008,"h":1024,"color":"#70766f","thumb":"memes/thumbs/photo_4_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_5_2026-05-01_17-02-02.jpg","name":"Smiling emo barbie with coffee","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","smile","coffee","mug","sweater","cozy","morning"],"w":1024,"h":1024,"color":"#655870","thumb":"memes/thumbs/photo_5_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_6_2026-05-01_17-02-02.jpg","name":"Taken away in straight jackets","categories":["barbie"],"text":"You just don't see enough people being taken away in straight jackets anymore.","description":"","tags":["barbie","emo-barbie","doll","straitjacket","hospital","asylum","mental-health","crazy","dark-humor"],"w":1056,"h":976,"color":"#a2a1a0","thumb":"memes/thumbs/photo_6_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_7_2026-05-01_17-02-02.jpg","name":"Smoking barbie in a fur coat","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","smoking","cigarette","fur-coat","bar","sneer","attitude"],"w":1008,"h":1024,"color":"#353041","thumb":"memes/thumbs/photo_7_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_8_2026-05-01_17-02-02.jpg","name":"It's been a long week","categories":["barbie"],"text":"It's been a long week","description":"","tags":["barbie","emo-barbie","doll","office","cubicle","computer","work","tired","wagie"],"w":896,"h":1042,"color":"#48474f","thumb":"memes/thumbs/photo_8_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_9_2026-05-01_17-02-02.jpg","name":"Angry barbie at the party","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","angry","mad","party","drink","glitter"],"w":1024,"h":1024,"color":"#58443c","thumb":"memes/thumbs/photo_9_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_10_2026-05-01_17-02-02.jpg","name":"Which personality today","categories":["barbie"],"text":"me trying to decide which personality I’m gonna be today","description":"","tags":["barbie","emo-barbie","doll","doll-heads","personality","choices","creepy","mood"],"w":1110,"h":1178,"color":"#6e5f53","thumb":"memes/thumbs/photo_10_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_11_2026-05-01_17-02-02.jpg","name":"Barbie breaking through the wall","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","breaking-through","cardboard","wall","surprise","smile","hello"],"w":1103,"h":1103,"color":"#a68877","thumb":"memes/thumbs/photo_11_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_12_2026-05-01_17-02-02.jpg","name":"Army barbie in a minefield","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","army","soldier","jeep","explosions","war","driving","military"],"w":896,"h":912,"color":"#6f5b4a","thumb":"memes/thumbs/photo_12_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_13_2026-05-01_17-02-02.jpg","name":"Smoking barbie in a meeting","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","smoking","cigarette","meeting","office","work","bored"],"w":912,"h":1120,"color":"#72797a","thumb":"memes/thumbs/photo_13_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_14_2026-05-01_17-02-02.jpg","name":"Barbie smoking in a snowy doorway","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","smoking","cigarette","puffer-jacket","pink","winter","snow"],"w":848,"h":1232,"color":"#7b818b","thumb":"memes/thumbs/photo_14_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_15_2026-05-01_17-02-02.jpg","name":"Barbie doomscrolling in bed","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","bed","phone","doomscrolling","blanket","lazy"],"w":912,"h":1120,"color":"#7e6863","thumb":"memes/thumbs/photo_15_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_16_2026-05-01_17-02-02.jpg","name":"Exhausted barbie at the office","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","tired","exhausted","eye-bags","office","work","burnout"],"w":976,"h":1056,"color":"#6d645e","thumb":"memes/thumbs/photo_16_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_17_2026-05-01_17-02-02.jpg","name":"Barbie buried in snow smoking","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","snow","buried","smoking","cigarette","winter","cold"],"w":960,"h":1072,"color":"#949894","thumb":"memes/thumbs/photo_17_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_18_2026-05-01_17-02-02.jpg","name":"Arrested for being too emo","categories":["barbie"],"text":"being too emo","description":"","tags":["barbie","emo-barbie","doll","mugshot","arrested","jail","smoking","cigarette","hoodie","too-emo"],"w":944,"h":1088,"color":"#645b5c","thumb":"memes/thumbs/photo_18_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_19_2026-05-01_17-02-02.jpg","name":"Creepy smiling barbie in a hoodie","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","hoodie","smile","creepy","eyeliner","grey"],"w":864,"h":1200,"color":"#8c8588","thumb":"memes/thumbs/photo_19_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_20_2026-05-01_17-02-02.jpg","name":"Gm mug in the snowy woods","categories":["barbie"],"text":"Gm","description":"","tags":["barbie","emo-barbie","doll","gm","coffee","mug","skull","forest","winter","morning"],"w":976,"h":1056,"color":"#425154","thumb":"memes/thumbs/photo_20_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_21_2026-05-01_17-02-02.jpg","name":"Barbie on the hillside","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","nature","hillside","stream","mug","windy","chill","peaceful"],"w":912,"h":1120,"color":"#7f7c6b","thumb":"memes/thumbs/photo_21_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_22_2026-05-01_17-02-02.jpg","name":"Eat shit mug","categories":["barbie"],"text":"Eat Shit","description":"","tags":["barbie","emo-barbie","doll","mug","coffee","eat-shit","forest","porch","polaroid","morning"],"w":976,"h":1056,"color":"#565752","thumb":"memes/thumbs/photo_22_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_23_2026-05-01_17-02-02.jpg","name":"Making progress to be happy again","categories":["barbie"],"text":"another traumatizing event me making progress to be happy again","description":"","tags":["barbie","emo-barbie","doll","fire","burning-house","lake","trauma","selfie","progress","disaster"],"w":1024,"h":1008,"color":"#6a5d57","thumb":"memes/thumbs/photo_23_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_24_2026-05-01_17-02-02.jpg","name":"Monday puffer barbie","categories":["barbie"],"text":"Monday.","description":"","tags":["barbie","emo-barbie","doll","monday","puffer-jacket","pink","snow","winter","cold"],"w":928,"h":1120,"color":"#948488","thumb":"memes/thumbs/photo_24_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_25_2026-05-01_17-02-02.jpg","name":"Windblown barbie on the highway","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","windblown","tongue-out","highway","fire","road-trip","chaos"],"w":833,"h":1024,"color":"#7a6663","thumb":"memes/thumbs/photo_25_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_26_2026-05-01_17-02-02.jpg","name":"Iced coffee while it all burns","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","iced-coffee","sunglasses","fire","this-is-fine","unbothered","burning"],"w":682,"h":736,"color":"#907165","thumb":"memes/thumbs/photo_26_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_27_2026-05-01_17-02-02.jpg","name":"Smoking in the bathtub","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","bathtub","bath","smoking","cigarette","candle","moody"],"w":870,"h":716,"color":"#332e26","thumb":"memes/thumbs/photo_27_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_28_2026-05-01_17-02-02.jpg","name":"Barbie on her phone at night","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","phone","bed","night","doomscrolling","screen-glow","gn"],"w":843,"h":961,"color":"#34282b","thumb":"memes/thumbs/photo_28_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_29_2026-05-01_17-02-02.jpg","name":"Memes IV drip","categories":["barbie"],"text":"MEMES","description":"","tags":["barbie","emo-barbie","doll","hospital","iv-drip","memes","sick","bed","sleeping"],"w":912,"h":1136,"color":"#949193","thumb":"memes/thumbs/photo_29_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_30_2026-05-01_17-02-02.jpg","name":"Wind tunnel hair in the car","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","windblown","messy-hair","car","road-trip","funny"],"w":764,"h":1024,"color":"#5c5550","thumb":"memes/thumbs/photo_30_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_31_2026-05-01_17-02-02.jpg","name":"Smoking in pink pajamas","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","smoking","cigarette","pajamas","pink","bed","morning"],"w":824,"h":941,"color":"#947e79","thumb":"memes/thumbs/photo_31_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_32_2026-05-01_17-02-02.jpg","name":"Drunk barbie with whiskey","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","drunk","whiskey","alcohol","glasses","pink","hungover"],"w":912,"h":1136,"color":"#8f5f63","thumb":"memes/thumbs/photo_32_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_33_2026-05-01_17-02-02.jpg","name":"Fucking Monday","categories":["barbie"],"text":"Fucking Monday","description":"","tags":["barbie","emo-barbie","doll","monday","coffee","newspaper","bed","morning","tired"],"w":1008,"h":1024,"color":"#b39ea0","thumb":"memes/thumbs/photo_33_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_34_2026-05-01_17-02-02.jpg","name":"All part of the process","categories":["barbie"],"text":"It's all part of the process, just keep going.","description":"","tags":["barbie","emo-barbie","doll","fire","messy-hair","motivation","keep-going","chaos","smile"],"w":1024,"h":1024,"color":"#5c5452","thumb":"memes/thumbs/photo_34_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_35_2026-05-01_17-02-02.jpg","name":"Light at the end of the tunnel","categories":["barbie"],"text":"That light at the end of the tunnel? Huge fire.","description":"","tags":["barbie","emo-barbie","doll","fire","puffer-jacket","pink","snow","city","burning","pessimism"],"w":912,"h":1136,"color":"#8f7b67","thumb":"memes/thumbs/photo_35_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_36_2026-05-01_17-02-02.jpg","name":"Did I smoke a bowl earlier","categories":["barbie"],"text":"ONE OF MY FAVORITE GAMES: “DID I SMOKE A BOWL EARLIER OR DID I JUST THINK ABOUT SMOKING A BOWL EARLIER?“","description":"","tags":["barbie","emo-barbie","doll","weed","stoner","high","makeup","vanity","bathrobe"],"w":928,"h":1104,"color":"#9b7874","thumb":"memes/thumbs/photo_36_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_37_2026-05-01_17-02-02.jpg","name":"See you never","categories":["barbie"],"text":"SEE YOU NEVER, SLUTS!","description":"","tags":["barbie","emo-barbie","doll","ufo","flying-saucer","leaving","goodbye","alien","retro"],"w":928,"h":1013,"color":"#ab6e64","thumb":"memes/thumbs/photo_37_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_38_2026-05-01_17-02-02.jpg","name":"Surround myself with positive energy","categories":["barbie"],"text":"\"I need to surround myself with positive energy\" *Binge watches crime and murder documentaries*","description":"","tags":["barbie","emo-barbie","doll","popcorn","true-crime","couch","tv","binge-watching","pajamas"],"w":1024,"h":718,"color":"#7f767a","thumb":"memes/thumbs/photo_38_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_39_2026-05-01_17-02-02.jpg","name":"Mood lately","categories":["barbie"],"text":"mood lately No.","description":"","tags":["barbie","emo-barbie","doll","mood","no","mug","smoking","cigarette","grumpy"],"w":851,"h":1024,"color":"#655c54","thumb":"memes/thumbs/photo_39_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_40_2026-05-01_17-02-02.jpg","name":"Disaster girl barbie","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","disaster-girl","fire","burning-house","smirk","chaos"],"w":1024,"h":1024,"color":"#9e6435","thumb":"memes/thumbs/photo_40_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_41_2026-05-01_17-02-02.jpg","name":"Wild hair barbie smoking in the snow","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","snow","blizzard","smoking","cigarette","messy-hair","winter"],"w":948,"h":1024,"color":"#af9c8a","thumb":"memes/thumbs/photo_41_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_42_2026-05-01_17-02-02.jpg","name":"Smoking a joint in the car","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","joint","weed","smoking","car","road-trip","windblown"],"w":800,"h":1024,"color":"#606a6a","thumb":"memes/thumbs/photo_42_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_43_2026-05-01_17-02-02.jpg","name":"Chainsaw barbie","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","chainsaw","tutu","pink","red-background","psycho","horror"],"w":718,"h":1024,"color":"#923b34","thumb":"memes/thumbs/photo_43_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_44_2026-05-01_17-02-02.jpg","name":"Emo barbie on her laptop","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","laptop","bedroom","band-tee","purple","night","online"],"w":891,"h":722,"color":"#2e1b41","thumb":"memes/thumbs/photo_44_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_45_2026-05-01_17-02-02.jpg","name":"Barbie doing lines","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","cocaine","drugs","straw","sunglasses","party","dark-humor"],"w":747,"h":1024,"color":"#2a1a1d","thumb":"memes/thumbs/photo_45_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_46_2026-05-01_17-02-02.jpg","name":"Adding fuel to the fire","categories":["barbie"],"text":"me adding fuel to the fire the situation","description":"","tags":["barbie","emo-barbie","doll","fire","hose","wildfire","the-situation","chaos","making-it-worse"],"w":1024,"h":962,"color":"#918572","thumb":"memes/thumbs/photo_46_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_47_2026-05-01_17-02-02.jpg","name":"Big hair barbie","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","big-hair","frizzy","smile","closeup","purple-hair"],"w":983,"h":730,"color":"#3d333b","thumb":"memes/thumbs/photo_47_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_48_2026-05-01_17-02-02.jpg","name":"Trying to exist in 2026","categories":["barbie"],"text":"Trying to exist in 2026","description":"","tags":["barbie","emo-barbie","doll","riot","fire","beer","city","street","chaos","2026"],"w":848,"h":1024,"color":"#7f715b","thumb":"memes/thumbs/photo_48_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_49_2026-05-01_17-02-02.jpg","name":"Taking out your opinion","categories":["barbie"],"text":"Your Opinion","description":"","tags":["barbie","emo-barbie","doll","trash","garbage","your-opinion","dont-care","punk","studded-belt"],"w":747,"h":1024,"color":"#494032","thumb":"memes/thumbs/photo_49_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_50_2026-05-01_17-02-02.jpg","name":"Can we talk","categories":["barbie"],"text":"Hi ,can we talk? I want to make things worse.","description":"","tags":["barbie","emo-barbie","doll","fire","puffer-jacket","pink","chaos","toxic","relationships"],"w":747,"h":1024,"color":"#7f5b44","thumb":"memes/thumbs/photo_50_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_51_2026-05-01_17-02-02.jpg","name":"Plans made in a good mood","categories":["barbie"],"text":"When you made plans while in a good mood but now the time has finally come..","description":"","tags":["barbie","emo-barbie","doll","plans","cafe","sunglasses","antisocial","regret","introvert"],"w":1024,"h":786,"color":"#67665e","thumb":"memes/thumbs/photo_51_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_52_2026-05-01_17-02-02.jpg","name":"Looking for the audacity","categories":["barbie"],"text":"Still riding around looking for The Audacity","description":"","tags":["barbie","emo-barbie","doll","pink-car","convertible","driving","audacity","sassy"],"w":1024,"h":1024,"color":"#987291","thumb":"memes/thumbs/photo_52_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_53_2026-05-01_17-02-02.jpg","name":"My intuition was right","categories":["barbie"],"text":"when my intuition was right and I wasn’t insane","description":"","tags":["barbie","emo-barbie","doll","intuition","vindicated","smug","city-lights","bokeh"],"w":848,"h":1024,"color":"#44364b","thumb":"memes/thumbs/photo_53_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_54_2026-05-01_17-02-02.jpg","name":"I warned him 7 times","categories":["barbie"],"text":"after I warned him 7 times not to play with me:","description":"","tags":["barbie","emo-barbie","doll","prison","jail","jumpsuit","orange","handcuffs","crazy-ex"],"w":796,"h":1024,"color":"#4d4142","thumb":"memes/thumbs/photo_54_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_55_2026-05-01_17-02-02.jpg","name":"Sorry I'm late","categories":["barbie"],"text":"Sorry i’m late. i didn’t want to fucking come.","description":"","tags":["barbie","emo-barbie","doll","late","antisocial","dog","leash","punk","ripped-jeans"],"w":1024,"h":1024,"color":"#b3aaa9","thumb":"memes/thumbs/photo_55_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_56_2026-05-01_17-02-02.jpg","name":"Three bowls for breakfast","categories":["barbie"],"text":"i had 3 bowls for breakfast! none of them were cereal","description":"","tags":["barbie","emo-barbie","doll","mermaid","weed","stoner","breakfast","bowls","high"],"w":1024,"h":747,"color":"#d5cbd2","thumb":"memes/thumbs/photo_56_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_57_2026-05-01_17-02-02.jpg","name":"Gm mug barbie","categories":["barbie"],"text":"Gm","description":"","tags":["barbie","emo-barbie","doll","gm","coffee","mug","morning","sip"],"w":683,"h":687,"color":"#615b57","thumb":"memes/thumbs/photo_57_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_58_2026-05-01_17-02-02.jpg","name":"Pouty barbie","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","pout","grumpy","sad","closeup","big-hair"],"w":1024,"h":904,"color":"#4c413d","thumb":"memes/thumbs/photo_58_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_59_2026-05-01_17-02-02.jpg","name":"Barbie in the war zone","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","war","fire","rubble","city","apocalypse","sad"],"w":1024,"h":962,"color":"#6d634d","thumb":"memes/thumbs/photo_59_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_60_2026-05-01_17-02-02.jpg","name":"Sipping a drink in the apocalypse","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","drink","straw","fire","riot","city","apocalypse","unbothered"],"w":796,"h":1024,"color":"#85745e","thumb":"memes/thumbs/photo_60_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_61_2026-05-01_17-02-02.jpg","name":"Barely Wednesday","categories":["barbie"],"text":"When you already gave it your all and it's barely Wednesday","description":"","tags":["barbie","emo-barbie","doll","wednesday","tired","burnout","smudged-makeup","workweek"],"w":1024,"h":1024,"color":"#a8938b","thumb":"memes/thumbs/photo_61_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_62_2026-05-01_17-02-02.jpg","name":"Woke up this morning like","categories":["barbie"],"text":"woke up this morning like","description":"","tags":["barbie","emo-barbie","doll","morning","wake-up","messy-hair","smudged-makeup","rough-morning"],"w":1024,"h":1024,"color":"#c8c3c2","thumb":"memes/thumbs/photo_62_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_63_2026-05-01_17-02-02.jpg","name":"Vacuuming while smoking","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","vacuum","cleaning","chores","smoking","cigarette","housewife"],"w":683,"h":1024,"color":"#615742","thumb":"memes/thumbs/photo_63_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_64_2026-05-01_17-02-02.jpg","name":"Bad hair day barbie","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","messy-hair","bad-hair-day","disheveled","tired","wild-hair"],"w":1024,"h":962,"color":"#584e4a","thumb":"memes/thumbs/photo_64_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_65_2026-05-01_17-02-02.jpg","name":"Emo guy with purple fringe","categories":["barbie"],"text":"","description":"","tags":["human-emonad","emo-guy","photo","purple-hair","emo-hair","side-fringe","eyeliner","serious"],"w":977,"h":1041,"color":"#584141","thumb":"memes/thumbs/photo_65_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_66_2026-05-01_17-02-02.jpg","name":"Emo barbie praying with a tear (alt)","categories":["barbie"],"text":"","description":"","tags":["barbie","emo-barbie","doll","praying","tear","crying","purple-hair","sad","hope"],"w":977,"h":1180,"color":"#433438","thumb":"memes/thumbs/photo_66_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_67_2026-05-01_17-02-02.jpg","name":"Bitch you stress me out","categories":["barbie"],"text":"me to me: bitch you stress me out","description":"","tags":["barbie","emo-barbie","doll","stress","self-talk","anxiety","galaxy","sparkles"],"w":1024,"h":1024,"color":"#514667","thumb":"memes/thumbs/photo_67_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_68_2026-05-01_17-02-02.jpg","name":"GTFO mug headache","categories":["barbie"],"text":"GTFO","description":"","tags":["barbie","emo-barbie","doll","headache","gtfo","mug","coffee","cigarette","stressed","morning"],"w":904,"h":1024,"color":"#6a6a66","thumb":"memes/thumbs/photo_68_2026-05-01_17-02-02.webp","added":"2026-05-19"},
+{"file":"photo_1_2026-05-01_20-18-24.jpg","name":"Lil shid took off the pepe suit","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","pepe","frog","stick-figure","pepe-suit","costume","computer","desk","comic"],"w":1024,"h":1024,"color":"#c3c5c2","thumb":"memes/thumbs/photo_1_2026-05-01_20-18-24.webp","added":"2026-05-19"},
+{"file":"photo_2_2026-05-01_20-18-24.jpg","name":"Lil shid flipping off in Pit Vipers","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","pepe","frog","middle-finger","sunglasses","pit-viper","red-eyes","attitude"],"w":1024,"h":1024,"color":"#44413e","thumb":"memes/thumbs/photo_2_2026-05-01_20-18-24.webp","added":"2026-05-19"},
+{"file":"photo_3_2026-05-01_20-18-24.jpg","name":"Lil shid in a niqab","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","pepe","frog","niqab","veil","grin","smile","black"],"w":1152,"h":1152,"color":"#aaa9a6","thumb":"memes/thumbs/photo_3_2026-05-01_20-18-24.webp","added":"2026-05-19"},
+{"file":"photo_4_2026-05-01_20-18-24.jpg","name":"Chibi lil shid crying","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","pepe","frog","chibi","crying","sad","big-eyes","cute"],"w":1024,"h":577,"color":"#cfd0cf","thumb":"memes/thumbs/photo_4_2026-05-01_20-18-24.webp","added":"2026-05-19"},
+{"file":"photo_5_2026-05-01_20-18-24.jpg","name":"Shocked lil shid looking back","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","pepe","frog","shocked","surprised","looking-back","wide-eyes","side-eye"],"w":1024,"h":1024,"color":"#8e918d","thumb":"memes/thumbs/photo_5_2026-05-01_20-18-24.webp","added":"2026-05-19"},
+{"file":"photo_6_2026-05-01_20-18-24.jpg","name":"Fluffy chibi lil shid","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","pepe","frog","chibi","fluffy-hair","tiny","big-eyes","cute"],"w":1024,"h":585,"color":"#cececf","thumb":"memes/thumbs/photo_6_2026-05-01_20-18-24.webp","added":"2026-05-19"},
+{"file":"photo_7_2026-05-01_20-18-24.jpg","name":"Lil shid smoking against the wall","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","pepe","frog","smoking","cigarette","wall","shadow","loner","chill"],"w":1024,"h":585,"color":"#a4a8a2","thumb":"memes/thumbs/photo_7_2026-05-01_20-18-24.webp","added":"2026-05-19"},
+{"file":"photo_8_2026-05-01_20-18-24.jpg","name":"Lil shid eating pizza on the couch","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","pepe","frog","pizza","couch","tv","food","lazy","3d"],"w":585,"h":1024,"color":"#605764","thumb":"memes/thumbs/photo_8_2026-05-01_20-18-24.webp","added":"2026-05-19"},
+{"file":"photo_9_2026-05-01_20-18-24.jpg","name":"Lil shid crying at his phone","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","pepe","frog","crying","tears","phone","sad","rekt"],"w":904,"h":1024,"color":"#bbbbb9","thumb":"memes/thumbs/photo_9_2026-05-01_20-18-24.webp","added":"2026-05-19"},
+{"file":"photo_10_2026-05-01_20-18-24.jpg","name":"Emo frok","categories":["lil shid"],"text":"emo frok","description":"","tags":["lil-shid","pepe","frog","emo-frok","chair","sitting","smug","drawing"],"w":683,"h":1024,"color":"#576463","thumb":"memes/thumbs/photo_10_2026-05-01_20-18-24.webp","added":"2026-05-19"},
+{"file":"photo_11_2026-05-01_20-18-24.jpg","name":"Lil shid with a McDonald's visor","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","pepe","frog","mcdonalds","visor","phone","sunglasses","rekt","wagie"],"w":1024,"h":640,"color":"#999589","thumb":"memes/thumbs/photo_11_2026-05-01_20-18-24.webp","added":"2026-05-19"},
+{"file":"photo_12_2026-05-01_20-18-24.jpg","name":"Tiny lil shid","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","pepe","frog","chibi","tiny","cute","minimal","white-background"],"w":683,"h":1024,"color":"#f3f4f3","thumb":"memes/thumbs/photo_12_2026-05-01_20-18-24.webp","added":"2026-05-19"},
+{"file":"photo_13_2026-05-01_20-18-24.jpg","name":"Lil shid screaming","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","pepe","frog","screaming","rage","angry","yelling","tongue"],"w":1024,"h":1024,"color":"#a7a9a4","thumb":"memes/thumbs/photo_13_2026-05-01_20-18-24.webp","added":"2026-05-19"},
+{"file":"photo_14_2026-05-01_20-18-24.jpg","name":"Lil shid in a suit","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","pepe","frog","suit","tie","formal","business","chibi","sad"],"w":1024,"h":640,"color":"#c3c4c2","thumb":"memes/thumbs/photo_14_2026-05-01_20-18-24.webp","added":"2026-05-19"},
+{"file":"photo_15_2026-05-01_20-18-24.jpg","name":"Big-eyed lil shid","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","pepe","frog","chibi","big-eyes","puppy-eyes","cute","sitting"],"w":1024,"h":683,"color":"#bfbfbd","thumb":"memes/thumbs/photo_15_2026-05-01_20-18-24.webp","added":"2026-05-19"},
+{"file":"photo_16_2026-05-01_20-18-24.jpg","name":"Lil shid crying in shirt and tie","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","pepe","frog","crying","tear","shirt","tie","long-hair","sad"],"w":904,"h":1024,"color":"#a9a9a8","thumb":"memes/thumbs/photo_16_2026-05-01_20-18-24.webp","added":"2026-05-19"},
+{"file":"photo_17_2026-05-01_20-18-24.jpg","name":"Lil shid pulling a grenade pin","categories":["lil shid"],"text":"click","description":"","tags":["lil-shid","pepe","frog","grenade","explosion","chaos","pin-pulled","bomb"],"w":1024,"h":585,"color":"#c0c0bf","thumb":"memes/thumbs/photo_17_2026-05-01_20-18-24.webp","added":"2026-05-19"},
+{"file":"photo_18_2026-05-01_20-18-24.jpg","name":"Lil shid riding the green arrow","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","pepe","frog","green-arrow","pump","bullish","up-only","moon","sky"],"w":1024,"h":904,"color":"#8ddcd0","thumb":"memes/thumbs/photo_18_2026-05-01_20-18-24.webp","added":"2026-05-19"},
+{"file":"photo_19_2026-05-01_20-18-24.jpg","name":"Lil shid peeking over the edge","categories":["lil shid"],"text":"","description":"","tags":["lil-shid","pepe","frog","peeking","big-eyes","curious","watching","cute"],"w":1024,"h":683,"color":"#7a7674","thumb":"memes/thumbs/photo_19_2026-05-01_20-18-24.webp","added":"2026-05-19"},
+{"file":"00-the-fool.jpg","path":"tarot/cards/00-the-fool.jpg","name":"The Fool","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":673,"h":1023,"color":"#9a8f83","thumb":"memes/thumbs/tarot-cards-00-the-fool.webp","added":"2026-05-19"},
+{"file":"01-the-magician.jpg","path":"tarot/cards/01-the-magician.jpg","name":"The Magician","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":722,"h":1280,"color":"#aca19a","thumb":"memes/thumbs/tarot-cards-01-the-magician.webp","added":"2026-05-19"},
+{"file":"02-the-high-priestess.jpg","path":"tarot/cards/02-the-high-priestess.jpg","name":"The High Priestess","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":722,"h":1280,"color":"#474955","thumb":"memes/thumbs/tarot-cards-02-the-high-priestess.webp","added":"2026-05-19"},
+{"file":"03-the-empress.jpg","path":"tarot/cards/03-the-empress.jpg","name":"The Empress","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":722,"h":1280,"color":"#715538","thumb":"memes/thumbs/tarot-cards-03-the-empress.webp","added":"2026-05-19"},
+{"file":"04-the-emperor.jpg","path":"tarot/cards/04-the-emperor.jpg","name":"The Emperor","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":640,"h":1024,"color":"#7d655d","thumb":"memes/thumbs/tarot-cards-04-the-emperor.webp","added":"2026-05-19"},
+{"file":"05-the-hierophant.jpg","path":"tarot/cards/05-the-hierophant.jpg","name":"The Hierophant","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":701,"h":1024,"color":"#847c73","thumb":"memes/thumbs/tarot-cards-05-the-hierophant.webp","added":"2026-05-19"},
+{"file":"06-the-lovers.jpg","path":"tarot/cards/06-the-lovers.jpg","name":"The Lovers","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":685,"h":1024,"color":"#81745c","thumb":"memes/thumbs/tarot-cards-06-the-lovers.webp","added":"2026-05-19"},
+{"file":"07-the-chariot.jpg","path":"tarot/cards/07-the-chariot.jpg","name":"The Chariot","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":722,"h":1280,"color":"#625958","thumb":"memes/thumbs/tarot-cards-07-the-chariot.webp","added":"2026-05-19"},
+{"file":"08-strength.jpg","path":"tarot/cards/08-strength.jpg","name":"Strength","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":722,"h":1280,"color":"#a09982","thumb":"memes/thumbs/tarot-cards-08-strength.webp","added":"2026-05-19"},
+{"file":"09-the-hermit.jpg","path":"tarot/cards/09-the-hermit.jpg","name":"The Hermit","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":665,"h":1024,"color":"#666673","thumb":"memes/thumbs/tarot-cards-09-the-hermit.webp","added":"2026-05-19"},
+{"file":"10-wheel-of-fortune.jpg","path":"tarot/cards/10-wheel-of-fortune.jpg","name":"Wheel of Fortune","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":722,"h":1280,"color":"#826b62","thumb":"memes/thumbs/tarot-cards-10-wheel-of-fortune.webp","added":"2026-05-19"},
+{"file":"11-justice.jpg","path":"tarot/cards/11-justice.jpg","name":"Justice","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":722,"h":1280,"color":"#6a6159","thumb":"memes/thumbs/tarot-cards-11-justice.webp","added":"2026-05-19"},
+{"file":"12-the-hanged-man.jpg","path":"tarot/cards/12-the-hanged-man.jpg","name":"The Hanged Man","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":722,"h":1280,"color":"#a39e9a","thumb":"memes/thumbs/tarot-cards-12-the-hanged-man.webp","added":"2026-05-19"},
+{"file":"13-death.jpg","path":"tarot/cards/13-death.jpg","name":"Death","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":722,"h":1280,"color":"#5f5447","thumb":"memes/thumbs/tarot-cards-13-death.webp","added":"2026-05-19"},
+{"file":"14-temperance.jpg","path":"tarot/cards/14-temperance.jpg","name":"Temperance","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":722,"h":1280,"color":"#8e816c","thumb":"memes/thumbs/tarot-cards-14-temperance.webp","added":"2026-05-19"},
+{"file":"15-the-devil.jpg","path":"tarot/cards/15-the-devil.jpg","name":"The Devil","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":722,"h":1280,"color":"#271e1d","thumb":"memes/thumbs/tarot-cards-15-the-devil.webp","added":"2026-05-19"},
+{"file":"16-the-tower.jpg","path":"tarot/cards/16-the-tower.jpg","name":"The Tower","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":722,"h":1280,"color":"#413c36","thumb":"memes/thumbs/tarot-cards-16-the-tower.webp","added":"2026-05-19"},
+{"file":"17-the-star.jpg","path":"tarot/cards/17-the-star.jpg","name":"The Star","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":638,"h":1024,"color":"#484c4c","thumb":"memes/thumbs/tarot-cards-17-the-star.webp","added":"2026-05-19"},
+{"file":"18-the-moon.jpg","path":"tarot/cards/18-the-moon.jpg","name":"The Moon","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":722,"h":1280,"color":"#555b62","thumb":"memes/thumbs/tarot-cards-18-the-moon.webp","added":"2026-05-19"},
+{"file":"19-the-sun.jpg","path":"tarot/cards/19-the-sun.jpg","name":"The Sun","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":631,"h":1024,"color":"#989170","thumb":"memes/thumbs/tarot-cards-19-the-sun.webp","added":"2026-05-19"},
+{"file":"20-judgement.jpg","path":"tarot/cards/20-judgement.jpg","name":"Judgement","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":665,"h":1024,"color":"#989180","thumb":"memes/thumbs/tarot-cards-20-judgement.webp","added":"2026-05-19"},
+{"file":"21-the-world.jpg","path":"tarot/cards/21-the-world.jpg","name":"The World","categories":["tarot"],"text":"","description":"","tags":["major arcana"],"w":714,"h":1280,"color":"#a49d8b","thumb":"memes/thumbs/tarot-cards-21-the-world.webp","added":"2026-05-19"}
 ];
