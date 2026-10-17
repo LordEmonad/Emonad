@@ -405,46 +405,17 @@
       will-change: transform;
     }
 
-    .title {
-      font-size: clamp(1.85rem, 4vw, 2.35rem);
-      font-weight: 800;
-      margin: 0 0 4px;
-      letter-spacing: -0.045em;
-      background: linear-gradient(120deg, #c9b4ff 0%, var(--text-color) 42%, var(--accent) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    [data-theme="light"] .title {
-      background: linear-gradient(120deg, #7B3FE4 0%, #1a1a1a 55%, #6930c3 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .subtitle {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      font-weight: 500;
-      margin-bottom: 16px;
-      min-height: 1.45em;
-      letter-spacing: -0.01em;
-    }
-
-    /* Typewriter Cursor */
-    .typewriter-cursor {
-      display: inline-block;
-      width: 2px;
-      height: 1.1em;
-      background: var(--accent);
-      margin-left: 2px;
-      vertical-align: text-bottom;
-      animation: blinkCursor 0.6s step-end infinite;
-    }
-
-    @keyframes blinkCursor {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
+    /* The page's h1 — kept for search engines and screen readers, not shown (the banner says it). */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
 
     /* ── Primary Actions ── */
@@ -1562,7 +1533,6 @@
       .monad-badge .dot { animation: none; }
       .ticker-skeleton::after { animation: none; }
       .ticker-logo svg { animation: none; }
-      .typewriter-cursor { animation: none; opacity: 1; }
       .scroll-hint { animation: none; }
       .modal-spinner { animation: none; }
       .ticker-flash { animation: none; }
@@ -1722,8 +1692,6 @@
       .ticker-value { font-size: 11px; }
       .change-badge { font-size: 9px; padding: 1px 5px; }
 
-      .title { font-size: 1.5rem; }
-      .subtitle { font-size: 0.85rem; }
 
       .primary-actions { flex-direction: column; align-items: center; }
       .btn-primary { max-width: 100%; width: 100%; padding: 13px 20px; }
@@ -1807,8 +1775,7 @@
       </picture>
     </div>
 
-    <h1 class="title animate-in" style="animation-delay:0.12s">The Emoverse</h1>
-    <p class="subtitle" id="subtitle" style="opacity:0">i lost it all on day 1</p>
+    <h1 class="sr-only">The Emoverse</h1>
 
     <div class="games animate-in" style="animation-delay:0.18s" aria-label="Games">
       <a href="https://emogotchi.emonad.lol/adopt/" target="_blank" rel="noopener noreferrer" class="game-card featured">
@@ -2822,42 +2789,6 @@
       localStorage.setItem('theme', next);
       setTimeout(() => html.classList.remove('theme-transition'), 350);
     });
-
-    // ── Typewriter Effect ──
-    (function() {
-      const el = document.getElementById('subtitle');
-      const text = el.textContent;
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      if (prefersReducedMotion) {
-        el.style.opacity = '1';
-        return;
-      }
-
-      el.textContent = '';
-      el.style.opacity = '1';
-
-      const cursor = document.createElement('span');
-      cursor.className = 'typewriter-cursor';
-      el.appendChild(cursor);
-
-      let i = 0;
-      function type() {
-        if (i < text.length) {
-          el.insertBefore(document.createTextNode(text.charAt(i)), cursor);
-          i++;
-          setTimeout(type, 50 + Math.random() * 40);
-        } else {
-          setTimeout(() => {
-            cursor.style.transition = 'opacity 0.4s';
-            cursor.style.opacity = '0';
-            setTimeout(() => cursor.remove(), 400);
-          }, 1500);
-        }
-      }
-
-      setTimeout(type, 700);
-    })();
 
     // ── Share Button ──
     document.getElementById('shareBtn').addEventListener('click', async () => {
