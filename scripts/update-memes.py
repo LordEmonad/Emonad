@@ -6,6 +6,7 @@ For every entry in meme_data.js this makes a small WebP thumbnail in memes/thumb
   color   average colour, shown as the placeholder while the thumbnail loads
   thumb   path of the thumbnail
   added   date the meme was added (first git commit of the file; today if uncommitted)
+  dur     length in seconds (videos only)
 Every other field and the entry order are left alone. Thumbnails are only rebuilt when
 missing or older than their source, and thumbnails nothing points at are deleted.
 
@@ -77,14 +78,25 @@ def git_added_dates():
     return dates
 
 
+def video_duration(path):
+    out = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", path],
+                         capture_output=True, text=True).stdout.strip()
+    try:
+        return round(float(out), 1)
+    except ValueError:
+        return None
+
+
 def open_frame(path):
     if not VIDEO_RE.search(path):
         im = Image.open(path)
         im.seek(0)
         return ImageOps.exif_transpose(im)
+    # Poster frame a little way in, so clips that fade up from black still get a real picture.
+    at = min(max((video_duration(path) or 0) * 0.2, 0.5), 3.0)
     with tempfile.TemporaryDirectory() as tmp:
         png = os.path.join(tmp, "f.png")
-        subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", "0.5", "-i", path, "-frames:v", "1", png], check=True)
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{at:.2f}", "-i", path, "-frames:v", "1", png], check=True)
         im = Image.open(png)
         im.load()
         return im
@@ -115,7 +127,9 @@ def build(m):
             os.makedirs(os.path.dirname(t_abs), exist_ok=True)
             t.save(t_abs, "WEBP", quality=QUALITY, method=6)
         m["thumb"] = t_rel
-    return {k: m[k] for k in ("w", "h", "color", "thumb")}
+    if VIDEO_RE.search(src) and not m.get("dur"):
+        m["dur"] = video_duration(src)
+    return {k: m[k] for k in ("w", "h", "color", "thumb", "dur") if k in m}
 
 
 def main():

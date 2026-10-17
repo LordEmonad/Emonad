@@ -13,14 +13,14 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <title>$EMO Memes — Emonad Meme Gallery on Monad</title>
-  <meta name="description" content="The official Emonad ($EMO) meme gallery — 850+ memes, art and the Emo Tarot Major Arcana. Search, download, copy and remix the emo memecoin on Monad's meme stash.">
+  <meta name="description" content="The official Emonad ($EMO) meme gallery — 850+ memes, 110+ videos, art and the Emo Tarot Major Arcana. Search, download, copy and remix the emo memecoin on Monad's meme stash.">
   <meta name="keywords" content="emonad memes, $emo memes, monad memes, emo memes, monad memecoin memes">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://emonad.lol/memes.html">
 
   <!-- OG / Social Meta -->
   <meta property="og:title" content="$EMO Memes — Emonad Meme Gallery on Monad">
-  <meta property="og:description" content="850+ memes for Emonad ($EMO), the emo memecoin on Monad. Search, download, remix, post.">
+  <meta property="og:description" content="850+ memes and 110+ videos for Emonad ($EMO), the emo memecoin on Monad. Search, download, remix, post.">
   <meta property="og:image" content="https://emonad.lol/og-emoverse.jpg">
   <meta property="og:url" content="https://emonad.lol/memes.html">
   <meta property="og:type" content="website">
@@ -29,7 +29,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@EmonadCoin">
   <meta name="twitter:title" content="$EMO Memes — Emonad Meme Gallery on Monad">
-  <meta name="twitter:description" content="850+ memes for Emonad ($EMO). The emo memecoin on Monad.">
+  <meta name="twitter:description" content="850+ memes and 110+ videos for Emonad ($EMO). The emo memecoin on Monad.">
   <meta name="twitter:image" content="https://emonad.lol/og-emoverse.jpg">
 
   <!-- Structured data -->
@@ -424,14 +424,34 @@
     }
     .tile img.in { opacity: 1; }
     .tile.broken { display: none; }
-    .play-badge {
+    .dur-badge {
       position: absolute; top: 8px; left: 8px;
-      width: 30px; height: 30px; border-radius: 50%;
-      background: rgba(0,0,0,0.55); color: #fff;
-      display: grid; place-items: center;
-      pointer-events: none;
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 8px 4px 7px; border-radius: 999px;
+      background: rgba(0,0,0,0.6); color: #fff;
+      font-family: inherit; font-size: 11px; font-weight: 700; line-height: 1;
+      font-variant-numeric: tabular-nums;
+      pointer-events: none; z-index: 1;
     }
-    .play-badge svg { width: 13px; height: 13px; margin-left: 2px; }
+    .dur-badge svg { width: 9px; height: 9px; }
+    .tile .preview { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* ── Memes / Videos tabs ── */
+    .tabs {
+      display: inline-flex; gap: 4px; padding: 4px; margin-top: 14px;
+      border-radius: 999px;
+      background: var(--surface); border: 1px solid var(--surface-border);
+    }
+    .tab {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 20px; border: 0; border-radius: 999px;
+      background: none; color: var(--text-secondary);
+      font-family: inherit; font-size: 14px; font-weight: 700; line-height: 1;
+      cursor: pointer; transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .tab:hover { color: var(--text-color); }
+    .tab .n { font-size: 11.5px; opacity: 0.7; font-variant-numeric: tabular-nums; }
+    .tab[aria-selected="true"] { background: var(--accent); color: #fff; box-shadow: 0 6px 18px var(--accent-glow); }
 
     .tile-actions {
       position: absolute; left: 0; right: 0; bottom: 0;
@@ -640,6 +660,10 @@
     <div class="header">
       <h1 class="page-title">$EMO Memes</h1>
       <p>the archive. download, remix, post.</p>
+      <div class="tabs" role="tablist" aria-label="Memes or videos">
+        <button class="tab" role="tab" data-tab="images" aria-selected="true">Memes <span class="n" id="nImages"></span></button>
+        <button class="tab" role="tab" data-tab="videos" aria-selected="false">Videos <span class="n" id="nVideos"></span></button>
+      </div>
     </div>
 
     <div class="filter-bar">
@@ -704,7 +728,7 @@
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
 
-  <script src="meme_data.js?v=202610161822"></script>
+  <script src="meme_data.js?v=202610161929"></script>
 
   <script>
     // ── Theme ──
@@ -729,6 +753,7 @@
     // Each entry: { file, path?, name, categories[], text, description, tags[], w, h, color, thumb, added }.
     // w/h/color/thumb/added come from scripts/update-memes.py.
     const norm = s => String(s || '').trim().toLowerCase();
+    const fmtDur = s => Math.floor(s / 60) + ':' + String(Math.round(s % 60)).padStart(2, '0');
     const ALL = MEMES.map((m, i) => {
       const cats = (Array.isArray(m.categories) ? m.categories : [m.categories || m.category]).map(norm).filter(Boolean);
       const tags = (m.tags || []).map(norm).filter(Boolean);
@@ -749,6 +774,9 @@
     let shuffled = null;
 
     // ── State ──
+    let tab = 'images';     // 'images' | 'videos'
+    const inTab = m => (tab === 'videos') === m.video;
+    const HOVER = matchMedia('(hover: hover) and (pointer: fine)').matches;
     let activeCat = 'all';
     let query = '';
     let list = [];          // the filtered, ordered memes currently in the grid
@@ -767,7 +795,7 @@
     }
 
     function computeList() {
-      const base = shuffled || BY_NEW;
+      const base = (shuffled || BY_NEW).filter(inTab);
       const inCat = activeCat === 'all' ? base : base.filter(m => m.cats.includes(activeCat));
       const q = norm(query);
       if (!q) return inCat;
@@ -847,9 +875,26 @@
 
       if (m.video) {
         const b = document.createElement('span');
-        b.className = 'play-badge';
-        b.innerHTML = ICONS.play;
+        b.className = 'dur-badge';
+        b.innerHTML = ICONS.play + (m.dur ? fmtDur(m.dur) : '');
         el.appendChild(b);
+        if (HOVER) {
+          let t;
+          el.addEventListener('mouseenter', () => {
+            t = setTimeout(() => {
+              if (el.querySelector('video')) return;
+              const v = document.createElement('video');
+              Object.assign(v, { muted: true, loop: true, playsInline: true, autoplay: true, preload: 'auto', src: m.src });
+              v.className = 'preview';
+              el.insertBefore(v, b);
+            }, 250);
+          });
+          el.addEventListener('mouseleave', () => {
+            clearTimeout(t);
+            const v = el.querySelector('video.preview');
+            if (v) { v.pause(); v.removeAttribute('src'); v.load(); v.remove(); }
+          });
+        }
       }
 
       const actions = document.createElement('div');
@@ -925,13 +970,14 @@
     const pillsEl = $('categoryPills');
     function buildPills() {
       const counts = {};
-      ALL.forEach(m => m.cats.forEach(c => { counts[c] = (counts[c] || 0) + 1; }));
+      const here = ALL.filter(inTab);
+      here.forEach(m => m.cats.forEach(c => { counts[c] = (counts[c] || 0) + 1; }));
       const cats = Object.keys(counts).sort((a, b) => counts[b] - counts[a] || a.localeCompare(b));
       pillsEl.innerHTML = ['all', ...cats].map(c => {
         const on = c === activeCat;
         const label = c === 'all' ? 'All' : c;
         return '<button class="pill' + (on ? ' active' : '') + '" role="tab" aria-selected="' + on + '" data-cat="' + c.replace(/"/g, '&quot;') + '">'
-          + label.replace(/</g, '&lt;') + ' <span class="pill-count">' + (c === 'all' ? ALL.length : counts[c]) + '</span></button>';
+          + label.replace(/</g, '&lt;') + ' <span class="pill-count">' + (c === 'all' ? here.length : counts[c]) + '</span></button>';
       }).join('');
       if (activeCat !== 'all' && !counts[activeCat]) activeCat = 'all';
     }
@@ -939,7 +985,8 @@
     function apply({ scroll = false } = {}) {
       list = computeList();
       layout();
-      $('memeCount').textContent = (list.length === ALL.length ? '' : list.length + ' / ') + ALL.length + ' memes';
+      const total = ALL.filter(inTab).length;
+      $('memeCount').textContent = (list.length === total ? '' : list.length + ' / ') + total + (tab === 'videos' ? ' video' : ' meme') + (total === 1 ? '' : 's');
       $('emptyState').classList.toggle('visible', list.length === 0);
       $('gridEnd').innerHTML = 'That’s all ' + list.length + '. <a href="meme-maker.html">Make your own in the Meme Maker →</a>';
       syncURL();
@@ -970,6 +1017,17 @@
       const b = e.target.closest('.pill');
       if (b) setCategory(b.dataset.cat);
     });
+    function setTab(t, { scroll = true } = {}) {
+      tab = t === 'videos' ? 'videos' : 'images';
+      document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === tab));
+      searchInput.placeholder = tab === 'videos' ? 'Search videos — skate, crying, gm, compilation…' : 'Search memes — pepe, crying, chart, gm…';
+      buildPills();
+      apply({ scroll });
+    }
+    document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => { if (b.dataset.tab !== tab) setTab(b.dataset.tab); }));
+    $('nImages').textContent = ALL.filter(m => !m.video).length;
+    $('nVideos').textContent = ALL.filter(m => m.video).length;
+
     pillsEl.addEventListener('wheel', e => {
       if (Math.abs(e.deltaY) <= Math.abs(e.deltaX) || pillsEl.scrollWidth <= pillsEl.clientWidth) return;
       e.preventDefault();
@@ -1006,6 +1064,7 @@
       const p = new URLSearchParams();
       if (query.trim()) p.set('q', query.trim());
       if (activeCat !== 'all') p.set('cat', activeCat);
+      if (tab === 'videos') p.set('tab', 'videos');
       const s = p.toString();
       history.replaceState(null, '', location.pathname + (s ? '?' + s : '') + location.hash);
     }
@@ -1080,7 +1139,7 @@
       frame.replaceChildren();
       if (m.video) {
         const v = document.createElement('video');
-        Object.assign(v, { src: m.src, controls: true, autoplay: true, loop: true, playsInline: true, poster: m.thumbSrc });
+        Object.assign(v, { src: m.src, controls: true, autoplay: true, loop: true, playsInline: true, preload: 'auto', poster: m.thumbSrc });
         frame.appendChild(v);
         lbFull = null;
       } else {
@@ -1226,9 +1285,9 @@
       const p = new URLSearchParams(location.search);
       if (p.get('q')) setQuery(p.get('q'));
       if (p.get('cat')) activeCat = norm(p.get('cat'));
-      buildPills();
-      apply();
       const hm = location.hash.match(/^#m=(.+)$/);
+      const linked = hm && ALL.find(m => m.file === decodeURIComponent(hm[1]));
+      setTab(linked ? (linked.video ? 'videos' : 'images') : p.get('tab'), { scroll: false });
       if (hm) {
         const file = decodeURIComponent(hm[1]);
         let idx = list.findIndex(m => m.file === file);
