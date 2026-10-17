@@ -1570,9 +1570,17 @@
     }
 
     @media (max-width: 700px) {
-      .games { grid-template-columns: 1fr; gap: 8px; }
+      .games { grid-template-columns: repeat(3, 1fr); gap: 8px; }
       .game-card { min-height: 72px; padding: 10px 12px; border-radius: 18px; }
       .game-art { width: 50px; height: 50px; border-radius: 12px; }
+      /* Emo Crush / Flap / Tarot: three compact tiles in one row — icon, then name + blurb. */
+      .game-card:not(.featured) { flex-direction: column; align-items: flex-start; gap: 8px; min-height: 0; padding: 10px; border-radius: 16px; }
+      .game-card:not(.featured) .game-art { width: 44px; height: 44px; border-radius: 12px; }
+      .game-card:not(.featured) .game-art-tarot img { width: 27px; }
+      .game-card:not(.featured) .game-text { width: 100%; }
+      .game-card:not(.featured) .game-name { font-size: 13px; overflow: hidden; text-overflow: ellipsis; }
+      .game-card:not(.featured) .game-sub { font-size: 10.5px; margin-top: 2px; }
+      .game-card:not(.featured) .game-xp { top: 8px; right: 8px; font-size: 9px; padding: 2px 6px; letter-spacing: 0.03em; }
       .game-card.featured { min-height: 84px; padding: 12px 14px 14px; gap: 12px; flex-wrap: wrap; }
       .game-art-pet { width: 56px; height: 56px; border-radius: 15px; }
       .game-art-frok { margin-left: -18px; }
@@ -1673,6 +1681,14 @@
     @media (max-width: 480px) {
       .price-ticker { padding: 0 8px; gap: 6px; }
       .ticker-brand { flex-shrink: 0; }
+    }
+
+    @media (max-width: 340px) {
+      .game-card:not(.featured) { padding: 8px; gap: 6px; }
+      .game-card:not(.featured) .game-art { width: 34px; height: 34px; border-radius: 10px; }
+      .game-card:not(.featured) .game-art-tarot img { width: 21px; }
+      .game-card:not(.featured) .game-name { font-size: 12px; white-space: normal; }
+      .game-card:not(.featured) .game-xp { top: 7px; right: 6px; font-size: 8px; padding: 1px 4px; letter-spacing: 0; }
     }
 
     @media (max-width: 380px) {
