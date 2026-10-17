@@ -9,11 +9,14 @@ For every entry in meme_data.js this makes a small WebP thumbnail in memes/thumb
   dur     length in seconds (videos only)
 Every other field and the entry order are left alone. Thumbnails are only rebuilt when
 missing or older than their source, and thumbnails nothing points at are deleted.
+It also keeps memes.html in step: the meme_data.js cache key (?v=) and the "850+ memes,
+110+ videos" counts in its meta descriptions.
 
 Run after adding, replacing or removing memes:  python3 scripts/update-memes.py
 Needs Pillow (with WebP) and, for video entries, ffmpeg/ffprobe.
 """
 import datetime
+import hashlib
 import json
 import os
 import re
@@ -26,6 +29,7 @@ from PIL import Image, ImageOps
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "meme_data.js")
+PAGE = os.path.join(ROOT, "memes.html")
 THUMBS = "memes/thumbs"
 THUMB_W, THUMB_MAX_H, QUALITY = 640, 1600, 74
 VIDEO_RE = re.compile(r"\.(mp4|webm|mov)$", re.I)
@@ -132,6 +136,23 @@ def build(m):
     return {k: m[k] for k in ("w", "h", "color", "thumb", "dur") if k in m}
 
 
+def sync_page(memes):
+    """Point memes.html at this exact meme_data.js and refresh the counts in its meta tags."""
+    if not os.path.isfile(PAGE):
+        return
+    page = open(PAGE, encoding="utf-8").read()
+    key = hashlib.sha1(open(DATA, "rb").read()).hexdigest()[:10]
+    n_vid = sum(1 for m in memes if VIDEO_RE.search(m["file"]))
+    n_img = len(memes) - n_vid
+    out = re.sub(r"meme_data\.js\?v=[^\"']*", "meme_data.js?v=" + key, page)
+    out = re.sub(r"\d+\+? memes", f"{n_img // 50 * 50}+ memes" if n_img >= 100 else f"{n_img} memes", out)
+    out = re.sub(r"\d+\+? videos", f"{n_vid // 10 * 10}+ videos" if n_vid >= 20 else f"{n_vid} videos", out)
+    if out != page:
+        with open(PAGE + ".tmp", "w", encoding="utf-8") as f:
+            f.write(out)
+        os.replace(PAGE + ".tmp", PAGE)
+
+
 def main():
     memes = load()
     today = datetime.date.today().isoformat()
@@ -154,6 +175,7 @@ def main():
             os.remove(os.path.join(ROOT, rel))
             removed += 1
     save(memes)
+    sync_page(memes)
     size = sum(os.path.getsize(os.path.join(ROOT, p)) for p in keep if os.path.isfile(os.path.join(ROOT, p)))
     print(f"{ok}/{len(memes)} memes ready · thumbs {size / 1e6:.1f} MB · {removed} stale thumbs removed")
     return 0 if ok == len(memes) else 1
