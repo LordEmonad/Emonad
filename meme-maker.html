@@ -108,6 +108,7 @@
       --surface-2: #ffffff;
       --surface-border: #e4d8f8;
       --stage-bg: #f5f3ff;
+      --modal-bg: #ffffff;
       --shadow: 0 8px 30px rgba(0,0,0,0.08);
     }
     [data-theme="dark"] {
@@ -122,6 +123,7 @@
       --surface-2: rgba(255, 255, 255, 0.04);
       --surface-border: rgba(255, 255, 255, 0.1);
       --stage-bg: #141414;
+      --modal-bg: #14141a;
       --shadow: 0 8px 30px rgba(0,0,0,0.3);
     }
 
@@ -332,10 +334,11 @@
       opacity: 0;
     }
     .stage-noise {
-      /* Inline SVG noise data-URI. 200x200 tile repeats, mix-blend-mode:overlay
-         makes grain read naturally against the underlying image. */
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 2 -0.5'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-      background-size: 240px 240px;
+      /* Grain tile is generated in JS (makeNoiseTile) and the export paints
+         the same tile with the same overlay blend, so preview and file match.
+         (The old SVG tile blended flat 50% grey, which overlay leaves
+         unchanged, so the preview showed no grain while the export did.) */
+      background-repeat: repeat;
       mix-blend-mode: overlay;
     }
     .stage-vignette {
@@ -442,7 +445,18 @@
       -webkit-user-select: text;
     }
 
-    /* Selection frame + handles */
+    /* Selection frame + handles (in #stageUi, positioned over the stage) */
+    .stage-ui {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+      /* Above the stage and toolbar, below the mobile drawer (150/200) and
+         every modal (1000+). */
+      z-index: 100;
+    }
     .selector {
       position: absolute;
       top: 0; left: 0;
@@ -553,17 +567,21 @@
       gap: 14px;
       height: 100%;
       min-height: 0;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
       padding-right: 4px;
+      scrollbar-width: thin;
     }
-    /* Inspector + tips stay at natural size; the stickers card consumes any
-       leftover vertical space and scrolls its grid internally. This keeps
-       all three modules visible on desktop without scrolling the side rail. */
+    .side::-webkit-scrollbar { width: 6px; }
+    .side::-webkit-scrollbar-thumb { background: var(--surface-border); border-radius: 3px; }
+    /* Inspector, layers + tips stay at natural size; the stickers card takes
+       the leftover height (at least ~2 rows) and scrolls its grid
+       internally. When that isn't enough, the rail itself scrolls. */
     .side .stickers-card {
       flex: 1 1 0;
-      /* No hard min-height: on a short viewport the inspector + tips need
-         priority. The stickers grid simply scrolls down to one row. */
-      min-height: 0;
+      /* Keeps about two rows of stickers in view however tall the inspector
+         gets; past that the whole rail scrolls. */
+      min-height: 230px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -574,7 +592,7 @@
       overflow-y: auto;
       padding-right: 4px;
     }
-    .side .inspector, .side .tips-card { flex: 0 0 auto; }
+    .side .inspector, .side .layers-card, .side .tips-card { flex: 0 0 auto; }
     .side .stickers-card .sticker-grid::-webkit-scrollbar { width: 6px; }
     .side .stickers-card .sticker-grid::-webkit-scrollbar-thumb { background: var(--surface-border); border-radius: 3px; }
     .side-close {
@@ -1038,7 +1056,9 @@
     }
     .tpl-overlay.visible { display: flex; }
     .tpl-modal {
-      background: var(--surface-2);
+      /* Solid, not --surface-2: that is 4% white in dark mode, so the page
+         showed through every sheet on phones (no backdrop blur there). */
+      background: var(--modal-bg);
       border: 1px solid var(--surface-border);
       border-radius: 16px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
@@ -1123,7 +1143,7 @@
         width: 40px;
         height: 4px;
         border-radius: 2px;
-        background: rgba(255, 255, 255, 0.3);
+        background: var(--surface-border);
         pointer-events: none;
       }
       .tpl-header h3 { font-size: 13px; }
@@ -1229,7 +1249,7 @@
       padding: 9px 12px;
       border-radius: 8px;
       border: 1px solid var(--surface-border);
-      background: rgba(0,0,0,0.25);
+      background: var(--surface);
       color: var(--text-color);
       font: inherit;
       font-size: 13px;
@@ -1237,7 +1257,6 @@
     }
     .emoji-search input:focus {
       border-color: var(--accent);
-      background: rgba(0,0,0,0.4);
     }
     .emoji-body {
       padding: 10px 14px calc(14px + env(safe-area-inset-bottom));
@@ -1263,7 +1282,7 @@
          where they are in the catalog. */
       position: sticky;
       top: -10px;
-      background: #14141a;
+      background: var(--modal-bg);
       z-index: 1;
     }
     .emoji-cat:first-child { padding-top: 4px; }
@@ -1320,10 +1339,7 @@
       pointer-events: auto;
     }
     .filter-modal {
-      /* Explicit solid bg — .tpl-modal's var(--surface-2) is 4% opaque and
-         only looks solid when stacked on a dark backdrop, which we don't have. */
-      background: #14141a;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--surface-border);
       box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55);
       width: 400px;
       max-width: 400px;
@@ -1420,7 +1436,7 @@
       padding: 6px 8px;
       border-radius: 6px;
       border: 1px solid var(--surface-border);
-      background: rgba(0,0,0,0.35);
+      background: var(--surface);
       color: var(--text-color);
       font: inherit;
       font-size: 12px;
@@ -1679,6 +1695,48 @@
     }
     .toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+    /* ─── Save viewer (phones without a share sheet: long-press to save) ─── */
+    .dl-viewer {
+      position: fixed;
+      inset: 0;
+      z-index: 2100;
+      background: rgba(0, 0, 0, 0.92);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: calc(16px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom));
+    }
+    .dl-viewer img {
+      max-width: 100%;
+      max-height: calc(100% - 120px);
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      /* Long-press must reach the image, not be eaten by the page's
+         no-select rules. */
+      -webkit-touch-callout: default;
+      -webkit-user-select: auto;
+      user-select: auto;
+    }
+    .dl-viewer .dl-tip {
+      color: #fff;
+      font-size: 14px;
+      text-align: center;
+    }
+    .dl-viewer .dl-close {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 28px;
+      font: inherit;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
     /* Particle canvas */
     #particleGrid {
       position: fixed;
@@ -1758,7 +1816,27 @@
       .selector .handle.bl { bottom: -36px; left: -36px; }
       .selector .handle.br { bottom: -36px; right: -36px; }
       .selector .handle.rot { top: -64px; width: 24px; height: 24px; }
-      .selector .del-btn { width: 32px; height: 32px; top: -56px; right: -56px; font-size: 18px; }
+      /* Delete sits beside the rotate dot: out past the corner it fell off
+         the side of the screen for any near-full-width layer. */
+      .selector .del-btn { width: 32px; height: 32px; top: -68px; right: auto; left: calc(50% + 22px); font-size: 18px; }
+    }
+
+    /* Phones held sideways: the wrapping toolbar ate almost all the height
+       and left a thumbnail-sized stage. One scrollable row instead. */
+    @media (max-width: 960px) and (max-height: 540px) {
+      .topbar { padding: 6px 12px; }
+      .app { padding: 6px 10px; gap: 6px; }
+      .stage-panel { padding: 8px; gap: 8px; border-radius: 12px; }
+      .toolbar {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scrollbar-width: none;
+        flex: 0 0 auto;
+      }
+      .toolbar::-webkit-scrollbar { display: none; }
+      .toolbar .btn { flex: 0 0 auto; padding: 6px 10px; }
+      .side { max-height: 88vh; }
     }
 
     @media (max-width: 600px) {
@@ -1865,19 +1943,11 @@
         <div class="stage" id="stage">
           <img class="stage-bg" id="stageBg" alt="">
           <!-- layers get inserted here -->
-          <!-- Filter overlays sit above layers, below selector, via
-               syncLayerDom re-appending them after each layer change. -->
+          <!-- Filter overlays sit above layers via syncLayerDom
+               re-appending them after each layer change. -->
           <div class="stage-noise" id="stageNoise" aria-hidden="true"></div>
           <div class="stage-vignette" id="stageVignette" aria-hidden="true"></div>
           <div class="stage-scanlines" id="stageScanlines" aria-hidden="true"></div>
-          <div class="selector" id="selector" aria-hidden="true">
-            <button class="del-btn" id="delBtn" aria-label="Delete selected">&times;</button>
-            <div class="handle rot" data-handle="rot" aria-hidden="true"></div>
-            <div class="handle tl" data-handle="tl" aria-hidden="true"></div>
-            <div class="handle tr" data-handle="tr" aria-hidden="true"></div>
-            <div class="handle bl" data-handle="bl" aria-hidden="true"></div>
-            <div class="handle br" data-handle="br" aria-hidden="true"></div>
-          </div>
         </div>
       </div>
 
@@ -1999,6 +2069,22 @@
   </div>
 
   <div class="side-backdrop" id="sideBackdrop" aria-hidden="true"></div>
+
+  <!-- Selection frame + handles. Pinned over the stage from JS
+       (updateSelectorFrame) instead of living inside it: inside, the stage
+       frame clipped the handles of layers near its edges, and the stage's
+       CSS filters were applied to them too (Invert turned them green, Blur
+       blurred them). Uses the stage's own coordinates. -->
+  <div class="stage-ui" id="stageUi">
+    <div class="selector" id="selector" aria-hidden="true">
+      <button class="del-btn" id="delBtn" aria-label="Delete selected">&times;</button>
+      <div class="handle rot" data-handle="rot" aria-hidden="true"></div>
+      <div class="handle tl" data-handle="tl" aria-hidden="true"></div>
+      <div class="handle tr" data-handle="tr" aria-hidden="true"></div>
+      <div class="handle bl" data-handle="bl" aria-hidden="true"></div>
+      <div class="handle br" data-handle="br" aria-hidden="true"></div>
+    </div>
+  </div>
 
   <!-- Brush cursor — page-level so it can render on top of any modal
        layer without z-index gymnastics. Positioned at the pointer when
@@ -2269,12 +2355,12 @@
 
 // ───────────── Theme ─────────────
 const html = document.documentElement;
-const savedTheme = localStorage.getItem('theme') || 'dark';
-html.setAttribute('data-theme', savedTheme);
+// The <head> script already picked the theme (saved choice, else the OS
+// setting), same as the rest of the site. Don't override it here.
 document.getElementById('themeToggle').addEventListener('click', () => {
   const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   html.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
+  try { localStorage.setItem('theme', next); } catch (_) {}
 });
 
 // ───────────── Toast ─────────────
@@ -2418,6 +2504,27 @@ const fileInput = document.getElementById('fileInput');
 const toolbar = document.getElementById('toolbar');
 const selector = document.getElementById('selector');
 
+// Film-grain tile shared by the live preview (CSS background, one tile pixel
+// per CSS px) and the export (canvas pattern scaled by the export scale), so
+// both show the same grain with the same overlay blend. Values cluster around
+// mid-grey (sum of two uniforms) so grain reads as texture, not static.
+const NOISE_TILE_PX = 128;
+const noiseTile = (function makeNoiseTile() {
+  const c = document.createElement('canvas');
+  c.width = c.height = NOISE_TILE_PX;
+  const nctx = c.getContext('2d');
+  const img = nctx.createImageData(NOISE_TILE_PX, NOISE_TILE_PX);
+  for (let i = 0; i < img.data.length; i += 4) {
+    const v = (Math.random() + Math.random()) * 127.5;
+    img.data[i] = img.data[i + 1] = img.data[i + 2] = v;
+    img.data[i + 3] = 255;
+  }
+  nctx.putImageData(img, 0, 0);
+  return c;
+})();
+stageNoise.style.backgroundImage = 'url(' + noiseTile.toDataURL('image/png') + ')';
+stageNoise.style.backgroundSize = NOISE_TILE_PX + 'px ' + NOISE_TILE_PX + 'px';
+
 // ───────────── Image load ─────────────
 // Formats browsers universally support in <img>. HEIC/HEIF is iOS-Safari-only
 // and comes from iPhone cameras by default — we reject it with a clear message.
@@ -2456,34 +2563,39 @@ function loadImageFromFile(file) {
   reader.onload = () => {
     const url = reader.result;
     if (typeof url !== 'string') { toast('Couldn\u2019t read the file.'); return; }
-    loadImageFromUrl(url, file);
+    const token = loadImageFromUrl(url, file);
     // If the upload is an animated GIF, decode every frame into memory so
     // export can produce an animated GIF instead of a single-frame PNG.
-    const isGif = type === 'image/gif' || /\.gif$/i.test(name);
-    if (isGif && typeof GifReader !== 'undefined') {
-      // Track the in-flight decode promise on state so exportBlob can await
-      // it instead of racing the user's Download click. Without this, hitting
-      // Download immediately after upload would skip the GIF branch (since
-      // state.gifFrames is still null) and silently produce a static PNG.
-      state.gifDecodePromise = decodeGifFramesFromFile(file).then(data => {
-        if (data && data.frames.length > 1) {
-          state.gifFrames = data.frames;
-          state.gifWidth = data.width;
-          state.gifHeight = data.height;
-          toast('Animated GIF — ' + data.frames.length + ' frames');
-        } else {
-          state.gifFrames = null;
-        }
-      }).catch(err => {
-        console.warn('GIF decode failed — falling back to static PNG export', err);
-        state.gifFrames = null;
-      });
-    } else {
-      state.gifFrames = null;
-      state.gifDecodePromise = null;
-    }
+    if (type === 'image/gif' || /\.gif$/i.test(name)) decodeGifForBackground(file, token);
   };
   reader.readAsDataURL(file);
+}
+
+// Decode an animated-GIF background (a File or a same-origin URL) into
+// frames for animated export. The in-flight promise lives on state so
+// exportBlob can await it instead of racing a quick Download click into a
+// static PNG. `token` is the load this decode belongs to: if the user has
+// picked another background since, the frames are dropped.
+function decodeGifForBackground(source, token) {
+  if (typeof GifReader === 'undefined') return;
+  const job = (typeof source === 'string') ? decodeGifFramesFromUrl(source) : decodeGifFramesFromFile(source);
+  state.gifDecodePromise = job.then(data => {
+    if (token !== bgLoadToken) return;
+    if (data && data.frames.length > 1) {
+      state.gifFrames = data.frames;
+      state.gifWidth = data.width;
+      state.gifHeight = data.height;
+      toast('Animated GIF — ' + data.frames.length + ' frames');
+    } else {
+      state.gifFrames = null;
+    }
+  }).catch(err => {
+    console.warn('GIF decode failed — falling back to static PNG export', err);
+    if (token === bgLoadToken) state.gifFrames = null;
+    if (location.protocol === 'file:') {
+      toast('GIF templates need HTTPS or a local server (python -m http.server)');
+    }
+  });
 }
 
 // Parse GIF bytes via omggif and return {width, height, frames} where each
@@ -2541,7 +2653,13 @@ async function decodeGifFramesFromUrl(url) {
   return decodeGifFramesFromBytes(bytes);
 }
 
+// Bumped on every background load. Late callbacks (a slow image decode, a GIF
+// frame decode) compare against it so an older pick can't land on top of a
+// newer one.
+let bgLoadToken = 0;
+
 function loadImageFromUrl(url, file) {
+  const token = ++bgLoadToken;
   // Reset animated-GIF state synchronously so any parallel decode task (from
   // the template-click handler or file-upload handler) that completes AFTER
   // this call can safely write its frames without getting wiped by an async
@@ -2558,6 +2676,7 @@ function loadImageFromUrl(url, file) {
     img.crossOrigin = 'anonymous';
   }
   img.onload = () => {
+    if (token !== bgLoadToken) return;
     if (!img.naturalWidth || !img.naturalHeight) {
       console.error('Image loaded with zero dimensions:', file);
       toast('Image loaded but has no dimensions.');
@@ -2573,10 +2692,15 @@ function loadImageFromUrl(url, file) {
       toast('Preview failed to render.');
     };
     stageBg.onload = () => {
+      if (token !== bgLoadToken) return;
       drop.style.display = 'none';
+      // The big "pick a template" button only belongs to the empty state;
+      // the toolbar has its own Templates button.
+      document.getElementById('openTemplatesBtnDrop').style.display = 'none';
       stageWrap.classList.add('active');
       toolbar.style.display = 'flex';
       stage.style.aspectRatio = state.naturalW + ' / ' + state.naturalH;
+      fitStage();
       clearAllLayers();
       setSelected(null);
       // NOTE: gifFrames reset happens synchronously at the top of this
@@ -2595,6 +2719,7 @@ function loadImageFromUrl(url, file) {
     stageBg.src = url;
   };
   img.onerror = (e) => {
+    if (token !== bgLoadToken) return;
     console.error('Image decode failed:', {
       urlPrefix: typeof url === 'string' ? url.slice(0, 64) : url,
       file, event: e,
@@ -2605,6 +2730,7 @@ function loadImageFromUrl(url, file) {
     toast('Couldn\u2019t decode image (' + detail + ')');
   };
   img.src = url;
+  return token;
 }
 
 // Drop + click + paste
@@ -2638,12 +2764,27 @@ document.getElementById('uploadNewBtn').addEventListener('click', () => fileInpu
     // Allow only same-origin or relative paths to avoid being abused as an image proxy
     const resolved = new URL(imgParam, location.href);
     if (resolved.origin !== location.origin) return;
-    loadImageFromUrl(resolved.href, null);
+    const token = loadImageFromUrl(resolved.href, null);
+    if (/\.gif$/i.test(resolved.pathname)) decodeGifForBackground(resolved.href, token);
   } catch (e) { /* ignore malformed query */ }
 })();
 
 // ───────────── Stage coords ─────────────
 function stageRect() { return stage.getBoundingClientRect(); }
+// Size the stage to the largest box of the image's aspect ratio that fits the
+// stage area. The image's own pixel size used to set it, so small templates
+// and uploads (a 298px meme) sat tiny in the middle of the editor. Layers
+// follow via onStageResize. Export resolution doesn't depend on this.
+function fitStage() {
+  if (!state.naturalW || !state.naturalH || !stageWrap.classList.contains('active')) return;
+  const cs = getComputedStyle(stageWrap);
+  const availW = stageWrap.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+  const availH = stageWrap.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+  if (availW <= 0 || availH <= 0) return;
+  const k = Math.min(availW / state.naturalW, availH / state.naturalH);
+  stage.style.width = Math.max(1, Math.floor(state.naturalW * k)) + 'px';
+  stage.style.height = Math.max(1, Math.floor(state.naturalH * k)) + 'px';
+}
 function displayScale() {
   const r = stageRect();
   return state.naturalW ? (r.width / state.naturalW) : 1;
@@ -2662,9 +2803,15 @@ function applyLayerTransform(l) {
   if (l.type === 'speech') applySpeechStyle(l);
 }
 
+const stageUi = document.getElementById('stageUi');
 function updateSelectorFrame() {
   const l = getSelected();
   if (!l) { selector.classList.remove('active'); return; }
+  // Pin the overlay's origin to the stage's top-left so the selector can use
+  // stage coordinates, exactly as when it lived inside the stage.
+  const r = stageRect();
+  stageUi.style.left = r.left + 'px';
+  stageUi.style.top = r.top + 'px';
   selector.classList.add('active');
   selector.style.width = l.w + 'px';
   selector.style.height = l.h + 'px';
@@ -2673,11 +2820,10 @@ function updateSelectorFrame() {
 
 function addLayerEl(l) {
   stage.appendChild(l.el);
-  // Keep filter overlays above layers and the selector above everything.
+  // Keep filter overlays above layers.
   stage.appendChild(stageNoise);
   stage.appendChild(stageVignette);
   stage.appendChild(stageScanlines);
-  stage.appendChild(selector);
   applyLayerTransform(l);
   if (typeof renderLayersPanel === 'function') renderLayersPanel();
 }
@@ -2739,12 +2885,10 @@ function updateEditBtnVisibility() {
 // Re-append all layer elements in z-order (so DOM stacking matches state.layers).
 function syncLayerDom() {
   state.layers.forEach(l => stage.appendChild(l.el));
-  // Overlays and selector go last so stickers/text sit under the filter
-  // overlays, and handles stay visible on top of everything.
+  // Overlays go last so stickers/text sit under the filter overlays.
   stage.appendChild(stageNoise);
   stage.appendChild(stageVignette);
   stage.appendChild(stageScanlines);
-  stage.appendChild(selector);
 }
 
 // direction: 'front' | 'up' | 'down' | 'back'
@@ -3246,6 +3390,11 @@ let activePtr = null;
 // + rotates around the midpoint.
 const pinchPtrs = new Map();
 let activePinch = null;
+// Forget every lifted finger, whatever path its pointerdown took. The
+// double-tap branch never starts a gesture, so before this its pointer stayed
+// in pinchPtrs and the next one-finger drag on that layer ran as a pinch
+// against the stale point (the layer flew up to thousands of px wide).
+['pointerup', 'pointercancel'].forEach(t => document.addEventListener(t, e => pinchPtrs.delete(e.pointerId), true));
 
 // Corner sign offsets in the layer's local (pre-rotation) frame. Used by the
 // free-form resize path so it knows which direction to grow the box when the
@@ -3447,11 +3596,14 @@ function onPointerUp(e) {
   document.removeEventListener('pointercancel', onPointerUp);
   if (e && e.pointerId != null) pinchPtrs.delete(e.pointerId);
   if (!activePtr) return;
-  const { captureEl, pointerId } = activePtr;
+  const { captureEl, pointerId, kind } = activePtr;
   activePtr = null;
   if (captureEl && pointerId != null) {
     try { captureEl.releasePointerCapture(pointerId); } catch (_) {}
   }
+  // The rotate handle doesn't refresh the inspector mid-drag; catch its
+  // Rotate slider up now.
+  if (kind === 'rotate') renderInspector();
   pushHistory();
 }
 
@@ -3850,6 +4002,11 @@ function renderInspector() {
           <button data-v="0" class="${!l.upper?'active':''}">Aa</button>
         </div>
       </div>
+      <div class="row">
+        <span class="label">Rotate</span>
+        <input type="range" id="insTRot" min="-180" max="180" step="1" value="${Math.round(l.rot*180/Math.PI)}">
+        <span class="range-val" id="insTRotVal">${Math.round(l.rot*180/Math.PI)}°</span>
+      </div>
       ${opacityRowHtml(l)}
       ${reorderRowHtml(l)}
       <div class="row">
@@ -3858,6 +4015,14 @@ function renderInspector() {
     `;
     wireReorderRow(l);
     wireOpacityRow(l);
+    syncFontSelect(document.getElementById('insFont'), l.fontFamily);
+    const trt = document.getElementById('insTRot'), trtv = document.getElementById('insTRotVal');
+    trt.addEventListener('input', () => {
+      l.rot = (+trt.value) * Math.PI / 180;
+      applyLayerTransform(l); updateSelectorFrame();
+      trtv.textContent = trt.value + '°';
+      scheduleHistory();
+    });
     const txt = document.getElementById('insText');
     txt.addEventListener('input', () => { l.text = txt.value; applyTextStyles(l); autosizeText(l); scheduleHistory(); renderLayersPanel(); });
     document.getElementById('insFont').addEventListener('change', e => { l.fontFamily = e.target.value; applyTextStyles(l); autosizeText(l); scheduleHistory(); });
@@ -4194,6 +4359,7 @@ function renderInspector() {
     `;
     wireReorderRow(l);
     wireOpacityRow(l);
+    syncFontSelect(document.getElementById('insSpFont'), l.fontFamily);
     const txt = document.getElementById('insSpText');
     txt.addEventListener('input', () => { l.text = txt.value; applySpeechStyle(l); scheduleHistory(); renderLayersPanel(); });
     document.getElementById('insSpTail').querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
@@ -4232,6 +4398,19 @@ function updateStickerFlip(l) {
   const sy = l.flipV ? -1 : 1;
   l.imgEl.style.transform = `scale(${sx}, ${sy})`;
   l.imgEl.style.transformOrigin = 'center';
+}
+
+// Show the layer's current font in a rebuilt font <select>. The markup has no
+// `selected` attribute, so without this every re-render (align, case, tail…)
+// snapped the dropdown back to Anton while the text kept its real font.
+// Matches the exact stack first, then by leading family, since the built-in
+// defaults use slightly longer stacks than the option values.
+function syncFontSelect(sel, family) {
+  if (!sel || !family) return;
+  const first = v => String(v).split(',')[0].replace(/["']/g, '').trim().toLowerCase();
+  const opts = Array.from(sel.options);
+  const hit = opts.find(o => o.value === family) || opts.find(o => first(o.value) === first(family));
+  if (hit) sel.value = hit.value;
 }
 
 function escapeHtml(s) {
@@ -4375,11 +4554,15 @@ document.getElementById('watermarkClose').addEventListener('click', closeWaterma
 document.getElementById('watermarkOverlay').addEventListener('click', (e) => {
   if (e.target.id === 'watermarkOverlay') closeWatermarkPicker();
 });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('watermarkOverlay').classList.contains('visible')) closeWatermarkPicker();
+});
 
 // ───────────── Mobile drawer ─────────────
 const sidePanel = document.getElementById('sidePanel');
 const sideBackdrop = document.getElementById('sideBackdrop');
 const isMobile = () => window.matchMedia('(max-width: 960px)').matches;
+let drawerOpenedAt = 0;
 function openDrawer(focus) {
   if (!isMobile()) return;
   // focus = 'stickers' | 'edit' — hides the other cards via CSS (mobile only).
@@ -4387,6 +4570,7 @@ function openDrawer(focus) {
   sidePanel.dataset.focus = focus || '';
   sidePanel.classList.add('open');
   sideBackdrop.classList.add('visible');
+  drawerOpenedAt = performance.now();
 }
 function closeDrawer() {
   sidePanel.classList.remove('open');
@@ -4396,7 +4580,14 @@ document.getElementById('openStickersBtn').addEventListener('click', () => openD
 document.getElementById('sideCloseBtn').addEventListener('click', closeDrawer);
 const openEditBtn = document.getElementById('openEditBtn');
 if (openEditBtn) openEditBtn.addEventListener('click', () => openDrawer('edit'));
-sideBackdrop.addEventListener('click', closeDrawer);
+// A double-tap opens the drawer on its second pointerdown; the click that
+// finishes that same tap then lands on the freshly shown backdrop. Ignore
+// backdrop clicks that arrive right after opening, or the drawer shuts again
+// before the user ever sees it.
+sideBackdrop.addEventListener('click', () => {
+  if (performance.now() - drawerOpenedAt < 450) return;
+  closeDrawer();
+});
 
 // ───────────── Stickers panel ─────────────
 const stickerGrid = document.getElementById('stickerGrid');
@@ -5788,30 +5979,13 @@ function renderTemplateList() {
     img.onerror = () => { btn.style.opacity = '0.4'; btn.title = t.name + ' (failed to load)'; };
     btn.appendChild(img);
     btn.addEventListener('click', () => {
-      loadImageFromUrl(t.src, null);
+      const token = loadImageFromUrl(t.src, null);
       closeTemplateModal();
       // If it's a GIF, decode frames in the background so export can emit an
       // animated GIF too. fetch() works fine on HTTPS / local HTTP server;
       // under plain file:// it's usually blocked and we silently fall back to
       // single-frame PNG export.
-      if (/\.gif(\?|$)/i.test(t.src) && typeof GifReader !== 'undefined') {
-        const srcAtClick = t.src;
-        state.gifDecodePromise = decodeGifFramesFromUrl(t.src).then(data => {
-          // Guard against the user picking a different bg before decode finishes.
-          if (state.bgUrl !== srcAtClick) return;
-          if (data && data.frames.length > 1) {
-            state.gifFrames = data.frames;
-            state.gifWidth = data.width;
-            state.gifHeight = data.height;
-            toast('Animated GIF — ' + data.frames.length + ' frames');
-          }
-        }).catch(err => {
-          console.warn('GIF template decode skipped (fetch may be blocked under file://)', err);
-          if (location.protocol === 'file:') {
-            toast('GIF templates need HTTPS or a local server (python -m http.server)');
-          }
-        });
-      }
+      if (/\.gif(\?|$)/i.test(t.src)) decodeGifForBackground(t.src, token);
     });
     templateGrid.appendChild(btn);
   });
@@ -6484,6 +6658,7 @@ function setupSheetSwipe(overlay, closeFn) {
 setupSheetSwipe(templateOverlay, closeTemplateModal);
 setupSheetSwipe(filterOverlay, cancelFilterModal);
 setupSheetSwipe(emojiOverlay, closeEmojiModal);
+setupSheetSwipe(document.getElementById('watermarkOverlay'), closeWatermarkPicker);
 
 // ───────────── History ─────────────
 let historyDebounce;
@@ -6611,6 +6786,11 @@ updateHistoryButtons();
 document.addEventListener('keydown', (e) => {
   const tag = (e.target.tagName || '').toLowerCase();
   const editing = e.target.isContentEditable || tag === 'input' || tag === 'textarea' || tag === 'select';
+  // In a text field, Ctrl/Cmd+Z/Y belong to the field's own undo. (Sliders,
+  // colour pickers and selects have none, so there they still undo the meme.)
+  const typing = e.target.isContentEditable || tag === 'textarea' ||
+    (tag === 'input' && /^(text|search)$/i.test(e.target.type || 'text'));
+  if (typing && (e.ctrlKey || e.metaKey) && /^[zy]$/i.test(e.key)) return;
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z' && !e.shiftKey) {
     e.preventDefault();
     if (state.historyIndex > 0) { state.historyIndex--; restore(state.history[state.historyIndex]); }
@@ -6696,6 +6876,40 @@ function wrapTextCanvas(ctx, text, maxWidth) {
   return lines;
 }
 
+// Distance from the top of a line box to its baseline, in CSS px, exactly as
+// the DOM lays it out for this font, size and line-height. Read from a hidden
+// probe rather than derived from canvas font metrics: engines disagree about
+// canvas ascent values, and the fixed 0.78·lineHeight guess used before was
+// only right for some fonts (Anton text exported ~0.1em higher than shown).
+const _baselineCache = new Map();
+let _baselineProbe = null;
+if (document.fonts && document.fonts.addEventListener) {
+  // Metrics change once a webfont swaps in.
+  document.fonts.addEventListener('loadingdone', () => _baselineCache.clear());
+}
+function domBaselineOffset(fontFamily, fontWeight, fontSizePx, lineHeight) {
+  const key = fontFamily + '|' + fontWeight + '|' + fontSizePx + '|' + lineHeight;
+  const hit = _baselineCache.get(key);
+  if (hit != null) return hit;
+  if (!_baselineProbe) {
+    _baselineProbe = document.createElement('div');
+    _baselineProbe.setAttribute('aria-hidden', 'true');
+    _baselineProbe.style.cssText = 'position:absolute;left:-10000px;top:0;visibility:hidden;' +
+      'white-space:nowrap;margin:0;padding:0;border:0;pointer-events:none';
+    // A zero-height inline-block sits with its bottom (= top) on the baseline.
+    _baselineProbe.innerHTML = '<span>Hg</span><span style="display:inline-block;width:1px;height:0;vertical-align:baseline"></span>';
+    document.body.appendChild(_baselineProbe);
+  }
+  const p = _baselineProbe;
+  p.style.fontFamily = fontFamily;
+  p.style.fontWeight = fontWeight;
+  p.style.fontSize = fontSizePx + 'px';
+  p.style.lineHeight = String(lineHeight);
+  const off = p.lastChild.getBoundingClientRect().top - p.getBoundingClientRect().top;
+  _baselineCache.set(key, off);
+  return off;
+}
+
 // Multi-stamp text outline that matches the DOM's 16-direction text-shadow
 // ring (see buildTextStroke). ctx.strokeText paints a TRUE vector outline
 // with rounded joins, but the DOM preview uses overlapping shadow stamps —
@@ -6767,16 +6981,10 @@ function drawMemeLayersTo(ctx, scale) {
       else if (l.align === 'right') xAlign = lw/2 - 6*scale;
       const dropShadow = !!(l.shadowEnabled && l.shadowBlur > 0);
       const strokeWpx = (l.strokeWidth || 0) * scale;
-      // Baseline placement: use lineH * 0.78 from line-box top (= 0.28 * lineH
-      // from line center) instead of measureText().fontBoundingBoxAscent.
-      // The browser-reported font-bounding-box-ascent comes from different
-      // font tables on different engines — mobile Safari pulls it from one
-      // table, while CSS line-box layout uses another, so on Safari the
-      // canvas baseline lands 1–4px lower than the on-screen DOM. The 0.78
-      // empirical constant is what every cross-browser canvas-text library
-      // uses; it's based on the line-height the browser actually rendered,
-      // not on metric introspection that varies by engine.
-      const baselineFromLineCenter = 0.28 * lineH;
+      // Baseline placement comes from the DOM itself (see domBaselineOffset),
+      // measured at the on-stage size and scaled up, so it lands where the
+      // preview draws it for every font on every engine.
+      const baselineFromLineCenter = domBaselineOffset(l.fontFamily, l.fontWeight, l.fontSize, 1.08) * scale - lineH / 2;
       for (const line of lines) {
         const yBase = y + baselineFromLineCenter;
         // Drop shadow / glow: paint the letter shape in the shadow color
@@ -6851,15 +7059,13 @@ function drawMemeLayersTo(ctx, scale) {
       if (l.align === 'left')       xText = padLeft;
       else if (l.align === 'right') xText = padLeft + innerW;
       else                          xText = padLeft + innerW / 2;
-      // Same baseline approach as the text-layer path: 0.78 * lineH from
-      // line-box top is the cross-browser-reliable approximation. Using
-      // measureText().fontBoundingBoxAscent here drifted off DOM on mobile
-      // Safari (different font-metric table than the one CSS uses for line-
-      // box baseline placement).
+      // Same baseline approach as the text-layer path: measured from the DOM
+      // at the on-stage size (line-height 1.15 here), then scaled.
       const blockTop = padTop + (innerH - totalH) / 2;
+      const baselineFromLineTop = domBaselineOffset(l.fontFamily, l.fontWeight || 700, l.fontSize || 24, 1.15) * scale;
       let lineY = blockTop;
       for (const line of lines) {
-        const yBase = lineY + 0.78 * lineH;
+        const yBase = lineY + baselineFromLineTop;
         if (tsW > 0) paintStrokeRing(ctx, line, xText, yBase, tsColor, tsW);
         ctx.fillText(line, xText, yBase);
         lineY += lineH;
@@ -6953,87 +7159,58 @@ function drawMemeLayersTo(ctx, scale) {
   });
 }
 
-function applyNoiseToCtx(ctx, w, h, amount) {
-  // Match the DOM's grain stack exactly:
-  //   .stage-noise has mix-blend-mode: overlay over a fractal-noise SVG
-  //   tile, with opacity = amount.
-  // Linear additive RGB (the previous approach) does NOT look like overlay —
-  // overlay is an S-curve through 0.5: dark pixels push darker, light pixels
-  // push lighter, mid stays mid. Doing per-pixel overlay here keeps export
-  // and preview visually identical.
-  let img;
-  try { img = ctx.getImageData(0, 0, w, h); }
-  catch (e) { console.warn('noise skipped (tainted canvas)', e); return; }
-  const d = img.data;
+function applyNoiseToCtx(ctx, w, h, amount, scale) {
+  // Same grain tile and the same blend as the live .stage-noise overlay
+  // (mix-blend-mode: overlay at opacity = amount), tiled from the stage's
+  // top-left at `scale` canvas px per CSS px, so the file shows the grain
+  // the preview shows.
   const t = Math.max(0, Math.min(1, amount));
-  // overlay(base, blend) =
-  //   base < 0.5  : 2 * base * blend
-  //   base >= 0.5 : 1 - 2 * (1 - base) * (1 - blend)
-  // We use a random grain pixel in [0, 255] as the blend value, matching
-  // the SVG fractalNoise tile (which is roughly uniform noise centred at
-  // ~128). The DOM also layers the overlay's opacity on top of that, so we
-  // mix the overlay result toward the original base by (1 - t).
-  for (let i = 0; i < d.length; i += 4) {
-    const grain = Math.random() * 255;
-    for (let k = 0; k < 3; k++) {
-      const base = d[i + k];
-      const overlay = (base < 128)
-        ? (2 * base * grain) / 255
-        : 255 - (2 * (255 - base) * (255 - grain)) / 255;
-      // Layer the overlay back over the base by `t` (matches CSS opacity).
-      d[i + k] = base * (1 - t) + overlay * t;
-    }
-  }
-  ctx.putImageData(img, 0, 0);
+  if (!t) return;
+  const pat = ctx.createPattern(noiseTile, 'repeat');
+  if (!pat) return;
+  if (pat.setTransform) pat.setTransform(new DOMMatrix().scaleSelf(scale || 1));
+  ctx.save();
+  ctx.globalCompositeOperation = 'overlay';
+  ctx.globalAlpha = t;
+  ctx.fillStyle = pat;
+  ctx.fillRect(0, 0, w, h);
+  ctx.restore();
 }
 function applyVignetteToCtx(ctx, w, h, amount) {
   // Match the DOM exactly:
   //   radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,1) 100%)
   //   then layered with opacity = amount on the .stage-vignette element.
-  // Canvas createRadialGradient is always circular, so we draw the ellipse
-  // by transforming the context: scale x by (w/h) so a circle of radius
-  // h/2 paints as an ellipse of radii (w/2, h/2). That's the same ellipse
-  // CSS uses by default (farthest-corner = (w/2, h/2)). The gradient stops
-  // mirror CSS: transparent at 35%, full black at 100%, multiplied by the
-  // overlay's `amount` opacity (0..1).
+  // The default ellipse size is farthest-corner: the (w/2 : h/2) ellipse
+  // grown by sqrt(2) so it passes through the corners. Using (w/2, h/2)
+  // itself made exports go black at the edge midpoints, much darker than
+  // the preview. Canvas gradients are circular, so scale x by w/h to turn a
+  // circle of radius ry into that ellipse.
   ctx.save();
-  // Scale anisotropically so a unit circle becomes the (w/2, h/2) ellipse.
-  // We then draw at the centre and a unit-circle radius of 1; the scale
-  // pushes us to the right ellipse shape.
-  // Use the larger of the two half-axes as the "circle" radius because CSS
-  // farthest-corner extends to the layer's corner.
   const rx = w / 2, ry = h / 2;
-  // Set transform: translate to centre, then scale so y becomes the unit.
-  // We pick the y-axis as the canonical circle so r2 below = ry.
   ctx.translate(rx, ry);
   ctx.scale(rx / ry, 1);
-  const r2 = ry;
+  const r2 = ry * Math.SQRT2;
   const r1 = r2 * 0.35;
   const g = ctx.createRadialGradient(0, 0, r1, 0, 0, r2);
   g.addColorStop(0, 'rgba(0,0,0,0)');
   g.addColorStop(1, 'rgba(0,0,0,' + Math.max(0, Math.min(1, amount)).toFixed(3) + ')');
   ctx.fillStyle = g;
-  // Fill a rect that covers the entire (transformed) image area.
-  // After the scale, the visible canvas extends from -rx*(ry/rx)..+rx*(ry/rx)
-  // in the new x — i.e. -ry..+ry. Use a large rect to be safe.
+  // Cover the whole (transformed) image area with room to spare.
   ctx.fillRect(-rx * 2, -ry * 2, rx * 4, ry * 4);
   ctx.restore();
 }
 function applyScanlinesToCtx(ctx, w, h, amount, scale) {
   // Dark horizontal lines every 3 CSS-px to match the DOM overlay
   // (`.stage-scanlines` repeating-linear-gradient: 1px line, 2px gap).
-  // `scale` is the canvas-px-per-CSS-px factor (= dpr at preview resolution);
-  // defaults to 1 if not passed. The previous height-based formula
-  // (h/480) made phone exports look very different from desktop exports
-  // because line density depended on image height, not viewport scale.
+  // `scale` is canvas px per CSS px. Lines go at fractional positions with
+  // fractional thickness (anti-aliased) so any export scale keeps the 1:3
+  // ratio; rounding both made e.g. a 1.67x export 2px lines every 5px.
   ctx.save();
   ctx.globalCompositeOperation = 'multiply';
   ctx.fillStyle = 'rgba(0,0,0,' + (amount * 0.55).toFixed(3) + ')';
   const s = scale || 1;
-  const lineEvery = Math.max(2, Math.round(3 * s));
-  const lineThickness = Math.max(1, Math.round(1 * s));
-  for (let y = 0; y < h; y += lineEvery) {
-    ctx.fillRect(0, y, w, lineThickness);
+  for (let y = 0; y < h; y += 3 * s) {
+    ctx.fillRect(0, y, w, s);
   }
   ctx.restore();
 }
@@ -7054,7 +7231,24 @@ const EXPORT_CONFIG = {
   // is the rough upper bound before the tab gets OOM-killed. Going higher
   // (e.g. matching MAX_STATIC_PIXELS) blew past 600 MB in testing.
   MAX_GIF_PIXELS: 2e6,
+  // Cap for a filtered PNG composite: the filter pass round-trips the image
+  // through a PNG data URL inside an SVG, which costs several copies of it.
+  MAX_FILTER_PIXELS: 4e6,
 };
+
+// Resolution to composite an export at, in canvas px per stage CSS px.
+// Layers, overlays and every filter but sharpen scale cleanly (blur radius
+// and chromatic offset are scaled explicitly), so render straight at the
+// output size: text and stickers come out crisp instead of being drawn at
+// screen size and stretched up to 1600px. Sharpen is a 3x3 kernel over
+// device pixels, so its strength only matches the preview at the preview's
+// own resolution (stage px × dpr). `maxPixels` (0 = none) caps the composite.
+function exportCompositeScale(outW, stageW, stageH, filters, maxPixels) {
+  if (filters && filters.sharpen > 0) return window.devicePixelRatio || 1;
+  let s = outW / stageW;
+  if (maxPixels && stageW * stageH * s * s > maxPixels) s = Math.sqrt(maxPixels / (stageW * stageH));
+  return s;
+}
 
 // Given a source W×H and a max-pixel budget, return the export W×H that:
 //   - is at least MIN_WIDTH wide (upscaling small sources)
@@ -7153,31 +7347,20 @@ async function renderCanvas(options) {
     ({ W: outW, H: outH } = computeExportSize(state.naturalW, state.naturalH, EXPORT_CONFIG.MAX_STATIC_PIXELS));
   }
 
-  // KEY: composite + filter at the SAME pixel resolution as the on-screen
-  // preview (stage CSS px × devicePixelRatio). Filter operations are
-  // pixel-unit (blur radius, chromatic offset, sharpen kernel size), so they
-  // ONLY produce a visually identical result if applied at the same
-  // resolution as the preview. We then upscale the filtered composite to
-  // the output resolution. Trade-off: bg sharpness drops slightly versus
-  // rendering bg at native-res, but the filter look matches the preview
-  // exactly — which is what the user actually compares.
   const r = stageRect();
-  const dpr = window.devicePixelRatio || 1;
-  const W = Math.max(1, Math.round(r.width * dpr));
-  const H = Math.max(1, Math.round(r.height * dpr));
-  const scale = dpr;
-
-  const c = document.createElement('canvas');
-  c.width = outW; c.height = outH;
-  const ctx = c.getContext('2d');
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = 'high';
-
   const f = state.filters;
   const skipFilters = !!options.skipFilters;
   const hasOverlay = !skipFilters && (f.noise > 0 || f.vignette > 0 || f.scanlines > 0);
+  const hasFilter = !skipFilters && buildFilterString(f) !== 'none';
+  const scale = exportCompositeScale(outW, r.width, r.height, skipFilters ? null : f,
+    hasFilter ? EXPORT_CONFIG.MAX_FILTER_PIXELS : 0);
+  // At full resolution the composite IS the output canvas (no extra copy,
+  // which matters for 12 MP phone photos on iOS).
+  const fullRes = scale === outW / r.width;
+  const W = fullRes ? outW : Math.max(1, Math.round(r.width * scale));
+  const H = fullRes ? outH : Math.max(1, Math.round(r.height * scale));
 
-  // Composite bg + layers + overlays at preview resolution into temp.
+  // Composite bg + layers + overlays.
   const temp = document.createElement('canvas');
   temp.width = W; temp.height = H;
   const tctx = temp.getContext('2d');
@@ -7186,40 +7369,39 @@ async function renderCanvas(options) {
   tctx.drawImage(state.bgImage, 0, 0, W, H);
   drawMemeLayersTo(tctx, scale);
   if (hasOverlay) {
-    if (f.noise > 0) applyNoiseToCtx(tctx, W, H, f.noise);
+    if (f.noise > 0) applyNoiseToCtx(tctx, W, H, f.noise, scale);
     if (f.vignette > 0) applyVignetteToCtx(tctx, W, H, f.vignette);
     if (f.scanlines > 0) applyScanlinesToCtx(tctx, W, H, f.scanlines, scale);
   }
 
-  // Apply filter chain at preview resolution into a same-size canvas.
-  // Pass `scale` (= dpr) so pixel-unit filter primitives (blur, chromatic dx)
-  // produce the same visible radius on the device-px canvas as they do on
-  // the CSS-px stage. Without this, retina exports get a chromatic offset /
-  // blur that's half as strong as the live preview. The shared SVG <defs>
-  // must be temporarily mutated to the scaled values then restored, since
+  // Apply the filter chain into a same-size canvas. Pass `scale` so
+  // pixel-unit filter primitives (blur, chromatic dx) get the same visible
+  // radius on the canvas as on the CSS-px stage. The shared SVG <defs> must
+  // be temporarily mutated to the scaled values then restored, since
   // url(#..) refs read attribute values live.
-  let filterStr;
-  let mustRestoreSvg = false;
-  if (skipFilters) {
-    filterStr = 'none';
-  } else {
-    filterStr = buildFilterString(f, scale);
+  let filtered = temp;
+  if (hasFilter) {
+    filtered = document.createElement('canvas');
+    filtered.width = W; filtered.height = H;
+    const fctx = filtered.getContext('2d');
+    fctx.imageSmoothingEnabled = true;
+    fctx.imageSmoothingQuality = 'high';
     updateSvgFilters(f, scale);
-    mustRestoreSvg = true;
+    try {
+      await drawCanvasWithFilter(fctx, temp, buildFilterString(f, scale), W, H);
+    } finally {
+      updateSvgFilters(f);
+    }
   }
-  const filtered = document.createElement('canvas');
-  filtered.width = W; filtered.height = H;
-  const fctx = filtered.getContext('2d');
-  fctx.imageSmoothingEnabled = true;
-  fctx.imageSmoothingQuality = 'high';
-  try {
-    await drawCanvasWithFilter(fctx, temp, filterStr, W, H);
-  } finally {
-    if (mustRestoreSvg) updateSvgFilters(f);
-  }
+  if (W === outW && H === outH) return filtered;
 
-  // Upscale (or 1:1 blit) to output resolution. Browser uses bicubic when
-  // imageSmoothingQuality='high', so the upscale is smooth.
+  // Resample to output resolution (sharpen / capped filter composites).
+  // Browser uses bicubic when imageSmoothingQuality='high'.
+  const c = document.createElement('canvas');
+  c.width = outW; c.height = outH;
+  const ctx = c.getContext('2d');
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
   ctx.drawImage(filtered, 0, 0, outW, outH);
   return c;
 }
@@ -7379,35 +7561,32 @@ async function exportAnimatedGifBlob() {
   // GIF's higher memory footprint (per-frame × N × 4 encoder workers).
   const { W: outW, H: outH } = computeExportSize(srcW, srcH, EXPORT_CONFIG.MAX_GIF_PIXELS);
 
-  // Composite + filter at the SAME pixel resolution as the live preview, then
-  // upscale to the output size. This is the only way to make filter
-  // operations (blur radius, chromatic offset, sharpen) look identical to
-  // what the user sees on screen — pixel-unit filters can't be matched
-  // across resolutions otherwise. Same trade-off as the PNG path.
+  // Composite at output resolution (see exportCompositeScale) unless a
+  // filter is on: the filter pass round-trips every frame through a PNG data
+  // URL, and at full size a 46-frame filtered GIF took ~60% longer, for
+  // detail 256 colours can't show. Filtered GIFs composite at the preview's
+  // resolution (stage px × dpr), as they always have.
   const r = stageRect();
-  const dpr = window.devicePixelRatio || 1;
-  const W = Math.max(1, Math.round(r.width * dpr));
-  const H = Math.max(1, Math.round(r.height * dpr));
-  const layerScale = dpr;
-  // Scale pixel-unit filter primitives by dpr — see the PNG path in
-  // renderToCanvas() for the rationale. We mutate the shared SVG <defs> for
-  // the duration of the GIF render and restore on the way out.
+  const filtered = buildFilterString(state.filters) !== 'none';
+  const layerScale = filtered ? (window.devicePixelRatio || 1)
+    : exportCompositeScale(outW, r.width, r.height, state.filters, 0);
+  const fullRes = layerScale === outW / r.width;
+  const W = fullRes ? outW : Math.max(1, Math.round(r.width * layerScale));
+  const H = fullRes ? outH : Math.max(1, Math.round(r.height * layerScale));
+  // Scale pixel-unit filter primitives by the same factor — see renderCanvas
+  // for the rationale. We mutate the shared SVG <defs> for the duration of
+  // the GIF render and restore on the way out.
   const filterStr = buildFilterString(state.filters, layerScale);
   const hasFilter = filterStr && filterStr !== 'none';
   if (hasFilter) updateSvgFilters(state.filters, layerScale);
 
   // Source canvas at the GIF's native size — receives putImageData for each
-  // decoded frame. We then drawImage it down/up to preview-resolution.
+  // decoded frame. We then drawImage it to the composite resolution.
   const srcCanvas = document.createElement('canvas');
   srcCanvas.width = srcW; srcCanvas.height = srcH;
   const srcCtx = srcCanvas.getContext('2d');
 
-  // Reused scratch canvases at PREVIEW resolution.
-  const frameCanvas = document.createElement('canvas');
-  frameCanvas.width = W; frameCanvas.height = H;
-  const fctx = frameCanvas.getContext('2d');
-  fctx.imageSmoothingEnabled = true;
-  fctx.imageSmoothingQuality = 'high';
+  // Reused scratch canvases at composite resolution.
   const tempCanvas = document.createElement('canvas');
   tempCanvas.width = W; tempCanvas.height = H;
   const tctx = tempCanvas.getContext('2d');
@@ -7422,7 +7601,8 @@ async function exportAnimatedGifBlob() {
   // filtered composite, sampled into ImageData for the encoder.
   const outCanvas = document.createElement('canvas');
   outCanvas.width = outW; outCanvas.height = outH;
-  const octx = outCanvas.getContext('2d');
+  // Read back every frame with getImageData, so ask for a CPU-side canvas.
+  const octx = outCanvas.getContext('2d', { willReadFrequently: true });
   octx.imageSmoothingEnabled = true;
   octx.imageSmoothingQuality = 'high';
 
@@ -7471,24 +7651,21 @@ async function exportAnimatedGifBlob() {
   for (let i = 0; i < frames.length; i++) {
     const f = frames[i];
     // 1. Put the decoded frame at native GIF res into srcCanvas.
-    // 2. Downscale (or 1:1 blit) into frameCanvas at PREVIEW res.
-    // 3. Composite layers + overlays into tempCanvas at PREVIEW res.
-    // 4. Apply filter at PREVIEW res into filteredCanvas (matches preview).
-    // 5. Upscale filteredCanvas to OUTPUT res in outCanvas for the encoder.
+    // 2. Scale it into tempCanvas and composite layers + overlays on top.
+    // 3. Apply the filter into filteredCanvas.
+    // 4. Resample (or 1:1 blit) to OUTPUT res in outCanvas for the encoder.
     srcCtx.putImageData(f.imageData, 0, 0);
-    fctx.clearRect(0, 0, W, H);
-    fctx.drawImage(srcCanvas, 0, 0, W, H);
     tctx.clearRect(0, 0, W, H);
-    tctx.drawImage(frameCanvas, 0, 0);
+    tctx.drawImage(srcCanvas, 0, 0, W, H);
     drawMemeLayersTo(tctx, layerScale);
-    if (state.filters.noise > 0) applyNoiseToCtx(tctx, W, H, state.filters.noise);
+    if (state.filters.noise > 0) applyNoiseToCtx(tctx, W, H, state.filters.noise, layerScale);
     if (state.filters.vignette > 0) applyVignetteToCtx(tctx, W, H, state.filters.vignette);
     if (state.filters.scanlines > 0) applyScanlinesToCtx(tctx, W, H, state.filters.scanlines, layerScale);
     filteredCtx.clearRect(0, 0, W, H);
     // SVG rasterization for the filter chain — universal cross-browser
     // support, unlike ctx.filter. Same helper the PNG path uses.
     await drawCanvasWithFilter(filteredCtx, tempCanvas, hasFilter ? filterStr : 'none', W, H);
-    // Upscale filtered preview-res composite to output res.
+    // Resample the filtered composite to output res.
     octx.clearRect(0, 0, outW, outH);
     octx.drawImage(filteredCanvas, 0, 0, outW, outH);
 
@@ -7625,10 +7802,11 @@ async function exportBlob() {
 
 // Detects touch-first devices (phones, tablets). Used to prefer the native share
 // sheet over <a download>, which is unreliable on mobile (browsers often open the
-// image inline instead of saving it).
+// image inline instead of saving it). Keyed on the primary pointer, so a
+// touchscreen laptop driven by a mouse/trackpad still downloads normally.
 const isTouchDevice = () => (
-  ('ontouchstart' in window) ||
-  (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0)
+  window.matchMedia('(pointer: coarse)').matches ||
+  (navigator.maxTouchPoints > 0 && !window.matchMedia('(any-pointer: fine)').matches)
 );
 
 async function saveViaAnchor(blob, filename) {
@@ -7813,43 +7991,62 @@ document.getElementById('copyBtn').addEventListener('click', handleCopy);
 
 // ───────────── Resize stage on viewport change ─────────────
 let lastStageWidth = 0;
+// Scale every stage-pixel quantity of a layer (or of a history snapshot of
+// one) by `ratio`. Speech bubbles carry font, text-stroke and bubble-stroke
+// sizes; blur carries its radius and pixel block size: all stage px, so all
+// scale with the stage to keep the look (and the export) the same.
+function scaleLayerUnits(l, ratio) {
+  l.x *= ratio; l.y *= ratio; l.w *= ratio; l.h *= ratio;
+  if (l.type === 'text') {
+    l.fontSize *= ratio;
+    l.strokeWidth *= ratio;
+    if (l.shadowBlur != null) l.shadowBlur *= ratio;
+  } else if (l.type === 'speech') {
+    l.fontSize = (l.fontSize || 24) * ratio;
+    l.strokeWidth = (l.strokeWidth || 0) * ratio;
+    l.textStrokeWidth = (l.textStrokeWidth || 0) * ratio;
+  } else if (l.type === 'blur') {
+    l.blurRadius *= ratio;
+    l.pixelSize *= ratio;
+  }
+}
 function onStageResize() {
   const w = stageRect().width;
   if (!state.bgImage || !w || w === lastStageWidth) return;
   const ratio = w / lastStageWidth;
-  if (lastStageWidth > 0 && Math.abs(ratio - 1) > 0.01) {
-    // Scale all layers to the new width
+  // No dead band: a slow window drag arrives as many sub-1% steps, and
+  // skipping those while still advancing lastStageWidth left the layers at
+  // their old size.
+  if (lastStageWidth > 0) {
+    // Scale all layers to the new width (window resize, phone rotation).
     state.layers.forEach(l => {
-      l.x *= ratio; l.y *= ratio; l.w *= ratio; l.h *= ratio;
-      if (l.type === 'text') {
-        l.fontSize *= ratio;
-        l.strokeWidth *= ratio;
-        applyTextStyles(l);
-      } else if (l.type === 'speech') {
-        // Speech bubbles have their own font + text-stroke + bubble-stroke
-        // sizes in stage-pixel units, just like text layers. Scale all of
-        // them so the bubble stays visually consistent across resizes and
-        // the export reads the same numbers the user placed.
-        l.fontSize = (l.fontSize || 24) * ratio;
-        l.strokeWidth = (l.strokeWidth || 0) * ratio;
-        l.textStrokeWidth = (l.textStrokeWidth || 0) * ratio;
-        applySpeechStyle(l);
-      } else if (l.type === 'blur') {
-        // Keep the perceived blur strength constant across stage resizes
-        // (portrait <-> landscape, window resize). Both radius and pixel
-        // block size are stage-pixel units, so they scale with the stage.
-        l.blurRadius *= ratio;
-        l.pixelSize *= ratio;
-        applyBlurStyle(l);
-      }
+      scaleLayerUnits(l, ratio);
+      if (l.type === 'text') applyTextStyles(l);
+      else if (l.type === 'speech') applySpeechStyle(l);
+      else if (l.type === 'blur') applyBlurStyle(l);
       applyLayerTransform(l);
     });
+    // Undo/redo snapshots are in stage px too. Without this, undoing after
+    // a resize restored layers at the old stage's size.
+    state.history.forEach(snap => snap.layers.forEach(sl => scaleLayerUnits(sl, ratio)));
     updateSelectorFrame();
+    // Refresh the size sliders, but never while the user is typing in the
+    // panel: a phone keyboard opening can resize the stage, and rebuilding
+    // the panel would drop focus and close the keyboard.
+    if (!inspectorBody.contains(document.activeElement)) renderInspector();
   }
   lastStageWidth = w;
 }
-const ro = new ResizeObserver(onStageResize);
+const ro = new ResizeObserver(() => {
+  fitStage();
+  onStageResize();
+  // The stage can also move without resizing (toolbar re-wrapping above or
+  // below it, rotation), and the selection overlay is pinned to its rect.
+  updateSelectorFrame();
+});
 ro.observe(stage);
+ro.observe(stageWrap);
+window.addEventListener('resize', updateSelectorFrame);
 
 // ───────────── Particle grid bg ─────────────
 (function(){
