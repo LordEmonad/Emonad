@@ -1,6 +1,6 @@
 # Emonad
 
-> Emonad ($EMO) is a community memecoin on Monad — the emo memecoin of the Monad ecosystem. The site hosts the token landing page, an interactive Emo Tarot reading with all 22 Major Arcana, a community meme gallery + meme maker, and two browser games (Emo Crush and Flap Emonad).
+> Emonad ($EMO) is a community memecoin on Monad — the emo memecoin of the Monad ecosystem. The site hosts the token landing page, an interactive Emo Tarot reading with all 22 Major Arcana, a community meme gallery + meme maker, browser games (Emo Crush, Flap Emonad, the Emo Arcade) and links to Emo AI Studio, the community's on-brand AI image and video studio.
 
 Emonad is built by and for the community. The brand voice is dark, self-aware, slightly mall-emo. Token ticker is $EMO. Chain is Monad. Official accounts: @EmonadCoin on X, t.me/emonadcoin on Telegram, listed on CoinGecko as "emonad".
 
@@ -15,6 +15,8 @@ Emonad is built by and for the community. The brand voice is dark, self-aware, s
 - [Emo Crush](https://emonad.lol/emo-crush/): Match-3 puzzle game with emo-themed gems.
 
 - [Flap Emonad](https://emonad.lol/flapemonad/): Flappy Bird-style game with an on-chain leaderboard on Monad.
+
+- [Emo AI Studio](https://ai.emonad.lol/): Emonad's AI image and video studio. Load the Emonad brand kit (character references, logos, palette, prompts) and generate on-brand images and video on every frontier model, including MiniMax H3 video with native audio. No account and no subscription: pay per generation from a wallet (MON or USDC on Monad) or with imgnAI credits. Powered by imgnAI, Emonad's official AI partner.
 
 ## Token
 

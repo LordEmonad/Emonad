@@ -771,6 +771,23 @@
       .game-card-arcade:hover .game-art-trio:nth-child(1) { margin-left: 0; }
     }
 
+    /* Emo AI Studio: three of its outputs fanned like the arcade icons (real stills, so no pixel rendering), the studio's violet */
+    .game-card-studio .game-art-trio img { image-rendering: auto; }
+    .game-card-studio .game-art-trio { box-shadow: inset 0 0 0 1px rgba(255,255,255,0.14), 0 0 0 2px rgba(10, 8, 16, 0.9), 0 0 20px rgba(155, 95, 255, 0.32); }
+    [data-theme="light"] .game-card-studio .game-art-trio { box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06), 0 0 0 2px rgba(255,255,255,0.95), 0 0 20px rgba(123, 63, 228, 0.2); }
+    .game-card-studio .game-art-trio:nth-child(1) { transform: rotate(-8deg); }
+    .game-card-studio .game-art-trio:nth-child(2) { margin-left: -24px; z-index: 1; transform: translateY(-5px) rotate(0deg); }
+    .game-card-studio .game-art-trio:nth-child(3) { margin-left: -24px; z-index: 2; transform: rotate(8deg); }
+    .game-card-studio:hover .game-art-trio:nth-child(1) { transform: rotate(-11deg) scale(1.05); }
+    .game-card-studio:hover .game-art-trio:nth-child(2) { margin-left: -16px; transform: translateY(-8px) rotate(0deg) scale(1.05); }
+    .game-card-studio:hover .game-art-trio:nth-child(3) { margin-left: -16px; transform: rotate(11deg) scale(1.05); }
+    @media (max-width: 420px) { .game-card-studio .game-art-trio:nth-child(n+2) { margin-left: -19px; } }
+    @media (max-width: 350px) { .game-card-studio .game-new { display: none; } .game-card-studio .game-text { padding-right: 0; } }
+    @media (prefers-reduced-motion: reduce) {
+      .game-card-studio:hover .game-art-trio { margin-left: -24px; transform: none; }
+      .game-card-studio:hover .game-art-trio:nth-child(1) { margin-left: 0; }
+    }
+
     /* ── Button Sections ── */
     .dock {
       width: 100%;
@@ -1794,6 +1811,20 @@
     <h1 class="sr-only">The Emoverse</h1>
 
     <div class="games animate-in" style="animation-delay:0.18s" aria-label="Games">
+      <a href="https://ai.emonad.lol" target="_blank" rel="noopener noreferrer" class="game-card featured game-card-studio">
+        <span class="game-trio">
+          <span class="game-art game-art-trio"><img src="img/studio-catgirl.webp" alt="" width="144" height="144" loading="lazy"></span>
+          <span class="game-art game-art-trio"><img src="img/studio-skate.webp" alt="" width="144" height="144" loading="lazy"></span>
+          <span class="game-art game-art-trio"><img src="img/studio-clash.webp" alt="" width="144" height="144" loading="lazy"></span>
+        </span>
+        <span class="game-text">
+          <span class="game-name">Emo AI Studio <span class="game-ext" aria-hidden="true">&#8599;</span></span>
+          <span class="game-sub">On-brand AI images and video of Emonad</span>
+          <span class="game-note">powered by <b>imgnAI</b>, our official AI partner &middot; no account</span>
+        </span>
+        <span class="game-go">Open the studio <span aria-hidden="true">&rarr;</span></span>
+        <span class="game-new">NEW</span>
+      </a>
       <a href="https://emogotchi.emonad.lol/adopt/" target="_blank" rel="noopener noreferrer" class="game-card featured">
         <span class="game-duo">
           <span class="game-art game-art-pet game-art-cat"><img src="img/emonadgotchi.webp" alt="" width="320" height="320" loading="lazy"></span>
@@ -1853,6 +1884,7 @@
       <div class="button-section">
         <div class="section-label">Explore</div>
         <div class="button-grid">
+          <a href="https://ai.emonad.lol" target="_blank" rel="noopener noreferrer" class="btn btn-outline">AI Studio</a>
           <a href="memes.html" class="btn btn-outline">Memes</a>
           <a href="meme-maker.html" class="btn btn-outline">Meme Maker</a>
           <a href="gifs.html" class="btn btn-outline">GIFs</a>
