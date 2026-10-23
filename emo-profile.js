@@ -2,7 +2,7 @@
 // Self-contained module. Listens for `emo:track` CustomEvents from the host page.
 // Public API on window.EmoProfile and as the default export.
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { createClient } from './vendor/supabase-js-2.117.3.mjs';
 
 const CONFIG = {
   CLERK_PUBLISHABLE_KEY: 'pk_live_Y2xlcmsuZW1vbmFkLmxvbCQ',
@@ -10,6 +10,7 @@ const CONFIG = {
   SUPABASE_URL:          'https://jdymhwsfmodqxvhcdsti.supabase.co',
   SUPABASE_ANON_KEY:     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkeW1od3NmbW9kcXh2aGNkc3RpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NzU5NTIsImV4cCI6MjA5MzE1MTk1Mn0.QsGxG8iyJaPzoPTxONLco7pMXTGgqBZTFeM48Lfcr2k',
   CLERK_JWT_TEMPLATE:    'supabase',
+  X_SYNC_URL:            'https://i.emonad.lol/api/sync-x',  // og-worker: verified X id → Clerk publicMetadata
   PER_TYPE_DAILY_CAP:    10,           // 10 blocks + 10 emonads = 20 click-XP/day
   DAILY_REWARD_XP:       5,            // tarot / flap / emocrush each = +5 XP/day
   XP_PER_LEVEL:          60,           // 60 XP per level
@@ -62,21 +63,50 @@ function highResAvatar(url, size = 256, handle = null) {
   return url;
 }
 
+// Asks the og-worker to copy the verified X id + handle into Clerk
+// publicMetadata. Only Clerk's Backend API can write publicMetadata, so the
+// Supabase JWT template can trust it; unsafeMetadata (below) is editable by
+// the user from the browser. Returns true when the metadata changed.
+async function syncVerifiedX(clerkUser, xUserId, xHandle) {
+  const pub = clerkUser.publicMetadata || {};
+  if (pub.x_user_id === xUserId && (pub.x_handle ?? null) === xHandle) return false;
+  try {
+    const token = await window.Clerk?.session?.getToken();
+    if (!token) return false;
+    const res = await fetch(CONFIG.X_SYNC_URL, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      signal: AbortSignal.timeout?.(6000),
+    });
+    if (!res.ok) return false;
+    await clerkUser.reload();
+    return true;
+  } catch (e) {
+    console.warn('emo-profile: X sync failed', e);
+    return false;
+  }
+}
+
 async function ensureXMetadata(clerkUser) {
   const xAcc = xAccountOf(clerkUser);
   const xUserId = xAcc?.providerUserId || xAcc?.externalId || null;
   if (!xUserId) return null;
   const meta = clerkUser.unsafeMetadata || {};
   const xHandle = xAcc?.username || null;
+  let changed = await syncVerifiedX(clerkUser, xUserId, xHandle);
+  // Kept until the JWT template reads publicMetadata; harmless after.
   if (meta.x_user_id !== xUserId || meta.x_handle !== xHandle) {
     try {
       await clerkUser.update({
         unsafeMetadata: { ...meta, x_user_id: xUserId, x_handle: xHandle },
       });
-      try { await clerkUser.session?.getToken?.({ template: CONFIG.CLERK_JWT_TEMPLATE, skipCache: true }); } catch {}
+      changed = true;
     } catch (e) {
       console.warn('emo-profile: failed to write unsafeMetadata', e);
     }
+  }
+  if (changed) {
+    try { await window.Clerk?.session?.getToken({ template: CONFIG.CLERK_JWT_TEMPLATE, skipCache: true }); } catch {}
   }
   return xUserId;
 }
@@ -1044,7 +1074,7 @@ function openModal() {
     ${dailyBannerHtml}
     <div class="profile-row">
       <div class="avatar-wrap">
-        <img src="${avatar}" alt="" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${escapeHtml(fallbackAvatar)}'">
+        <img src="${escapeHtml(avatar)}" alt="" referrerpolicy="no-referrer">
         <span class="level-chip ${li.maxed ? 'maxed' : ''}">${li.maxed ? 'MAX' : 'L' + li.level}</span>
       </div>
       <div class="info">
@@ -1123,6 +1153,10 @@ function openModal() {
     </div>
   `;
 
+  const avatarImg = modal.querySelector('.avatar-wrap img');
+  avatarImg.addEventListener('error', () => {
+    if (fallbackAvatar && avatarImg.src !== fallbackAvatar) avatarImg.src = fallbackAvatar;
+  }, { once: true });
   modal.querySelector('.emo-modal-close').addEventListener('click', closeModal);
   modal.querySelector('[data-action="manage"]').addEventListener('click', () => { closeModal(); api.openClerkProfile(); });
   modal.querySelector('[data-action="logout"]').addEventListener('click', () => { closeModal(); api.logout(); });
@@ -1718,10 +1752,13 @@ const api = {
     return data;
   },
   async getProfileByHandle(handle) {
-    if (!handle) return null;
+    // X handles are [A-Za-z0-9_]{1,15}; anything else can't be a profile.
+    // ilike reads _ as a wildcard, so escape it for an exact match.
+    handle = String(handle || '').replace(/^@/, '').trim();
+    if (!/^[A-Za-z0-9_]{1,15}$/.test(handle)) return null;
     const { data, error } = await supabase
       .from('profiles').select('*')
-      .ilike('x_handle', handle)
+      .ilike('x_handle', handle.replace(/_/g, '\\_'))
       .limit(1).maybeSingle();
     // Infrastructure failures must not look like "user does not exist".
     // PGRST116 / empty maybeSingle is a real miss and stays null.

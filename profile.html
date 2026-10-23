@@ -1041,8 +1041,8 @@
         tries.push(`https://unavatar.io/x/${encodeURIComponent(handle)}?size=1000&_=${bust}`);
         tries.push(`https://unavatar.io/twitter/${encodeURIComponent(handle)}`);
       }
-      if (profile.avatar_url) {
-        const cu = profile.avatar_url;
+      const cu = safeHttpsUrl(profile.avatar_url);
+      if (cu) {
         tries.push(cu.includes('img.clerk.com')
           ? cu + (cu.includes('?') ? '&' : '?') + 'width=512&_=' + bust
           : cu);

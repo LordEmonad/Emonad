@@ -4,11 +4,11 @@
 // bubble map of every user (Galaxy).
 
 import EmoProfile from './emo-profile.js';
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { createClient } from './vendor/supabase-js-2.117.3.mjs';
 import {
   forceSimulation, forceManyBody, forceCenter,
   forceCollide, forceX, forceY,
-} from 'https://esm.sh/d3-force@3';
+} from './vendor/d3-force-3.0.0.mjs';
 
 // Read-only Supabase client for public-read tables. Standalone (not the same
 // instance as emo-profile.js uses) so this page doesn't depend on a new
