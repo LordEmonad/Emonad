@@ -450,11 +450,24 @@ async function handleSyncX(request, env, ctx) {
 
   const clerkApi = (path, init = {}) => fetch(`https://api.clerk.com/v1${path}`, {
     ...init,
-    headers: { authorization: `Bearer ${env.CLERK_SECRET_KEY}`, 'content-type': 'application/json' },
+    headers: {
+      authorization: `Bearer ${env.CLERK_SECRET_KEY}`,
+      'content-type': 'application/json',
+      'user-agent': 'emonad-og-worker (+https://emonad.lol)',
+    },
   });
+  // Clerk's status (401 bad key, 404 user not in this instance, 403
+  // blocked…) goes to `wrangler tail` and the response; never the key.
+  const clerkFailed = async (step, res) => {
+    const detail = (await res.text().catch(() => ''))
+      .replace(/sk_(live|test)_\w+/g, 'sk_…')
+      .slice(0, 200);
+    console.log(`clerk ${step} failed: ${res.status} ${detail}`);
+    return reply(502, { error: `clerk_${step}_failed`, clerk_status: res.status });
+  };
 
   const userRes = await clerkApi(`/users/${encodeURIComponent(userId)}`);
-  if (!userRes.ok) return reply(502, { error: 'clerk_lookup_failed' });
+  if (!userRes.ok) return clerkFailed('lookup', userRes);
   const user = await userRes.json();
   const account = (user.external_accounts || []).find(a =>
     /^(oauth_)?(x|twitter)$/.test(a.provider || '')
@@ -469,7 +482,7 @@ async function handleSyncX(request, env, ctx) {
       method: 'PATCH',
       body: JSON.stringify({ public_metadata: { x_user_id: xUserId, x_handle: xHandle } }),
     });
-    if (!patchRes.ok) return reply(502, { error: 'clerk_update_failed' });
+    if (!patchRes.ok) return clerkFailed('update', patchRes);
   }
 
   const result = { x_user_id: xUserId, x_handle: xHandle };
