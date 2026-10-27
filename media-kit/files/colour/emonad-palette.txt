@@ -1,0 +1,24 @@
+EMONAD COLOURS
+
+Night       #08070B   RGB   8   7  11   CMYK 60 40 40 100
+            Backgrounds. Almost black, a little purple.
+
+Emo Purple  #522B5F   RGB  82  43  95   CMYK 14 55 0 63
+            The mark and the hair. Big fields of colour.
+
+White       #FFFFFF   RGB 255 255 255   CMYK 0 0 0 0
+            Emonad's skin, the mark's letters, type on Night.
+
+Lilac       #B894D8   RGB 184 148 216   CMYK 15 31 0 15
+            Light: the spotlight, glows, highlights.
+
+Violet      #9B5FFF   RGB 155  95 255   CMYK 39 63 0 0
+            Links and buttons on screens. Screen only: print cannot reach it.
+
+Pink        #E84D7F   RGB 232  77 127   CMYK 0 67 45 9
+            One hot spot at most: a heart, a price tag, a single word.
+
+Ash         #8A8496   RGB 138 132 150   CMYK 8 12 0 41
+            Quiet type on Night: captions, small print.
+
+CMYK values are a straight conversion. For merch, ask the printer for a proof and match it to the hex.

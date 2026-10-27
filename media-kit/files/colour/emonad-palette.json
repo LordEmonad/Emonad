@@ -1,0 +1,114 @@
+[
+  {
+    "name": "Night",
+    "hex": "#08070B",
+    "rgb": [
+      8,
+      7,
+      11
+    ],
+    "cmyk": [
+      60,
+      40,
+      40,
+      100
+    ],
+    "use": "Backgrounds. Almost black, a little purple."
+  },
+  {
+    "name": "Emo Purple",
+    "hex": "#522B5F",
+    "rgb": [
+      82,
+      43,
+      95
+    ],
+    "cmyk": [
+      14,
+      55,
+      0,
+      63
+    ],
+    "use": "The mark and the hair. Big fields of colour."
+  },
+  {
+    "name": "White",
+    "hex": "#FFFFFF",
+    "rgb": [
+      255,
+      255,
+      255
+    ],
+    "cmyk": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "use": "Emonad's skin, the mark's letters, type on Night."
+  },
+  {
+    "name": "Lilac",
+    "hex": "#B894D8",
+    "rgb": [
+      184,
+      148,
+      216
+    ],
+    "cmyk": [
+      15,
+      31,
+      0,
+      15
+    ],
+    "use": "Light: the spotlight, glows, highlights."
+  },
+  {
+    "name": "Violet",
+    "hex": "#9B5FFF",
+    "rgb": [
+      155,
+      95,
+      255
+    ],
+    "cmyk": [
+      39,
+      63,
+      0,
+      0
+    ],
+    "use": "Links and buttons on screens. Screen only: print cannot reach it."
+  },
+  {
+    "name": "Pink",
+    "hex": "#E84D7F",
+    "rgb": [
+      232,
+      77,
+      127
+    ],
+    "cmyk": [
+      0,
+      67,
+      45,
+      9
+    ],
+    "use": "One hot spot at most: a heart, a price tag, a single word."
+  },
+  {
+    "name": "Ash",
+    "hex": "#8A8496",
+    "rgb": [
+      138,
+      132,
+      150
+    ],
+    "cmyk": [
+      8,
+      12,
+      0,
+      41
+    ],
+    "use": "Quiet type on Night: captions, small print."
+  }
+]

@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4QWLXTDH20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-4QWLXTDH20');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Emonad Media Kit: Logo, Character, Colours and Facts | Emonad</title>
+  <meta name="description" content="The Emonad ($EMO) media kit: the EMO logo as vectors, Emonad from every side, the cat, the colours, the type, the voice, ready-made banners and avatars, and the facts and links. Every file at full size.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://emonad.lol/media-kit">
+
+  <meta property="og:title" content="Emonad media kit">
+  <meta property="og:description" content="The logo, Emonad from every side, the colours, the voice, banners and the facts. Every file at full size.">
+  <meta property="og:image" content="https://emonad.lol/og-media-kit.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="$EMO, the emo memecoin of crypto: Emonad and his cat in a spotlight">
+  <meta property="og:url" content="https://emonad.lol/media-kit">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Emonad">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@EmonadCoin">
+  <meta name="twitter:creator" content="@EmonadCoin">
+  <meta name="twitter:title" content="Emonad media kit">
+  <meta name="twitter:description" content="The logo, Emonad from every side, the colours, the voice, banners and the facts. Every file at full size.">
+  <meta name="twitter:image" content="https://emonad.lol/og-media-kit.jpg">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="preload" href="fonts/Anton-Regular.ttf" as="font" type="font/ttf" crossorigin>
+
+  <style>
+    @font-face {
+      font-family: 'Space Grotesk';
+      font-style: normal;
+      font-weight: 500 800;
+      font-display: swap;
+      src: url(fonts/SpaceGrotesk-latin.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    @font-face { font-family: 'Anton'; font-display: swap; src: url(fonts/Anton-Regular.ttf) format('truetype'); }
+
+    /* The kit's own colours (media-kit/files/colour). The page is always on Night: it is the brand's page. */
+    :root {
+      --night: #08070B; --purple: #522B5F; --white: #FFFFFF; --lilac: #B894D8; --violet: #9B5FFF; --pink: #E84D7F; --ash: #8A8496;
+      --text-2: #b9b3c4; --line: rgba(255, 255, 255, .08); --line-2: rgba(255, 255, 255, .14); --raise: #100e15; --raise-2: #16131d;
+      --mono: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+      --display: 'Anton', 'Impact', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; background: var(--night); }
+    body { background: var(--night); color: var(--white); font-family: 'Space Grotesk', sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; height: auto; }
+    button { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; }
+    ::selection { background: var(--pink); color: #fff; }
+    :focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; border-radius: 6px; }
+
+    /* ── Nav (the site's) ── */
+    .nav { position: sticky; top: 0; z-index: 50; background: rgba(8, 7, 11, .78); backdrop-filter: blur(22px) saturate(160%); -webkit-backdrop-filter: blur(22px) saturate(160%); border-bottom: 1px solid var(--line); }
+    .nav-inner { max-width: 1160px; margin: 0 auto; padding: 13px 24px; display: flex; align-items: center; gap: 18px; }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 700; font-size: 15px; flex-shrink: 0; }
+    .brand img { width: 34px; height: 34px; object-fit: contain; }
+    .nav-links { display: flex; gap: 2px; margin-left: auto; }
+    .nav-links a { padding: 7px 12px; font-size: 13px; font-weight: 500; color: var(--text-2); border-radius: 999px; transition: color .2s, background .2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--white); background: rgba(255,255,255,.06); }
+    .nav-cta { font-size: 13px; font-weight: 700; padding: 8px 16px; border-radius: 999px; background: var(--white); color: var(--night); white-space: nowrap; }
+    .nav-menu { display: none; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line-2); align-items: center; justify-content: center; flex-shrink: 0; }
+    .nav-menu i { width: 16px; height: 2px; background: var(--white); border-radius: 2px; position: relative; display: block; }
+    .nav-menu i::before, .nav-menu i::after { content: ""; position: absolute; left: 0; width: 16px; height: 2px; background: var(--white); border-radius: 2px; }
+    .nav-menu i::before { top: -5px; } .nav-menu i::after { top: 5px; }
+    .nav-sheet { display: none; border-top: 1px solid var(--line); padding: 10px 16px 14px; }
+    .nav-sheet a { display: block; padding: 11px 12px; border-radius: 12px; font-size: 15px; font-weight: 600; }
+    .nav.open .nav-sheet { display: block; }
+    @media (max-width: 900px) { .nav-links { display: none; } .nav-cta { margin-left: auto; } .nav-menu { display: flex; } }
+    @media (max-width: 720px) { .nav-inner { padding: 11px 16px; gap: 10px; } }
+
+    /* ── Layout & type ── */
+    main { max-width: 1160px; margin: 0 auto; padding: 0 24px; counter-reset: sec; }
+    @media (max-width: 720px) { main { padding: 0 16px; } }
+    section { padding: 96px 0 0; scroll-margin-top: 64px; }
+    section + section { margin-top: 96px; border-top: 1px solid var(--line); }
+    @media (max-width: 720px) { section { padding-top: 60px; } section + section { margin-top: 60px; } }
+    .label { display: flex; align-items: center; gap: 12px; font-size: 11px; font-weight: 700; letter-spacing: 2.2px; text-transform: uppercase; color: var(--ash); margin-bottom: 18px; }
+    section[id] .label::before { counter-increment: sec; content: counter(sec, decimal-leading-zero); color: var(--lilac); }
+    h1, h2 { font-family: var(--display); font-weight: 400; text-transform: uppercase; line-height: .9; letter-spacing: .005em; }
+    h2 { font-size: clamp(44px, 7vw, 84px); margin-bottom: 18px; }
+    h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    p { color: var(--text-2); }
+    .lead { font-size: 17px; max-width: 620px; line-height: 1.6; text-wrap: pretty; }
+    .head { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: end; margin-bottom: 40px; }
+    @media (max-width: 720px) { .head { grid-template-columns: 1fr; gap: 18px; margin-bottom: 28px; } }
+
+    /* ── Buttons ── */
+    .btn { display: inline-flex; align-items: center; gap: 9px; padding: 14px 24px; border-radius: 999px; font-weight: 700; font-size: 14.5px; transition: transform .2s ease, background .2s ease, border-color .2s ease; white-space: nowrap; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-white { background: var(--white); color: var(--night); }
+    .btn-line { border: 1px solid var(--line-2); color: var(--white); }
+    .btn-line:hover { border-color: rgba(255,255,255,.4); }
+    .btn small { font-weight: 500; opacity: .6; font-size: 12.5px; }
+    .dl { display: flex; flex-wrap: wrap; gap: 8px; }
+    .dl a, .dl button { display: inline-flex; align-items: center; gap: 7px; padding: 8px 13px; border-radius: 999px; font-size: 12.5px; font-weight: 600; color: var(--text-2); border: 1px solid var(--line-2); transition: color .2s, border-color .2s, background .2s; }
+    .dl a:hover, .dl button:hover { color: var(--white); border-color: rgba(255,255,255,.4); }
+    .dl a::before { content: "↓"; font-weight: 700; color: var(--lilac); }
+    .dl .name { color: var(--white); }
+
+    /* ── The spotlight: one pool of light, a faint cone (the kit's one recurring picture) ── */
+    .spot { position: absolute; pointer-events: none; }
+    .spot::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(184,148,216,0) 0%, rgba(184,148,216,.06) 55%, rgba(184,148,216,.10) 88%, rgba(184,148,216,0) 100%); clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%); filter: blur(20px); -webkit-mask-image: linear-gradient(to right, transparent, #000 30%, #000 70%, transparent); mask-image: linear-gradient(to right, transparent, #000 30%, #000 70%, transparent); }
+    .spot::after { content: ""; position: absolute; left: -4%; right: -4%; bottom: -9%; height: 18%; background: radial-gradient(closest-side, rgba(184,148,216,.28), rgba(184,148,216,.09) 55%, transparent); }
+
+    /* ── Hero ── */
+    .hero { display: grid; grid-template-columns: 1.05fr .95fr; gap: 24px; align-items: end; padding-top: 72px; min-height: min(720px, calc(100svh - 61px)); }
+    .hero h1 { font-size: clamp(64px, 11vw, 150px); margin-bottom: 26px; }
+    .hero h1 span { display: block; color: var(--ash); }
+    .hero .lead { margin-bottom: 30px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; padding-bottom: 72px; }
+    .hero-art { position: relative; height: 100%; min-height: 560px; }
+    .hero-art .spot { left: 4%; right: 4%; top: 0; bottom: 6%; }
+    .hero-art .emonad { position: absolute; bottom: 7%; left: 31%; height: 84%; width: auto; }
+    .hero-art .cat { position: absolute; bottom: 6.4%; left: 60%; height: 27%; width: auto; }
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; min-height: 0; padding-top: 44px; }
+      .hero-art { order: -1; min-height: 0; height: 74vw; max-height: 470px; }
+      .hero-actions { padding-bottom: 0; }
+    }
+
+    /* ── Tiles ── */
+    .tile { position: relative; border-radius: 18px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .tile .cap { position: absolute; left: 16px; bottom: 13px; font-size: 12px; font-weight: 600; letter-spacing: .3px; }
+    .tile > .fit { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: var(--h, 70%); width: auto; max-width: none; }
+    .on-night { background: var(--raise); box-shadow: inset 0 0 0 1px var(--line); }
+    .on-white { background: #fff; color: var(--night); }
+    .on-purple { background: var(--purple); }
+    .on-bone { background: #F2EFE9; color: var(--night); }
+
+    /* ── Logo ── */
+    .logo-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 14px; }
+    .logo-main { aspect-ratio: 1 / 1; }
+    .logo-main .guide { position: relative; height: 58%; aspect-ratio: 3698 / 4251; }
+    .logo-main .guide img { width: 100%; height: 100%; }
+    /* clear space: a quarter of the mark's width on every side */
+    .logo-main .guide::before { content: ""; position: absolute; inset: -12.5% calc(-25% * 1); border: 1px dashed rgba(184,148,216,.45); border-radius: 4px; }
+    .logo-main .guide::after { content: "¼ width"; position: absolute; top: 50%; left: -25%; transform: translate(-50%, -50%) rotate(-90deg); font-size: 11px; color: var(--lilac); letter-spacing: 1px; white-space: nowrap; margin-left: 12.5%; }
+    .logo-side { display: grid; grid-template-rows: 1fr 1fr 1fr; gap: 14px; }
+    .logo-side .tile { min-height: 150px; --h: 64%; }
+    .rules { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 34px; }
+    .rules p { font-size: 14px; line-height: 1.55; }
+    @media (max-width: 860px) { .logo-grid { grid-template-columns: 1fr; } .logo-side { grid-template-rows: none; grid-template-columns: repeat(3, 1fr); } .logo-side .tile { min-height: 0; aspect-ratio: 1 / 1.1; } .logo-side .cap { display: none; } .rules { grid-template-columns: 1fr 1fr; gap: 22px; } }
+    .donts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 40px; }
+    .dont .tile { aspect-ratio: 1 / 1; }
+    .dont .tile { --h: 52%; }
+    .dont p { font-size: 13px; margin-top: 10px; }
+    .dont p::before { content: "✕"; color: var(--pink); font-weight: 700; margin-right: 8px; }
+    .dont-stretch .fit { transform: translate(-50%, -50%) scaleX(1.45); }
+    .dont-glow .fit { filter: drop-shadow(0 0 14px #9B5FFF) drop-shadow(0 0 4px #E84D7F); }
+    .dont-type .fake { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font: 700 clamp(26px, 3vw, 38px)/1 Arial, Helvetica, sans-serif; letter-spacing: .5px; color: #fff; margin-top: -4%; }
+    .dont-busy { background: linear-gradient(135deg, #ff5f6d, #ffc371 40%, #47cf73 70%, #3b82f6); }
+    @media (max-width: 860px) { .donts { grid-template-columns: 1fr 1fr; } }
+    .block-dl { margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 180px 1fr; gap: 14px 24px; align-items: start; }
+    .block-dl h3 { padding-top: 7px; }
+    @media (max-width: 720px) { .block-dl { grid-template-columns: 1fr; gap: 10px; } }
+
+    /* ── Emonad ── */
+    .stage { position: relative; border-radius: 22px; overflow: hidden; background: radial-gradient(120% 70% at 50% 100%, #15111d, var(--night) 70%); box-shadow: inset 0 0 0 1px var(--line); padding: 42px 28px 0; }
+    .turn { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; align-items: end; position: relative; }
+    .turn figure { position: relative; display: flex; flex-direction: column; align-items: center; }
+    .turn img { height: clamp(250px, 42vw, 470px); width: auto; position: relative; z-index: 1; }
+    .turn figure::after { content: ""; position: absolute; bottom: 40px; width: 90%; height: 34px; background: radial-gradient(closest-side, rgba(184,148,216,.22), transparent); }
+    .turn figcaption { font-size: 12px; color: var(--ash); letter-spacing: .4px; padding: 18px 0 20px; position: relative; z-index: 1; }
+    .floor { position: absolute; left: 0; right: 0; bottom: 58px; height: 1px; background: linear-gradient(90deg, transparent, var(--line-2), transparent); }
+    @media (max-width: 720px) { .stage { padding: 28px 10px 0; } .turn { grid-template-columns: repeat(2, 1fr); row-gap: 8px; } .turn img { height: 66vw; max-height: 340px; } .floor { display: none; } }
+    .traits { display: grid; grid-template-columns: 340px 1fr; gap: 14px; margin-top: 14px; }
+    .traits .tile { aspect-ratio: 1 / 1; background: var(--raise); box-shadow: inset 0 0 0 1px var(--line); align-items: flex-end; }
+    .traits .tile img { width: 100%; height: auto; }
+    .trait-list { border-radius: 18px; box-shadow: inset 0 0 0 1px var(--line); padding: 28px 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 22px 32px; align-content: center; }
+    .trait b { display: block; font-size: 15px; color: var(--white); margin-bottom: 3px; }
+    .trait span { font-size: 14px; color: var(--text-2); line-height: 1.5; display: block; }
+    .trait i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 8px; vertical-align: -1px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.25); }
+    @media (max-width: 860px) { .traits { grid-template-columns: 1fr; } .traits .tile { aspect-ratio: 4 / 3; } .traits .tile img { width: 72%; } .trait-list { grid-template-columns: 1fr; padding: 24px; gap: 18px; } }
+    .cat-row { display: grid; grid-template-columns: 1fr 1fr 1.1fr; gap: 14px; margin-top: 56px; align-items: stretch; }
+    .cat-row .tile { aspect-ratio: 1 / 1; }
+    .cat-row .tile { --h: 78%; }
+    .cat-copy { padding: 6px 4px; display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+    .cat-copy h3 { font-family: var(--display); font-weight: 400; font-size: 44px; line-height: .95; text-transform: uppercase; }
+    @media (max-width: 860px) { .cat-row { grid-template-columns: 1fr 1fr; } .cat-copy { grid-column: 1 / -1; order: -1; } }
+
+    /* ── Colour ── */
+    .swatches { display: grid; grid-template-columns: repeat(3, 1fr) repeat(4, .72fr); gap: 12px; }
+    .sw { display: flex; flex-direction: column; align-items: stretch; text-align: left; border-radius: 16px; overflow: hidden; box-shadow: inset 0 0 0 1px var(--line); background: var(--raise); transition: transform .2s ease; }
+    .sw:hover { transform: translateY(-2px); }
+    .sw .chip { height: 210px; position: relative; flex-shrink: 0; border-radius: 16px 16px 0 0; box-shadow: inset 0 0 0 1px rgba(255,255,255,.1); }
+    .sw .chip::after { content: "Copied"; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; opacity: 0; transition: opacity .2s; }
+    .sw.copied .chip::after { opacity: 1; }
+    .sw .meta { padding: 14px 15px 16px; }
+    .sw b { display: block; font-size: 14.5px; }
+    .sw code { display: block; font-family: var(--mono); font-size: 13px; color: var(--white); margin: 2px 0 8px; }
+    .sw small { display: block; font-size: 11.5px; color: var(--ash); line-height: 1.55; font-variant-numeric: tabular-nums; }
+    .sw p { font-size: 12.5px; line-height: 1.45; margin-top: 10px; }
+    @media (max-width: 980px) { .swatches { grid-template-columns: repeat(3, 1fr); } .sw .chip { height: 120px; } }
+    @media (max-width: 560px) { .swatches { grid-template-columns: 1fr 1fr; } }
+
+    /* ── Type ── */
+    .types { display: grid; grid-template-columns: 1.25fr 1fr; gap: 14px; }
+    .type { border-radius: 18px; box-shadow: inset 0 0 0 1px var(--line); padding: 30px 30px 26px; display: flex; flex-direction: column; justify-content: space-between; gap: 30px; min-height: 340px; }
+    .type .big-anton { font-family: var(--display); font-size: clamp(90px, 14vw, 190px); line-height: .82; }
+    .type .big-grotesk { font-weight: 700; font-size: clamp(34px, 4.6vw, 54px); line-height: 1.02; letter-spacing: -1.5px; }
+    .type .row { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+    .type .row p { font-size: 14px; max-width: 330px; }
+    .type .row a { font-size: 13px; font-weight: 600; color: var(--lilac); white-space: nowrap; }
+    @media (max-width: 860px) { .types { grid-template-columns: 1fr; } .type { min-height: 0; } }
+
+    /* ── Voice ── */
+    .voice { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .say { border-radius: 18px; box-shadow: inset 0 0 0 1px var(--line); padding: 28px 30px; }
+    .say h3 { font-size: 17px; margin-bottom: 8px; }
+    .say p { font-size: 14.5px; }
+    .say blockquote { margin-top: 18px; padding-left: 16px; border-left: 2px solid var(--purple); font-size: 18px; font-weight: 600; color: var(--white); line-height: 1.4; }
+    .names { margin-top: 14px; border-radius: 18px; box-shadow: inset 0 0 0 1px var(--line); display: grid; grid-template-columns: repeat(3, 1fr); }
+    .names div { padding: 24px 28px; }
+    .names div + div { border-left: 1px solid var(--line); }
+    .names b { display: block; font-size: 24px; margin-bottom: 4px; }
+    .names .drawn { height: 34px; width: auto; margin-bottom: 4px; }
+    .names span { font-size: 14px; color: var(--text-2); }
+    @media (max-width: 860px) { .voice { grid-template-columns: 1fr; } .names { grid-template-columns: 1fr; } .names div + div { border-left: 0; border-top: 1px solid var(--line); } }
+
+    /* ── Banners ── */
+    .banners { display: grid; gap: 14px; }
+    .banner { border-radius: 18px; box-shadow: inset 0 0 0 1px var(--line); padding: 14px; display: flex; flex-direction: column; }
+    .banner img { width: 100%; border-radius: 8px; box-shadow: 0 0 0 1px var(--line-2); }
+    .banner .row { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; padding: 14px 4px 2px; }
+    .banner .row p { font-size: 13.5px; }
+    .two { display: grid; grid-template-columns: 1.3fr 1fr; gap: 14px; }
+    .pfps { flex: 1; display: flex; justify-content: space-around; align-items: center; gap: 12px; padding: 18px 6px 4px; }
+    .pfps img { width: 30%; border-radius: 50%; aspect-ratio: 1; }
+    @media (max-width: 860px) { .two { grid-template-columns: 1fr; } }
+
+    /* ── Facts ── */
+    .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .copy-card { border-radius: 18px; box-shadow: inset 0 0 0 1px var(--line); padding: 24px 26px; display: flex; flex-direction: column; gap: 12px; }
+    .copy-card .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .copy-card .top b { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--ash); }
+    .copy-card p { color: var(--white); font-size: 15.5px; line-height: 1.6; }
+    .copy-btn { font-size: 12px; font-weight: 600; color: var(--text-2); padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); transition: color .2s, border-color .2s; }
+    .copy-btn:hover { color: var(--white); border-color: rgba(255,255,255,.4); }
+    .copy-btn.done { color: var(--night); background: var(--white); border-color: var(--white); }
+    .span-2 { grid-column: 1 / -1; }
+    .table { border-radius: 18px; box-shadow: inset 0 0 0 1px var(--line); }
+    .table div { display: grid; grid-template-columns: 130px 1fr auto; gap: 16px; align-items: center; padding: 14px 24px; font-size: 14.5px; }
+    .table div + div { border-top: 1px solid var(--line); }
+    .table dt { color: var(--ash); font-size: 13px; }
+    .table dd { color: var(--white); overflow-wrap: anywhere; }
+    .table dd a { color: var(--white); border-bottom: 1px solid var(--line-2); }
+    .table dd a:hover { border-color: var(--lilac); }
+    .table code { font-family: var(--mono); font-size: 13px; }
+    @media (max-width: 720px) { .facts { grid-template-columns: 1fr; } .table div { grid-template-columns: 1fr auto; gap: 4px 12px; padding: 14px 18px; } .table dt { grid-column: 1 / -1; } }
+
+    /* ── Footer (the site's) ── */
+    footer { margin-top: 120px; padding: 56px 24px 44px; border-top: 1px solid var(--line); text-align: center; }
+    .footer-logo { width: 46px; height: 46px; margin: 0 auto 16px; object-fit: contain; }
+    .footer-tag { font-size: 14.5px; color: var(--text-2); max-width: 380px; margin: 0 auto 26px; line-height: 1.55; }
+    .footer-links { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+    .footer-links a { font-size: 13px; padding: 7px 13px; color: var(--text-2); border-radius: 999px; transition: all .2s ease; }
+    .footer-links a:hover { color: var(--white); background: rgba(255,255,255,.06); }
+    .footer-mark { font-size: 11px; color: var(--ash); letter-spacing: .5px; }
+
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn:hover, .sw:hover { transform: none; } }
+  </style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="emo.html" class="brand">
+      <img src="emo-logo.png" alt="Emonad" width="34" height="34">
+      <span>Media kit</span>
+    </a>
+    <div class="nav-links">
+      <a href="#logo">Logo</a>
+      <a href="#emonad">Emonad</a>
+      <a href="#colour">Colour</a>
+      <a href="#type">Type</a>
+      <a href="#voice">Voice</a>
+      <a href="#banners">Banners</a>
+      <a href="#facts">Facts</a>
+    </div>
+    <a href="media-kit/emonad-media-kit.zip" class="nav-cta" download>Download kit</a>
+    <button class="nav-menu" id="navMenu" aria-label="Menu" aria-expanded="false"><i></i></button>
+  </div>
+  <div class="nav-sheet" id="navSheet">
+    <a href="#logo">Logo</a>
+    <a href="#emonad">Emonad</a>
+    <a href="#colour">Colour</a>
+    <a href="#type">Type</a>
+    <a href="#voice">Voice</a>
+    <a href="#banners">Banners</a>
+    <a href="#facts">Facts &amp; links</a>
+    <a href="emo.html">← emonad.lol</a>
+  </div>
+</nav>
+
+<main>
+
+  <header class="hero">
+    <div>
+      <div class="label">Emonad · $EMO</div>
+      <h1>Emonad <span>media kit</span></h1>
+      <p class="lead">The logo, the kid with purple hair over one eye, his cat, the colours, the words and the links. Every file at full size, ready for whatever you're making.</p>
+      <div class="hero-actions">
+        <a class="btn btn-white" href="media-kit/emonad-media-kit.zip" download>Download everything <small>zip · 7 MB</small></a>
+        <button class="btn btn-line" data-copy="0x81A224F8A62f52BdE942dBF23A56df77A10b7777" data-done="Contract copied">Copy the contract</button>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="spot"></div>
+      <img class="emonad" src="media-kit/preview/hero-emonad.webp" alt="" width="345" height="1100" fetchpriority="high">
+      <img class="cat" src="media-kit/preview/hero-cat.webp" alt="" width="421" height="520">
+    </div>
+  </header>
+
+  <!-- 01 LOGO -->
+  <section id="logo">
+    <div class="head">
+      <div>
+        <div class="label">Logo</div>
+        <h2>The EMO mark</h2>
+        <p class="lead">Brush letters on his hair. Drawn by hand, so it is never typed: use the files. The SVGs are vectors, sharp at any size, from a sticker to a billboard.</p>
+      </div>
+    </div>
+    <div class="logo-grid">
+      <div class="tile on-night logo-main">
+        <div class="guide"><img src="media-kit/preview/mark.webp" alt="The EMO mark: white brush letters on purple hair" width="783" height="900"></div>
+        <span class="cap" style="color: var(--ash)">Full colour · clear space</span>
+      </div>
+      <div class="logo-side">
+        <div class="tile on-white"><img class="fit" src="media-kit/preview/mark.webp" alt="The mark on white" width="783" height="900" loading="lazy"><span class="cap">Full colour on light</span></div>
+        <div class="tile on-purple"><img class="fit" src="media-kit/preview/mark-white.webp" alt="The mark in white on Emo Purple" width="522" height="600" loading="lazy"><span class="cap">White, on colour or photos</span></div>
+        <div class="tile on-bone"><img class="fit" src="media-kit/preview/mark-black.webp" alt="The mark in black" width="522" height="600" loading="lazy"><span class="cap">Black, one colour</span></div>
+      </div>
+    </div>
+    <div class="rules">
+      <div><h3>Full colour</h3><p>On Night, white or any plain light background.</p></div>
+      <div><h3>One colour</h3><p>White on Emo Purple, photos and anything busy. Black or purple for one-colour print.</p></div>
+      <div><h3>Clear space</h3><p>A quarter of its width on every side. Nothing inside that.</p></div>
+      <div><h3>Smallest</h3><p>24 px tall on screens, 12 mm in print. Smaller and the brush strokes close up.</p></div>
+    </div>
+    <div class="donts">
+      <div class="dont"><div class="tile on-night dont-stretch"><img class="fit" src="media-kit/preview/mark.webp" alt="" loading="lazy"></div><p>Stretch or squash it</p></div>
+      <div class="dont"><div class="tile on-night dont-type"><img class="fit" src="media-kit/preview/hair.webp" alt="" loading="lazy"><div class="fake">EMO</div></div><p>Retype the letters</p></div>
+      <div class="dont"><div class="tile on-night dont-glow"><img class="fit" src="media-kit/preview/mark.webp" alt="" loading="lazy"></div><p>Add glows or effects</p></div>
+      <div class="dont"><div class="tile dont-busy"><img class="fit" src="media-kit/preview/mark.webp" alt="" loading="lazy"></div><p>Full colour on busy colour</p></div>
+    </div>
+    <div class="block-dl">
+      <h3>Download</h3>
+      <div class="dl">
+        <a href="media-kit/files/logo/emo-mark.svg" download><span class="name">Full colour</span> SVG</a>
+        <a href="media-kit/files/logo/emo-mark.png" download>PNG 4096</a>
+        <a href="media-kit/files/logo/emo-mark-white.svg" download><span class="name">White</span> SVG</a>
+        <a href="media-kit/files/logo/emo-mark-white.png" download>PNG</a>
+        <a href="media-kit/files/logo/emo-mark-black.svg" download><span class="name">Black</span> SVG</a>
+        <a href="media-kit/files/logo/emo-mark-black.png" download>PNG</a>
+        <a href="media-kit/files/logo/emo-mark-purple.svg" download><span class="name">Purple</span> SVG</a>
+        <a href="media-kit/files/logo/emo-mark-purple.png" download>PNG</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 EMONAD -->
+  <section id="emonad">
+    <div class="head">
+      <div>
+        <div class="label">Character</div>
+        <h2>Emonad</h2>
+        <p class="lead">The kid with purple hair over one eye. Here from every side, as vectors and 4000 px PNGs with nothing behind him, ready for anything from a sticker to a shirt.</p>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="floor"></div>
+      <div class="turn">
+        <figure><img src="media-kit/preview/emonad-front.webp" alt="Emonad from the front" width="305" height="1000" loading="lazy"><figcaption>Front</figcaption></figure>
+        <figure><img src="media-kit/preview/emonad-three-quarter.webp" alt="Emonad, three-quarter view" width="313" height="1000" loading="lazy"><figcaption>Three-quarter</figcaption></figure>
+        <figure><img src="media-kit/preview/emonad-side.webp" alt="Emonad from the side" width="310" height="1000" loading="lazy"><figcaption>Side</figcaption></figure>
+        <figure><img src="media-kit/preview/emonad-back.webp" alt="Emonad from the back" width="301" height="1000" loading="lazy"><figcaption>Back</figcaption></figure>
+      </div>
+    </div>
+    <div class="traits">
+      <div class="tile"><img src="media-kit/preview/emonad-head.webp" alt="Emonad's head" width="900" height="900" loading="lazy"></div>
+      <div class="trait-list">
+        <div class="trait"><b><i style="background:#522B5F"></i>The hair</b><span>Purple, lighter strands, over his right eye. Always the same eye.</span></div>
+        <div class="trait"><b><i style="background:#fff"></i>The face</b><span>White skin, black outline, wide eyes. Deadpan by default.</span></div>
+        <div class="trait"><b><i style="background:#000"></i>The clothes</b><span>Black tee, sometimes with $EMO on it. Black skinny jeans.</span></div>
+        <div class="trait"><b><i style="background:#7a5389"></i>The details</b><span>Purple wristbands with white stripes. Purple sneakers with white toes.</span></div>
+        <div class="trait"><b>Change freely</b><span>His pose, his face, his outfit for a joke, where he is.</span></div>
+        <div class="trait"><b>Keep</b><span>His colours, his hair, his eye. That's how people know it's him.</span></div>
+      </div>
+    </div>
+    <div class="block-dl">
+      <h3>Download</h3>
+      <div class="dl">
+        <a href="media-kit/files/character/emonad-front.svg" download><span class="name">Front</span> SVG</a>
+        <a href="media-kit/files/character/emonad-front.png" download>PNG</a>
+        <a href="media-kit/files/character/emonad-three-quarter.svg" download><span class="name">Three-quarter</span> SVG</a>
+        <a href="media-kit/files/character/emonad-three-quarter.png" download>PNG</a>
+        <a href="media-kit/files/character/emonad-side.svg" download><span class="name">Side</span> SVG</a>
+        <a href="media-kit/files/character/emonad-side.png" download>PNG</a>
+        <a href="media-kit/files/character/emonad-back.svg" download><span class="name">Back</span> SVG</a>
+        <a href="media-kit/files/character/emonad-back.png" download>PNG</a>
+        <a href="media-kit/files/character/emonad-head.svg" download><span class="name">Head</span> SVG</a>
+        <a href="media-kit/files/character/emonad-head.png" download>PNG</a>
+      </div>
+    </div>
+
+    <div class="cat-row">
+      <div class="tile on-night"><img class="fit" src="media-kit/preview/cat.webp" alt="Emonad's cat" width="647" height="800" loading="lazy"></div>
+      <div class="tile on-night"><img class="fit" src="media-kit/preview/cat-crowned.webp" alt="The cat with his crown" width="615" height="800" loading="lazy"></div>
+      <div class="cat-copy">
+        <h3>The cat</h3>
+        <p>Same hair, same eye, a spiked collar and an $EMO tag. The crown is for when he's winning.</p>
+        <div class="dl">
+          <a href="media-kit/files/cat/cat.svg" download><span class="name">Cat</span> SVG</a>
+          <a href="media-kit/files/cat/cat.png" download>PNG</a>
+          <a href="media-kit/files/cat/cat-crowned.svg" download><span class="name">Crowned</span> SVG</a>
+          <a href="media-kit/files/cat/cat-crowned.png" download>PNG</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 COLOUR -->
+  <section id="colour">
+    <div class="head">
+      <div>
+        <div class="label">Colour</div>
+        <h2>Night, purple, white</h2>
+        <p class="lead">Three colours carry the brand. Four more are seasoning: use them a little. Tap a colour to copy it.</p>
+      </div>
+    </div>
+    <div class="swatches" id="swatches"></div>
+    <div class="block-dl">
+      <h3>Download</h3>
+      <div class="dl">
+        <a href="media-kit/files/colour/emonad-palette.ase" download><span class="name">Swatches</span> .ase</a>
+        <a href="media-kit/files/colour/emonad-palette.png" download><span class="name">Sheet</span> PNG</a>
+        <a href="media-kit/files/colour/emonad-palette.txt" download><span class="name">Values</span> .txt</a>
+        <a href="media-kit/files/colour/emonad-palette.json" download>.json</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 TYPE -->
+  <section id="type">
+    <div class="head">
+      <div>
+        <div class="label">Type</div>
+        <h2>Two typefaces</h2>
+        <p class="lead">Anton for the loud bits, Space Grotesk for the rest. Both are free.</p>
+      </div>
+    </div>
+    <div class="types">
+      <div class="type">
+        <div class="big-anton">$EMO</div>
+        <div class="row"><p><strong style="color:var(--white)">Anton.</strong> Headlines on images, banners and merch. Capitals, set tight.</p><a href="https://fonts.google.com/specimen/Anton" target="_blank" rel="noopener noreferrer">Google Fonts ↗</a></div>
+      </div>
+      <div class="type">
+        <div class="big-grotesk">the emo memecoin of crypto</div>
+        <div class="row"><p><strong style="color:var(--white)">Space Grotesk.</strong> Everything else: sentences, captions, the website.</p><a href="https://fonts.google.com/specimen/Space+Grotesk" target="_blank" rel="noopener noreferrer">Google Fonts ↗</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 VOICE -->
+  <section id="voice">
+    <div class="head">
+      <div>
+        <div class="label">Voice</div>
+        <h2>How he talks</h2>
+        <p class="lead">Dry, short, a bit sad, mostly funny. The emo is in the feeling, never in the costume.</p>
+      </div>
+    </div>
+    <div class="voice">
+      <div class="say"><h3>Big feelings, small stakes</h3><p>Treat a red candle like a breakup.</p><blockquote>i lost it all on day 1</blockquote></div>
+      <div class="say"><h3>Short and plain</h3><p>Short sentences, everyday words. Lowercase is fine.</p><blockquote>Feed it. Wash it. Burn EMO.</blockquote></div>
+      <div class="say"><h3>Funny first</h3><p>Say what happens, deadpan, and let it land.</p><blockquote>Skate to the beat, fall down a well, survive the night, climb to the moon, break every bone on the way down.</blockquote></div>
+      <div class="say"><h3>No costume, no disclaimers</h3><p>No eyeliner jokes, no old-internet nostalgia, no "not financial advice" small print. It reads as trying too hard.</p></div>
+    </div>
+    <div class="names">
+      <div><b>Emonad</b><span>The character and the project. One word, capital E only.</span></div>
+      <div><b>$EMO</b><span>The token. Always with the dollar sign.</span></div>
+      <div><img class="drawn" src="media-kit/preview/mark-white.webp" alt="EMO" width="30" height="34" loading="lazy"><span>The logo. Drawn, never typed.</span></div>
+    </div>
+  </section>
+
+  <!-- 06 BANNERS -->
+  <section id="banners">
+    <div class="head">
+      <div>
+        <div class="label">Ready-made</div>
+        <h2>Banners &amp; avatars</h2>
+        <p class="lead">Sized for X, link previews and profile pictures, at twice the size for sharp screens.</p>
+      </div>
+    </div>
+    <div class="banners">
+      <div class="banner">
+        <img src="media-kit/preview/x-header.webp" alt="X header: $EMO, the emo memecoin of crypto, with Emonad and his cat in a spotlight" width="1500" height="500" loading="lazy">
+        <div class="row"><p>X header · 1500 × 500 @2x. Nothing under the avatar or near the edges.</p><div class="dl"><a href="media-kit/files/banners/x-header.png" download>PNG</a></div></div>
+      </div>
+      <div class="two">
+        <div class="banner">
+          <img src="media-kit/preview/link-card.webp" alt="Link card: $EMO with Emonad and his cat" width="1200" height="630" loading="lazy">
+          <div class="row"><p>Link card · 1200 × 630 @2x</p><div class="dl"><a href="media-kit/files/banners/link-card.png" download>PNG</a></div></div>
+        </div>
+        <div class="banner">
+          <div class="pfps">
+            <img src="media-kit/preview/pfp-mark.webp" alt="Profile picture: the EMO mark" width="500" height="500" loading="lazy">
+            <img src="media-kit/preview/pfp-emonad.webp" alt="Profile picture: Emonad" width="500" height="500" loading="lazy">
+            <img src="media-kit/preview/pfp-cat.webp" alt="Profile picture: the cat" width="500" height="500" loading="lazy">
+          </div>
+          <div class="row"><p>Profile pictures · 1000 × 1000</p><div class="dl"><a href="media-kit/files/banners/pfp-mark.png" download>Mark</a><a href="media-kit/files/banners/pfp-emonad.png" download>Emonad</a><a href="media-kit/files/banners/pfp-cat.png" download>Cat</a></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 FACTS -->
+  <section id="facts">
+    <div class="head">
+      <div>
+        <div class="label">Facts &amp; links</div>
+        <h2>What to say</h2>
+        <p class="lead">Copy these as they are.</p>
+      </div>
+    </div>
+    <div class="facts">
+      <div class="copy-card"><div class="top"><b>One line</b><button class="copy-btn" data-copy-from="next">Copy</button></div><p>Emonad ($EMO) is the emo memecoin of crypto.</p></div>
+      <div class="copy-card"><div class="top"><b>Short</b><button class="copy-btn" data-copy-from="next">Copy</button></div><p>The emo memecoin of crypto. Memes, games, tarot and a pet that lives in your wallet.</p></div>
+      <div class="copy-card span-2"><div class="top"><b>Long</b><button class="copy-btn" data-copy-from="next">Copy</button></div><p>Emonad ($EMO) is the emo memecoin of crypto, and Emonad is the kid with purple hair over one eye. His community built a whole world around him at emonad.lol: the Emo Arcade (five free games, made for phones), a gallery of 850+ memes and 110+ videos, Emo Tarot, Emogotchi (a pet that lives in your wallet), the free Emonad Pixel Pack for game makers, animated stickers on Telegram, and Emo AI Studio for making your own.</p></div>
+      <dl class="table span-2">
+        <div><dt>Ticker</dt><dd>$EMO</dd></div>
+        <div><dt>Chain</dt><dd>Monad</dd></div>
+        <div><dt>Contract</dt><dd><code>0x81A224F8A62f52BdE942dBF23A56df77A10b7777</code></dd><button class="copy-btn" data-copy="0x81A224F8A62f52BdE942dBF23A56df77A10b7777">Copy</button></div>
+        <div><dt>Website</dt><dd><a href="https://emonad.lol">emonad.lol</a></dd></div>
+        <div><dt>X</dt><dd><a href="https://x.com/EmonadCoin" target="_blank" rel="noopener noreferrer">@EmonadCoin</a></dd></div>
+        <div><dt>Telegram</dt><dd><a href="https://t.me/emonadcoin" target="_blank" rel="noopener noreferrer">t.me/emonadcoin</a></dd></div>
+        <div><dt>Buy</dt><dd><a href="https://pump.fun/coin/0x81A224F8A62f52BdE942dBF23A56df77A10b7777" target="_blank" rel="noopener noreferrer">pump.fun</a></dd></div>
+        <div><dt>Chart</dt><dd><a href="https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d" target="_blank" rel="noopener noreferrer">DEXScreener</a></dd></div>
+        <div><dt>CoinGecko</dt><dd><a href="https://www.coingecko.com/en/coins/emonad" target="_blank" rel="noopener noreferrer">coingecko.com/en/coins/emonad</a></dd></div>
+      </dl>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <img class="footer-logo" src="emo-logo.png" alt="Emonad" width="46" height="46">
+  <div class="footer-tag">The Emonad media kit. Make something sad and funny with it.</div>
+  <div class="footer-links">
+    <a href="emo.html">Home</a>
+    <a href="memes.html">Memes</a>
+    <a href="arcade.html">Arcade</a>
+    <a href="game-assets.html">Pixel Pack</a>
+    <a href="https://ai.emonad.lol" target="_blank" rel="noopener noreferrer">AI Studio</a>
+    <a href="https://x.com/EmonadCoin" target="_blank" rel="noopener noreferrer">X</a>
+    <a href="https://t.me/emonadcoin" target="_blank" rel="noopener noreferrer">Telegram</a>
+  </div>
+  <div class="footer-mark">© Emonad</div>
+</footer>
+
+<script>
+/* ── Colours (media-kit/files/colour/emonad-palette.json) ── */
+const PALETTE = [
+  ['Night', '#08070B', '8 7 11', '60 40 40 100', 'Backgrounds. Almost black, a little purple.'],
+  ['Emo Purple', '#522B5F', '82 43 95', '14 55 0 63', 'The mark and the hair. Big fields of colour.'],
+  ['White', '#FFFFFF', '255 255 255', '0 0 0 0', "Emonad's skin, the mark's letters, type on Night."],
+  ['Lilac', '#B894D8', '184 148 216', '15 31 0 15', 'Light: the spotlight, glows, highlights.'],
+  ['Violet', '#9B5FFF', '155 95 255', '39 63 0 0', 'Links and buttons. Screens only: print cannot reach it.'],
+  ['Pink', '#E84D7F', '232 77 127', '0 67 45 9', 'One hot spot at most.'],
+  ['Ash', '#8A8496', '138 132 150', '8 12 0 41', 'Quiet type on Night.'],
+];
+document.getElementById('swatches').innerHTML = PALETTE.map(([name, hex, rgb, cmyk, use]) => {
+  const ink = ['White', 'Lilac'].includes(name) ? '#08070B' : '#fff';
+  return `<button class="sw" data-copy="${hex}"><div class="chip" style="background:${hex};color:${ink}"></div>
+    <div class="meta"><b>${name}</b><code>${hex}</code><small>RGB ${rgb}<br>CMYK ${cmyk}</small><p>${use}</p></div></button>`;
+}).join('');
+
+/* ── Copy buttons: data-copy="text", or data-copy-from="next" (the card's paragraph) ── */
+async function copy(text) {
+  try { await navigator.clipboard.writeText(text); return true; }
+  catch (e) {
+    const t = document.createElement('textarea'); t.value = text; t.style.position = 'fixed'; t.style.opacity = '0';
+    document.body.appendChild(t); t.select();
+    let ok = false; try { ok = document.execCommand('copy'); } catch (e2) {}
+    t.remove(); return ok;
+  }
+}
+document.addEventListener('click', async (e) => {
+  const b = e.target.closest('[data-copy], [data-copy-from]');
+  if (!b) return;
+  const text = b.dataset.copy ?? b.closest('.copy-card').querySelector('p').textContent.trim();
+  if (!(await copy(text))) return;
+  if (b.classList.contains('sw')) { b.classList.add('copied'); setTimeout(() => b.classList.remove('copied'), 1100); return; }
+  const was = b.textContent;
+  b.textContent = b.dataset.done || 'Copied';
+  b.classList.add('done');
+  setTimeout(() => { b.textContent = was; b.classList.remove('done'); }, 1400);
+});
+
+/* ── Nav: phone menu, and the section on screen ── */
+const nav = document.getElementById('nav'), navMenu = document.getElementById('navMenu');
+navMenu.addEventListener('click', () => { const open = !nav.classList.contains('open'); nav.classList.toggle('open', open); navMenu.setAttribute('aria-expanded', open); });
+document.querySelectorAll('#navSheet a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('open'); navMenu.setAttribute('aria-expanded', 'false'); }));
+const links = [...document.querySelectorAll('.nav-links a')];
+const seen = new IntersectionObserver((entries) => {
+  for (const en of entries) if (en.isIntersecting) links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+}, { rootMargin: '-40% 0px -55% 0px' });
+document.querySelectorAll('section[id]').forEach(s => seen.observe(s));
+</script>
+</body>
+</html>

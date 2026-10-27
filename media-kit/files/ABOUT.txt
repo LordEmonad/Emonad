@@ -1,0 +1,30 @@
+EMONAD ($EMO)
+
+ONE LINE
+Emonad ($EMO) is the emo memecoin of crypto.
+
+SHORT
+The emo memecoin of crypto. Memes, games, tarot and a pet that lives in your wallet.
+
+LONG
+Emonad ($EMO) is the emo memecoin of crypto, and Emonad is the kid with purple hair over one eye. His community
+built a whole world around him at emonad.lol: the Emo Arcade (five free games, made for phones), a gallery of 850+
+memes and 110+ videos, Emo Tarot, Emogotchi (a pet that lives in your wallet), the free Emonad Pixel Pack for game
+makers, animated stickers on Telegram, and Emo AI Studio for making your own.
+
+FACTS
+Name        Emonad
+Ticker      $EMO
+Chain       Monad
+Contract    0x81A224F8A62f52BdE942dBF23A56df77A10b7777
+Website     https://emonad.lol
+X           https://x.com/EmonadCoin   (@EmonadCoin)
+Telegram    https://t.me/emonadcoin
+Buy         https://pump.fun/coin/0x81A224F8A62f52BdE942dBF23A56df77A10b7777
+Chart       https://dexscreener.com/monad/0x714a2694c8d4f0b1bfba0e5b76240e439df2182d
+CoinGecko   https://www.coingecko.com/en/coins/emonad
+
+WRITING THE NAMES
+Emonad      the character and the project. One word, capital E only.
+$EMO        the token. Always with the dollar sign.
+EMO         the logo. It is drawn, never typed.
