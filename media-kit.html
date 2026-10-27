@@ -11,12 +11,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Emonad Media Kit: Logo, Character, Colours and Facts | Emonad</title>
-  <meta name="description" content="The Emonad ($EMO) media kit: the EMO logo as vectors, Emonad from every side, the cat, the colours, the type, ready-made banners and avatars, the taglines and the facts and links. Every file at full size.">
+  <meta name="description" content="The Emonad ($EMO) media kit: the EMO logo as vectors, Emonad as drawn, the cat, the colours, the type, ready-made banners and avatars, the taglines and the facts and links. Every file at full size.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://emonad.lol/media-kit">
 
   <meta property="og:title" content="Emonad media kit">
-  <meta property="og:description" content="The logo, Emonad from every side, the colours, banners, taglines and the facts. Every file at full size.">
+  <meta property="og:description" content="The logo, Emonad as drawn, the colours, banners, taglines and the facts. Every file at full size.">
   <meta property="og:image" content="https://emonad.lol/og-media-kit.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -29,7 +29,7 @@
   <meta name="twitter:site" content="@EmonadCoin">
   <meta name="twitter:creator" content="@EmonadCoin">
   <meta name="twitter:title" content="Emonad media kit">
-  <meta name="twitter:description" content="The logo, Emonad from every side, the colours, banners, taglines and the facts. Every file at full size.">
+  <meta name="twitter:description" content="The logo, Emonad as drawn, the colours, banners, taglines and the facts. Every file at full size.">
   <meta name="twitter:image" content="https://emonad.lol/og-media-kit.jpg">
 
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -171,21 +171,22 @@
 
     /* ── Emonad ── */
     .stage { position: relative; border-radius: 22px; overflow: hidden; background: radial-gradient(120% 70% at 50% 100%, #15111d, var(--night) 70%); box-shadow: inset 0 0 0 1px var(--line); padding: 42px 28px 0; }
-    .turn { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; align-items: end; position: relative; }
+    .turn { display: grid; grid-template-columns: repeat(2, minmax(0, 300px)); justify-content: center; gap: clamp(20px, 8vw, 120px); align-items: end; position: relative; }
     .turn figure { position: relative; display: flex; flex-direction: column; align-items: center; }
-    .turn img { height: clamp(250px, 42vw, 470px); width: auto; position: relative; z-index: 1; }
+    .turn img { height: clamp(300px, 46vw, 560px); width: auto; position: relative; z-index: 1; }
     .turn figure::after { content: ""; position: absolute; bottom: 40px; width: 90%; height: 34px; background: radial-gradient(closest-side, rgba(184,148,216,.22), transparent); }
     .turn figcaption { font-size: 12px; color: var(--ash); letter-spacing: .4px; padding: 18px 0 20px; position: relative; z-index: 1; }
     .floor { position: absolute; left: 0; right: 0; bottom: 58px; height: 1px; background: linear-gradient(90deg, transparent, var(--line-2), transparent); }
-    @media (max-width: 720px) { .stage { padding: 28px 10px 0; } .turn { grid-template-columns: repeat(2, 1fr); row-gap: 8px; } .turn img { height: 66vw; max-height: 340px; } .floor { display: none; } }
-    .traits { display: grid; grid-template-columns: 340px 1fr; gap: 14px; margin-top: 14px; }
-    .traits .tile { aspect-ratio: 1 / 1; background: var(--raise); box-shadow: inset 0 0 0 1px var(--line); align-items: flex-end; }
-    .traits .tile img { width: 100%; height: auto; }
-    .trait-list { border-radius: 18px; box-shadow: inset 0 0 0 1px var(--line); padding: 28px 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 22px 32px; align-content: center; }
+    @media (max-width: 720px) { .stage { padding: 28px 10px 0; } .turn { grid-template-columns: repeat(2, 1fr); gap: 8px; } .turn img { height: 92vw; max-height: 420px; } .floor { display: none; } }
+    .traits { display: grid; grid-template-columns: 300px 300px 1fr; gap: 14px; margin-top: 14px; }
+    .traits .tile { min-height: 320px; background: var(--raise); box-shadow: inset 0 0 0 1px var(--line); align-items: flex-end; }
+    .traits .tile img { height: 94%; width: auto; }
+    .trait-list { border-radius: 18px; box-shadow: inset 0 0 0 1px var(--line); padding: 26px 28px; display: grid; grid-template-columns: 1fr; gap: 16px; align-content: center; }
     .trait b { display: block; font-size: 15px; color: var(--white); margin-bottom: 3px; }
     .trait span { font-size: 14px; color: var(--text-2); line-height: 1.5; display: block; }
     .trait i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 8px; vertical-align: -1px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.25); }
-    @media (max-width: 860px) { .traits { grid-template-columns: 1fr; } .traits .tile { aspect-ratio: 4 / 3; } .traits .tile img { width: 72%; } .trait-list { grid-template-columns: 1fr; padding: 24px; gap: 18px; } }
+    @media (max-width: 1080px) { .traits { grid-template-columns: 1fr 1fr; } .traits .tile { min-height: 0; aspect-ratio: 1 / 1; } .trait-list { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; gap: 22px 32px; } }
+    @media (max-width: 720px) { .trait-list { grid-template-columns: 1fr; padding: 24px; gap: 18px; } }
     .cat-row { display: grid; grid-template-columns: 1fr 1fr 1.1fr; gap: 14px; margin-top: 56px; align-items: stretch; }
     .cat-row .tile { aspect-ratio: 1 / 1; }
     .cat-row .tile { --h: 78%; }
@@ -306,7 +307,7 @@
     </div>
     <div class="hero-art" aria-hidden="true">
       <div class="spot"></div>
-      <img class="emonad" src="media-kit/preview/hero-emonad.webp" alt="" width="345" height="1100" fetchpriority="high">
+      <img class="emonad" src="media-kit/preview/hero-emonad.webp" alt="" width="378" height="1100" fetchpriority="high">
       <img class="cat" src="media-kit/preview/hero-cat.webp" alt="" width="421" height="520">
     </div>
   </header>
@@ -364,25 +365,24 @@
       <div>
         <div class="label">Character</div>
         <h2>Emonad</h2>
-        <p class="lead">The kid with purple hair over one eye. Here from every side, as vectors and 4000 px PNGs with nothing behind him, ready for anything from a sticker to a shirt.</p>
+        <p class="lead">The kid with purple hair over one eye, exactly as he's drawn. Vectors and 4000 px PNGs with nothing behind him, ready for anything from a sticker to a shirt.</p>
       </div>
     </div>
     <div class="stage">
       <div class="floor"></div>
       <div class="turn">
-        <figure><img src="media-kit/preview/emonad-front.webp" alt="Emonad from the front" width="305" height="1000" loading="lazy"><figcaption>Front</figcaption></figure>
-        <figure><img src="media-kit/preview/emonad-three-quarter.webp" alt="Emonad, three-quarter view" width="313" height="1000" loading="lazy"><figcaption>Three-quarter</figcaption></figure>
-        <figure><img src="media-kit/preview/emonad-side.webp" alt="Emonad from the side" width="310" height="1000" loading="lazy"><figcaption>Side</figcaption></figure>
-        <figure><img src="media-kit/preview/emonad-back.webp" alt="Emonad from the back" width="301" height="1000" loading="lazy"><figcaption>Back</figcaption></figure>
+        <figure><img src="media-kit/preview/emonad.webp" alt="Emonad standing, in his black tee" width="344" height="1000" loading="lazy"><figcaption>Black tee</figcaption></figure>
+        <figure><img src="media-kit/preview/emonad-emo-tee.webp" alt="Emonad standing, $EMO on his tee" width="344" height="1000" loading="lazy"><figcaption>$EMO tee</figcaption></figure>
       </div>
     </div>
     <div class="traits">
-      <div class="tile"><img src="media-kit/preview/emonad-head.webp" alt="Emonad's head" width="900" height="900" loading="lazy"></div>
+      <div class="tile"><img src="media-kit/preview/emonad-bust.webp" alt="Emonad, head and shoulders" width="601" height="900" loading="lazy"></div>
+      <div class="tile"><img src="media-kit/preview/emonad-bust-emo-tee.webp" alt="Emonad, head and shoulders, $EMO on his tee" width="601" height="900" loading="lazy"></div>
       <div class="trait-list">
         <div class="trait"><b><i style="background:#522B5F"></i>The hair</b><span>Purple, lighter strands, over his right eye. Always the same eye.</span></div>
-        <div class="trait"><b><i style="background:#fff"></i>The face</b><span>White skin, black outline, wide eyes. Deadpan by default.</span></div>
-        <div class="trait"><b><i style="background:#000"></i>The clothes</b><span>Black tee, sometimes with $EMO on it. Black skinny jeans.</span></div>
-        <div class="trait"><b><i style="background:#7a5389"></i>The details</b><span>Purple wristbands with white stripes. Purple sneakers with white toes.</span></div>
+        <div class="trait"><b><i style="background:#fff"></i>The face</b><span>Long and white, wide eyes, a flat mouth. Deadpan by default.</span></div>
+        <div class="trait"><b><i style="background:#000"></i>The clothes</b><span>Black tee with a white collar, sometimes $EMO on it. Black skinny jeans.</span></div>
+        <div class="trait"><b><i style="background:#906196"></i>The details</b><span>Purple wristbands with a white stripe. Purple sneakers, white toes, pink soles.</span></div>
         <div class="trait"><b>Change freely</b><span>His pose, his face, his outfit for a joke, where he is.</span></div>
         <div class="trait"><b>Keep</b><span>His colours, his hair, his eye. That's how people know it's him.</span></div>
       </div>
@@ -390,16 +390,14 @@
     <div class="block-dl">
       <h3>Download</h3>
       <div class="dl">
-        <a href="media-kit/files/character/emonad-front.svg" download><span class="name">Front</span> SVG</a>
-        <a href="media-kit/files/character/emonad-front.png" download>PNG</a>
-        <a href="media-kit/files/character/emonad-three-quarter.svg" download><span class="name">Three-quarter</span> SVG</a>
-        <a href="media-kit/files/character/emonad-three-quarter.png" download>PNG</a>
-        <a href="media-kit/files/character/emonad-side.svg" download><span class="name">Side</span> SVG</a>
-        <a href="media-kit/files/character/emonad-side.png" download>PNG</a>
-        <a href="media-kit/files/character/emonad-back.svg" download><span class="name">Back</span> SVG</a>
-        <a href="media-kit/files/character/emonad-back.png" download>PNG</a>
-        <a href="media-kit/files/character/emonad-head.svg" download><span class="name">Head</span> SVG</a>
-        <a href="media-kit/files/character/emonad-head.png" download>PNG</a>
+        <a href="media-kit/files/character/emonad.svg" download><span class="name">Black tee</span> SVG</a>
+        <a href="media-kit/files/character/emonad.png" download>PNG</a>
+        <a href="media-kit/files/character/emonad-emo-tee.svg" download><span class="name">$EMO tee</span> SVG</a>
+        <a href="media-kit/files/character/emonad-emo-tee.png" download>PNG</a>
+        <a href="media-kit/files/character/emonad-bust.svg" download><span class="name">Bust</span> SVG</a>
+        <a href="media-kit/files/character/emonad-bust.png" download>PNG</a>
+        <a href="media-kit/files/character/emonad-bust-emo-tee.svg" download><span class="name">Bust, $EMO</span> SVG</a>
+        <a href="media-kit/files/character/emonad-bust-emo-tee.png" download>PNG</a>
       </div>
     </div>
 
