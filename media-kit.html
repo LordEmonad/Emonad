@@ -11,12 +11,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Emonad Media Kit: Logo, Character, Colours and Facts | Emonad</title>
-  <meta name="description" content="The Emonad ($EMO) media kit: the EMO logo as vectors, Emonad from every side, the cat, the colours, the type, the voice, ready-made banners and avatars, and the facts and links. Every file at full size.">
+  <meta name="description" content="The Emonad ($EMO) media kit: the EMO logo as vectors, Emonad from every side, the cat, the colours, the type, ready-made banners and avatars, the taglines and the facts and links. Every file at full size.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://emonad.lol/media-kit">
 
   <meta property="og:title" content="Emonad media kit">
-  <meta property="og:description" content="The logo, Emonad from every side, the colours, the voice, banners and the facts. Every file at full size.">
+  <meta property="og:description" content="The logo, Emonad from every side, the colours, banners, taglines and the facts. Every file at full size.">
   <meta property="og:image" content="https://emonad.lol/og-media-kit.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -29,7 +29,7 @@
   <meta name="twitter:site" content="@EmonadCoin">
   <meta name="twitter:creator" content="@EmonadCoin">
   <meta name="twitter:title" content="Emonad media kit">
-  <meta name="twitter:description" content="The logo, Emonad from every side, the colours, the voice, banners and the facts. Every file at full size.">
+  <meta name="twitter:description" content="The logo, Emonad from every side, the colours, banners, taglines and the facts. Every file at full size.">
   <meta name="twitter:image" content="https://emonad.lol/og-media-kit.jpg">
 
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -218,20 +218,6 @@
     .type .row a { font-size: 13px; font-weight: 600; color: var(--lilac); white-space: nowrap; }
     @media (max-width: 860px) { .types { grid-template-columns: 1fr; } .type { min-height: 0; } }
 
-    /* ── Voice ── */
-    .voice { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-    .say { border-radius: 18px; box-shadow: inset 0 0 0 1px var(--line); padding: 28px 30px; }
-    .say h3 { font-size: 17px; margin-bottom: 8px; }
-    .say p { font-size: 14.5px; }
-    .say blockquote { margin-top: 18px; padding-left: 16px; border-left: 2px solid var(--purple); font-size: 18px; font-weight: 600; color: var(--white); line-height: 1.4; }
-    .names { margin-top: 14px; border-radius: 18px; box-shadow: inset 0 0 0 1px var(--line); display: grid; grid-template-columns: repeat(3, 1fr); }
-    .names div { padding: 24px 28px; }
-    .names div + div { border-left: 1px solid var(--line); }
-    .names b { display: block; font-size: 24px; margin-bottom: 4px; }
-    .names .drawn { height: 34px; width: auto; margin-bottom: 4px; }
-    .names span { font-size: 14px; color: var(--text-2); }
-    @media (max-width: 860px) { .voice { grid-template-columns: 1fr; } .names { grid-template-columns: 1fr; } .names div + div { border-left: 0; border-top: 1px solid var(--line); } }
-
     /* ── Banners ── */
     .banners { display: grid; gap: 14px; }
     .banner { border-radius: 18px; box-shadow: inset 0 0 0 1px var(--line); padding: 14px; display: flex; flex-direction: column; }
@@ -253,6 +239,7 @@
     .copy-btn:hover { color: var(--white); border-color: rgba(255,255,255,.4); }
     .copy-btn.done { color: var(--night); background: var(--white); border-color: var(--white); }
     .span-2 { grid-column: 1 / -1; }
+    .tagline p { font-size: clamp(24px, 3vw, 34px); font-weight: 700; letter-spacing: -.8px; line-height: 1.15; padding: 10px 0 6px; }
     .table { border-radius: 18px; box-shadow: inset 0 0 0 1px var(--line); }
     .table div { display: grid; grid-template-columns: 130px 1fr auto; gap: 16px; align-items: center; padding: 14px 24px; font-size: 14.5px; }
     .table div + div { border-top: 1px solid var(--line); }
@@ -288,9 +275,8 @@
       <a href="#emonad">Emonad</a>
       <a href="#colour">Colour</a>
       <a href="#type">Type</a>
-      <a href="#voice">Voice</a>
       <a href="#banners">Banners</a>
-      <a href="#facts">Facts</a>
+      <a href="#facts">Taglines &amp; facts</a>
     </div>
     <a href="media-kit/emonad-media-kit.zip" class="nav-cta" download>Download kit</a>
     <button class="nav-menu" id="navMenu" aria-label="Menu" aria-expanded="false"><i></i></button>
@@ -300,9 +286,8 @@
     <a href="#emonad">Emonad</a>
     <a href="#colour">Colour</a>
     <a href="#type">Type</a>
-    <a href="#voice">Voice</a>
     <a href="#banners">Banners</a>
-    <a href="#facts">Facts &amp; links</a>
+    <a href="#facts">Taglines &amp; facts</a>
     <a href="emo.html">← emonad.lol</a>
   </div>
 </nav>
@@ -313,7 +298,7 @@
     <div>
       <div class="label">Emonad · $EMO</div>
       <h1>Emonad <span>media kit</span></h1>
-      <p class="lead">The logo, the kid with purple hair over one eye, his cat, the colours, the words and the links. Every file at full size, ready for whatever you're making.</p>
+      <p class="lead">The logo, the kid with purple hair over one eye, his cat, the colours, the taglines and the links. Every file at full size, ready for whatever you're making.</p>
       <div class="hero-actions">
         <a class="btn btn-white" href="media-kit/emonad-media-kit.zip" download>Download everything <small>zip · 7 MB</small></a>
         <button class="btn btn-line" data-copy="0x81A224F8A62f52BdE942dBF23A56df77A10b7777" data-done="Contract copied">Copy the contract</button>
@@ -423,7 +408,7 @@
       <div class="tile on-night"><img class="fit" src="media-kit/preview/cat-crowned.webp" alt="The cat with his crown" width="615" height="800" loading="lazy"></div>
       <div class="cat-copy">
         <h3>The cat</h3>
-        <p>Same hair, same eye, a spiked collar and an $EMO tag. The crown is for when he's winning.</p>
+        <p>Same hair, same eye, a spiked collar and an $EMO tag. With or without his crown.</p>
         <div class="dl">
           <a href="media-kit/files/cat/cat.svg" download><span class="name">Cat</span> SVG</a>
           <a href="media-kit/files/cat/cat.png" download>PNG</a>
@@ -476,29 +461,7 @@
     </div>
   </section>
 
-  <!-- 05 VOICE -->
-  <section id="voice">
-    <div class="head">
-      <div>
-        <div class="label">Voice</div>
-        <h2>How he talks</h2>
-        <p class="lead">Dry, short, a bit sad, mostly funny. The emo is in the feeling, never in the costume.</p>
-      </div>
-    </div>
-    <div class="voice">
-      <div class="say"><h3>Big feelings, small stakes</h3><p>Treat a red candle like a breakup.</p><blockquote>i lost it all on day 1</blockquote></div>
-      <div class="say"><h3>Short and plain</h3><p>Short sentences, everyday words. Lowercase is fine.</p><blockquote>Feed it. Wash it. Burn EMO.</blockquote></div>
-      <div class="say"><h3>Funny first</h3><p>Say what happens, deadpan, and let it land.</p><blockquote>Skate to the beat, fall down a well, survive the night, climb to the moon, break every bone on the way down.</blockquote></div>
-      <div class="say"><h3>No costume, no disclaimers</h3><p>No eyeliner jokes, no old-internet nostalgia, no "not financial advice" small print. It reads as trying too hard.</p></div>
-    </div>
-    <div class="names">
-      <div><b>Emonad</b><span>The character and the project. One word, capital E only.</span></div>
-      <div><b>$EMO</b><span>The token. Always with the dollar sign.</span></div>
-      <div><img class="drawn" src="media-kit/preview/mark-white.webp" alt="EMO" width="30" height="34" loading="lazy"><span>The logo. Drawn, never typed.</span></div>
-    </div>
-  </section>
-
-  <!-- 06 BANNERS -->
+  <!-- 05 BANNERS -->
   <section id="banners">
     <div class="head">
       <div>
@@ -529,19 +492,17 @@
     </div>
   </section>
 
-  <!-- 07 FACTS -->
+  <!-- 06 TAGLINES & FACTS -->
   <section id="facts">
     <div class="head">
       <div>
-        <div class="label">Facts &amp; links</div>
-        <h2>What to say</h2>
-        <p class="lead">Copy these as they are.</p>
+        <div class="label">Taglines &amp; facts</div>
+        <h2>Taglines</h2>
       </div>
     </div>
     <div class="facts">
-      <div class="copy-card"><div class="top"><b>One line</b><button class="copy-btn" data-copy-from="next">Copy</button></div><p>Emonad ($EMO) is the emo memecoin of crypto.</p></div>
-      <div class="copy-card"><div class="top"><b>Short</b><button class="copy-btn" data-copy-from="next">Copy</button></div><p>The emo memecoin of crypto. Memes, games, tarot and a pet that lives in your wallet.</p></div>
-      <div class="copy-card span-2"><div class="top"><b>Long</b><button class="copy-btn" data-copy-from="next">Copy</button></div><p>Emonad ($EMO) is the emo memecoin of crypto, and Emonad is the kid with purple hair over one eye. His community built a whole world around him at emonad.lol: the Emo Arcade (five free games, made for phones), a gallery of 850+ memes and 110+ videos, Emo Tarot, Emogotchi (a pet that lives in your wallet), the free Emonad Pixel Pack for game makers, animated stickers on Telegram, and Emo AI Studio for making your own.</p></div>
+      <div class="copy-card tagline"><div class="top"><b>Tagline</b><button class="copy-btn" data-copy-from="next">Copy</button></div><p>i lost it all on day 1</p></div>
+      <div class="copy-card tagline"><div class="top"><b>Tagline</b><button class="copy-btn" data-copy-from="next">Copy</button></div><p>the emo memecoin of crypto</p></div>
       <dl class="table span-2">
         <div><dt>Ticker</dt><dd>$EMO</dd></div>
         <div><dt>Chain</dt><dd>Monad</dd></div>
@@ -560,7 +521,7 @@
 
 <footer>
   <img class="footer-logo" src="emo-logo.png" alt="Emonad" width="46" height="46">
-  <div class="footer-tag">The Emonad media kit. Make something sad and funny with it.</div>
+  <div class="footer-tag">The Emonad media kit.</div>
   <div class="footer-links">
     <a href="emo.html">Home</a>
     <a href="memes.html">Memes</a>

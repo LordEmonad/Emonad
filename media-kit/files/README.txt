@@ -11,7 +11,7 @@ character/   Emonad from the front, three-quarter, side and back, and his head. 
 cat/         the cat, with and without his crown. SVG and 4000 px PNG.
 colour/      the palette: .ase (Adobe, Affinity), .json, .txt and a sheet to look at.
 banners/     X header (1500x500 @2x), link card (1200x630 @2x), profile pictures (1000x1000).
-ABOUT.txt    what to say about $EMO, the contract and the links.
+ABOUT.txt    the taglines, the contract and the links.
 
 THE LOGO
 - Use the files. Never retype EMO in a font, redraw it, stretch it, outline it or add effects to it.
@@ -22,7 +22,7 @@ THE LOGO
 EMONAD
 - Purple hair over his right eye, always the same eye. White skin, black outline.
 - Black tee, black skinny jeans, purple wristbands with white stripes, purple sneakers with white toes.
-- Deadpan by default. Big feelings about small things.
+- Deadpan by default.
 - Change his pose, his expression, his surroundings. Keep his colours and his hair.
 
 TYPE
